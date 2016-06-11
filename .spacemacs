@@ -152,7 +152,7 @@ values."
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout nil
+   dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
    dotspacemacs-auto-resume-layouts nil
@@ -251,7 +251,6 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (setq wakatime-python-bin "/Users/takuma/.pyenv/versions/3.5.1/bin")
   )
 
 (defun dotspacemacs/user-config ()
@@ -270,11 +269,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
- '(wakatime-api-key  "016568d0-a3bc-40cd-b124-0a2ad51287a9")
+ '(wakatime-api-key "016568d0-a3bc-40cd-b124-0a2ad51287a9")
  '(wakatime-cli-path "/Users/takuma/.pyenv/versions/3.5.1/bin/wakatime")
- '(wakatime-python-bin "/Users/takuma/.pyenv/versions/3.5.1/bin")
- )
+ '(wakatime-python-bin ""))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
