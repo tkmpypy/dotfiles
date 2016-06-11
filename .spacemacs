@@ -35,12 +35,7 @@ values."
      emacs-lisp
      git
      markdown
-     (wakatime :variables
-               wakatime-api-key  "016568d0-a3bc-40cd-b124-0a2ad51287a9"
-               wakatime-cli-path "/Users/takuma/.pyenv/versions/3.5.1/bin/wakatime"
-               wakatime-python-bin "/Users/takuma/.pyenv/versions/3.5.1/bin"
-       ;; ...
-     )
+     wakatime
      org
      (shell :variables
              shell-default-height 30
@@ -275,6 +270,10 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+
+ '(wakatime-api-key  "016568d0-a3bc-40cd-b124-0a2ad51287a9")
+ '(wakatime-cli-path "/Users/takuma/.pyenv/versions/3.5.1/bin/wakatime")
+ '(wakatime-python-bin "/Users/takuma/.pyenv/versions/3.5.1/bin")
  )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
