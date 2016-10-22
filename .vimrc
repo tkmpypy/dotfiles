@@ -34,6 +34,11 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "" NeoBundle install packages
 "*****************************************************************************
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/Unite.vim'
+NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'kana/vim-smartinput'
 NeoBundle 'jistr/vim-nerdtree-tabs.git'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-fugitive'
@@ -76,7 +81,26 @@ NeoBundle 'honza/vim-snippets'
 
 "" Color
 NeoBundle 'tomasr/molokai'
-
+NeoBundle 'altercation/vim-colors-solarized' " solarized
+NeoBundle 'croaker/mustang-vim'              " mustang
+NeoBundle 'jeffreyiacono/vim-colors-wombat'  " wombat
+NeoBundle 'nanotech/jellybeans.vim'          " jellybeans
+NeoBundle 'vim-scripts/Lucius'               " lucius
+NeoBundle 'vim-scripts/Zenburn'              " zenburn
+NeoBundle 'mrkn/mrkn256.vim'                 " mrkn256
+NeoBundle 'jpo/vim-railscasts-theme'         " railscasts
+NeoBundle 'therubymug/vim-pyte'              " pyte
+NeoBundle 'tomasr/molokai'                   " molokai
+NeoBundle 'chriskempson/vim-tomorrow-theme'  " tomorrow night
+NeoBundle 'vim-scripts/twilight'             " twilight
+NeoBundle 'w0ng/vim-hybrid'                  " hybrid
+NeoBundle 'freeo/vim-kalisi'                 " kalisi
+NeoBundle 'morhetz/gruvbox'                  " gruvbox
+NeoBundle 'toupeira/vim-desertink'           " desertink
+NeoBundle 'sjl/badwolf'                      " badwolf
+NeoBundle 'itchyny/landscape.vim'            " landscape
+NeoBundle 'joshdick/onedark.vim'             " onedark in atom
+NeoBundle 'gosukiwi/vim-atom-dark'           " atom-dark
 "" Vim-Bootstrap Updater by sherzberg
 NeoBundle 'avelino/vim-bootstrap-updater'
 
@@ -98,6 +122,8 @@ NeoBundle 'mattn/emmet-vim'
 
 "" Go Lang Bundle
 NeoBundle "fatih/vim-go"
+NeoBundle "dgryski/vim-godef"
+NeoBundle "vim-jp/vim-go-extra"
 
 "" Ruby Bundle
 NeoBundle "tpope/vim-rails"
@@ -137,8 +163,8 @@ set softtabstop=0
 set shiftwidth=4
 set expandtab
 
-"" Map leader to ,
-let mapleader=','
+"" Map leader to Space
+let mapleader=' '
 
 "" Enable hidden buffers
 set hidden
@@ -160,7 +186,7 @@ set noswapfile
 
 set fileformats=unix,dos,mac
 set showcmd
-set shell=/bin/sh
+set shell=/usr/local/bin/fish
 
 " session management
 let g:session_directory = "~/.vim/session"
@@ -174,10 +200,12 @@ let g:session_command_aliases = 1
 syntax on
 set ruler
 set number
+set cursorline
+set showmatch
 
 let no_buffers_menu=1
 if !exists('g:not_finsh_neobundle')
-  colorscheme molokai
+  colorscheme solarized
 endif
 
 set mousemodel=popup
@@ -293,7 +321,7 @@ endif
 
 "*****************************************************************************
 "" Autocmd Rules
-"*****************************************************************************
+"**************************************************************************
 "" The PC is fast enough, do syntax highlight syncing from start
 augroup vimrc-sync-fromstart
   autocmd!
@@ -358,6 +386,8 @@ noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 "" Opens a tab edit command with the path of the currently edited file filled
 noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
+nmap <Leader>u :Unite
+
 "" ctrlp.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
@@ -407,9 +437,8 @@ let g:indentLine_faster = 1
 set visualbell t_vb=
 
 "" Copy/Paste/Cut
-if has('unnamedplus')
-  set clipboard=unnamed,unnamedplus
-endif
+set clipboard&
+set clipboard^=unnamed
 
 noremap YY "+y<CR>
 noremap <leader>p "+gP<CR>
