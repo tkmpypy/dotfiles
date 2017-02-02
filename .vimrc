@@ -30,6 +30,22 @@ if has('vim_starting') && dein#check_install()
 endif
 " }}}
 
+"*****************************************************************************
+" Visual Settings
+"*****************************************************************************
+set t_Co=256
+syntax enable
+let g:neodark#use_custom_terminal_theme = 1
+colorscheme neodark
+let g:airline = {}
+let g:airline.colorscheme = 'neodark'
+set number
+set ruler
+set guifont="Source Han Code JP"
+set hlsearch
+set backspace=indent,eol,start
+filetype plugin indent on
+
 " 引数なしでvimを開くとNERDTreeを起動
 let file_name = expand('%')
 if has('vim_starting') &&  file_name == ''
@@ -109,22 +125,6 @@ let g:vim_tags_project_tags_command = "/usr/local/bin/ctags -R {OPTIONS} {DIRECT
 " No beep
 set visualbell
 set noerrorbells
-
-"*****************************************************************************
-" Visual Settings
-"*****************************************************************************
-set t_Co=256
-syntax enable
-let g:neodark#use_custom_terminal_theme = 1
-colorscheme neodark
-let g:airline = {}
-let g:airline.colorscheme = 'neodark'
-set number
-set ruler
-set guifont="Source Han Code JP"
-set hlsearch
-set backspace=indent,eol,start
-filetype plugin indent on
 
 
 "*****************************************************************************

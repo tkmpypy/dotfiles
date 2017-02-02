@@ -5,7 +5,7 @@ set fisher_home ~/.local/share/fisherman
 set fisher_config ~/.config/fisherman
 source $fisher_home/config.fish
 
-# set -x XDG_CONFIG_HOME=$HOME
+set -x XDG_CONFIG_HOME $HOME/.config
 
 set -x GOROOT /usr/local/Cellar/go/1.7.1/libexec
 set -x GOPATH $HOME/Go
