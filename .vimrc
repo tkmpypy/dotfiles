@@ -52,7 +52,7 @@ if has('vim_starting') &&  file_name == ''
   autocmd VimEnter * NERDTree ./
 endif
 
-set shell=/bin/sh
+set shell=fish
 
 "*****************************************************************************
 " Copy/Paste/Cut
@@ -142,6 +142,16 @@ set showmatch                                    " カーソル：括弧にカ�
 let mapleader = "\<Space>"
 
 nnoremap <Leader>r :source ~/.vimrc<Enter>
+
+" move window
+nnoremap <Leader>wmh <C-w>H
+nnoremap <Leader>wmj <C-w>J
+nnoremap <Leader>wmk <C-w>K
+nnoremap <Leader>wml <C-w>L
+
+" resize wondiw mode
+nnoremap <Leader>wr :WinResizerStartResize<Enter>
+
 nnoremap j gj
 nnoremap k gk
 nnoremap gj j
