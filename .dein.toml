@@ -15,8 +15,15 @@ if = 'has("nvim")'
 on_i = 1
 
 [[plugins]]
+repo = 'zchee/deoplete-go'
+if = 'has("nvim")'
+
+[[plugins]]
 repo = 'delphinus35/typescript-vim'
 rev  = 'colorize-template-strings'
+
+[[pulugins]]
+repo = 'Shougo/neoinclude.vim'
 
 [[plugins]]
 repo = 'elzr/vim-json'
