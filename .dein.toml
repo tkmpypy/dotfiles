@@ -12,7 +12,6 @@ on_i = 1
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
-on_i = 1
 
 [[plugins]]
 repo = 'zchee/deoplete-go'
@@ -73,3 +72,34 @@ repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
 repo = 'simeji/winresizer'
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+if = 'has("nvim")'
+on_i = 1
+on_ft = 'python'
+
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+if = 'has("nvim")'
+build = 'npm install -g tern'
+
+[[plugins]]
+repo = 'maxmellon/vim-jsx-pretty'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'othree/yajs.vim'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'othree/es.next.syntax.vim'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'othree/javascript-libraries-syntax.vim'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = 'javascript'
