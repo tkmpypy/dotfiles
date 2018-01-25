@@ -4,7 +4,8 @@
     "browser",
     "ecma5",
     "ecma6",
-    "ecma7"
+    "ecma7",
+    "react"
   ],
   "loadEagerly": [
     "node_modules/react-dom/**/*.js",

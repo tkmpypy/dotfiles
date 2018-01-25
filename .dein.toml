@@ -14,6 +14,12 @@ repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
 
 [[plugins]]
+repo = 'Shougo/neosnippet'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
 repo = 'zchee/deoplete-go'
 if = 'has("nvim")'
 
@@ -103,3 +109,6 @@ on_ft = 'javascript'
 [[plugins]]
 repo = 'pangloss/vim-javascript'
 on_ft = 'javascript'
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
