@@ -63,6 +63,9 @@ name = "lang#markdown"
 name = "lang#python"
 
 [[layers]]
+name = "lang#php"
+
+[[layers]]
 name = "tools"
 
 [[layers]]
@@ -70,6 +73,9 @@ name = "checkers"
 
 [[layers]]
 name = "ui"
+
+[[layers]]
+name = "denite"
 
 [[custom_plugins]]
 name = "lilydjwg/colorizer"
