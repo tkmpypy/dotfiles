@@ -11,6 +11,7 @@ set -x GOROOT /usr/local/Cellar/go/1.7.1/libexec
 set -x GOPATH $HOME/Go
 set -x PATH $GOROOT/bin $PATH
 set -x PATH $GOPATH/bin $PATH
+set -x PATH ~/.nimble/bin $PATH
 
 set -x PATH $HOME/.nodebrew/current/bin $PATH
 
