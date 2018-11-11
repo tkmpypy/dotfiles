@@ -15,7 +15,7 @@
     background = "dark"
     # Disable guicolors in basic mode, many terminal do not support 24bit
     # true colors
-    enable_guicolors = true
+    enable_guicolors = false
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
     statusline_separator = "arrow"
@@ -45,6 +45,13 @@ default_height = 30
 name = 'git'
 
 [[layers]]
+name = 'github'
+
+
+[[layers]]
+name = "lang#dart"
+
+[[layers]]
 name = "lang#go"
 
 [[layers]]
@@ -63,6 +70,9 @@ name = "lang#markdown"
 name = "lang#python"
 
 [[layers]]
+name = "lang#php"
+
+[[layers]]
 name = "tools"
 
 [[layers]]
@@ -70,6 +80,9 @@ name = "checkers"
 
 [[layers]]
 name = "ui"
+
+[[layers]]
+name = "denite"
 
 [[custom_plugins]]
 name = "lilydjwg/colorizer"
