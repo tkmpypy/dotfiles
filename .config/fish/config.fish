@@ -17,6 +17,8 @@ set -x PATH $HOME/.nodebrew/current/bin $PATH
 
 set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
 
+set -x PATH ~/flutter-sdk/flutter/bin $PATH
+
 set -x PATH $HOME/.pyenv/ $PATH
 . (pyenv init -|psub)
 
