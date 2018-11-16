@@ -255,9 +255,9 @@ nnoremap k gk
 nnoremap gj j
 nnoremap gk k
 
-noremap <S-h>   ^
-noremap <S-j>   }
-noremap <S-k>   {
-noremap <S-l>   $
+" noremap <S-h>   ^
+" noremap <S-j>   }
+" noremap <S-k>   {
+" noremap <S-l>   $
 
 inoremap jj <ESC>

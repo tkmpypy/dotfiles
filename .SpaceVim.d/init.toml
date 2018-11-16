@@ -18,11 +18,13 @@
     enable_guicolors = false
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
-    statusline_separator = "arrow"
-    statusline_inactive_separator = "arrow"
+    statusline_separator = "bar"
+    statusline_inactive_separator = "bar"
+    
     buffer_index_type = 4
     enable_tabline_filetype_icon = true
     enable_statusline_display_mode = true
+    statusline_unicode_symbols = true
     relativenumber= 0
     filemanager = "nerdtree"
 
@@ -38,7 +40,7 @@ auto-completion-tab-key-behavior = "cycle"
 
 [[layers]]
 name = 'shell'
-default_position = 'top'
+default_position = 'bottom'
 default_height = 30
 
 [[layers]]
@@ -55,10 +57,10 @@ name = "lang#dart"
 name = "lang#go"
 
 [[layers]]
-name = "lang#html"
+name = "lsp"
 
 [[layers]]
-name = "lang#nim"
+name = "lang#html"
 
 [[layers]]
 name = "lang#nim"
@@ -71,6 +73,18 @@ name = "lang#python"
 
 [[layers]]
 name = "lang#php"
+
+[[layers]]
+name = "lang#javascript"
+
+[[layers]]
+name = "lang#html"
+
+[[layers]]
+name = "lang#sh"
+
+[[layers]]
+name = "lang#dart"
 
 [[layers]]
 name = "tools"
@@ -88,4 +102,3 @@ name = "denite"
 name = "lilydjwg/colorizer"
 on_cmd = ["ColorHighlight", "ColorToggle"]
 merged = 0
-
