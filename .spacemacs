@@ -54,8 +54,8 @@ values."
      themes-megapack
      gtags
      (lsp :variables
-          lsp-ui-doc-enable nil
-          lsp-ui-sideline-enable nil
+          lsp-ui-doc-enable t
+          lsp-ui-sideline-enable t
           lsp-ui-flycheck-enable t)
      auto-completion
      ivy
