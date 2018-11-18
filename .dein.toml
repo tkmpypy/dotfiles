@@ -78,6 +78,9 @@ depends = ['vim-airline-themes']
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+
 [[plugins]] # toml syntax
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
