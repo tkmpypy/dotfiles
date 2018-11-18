@@ -51,6 +51,23 @@ rev  = 'colorize-template-strings'
 repo = 'Shougo/neoinclude.vim'
 
 [[plugins]]
+repo = 'ctrlpvim/ctrlp.vim'
+hook_add = '''
+nnoremap <Space>sa :<C-u>CtrlP<Space>
+nnoremap <Space>sb :<C-u>CtrlPBuffer<CR>
+nnoremap <Space>sd :<C-u>CtrlPDir<CR>
+nnoremap <Space>sf :<C-u>CtrlP<CR>
+nnoremap <Space>sl :<C-u>CtrlPLine<CR>
+nnoremap <Space>sm :<C-u>CtrlPMRUFiles<CR>
+nnoremap <Space>sq :<C-u>CtrlPQuickfix<CR>
+nnoremap <Space>ss :<C-u>CtrlPMixed<CR>
+nnoremap <Space>st :<C-u>CtrlPTag<CR>
+
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_working_path_mode = 'ra'
+'''
+
+[[plugins]]
 repo = 'elzr/vim-json'
 if   = '''! has('kaoriya')'''
 
