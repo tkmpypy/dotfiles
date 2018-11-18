@@ -9,19 +9,39 @@ repo = 'Shougo/neocomplete.vim'
 if = 'has("lua")'
 on_i = 1
 
+# vim8用
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+if = "!has('nvim')"
+
+# vim8用
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+if = "!has('nvim')"
+
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
+hook_add = '''
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_delay = 0
+let g:deoplete#auto_complete_start_length = 1
+let g:deoplete#enable_camel_case = 0
+let g:deoplete#enable_ignore_case = 0
+let g:deoplete#enable_refresh_always = 0
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
+let g:deoplete#omni#functions = get(g:,'deoplete#omni#functions',{})
+
+let g:python3_host_prog = '/Users/takuma/.pyenv/shims/python3'
+let g:python_host_prog = '/Users/takuma/.pyenv/shims/python'
+'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet'
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
-
-[[plugins]]
-repo = 'zchee/deoplete-go'
-if = 'has("nvim")'
 
 [[plugins]]
 repo = 'delphinus35/typescript-vim'
@@ -80,19 +100,29 @@ repo = 'airblade/vim-gitgutter'
 repo = 'simeji/winresizer'
 
 [[plugins]]
-repo = 'zchee/deoplete-jedi'
-if = 'has("nvim")'
-on_i = 1
-on_ft = 'python'
+repo = 'autozimu/LanguageClient-neovim'
+rev = 'next'
+build = 'bash install.sh'
+depends = ['deoplete.vim']
+hook_add = '''
+set hidden
+set signcolumn=yes
 
-[[plugins]]
-repo = 'carlitux/deoplete-ternjs'
-if = 'has("nvim")'
-build = 'npm install -g tern'
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['/Users/takuma/.pyenv/versions/3.5.1/bin/pyls'],
+    \ }
 
-[[plugins]]
-repo = 'maxmellon/vim-jsx-pretty'
-on_ft = 'javascript'
+let g:LanguageClient_autoStart = 1
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+'''
+
 
 [[plugins]]
 repo = 'othree/yajs.vim'
