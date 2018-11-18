@@ -56,7 +56,7 @@ hook_add = '''
 nnoremap <Space>sa :<C-u>CtrlP<Space>
 nnoremap <Space>sb :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>sd :<C-u>CtrlPDir<CR>
-nnoremap <Space>sf :<C-u>CtrlP<CR>
+nnoremap <Space>sp :<C-u>CtrlP<CR>
 nnoremap <Space>sl :<C-u>CtrlPLine<CR>
 nnoremap <Space>sm :<C-u>CtrlPMRUFiles<CR>
 nnoremap <Space>sq :<C-u>CtrlPQuickfix<CR>
@@ -112,6 +112,12 @@ repo = 'KeitaNakamura/neodark.vim'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+hook_add = '''
+nnoremap <Space>gs :Gstatus<CR>
+nnoremap <Space>ge :Gedit<CR>
+nnoremap <Space>gd :Gdiff<CR>
+nnoremap <Space>gb :Gblame<CR>
+'''
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
