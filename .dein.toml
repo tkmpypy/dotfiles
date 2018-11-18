@@ -117,7 +117,8 @@ nnoremap <Space>gs :Gstatus<CR>
 nnoremap <Space>ge :Gedit<CR>
 nnoremap <Space>gd :Gdiff<CR>
 nnoremap <Space>gb :Gblame<CR>
-nnoremap <Space>gp :Gpush<CR>
+nnoremap <Space>gp :Gpush
+nnoremap <Space>gb :Gblame<CR>
 '''
 
 [[plugins]]
