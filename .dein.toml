@@ -87,6 +87,9 @@ on_ft = 'toml'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
+hook_add = '''
+let g:NERDTreeShowHidden = 1
+'''
 
 [[plugins]]
 repo =  'evidens/vim-twig'
@@ -115,6 +118,8 @@ repo = 'majutsushi/tagbar.git'
 repo = 'szw/vim-tags'
 hook_add = '''
 let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+
+nnoremap <Space>tt :TagbarToggle<CR>
 '''
 
 [[plugins]]
