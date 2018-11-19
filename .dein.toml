@@ -106,6 +106,9 @@ repo = 'majutsushi/tagbar.git'
 
 [[plugins]]
 repo = 'szw/vim-tags'
+hook_add = '''
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+'''
 
 [[plugins]]
 repo = 'KeitaNakamura/neodark.vim'
