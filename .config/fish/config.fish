@@ -15,9 +15,7 @@ if not functions -q fisher
     fish -c fisher
 end
 
-set -x GOROOT /usr/local/Cellar/go/1.8/libexec
 set -x GOPATH $HOME/Go
-set -x PATH $GOROOT/bin $PATH
 set -x PATH $GOPATH/bin $PATH
 set -x PATH ~/.nimble/bin $PATH
 
@@ -42,6 +40,9 @@ set -x PATH ~/flutter-sdk/flutter/bin $PATH
 
 set -x PATH $HOME/.pyenv/ $PATH
 . (pyenv init -|psub)
+
+set -x PATH $HOME/.goenv/ $PATH
+. (goenv init -|psub)
 
 set -x PATH $HOME/.pyenv/versions/3.5.1/bin $PATH
 
