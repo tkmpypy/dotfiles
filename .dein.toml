@@ -99,6 +99,13 @@ repo = 'fatih/vim-go'
 on_ft = 'go'
 
 [[plugins]]
+repo = 'previm/previm'
+on_ft = 'markdown'
+hook_add = '''
+let g:previm_open_cmd = 'open -a Google\ Chrome'
+'''
+
+[[plugins]]
 repo = 'altercation/vim-colors-solarized'
 
 [[plugins]]
