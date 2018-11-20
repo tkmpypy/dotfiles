@@ -153,7 +153,7 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
     \ 'python': ['~/.pyenv/versions/3.5.1/bin/pyls'],
     \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
-    \ 'go': ['go-langserver', '-mode', 'stdio'],
+    \ 'go': ['go-langserver', '-gocodecompletion'],
     \ }
 
 let g:LanguageClient_autoStart = 1
@@ -164,6 +164,13 @@ nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 '''
 
+[[plugins]]
+repo = 'Shougo/echodoc.vim'
+hook_add = '''
+set noshowmode
+let g:echodoc_enable_at_startup = 1
+let g:echodoc_type = 'echo'
+'''
 
 [[plugins]]
 repo = 'othree/yajs.vim'

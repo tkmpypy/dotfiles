@@ -80,8 +80,6 @@ set smartindent "改行時に入力された行の末尾に合わせて次の行
 "*****************************************************************************
 " Golang
 "*****************************************************************************
-let g:go_fmt_command = "goimports"
-let g:go_fmt_autosave =1 
 autocmd FileType go setlocal noexpandtab
 autocmd FileType go setlocal tabstop=4
 autocmd FileType go setlocal shiftwidth=4
