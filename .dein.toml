@@ -191,3 +191,6 @@ on_ft = 'javascript'
 
 [[plugins]]
 repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo = 'w0rp/ale'
