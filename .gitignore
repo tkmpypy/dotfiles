@@ -37,4 +37,5 @@ Temporary Items
 .config/xbuild
 .config/fish/completions
 .config/fish/conf.d
+.config/fish/fishfile
 .config/fish/functions
