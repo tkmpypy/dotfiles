@@ -24,3 +24,17 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+.config/.mono
+.config/composer
+.config/configstore
+.config/fisher
+.config/gocode
+.config/NuGet
+.config/nvim_back
+.config/robomongo
+.config/stetic
+.config/xbuild
+.config/fish/completions
+.config/fish/conf.d
+.config/fish/functions
