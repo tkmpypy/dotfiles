@@ -36,6 +36,7 @@ set -x PATH /usr/local/opt/node@6/bin $PATH
 set -x ANDROID_HOME $HOME/android-sdk
 set -x PATH $ANDROID_HOME/tools $PATH
 
+set -x PATH ~/.pub-cache/bin $PATH
 set -x PATH ~/flutter-sdk/flutter/bin $PATH
 
 set -x PATH $HOME/.pyenv/ $PATH

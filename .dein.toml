@@ -21,6 +21,9 @@ repo = 'roxma/vim-hug-neovim-rpc'
 if = "!has('nvim')"
 
 [[plugins]]
+repo = 'dart-lang/dart-vim-plugin'
+
+[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
 hook_add = '''
@@ -155,6 +158,7 @@ let g:LanguageClient_serverCommands = {
     \ 'python': ['~/.pyenv/versions/3.5.1/bin/pyls'],
     \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
     \ 'go': ['go-langserver', '-gocodecompletion'],
+    \ 'dart': ['dart_language_server'],
     \ }
 
 let g:LanguageClient_autoStart = 1
