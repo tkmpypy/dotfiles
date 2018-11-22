@@ -24,6 +24,9 @@ if = "!has('nvim')"
 repo = 'dart-lang/dart-vim-plugin'
 
 [[plugins]]
+repo = 'keith/swift.vim'
+
+[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
 hook_add = '''
@@ -159,6 +162,7 @@ let g:LanguageClient_serverCommands = {
     \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
     \ 'go': ['go-langserver', '-gocodecompletion'],
     \ 'dart': ['dart_language_server'],
+    \ 'swift': ['sourcekit-lsp'],
     \ }
 
 let g:LanguageClient_autoStart = 1
