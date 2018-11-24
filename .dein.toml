@@ -105,6 +105,9 @@ repo =  'evidens/vim-twig'
 repo =  'w0ng/vim-hybrid'
 
 [[plugins]]
+repo = 'tpope/vim-markdown'
+
+[[plugins]]
 repo = 'previm/previm'
 on_ft = 'markdown'
 hook_add = '''
