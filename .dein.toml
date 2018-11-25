@@ -87,6 +87,9 @@ depends = ['vim-airline-themes']
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
+hook_add = '''
+let g:airline_theme = 'onedark'
+'''
 
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
@@ -133,6 +136,12 @@ nnoremap <Space>tt :TagbarToggle<CR>
 
 [[plugins]]
 repo = 'KeitaNakamura/neodark.vim'
+
+[[plugins]]
+repo = 'joshdick/onedark.vim'
+hook_add = '''
+colorscheme onedark
+'''
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'

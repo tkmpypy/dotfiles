@@ -35,10 +35,6 @@ endif
 "*****************************************************************************
 set t_Co=256
 syntax enable
-let g:neodark#use_custom_terminal_theme = 1
-colorscheme neodark
-let g:airline = {}
-let g:airline.colorscheme = 'neodark'
 set number
 set ruler
 set guifont="Source Han Code JP"
