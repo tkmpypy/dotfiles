@@ -6,6 +6,23 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
+repo = 'junegunn/fzf'
+build = './install --all'
+merged = 0
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = 'fzf'
+hook_add = '''
+nnoremap <Space>sb :<C-u>Buffers<CR>
+nnoremap <Space>sx :<C-u>Commands<CR>
+nnoremap <Space>sf :<C-u>GFiles<CR>
+nnoremap <Space>sa :<C-u>Ag<CR>
+nnoremap <Space>sr :History<CR>
+nnoremap <Space>sgs :<C-u>GFiles?<CR>
+'''
+
+[[plugins]]
 repo = 'Shougo/neocomplete.vim'
 if = 'has("lua")'
 on_i = 1
@@ -56,23 +73,6 @@ rev  = 'colorize-template-strings'
 
 [[pulugins]]
 repo = 'Shougo/neoinclude.vim'
-
-[[plugins]]
-repo = 'ctrlpvim/ctrlp.vim'
-hook_add = '''
-nnoremap <Space>sa :<C-u>CtrlP<Space>
-nnoremap <Space>sb :<C-u>CtrlPBuffer<CR>
-nnoremap <Space>sd :<C-u>CtrlPDir<CR>
-nnoremap <Space>sp :<C-u>CtrlP<CR>
-nnoremap <Space>sl :<C-u>CtrlPLine<CR>
-nnoremap <Space>sm :<C-u>CtrlPMRUFiles<CR>
-nnoremap <Space>sq :<C-u>CtrlPQuickfix<CR>
-nnoremap <Space>ss :<C-u>CtrlPMixed<CR>
-nnoremap <Space>st :<C-u>CtrlPTag<CR>
-
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_working_path_mode = 'ra'
-'''
 
 [[plugins]]
 repo = 'yggdroot/indentline'
