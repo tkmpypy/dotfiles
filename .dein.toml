@@ -87,7 +87,7 @@ depends = ['vim-airline-themes']
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
-hook_add = '''
+hook_source = '''
 let g:airline_theme = 'onedark'
 '''
 
@@ -146,9 +146,6 @@ repo = 'KeitaNakamura/neodark.vim'
 
 [[plugins]]
 repo = 'joshdick/onedark.vim'
-hook_add = '''
-colorscheme onedark
-'''
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
