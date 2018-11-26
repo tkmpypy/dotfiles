@@ -102,7 +102,11 @@ on_ft = 'toml'
 repo = 'scrooloose/nerdtree'
 hook_add = '''
 let g:NERDTreeShowHidden = 1
+nnoremap <Space>ft :NERDTreeToggle<CR>
 '''
+
+[[plugins]]
+repo = 'mhinz/vim-startify'
 
 [[plugins]]
 repo =  'evidens/vim-twig'

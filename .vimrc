@@ -43,10 +43,10 @@ set backspace=indent,eol,start
 filetype plugin indent on
 
 " 引数なしでvimを開くとNERDTreeを起動
-let file_name = expand('%')
-if has('vim_starting') &&  file_name == ''
-  autocmd VimEnter * NERDTree ./
-endif
+" let file_name = expand('%')
+" if has('vim_starting') &&  file_name == ''
+"   autocmd VimEnter * NERDTree ./
+" endif
 
 set shell=fish
 
