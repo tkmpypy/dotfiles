@@ -116,6 +116,9 @@ repo =  'w0ng/vim-hybrid'
 
 [[plugins]]
 repo = 'tpope/vim-markdown'
+hook_add = '''
+let g:vim_markdown_conceal = 0
+'''
 
 [[plugins]]
 repo = 'previm/previm'
