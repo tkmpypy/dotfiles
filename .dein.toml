@@ -44,6 +44,9 @@ repo = 'dart-lang/dart-vim-plugin'
 repo = 'keith/swift.vim'
 
 [[plugins]]
+repo = 'zah/nim.vim'
+
+[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
 hook_add = '''
@@ -182,6 +185,7 @@ let g:LanguageClient_serverCommands = {
     \ 'go': ['go-langserver', '-gocodecompletion'],
     \ 'dart': ['dart_language_server'],
     \ 'swift': ['sourcekit-lsp'],
+    \ 'nim': ['nimlsp'],
     \ }
 
 let g:LanguageClient_autoStart = 1
