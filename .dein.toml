@@ -47,6 +47,9 @@ repo = 'keith/swift.vim'
 repo = 'zah/nim.vim'
 
 [[plugins]]
+repo = 'othree/html5.vim'
+
+[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
 hook_add = '''
