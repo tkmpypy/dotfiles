@@ -229,14 +229,13 @@ repo = 'simeji/winresizer'
 
 [[plugins]]
 repo = 'natebosch/vim-lsc'
-hook_add = '''
-let g:asyncomplete_auto_completeopt = v:true
+hook_source = '''
 let g:lsc_server_commands = {
     \ 'javascript': '/usr/local/bin/javascript-typescript-stdio',
     \ 'javascript.jsx': 'tcp://127.0.0.1:2089',
     \ 'python': {'command': '~/.pyenv/versions/3.5.1/bin/pyls', 'suppress_stderr': v:true},
     \ 'php': {'command': 'php ~/.config/composer/vendor/bin/php-language-server.php', 'suppress_stderr': v:true},
-    \ 'go': 'go-langserver -gocodecompletion',
+    \ 'go': {'command': 'go-langserver -gocodecompletion', 'suppress_stderr': v:true},
     \ 'dart': 'dart_language_server',
     \ 'swift': 'sourcekit-lsp',
     \ 'nim': 'nimlsp',
