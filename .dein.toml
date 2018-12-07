@@ -6,6 +6,10 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
+repo = 'prabirshrestha/async.vim'
+
+
+[[plugins]]
 repo = 'junegunn/fzf'
 build = './install --all'
 merged = 0
@@ -66,6 +70,30 @@ repo = 'othree/html5.vim'
 #let g:python3_host_prog = '/Users/takuma/.pyenv/shims/python3'
 #let g:python_host_prog = '/Users/takuma/.pyenv/shims/python'
 #'''
+
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-buffer.vim'
+hook_source = '''
+  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+      \ 'name': 'buffer',
+      \ 'whitelist': ['*'],
+      \ 'completor': function('asyncomplete#sources#buffer#completor'),
+      \ }))
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-file.vim'
+hook_source = '''
+  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+      \ 'name': 'file',
+      \ 'whitelist': ['*'],
+      \ 'completor': function('asyncomplete#sources#file#completor'),
+      \ }))
+'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet'
@@ -202,11 +230,12 @@ repo = 'simeji/winresizer'
 [[plugins]]
 repo = 'natebosch/vim-lsc'
 hook_add = '''
+let g:asyncomplete_auto_completeopt = v:true
 let g:lsc_server_commands = {
     \ 'javascript': '/usr/local/bin/javascript-typescript-stdio',
     \ 'javascript.jsx': 'tcp://127.0.0.1:2089',
-    \ 'python': '~/.pyenv/versions/3.5.1/bin/pyls',
-    \ 'php': 'php ~/.config/composer/vendor/bin/php-language-server.php',
+    \ 'python': {'command': '~/.pyenv/versions/3.5.1/bin/pyls', 'suppress_stderr': v:true},
+    \ 'php': {'command': 'php ~/.config/composer/vendor/bin/php-language-server.php', 'suppress_stderr': v:true},
     \ 'go': 'go-langserver -gocodecompletion',
     \ 'dart': 'dart_language_server',
     \ 'swift': 'sourcekit-lsp',
@@ -226,6 +255,58 @@ let g:lsc_auto_map = {
     \ 'SignatureHelp': '<C-m>',
 \ }
 '''
+
+#[[plugins]]
+#repo = 'prabirshrestha/vim-lsp'
+#hook_add = '''
+#  if executable('pyls')
+#    au User lsp_setup call lsp#register_server({
+#          \ 'name': 'pyls',
+#          \ 'cmd': {server_info->['pyls']},
+#          \ 'whitelist': ['python'],
+#          \ })
+#  endif
+#  if executable('go-langserver')
+#    au User lsp_setup call lsp#register_server({
+#        \ 'name': 'go-langserver',
+#        \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
+#        \ 'whitelist': ['go'],
+#        \ })
+#   endif
+#   if executable('javascript-typescript-stdio')
+#    au User lsp_setup call lsp#register_server({
+#        \ 'name': 'javascript-typescript-stdio',
+#        \ 'cmd': {server_info->['/usr/local/bin/javascript-typescript-stdio']},
+#        \ 'whitelist': ['javascript'],
+#        \ })
+#   endif
+#   if executable('php-language-server')
+#    au User lsp_setup call lsp#register_server({
+#        \ 'name': 'php-language-server',
+#        \ 'cmd': {server_info->['php', expand('~/.config/composer/vendor/bin/php-language-server.php')]},
+#        \ 'whitelist': ['php'],
+#        \ })
+#   endif
+#   if executable('dart_language_server')
+#    au User lsp_setup call lsp#register_server({
+#        \ 'name': 'dart_language_server',
+#        \ 'cmd': {server_info->['dart_language_server']},
+#        \ 'whitelist': ['dart'],
+#        \ })
+#   endif
+#   if executable('nimlsp')
+#    au User lsp_setup call lsp#register_server({
+#        \ 'name': 'nimlsp',
+#        \ 'cmd': {server_info->['nimlsp']},
+#        \ 'whitelist': ['nim'],
+#        \ })
+#   endif
+#
+#
+#" Or map each action separately
+#nnoremap <silent> K :LspHover<CR>
+#nnoremap <silent> gd :LspDefinition<CR>
+#'''
 
 [[plugins]]
 repo = 'Shougo/echodoc.vim'
