@@ -24,6 +24,10 @@ repo = 'roxma/nvim-yarp'
 # vim8用
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
+hook_add = '''
+let g:python3_host_prog = '/Users/takuma/.pyenv/shims/python3'
+let g:python_host_prog = '/Users/takuma/.pyenv/shims/python'
+'''
 
 [[plugins]]
 repo = 'dart-lang/dart-vim-plugin'
@@ -43,6 +47,27 @@ hook_add = '''
 " enable ncm2 for all buffers
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
+au User Ncm2Plugin call ncm2#register_source({
+            \ 'name' : 'css',
+            \ 'priority': 9, 
+            \ 'subscope_enable': 1,
+            \ 'scope': ['css','scss'],
+            \ 'mark': 'css',
+            \ 'word_pattern': '[\w\-]+',
+            \ 'complete_pattern': ':\s*',
+            \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+            \ })
+
+au User Ncm2Plugin call ncm2#register_source({
+            \ 'name' : 'html',
+            \ 'priority': 9, 
+            \ 'subscope_enable': 1,
+            \ 'scope': ['html'],
+            \ 'mark': 'html',
+            \ 'word_pattern': '[\w\-]+',
+            \ 'complete_pattern': '(<*|</*)',
+            \ 'on_complete': ['ncm2#on_complete#omni', 'htmlcomplete#CompleteTags'],
+            \ })
 '''
 
 [[plugins]]
