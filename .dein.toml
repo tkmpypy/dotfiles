@@ -42,6 +42,9 @@ repo = 'zah/nim.vim'
 repo = 'othree/html5.vim'
 
 [[plugins]]
+repo = 'SirVer/ultisnips'
+
+[[plugins]]
 repo = 'ncm2/ncm2'
 hook_add = '''
 " enable ncm2 for all buffers
@@ -83,6 +86,15 @@ repo = 'ncm2/ncm2-path'
 repo = 'ncm2/ncm2-github'
 
 [[plugins]]
+repo = 'ncm2/ncm2-ultisnips'
+hook_add= '''
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+'''
+
+[[plugins]]
 repo = 'yggdroot/indentline'
 
 [[plugins]]
@@ -92,12 +104,13 @@ if   = '''! has('kaoriya')'''
 [[plugins]]
 repo    = 'vim-airline/vim-airline'
 depends = ['vim-airline-themes']
+hook_add = '''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+'''
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
-hook_source = '''
-let g:airline_theme = 'onedark'
-'''
 
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
@@ -111,6 +124,23 @@ repo = 'scrooloose/nerdtree'
 hook_add = '''
 let g:NERDTreeShowHidden = 1
 nnoremap <Space>ft :NERDTreeToggle<CR>
+'''
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
+hook_add = '''
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 '''
 
 [[plugins]]
