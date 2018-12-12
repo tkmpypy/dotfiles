@@ -79,7 +79,6 @@ set smarttab "新しい行を作った時に高度な自動インデントを行
 " Golang
 "*****************************************************************************
 autocmd FileType go setlocal noexpandtab
-autocmd FileType html setlocal ts=2 sw=2
 autocmd FileType dart setlocal ts=2 sw=2
 
 " No beep

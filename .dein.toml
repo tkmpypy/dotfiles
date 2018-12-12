@@ -30,6 +30,12 @@ let g:python_host_prog = '/Users/takuma/.pyenv/shims/python'
 '''
 
 [[plugins]]
+repo = 'thinca/vim-quickrun'
+hook_add = '''
+nnoremap <Space>rb :QuickRun<CR>
+'''
+
+[[plugins]]
 repo = 'dart-lang/dart-vim-plugin'
 
 [[plugins]]
