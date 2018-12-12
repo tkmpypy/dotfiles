@@ -115,7 +115,7 @@ au User Ncm2Plugin call ncm2#register_source({
             \ 'scope': ['javascript', 'python', 'php', 'go', 'dart', 'swift', 'nim', 'html'],
             \ 'mark': 'lsp',
             \ 'word_pattern': '[\w/]+',
-            \ 'complete_pattern': ['\.', '::', '\$', '->'],
+            \ 'complete_pattern': ['\.', '::', '\$', '->', '\s'],
             \ 'on_complete': ['ncm2#on_complete#omni', 'lsc#complete#complete'],
             \ })
 '''
