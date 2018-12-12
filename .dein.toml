@@ -51,6 +51,36 @@ repo = 'othree/html5.vim'
 repo = 'SirVer/ultisnips'
 
 [[plugins]]
+repo = 'natebosch/vim-lsc'
+hook_add = '''
+let g:lsc_enable_autocomplete = v:false
+let g:lsc_server_commands = {
+    \ 'javascript': '/usr/local/bin/javascript-typescript-stdio',
+    \ 'javascript.jsx': 'tcp://127.0.0.1:2089',
+    \ 'python': '~/.pyenv/versions/3.5.1/bin/pyls',
+    \ 'php': {'command': 'php ~/.config/composer/vendor/bin/php-language-server.php', 'suppress_stderr': v:true},
+    \ 'go': 'go-langserver -gocodecompletion',
+    \ 'dart': 'dart_language_server',
+    \ 'swift': 'sourcekit-lsp',
+    \ 'nim': 'nimlsp',
+\ }
+
+let g:lsc_auto_map = {
+    \ 'GoToDefinition': '<silent> gd',
+    \ 'FindReferences': '<silent> gr',
+    \ 'NextReference': '<C-n>',
+    \ 'PreviousReference': '<C-p>',
+    \ 'FindImplementations': 'gI',
+    \ 'FindCodeActions': 'ga',
+    \ 'DocumentSymbol': 'go',
+    \ 'WorkspaceSymbol': 'gS',
+    \ 'ShowHover': 'v:true',
+    \ 'SignatureHelp': '<C-m>',
+    \ 'Completion': 'omnifunc',
+\ }
+'''
+
+[[plugins]]
 repo = 'ncm2/ncm2'
 hook_add = '''
 " enable ncm2 for all buffers
@@ -76,6 +106,17 @@ au User Ncm2Plugin call ncm2#register_source({
             \ 'word_pattern': '[\w\-]+',
             \ 'complete_pattern': '(<*|</*)',
             \ 'on_complete': ['ncm2#on_complete#omni', 'htmlcomplete#CompleteTags'],
+            \ })
+
+au User Ncm2Plugin call ncm2#register_source({
+            \ 'name' : 'lsp',
+            \ 'priority': 9, 
+            \ 'subscope_enable': 1,
+            \ 'scope': ['javascript', 'python', 'php', 'go', 'dart', 'swift', 'nim', 'html'],
+            \ 'mark': 'lsp',
+            \ 'word_pattern': '[\w/]+',
+            \ 'complete_pattern': ['\.', '::', '\$', '->'],
+            \ 'on_complete': ['ncm2#on_complete#omni', 'lsc#complete#complete'],
             \ })
 '''
 
@@ -208,33 +249,33 @@ repo = 'airblade/vim-gitgutter'
 [[plugins]]
 repo = 'simeji/winresizer'
 
-[[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-rev = 'next'
-build = 'bash install.sh'
-hook_add = '''
-set hidden
-set signcolumn=yes
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['~/.pyenv/versions/3.5.1/bin/pyls'],
-    \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
-    \ 'go': ['go-langserver', '-gocodecompletion'],
-    \ 'dart': ['dart_language_server'],
-    \ 'swift': ['sourcekit-lsp'],
-    \ 'nim': ['nimlsp'],
-    \ }
-
-let g:LanguageClient_autoStart = 1
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-'''
+#[[plugins]]
+#repo = 'autozimu/LanguageClient-neovim'
+#rev = 'next'
+#build = 'bash install.sh'
+#hook_add = '''
+#set hidden
+#set signcolumn=yes
+#
+#let g:LanguageClient_serverCommands = {
+#    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+#    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+#    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+#    \ 'python': ['~/.pyenv/versions/3.5.1/bin/pyls'],
+#    \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
+#    \ 'go': ['go-langserver', '-gocodecompletion'],
+#    \ 'dart': ['dart_language_server'],
+#    \ 'swift': ['sourcekit-lsp'],
+#    \ 'nim': ['nimlsp'],
+#    \ }
+#
+#let g:LanguageClient_autoStart = 1
+#nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+#" Or map each action separately
+#nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+#nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+#nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+#'''
 
 [[plugins]]
 repo = 'Shougo/echodoc.vim'
