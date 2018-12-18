@@ -48,6 +48,9 @@ repo = 'zah/nim.vim'
 repo = 'othree/html5.vim'
 
 [[plugins]]
+repo = 'posva/vim-vue'
+
+[[plugins]]
 repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
@@ -95,6 +98,7 @@ let g:LanguageClient_serverCommands = {
     \ 'dart': ['dart_language_server'],
     \ 'swift': ['sourcekit-lsp'],
     \ 'nim': ['nimlsp'],
+    \ 'vue': ['vls'],
     \ }
 
 let g:LanguageClient_autoStart = 1
