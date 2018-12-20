@@ -57,6 +57,14 @@ repo = 'Shougo/context_filetype.vim'
 repo = 'Shougo/neosnippet.vim'
 depends = ['neosnippet-snippets', 'context_filetype.vim']
 on_i = 1
+hook_source = '''
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
@@ -77,6 +85,12 @@ let g:deoplete#max_list = 10000
 
 let g:python3_host_prog = '/Users/takuma/.pyenv/shims/python3'
 let g:python_host_prog = '/Users/takuma/.pyenv/shims/python'
+'''
+hook_source = '''
+  let g:deoplete#enable_at_startup = 1
+  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+        \ neosnippet#expandable_or_jumpable() ?
+        \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
 '''
 
 [[plugins]]
