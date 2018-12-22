@@ -51,9 +51,6 @@ repo = 'othree/html5.vim'
 repo = 'posva/vim-vue'
 
 [[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
-[[plugins]]
 repo = 'Shougo/neosnippet.vim'
 depends = ['neosnippet-snippets', 'context_filetype.vim']
 on_i = 1
