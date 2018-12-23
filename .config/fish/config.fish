@@ -21,19 +21,14 @@ set -x PATH ~/.nimble/bin $PATH
 
 set -x PATH /Users/takuma/.nimble/bin $PATH
 
-# flutter
-set -x PATH $HOME/flutter-sdk/flutter/bin $PATH
-
 # set -x PATH $HOME/.nodebrew/current/bin $PATH
 
 # set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
 
-set -x PATH $HOME/android-sdk $PATH
-
 set -x PATH /usr/local/bin $PATH
 set -x PATH /usr/local/opt/node@6/bin $PATH
 
-set -x ANDROID_HOME $HOME/android-sdk
+set -x ANDROID_HOME $HOME/Library/Android/sdk
 set -x PATH $ANDROID_HOME/tools $PATH
 
 set -x PATH ~/.pub-cache/bin $PATH
