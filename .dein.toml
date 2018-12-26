@@ -66,6 +66,9 @@ hook_source = '''
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
 hook_add = '''
@@ -112,6 +115,8 @@ let g:LanguageClient_serverCommands = {
     \ 'swift': ['sourcekit-lsp'],
     \ 'nim': ['nimlsp'],
     \ 'vue': ['vls'],
+    \ 'html': ['html-languageserver', '--stdio'],
+    \ 'css': [],
     \ }
 
 let g:LanguageClient_autoStart = 1
