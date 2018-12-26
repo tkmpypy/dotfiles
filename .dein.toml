@@ -24,10 +24,6 @@ repo = 'roxma/nvim-yarp'
 # vim8用
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
-hook_add = '''
-let g:python3_host_prog = '/Users/takuma/.pyenv/shims/python3'
-let g:python_host_prog = '/Users/takuma/.pyenv/shims/python'
-'''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
@@ -46,6 +42,9 @@ repo = 'zah/nim.vim'
 
 [[plugins]]
 repo = 'othree/html5.vim'
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
 
 [[plugins]]
 repo = 'posva/vim-vue'
@@ -80,8 +79,6 @@ let g:deoplete#enable_smart_case = 1
 let g:deoplete#file#enable_buffer_path = 1
 let g:deoplete#max_list = 10000
 
-let g:python3_host_prog = '/Users/takuma/.pyenv/shims/python3'
-let g:python_host_prog = '/Users/takuma/.pyenv/shims/python'
 '''
 hook_source = '''
   let g:deoplete#enable_at_startup = 1
@@ -106,6 +103,7 @@ set signcolumn=yes
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'typescript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
     \ 'python': ['~/.pyenv/versions/3.5.1/bin/pyls'],
     \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
