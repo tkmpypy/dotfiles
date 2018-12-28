@@ -32,6 +32,9 @@ nnoremap <Space>rb :QuickRun<CR>
 '''
 
 [[plugins]]
+repo = 'StanAngeloff/php.vim'
+
+[[plugins]]
 repo = 'dart-lang/dart-vim-plugin'
 
 [[plugins]]
