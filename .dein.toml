@@ -111,7 +111,7 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'typescript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['~/.pyenv/versions/3.5.1/bin/pyls'],
+    \ 'python': ['pyls'],
     \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
     \ 'go': ['go-langserver', '-gocodecompletion'],
     \ 'dart': ['dart_language_server'],
@@ -161,23 +161,6 @@ repo = 'scrooloose/nerdtree'
 hook_add = '''
 let g:NERDTreeShowHidden = 1
 nnoremap <Space>ft :NERDTreeToggle<CR>
-'''
-
-[[plugins]]
-repo = 'Xuyuanp/nerdtree-git-plugin'
-hook_add = '''
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
 '''
 
 [[plugins]]
