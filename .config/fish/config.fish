@@ -29,7 +29,7 @@ set -x PATH /usr/local/bin $PATH
 set -x PATH /usr/local/opt/node@6/bin $PATH
 
 set -x ANDROID_HOME $HOME/Library/Android/sdk
-set -x PATH $ANDROID_HOME/tools $PATH
+set -x PATH $ANDROID_HOME/platform-tools $PATH
 
 set -x PATH ~/.pub-cache/bin $PATH
 set -x PATH ~/flutter-sdk/flutter/bin $PATH
@@ -40,7 +40,7 @@ set -x PATH $HOME/.pyenv/ $PATH
 set -x PATH $HOME/.goenv/ $PATH
 . (goenv init -|psub)
 
-set -x PATH $HOME/.pyenv/versions/3.5.1/bin $PATH
+set -x PATH $HOME/.pyenv/versions/3.7.1/bin $PATH
 
 # set -x PATH $PATH
 

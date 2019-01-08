@@ -47,6 +47,12 @@ repo = 'zah/nim.vim'
 repo = 'othree/html5.vim'
 
 [[plugins]]
+repo = 'vim-python/python-syntax'
+hook_add = '''
+let g:python_highlight_all = 1
+'''
+
+[[plugins]]
 repo = 'leafgarland/typescript-vim'
 
 [[plugins]]
@@ -111,7 +117,7 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'typescript': ['/usr/local/bin/javascript-typescript-stdio'],
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['pyls'],
+    \ 'python': ['/Users/takuma/.pyenv/shims/pyls'],
     \ 'php': ['php', '~/.config/composer/vendor/bin/php-language-server.php'],
     \ 'go': ['go-langserver', '-gocodecompletion'],
     \ 'dart': ['dart_language_server'],
