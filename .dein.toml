@@ -101,6 +101,9 @@ hook_source = '''
     call deoplete#custom#source('LanguageClient',
             \ 'min_pattern_length',
             \ 1)
+    call deoplete#custom#source('LanguageClient',
+            \ 'rank',
+            \ 1000)
 '''
 
 [[plugins]]
