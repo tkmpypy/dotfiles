@@ -239,6 +239,7 @@ repo = 'simeji/winresizer'
 repo = 'Shougo/echodoc.vim'
 hook_add = '''
 set noshowmode
+set completeopt-=preview
 let g:echodoc_enable_at_startup = 1
 let g:echodoc_type = 'echo'
 '''
