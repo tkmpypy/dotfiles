@@ -37,7 +37,7 @@ set t_Co=256
 syntax enable
 set number
 set ruler
-set guifont="Source Han Code JP"
+set guifont="RictyDiminished-Regular"
 set hlsearch
 set backspace=indent,eol,start
 filetype plugin indent on
@@ -75,9 +75,6 @@ set autoindent "改行時に前の行のインデントを継続する
 set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set smarttab "新しい行を作った時に高度な自動インデントを行う
 
-"*****************************************************************************
-" Golang
-"*****************************************************************************
 autocmd FileType go setlocal noexpandtab
 autocmd FileType dart setlocal ts=2 sw=2
 autocmd FileType vue setlocal ts=2 sw=2
