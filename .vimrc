@@ -113,6 +113,7 @@ nnoremap <Leader>wml <C-w>L
 nnoremap <Leader>bn :bnext<Enter>
 nnoremap <Leader>bp :bprevious<Enter>
 nnoremap <Leader>bd :bdelete<Enter>
+nnoremap <Leader>bra :bufdo e!<Enter>
 
 " change tab
 nnoremap <Leader>tn :tabn<Enter>
