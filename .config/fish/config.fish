@@ -44,4 +44,11 @@ set -x PATH $HOME/.pyenv/versions/3.7.1/bin $PATH
 
 # set -x PATH $PATH
 
+set -gx DOCKER_TLS_VERIFY "1";
+set -gx DOCKER_HOST "tcp://192.168.99.100:2376";
+set -gx DOCKER_CERT_PATH "/Users/takuma/.docker/machine/machines/default";
+set -gx DOCKER_MACHINE_NAME "default";
+# Run this command to configure your shell:
+# eval (docker-machine env default)
+
 alias emacs=/usr/local/bin/emacs
