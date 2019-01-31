@@ -81,6 +81,7 @@ repo = 'Shougo/context_filetype.vim'
 repo = 'Shougo/deoplete.nvim'
 if = 'has("nvim")'
 hook_add = '''
+
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 0
 let g:deoplete#auto_complete_start_length = 1
@@ -267,11 +268,16 @@ repo = 'cohama/lexima.vim'
 repo = 'w0rp/ale'
 hook_add = '''
 let g:ale_linters = {
-    \ 'python': ['pyls'],
+    \ 'python': ['flake8'],
     \ }
 
 " 各ツールをFixerとして登録
 let g:ale_fixers = {
-    \ 'python': ['pyls'],
+    \ 'python': ['autopep8', 'black', 'isort'],
     \ }
+
+let g:ale_python_flake8_options = '-m flake8'
+let g:ale_python_autopep8_options = '-m autopep8'
+let g:ale_python_isort_options = '-m isort'
+let g:ale_python_black_options = '-m black'
 '''
