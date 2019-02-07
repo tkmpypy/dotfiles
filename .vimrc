@@ -92,6 +92,8 @@ set incsearch                                    " サーチ：インクリメ�
 set ignorecase                                   " サーチ：大文字小文字を区別しない
 set smartcase                                    " サーチ：大文字で検索されたら対象を大文字限定にする
 set showmatch                                    " カーソル：括弧にカーソルを合わせた時、対応した括弧を表示する
+set wrap
+set noswapfile
 
 "*****************************************************************************
 " KeyMap
@@ -128,5 +130,11 @@ nnoremap gk k
 " noremap <S-j>   }
 " noremap <S-k>   {
 " noremap <S-l>   $
+
+" 折り返した行を複数行として移動
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+nnoremap <silent> gj j
+nnoremap <silent> gk k
 
 inoremap jj <ESC>
