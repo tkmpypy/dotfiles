@@ -282,11 +282,6 @@ let g:ale_fixers = {
     \ 'python': ['autopep8', 'black', 'isort'],
     \ }
 
-let g:ale_python_flake8_options = '-m flake8'
-let g:ale_python_autopep8_options = '-m autopep8'
-let g:ale_python_isort_options = '-m isort'
-let g:ale_python_black_options = '-m black'
-
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 let g:ale_echo_msg_error_str = 'E'
