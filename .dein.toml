@@ -120,6 +120,10 @@ hook_add = '''
 set hidden
 set signcolumn=yes
 
+let g:LanguageClient_rootMarkers = {
+    \ 'python': ['nlpserver.py'],
+\ }
+
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
