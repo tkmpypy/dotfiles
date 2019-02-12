@@ -121,10 +121,10 @@ nnoremap <Leader>tp :tabp<Enter>
 " resize wondiw mode
 nnoremap <Leader>wr :WinResizerStartResize<Enter>
 
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+" nnoremap j gj
+" nnoremap k gk
+" nnoremap gj j
+" nnoremap gk k
 
 " noremap <S-h>   ^
 " noremap <S-j>   }
