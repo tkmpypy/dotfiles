@@ -40,7 +40,7 @@ set -x PATH $HOME/.pyenv/ $PATH
 set -x PATH $HOME/.goenv/ $PATH
 . (goenv init -|psub)
 
-set -x PATH $HOME/.pyenv/versions/3.7.1/bin $PATH
+set -x PATH $HOME/.pyenv/versions/3.7.0/bin $PATH
 
 # set -x PATH $PATH
 
@@ -52,3 +52,6 @@ set -gx DOCKER_MACHINE_NAME "default";
 # eval (docker-machine env default)
 
 alias emacs=/usr/local/bin/emacs
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/takuma/google-cloud-sdk/path.fish.inc' ]; . '/Users/takuma/google-cloud-sdk/path.fish.inc'; end
