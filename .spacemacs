@@ -477,6 +477,7 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq-default evil-escape-delay 0.2)
   (setq evil-escape-key-sequence "jj")
+  (setq evil-escape-excluded-major-modes '(dired-mode neotree-mode evil-visual-state))
   (setq neo-theme 'icons)
   (setq neo-vc-integration '(face))
   )
