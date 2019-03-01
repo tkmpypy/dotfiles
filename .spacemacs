@@ -73,7 +73,6 @@ This function should only modify configuration layer settings."
      version-control
      spotify
      ;; slack
-     (unicode-fonts :variables unicode-fonts-force-multi-color-on-mac t)
      )
 
    ;; List of additional packages that will be installed without being
@@ -478,6 +477,8 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq-default evil-escape-delay 0.2)
   (setq evil-escape-key-sequence "jj")
+  (setq neo-theme 'icons)
+  (setq neo-vc-integration '(face))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
