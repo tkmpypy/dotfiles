@@ -63,7 +63,7 @@ This function should only modify configuration layer settings."
      git
      github
      multiple-cursors
-     treemacs
+     neotree
      org
      (shell :variables
             shell-default-height 30
