@@ -41,3 +41,4 @@ Temporary Items
 .config/fish/functions
 fishd.c4b301c57d0b
 .config/nvim
+.config/coc
