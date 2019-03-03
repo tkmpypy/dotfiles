@@ -44,8 +44,6 @@ set -x PATH $HOME/.pyenv/versions/3.7.0/bin $PATH
 
 set -x PATH $HOME/.nodebrew/current/bin $PATH
 
-set -x PATH /usr/local/share/dotnet/dotnet $PATH
-
 # set -x PATH $PATH
 
 set -gx DOCKER_TLS_VERIFY "1";

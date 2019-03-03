@@ -106,7 +106,7 @@ repo = 'posva/vim-vue'
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
-build = 'yarn install'
+build = 'coc#util#install()'
 hook_source = '''
 " if hidden not set, TextEdit might fail.
 set hidden
