@@ -16,6 +16,34 @@
                 "DatabasePath": "/Users/takuma/work/python-language-server/output/bin/Debug"
               }
             },
+            "displayOptions": {
+              "preferredFormat": "markdown",
+              "trimDocumentationLines": false,
+              "maxDocumentationLineLength": 0,
+              "trimDocumentationText": false,
+              "maxDocumentationTextLength": 0
+            },
+            "searchPaths": [
+              "/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python37.zip;/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7;/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload;/Users/chemzqm/Library/Python/3.7/lib/python/site-packages;/usr/local/lib/python3.7/site-packages;/usr/local/lib/python3.7/site-packages/pylint-2.3.0-py3.7.egg;",
+              "/usr/local/bin",
+              "/Users/takuma/unibo/nlp-server/nlpserver/src/main"
+            ],
+            "excludeFiles": [
+              "**/Lib/**",
+              "**/site-packages/**",
+              "**/node_modules",
+              "**/bower_components",
+              "**/.git",
+              "**/.svn",
+              "**/.hg",
+              "**/CVS",
+              "**/.DS_Store",
+              "**/.git/objects/**",
+              "**/.git/subtree-cache/**",
+              "**/node_modules/**",
+              ".vscode/*.py",
+              "**/site-packages/**/*.py"
+            ],
             "testEnvironment": false,
             "analysisUpdates": true,
             "traceLogging": true,

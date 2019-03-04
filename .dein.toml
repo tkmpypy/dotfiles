@@ -118,7 +118,7 @@ set cmdheight=2
 set updatetime=300
 
 " don't give |ins-completion-menu| messages.
-set shortmess+=c
+set shortmess=aFc
 
 " always show signcolumns
 set signcolumn=yes
