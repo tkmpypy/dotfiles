@@ -74,6 +74,13 @@
     (company-lsp-async t)
     (company-lsp-enable-recompletion nil))
   (use-package company
+    :init
+    (add-hook 'company-mode-hook
+	      (lambda ()
+		(define-key company-active-map (kbd "C-n") 'company-select-next) ;; C-n, C-pで補完候補を次/前の候補を選択
+		(define-key company-active-map (kbd "C-p") 'company-select-previous)
+		(define-key company-search-map (kbd "C-n") 'company-select-next)
+		(define-key company-search-map (kbd "C-p") 'company-select-previous)))
     :config
     (global-company-mode)
     (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
