@@ -8,4 +8,4 @@
     (git-gutter:added    ((t (:background "#50fa7b"))))
     (git-gutter:deleted  ((t (:background "#ff79c6"))))
     :config
-    (global-git-gutter-mode +1))
+    (global-git-gutter-mode t))

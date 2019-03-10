@@ -36,3 +36,6 @@
 ;; Disable backup files
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
+(setq completion-ignore-case t)
+(global-auto-revert-mode 1)
+(put 'set-goal-column 'disabled t)
