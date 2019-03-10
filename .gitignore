@@ -42,3 +42,5 @@ Temporary Items
 fishd.c4b301c57d0b
 .config/nvim
 .config/coc
+projectile-bookmarks.eld
+.emacs.d/straight
