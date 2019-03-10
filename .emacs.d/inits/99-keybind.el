@@ -2,6 +2,8 @@
 (evil-leader/set-key "ft" 'neotree-projectile-toggle)
 ;; ivy/counsel
 (evil-leader/set-key "sw" 'swiper)
+(evil-leader/set-key "oc" 'org-capture)
+(evil-leader/set-key "of" '(lambda() (interactive) (show-org-buffer "notes.org")))
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
 ;; (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -22,5 +24,11 @@
 (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+
 (setq-default evil-escape-delay 0.2)
 (setq-default evil-escape-key-sequence "jj")
+
+(define-key eww-mode-map "r" 'eww-reload)
+(define-key eww-mode-map "c 0" 'eww-copy-page-url)
+(define-key eww-mode-map "p" 'scroll-down)
+(define-key eww-mode-map "n" 'scroll-up)
