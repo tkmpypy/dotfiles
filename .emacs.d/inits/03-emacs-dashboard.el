@@ -2,7 +2,7 @@
     :diminish
     (dashboard-mode page-break-lines-mode)
     :custom
-    (dashboard-startup-banner 2)
+    (dashboard-startup-banner 3)
     (dashboard-items '((recents . 15)
                (projects . 5)
                (bookmarks . 5)

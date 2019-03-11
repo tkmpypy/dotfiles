@@ -1,6 +1,7 @@
 (use-package neotree
+;;    :straight (:host github :repo "jaypei/emacs-neotree"
+;;            :branch "dev")
     :init
-    (setq neo-theme (if (display-graphic-p) 'icons 'nerd)) ; 'classic, 'nerd, 'ascii, 'arrow
     (add-hook 'neotree-mode-hook
     (lambda ()
       (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
@@ -19,12 +20,12 @@
     :after (projectile)
     :commands
     (neotree-show neotree-hide neotree-dir neotree-find)
-    :config
-    ;; (setq neo-theme (if window-system 'icons 'nerd)) ; 'classic, 'nerd, 'ascii, 'arrow
-    (setq neo-vc-integration '(face char))
-    (setq neo-show-hidden-files t)
     :bind
     ("<f9>" . neotree-projectile-toggle)
+    :config
+    (setq neo-theme 'icons) ; 'classic, 'nerd, 'ascii, 'arrow
+    (setq neo-vc-integration '(face char))
+    (setq neo-show-hidden-files t)
     :preface
     (defun neotree-projectile-toggle ()
       (interactive)

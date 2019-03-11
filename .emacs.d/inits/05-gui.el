@@ -8,9 +8,7 @@
 
 (use-package font-lock)
 (use-package font-lock+)
-(use-package all-the-icons
-  :config 
-  (all-the-icons-install-fonts t))
+(use-package all-the-icons)
  
 ;; flycheckとかでポップアップしてくれる
 (use-package popup)
