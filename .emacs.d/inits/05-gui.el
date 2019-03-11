@@ -4,7 +4,7 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; Font
-(set-default-font "Source Han Code JP M")
+(set-default-font "Source Han Code JP")
 
 (use-package font-lock)
 (use-package font-lock+)
