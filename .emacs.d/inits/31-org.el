@@ -1,3 +1,7 @@
+(use-package org-bullets
+      :custom (org-bullets-bullet-list '("" "" "" "" "" "" "" "" "" ""))
+      :hook (org-mode . org-bullets-mode))
+
 (setq org-directory "~/Dropbox/org")
 (setq org-default-notes-file "notes.org")
 

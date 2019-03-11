@@ -23,3 +23,44 @@
 
 ;; ~/.emacs.d/init/ 以下のファイルを全部読み込む
 (init-loader-load)
+
+;; ウィンドウが上のほうにあれば縦に縮小し、下のほうにあれば縦に拡大する
+(defun resize-window-up ()
+  (interactive)
+  (let* ((edges (window-edges (selected-window)))
+         (end-y (cadddr edges)))
+    (if (< end-y (frame-height))
+        (shrink-window 1)
+      (enlarge-window 1))))
+
+;; ウィンドウが上のほうにあれば縦に拡大し、下のほうにあれば縦に縮小する
+(defun resize-window-down ()
+  (interactive)
+  (let* ((edges (window-edges (selected-window)))
+         (end-y (cadddr edges)))
+    (if (< end-y (frame-height))
+        (enlarge-window 1)
+      (shrink-window 1))))
+
+;; ウィンドウが左のほうにあれば横に拡大し、右のほうにあれば横に縮小する
+(defun resize-window-right ()
+  (interactive)
+  (let* ((edges (window-edges (selected-window)))
+         (end-x (caddr edges)))
+    (if (< end-x (frame-width))
+        (enlarge-window-horizontally 1)
+      (shrink-window-horizontally 1))))
+
+;; ウィンドウが左のほうにあれば横に縮小し、右のほうにあれば横に拡大する
+(defun resize-window-left ()
+  (interactive)
+  (let* ((edges (window-edges (selected-window)))
+         (end-x (caddr edges)))
+    (if (< end-x (frame-width))
+        (shrink-window-horizontally 1)
+      (enlarge-window-horizontally 1))))
+
+(global-set-key (kbd "<M-up>") 'resize-window-up)
+(global-set-key (kbd "<M-down>") 'resize-window-down)
+(global-set-key (kbd "<M-right>") 'resize-window-right)
+(global-set-key (kbd "<M-left>") 'resize-window-left)
