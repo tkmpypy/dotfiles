@@ -107,7 +107,7 @@ repo = 'posva/vim-vue'
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 build = 'coc#util#install()'
-hook_source = '''
+hook_add = '''
 " if hidden not set, TextEdit might fail.
 set hidden
 
@@ -127,14 +127,14 @@ set signcolumn=yes
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+nnoremap <silent> [c :call CocActionAsync('diagnosticPrevious')<CR>
+nnoremap <silent> ]c :call CocActionAsync('diagnosticNext')<CR>
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> gd :call CocActionAsync('jumpDefinition')<CR>
+nnoremap <silent> gy :call CocActionAsync('jumpDeclaration')<CR>
+nnoremap <silent> gi :call CocActionAsync('jumpImplementation')<CR>
+nnoremap <silent> gr :call CocActionAsync('jumpReferences')<CR>
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -151,20 +151,20 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nnoremap <Space>rn :call CocActionAsync('rename')<CR>
 
 " Remap for format selected region
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+vmap <Space>f  <Plug>(coc-format-selected)
+nnoremap <Space>f  <Plug>(coc-format-selected)
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+vmap <Space>a  <Plug>(coc-codeaction-selected)
+nnoremap <Space>a  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
+nnoremap <Space>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
+nnoremap <Space>qf  <Plug>(coc-fix-current)
 
 " Use `:Format` for format current buffer
 command! -nargs=0 Format :call CocAction('format')
