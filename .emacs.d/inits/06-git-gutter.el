@@ -1,5 +1,5 @@
 ;; 行番号を表示する
-(global-display-line-numbers-mode t)
+;; (global-display-line-numbers-mode t)
 (use-package git-gutter
   :init (global-git-gutter-mode t)
   :custom

@@ -4,6 +4,8 @@
 
 (setq org-directory "~/Dropbox/org")
 (setq org-default-notes-file "notes.org")
+(setq org-hide-emphasis-markers t)
+(setq org-indent-mode-turns-on-hiding-stars nil)
 
 ; Org-captureの設定
 
