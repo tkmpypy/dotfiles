@@ -12,6 +12,8 @@
   (lsp-enable-completion-at-point nil)
   :hook
   (go-mode . lsp)
+  (vue-mode . lsp)
+  (python-mode . lsp)
   :bind
   (:map lsp-mode-map
   ("C-c r"   . lsp-rename))
