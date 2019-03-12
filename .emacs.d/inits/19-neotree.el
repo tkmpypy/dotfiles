@@ -2,6 +2,7 @@
 ;;    :straight (:host github :repo "jaypei/emacs-neotree"
 ;;            :branch "dev")
     :init
+    (add-hook 'neo-after-create-hook (lambda (&optional dummy) (display-line-numbers-mode -1)))
     (add-hook 'neotree-mode-hook
     (lambda ()
       (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)

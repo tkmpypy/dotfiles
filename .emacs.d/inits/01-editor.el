@@ -1,4 +1,17 @@
 (setq backup-inhibited t)
+(set-locale-environment nil)
+(set-language-environment "Japanese")
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(prefer-coding-system 'utf-8)
+;; バックアップファイルを作成させない
+(setq make-backup-files nil)
+
+;; 終了時にオートセーブファイルを削除する
+(setq delete-auto-save-files t)
 (setq ring-bell-function 'ignore)
 (use-package highlight-indent-guides
   :diminish
@@ -23,16 +36,7 @@
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
-;; 行番号を表示する
-(global-linum-mode t)
 
-;; 現在の行をハイライトする
-(global-hl-line-mode 1)
-
-;; 対応するカッコをハイライトする
-(show-paren-mode 1)
-;;; モードラインに時間を表示する
-(display-time)
 ;; Disable backup files
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files

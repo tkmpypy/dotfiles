@@ -9,6 +9,18 @@
 (use-package font-lock)
 (use-package font-lock+)
 (use-package all-the-icons)
+
+;; 行番号を表示する
+;; (global-linum-mode t)
+;; (global-display-line-numbers-mode t)
+
+;; 現在の行をハイライトする
+(global-hl-line-mode 1)
+
+;; 対応するカッコをハイライトする
+(show-paren-mode 1)
+;;; モードラインに時間を表示する
+(display-time)
  
 ;; flycheckとかでポップアップしてくれる
 (use-package popup)
