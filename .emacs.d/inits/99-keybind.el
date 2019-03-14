@@ -3,7 +3,8 @@
 ;; ivy/counsel
 (evil-leader/set-key "sw" 'swiper)
 (evil-leader/set-key "oc" 'org-capture)
-(evil-leader/set-key "of" '(lambda() (interactive) (show-org-buffer "notes.org")))
+(evil-leader/set-key "oon" '(lambda() (interactive) (show-org-buffer "notes.org")))
+(evil-leader/set-key "oot" '(lambda() (interactive) (show-org-buffer "todo.org")))
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
 ;; (global-set-key (kbd "M-x") 'counsel-M-x)
