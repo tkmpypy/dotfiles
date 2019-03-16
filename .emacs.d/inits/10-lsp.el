@@ -12,6 +12,7 @@
   (lsp-enable-completion-at-point nil)
   :hook
   (go-mode . lsp)
+  (typescript-mode . lsp)
   (vue-mode . lsp)
   (python-mode . lsp)
   :bind
@@ -74,7 +75,7 @@
     :custom
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-async t)
-    (company-lsp-enable-recompletion nil))
+    (company-lsp-enable-recompletion t))
   (use-package company
     :init
     (add-hook 'company-mode-hook

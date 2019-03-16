@@ -1,4 +1,1 @@
-(use-package vue-mode
-  :config
-  (add-hook 'vue-mode-hook 'display-line-numbers-mode)
-  (setq mmm-submode-decoration-level 0))
+(use-package vue-mode)
