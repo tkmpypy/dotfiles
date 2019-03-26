@@ -34,7 +34,8 @@ set -x PATH $ANDROID_HOME/platform-tools $PATH
 set -x PATH ~/.pub-cache/bin $PATH
 set -x PATH ~/flutter-sdk/flutter/bin $PATH
 
-set -x PATH $HOME/.pyenv/ $PATH
+set -x PYENNV_ROOT $HOME/.pyenv/
+set -x PATH $PYENNV_ROOT/bin $PATH
 . (pyenv init -|psub)
 
 set -x PATH $HOME/.goenv/ $PATH
