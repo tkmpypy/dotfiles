@@ -36,6 +36,9 @@
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
+(use-package display-line-numbers
+  :hook
+  ((prog-mode yaml-mode systemd-mode) . display-line-numbers-mode))
 
 ;; Disable backup files
 (setq make-backup-files nil) ; stop creating backup~ files

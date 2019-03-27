@@ -30,3 +30,7 @@
 ;;  :ensure t
 ;;  :init (dimmer-mode)
 ;;  )
+
+(use-package hide-mode-line
+  :hook
+  ((neotree-mode imenu-list-minor-mode minimap-mode) . hide-mode-line-mode))
