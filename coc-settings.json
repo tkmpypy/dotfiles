@@ -11,8 +11,8 @@
           "initializationOptions": {
             "interpreter": {
               "properties": {
-                "InterpreterPath": "/Users/takuma/.pyenv/shims/python",
-                "Version": "3.5.2",
+                "InterpreterPath": "/Users/takuma/.pyenv/versions/3.7.0/bin/python",
+                "Version": "3.7.0",
                 "DatabasePath": "/Users/takuma/work/python-language-server/output/bin/Debug"
               }
             },
