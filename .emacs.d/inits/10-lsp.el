@@ -8,7 +8,7 @@
   (lsp-auto-guess-root t)
   (lsp-document-sync-method 'incremental) ;; always send incremental document
   (lsp-response-timeout 5)
-  ;; (lsp-prefer-flymake 'flymake)
+  (lsp-prefer-flymake 'flymake)
   (lsp-enable-completion-at-point nil)
   :hook
   (go-mode . lsp)
@@ -33,14 +33,14 @@
     (lsp-ui-doc-use-childframe t)
     (lsp-ui-doc-use-webkit t)
     ;; lsp-ui-flycheck
-    (lsp-ui-flycheck-enable t)
+    (lsp-ui-flycheck-enable nil)
     ;; lsp-ui-sideline
-    (lsp-ui-sideline-enable t)
+    (lsp-ui-sideline-enable nil)
     (lsp-ui-sideline-ignore-duplicate t)
-    (lsp-ui-sideline-show-symbol t)
-    (lsp-ui-sideline-show-hover t)
-    (lsp-ui-sideline-show-diagnostics t)
-    (lsp-ui-sideline-show-code-actions t)
+    (lsp-ui-sideline-show-symbol nil)
+    (lsp-ui-sideline-show-hover nil)
+    (lsp-ui-sideline-show-diagnostics nil)
+    (lsp-ui-sideline-show-code-actions nil)
     ;; lsp-ui-imenu
     (lsp-ui-imenu-enable t)
     (lsp-ui-imenu-kind-position 'top)
@@ -95,3 +95,8 @@
     (push 'company-lsp company-backends))
   )
 
+(use-package lsp-sourcekit
+  :after lsp-mode
+  :config
+  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-latest.xctoolchain")
+  (setq lsp-sourcekit-executable (expand-file-name "~/work/sourcekit-lsp/.build/x86_64-apple-macosx10.10/debug/sourcekit-lsp")))
