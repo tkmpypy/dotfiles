@@ -24,6 +24,9 @@
 ;; ~/.emacs.d/init/ 以下のファイルを全部読み込む
 (init-loader-load)
 
+;; Macでバックスラッシュの入力が出来るように
+(define-key global-map [?\M-¥] "\\")
+
 ;; ウィンドウが上のほうにあれば縦に縮小し、下のほうにあれば縦に拡大する
 (defun resize-window-up ()
   (interactive)

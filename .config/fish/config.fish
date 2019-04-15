@@ -54,7 +54,5 @@ set -gx DOCKER_MACHINE_NAME "default";
 # Run this command to configure your shell:
 # eval (docker-machine env default)
 
-alias emacs=/usr/local/bin/emacs
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/takuma/google-cloud-sdk/path.fish.inc' ]; . '/Users/takuma/google-cloud-sdk/path.fish.inc'; end

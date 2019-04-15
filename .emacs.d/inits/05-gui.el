@@ -3,8 +3,20 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+(when (equal system-type 'darwin)
+  (setq mac-option-modifier 'super)
+  (setq mac-command-modifier 'meta)
+  (setq ns-auto-hide-menu-bar t)
+  (setq ns-use-proxy-icon nil)
+  (setq initial-frame-alist
+     (append
+      '((ns-transparent-titlebar . t)
+    (ns-appearance . dark)
+    (vertical-scroll-bars . nil)
+    (internal-border-width . 0)))))
+
 ;; Font
-(set-default-font "Source Han Code JP")
+(set-default-font "Source Han Code JP N")
 
 (use-package font-lock)
 (use-package font-lock+)
