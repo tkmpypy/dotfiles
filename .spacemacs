@@ -469,6 +469,18 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
   )
 
+; メモをC-M-^一発で見るための設定
+; https://qiita.com/takaxp/items/0b717ad1d0488b74429d から拝借
+(defun show-org-buffer (file)
+  "Show an org-file FILE on the current buffer."
+  (interactive)
+  (if (get-buffer file)
+      (let ((buffer (get-buffer file)))
+        (switch-to-buffer buffer)
+        (message "%s" file))
+    (find-file (concat "~/Dropbox/org/" file))))
+
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -477,10 +489,31 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq-default evil-escape-delay 0.2)
   (setq evil-escape-key-sequence "jj")
-  (setq evil-escape-excluded-major-modes '(dired-mode neotree-mode evil-visual-state))
+  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion))
+  (setq evil-escape-excluded-major-modes '(neotree-mode))
+
   (setq neo-theme 'icons)
   (setq neo-vc-integration '(face))
-  )
 
+  (setq org-directory "~/Dropbox/org")
+  (setq org-default-notes-file "notes.org")
+  (setq org-hide-emphasis-markers t)
+  (setq org-bullets-bullet-list '("" "" "" "" "" "" "" "" "" ""))
+  (setq org-log-done 'time)
+  ;; here goes your Org config :)
+  ;; ....
+  (setq org-capture-templates
+        '(("n" "Note" entry (file+headline "~/Dropbox/org/notes.org" "Notes")
+            "* %?\nEntered on %U\n %i\n %a")
+          ("t" "Todo" entry (file+headline "~/Dropbox/org/todo.org" "INBOX")
+            "* TODO %?\n %i\n %a")
+          ))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "SOMEDAY(s)" "WAITING(w)" "|" "DONE(d)")))
+
+  (spacemacs/set-leader-keys "aoN" '(lambda() (interactive) (show-org-buffer "notes.org")))
+  (spacemacs/set-leader-keys "aoT" '(lambda() (interactive) (show-org-buffer "todo.org")))
+)
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+
