@@ -45,3 +45,4 @@
 (setq auto-save-default nil) ; stop creating #autosave# files
 (setq completion-ignore-case t)
 (global-auto-revert-mode 1)
+(electric-pair-mode 1)
