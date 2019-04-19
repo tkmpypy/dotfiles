@@ -41,6 +41,7 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      themes-megapack
      helm
+     ivy
      lsp
      auto-completion
      ;; better-defaults
@@ -71,8 +72,9 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      ;; syntax-checking
      version-control
-     spotify
      ;; slack
+     twitter
+     osx
      )
 
    ;; List of additional packages that will be installed without being
