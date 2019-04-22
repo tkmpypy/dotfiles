@@ -41,7 +41,7 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      themes-megapack
      helm
-     ivy
+     (ivy :variables ivy-enable-advanced-buffer-information t)
      lsp
      auto-completion
      ;; better-defaults
