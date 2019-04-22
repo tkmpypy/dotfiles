@@ -84,7 +84,10 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages
+   '(
+     all-the-icons-ivy
+   )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -498,6 +501,8 @@ before packages are loaded."
 
   (setq neo-theme 'icons)
   (setq neo-vc-integration '(face))
+
+  (all-the-icons-ivy-setup)
 
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file "notes.org")
