@@ -49,7 +49,7 @@ This function should only modify configuration layer settings."
      nim
      ruby
      swift
-     javascript
+     (javascript :variables javascript-backend 'lsp)
      (typescript :variables typescript-backend 'lsp)
      (python :variables python-backend 'lsp)
      (markdown :variables markdown-live-preview-engine 'vmd)
@@ -65,7 +65,7 @@ This function should only modify configuration layer settings."
      github
      multiple-cursors
      neotree
-     org
+     (org :variables org-enable-github-support t)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -230,8 +230,8 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Han Code JP"
-                               :size 11
+   dotspacemacs-default-font '("Cica"
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -494,6 +494,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (spacemacs/toggle-indent-guide-globally-on)
+
   (setq-default evil-escape-delay 0.2)
   (setq evil-escape-key-sequence "jj")
   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion))
@@ -504,6 +506,7 @@ before packages are loaded."
 
   (all-the-icons-ivy-setup)
 
+  (setq org-pretty-entities nil)
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file "notes.org")
   (setq org-hide-emphasis-markers t)
@@ -519,6 +522,9 @@ before packages are loaded."
           ))
   (setq org-todo-keywords
         '((sequence "TODO(t)" "SOMEDAY(s)" "WAITING(w)" "|" "DONE(d)")))
+
+  (setq org-agenda-files
+        '("~/Dropbox/org/todo.org"))
 
   (spacemacs/set-leader-keys "aoN" '(lambda() (interactive) (show-org-buffer "notes.org")))
   (spacemacs/set-leader-keys "aoT" '(lambda() (interactive) (show-org-buffer "todo.org")))
