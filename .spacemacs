@@ -451,7 +451,7 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs t))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -496,16 +496,19 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (spacemacs/toggle-indent-guide-globally-on)
 
+  ;; evil
   (setq-default evil-escape-delay 0.2)
   (setq evil-escape-key-sequence "jj")
   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion))
   (setq evil-escape-excluded-major-modes '(neotree-mode))
 
+  ;; Theme
   (setq neo-theme 'icons)
   (setq neo-vc-integration '(face))
 
   (all-the-icons-ivy-setup)
 
+  ;; Org
   (setq org-pretty-entities nil)
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file "notes.org")
@@ -528,6 +531,9 @@ before packages are loaded."
 
   (spacemacs/set-leader-keys "aoN" '(lambda() (interactive) (show-org-buffer "notes.org")))
   (spacemacs/set-leader-keys "aoT" '(lambda() (interactive) (show-org-buffer "todo.org")))
+
+  ;; lsp
+  (setq lsp-ui-sideline-enable nil)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
