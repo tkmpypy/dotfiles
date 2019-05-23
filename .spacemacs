@@ -42,7 +42,20 @@ This function should only modify configuration layer settings."
      themes-megapack
      helm
      (ivy :variables ivy-enable-advanced-buffer-information t)
-     lsp
+     (lsp :variables
+          lsp-print-io nil
+          lsp-print-performance nil
+          lsp-prefer-flymake t
+          lsp-ui-flycheck-enable nil
+          lsp-ui-sideline-enable nil
+          lsp-enable-completion-at-point nil
+          lsp-document-sync-method 'incremental
+          lsp-ui-doc-use-childframe t
+          lsp-ui-doc-use-webkit t
+          company-lsp-cache-candidates t
+          company-lsp-async t
+          company-lsp-enable-recompletion t)
+     dap
      auto-completion
      ;; better-defaults
      (go :variables go-backend 'lsp)
@@ -531,9 +544,6 @@ before packages are loaded."
 
   (spacemacs/set-leader-keys "aoN" '(lambda() (interactive) (show-org-buffer "notes.org")))
   (spacemacs/set-leader-keys "aoT" '(lambda() (interactive) (show-org-buffer "todo.org")))
-
-  ;; lsp
-  (setq lsp-ui-sideline-enable nil)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
