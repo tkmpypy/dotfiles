@@ -37,7 +37,7 @@ set t_Co=256
 syntax enable
 set number
 set ruler
-set guifont="RictyDiminished-Regular"
+set guifont="Cica"
 set hlsearch
 set backspace=indent,eol,start
 filetype plugin indent on
