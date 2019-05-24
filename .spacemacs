@@ -47,7 +47,9 @@ This function should only modify configuration layer settings."
           lsp-print-performance nil
           lsp-prefer-flymake nil
           lsp-ui-flycheck-enable t
-          lsp-ui-sideline-enable nil
+          lsp-ui-sideline-enable t
+          lsp-ui-peek-header t
+          lsp-ui-sideline-ignore-duplicate t
           lsp-enable-completion-at-point t
           lsp-document-sync-method 'incremental
           lsp-ui-doc-use-childframe t
@@ -553,6 +555,16 @@ before packages are loaded."
   (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
   (setq completion-ignore-case t)
   (setq company-dabbrev-downcase nil)
+
+  ;; keybiind
+  (with-eval-after-load 'company
+    (bind-keys :map company-active-map
+               ("C-n" . company-select-next)
+               ("C-p" . company-select-previous))
+    (bind-keys :map company-search-map
+              ("C-n" . company-select-next)
+              ("C-p" . company-select-previous))
+  )
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
