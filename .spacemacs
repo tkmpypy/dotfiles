@@ -45,10 +45,10 @@ This function should only modify configuration layer settings."
      (lsp :variables
           lsp-print-io nil
           lsp-print-performance nil
-          lsp-prefer-flymake t
-          lsp-ui-flycheck-enable nil
+          lsp-prefer-flymake nil
+          lsp-ui-flycheck-enable t
           lsp-ui-sideline-enable nil
-          lsp-enable-completion-at-point nil
+          lsp-enable-completion-at-point t
           lsp-document-sync-method 'incremental
           lsp-ui-doc-use-childframe t
           lsp-ui-doc-use-webkit t
@@ -544,6 +544,14 @@ before packages are loaded."
 
   (spacemacs/set-leader-keys "aoN" '(lambda() (interactive) (show-org-buffer "notes.org")))
   (spacemacs/set-leader-keys "aoT" '(lambda() (interactive) (show-org-buffer "todo.org")))
+
+  ;; company
+  (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
+  (setq company-idle-delay 0) ; デフォルトは0.5
+  (setq company-minimum-prefix-length 3) ; デフォルトは4
+  (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
+  (setq completion-ignore-case t)
+  (setq company-dabbrev-downcase nil)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
