@@ -46,10 +46,13 @@ This function should only modify configuration layer settings."
           lsp-print-io nil
           lsp-print-performance nil
           lsp-prefer-flymake nil
-          lsp-ui-flycheck-enable t
+          lsp-ui-flycheck-enable nil
           lsp-ui-sideline-enable t
+          lsp-ui-sideline-show-diagnostics nil
           lsp-ui-peek-header t
+          lsp-response-timeout 5
           lsp-ui-sideline-ignore-duplicate t
+          lsp-ui-doc-position 'at-point
           lsp-enable-completion-at-point t
           lsp-document-sync-method 'incremental
           lsp-ui-doc-use-childframe t
