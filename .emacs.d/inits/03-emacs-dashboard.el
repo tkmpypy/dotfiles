@@ -1,12 +1,10 @@
 (use-package dashboard
-    :diminish
-    (dashboard-mode page-break-lines-mode)
-    :custom
-    (dashboard-startup-banner 3)
-    (dashboard-items '((recents . 15)
-               (projects . 5)
-               (bookmarks . 5)
-               (agenda . 5)))
-    :config
-    (dashboard-setup-startup-hook)
-    (add-to-list 'dashboard-items '(agenda) t))
+  :custom
+  (dashboard-center-content t)
+  (dashboard-startup-banner 3)
+  (dashboard-items '((recents . 15)
+                     (agenda . 5)
+                     (projects . 5)
+                     (bookmarks . 5)))
+  :config
+  (dashboard-setup-startup-hook))

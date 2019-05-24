@@ -58,6 +58,7 @@ This function should only modify configuration layer settings."
           lsp-ui-doc-use-childframe t
           lsp-ui-doc-use-webkit t
           company-lsp-cache-candidates t
+          company-lsp-filter-candidates t
           company-lsp-async t
           company-lsp-enable-recompletion t)
      dap

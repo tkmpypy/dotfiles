@@ -16,7 +16,7 @@
     (internal-border-width . 0)))))
 
 ;; Font
-(set-default-font "Source Han Code JP N")
+(set-default-font "Cica")
 
 (use-package font-lock)
 (use-package font-lock+)

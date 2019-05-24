@@ -8,8 +8,8 @@
   (lsp-auto-guess-root t)
   (lsp-document-sync-method 'incremental) ;; always send incremental document
   (lsp-response-timeout 5)
-  (lsp-prefer-flymake 'flymake)
-  (lsp-enable-completion-at-point nil)
+  (lsp-prefer-flymake nil)
+  (lsp-enable-completion-at-point t)
   :hook
   (go-mode . lsp)
   (typescript-mode . lsp)
@@ -27,20 +27,20 @@
     (lsp-ui-doc-enable t)
     (lsp-ui-doc-header t)
     (lsp-ui-doc-include-signature t)
-    (lsp-ui-doc-position 'top) ;; top, bottom, or at-point
     (lsp-ui-doc-max-width 150)
     (lsp-ui-doc-max-height 30)
     (lsp-ui-doc-use-childframe t)
     (lsp-ui-doc-use-webkit t)
     ;; lsp-ui-flycheck
-    (lsp-ui-flycheck-enable nil)
+    (lsp-ui-flycheck-enable t)
     ;; lsp-ui-sideline
-    (lsp-ui-sideline-enable nil)
+    (lsp-ui-sideline-enable t)
     (lsp-ui-sideline-ignore-duplicate t)
-    (lsp-ui-sideline-show-symbol nil)
-    (lsp-ui-sideline-show-hover nil)
-    (lsp-ui-sideline-show-diagnostics nil)
-    (lsp-ui-sideline-show-code-actions nil)
+    (lsp-ui-sideline-show-symbol t)
+    (lsp-ui-sideline-show-hover t)
+    (lsp-ui-sideline-show-diagnostics t)
+    (lsp-ui-sideline-show-code-actions t)
+    (lsp-ui-doc-position 'at-point)
     ;; lsp-ui-imenu
     (lsp-ui-imenu-enable t)
     (lsp-ui-imenu-kind-position 'top)
@@ -74,8 +74,10 @@
   (use-package company-lsp
     :custom
     (company-lsp-cache-candidates t) ;; always using cache
+    (company-lsp-filter-candidates t)
     (company-lsp-async t)
-    (company-lsp-enable-recompletion t))
+    (company-lsp-enable-recompletion t)
+    (company-lsp-enable-snippet t))
   (use-package company
     :init
     (add-hook 'company-mode-hook
@@ -88,7 +90,7 @@
     (global-company-mode)
     (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
-    (setq company-minimum-prefix-length 3) ; デフォルトは4
+    (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
     (setq completion-ignore-case t)
     (setq company-dabbrev-downcase nil)
