@@ -11,7 +11,7 @@
           "initializationOptions": {
             "interpreter": {
               "properties": {
-                "InterpreterPath": "/Users/takuma/.pyenv/versions/3.7.0/bin/python",
+                "InterpreterPath": "/Users/takuma/.pyenv/shims/python",
                 "Version": "3.7.0",
                 "DatabasePath": "/Users/takuma/work/python-language-server/output/bin/Debug"
               }
@@ -24,7 +24,6 @@
               "maxDocumentationTextLength": 0
             },
             "searchPaths": [
-              "/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python37.zip;/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7;/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload;/Users/chemzqm/Library/Python/3.7/lib/python/site-packages;/usr/local/lib/python3.7/site-packages;/usr/local/lib/python3.7/site-packages/pylint-2.3.0-py3.7.egg;",
               "/usr/local/bin",
               "/Users/takuma/unibo/nlp-server/nlpserver/src/main"
             ],
