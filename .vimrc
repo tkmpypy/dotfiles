@@ -49,6 +49,7 @@ filetype plugin indent on
 " endif
 
 colorscheme onedark
+let g:onedark_termcolors=256
 set shell=fish
 
 "*****************************************************************************
