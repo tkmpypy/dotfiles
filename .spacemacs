@@ -41,20 +41,23 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      themes-megapack
      helm
+     ;; syntax-checking
      (ivy :variables ivy-enable-advanced-buffer-information t)
      (lsp :variables
           lsp-print-io nil
           lsp-print-performance nil
           lsp-prefer-flymake nil
-          lsp-ui-flycheck-enable nil
-          lsp-ui-sideline-enable t
-          lsp-ui-sideline-show-diagnostics nil
-          lsp-ui-peek-header t
+          lsp-execute-code-action t
           lsp-response-timeout 5
-          lsp-ui-sideline-ignore-duplicate t
-          lsp-ui-doc-position 'at-point
-          lsp-enable-completion-at-point t
+          lsp-enable-completion-at-point nil
           lsp-document-sync-method 'incremental
+          lsp-ui-flycheck-enable t
+          lsp-ui-peek-header t
+          lsp-ui-sideline-enable t
+          lsp-ui-sideline-show-diagnostics t
+          lsp-ui-sideline-ignore-duplicate t
+          lsp-ui-doc-enable t
+          lsp-ui-doc-position 'at-point ;; top, bottom, at-point
           lsp-ui-doc-use-childframe t
           lsp-ui-doc-use-webkit t
           company-lsp-cache-candidates t
@@ -106,6 +109,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      all-the-icons-ivy
+     lsp-python-ms
    )
 
    ;; A list of packages that cannot be updated.
@@ -550,6 +554,10 @@ before packages are loaded."
 
   (spacemacs/set-leader-keys "aoN" '(lambda() (interactive) (show-org-buffer "notes.org")))
   (spacemacs/set-leader-keys "aoT" '(lambda() (interactive) (show-org-buffer "todo.org")))
+
+  ;; python
+  (setq lsp-python-ms-executable
+        "~/work/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer")
 
   ;; company
   (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
