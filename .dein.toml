@@ -192,51 +192,8 @@ nnoremap <Space>ft :NERDTreeToggle<CR>
 [[plugins]]
 repo = 'mhinz/vim-startify'
 hook_add = '''
-let g:startify_files_number = 5
-let g:startify_list_order = [
-        \ ['♻  最近使ったファイル:'],
-        \ 'files',
-        \ ['♲  最近使ったファイル(カレントディレクトリ下):'],
-        \ 'dir',
-        \ ['⚑  セッション:'],
-        \ 'sessions',
-        \ ['☺  ブックマーク:'],
-        \ 'bookmarks',
-        \ ]
-
-if exists("g:loaded_startify_nerdtree_bookmark")
-    finish
-endif
-let g:loaded_startify_nerdtree_bookmark = "0.1"
-
-let g:debugs = []
-if exists("g:NERDTreeBookmarksFile")
-    if filereadable(g:NERDTreeBookmarksFile)
-        if !exists("g:startify_bookmarks")
-            let g:startify_bookmarks = []
-        endif
-        for line in readfile(g:NERDTreeBookmarksFile)
-            if line != ''
-                let path = expand(substitute(line, '^.\{-} \(.*\)$', '\1', ''))
-
-                if filereadable(path)
-                    call add(g:startify_bookmarks, path)
-                endif
-            endif
-        endfor
-    endif
-endif
-
-" ASCII ARTを真ん中寄せする
-" :h startifyを参照
-function! s:filter_header(lines) abort
-    let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
-    let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-    return centered_lines
-endfunction
-
-let g:startify_custom_header = s:filter_header([
+let g:startify_bookmarks = split(system('awk "{print \$2}" ~/.NERDTreeBookmarks'),'\n')
+let g:startify_custom_header = [
     \ '      ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁    ░▓▓▒         ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁',
     \ '     ▕                        ▁  ░░▓▓▒▒▒     ▁▔                        ▔▏',
     \ '    ▕ ▗▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚  ░░░▓▓▓▓▓▒▒▒  ▕ ▗▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▖▒▒',
@@ -276,7 +233,18 @@ let g:startify_custom_header = s:filter_header([
     \ '                               ▒▒▒▓▓▓▓███',
     \ '                                 ▒▒▒▓██▓',
     \ '                                   ▒█▓',
-    \ ])
+    \ ]
+let g:startify_files_number = 5
+let g:startify_list_order = [
+        \ ['♻  最近使ったファイル:'],
+        \ 'files',
+        \ ['♲  最近使ったファイル(カレントディレクトリ下):'],
+        \ 'dir',
+        \ ['⚑  セッション:'],
+        \ 'sessions',
+        \ ['☺  ブックマーク:'],
+        \ 'bookmarks',
+        \ ]
 '''
 
 [[plugins]]
