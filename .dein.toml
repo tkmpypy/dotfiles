@@ -60,7 +60,8 @@ repo = 'posva/vim-vue'
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
-build = 'coc#util#install()'
+merge = 0
+build = './install.sh nightly'
 hook_add = '''
 " if hidden not set, TextEdit might fail.
 set hidden
