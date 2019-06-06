@@ -21,8 +21,8 @@ nnoremap <Space>sgs :<C-u>GFiles?<CR>
 [[plugins]]
 repo = 'roxma/nvim-yarp'
 
-[[plugins]]
-repo = 'delphinus/vim-auto-cursorline'
+# [[plugins]]
+# repo = 'delphinus/vim-auto-cursorline'
 
 # <Leader>qでアクティブなBufferをキル（windowはそのまま）
 [[plugins]]
