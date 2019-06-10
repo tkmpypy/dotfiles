@@ -21,6 +21,12 @@ nnoremap <Space>sgs :<C-u>GFiles?<CR>
 [[plugins]]
 repo = 'roxma/nvim-yarp'
 
+[[plugins]]
+repo = 'luochen1990/rainbow'
+hook_add = '''
+let g:rainbow_active = 1
+'''
+
 # <Leader>qでアクティブなBufferをキル（windowはそのまま）
 [[plugins]]
 repo = 'moll/vim-bbye'
