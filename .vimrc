@@ -48,6 +48,7 @@ filetype plugin indent on
 "   autocmd VimEnter * NERDTree ./
 " endif
 
+set background=dark
 colorscheme plastic
 set shell=fish
 
