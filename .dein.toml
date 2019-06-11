@@ -81,6 +81,10 @@ repo = 'neoclide/coc.nvim'
 merge = 0
 build = './install.sh nightly'
 hook_add = '''
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
 " if hidden not set, TextEdit might fail.
 set hidden
 
@@ -179,16 +183,27 @@ repo = 'yggdroot/indentline'
 repo = 'elzr/vim-json'
 if   = '''! has('kaoriya')'''
 
-[[plugins]]
-repo    = 'vim-airline/vim-airline'
-depends = ['vim-airline-themes']
-hook_add = '''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-'''
 
 [[plugins]]
-repo = 'vim-airline/vim-airline-themes'
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+if !has('gui_running')
+  set t_Co=256
+endif
+
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction',
+      \ },
+      \ }
+'''
 
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
@@ -269,8 +284,6 @@ let NERDTreeHijackNetrw = 0
 [[plugins]]
 repo =  'evidens/vim-twig'
 
-[[plugins]]
-repo =  'w0ng/vim-hybrid'
 
 [[plugins]]
 repo = 'tpope/vim-markdown'
@@ -285,8 +298,6 @@ hook_add = '''
 let g:previm_open_cmd = 'open -a Google\ Chrome'
 '''
 
-[[plugins]]
-repo = 'altercation/vim-colors-solarized'
 
 [[plugins]]
 repo = 'liuchengxu/vista.vim'
@@ -336,6 +347,15 @@ repo = 'KeitaNakamura/neodark.vim'
 
 [[plugins]]
 repo = 'joshdick/onedark.vim'
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
+repo =  'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'flrnprz/plastic.vim'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'

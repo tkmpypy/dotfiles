@@ -34,7 +34,7 @@ endif
 " Visual Settings
 "*****************************************************************************
 set t_Co=256
-syntax enable
+syntax on
 set number
 set ruler
 set guifont="Cica"
@@ -48,8 +48,7 @@ filetype plugin indent on
 "   autocmd VimEnter * NERDTree ./
 " endif
 
-colorscheme onedark
-let g:onedark_termcolors=256
+colorscheme plastic
 set shell=fish
 
 "*****************************************************************************
