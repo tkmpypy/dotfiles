@@ -349,7 +349,7 @@ repo = 'KeitaNakamura/neodark.vim'
 repo = 'joshdick/onedark.vim'
 hook_add = '''
 let g:onedark_termcolors=256
-let g:onedark_terminal_italics=1
+" let g:onedark_terminal_italics=1
 '''
 
 [[plugins]]

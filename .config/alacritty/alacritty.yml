@@ -343,6 +343,7 @@ live_config_reload: true
 #   - (Windows) powershell
 shell:
   program: /usr/local/bin/fish
+  # program: /bin/bash
   # args:
   # - --login
 
