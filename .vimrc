@@ -35,6 +35,9 @@ endif
 "*****************************************************************************
 set t_Co=256
 syntax on
+set laststatus=2 " ステータスラインを常に表示
+set showmode " 現在のモードを表示
+set showcmd " 打ったコマンドをステータスラインの下に表示
 set number
 set ruler
 set guifont="Cica"
@@ -48,7 +51,7 @@ filetype plugin indent on
 "   autocmd VimEnter * NERDTree ./
 " endif
 
-" set background=dark
+set background=dark
 colorscheme onedark
 set shell=fish
 
@@ -80,6 +83,7 @@ autocmd FileType go setlocal noexpandtab
 autocmd FileType dart setlocal ts=2 sw=2
 autocmd FileType vue setlocal ts=2 sw=2
 autocmd FileType typescript setlocal ts=2 sw=2
+autocmd FileType javascript setlocal ts=2 sw=2
 
 " No beep
 set visualbell
@@ -141,3 +145,7 @@ nnoremap <silent> gj j
 nnoremap <silent> gk k
 
 inoremap jj <ESC>
+
+" terminal
+" ESCでターミナルモードからノーマルモードへ
+tnoremap <ESC> <C-\><C-n>

@@ -177,6 +177,12 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 '''
 
 [[plugins]]
+repo = 'Shougo/neco-vim'
+
+[[plugins]]
+repo = 'neoclide/coc-neco'
+
+[[plugins]]
 repo = 'yggdroot/indentline'
 
 [[plugins]]
@@ -350,6 +356,7 @@ repo = 'joshdick/onedark.vim'
 hook_add = '''
 let g:onedark_termcolors=256
 " let g:onedark_terminal_italics=1
+let g:onedark_hide_endofbuffer=1
 '''
 
 [[plugins]]
@@ -371,21 +378,14 @@ nnoremap <Space>gb :Gblame<CR>
 nnoremap <Space>gp :Gpush
 nnoremap <Space>gb :Gblame<CR>
 '''
+[[plugins]]
+repo = 'junegunn/gv.vim'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
 repo = 'simeji/winresizer'
-
-[[plugins]]
-repo = 'Shougo/echodoc.vim'
-hook_add = '''
-set noshowmode
-set completeopt-=preview
-let g:echodoc_enable_at_startup = 1
-let g:echodoc_type = 'echo'
-'''
 
 [[plugins]]
 repo = 'othree/yajs.vim'
@@ -397,10 +397,6 @@ on_ft = 'javascript'
 
 [[plugins]]
 repo = 'othree/javascript-libraries-syntax.vim'
-on_ft = 'javascript'
-
-[[plugins]]
-repo = 'pangloss/vim-javascript'
 on_ft = 'javascript'
 
 [[plugins]]
@@ -424,3 +420,10 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 '''
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+[[plugins]]
+repo = 'tkmpypy/eztrans.vim'
+
