@@ -2,6 +2,32 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'KeitaNakamura/neodark.vim'
+
+[[plugins]]
+repo = 'joshdick/onedark.vim'
+hook_add = '''
+let g:onedark_termcolors=256
+" let g:onedark_terminal_italics=1
+let g:onedark_hide_endofbuffer=1
+'''
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
+repo =  'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'flrnprz/plastic.vim'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
 repo = 'junegunn/fzf'
 build = './install --all'
 merged = 0
@@ -354,26 +380,6 @@ let g:vista#renderer#icons = {
 nnoremap <Space>tc :Vista coc<CR>
 nnoremap <Space>tt :Vista!! <CR>
 '''
-
-[[plugins]]
-repo = 'KeitaNakamura/neodark.vim'
-
-[[plugins]]
-repo = 'joshdick/onedark.vim'
-hook_add = '''
-let g:onedark_termcolors=256
-" let g:onedark_terminal_italics=1
-let g:onedark_hide_endofbuffer=1
-'''
-
-[[plugins]]
-repo = 'altercation/vim-colors-solarized'
-
-[[plugins]]
-repo =  'w0ng/vim-hybrid'
-
-[[plugins]]
-repo = 'flrnprz/plastic.vim'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
