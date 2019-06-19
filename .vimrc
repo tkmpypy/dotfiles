@@ -107,7 +107,7 @@ nnoremap <leader>sgs :<C-u>GFiles?<CR>
 nnoremap <leader>q :Bdelete<CR>
 " }}
 " vim-quickrun {{
-nnoremap <Space>rb :QuickRun<CR>
+nnoremap <leader>rb :QuickRun<CR>
 " }}
 " rainbow {{
 let g:rainbow_active = 1
@@ -170,11 +170,11 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
-nmap <space>rn <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <space>f  <Plug>(coc-format-selected)
-nmap <space>f  <Plug>(coc-format-selected)
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -239,7 +239,7 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 " }}
 " scrooloose/nerdtree {{
 let g:NERDTreeShowHidden = 1
-nnoremap <Space>ft :NERDTreeToggle<CR>
+nnoremap <leader>ft :NERDTreeToggle<CR>
 " }}
 " mhinz/vim-startify {{
 let g:startify_bookmarks = split(system('awk "{print \$2}" ~/.NERDTreeBookmarks'),'\n')
@@ -340,8 +340,8 @@ let g:vista#renderer#icons = {
 \   "variable": "\uf71b",
 \  }
 
-nnoremap <Space>tc :Vista coc<CR>
-nnoremap <Space>tt :Vista!! <CR>
+nnoremap <leader>tc :Vista coc<CR>
+nnoremap <leader>tt :Vista!! <CR>
 " }}
 " joshdick/onedark.vim {{
 let g:onedark_termcolors=256
@@ -349,12 +349,12 @@ let g:onedark_termcolors=256
 let g:onedark_hide_endofbuffer=1
 " }}
 " tpope/vim-fugitive {{
-nnoremap <Space>gs :Gstatus<CR>
-nnoremap <Space>ge :Gedit<CR>
-nnoremap <Space>gd :Gdiff<CR>
-nnoremap <Space>gb :Gblame<CR>
-nnoremap <Space>gp :Gpush
-nnoremap <Space>gb :Gblame<CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>ge :Gedit<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gp :Gpush
+nnoremap <leader>gb :Gblame<CR>
 " }}
 " w0rp/ale {{
 let g:ale_linters = {
