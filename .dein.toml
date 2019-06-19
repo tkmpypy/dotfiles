@@ -376,6 +376,12 @@ repo =  'w0ng/vim-hybrid'
 repo = 'flrnprz/plastic.vim'
 
 [[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
 repo = 'tpope/vim-fugitive'
 hook_add = '''
 nnoremap <Space>gs :Gstatus<CR>
