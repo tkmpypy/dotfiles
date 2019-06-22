@@ -42,22 +42,23 @@ Plug 'moll/vim-bbye'
 Plug 'tpope/vim-commentary'
 Plug 'thinca/vim-quickrun'
 " Languages
-Plug 'StanAngeloff/php.vim', {'for': 'php'}
-Plug 'evidens/vim-twig'
-Plug 'dart-lang/dart-vim-plugin', {'for': 'dart'}
-Plug 'keith/swift.vim', {'for': 'swift'}
-Plug 'zah/nim.vim', {'for': 'nim'}
-Plug 'othree/html5.vim', {'for': 'html'}
-Plug 'vim-python/python-syntax', {'for': 'python'}
-Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
-Plug 'posva/vim-vue', {'for': 'vue'}
-Plug 'elzr/vim-json', {'for': 'json'}
-Plug 'cespare/vim-toml', {'for': 'toml'}
-Plug 'tpope/vim-markdown', {'for': 'markdown'}
-  Plug 'previm/previm', {'for': 'markdown'}
-Plug 'othree/yajs.vim', {'for': 'javascript'}
-Plug 'othree/es.next.syntax.vim', {'for': 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+Plug 'sheerun/vim-polyglot'
+" Plug 'StanAngeloff/php.vim', {'for': 'php'}
+" Plug 'evidens/vim-twig'
+" Plug 'dart-lang/dart-vim-plugin', {'for': 'dart'}
+" Plug 'keith/swift.vim', {'for': 'swift'}
+" Plug 'zah/nim.vim', {'for': 'nim'}
+" Plug 'othree/html5.vim', {'for': 'html'}
+" Plug 'vim-python/python-syntax', {'for': 'python'}
+" Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
+" Plug 'posva/vim-vue', {'for': 'vue'}
+" Plug 'elzr/vim-json', {'for': 'json'}
+" Plug 'cespare/vim-toml', {'for': 'toml'}
+" Plug 'tpope/vim-markdown', {'for': 'markdown'}
+"   Plug 'previm/previm', {'for': 'markdown'}
+" Plug 'othree/yajs.vim', {'for': 'javascript'}
+" Plug 'othree/es.next.syntax.vim', {'for': 'javascript'}
+" Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
 
 " Completion
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -76,6 +77,7 @@ Plug 'scrooloose/nerdtree'
 
 " Util
 Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 Plug 'simeji/winresizer'
 Plug 'cohama/lexima.vim'
@@ -93,6 +95,7 @@ Plug 'w0rp/ale'
 Plug 'tkmpypy/eztrans.vim'
 call plug#end()
 
+filetype plugin indent on
 let mapleader = "\<Space>"
 
 " fzf.vim {{
@@ -241,6 +244,24 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:NERDTreeShowHidden = 1
 nnoremap <leader>ft :NERDTreeToggle<CR>
 " }}
+
+" easymotion {{
+" der>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+" }}
+
 " mhinz/vim-startify {{
 let g:startify_bookmarks = split(system('awk "{print \$2}" ~/.NERDTreeBookmarks'),'\n')
 let g:startify_custom_header = [
@@ -386,7 +407,6 @@ set ruler
 set guifont="Cica"
 set hlsearch
 set backspace=indent,eol,start
-filetype plugin indent on
 
 " 引数なしでvimを開くとNERDTreeを起動
 " let file_name = expand('%')
