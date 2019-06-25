@@ -82,6 +82,7 @@ Plug 'tpope/vim-repeat'
 Plug 'simeji/winresizer'
 Plug 'cohama/lexima.vim'
 Plug 'mattn/webapi-vim'
+Plug 'skanehira/vsession'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -538,7 +539,7 @@ if has('mac')
     autocmd!
     autocmd InsertLeave * :call system(g:imeoff)
   augroup END
-  inoremap <silent> <ESC> <ESC>:call system(g:imeoff)<CR>
+  inoremap <silent> <C-j> <ESC>:call system(g:imeoff)<CR>
 endif
 
 inoremap jj <ESC>

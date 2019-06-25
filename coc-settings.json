@@ -49,5 +49,6 @@
             "asyncStartup": true
           }
         }
-    }
+    },
+    "java.jdt.ls.vmargs": "-javaagent:/Users/takuma/lombok.jar -Xbootclasspath/a:/Users/takuma/lombok.jar"
 }
