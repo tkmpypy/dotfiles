@@ -82,7 +82,8 @@ Plug 'tpope/vim-repeat'
 Plug 'simeji/winresizer'
 Plug 'cohama/lexima.vim'
 Plug 'mattn/webapi-vim'
-Plug 'skanehira/vsession'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -416,6 +417,10 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " }}
+" vim-session {{
+let g:session_autosave = 'no'
+let g:session_autoload = 'no'
+" }}
 
 "*****************************************************************************
 " Visual Settings
@@ -532,15 +537,15 @@ nnoremap <silent> k gk
 nnoremap <silent> gj j
 nnoremap <silent> gk k
 
-if has('mac')
-  set ttimeoutlen=1
-  let g:imeoff = 'osascript -e "tell application \"System Events\" to key code 102"'
-  augroup MyIMEGroup
-    autocmd!
-    autocmd InsertLeave * :call system(g:imeoff)
-  augroup END
-  inoremap <silent> <C-j> <ESC>:call system(g:imeoff)<CR>
-endif
+" if has('mac')
+"   set ttimeoutlen=1
+"   let g:imeoff = 'osascript -e "tell application \"System Events\" to key code 102"'
+"   augroup MyIMEGroup
+"     autocmd!
+"     autocmd InsertLeave * :call system(g:imeoff)
+"   augroup END
+"   inoremap <silent> <C-j> <ESC>:call system(g:imeoff)<CR>
+" endif
 
 inoremap jj <ESC>
 
