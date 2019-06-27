@@ -41,6 +41,7 @@ Plug 'moll/vim-bbye'
 " gcでコメントアウト
 Plug 'tpope/vim-commentary'
 Plug 'thinca/vim-quickrun'
+Plug 'godlygeek/tabular'
 " Languages
 Plug 'sheerun/vim-polyglot'
 " Plug 'StanAngeloff/php.vim', {'for': 'php'}
@@ -54,8 +55,7 @@ Plug 'sheerun/vim-polyglot'
 " Plug 'posva/vim-vue', {'for': 'vue'}
 " Plug 'elzr/vim-json', {'for': 'json'}
 " Plug 'cespare/vim-toml', {'for': 'toml'}
-" Plug 'tpope/vim-markdown', {'for': 'markdown'}
-"   Plug 'previm/previm', {'for': 'markdown'}
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 " Plug 'othree/yajs.vim', {'for': 'javascript'}
 " Plug 'othree/es.next.syntax.vim', {'for': 'javascript'}
 " Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
@@ -84,6 +84,7 @@ Plug 'cohama/lexima.vim'
 Plug 'mattn/webapi-vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -97,7 +98,6 @@ Plug 'w0rp/ale'
 Plug 'tkmpypy/eztrans.vim'
 call plug#end()
 
-filetype plugin indent on
 let mapleader = "\<Space>"
 
 " fzf.vim {{
@@ -113,6 +113,15 @@ nnoremap <leader>q :Bdelete<CR>
 " }}
 " vim-quickrun {{
 nnoremap <leader>rb :QuickRun<CR>
+" }}
+" polyglot {{
+let g:polyglot_disabled = ['markdown']
+" }}
+" vim-markdown {{
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_new_list_item_indent = 2
 " }}
 " rainbow {{
 let g:rainbow_active = 1
@@ -421,11 +430,94 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:session_autosave = 'no'
 let g:session_autoload = 'no'
 " }}
+" iamcco/markdown-preview.nvim {{
+" set to 1, nvim will open the preview window after entering the markdown buffer
+" default: 0
+let g:mkdp_auto_start = 0
 
+" set to 1, the nvim will auto close current preview window when change
+" from markdown buffer to another buffer
+" default: 1
+let g:mkdp_auto_close = 1
+
+" set to 1, the vim will refresh markdown when save the buffer or
+" leave from insert mode, default 0 is auto refresh markdown as you edit or
+" move the cursor
+" default: 0
+let g:mkdp_refresh_slow = 0
+
+" set to 1, the MarkdownPreview command can be use for all files,
+" by default it can be use in markdown file
+" default: 0
+let g:mkdp_command_for_global = 0
+
+" set to 1, preview server available to others in your network
+" by default, the server listens on localhost (127.0.0.1)
+" default: 0
+let g:mkdp_open_to_the_world = 0
+
+" use custom IP to open preview page
+" useful when you work in remote vim and preview on local browser
+" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
+" default empty
+let g:mkdp_open_ip = ''
+
+" specify browser to open preview page
+" default: ''
+let g:mkdp_browser = ''
+
+" set to 1, echo preview page url in command line when open preview page
+" default is 0
+let g:mkdp_echo_preview_url = 0
+
+" a custom vim function name to open preview page
+" this function will receive url as param
+" default is empty
+let g:mkdp_browserfunc = ''
+
+" options for markdown render
+" mkit: markdown-it options for render
+" katex: katex options for math
+" uml: markdown-it-plantuml options
+" maid: mermaid options
+" disable_sync_scroll: if disable sync scroll, default 0
+" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
+"   middle: mean the cursor position alway show at the middle of the preview page
+"   top: mean the vim top viewport alway show at the top of the preview page
+"   relative: mean the cursor position alway show at the relative positon of the preview page
+" hide_yaml_meta: if hide yaml metadata, default is 1
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1
+    \ }
+
+" use a custom markdown style must be absolute path
+let g:mkdp_markdown_css = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css'
+
+" use a custom highlight style must absolute path
+let g:mkdp_highlight_css = ''
+
+" use a custom port to start server or random for empty
+let g:mkdp_port = ''
+
+" preview page title
+" ${name} will be replace with the file name
+let g:mkdp_page_title = '「${name}」'
+
+nmap <leader>p <Plug>MarkdownPreview
+" nmap <M-s> <Plug>MarkdownPreviewStop
+" nmap <C-p> <Plug>MarkdownPreviewToggle
+" }}
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
 set t_Co=256
+filetype plugin indent on
 syntax on
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
