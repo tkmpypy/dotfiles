@@ -85,6 +85,7 @@ Plug 'mattn/webapi-vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'glidenote/memolist.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -512,6 +513,18 @@ let g:mkdp_page_title = '「${name}」'
 nmap <leader>p <Plug>MarkdownPreview
 " nmap <M-s> <Plug>MarkdownPreviewStop
 " nmap <C-p> <Plug>MarkdownPreviewToggle
+" }}
+" memolist {{
+let g:memolist_path = "~/Dropbox/notes"
+let g:memolist_memo_suffix = "markdown"
+let g:memolist_memo_date = "%Y-%m-%d %H:%M"
+let g:memolist_prompt_tags = 1
+let g:memolist_prompt_categories = 1
+let g:memolist_fzf = 1
+
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
 " }}
 "*****************************************************************************
 " Visual Settings
