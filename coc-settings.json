@@ -50,5 +50,10 @@
           }
         }
     },
-    "java.jdt.ls.vmargs": "-javaagent:/Users/takuma/lombok.jar -Xbootclasspath/a:/Users/takuma/lombok.jar"
+    "java.jdt.ls.vmargs": "-javaagent:/Users/takuma/lombok.jar -Xbootclasspath/a:/Users/takuma/lombok.jar -Xmx1G -XX:+UseG1GC",
+    "html.filetypes": [
+        "html",
+        "handlebars",
+        "html.handlebars"
+    ]
 }

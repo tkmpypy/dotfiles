@@ -71,9 +71,14 @@ This function should only modify configuration layer settings."
      nim
      ruby
      swift
-     (javascript :variables javascript-backend 'lsp)
-     (typescript :variables typescript-backend 'lsp)
+     (javascript :variables
+                 javascript-backend 'lsp
+                 js-indent-level 2)
+     (typescript :variables
+                 typescript-backend 'lsp
+                 typescript-indent-level 2)
      (python :variables python-backend 'lsp)
+     (java :variables java-backend 'lsp)
      (markdown :variables markdown-live-preview-engine 'vmd)
      json
      groovy
@@ -254,7 +259,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Cica"
-                               :size 14
+                               :size 16
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -558,6 +563,10 @@ before packages are loaded."
   ;; python
   (setq lsp-python-ms-executable
         "~/work/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer")
+  (setq lsp-java-vmargs
+        '("-javaagent:/Users/takuma/lombok.jar" "-Xbootclasspath/a:/Users/takuma/lombok.jar" "-Xmx1G" "-XX:+UseG1GC"))
+  
+
 
   ;; company
   (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
@@ -580,4 +589,3 @@ before packages are loaded."
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-
