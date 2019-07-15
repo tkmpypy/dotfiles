@@ -32,6 +32,9 @@ Plug 'w0ng/vim-hybrid'
 Plug 'flrnprz/plastic.vim'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'sonph/onehalf'
+Plug 'cocopon/iceberg.vim'
+Plug 'dracula/vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -237,7 +240,7 @@ let g:vim_json_syntax_conceal = 0
 " }}
 " itchyny/lightline.vim {{
 let g:lightline = {
-      \ 'colorscheme': 'onedark',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
@@ -548,11 +551,10 @@ set backspace=indent,eol,start
 " endif
 
 set background=dark
-colorscheme onedark
+colorscheme solarized
+let g:solarized_termcolors=256
+let g:solarized_termtrans=1
 set shell=fish
-
-let &t_SI .= "\e[5 q"
-let &t_EI .= "\e[1 q""]]
 
 "*****************************************************************************
 " Copy/Paste/Cut
@@ -657,4 +659,7 @@ inoremap jj <ESC>
 " terminal
 " ESCでターミナルモードからノーマルモードへ
 tnoremap <ESC> <C-\><C-n>
+
+nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
+nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
 
