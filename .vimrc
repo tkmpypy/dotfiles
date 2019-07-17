@@ -91,6 +91,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'glidenote/memolist.vim'
+Plug 'mbbill/undotree'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -530,6 +531,13 @@ let g:memolist_fzf = 1
 nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
 nnoremap <Leader>mg  :MemoGrep<CR>
+" }}
+" undotree{{
+if has("persistent_undo")
+    set undodir="~/Dropbox/undodir"
+    set undofile
+endif
+nnoremap <Leader>ut :UndotreeToggle<cr>
 " }}
 "*****************************************************************************
 " Visual Settings
