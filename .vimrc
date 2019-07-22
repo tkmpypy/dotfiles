@@ -117,6 +117,7 @@ nnoremap <leader>sgs :<C-u>GFiles?<CR>
 " }}
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
+nnoremap <leader>qq :Bdelete!<CR>
 " }}
 " vim-quickrun {{
 nnoremap <leader>rb :QuickRun<CR>
@@ -521,7 +522,7 @@ nmap <leader>p <Plug>MarkdownPreview
 " nmap <C-p> <Plug>MarkdownPreviewToggle
 " }}
 " memolist {{
-let g:memolist_path = "~/Dropbox/notes"
+let g:memolist_path = "~/Google ドライブ/notes"
 let g:memolist_memo_suffix = "markdown"
 let g:memolist_memo_date = "%Y-%m-%d %H:%M"
 let g:memolist_prompt_tags = 1
@@ -534,7 +535,7 @@ nnoremap <Leader>mg  :MemoGrep<CR>
 " }}
 " undotree{{
 if has("persistent_undo")
-    set undodir="~/Dropbox/undodir"
+    set undodir="~/Google ドライブ/undodir"
     set undofile
 endif
 nnoremap <Leader>ut :UndotreeToggle<cr>
