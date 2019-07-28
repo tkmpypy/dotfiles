@@ -108,10 +108,48 @@ call plug#end()
 let mapleader = "\<Space>"
 
 " fzf.vim {{
+
+" Command for git grep
+" - fzf#vim#grep(command, with_column, [options], [fullscreen])
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview(), <bang>0)
+  " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+
+" Augmenting Ag command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
+"     * For syntax-highlighting, Ruby and any of the following tools are required:
+"       - Bat: https://github.com/sharkdp/bat
+"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+"       - CodeRay: http://coderay.rubychan.de/
+"       - Rouge: https://github.com/jneen/rouge
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 fzf#vim#with_preview(),
+  \                 <bang>0)
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(),
+  \   <bang>0)
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=? -complete=dir GFiles
+  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+
 nnoremap <leader>sb :<C-u>Buffers<CR>
 nnoremap <leader>sx :<C-u>Commands<CR>
 nnoremap <leader>sf :<C-u>GFiles<CR>
+nnoremap <leader>sc :<C-u>Commits<CR>
+nnoremap <leader>scb :<C-u>BCommits<CR>
 nnoremap <leader>sa :<C-u>Ag<CR>
+nnoremap <leader>sg :<C-u>GGrep<CR>
 nnoremap <leader>sr :History<CR>
 nnoremap <leader>sgs :<C-u>GFiles?<CR>
 " }}
