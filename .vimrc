@@ -81,6 +81,7 @@ Plug 'liuchengxu/vista.vim'
 Plug 'scrooloose/nerdtree'
 
 " Util
+Plug 'MattesGroeger/vim-bookmarks'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
@@ -95,11 +96,7 @@ Plug 'mbbill/undotree'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
-
-" Syntac check
-Plug 'w0rp/ale'
 
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
@@ -205,7 +202,9 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
+" OR this mapping also breaks it in same manor
+" Make <cr> select the first completion item and confirm completion when no item have selected
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
@@ -259,6 +258,10 @@ command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
@@ -302,7 +305,20 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:NERDTreeShowHidden = 1
 nnoremap <leader>ft :NERDTreeToggle<CR>
 " }}
-
+" vim-bookmarks {{
+nmap <Leader>m <Plug>BookmarkToggle
+nmap <Leader>mi <Plug>BookmarkAnnotate
+nmap <Leader>ma <Plug>BookmarkShowAll
+nmap <Leader>mj <Plug>BookmarkNext
+nmap <Leader>mk <Plug>BookmarkPrev
+nmap <Leader>mc <Plug>BookmarkClear
+nmap <Leader>mx <Plug>BookmarkClearAll
+nmap <Leader>mk <Plug>BookmarkMoveUp
+nmap <Leader>mj <Plug>BookmarkMoveDown
+nmap <Leader>mg <Plug>BookmarkMoveToLine
+nmap mj <Plug>BookmarkNext
+nmap mk <Plug>BookmarkPrev
+" }}
 " easymotion {{
 " Turn on case-insensitive feature
 let g:EasyMotion_smartcase = 1
@@ -456,22 +472,6 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gp :Gpush
 nnoremap <leader>gb :Gblame<CR>
-" }}
-" w0rp/ale {{
-let g:ale_linters = {
-    \ 'python': ['flake8'],
-    \ }
-
-" 各ツールをFixerとして登録
-let g:ale_fixers = {
-    \ 'python': ['autopep8', 'black', 'isort'],
-    \ }
-
-" Set this. Airline will handle the rest.
-let g:airline#extensions#ale#enabled = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " }}
 " vim-session {{
 let g:session_autosave = 'no'
