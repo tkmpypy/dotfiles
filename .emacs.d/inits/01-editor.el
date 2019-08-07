@@ -46,3 +46,5 @@
 (setq completion-ignore-case t)
 (global-auto-revert-mode 1)
 (electric-pair-mode 1)
+
+(use-package exec-path-from-shell)

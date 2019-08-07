@@ -15,7 +15,8 @@
   (typescript-mode . lsp)
   (vue-mode . lsp)
   (python-mode . lsp)
-  (js-mode . lsp)
+  (web-mode . lsp)
+  (js2-mode . lsp)
   :bind
   (:map lsp-mode-map
   ("C-c r"   . lsp-rename))
@@ -25,7 +26,7 @@
   (use-package lsp-ui
     :custom
     ;; lsp-ui-doc
-    (lsp-ui-doc-enable t)
+    (lsp-ui-doc-enable nil)
     (lsp-ui-doc-header t)
     (lsp-ui-doc-include-signature t)
     (lsp-ui-doc-max-width 150)
@@ -35,7 +36,7 @@
     ;; lsp-ui-flycheck
     (lsp-ui-flycheck-enable t)
     ;; lsp-ui-sideline
-    (lsp-ui-sideline-enable t)
+    (lsp-ui-sideline-enable nil)
     (lsp-ui-sideline-ignore-duplicate t)
     (lsp-ui-sideline-show-symbol t)
     (lsp-ui-sideline-show-hover t)
