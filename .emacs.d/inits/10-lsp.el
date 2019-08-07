@@ -15,6 +15,7 @@
   (typescript-mode . lsp)
   (vue-mode . lsp)
   (python-mode . lsp)
+  (js-mode . lsp)
   :bind
   (:map lsp-mode-map
   ("C-c r"   . lsp-rename))

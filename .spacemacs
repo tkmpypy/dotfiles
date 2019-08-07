@@ -77,7 +77,11 @@ This function should only modify configuration layer settings."
      (typescript :variables
                  typescript-backend 'lsp
                  typescript-indent-level 2)
-     (python :variables python-backend 'lsp)
+     ;; (python :variables python-backend 'lsp)
+     (python :variables
+             python-backend 'lsp
+             python-lsp-server 'mspyls
+             python-lsp-git-root "~/work/python-language-server")
      (java :variables java-backend 'lsp)
      (markdown :variables markdown-live-preview-engine 'vmd)
      json
@@ -538,7 +542,7 @@ before packages are loaded."
 
   ;; Org
   (setq org-pretty-entities nil)
-  (setq org-directory "~/Dropbox/org")
+  (setq org-directory "~/Google ドライブ/org")
   (setq org-default-notes-file "notes.org")
   (setq org-hide-emphasis-markers t)
   (setq org-bullets-bullet-list '("" "" "" "" "" "" "" "" "" ""))
@@ -546,9 +550,9 @@ before packages are loaded."
   ;; here goes your Org config :)
   ;; ....
   (setq org-capture-templates
-        '(("n" "Note" entry (file+headline "~/Dropbox/org/notes.org" "Notes")
+        '(("n" "Note" entry (file+headline "~/Google ドライブ/org/notes.org" "Notes")
             "* %?\nEntered on %U\n %i\n %a")
-          ("t" "Todo" entry (file+headline "~/Dropbox/org/todo.org" "INBOX")
+          ("t" "Todo" entry (file+headline "~/Google ドライブ/org/todo.org" "INBOX")
             "* TODO %?\n %i\n %a")
           ))
   (setq org-todo-keywords

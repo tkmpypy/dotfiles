@@ -16,7 +16,10 @@
     (internal-border-width . 0)))))
 
 ;; Font
-(set-default-font "Cica")
+(setq default-frame-alist
+      (append (list
+              '(font . "Cica-18"))
+              default-frame-alist))
 
 (use-package font-lock)
 (use-package font-lock+)
@@ -46,3 +49,8 @@
 (use-package hide-mode-line
   :hook
   ((neotree-mode imenu-list-minor-mode minimap-mode) . hide-mode-line-mode))
+
+(add-hook 'js-mode-hook
+  (lambda ()
+    (make-local-variable 'js-indent-level)
+    (setq js-indent-level 2)))
