@@ -55,5 +55,6 @@
         "html",
         "handlebars",
         "html.handlebars"
-    ]
+    ],
+    "html.format.enable": true,
 }

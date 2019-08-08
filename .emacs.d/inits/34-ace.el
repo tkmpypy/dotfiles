@@ -61,5 +61,5 @@
 	  ("<SPC>" rotate-layout)
 	  ("q" nil))))
 
-(evil-leader/set-key "hw" 'hydra-frame-window/body)
+(evil-leader/set-key "wr" 'hydra-frame-window/body)
 
