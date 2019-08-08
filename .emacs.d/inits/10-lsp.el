@@ -21,6 +21,8 @@
   (:map lsp-mode-map
   ("C-c r"   . lsp-rename))
   :config
+  (setq lsp-eldoc-render-all nil)
+  (setq lsp-eldoc-enable-hover nil)
   (require 'lsp-clients)
   ;; LSP UI tools
   (use-package lsp-ui
@@ -33,16 +35,16 @@
     (lsp-ui-doc-max-height 30)
     (lsp-ui-doc-use-childframe t)
     (lsp-ui-doc-use-webkit t)
+    (lsp-ui-doc-position 'top)
     ;; lsp-ui-flycheck
     (lsp-ui-flycheck-enable t)
     ;; lsp-ui-sideline
-    (lsp-ui-sideline-enable nil)
+    (lsp-ui-sideline-enable t)
     (lsp-ui-sideline-ignore-duplicate t)
     (lsp-ui-sideline-show-symbol t)
     (lsp-ui-sideline-show-hover t)
     (lsp-ui-sideline-show-diagnostics t)
-    (lsp-ui-sideline-show-code-actions t)
-    (lsp-ui-doc-position 'at-point)
+    (lsp-ui-sideline-show-code-actions nil)
     ;; lsp-ui-imenu
     (lsp-ui-imenu-enable t)
     (lsp-ui-imenu-kind-position 'top)

@@ -82,9 +82,8 @@ Plug 'scrooloose/nerdtree'
 
 " Util
 Plug 'MattesGroeger/vim-bookmarks'
-Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-repeat'
+Plug 'machakann/vim-sandwich'
 Plug 'simeji/winresizer'
 Plug 'cohama/lexima.vim'
 Plug 'mattn/webapi-vim'

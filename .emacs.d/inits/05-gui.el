@@ -18,11 +18,11 @@
 ;; Font
 (setq default-frame-alist
       (append (list
-              '(font . "Cica-18"))
+              '(font . "Source Han Code JP-14"))
               default-frame-alist))
 
-(use-package font-lock)
-(use-package font-lock+)
+;; (use-package font-lock)
+;; (use-package font-lock+)
 (use-package all-the-icons)
 
 ;; 行番号を表示する
@@ -36,7 +36,7 @@
 (show-paren-mode 1)
 ;;; モードラインに時間を表示する
 (display-time)
- 
+
 ;; flycheckとかでポップアップしてくれる
 (use-package popup)
 
@@ -50,3 +50,9 @@
   :hook
   ((neotree-mode imenu-list-minor-mode minimap-mode) . hide-mode-line-mode))
 
+(use-package eyebrowse
+ :config
+  (setq eyebrowse-mode-line-separator " "
+                 eyebrowse-new-workspace t)
+
+  (eyebrowse-mode t))
