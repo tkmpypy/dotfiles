@@ -37,6 +37,7 @@ Plug 'cocopon/iceberg.vim'
 Plug 'dracula/vim'
 Plug 'morhetz/gruvbox'
 Plug 'kaicataldo/material.vim'
+Plug 'edkolev/tmuxline.vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -102,6 +103,19 @@ Plug 'tkmpypy/eztrans.vim'
 call plug#end()
 
 let mapleader = "\<Space>"
+
+" tmuxline {{
+let g:tmuxline_theme = "lightline"
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'b'    : '#W',
+      \'c'    : '#H',
+      \'win'  : '#I #W',
+      \'cwin' : '#I #W',
+      \'x'    : '%a',
+      \'y'    : '#W %R',
+      \'z'    : '#H'}
+" }}
 
 " fzf.vim {{
 
