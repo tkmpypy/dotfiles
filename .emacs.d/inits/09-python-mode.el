@@ -7,4 +7,4 @@
   :config
   ;; for executable of language server, if it's not symlinked on your PATH
   (setq lsp-python-ms-executable
-          "~/takuma/work/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer"))
+          "~/work/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer"))

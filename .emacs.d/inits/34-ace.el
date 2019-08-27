@@ -60,6 +60,3 @@
 	  ("D" kill-buffer-and-window)
 	  ("<SPC>" rotate-layout)
 	  ("q" nil))))
-
-(evil-leader/set-key "wr" 'hydra-frame-window/body)
-
