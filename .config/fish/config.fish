@@ -33,6 +33,7 @@ set -x PATH $ANDROID_HOME/platform-tools $PATH
 
 set -x PATH ~/.pub-cache/bin $PATH
 set -x PATH ~/flutter-sdk/flutter/bin $PATH
+set -x PATH ~/flutter-sdk/flutter/.pub-cache/bin $PATH
 
 set -x PYENV_ROOT $HOME/.pyenv/
 set -x PATH $PYENV_ROOT/bin $PATH
@@ -45,6 +46,8 @@ set -x PATH $HOME/.pyenv/versions/3.7.0/bin $PATH
 
 set -x PATH $HOME/.nodebrew/current/bin $PATH
 
+set -x PATH /opt/local/bin:/opt/local/sbin $PATH
+set -x MANPATH /opt/local/man $MANPATH
 # set -x PATH $PATH
 
 set -gx DOCKER_TLS_VERIFY "1";
@@ -56,3 +59,5 @@ set -gx DOCKER_MACHINE_NAME "default";
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/takuma/google-cloud-sdk/path.fish.inc' ]; . '/Users/takuma/google-cloud-sdk/path.fish.inc'; end
+
+alias emacs="/Applications/MacPorts/EmacsMac.app/Contents/MacOS/Emacs"

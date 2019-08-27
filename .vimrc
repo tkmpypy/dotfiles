@@ -49,22 +49,9 @@ Plug 'tpope/vim-commentary'
 Plug 'thinca/vim-quickrun'
 Plug 'godlygeek/tabular'
 " Languages
-Plug 'sheerun/vim-polyglot'
-" Plug 'StanAngeloff/php.vim', {'for': 'php'}
-" Plug 'evidens/vim-twig'
-" Plug 'dart-lang/dart-vim-plugin', {'for': 'dart'}
-" Plug 'keith/swift.vim', {'for': 'swift'}
-" Plug 'zah/nim.vim', {'for': 'nim'}
-" Plug 'othree/html5.vim', {'for': 'html'}
-" Plug 'vim-python/python-syntax', {'for': 'python'}
-" Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
-" Plug 'posva/vim-vue', {'for': 'vue'}
-" Plug 'elzr/vim-json', {'for': 'json'}
-" Plug 'cespare/vim-toml', {'for': 'toml'}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-" Plug 'othree/yajs.vim', {'for': 'javascript'}
-" Plug 'othree/es.next.syntax.vim', {'for': 'javascript'}
-" Plug 'othree/javascript-libraries-syntax.vim', {'for': 'javascript'}
+Plug 'thosakwe/vim-flutter'
+Plug 'sheerun/vim-polyglot'
 
 " Completion
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -179,6 +166,13 @@ let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_conceal_code_blocks = 0
+" }}
+
+" thosakwe/vim-flutter {{
+nnoremap <leader>fa :FlutterRun<cr>
+nnoremap <leader>fq :FlutterQuit<cr>
+nnoremap <leader>fr :FlutterHotReload<cr>
+nnoremap <leader>fR :FlutterHotRestart<cr>
 " }}
 " rainbow {{
 let g:rainbow_active = 1

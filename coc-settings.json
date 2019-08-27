@@ -1,60 +1,68 @@
 {
-    "languageserver": {
-        "MPLS": {
-          "command": "dotnet",
-          "args": [
-            "exec",
-            "/Users/takuma/work/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll"
-          ],
-          "trace.server": "verbose",
-          "filetypes": ["python"],
-          "initializationOptions": {
-            "interpreter": {
-              "properties": {
-                "InterpreterPath": "/Users/takuma/.pyenv/shims/python",
-                "Version": "3.7.0",
-                "DatabasePath": "/Users/takuma/work/python-language-server/output/bin/Debug"
-              }
-            },
-            "displayOptions": {
-              "preferredFormat": "markdown",
-              "trimDocumentationLines": false,
-              "maxDocumentationLineLength": 0,
-              "trimDocumentationText": false,
-              "maxDocumentationTextLength": 0
-            },
-            "searchPaths": [
-              "/usr/local/bin",
-              "/Users/takuma/unibo/nlp-server/nlpserver/src/main"
-            ],
-            "excludeFiles": [
-              "**/Lib/**",
-              "**/site-packages/**",
-              "**/node_modules",
-              "**/bower_components",
-              "**/.git",
-              "**/.svn",
-              "**/.hg",
-              "**/CVS",
-              "**/.DS_Store",
-              "**/.git/objects/**",
-              "**/.git/subtree-cache/**",
-              "**/node_modules/**",
-              ".vscode/*.py",
-              "**/site-packages/**/*.py"
-            ],
-            "testEnvironment": false,
-            "analysisUpdates": true,
-            "traceLogging": true,
-            "asyncStartup": true
-          }
+  "languageserver": {
+    "dart": {
+      "command": "dart_language_server", // in windows is dart_language_server.bat
+      "args": [],
+      "filetypes": ["dart"],
+      "initializationOptions": {},
+      "settings": {
+        "dart": {
+          "validation": {},
+          "completion": {}
         }
+      }
     },
-    "java.jdt.ls.vmargs": "-javaagent:/Users/takuma/lombok.jar -Xbootclasspath/a:/Users/takuma/lombok.jar -Xmx1G -XX:+UseG1GC",
-    "html.filetypes": [
-        "html",
-        "handlebars",
-        "html.handlebars"
-    ],
-    "html.format.enable": true,
+    "MPLS": {
+      "command": "dotnet",
+      "args": [
+        "exec",
+        "/Users/takuma/work/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll"
+      ],
+      "trace.server": "verbose",
+      "filetypes": ["python"],
+      "initializationOptions": {
+        "interpreter": {
+          "properties": {
+            "InterpreterPath": "/Users/takuma/.pyenv/shims/python",
+            "Version": "3.7.0",
+            "DatabasePath": "/Users/takuma/work/python-language-server/output/bin/Debug"
+          }
+        },
+        "displayOptions": {
+          "preferredFormat": "markdown",
+          "trimDocumentationLines": false,
+          "maxDocumentationLineLength": 0,
+          "trimDocumentationText": false,
+          "maxDocumentationTextLength": 0
+        },
+        "searchPaths": [
+          "/usr/local/bin",
+          "/Users/takuma/unibo/nlp-server/nlpserver/src/main"
+        ],
+        "excludeFiles": [
+          "**/Lib/**",
+          "**/site-packages/**",
+          "**/node_modules",
+          "**/bower_components",
+          "**/.git",
+          "**/.svn",
+          "**/.hg",
+          "**/CVS",
+          "**/.DS_Store",
+          "**/.git/objects/**",
+          "**/.git/subtree-cache/**",
+          "**/node_modules/**",
+          ".vscode/*.py",
+          "**/site-packages/**/*.py"
+        ],
+        "testEnvironment": false,
+        "analysisUpdates": true,
+        "traceLogging": true,
+        "asyncStartup": true
+      }
+    }
+  },
+  "java.jdt.ls.vmargs": "-javaagent:/Users/takuma/lombok.jar -Xbootclasspath/a:/Users/takuma/lombok.jar -Xmx1G -XX:+UseG1GC",
+  "html.filetypes": ["html", "handlebars", "html.handlebars"],
+  "html.format.enable": true
 }
