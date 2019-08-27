@@ -4,7 +4,7 @@
     (evil-leader/set-leader "<SPC>")
 
     ;; neotree
-    (evil-leader/set-key "ft" 'neotree-projectile-toggle))
+    (evil-leader/set-key "ft" 'neotree-projectile-toggle)
     ;; ivy/counsel
     (evil-leader/set-key "sw" 'swiper)
     (evil-leader/set-key "oc" 'org-capture)
