@@ -12,7 +12,6 @@
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
-
 (general-define-key
  :keymaps '(normal emacs)
  :prefix "SPC"
@@ -57,7 +56,7 @@
 (general-define-key
  :keymaps '(normal emacs)
  :prefix "SPC"
- :major-modes '(python-mode go-mode typescript-mode)
+ :major-modes '(python-mode go-mode typescript-mode dart-mode)
  "m" '(:ignore t :which-key "Major")
  "mp" '(:ignore t :which-key "Peek")
  "mpg" 'lsp-ui-peek-find-definitions

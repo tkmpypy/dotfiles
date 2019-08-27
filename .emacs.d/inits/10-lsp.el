@@ -17,9 +17,14 @@
   (python-mode . lsp)
   (web-mode . lsp)
   (js2-mode . lsp)
+  (dart-mode . lsp)
   :bind
   (:map lsp-mode-map
-  ("C-c r"   . lsp-rename))
+	("C-c r"   . lsp-rename))
+  :general
+  ('normal "K" 'lsp-describe-thing-at-point)
+  ('normal "g d" 'lsp-find-definition)
+  ('normal "g e" 'lsp-find-references)
   :config
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
