@@ -21,10 +21,6 @@
   :bind
   (:map lsp-mode-map
 	("C-c r"   . lsp-rename))
-  :general
-  ('normal "K" 'lsp-describe-thing-at-point)
-  ('normal "g d" 'lsp-find-definition)
-  ('normal "g e" 'lsp-find-references)
   :config
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
@@ -68,9 +64,9 @@
          (lsp-ui-doc-mode 1)))
     :bind
     (:map lsp-mode-map
-    ("C-c C-r" . lsp-ui-peek-find-references)
-    ("C-c C-j" . lsp-ui-peek-find-definitions)
-    ("C-c i"   . lsp-ui-peek-find-implementation)
+    ("gr" . lsp-ui-peek-find-references)
+    ("gd" . lsp-ui-peek-find-definitions)
+    ("gi"   . lsp-ui-peek-find-implementation)
     ("C-c m"   . lsp-ui-imenu)
     ("C-c s"   . lsp-ui-sideline-mode)
     ("C-c d"   . ladicle/toggle-lsp-ui-doc))

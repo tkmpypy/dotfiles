@@ -12,6 +12,8 @@
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
+(define-key evil-motion-state-map (kbd "gd") nil)
+
 (general-define-key
  :keymaps '(normal emacs)
  :prefix "SPC"
