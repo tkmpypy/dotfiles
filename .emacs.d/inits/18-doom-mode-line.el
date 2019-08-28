@@ -24,7 +24,7 @@
     ;; If you are expereicing the laggy issue, especially while editing remote files
     ;; with tramp, please try `file-name' style.
     ;; Please refer to https://github.com/bbatsov/projectile/issues/657.
-    (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+    (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
 
     ;; Whether show `all-the-icons' or not (if nil nothing will be showed).
     (setq doom-modeline-icon t)
@@ -39,7 +39,7 @@
     (setq doom-modeline-minor-modes nil)
 
     ;; If non-nil, a word count will be added to the selection-info modeline segment.
-    (setq doom-modeline-enable-word-count t)
+    (setq doom-modeline-enable-word-count nil)
 
     ;; If non-nil, only display one number for checker information if applicable.
     (setq doom-modeline-checker-simple-format t)
@@ -82,4 +82,7 @@
 
     ;; Function to stylize the irc buffer names.
     (setq doom-modeline-irc-stylize 'identity)
+
+    (line-number-mode 0)
+    (column-number-mode 0)
   )
