@@ -18,7 +18,7 @@
 ;; Font
 (setq default-frame-alist
       (append (list
-              '(font . "Source Han Code JP-14"))
+              '(font . "Cica-18"))
               default-frame-alist))
 
 ;; (use-package font-lock)

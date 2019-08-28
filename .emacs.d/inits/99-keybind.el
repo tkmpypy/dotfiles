@@ -52,6 +52,7 @@
  "w" '(:ignore t :which-key "Window")
  "ww" 'ace-select-window
  "wr" 'hydra-frame-window/body
+ "rr" 'ivy-resume
  "SPC" 'counsel-M-x
  )
 

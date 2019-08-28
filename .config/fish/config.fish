@@ -59,5 +59,3 @@ set -gx DOCKER_MACHINE_NAME "default";
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/takuma/google-cloud-sdk/path.fish.inc' ]; . '/Users/takuma/google-cloud-sdk/path.fish.inc'; end
-
-alias emacs="/Applications/MacPorts/EmacsMac.app/Contents/MacOS/Emacs"
