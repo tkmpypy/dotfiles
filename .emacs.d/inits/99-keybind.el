@@ -52,7 +52,7 @@
  "w" '(:ignore t :which-key "Window")
  "ww" 'ace-select-window
  "wr" 'hydra-frame-window/body
- "rr" 'ivy-resume
+ "r" 'ivy-resume
  "SPC" 'counsel-M-x
  )
 
@@ -71,4 +71,10 @@
  "mts" 'lsp-ui-sideline-mode
  "mtl" 'lsp-lens-mode
  "mf" 'lsp-format-buffer
+ )
+;; LSP
+(general-define-key
+ :keymaps '(normal emacs)
+ :major-modes '(python-mode go-mode typescript-mode dart-mode)
+ "K" 'lsp-describe-thing-at-point
  )
