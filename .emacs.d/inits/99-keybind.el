@@ -50,6 +50,7 @@
  "g" '(:ignore t :which-key "Git")
  "gs" 'magit-status
  "w" '(:ignore t :which-key "Window")
+ "ww" 'ace-select-window
  "wr" 'hydra-frame-window/body
  "SPC" 'counsel-M-x
  )
