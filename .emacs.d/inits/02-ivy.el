@@ -21,7 +21,7 @@
 (use-package ivy-posframe
   :config
   (setq ivy-posframe-display-functions-alist
-      '((swiper          . ivy-posframe-display-at-window-center)
+      '((swiper          . ivy-posframe-display-at-point)
         (counsel-M-x     . ivy-posframe-display-at-window-center)
         (t               . ivy-posframe-display-at-window-center)))
   :custom
