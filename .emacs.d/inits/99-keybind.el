@@ -68,6 +68,7 @@
  :prefix "SPC"
  :major-modes '(python-mode go-mode typescript-mode dart-mode)
  "m" '(:ignore t :which-key "Major")
+ "mr" 'lsp-rename
  "mp" '(:ignore t :which-key "Peek")
  "mpg" 'lsp-ui-peek-find-definitions
  "mpr" 'lsp-ui-peek-find-references
@@ -75,6 +76,7 @@
  "mt" '(:ignore t :which-key "Toggle")
  "mtt" 'lsp-ui-imenu 
  "mts" 'lsp-ui-sideline-mode
+ "mtd" 'tkmpypy/toggle-lsp-ui-doc
  "mtl" 'lsp-lens-mode
  "mf" 'lsp-format-buffer
  )
@@ -82,5 +84,5 @@
 (general-define-key
  :keymaps '(normal emacs)
  :major-modes '(python-mode go-mode typescript-mode dart-mode)
- "K" 'lsp-describe-thing-at-point
+ "K" 'tkmpypy/toggle-lsp-ui-doc
  )

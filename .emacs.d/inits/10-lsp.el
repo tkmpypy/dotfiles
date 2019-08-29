@@ -54,8 +54,11 @@
     (lsp-ui-peek-peek-height 20)
     (lsp-ui-peek-list-width 50)
     (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
+    :config
+    (setq lsp-ui-doc-border "vioret")
+    (setq lsp-ui-sideline-update-mode 'point)
     :preface
-    (defun ladicle/toggle-lsp-ui-doc ()
+    (defun tkmpypy/toggle-lsp-ui-doc ()
       (interactive)
       (if lsp-ui-doc-mode
         (progn
@@ -69,7 +72,7 @@
     ("gi"   . lsp-ui-peek-find-implementation)
     ("C-c m"   . lsp-ui-imenu)
     ("C-c s"   . lsp-ui-sideline-mode)
-    ("C-c d"   . ladicle/toggle-lsp-ui-doc))
+    ("C-c d"   . tkmpypy/toggle-lsp-ui-doc))
     :hook
     (lsp-mode . lsp-ui-mode))
   ;; Lsp completion
