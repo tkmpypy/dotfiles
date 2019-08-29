@@ -74,7 +74,10 @@
     (lsp-mode . lsp-ui-mode))
   ;; Lsp completion
   (use-package company-box
-    :hook (company-mode . company-box-mode))
+    :after (company all-the-icons)
+    :hook (company-mode . company-box-mode)
+    :custom
+    (company-box-icons-alist 'company-box-icons-all-the-icons))
   (use-package company-quickhelp)
   (use-package company-lsp
     :custom
