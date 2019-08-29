@@ -18,6 +18,9 @@
  :keymaps '(normal emacs)
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
+ "b" '(:ignore t :which-key "Buffer")
+ "bd" 'kill-buffer
+ "bq" 'kill-current-buffer
  "s" '(:ignore t :which-key "Search")
  "sb" 'ivy-switch-buffer
  "sr" 'counsel-recentf
@@ -26,19 +29,22 @@
  "sf" 'counsel-find-file
  "sg" 'counsel-git
  "ss" 'swiper
- "p" '(:ignore t :which-key "Perspeen")
- "pc" 'perspeen-create-ws
- "pd" 'perspeen-delete-ws
- "pn" 'perspeen-next-ws
- "pp" 'perspeen-previous-ws
- "p," 'perspeen-rename-ws
- "pl" 'perspeen-ws-list
- "pr" 'perspeen-change-root-dir
- "pt" '(:ignore t :which-key "tab")
- "ptc" 'perspeen-tab-create-tab
- "ptd" 'perspeen-tab-del
- "ptn" 'perspeen-tab-next
- "ptp" 'perspeen-tab-prev
+ "sc" 'swiper-thing-at-point
+ "p" '(:ignore t :which-key "Workspace")
+ "pc" 'persp-copy
+ "pK" 'persp-kill
+ "pd" 'persp-kill-buffer
+ "pD" 'persp-remove-buffer
+ "pn" 'persp-next
+ "pp" 'persp-prev
+ "p," 'persp-rename
+ "pr" 'wg-relo
+ "ps" 'persp-switch
+ "pS" 'persp-window-switch
+ "pw" 'persp-save-state-to-file
+ "pW" 'persp-save-to-file-by-names
+ "pl" 'persp-load-state-from-file
+ "pL" 'persp-load-from-file-by-names
  "o" '(:ignore t :which-key "Org")
  "oc" 'org-capture
  "on" '(lambda() (interactive) (show-org-buffer "notes.org"))

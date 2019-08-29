@@ -18,7 +18,7 @@
 ;; Font
 (setq default-frame-alist
       (append (list
-              '(font . "Cica-18"))
+              '(font . "Fira Code-16"))
               default-frame-alist))
 
 ;; (use-package font-lock)
