@@ -85,4 +85,8 @@
 
     (line-number-mode 0)
     (column-number-mode 0)
-  )
+    )
+
+(use-package nyan-mode
+  :config
+  (nyan-mode 1))
