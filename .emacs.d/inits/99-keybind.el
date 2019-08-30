@@ -12,6 +12,7 @@
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
+;; evilに割り当てられているキーバインドを無効化
 (define-key evil-motion-state-map (kbd "gd") nil)
 
 (general-define-key
@@ -66,7 +67,7 @@
 (general-define-key
  :keymaps '(normal emacs)
  :prefix "SPC"
- :major-modes '(python-mode go-mode typescript-mode dart-mode)
+ :major-modes '(python-mode go-mode typescript-mode dart-mode js2-mode)
  "m" '(:ignore t :which-key "Major")
  "mr" 'lsp-rename
  "mp" '(:ignore t :which-key "Peek")
@@ -83,6 +84,21 @@
 ;; LSP
 (general-define-key
  :keymaps '(normal emacs)
- :major-modes '(python-mode go-mode typescript-mode dart-mode)
+ :major-modes '(python-mode go-mode typescript-mode dart-mode js2-mode)
  "K" 'tkmpypy/toggle-lsp-ui-doc
+ "gr" 'lsp-ui-peek-find-references
+ "gd" 'lsp-ui-peek-find-definitions
+ "gi" 'lsp-ui-peek-find-implementation
+ )
+
+;; Execute
+;; flutter
+(general-define-key
+ :keymaps '(normal emacs)
+ :prefix "SPC"
+ :major-modes '(dart-mode)
+ "e" '(:ignore t :which-key "Run")
+ "er" 'flutter-run-or-hot-reload
+ "eR" 'flutter-hot-restart
+ "eq" 'flutter-quit
  )

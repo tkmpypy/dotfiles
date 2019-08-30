@@ -2,7 +2,7 @@
       :custom (org-bullets-bullet-list '("" "" "" "" "" "" "" "" "" ""))
       :hook (org-mode . org-bullets-mode))
 
-(setq org-directory "~/Dropbox/org")
+(setq org-directory "~/Google ドライブ/org")
 (setq org-default-notes-file "notes.org")
 (setq org-hide-emphasis-markers t)
 (setq org-indent-mode-turns-on-hiding-stars nil)
@@ -14,9 +14,9 @@
 
 ; Org-captureのテンプレート（メニュー）の設定
 (setq org-capture-templates
-    '(("n" "Note" entry (file+headline "~/Dropbox/org/notes.org" "Notes")
+    '(("n" "Note" entry (file+headline "~/Google ドライブ/org/notes.org" "Notes")
        "* %?\nEntered on %U\n %i\n %a")
-    ("t" "Todo" entry (file+headline "~/Dropbox/org/todo.org" "INBOX")
+    ("t" "Todo" entry (file+headline "~/Google ドライブ/org/todo.org" "INBOX")
         "* TODO %?\n %i\n %a")
     ))
 
@@ -29,4 +29,4 @@
       (let ((buffer (get-buffer file)))
         (switch-to-buffer buffer)
         (message "%s" file))
-    (find-file (concat "~/Dropbox/org/" file))))
+    (find-file (concat "~/Google ドライブ/org/" file))))

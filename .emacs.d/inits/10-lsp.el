@@ -65,14 +65,6 @@
           (lsp-ui-doc-mode -1)
           (lsp-ui-doc--hide-frame))
          (lsp-ui-doc-mode 1)))
-    :bind
-    (:map lsp-mode-map
-    ("gr" . lsp-ui-peek-find-references)
-    ("gd" . lsp-ui-peek-find-definitions)
-    ("gi"   . lsp-ui-peek-find-implementation)
-    ("C-c m"   . lsp-ui-imenu)
-    ("C-c s"   . lsp-ui-sideline-mode)
-    ("C-c d"   . tkmpypy/toggle-lsp-ui-doc))
     :hook
     (lsp-mode . lsp-ui-mode))
   ;; Lsp completion
