@@ -31,6 +31,7 @@
  "sg" 'counsel-git
  "ss" 'swiper
  "sc" 'swiper-thing-at-point
+ "se" 'engine-mode-prefixed-map
  "p" '(:ignore t :which-key "Workspace")
  "pc" 'persp-copy
  "pK" 'persp-kill
