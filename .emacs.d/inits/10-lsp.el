@@ -6,9 +6,8 @@
   (lsp-print-performance nil)
   ;; general
   (lsp-auto-guess-root t)
-  (lsp-document-sync-method 'incremental) ;; always send incremental document
-  (lsp-response-timeout 5)
   (lsp-prefer-flymake nil)
+  (lsp-response-timeout 15)
   (lsp-enable-completion-at-point t)
   :hook
   (go-mode . lsp)
@@ -38,9 +37,9 @@
     (lsp-ui-doc-use-webkit t)
     (lsp-ui-doc-position 'top)
     ;; lsp-ui-flycheck
-    (lsp-ui-flycheck-enable t)
+    (lsp-ui-flycheck-enable nil)
     ;; lsp-ui-sideline
-    (lsp-ui-sideline-enable t)
+    (lsp-ui-sideline-enable nil)
     (lsp-ui-sideline-ignore-duplicate t)
     (lsp-ui-sideline-show-symbol t)
     (lsp-ui-sideline-show-hover t)
@@ -55,7 +54,7 @@
     (lsp-ui-peek-list-width 50)
     (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
     :config
-    (setq lsp-ui-doc-border "vioret")
+    (setq lsp-ui-doc-border "violet")
     (setq lsp-ui-sideline-update-mode 'point)
     :preface
     (defun tkmpypy/toggle-lsp-ui-doc ()
@@ -81,6 +80,11 @@
     (company-lsp-async t)
     (company-lsp-enable-recompletion t)
     (company-lsp-enable-snippet t))
+  (use-package company-tabnine
+    :after (company)
+    :config
+    (push 'company-tabnine company-backends)
+    )
   (use-package company
     :init
     (add-hook 'company-mode-hook
@@ -90,14 +94,16 @@
 		(define-key company-search-map (kbd "C-n") 'company-select-next)
 		(define-key company-search-map (kbd "C-p") 'company-select-previous)))
     :config
-    (global-company-mode)
     (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
-    (setq company-minimum-prefix-length 1) ; デフォルトは4
+    (setq company-minimum-prefix-length 2) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
     (setq completion-ignore-case t)
-    (setq company-dabbrev-downcase nil)
-    (push 'company-lsp company-backends))
+    (setq company-dabbrev-downcase t)
+    (push 'company-lsp company-backends)
+    ;; Number the candidates (use M-1, M-2 etc to select completions).
+    (setq company-show-numbers t)
+    (global-company-mode))
   )
 
 (use-package lsp-sourcekit
