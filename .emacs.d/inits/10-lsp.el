@@ -4,6 +4,7 @@
   (lsp-print-io nil)
   (lsp-trace nil)
   (lsp-print-performance t)
+  (lsp-log-max 1000)
   ;; general
   (lsp-auto-guess-root t)
   (lsp-prefer-flymake nil)
@@ -23,6 +24,8 @@
   (:map lsp-mode-map
 	("C-c r"   . lsp-rename))
   :config
+  (setq lsp-use-native-json t)
+  (setq lsp-json-use-lists t)
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
 
@@ -87,7 +90,7 @@
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-async t)
     (company-lsp-enable-recompletion t)
-    (company-lsp-enable-snippet nil))
+    (company-lsp-enable-snippet t))
   (use-package company-tabnine
     :after (company)
     :config
@@ -107,6 +110,8 @@
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
     (setq completion-ignore-case t)
     (setq company-dabbrev-downcase t)
+    (setq company-tooltip-limit 10)
+    (setq company-tooltip-idle-delay 0)
     (push 'company-lsp company-backends)
     ;; Number the candidates (use M-1, M-2 etc to select completions).
     (setq company-show-numbers t)
