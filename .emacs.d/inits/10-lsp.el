@@ -6,7 +6,7 @@
   (lsp-print-performance nil)
   ;; general
   (lsp-auto-guess-root t)
-  (lsp-prefer-flymake t)
+  (lsp-prefer-flymake nil)
   (lsp-response-timeout 15)
   (lsp-enable-completion-at-point nil)
   :hook
@@ -37,7 +37,7 @@
     (lsp-ui-doc-use-webkit t)
     (lsp-ui-doc-position 'top)
     ;; lsp-ui-flycheck
-    (lsp-ui-flycheck-enable t)
+    (lsp-ui-flycheck-enable nil)
     ;; lsp-ui-sideline
     (lsp-ui-sideline-enable nil)
     (lsp-ui-sideline-ignore-duplicate t)
@@ -95,9 +95,9 @@
 		(define-key company-search-map (kbd "C-n") 'company-select-next)
 		(define-key company-search-map (kbd "C-p") 'company-select-previous)))
     :config
-    (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
+    ;;(setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
-    (setq company-minimum-prefix-length 2) ; デフォルトは4
+    (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
     (setq completion-ignore-case t)
     (setq company-dabbrev-downcase t)
