@@ -6,9 +6,9 @@
   (lsp-print-performance nil)
   ;; general
   (lsp-auto-guess-root t)
-  (lsp-prefer-flymake nil)
+  (lsp-prefer-flymake t)
   (lsp-response-timeout 15)
-  (lsp-enable-completion-at-point t)
+  (lsp-enable-completion-at-point nil)
   :hook
   (go-mode . lsp)
   (typescript-mode . lsp)
@@ -37,7 +37,7 @@
     (lsp-ui-doc-use-webkit t)
     (lsp-ui-doc-position 'top)
     ;; lsp-ui-flycheck
-    (lsp-ui-flycheck-enable nil)
+    (lsp-ui-flycheck-enable t)
     ;; lsp-ui-sideline
     (lsp-ui-sideline-enable nil)
     (lsp-ui-sideline-ignore-duplicate t)
@@ -62,10 +62,12 @@
       (if lsp-ui-doc-mode
         (progn
           (lsp-ui-doc-mode -1)
+	  (lsp-ui-mode -1)
           (lsp-ui-doc--hide-frame))
          (lsp-ui-doc-mode 1)))
-    :hook
-    (lsp-mode . lsp-ui-mode))
+    ;;:hook
+    ;;(lsp-mode . lsp-ui-mode)
+    )
   ;; Lsp completion
   (use-package company-box
     :after (company all-the-icons)
@@ -78,13 +80,12 @@
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-filter-candidates t)
     (company-lsp-async t)
-    (company-lsp-enable-recompletion t)
+    (company-lsp-enable-recompletion nil)
     (company-lsp-enable-snippet t))
   (use-package company-tabnine
     :after (company)
     :config
-    (push 'company-tabnine company-backends)
-    )
+    (push 'company-tabnine company-backends))
   (use-package company
     :init
     (add-hook 'company-mode-hook
