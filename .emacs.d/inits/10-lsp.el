@@ -3,10 +3,11 @@
   ;; debug
   (lsp-print-io nil)
   (lsp-trace nil)
-  (lsp-print-performance nil)
+  (lsp-print-performance t)
+  (lsp-log-max 1000)
   ;; general
   (lsp-auto-guess-root t)
-  (lsp-prefer-flymake t)
+  (lsp-prefer-flymake nil)
   (lsp-response-timeout 15)
   (lsp-enable-completion-at-point nil)
   :hook
@@ -21,6 +22,8 @@
   (:map lsp-mode-map
 	("C-c r"   . lsp-rename))
   :config
+  (setq lsp-use-native-json t)
+  (setq lsp-json-use-lists t)
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
   (require 'lsp-clients)
@@ -80,7 +83,7 @@
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-filter-candidates t)
     (company-lsp-async t)
-    (company-lsp-enable-recompletion nil)
+    (company-lsp-enable-recompletion t)
     (company-lsp-enable-snippet t))
   (use-package company-tabnine
     :after (company)
@@ -97,10 +100,12 @@
     :config
     (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
-    (setq company-minimum-prefix-length 2) ; デフォルトは4
+    (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
     (setq completion-ignore-case t)
     (setq company-dabbrev-downcase t)
+    (setq company-tooltip-limit 10)
+    (setq company-tooltip-idle-delay 0)
     (push 'company-lsp company-backends)
     ;; Number the candidates (use M-1, M-2 etc to select completions).
     (setq company-show-numbers t)
