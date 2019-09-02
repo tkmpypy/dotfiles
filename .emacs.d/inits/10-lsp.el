@@ -1,4 +1,12 @@
 (use-package lsp-mode
+  :init
+  ;; dart_language_serverのパフォーマンス改善
+  ;; 直接dart SDKのanalysis_serverを使う
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("dart" "/usr/local/Cellar/dart/2.4.1/libexec/bin/snapshots/analysis_server.dart.snapshot" "--lsp"))
+  		    :major-modes '(dart-mode)
+  		    :server-id 'dart-server))
+  
   :custom
   ;; debug
   (lsp-print-io nil)
@@ -21,6 +29,7 @@
   (web-mode . lsp)
   (js2-mode . lsp)
   (dart-mode . lsp)
+
   :bind
   (:map lsp-mode-map
 	("C-c r"   . lsp-rename))
@@ -65,6 +74,7 @@
     :config
     (setq lsp-ui-doc-border "violet")
     (setq lsp-ui-sideline-update-mode 'point)
+
     :preface
     (defun tkmpypy/toggle-lsp-ui-doc ()
       (interactive)
