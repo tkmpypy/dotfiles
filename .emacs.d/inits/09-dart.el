@@ -1,4 +1,6 @@
-(use-package dart-mode)
+(use-package dart-mode
+  :config
+  (setq dart-enable-analysis-server nil))
 
 (use-package flutter
   :after dart-mode

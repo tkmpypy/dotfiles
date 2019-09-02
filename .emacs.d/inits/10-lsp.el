@@ -3,12 +3,14 @@
   ;; debug
   (lsp-print-io nil)
   (lsp-trace nil)
-  (lsp-print-performance nil)
+  (lsp-print-performance t)
   ;; general
   (lsp-auto-guess-root t)
   (lsp-prefer-flymake nil)
   (lsp-response-timeout 15)
-  (lsp-enable-completion-at-point nil)
+  (lsp-enable-completion-at-point t)
+  (lsp-document-highlight nil)
+  (lsp-document-sync-method nil)
   :hook
   (go-mode . lsp)
   (typescript-mode . lsp)
@@ -23,6 +25,11 @@
   :config
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
+
+  (setq lsp-use-native-json t)
+  (setq lsp-json-use-lists t)
+  (setq lsp-enable-on-type-formatting nil)
+  ;; (setq lsp-enable-file-watchers t)
   (require 'lsp-clients)
   ;; LSP UI tools
   (use-package lsp-ui
@@ -78,10 +85,9 @@
   (use-package company-lsp
     :custom
     (company-lsp-cache-candidates t) ;; always using cache
-    (company-lsp-filter-candidates t)
     (company-lsp-async t)
-    (company-lsp-enable-recompletion nil)
-    (company-lsp-enable-snippet t))
+    (company-lsp-enable-recompletion t)
+    (company-lsp-enable-snippet nil))
   (use-package company-tabnine
     :after (company)
     :config
