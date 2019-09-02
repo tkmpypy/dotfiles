@@ -9,9 +9,10 @@
   (lsp-auto-guess-root t)
   (lsp-prefer-flymake nil)
   (lsp-response-timeout 15)
-  (lsp-enable-completion-at-point t)
+  (lsp-enable-completion-at-point nil)
   (lsp-document-highlight nil)
   (lsp-document-sync-method nil)
+
   :hook
   (go-mode . lsp)
   (typescript-mode . lsp)
@@ -24,13 +25,11 @@
   (:map lsp-mode-map
 	("C-c r"   . lsp-rename))
   :config
-  (setq lsp-use-native-json t)
-  (setq lsp-json-use-lists t)
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
 
   (setq lsp-use-native-json t)
-  (setq lsp-json-use-lists t)
+  ;; (setq lsp-json-use-lists t)
   (setq lsp-enable-on-type-formatting nil)
   ;; (setq lsp-enable-file-watchers t)
   (require 'lsp-clients)
@@ -83,18 +82,28 @@
     :after (company all-the-icons)
     :hook (company-mode . company-box-mode)
     :custom
-    (company-box-icons-alist 'company-box-icons-all-the-icons))
-  (use-package company-quickhelp)
+    (company-box-icons-alist 'company-box-icons-all-the-icons)
+    :config
+    (setq company-box-backends-colors nil)
+    (setq company-box-show-single-candidate t)
+    (setq company-box-max-candidates 50)
+    (setq company-box-doc-enable nil))
+
+  (use-package company-quickhelp
+    :defines company-quickhelp-delay
+    :bind
+    (:map company-active-map
+	  ("M-h" . company-quickhelp-manual-begin))
+    :hook (global-company-mode . company-quickhelp-mode)
+    :custom (company-quickhelp-delay 0.8))
   (use-package company-lsp
     :custom
     (company-lsp-cache-candidates t) ;; always using cache
+    (company-lsp-filter-candidates t)
     (company-lsp-async t)
     (company-lsp-enable-recompletion t)
     (company-lsp-enable-snippet t))
-  (use-package company-tabnine
-    :after (company)
-    :config
-    (push 'company-tabnine company-backends))
+  ;; (use-package company-tabnine)
   (use-package company
     :init
     (add-hook 'company-mode-hook
@@ -104,18 +113,18 @@
 		(define-key company-search-map (kbd "C-n") 'company-select-next)
 		(define-key company-search-map (kbd "C-p") 'company-select-previous)))
     :config
-    ;;(setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
+    (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
     (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
-    (setq completion-ignore-case t)
-    (setq company-dabbrev-downcase t)
+    (setq completion-ignore-case nil)
     (setq company-tooltip-limit 10)
     (setq company-tooltip-idle-delay 0)
+
+    ;; (push 'company-tabnine company-backends)
     (push 'company-lsp company-backends)
-    ;; Number the candidates (use M-1, M-2 etc to select completions).
-    (setq company-show-numbers t)
-    (global-company-mode))
+    :hook
+    (after-init . global-company-mode)
   )
 
 (use-package lsp-sourcekit
@@ -123,3 +132,4 @@
   :config
   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-latest.xctoolchain")
   (setq lsp-sourcekit-executable (expand-file-name "~/work/sourcekit-lsp/.build/x86_64-apple-macosx10.10/debug/sourcekit-lsp")))
+)
