@@ -33,9 +33,8 @@
   (ivy-posframe-parameters
       '((left-fringe . 5)
         (right-fringe . 5)))
+  (ivy-posframe-mode 1)
   :custom-face
   (ivy-posframe ((t (:background "#282a36"))))
     (ivy-posframe-border ((t (:background "#6272a4"))))
-    (ivy-posframe-cursor ((t (:background "#61bfff"))))
-  :hook
-  (ivy-posframe-enable))
+    (ivy-posframe-cursor ((t (:background "#61bfff")))))

@@ -52,11 +52,16 @@
   (eyebrowse-mode t))
 
 (use-package dimmer
+  :disabled
   :custom
   (dimmer-fraction 0.5)
   (dimmer-exclusion-regexp-list
        '(".*Minibuf.*"
          ".*which-key.*"
+         ".*company.*"
+         ".*child.*"
+	 ".*.*"
+         ".*lsp.*"
          ".*posframe.*"
          ".*ivy.*"
          ".*NeoTree.*"
