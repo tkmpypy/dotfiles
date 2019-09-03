@@ -2,10 +2,14 @@
   :init
   ;; dart_language_serverのパフォーマンス改善
   ;; 直接dart SDKのanalysis_serverを使う
+  (setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
   (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("dart" "/usr/local/Cellar/dart/2.4.1/libexec/bin/snapshots/analysis_server.dart.snapshot" "--lsp"))
-  		    :major-modes '(dart-mode)
-  		    :server-id 'dart-server))
+     (make-lsp-client :new-connection
+                  (lsp-stdio-connection
+                   'lsp-dart--analysis-server-command)
+                  :major-modes '(dart-mode)
+		  :priority 1
+                  :server-id 'dart_analysis_server))
   
   :custom
   ;; debug
@@ -19,7 +23,7 @@
   (lsp-response-timeout 15)
   (lsp-enable-completion-at-point nil)
   (lsp-document-highlight nil)
-  (lsp-document-sync-method nil)
+  (lsp-document-sync-method 'increment)
 
   :hook
   (go-mode . lsp)
@@ -41,7 +45,6 @@
   ;; (setq lsp-json-use-lists t)
   (setq lsp-enable-on-type-formatting nil)
   ;; (setq lsp-enable-file-watchers t)
-  (require 'lsp-clients)
   ;; LSP UI tools
   (use-package lsp-ui
     :custom
