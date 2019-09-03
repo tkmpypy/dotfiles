@@ -114,4 +114,7 @@
  "mem" '(:ignore t :which-key "Markdown")
  "memb" 'org-md-export-as-markdown
  "memf" 'org-md-export-as-markdown
+ "ma" '(:ignore t :which-key "Archive")
+ "maa" 'org-archive
+ "mas" 'org-archive-subtree
  )

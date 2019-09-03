@@ -4,7 +4,7 @@
   ;; 直接dart SDKのanalysis_serverを使う
   (setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
   (lsp-register-client
-     (make-lsp-client :new-connection
+    (make-lsp-client :new-connection
                   (lsp-stdio-connection
                    'lsp-dart--analysis-server-command)
                   :major-modes '(dart-mode)
