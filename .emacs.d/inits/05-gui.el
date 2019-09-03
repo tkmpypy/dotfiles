@@ -40,15 +40,9 @@
 ;; flycheckとかでポップアップしてくれる
 (use-package popup)
 
-;; 非アクティブウインドウが暗くなる
-;;(use-package dimmer
-;;  :ensure t
-;;  :init (dimmer-mode)
-;;  )
-
 (use-package hide-mode-line
   :hook
-  ((neotree-mode imenu-list-minor-mode minimap-mode) . hide-mode-line-mode))
+  ((neotree-mode imenu-list-minor-mode) . hide-mode-line-mode))
 
 (use-package eyebrowse
  :config
@@ -56,3 +50,20 @@
                  eyebrowse-new-workspace t)
 
   (eyebrowse-mode t))
+
+(use-package dimmer
+  :custom
+  (dimmer-fraction 0.5)
+  (dimmer-exclusion-regexp-list
+       '(".*Minibuf.*"
+         ".*which-key.*"
+         ".*posframe.*"
+         ".*ivy.*"
+         ".*NeoTree.*"
+         ".*Messages.*"
+         ".*Async.*"
+         ".*Warnings.*"
+         ".*LV.*"
+         ".*Ilist.*"))
+  :config
+  (dimmer-mode t))

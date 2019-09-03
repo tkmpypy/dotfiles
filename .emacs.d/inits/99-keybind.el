@@ -103,3 +103,15 @@
  "eR" 'flutter-hot-restart
  "eq" 'flutter-quit
  )
+
+;; Org
+(general-define-key
+ :keymaps '(normal emacs)
+ :prefix "SPC"
+ :major-modes '(org-mode)
+ "m" '(:ignore t :which-key "Major")
+ "me" '(:ignore t :which-key "Export")
+ "mem" '(:ignore t :which-key "Markdown")
+ "memb" 'org-md-export-as-markdown
+ "memf" 'org-md-export-as-markdown
+ )

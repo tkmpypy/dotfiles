@@ -89,4 +89,7 @@
 
 (use-package nyan-mode
   :config
-  (nyan-mode 1))
+  (setq nyan-cat-face-number 5)
+  (setq nyan-animate-nyancat t)
+  :hook
+  (doom-modeline-mode . nyan-mode))
