@@ -16,7 +16,7 @@
 (define-key evil-motion-state-map (kbd "gd") nil)
 
 (general-define-key
- :keymaps '(normal emacs)
+ :states '(normal emacs)
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
  "b" '(:ignore t :which-key "Buffer")
@@ -49,8 +49,8 @@
  "pL" 'persp-load-from-file-by-names
  "o" '(:ignore t :which-key "Org")
  "oc" 'org-capture
- "on" '(lambda() (interactive) (show-org-buffer "notes.org"))
- "ot" '(lambda() (interactive) (show-org-buffer "todo.org"))
+ "on" '((lambda() (interactive) (show-org-buffer "notes.org")) :which-key "notes")
+ "ot" '((lambda() (interactive) (show-org-buffer "todo.org")) :which-key "tasks")
  "f" '(:ignore t :which-key "File")
  "ft" 'neotree-projectile-toggle
  "e" '(:ignore t :which-key "Emacs")
@@ -66,9 +66,9 @@
 
 ;; LSP
 (general-define-key
- :keymaps '(normal emacs)
+ :states '(normal emacs)
+ :keymaps '(lsp-mode-map)
  :prefix "SPC"
- :major-modes '(python-mode go-mode typescript-mode dart-mode js2-mode)
  "m" '(:ignore t :which-key "Major")
  "mr" 'lsp-rename
  "mp" '(:ignore t :which-key "Peek")
@@ -84,8 +84,8 @@
  )
 ;; LSP
 (general-define-key
- :keymaps '(normal emacs)
- :major-modes '(python-mode go-mode typescript-mode dart-mode js2-mode)
+ :states '(normal visual)
+ :keymaps '(lsp-mode-map)
  "K" 'tkmpypy/toggle-lsp-ui-doc
  "gr" 'lsp-ui-peek-find-references
  "gd" 'lsp-ui-peek-find-definitions
@@ -95,9 +95,9 @@
 ;; Execute
 ;; flutter
 (general-define-key
- :keymaps '(normal emacs)
+ :states '(normal)
+ :keymaps '(dart-mode-map)
  :prefix "SPC"
- :major-modes '(dart-mode)
  "e" '(:ignore t :which-key "Run")
  "er" 'flutter-run-or-hot-reload
  "eR" 'flutter-hot-restart
@@ -106,15 +106,15 @@
 
 ;; Org
 (general-define-key
- :keymaps '(normal emacs)
+ :states '(normal visual)
+ :keymaps '(org-mode-map)
  :prefix "SPC"
- :major-modes '(org-mode)
- "m" '(:ignore t :which-key "Major")
- "me" '(:ignore t :which-key "Export")
- "mem" '(:ignore t :which-key "Markdown")
- "memb" 'org-md-export-as-markdown
- "memf" 'org-md-export-as-markdown
- "ma" '(:ignore t :which-key "Archive")
- "maa" 'org-archive
- "mas" 'org-archive-subtree
+ "o" '(:ignore t :which-key "Org")
+ "oe" '(:ignore t :which-key "Export")
+ "oem" '(:ignore t :which-key "Markdown")
+ "oemb" 'org-md-export-as-markdown
+ "oemf" 'org-md-export-as-markdown
+ "oa" '(:ignore t :which-key "Archive")
+ "oaa" 'org-archive
+ "oas" 'org-archive-subtree
  )

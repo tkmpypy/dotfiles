@@ -19,3 +19,8 @@
   (evil-cross-lines t)
   (evil-want-C-u-scroll t))
 (evil-mode t)
+
+(use-package evil-magit
+  :config
+  (setq evil-magit-state 'normal)
+  (setq evil-magit-use-y-for-yank t))
