@@ -117,4 +117,15 @@
  "oa" '(:ignore t :which-key "Archive")
  "oaa" 'org-archive
  "oas" 'org-archive-subtree
+ "os" '(:ignore t :which-key "Schedule")
+ "oss" 'org-schedule
+ "osd" 'org-deadline
+ "oc" '(:ignore t :which-key "Clock")
+ "oci" 'org-clock-in
+ "oco" 'org-clock-out
+ "op" '(:ignore t :which-key "Property")
+ "opp" 'org-priority
+ "opt" 'org-set-tags-command
+ "ot" 'org-todo
+ "oA" 'org-agenda
  )
