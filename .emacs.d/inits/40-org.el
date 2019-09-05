@@ -1,35 +1,3 @@
-;; straight.elによるorg modeのインストールに先立つ準備
-(require 'subr-x)
-(straight-use-package 'git)
-
-(defun org-git-version ()
-  "The Git version of org-mode.
-Inserted by installing org-mode or when a release is made."
-  (require 'git)
-  (let ((git-repo (expand-file-name
-                   "straight/repos/org/" user-emacs-directory)))
-    (string-trim
-     (git-run "describe"
-              "--match=release\*"
-              "--abbrev=6"
-              "HEAD"))))
-
-(defun org-release ()
-  "The release version of org-mode.
-Inserted by installing org-mode or when a release is made."
-  (require 'git)
-  (let ((git-repo (expand-file-name
-                   "straight/repos/org/" user-emacs-directory)))
-    (string-trim
-     (string-remove-prefix
-      "release_"
-      (git-run "describe"
-               "--match=release\*"
-               "--abbrev=0"
-               "HEAD")))))
-
-(provide 'org-version)
-
 ; メモをC-M-^一発で見るための設定
 ; https://qiita.com/takaxp/items/0b717ad1d0488b74429d から拝借
 (defun show-org-buffer (file)
@@ -41,6 +9,7 @@ Inserted by installing org-mode or when a release is made."
         (message "%s" file))
     (find-file (concat "~/Google ドライブ/org/" file))))
 (use-package org
+  :straight nil
   :custom-face
   (org-level-1 ((t (:inherit outline-1 :height 1.3))))
   (org-level-2 ((t (:inherit outline-2 :height 1.2))))
@@ -60,7 +29,7 @@ Inserted by installing org-mode or when a release is made."
 	(quote (("NEXT" :foreground "red" :weight bold))))
   (setq org-log-done 'time)
   (setq org-clock-in-resume t)
-  (setq org-clock-in-switch-to-state "NEXT")
+  ;; (setq org-clock-in-switch-to-state "NEXT")
   (setq org-clock-out-when-done t)
   (setq org-pretty-entities t)
   (setq org-clock-persist t)

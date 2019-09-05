@@ -1,3 +1,5 @@
+(setq straight-repository-branch "develop")
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
