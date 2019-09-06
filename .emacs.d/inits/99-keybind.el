@@ -24,15 +24,17 @@
  "bq" 'kill-current-buffer
  "s" '(:ignore t :which-key "Search")
  "sb" 'ivy-switch-buffer
- "sr" 'counsel-recentf
- "sa" 'counsel-ag
- "sr" 'counsel-rg
- "sg" 'counsel-git-grep
- "sf" 'counsel-find-file
- "sg" 'counsel-git
  "ss" 'swiper
  "sc" 'swiper-thing-at-point
  "se" 'engine-mode-prefixed-map
+ "sf" '(:ignore t :which-key "File")
+ "sfr" 'counsel-recentf
+ "sff" 'counsel-find-file
+ "sfg" 'counsel-git
+ "sg" '(:ignore t :which-key "Grep")
+ "sga" 'counsel-ag
+ "sgr" 'counsel-rg
+ "sgg" 'counsel-git-grep
  "p" '(:ignore t :which-key "Workspace")
  "pc" 'persp-copy
  "pK" 'persp-kill
@@ -50,8 +52,9 @@
  "pL" 'persp-load-from-file-by-names
  "o" '(:ignore t :which-key "Org")
  "oc" 'org-capture
- "on" '((lambda() (interactive) (show-org-buffer "notes.org")) :which-key "notes")
- "ot" '((lambda() (interactive) (show-org-buffer "todo.org")) :which-key "tasks")
+ "oo" '(:ignore t :which-key "Open")
+ "oon" '((lambda() (interactive) (show-org-buffer "notes.org")) :which-key "notes")
+ "oot" '((lambda() (interactive) (show-org-buffer "todo.org")) :which-key "tasks")
  "f" '(:ignore t :which-key "File")
  "ft" 'neotree-projectile-toggle
  "e" '(:ignore t :which-key "Emacs")

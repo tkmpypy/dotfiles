@@ -9,7 +9,6 @@
         (message "%s" file))
     (find-file (concat "~/Google ドライブ/org/" file))))
 (use-package org
-  :straight nil
   :custom-face
   (org-level-1 ((t (:inherit outline-1 :height 1.3))))
   (org-level-2 ((t (:inherit outline-2 :height 1.2))))
@@ -26,13 +25,17 @@
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
   (setq org-todo-keyword-faces
-	(quote (("NEXT" :foreground "red" :weight bold))))
+	(quote (
+		("NEXT" :foreground "red" :weight bold)
+		("WAITING" :foreground "orange" :weight bold))))
   (setq org-log-done 'time)
   (setq org-clock-in-resume t)
-  ;; (setq org-clock-in-switch-to-state "NEXT")
+  (setq org-clock-in-switch-to-state "NEXT")
   (setq org-clock-out-when-done t)
   (setq org-pretty-entities t)
   (setq org-clock-persist t)
+  ;; アンダースコアをエクスポートしない
+  (setq org-export-with-sub-superscripts t)
   
   ; Org-captureの設定
   

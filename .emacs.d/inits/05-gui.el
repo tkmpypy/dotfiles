@@ -18,7 +18,7 @@
 ;; Font
 (setq default-frame-alist
       (append (list
-              '(font . "Fira Code-16"))
+              '(font . "Ricty Diminished Discord-18"))
               default-frame-alist))
 
 ;; (use-package font-lock)
