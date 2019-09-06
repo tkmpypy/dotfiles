@@ -26,6 +26,7 @@
  "sb" 'ivy-switch-buffer
  "sr" 'counsel-recentf
  "sa" 'counsel-ag
+ "sr" 'counsel-rg
  "sg" 'counsel-git-grep
  "sf" 'counsel-find-file
  "sg" 'counsel-git
@@ -91,6 +92,17 @@
  "gd" 'lsp-ui-peek-find-definitions
  "gi" 'lsp-ui-peek-find-implementation
  )
+
+;; Prog
+(general-define-key
+ :states '(normal emacs)
+ :keymaps '(prog-mode-map)
+ :prefix "SPC"
+ "g" '(:ignore t :which-key "Goto")
+ "gg" 'dumb-jump-go
+ "gb" 'dumb-jump-back
+ "gG" 'dumb-jump-go-other-window
+ "gp" 'dumb-jump-quick-look)
 
 ;; Execute
 ;; flutter

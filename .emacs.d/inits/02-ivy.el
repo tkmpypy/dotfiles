@@ -25,6 +25,8 @@
         (counsel-M-x     . ivy-posframe-display-at-window-center)
         (counsel-find-file     . ivy-posframe-display-at-window-center)
         (counsel-git     . ivy-posframe-display-at-window-center)
+        (counsel-ag     . ivy-posframe-display-at-window-center)
+        (counsel-rg     . ivy-posframe-display-at-window-center)
         (ivy-switch-buffer     . ivy-posframe-display-at-window-center)
         (counsel-recentf     . ivy-posframe-display-at-window-center)
         (persp-switch     . ivy-posframe-display-at-window-center)
