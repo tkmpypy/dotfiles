@@ -144,3 +144,9 @@
  "ot" 'org-todo
  "oA" 'org-agenda
  )
+
+;; eww
+(general-define-key
+ :states '(normal visual)
+ :keymaps '(eww-mode-map)
+ "C-p" 'eww-back-url)
