@@ -32,9 +32,12 @@
  "sff" 'counsel-find-file
  "sfg" 'counsel-git
  "sg" '(:ignore t :which-key "Grep")
- "sga" 'counsel-ag
- "sgr" 'counsel-rg
+ "sgA" 'counsel-ag
+ "sgR" 'counsel-rg
  "sgg" 'counsel-git-grep
+ "sgr" '(:ignore t :which-key "Ripgrep")
+ "sgrd" 'deadgrep
+ "sgrp" 'projectile-ripgrep
  "p" '(:ignore t :which-key "Workspace")
  "pc" 'persp-copy
  "pK" 'persp-kill
