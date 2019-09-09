@@ -30,12 +30,13 @@
 		("WAITING" :foreground "orange" :weight bold))))
   (setq org-log-done 'time)
   (setq org-clock-in-resume t)
-  (setq org-clock-in-switch-to-state "NEXT")
+  ;; (setq org-clock-in-switch-to-state "NEXT")
   (setq org-clock-out-when-done t)
   (setq org-pretty-entities t)
   (setq org-clock-persist t)
   ;; アンダースコアをエクスポートしない
   (setq org-export-with-sub-superscripts t)
+
   
   ; Org-captureの設定
   
@@ -50,3 +51,26 @@
 (use-package org-bullets
       :custom (org-bullets-bullet-list '("" "" "" "" "" "" "" "" "" ""))
       :hook (org-mode . org-bullets-mode))
+
+(eval-after-load 'org
+  '(progn
+    (defun tkmpypy/org-clock-in-if-starting ()
+    "Clock in when the task is marked STARTED."
+	(when (and (string= org-state "NEXT")
+		(not (string= org-last-state org-state)))
+	(org-clock-in)))
+
+    (add-hook 'org-after-todo-state-change-hook
+		'tkmpypy/org-clock-in-if-starting)
+
+    (defadvice org-clock-in (after tkmpypy activate)
+	"Set this task's status to 'STARTED'."
+	(org-todo "NEXT"))
+
+    (defun tkmpypy/org-clock-out-if-waiting ()
+    "Clock in when the task is marked STARTED."
+	(when (and (string= org-state "WAITING")
+		(not (string= org-last-state org-state)))
+	(org-clock-out)))
+    (add-hook 'org-after-todo-state-change-hook
+	    'tkmpypy/org-clock-out-if-waiting)))
