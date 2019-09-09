@@ -46,7 +46,6 @@
  "pn" 'persp-next
  "pp" 'persp-prev
  "p," 'persp-rename
- "pr" 'wg-relo
  "ps" 'persp-switch
  "pS" 'persp-window-switch
  "pw" 'persp-save-state-to-file
