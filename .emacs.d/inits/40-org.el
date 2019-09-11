@@ -9,6 +9,7 @@
         (message "%s" file))
     (find-file (concat "~/Google ドライブ/org/" file))))
 (use-package org
+  :straight nil
   :custom-face
   (org-level-1 ((t (:inherit outline-1 :height 1.3))))
   (org-level-2 ((t (:inherit outline-2 :height 1.2))))
