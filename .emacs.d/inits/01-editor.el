@@ -9,8 +9,10 @@
 (prefer-coding-system 'utf-8)
 ;; バックアップファイルを作成させない
 (setq make-backup-files nil)
-;; 1行ごとの改ページ
-(setq scroll-conservatively 1)
+;; 1行ごとのスクロール
+(setq scroll-conservatively 35
+  scroll-margin 0
+  scroll-step 1)
 
 ;; 終了時にオートセーブファイルを削除する
 (setq delete-auto-save-files t)

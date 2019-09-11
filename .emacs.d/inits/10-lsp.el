@@ -18,7 +18,6 @@
   (typescript-mode . lsp)
   (vue-mode . lsp)
   (python-mode . lsp)
-  (web-mode . lsp)
   (js2-mode . lsp)
   (dart-mode . lsp)
 
