@@ -13,18 +13,20 @@
 (setq scroll-conservatively 35
   scroll-margin 0
   scroll-step 1)
-
+;; タブにスペースを使用する
+(setq-default tab-width 4 indent-tabs-mode nil)
 ;; 終了時にオートセーブファイルを削除する
 (setq delete-auto-save-files t)
 (setq ring-bell-function 'ignore)
 (use-package highlight-indent-guides
-  :diminish
-  :hook
-  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-  :custom
-  (highlight-indent-guides-auto-enabled t)
-  (highlight-indent-guides-responsive t)
-  (highlight-indent-guides-method 'character)) ; column
+    :diminish
+    :hook
+    ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+    :custom
+    (highlight-indent-guides-auto-enabled t)
+    (highlight-indent-guides-responsive t)
+    (highlight-indent-guides-method 'column)) ; column
+
 (use-package rainbow-delimiters
     :hook
     (prog-mode . rainbow-delimiters-mode))
