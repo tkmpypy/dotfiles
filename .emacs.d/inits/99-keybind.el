@@ -100,14 +100,14 @@
 
 ;; Prog
 (general-define-key
- :states '(normal emacs)
+ :states '(normal visual)
  :keymaps '(prog-mode-map)
  :prefix "SPC"
- "g" '(:ignore t :which-key "Goto")
- "gg" 'dumb-jump-go
- "gb" 'dumb-jump-back
- "gG" 'dumb-jump-go-other-window
- "gp" 'dumb-jump-quick-look)
+ "j" '(:ignore t :which-key "Goto")
+ "jj" 'dumb-jump-go
+ "jk" 'dumb-jump-back
+ "jJ" 'dumb-jump-go-other-window
+ "jK" 'dumb-jump-quick-look)
 
 ;; Execute
 ;; flutter

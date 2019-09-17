@@ -90,7 +90,10 @@
     (setq company-box-backends-colors nil)
     (setq company-box-show-single-candidate t)
     (setq company-box-max-candidates 50)
-    (setq company-box-doc-enable nil))
+    (setq company-box-doc-enable t))
+
+  (use-package company-posframe
+    :hook (company-mode . company-posframe-mode))
 
   (use-package company-quickhelp
     :defines company-quickhelp-delay
@@ -116,7 +119,7 @@
 		(define-key company-search-map (kbd "C-n") 'company-select-next)
 		(define-key company-search-map (kbd "C-p") 'company-select-previous)))
     :config
-    (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
+    ;; (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
     (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
