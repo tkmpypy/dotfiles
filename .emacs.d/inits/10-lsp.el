@@ -1,4 +1,8 @@
 (use-package lsp-mode
+  :init
+  ;; dart_language_serverのパフォーマンス改善
+  ;; 直接dart SDKのanalysis_serverを使う
+  (setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
   :custom
   ;; debug
   (lsp-print-io nil)
@@ -25,16 +29,13 @@
   (:map lsp-mode-map
 	("C-c r"   . lsp-rename))
   :config
-  ;; dart_language_serverのパフォーマンス改善
-  ;; 直接dart SDKのanalysis_serverを使う
-  (setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
 
   (setq lsp-use-native-json t)
   ;; (setq lsp-json-use-lists t)
   (setq lsp-enable-on-type-formatting nil)
-  ;; (setq lsp-enable-file-watchers t)
+  ;; (setq lsp-enable-file-watchers t)ß
   ;; LSP UI tools
   (use-package lsp-ui
     :custom
@@ -90,7 +91,7 @@
     (setq company-box-backends-colors nil)
     (setq company-box-show-single-candidate t)
     (setq company-box-max-candidates 50)
-    (setq company-box-doc-enable t))
+    (setq company-box-doc-enable nil))
 
   (use-package company-posframe
     :hook (company-mode . company-posframe-mode))
@@ -123,7 +124,7 @@
     (setq company-idle-delay 0) ; デフォルトは0.5
     (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
-    (setq completion-ignore-case nil)
+    (setq completion-ignore-case t)
     (setq company-tooltip-limit 10)
     (setq company-tooltip-idle-delay 0)
 
@@ -140,11 +141,11 @@
   (setq lsp-sourcekit-executable (expand-file-name "~/work/sourcekit-lsp/.build/x86_64-apple-macosx10.10/debug/sourcekit-lsp")))
 )
 
-(setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
-  (lsp-register-client
+(with-eval-after-load 'lsp-mode
+    (lsp-register-client
     (make-lsp-client :new-connection
-                  (lsp-stdio-connection
-                   'lsp-dart--analysis-server-command)
-                  :major-modes '(dart-mode)
-      :priority 1
-                  :server-id 'dart_analysis_server))
+                    (lsp-stdio-connection
+                    'lsp-dart--analysis-server-command)
+                    :major-modes '(dart-mode)
+                    :priority 1
+                    :server-id 'dart_analysis_server)))
