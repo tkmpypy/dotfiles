@@ -27,6 +27,7 @@
  "ss" 'swiper
  "sc" 'swiper-thing-at-point
  "se" 'engine-mode-prefixed-map
+ "sr" 'vr/query-replace
  "sf" '(:ignore t :which-key "File")
  "sfr" 'counsel-recentf
  "sff" 'counsel-find-file
@@ -63,6 +64,7 @@
  "eb" 'eval-buffer
  "g" '(:ignore t :which-key "Git")
  "gs" 'magit-status
+ "gd" 'magit-diff-buffer-file
  "w" '(:ignore t :which-key "Window")
  "ww" 'ace-select-window
  "wr" 'hydra-frame-window/body
