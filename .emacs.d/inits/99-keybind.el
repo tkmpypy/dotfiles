@@ -31,7 +31,7 @@
  "ss" 'swiper
  "sc" 'swiper-thing-at-point
  "se" 'engine-mode-prefixed-map
- "sr" 'vr/query-replace
+ "sr" 'vr/replace
  "sf" '(:ignore t :which-key "File")
  "sfr" 'counsel-recentf
  "sff" 'counsel-find-file
