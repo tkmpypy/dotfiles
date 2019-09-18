@@ -19,6 +19,10 @@
  :states '(normal emacs)
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
+ "a" '(:ignore t :which-key "Application")
+ "as" '(:ignore t :which-key "Shell")
+ "asa" 'ansi-term
+ "ase" 'eshell
  "b" '(:ignore t :which-key "Buffer")
  "bd" 'kill-buffer
  "bq" 'kill-current-buffer
@@ -39,6 +43,8 @@
  "sgr" '(:ignore t :which-key "Ripgrep")
  "sgrd" 'deadgrep
  "sgrp" 'projectile-ripgrep
+ "t" '(:ignore t :which-key "Toggle")
+ "ti" 'highlight-indent-guides-mode
  "p" '(:ignore t :which-key "Workspace")
  "pc" 'persp-copy
  "pK" 'persp-kill

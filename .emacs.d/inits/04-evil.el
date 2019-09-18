@@ -2,7 +2,8 @@
   :custom
   (evil-cross-lines t)
   (evil-want-C-u-scroll t)
-  :config (evil-mode 1))
+  :config
+  (evil-mode 1))
 
 ;; (use-package evil-collection
 ;;   :after evil

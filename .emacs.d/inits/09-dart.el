@@ -1,4 +1,8 @@
 (use-package dart-mode
+  :init
+  (add-hook 'dart-mode-hook
+            (function (lambda ()
+                        (setq evil-shift-width 2))))
   :config
   (setq dart-enable-analysis-server nil)
   :hook
