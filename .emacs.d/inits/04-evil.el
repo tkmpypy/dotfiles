@@ -11,6 +11,12 @@
 ;;   (evil-collection-company-use-tng nil)
 ;;   :init
 ;;   (evil-collection-init))
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package evil-nerd-commenter)
+
 
 (use-package evil-magit
   :config

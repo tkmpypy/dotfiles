@@ -16,7 +16,7 @@
 (define-key evil-motion-state-map (kbd "gd") nil)
 
 (general-define-key
- :states '(normal emacs)
+ :states '(normal visual)
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
  "a" '(:ignore t :which-key "Application")
@@ -80,7 +80,7 @@
 
 ;; LSP
 (general-define-key
- :states '(normal emacs)
+ :states '(normal visual)
  :keymaps '(lsp-mode-map)
  :prefix "SPC"
  "m" '(:ignore t :which-key "Major")
@@ -107,6 +107,11 @@
  )
 
 ;; Prog
+(general-define-key
+ :states '(normal visual)
+ :keymaps '(prog-mode-map)
+ "gc" 'evilnc-comment-or-uncomment-lines)
+
 (general-define-key
  :states '(normal visual)
  :keymaps '(prog-mode-map)
