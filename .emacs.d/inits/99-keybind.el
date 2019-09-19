@@ -165,3 +165,10 @@
  :states '(normal visual)
  :keymaps '(eww-mode-map)
  "C-p" 'eww-back-url)
+
+;; term
+(general-define-key
+ :states '(normal)
+ :keymaps '(term-mode-map)
+ "p" 'term-paste
+ )

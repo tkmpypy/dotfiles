@@ -24,6 +24,8 @@
   (python-mode . lsp)
   (js2-mode . lsp)
   (dart-mode . lsp)
+  (web-mode . lsp)
+  (css-mode . lsp)
 
   :bind
   (:map lsp-mode-map

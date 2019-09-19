@@ -13,3 +13,7 @@
   (add-hook 'web-mode-hook
             (function (lambda ()
                         (setq evil-shift-width web-mode-markup-indent-offset)))))
+
+(use-package css-mode
+  :init
+  (setq css-indent-offset 2))
