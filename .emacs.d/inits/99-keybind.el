@@ -175,3 +175,9 @@
  :keymaps '(term-mode-map)
  "p" 'term-paste
  )
+
+;; twit
+(general-define-key
+ :states '(normal)
+ :keymaps '(twittering-mode-map)
+ "i" 'twittering-update-status-interactive)
