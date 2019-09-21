@@ -67,6 +67,8 @@
  "f" '(:ignore t :which-key "File")
 ;; "ft" 'neotree-projectile-toggle
  "ft" 'treemacs
+ "ff" 'treemacs-switch-workspace
+ "fe" 'treemacs-edit-workspaces
  "e" '(:ignore t :which-key "Emacs")
  "eb" 'eval-buffer
  "g" '(:ignore t :which-key "Git")
