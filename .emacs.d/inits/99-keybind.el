@@ -65,7 +65,8 @@
  "oon" '((lambda() (interactive) (show-org-buffer "notes.org")) :which-key "notes")
  "oot" '((lambda() (interactive) (show-org-buffer "todo.org")) :which-key "tasks")
  "f" '(:ignore t :which-key "File")
- "ft" 'neotree-projectile-toggle
+;; "ft" 'neotree-projectile-toggle
+ "ft" 'treemacs
  "e" '(:ignore t :which-key "Emacs")
  "eb" 'eval-buffer
  "g" '(:ignore t :which-key "Git")

@@ -1,4 +1,5 @@
 (use-package neotree
+  :disabled
 ;;    :straight (:host github :repo "jaypei/emacs-neotree"
 ;;            :branch "dev")
     :init
