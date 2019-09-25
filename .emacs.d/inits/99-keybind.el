@@ -74,6 +74,7 @@
  "g" '(:ignore t :which-key "Git")
  "gs" 'magit-status
  "gd" 'magit-diff-buffer-file
+ "gc" 'magit-branch-checkout
  "w" '(:ignore t :which-key "Window")
  "ww" 'ace-select-window
  "wr" 'hydra-frame-window/body
