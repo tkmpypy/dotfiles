@@ -75,6 +75,7 @@
  "gs" 'magit-status
  "gd" 'magit-diff-buffer-file
  "gc" 'magit-branch-checkout
+ "gr" 'vc-refresh-state
  "w" '(:ignore t :which-key "Window")
  "ww" 'ace-select-window
  "wr" 'hydra-frame-window/body

@@ -18,14 +18,10 @@
 ;; 終了時にオートセーブファイルを削除する
 (setq delete-auto-save-files t)
 (setq ring-bell-function 'ignore)
-(use-package highlight-indent-guides
+(use-package highlight-indentation
     :diminish
     :hook
-    ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-    :custom
-    (highlight-indent-guides-auto-enabled t)
-    (highlight-indent-guides-responsive t)
-    (highlight-indent-guides-method 'column)) ; column
+    ((prog-mode yaml-mode) . highlight-indentation-current-column-mode))
 
 (use-package rainbow-delimiters
     :hook
