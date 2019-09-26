@@ -1,6 +1,4 @@
-(use-package python-mode
-  :config
-  (add-hook 'python-mode-hook 'highlight-indent-guides-mode))
+(use-package python-mode)
 
 (use-package lsp-python-ms
   :after python-mode
