@@ -9,6 +9,7 @@
         (message "%s" file))
     (find-file (concat "~/Google ドライブ/org/" file))))
 (use-package org
+  :straight org-plus-contrib
   :custom-face
   (org-level-1 ((t (:inherit outline-1 :height 1.3))))
   (org-level-2 ((t (:inherit outline-2 :height 1.2))))
@@ -37,7 +38,6 @@
   ;; アンダースコアをエクスポートしない
   (setq org-export-with-sub-superscripts t)
 
-  
   ; Org-captureの設定
   
   ; Org-captureのテンプレート（メニュー）の設定
@@ -52,25 +52,25 @@
       :custom (org-bullets-bullet-list '("" "" "" "" "" "" "" "" "" ""))
       :hook (org-mode . org-bullets-mode))
 
-(eval-after-load 'org
-  '(progn
-    (defun tkmpypy/org-clock-in-if-starting ()
-    "Clock in when the task is marked STARTED."
-	(when (and (string= org-state "NEXT")
-		(not (string= org-last-state org-state)))
-	(org-clock-in)))
+;; (eval-after-load 'org
+;;   '(progn
+;;     (defun tkmpypy/org-clock-in-if-starting ()
+;;     "Clock in when the task is marked STARTED."
+;; 	(when (and (string= org-state "NEXT")
+;; 		(not (string= org-last-state org-state)))
+;; 	(org-clock-in)))
 
-    (add-hook 'org-after-todo-state-change-hook
-		'tkmpypy/org-clock-in-if-starting)
+;;     (add-hook 'org-after-todo-state-change-hook
+;; 		'tkmpypy/org-clock-in-if-starting)
 
-    (defadvice org-clock-in (after tkmpypy activate)
-	"Set this task's status to 'STARTED'."
-	(org-todo "NEXT"))
+;;     (defadvice org-clock-in (after tkmpypy activate)
+;; 	"Set this task's status to 'STARTED'."
+;; 	(org-todo "NEXT"))
 
-    (defun tkmpypy/org-clock-out-if-waiting ()
-    "Clock in when the task is marked STARTED."
-	(when (and (string= org-state "WAITING")
-		(not (string= org-last-state org-state)))
-	(org-clock-out)))
-    (add-hook 'org-after-todo-state-change-hook
-	    'tkmpypy/org-clock-out-if-waiting)))
+;;     (defun tkmpypy/org-clock-out-if-waiting ()
+;;     "Clock in when the task is marked STARTED."
+;; 	(when (and (string= org-state "WAITING")
+;; 		(not (string= org-last-state org-state)))
+;; 	(org-clock-out)))
+;;     (add-hook 'org-after-todo-state-change-hook
+;; 	    'tkmpypy/org-clock-out-if-waiting)))

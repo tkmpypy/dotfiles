@@ -40,3 +40,13 @@
   :config
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>"))
+
+(use-package evil-org
+  :after (evil org)
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
