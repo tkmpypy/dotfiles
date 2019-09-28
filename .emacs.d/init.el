@@ -15,6 +15,7 @@
 
 ;; use-packageをインストールする
 (straight-use-package 'use-package)
+(straight-use-package 'flymake)
 
 ;; オプションなしで自動的にuse-packageをstraight.elにフォールバックする
 ;; 本来は (use-package hoge :straight t) のように書く必要がある
@@ -22,7 +23,6 @@
 
 ;; init-loaderをインストール&読み込み
 (use-package init-loader)
-
 ;; ~/.emacs.d/init/ 以下のファイルを全部読み込む
 (init-loader-load)
 

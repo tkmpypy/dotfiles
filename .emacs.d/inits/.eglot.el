@@ -1,7 +1,7 @@
 (use-package eglot
+  :after flymake
   :hook
-  (dart-mode . eglot-ensure)
-  )
+  (dart-mode . eglot-ensure))
 ;; company-mode
 (use-package company
     :init
@@ -14,20 +14,20 @@
     :config
     (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
-    (setq company-minimum-prefix-length 2) ; デフォルトは4
+    (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
-    (setq completion-ignore-case nil)
+    (setq completion-ignore-case t)
     (setq company-dabbrev-downcase nil)
     ;; Number the candidates (use M-1, M-2 etc to select completions).
     (setq company-show-numbers t)
     (global-company-mode))
 
-;; (use-package company-box
-;;     :after (company all-the-icons)
-;;     :hook (company-mode . company-box-mode)
-;;     :custom
-;;     (company-box-icons-alist 'company-box-icons-all-the-icons))
-;; (use-package company-quickhelp)
+(use-package company-box
+    :after (company all-the-icons)
+    :hook (company-mode . company-box-mode)
+    :custom
+    (company-box-icons-alist 'company-box-icons-all-the-icons))
+(use-package company-quickhelp)
 ;; (use-package company-tabnine
 ;;     :after (company)
 ;;     :config
