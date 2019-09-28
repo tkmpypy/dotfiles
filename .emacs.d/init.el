@@ -28,6 +28,10 @@
 
 ;; Macでバックスラッシュの入力が出来るように
 (define-key global-map [?\M-¥] "\\")
+;; yes or no を y or n に
+(fset 'yes-or-no-p 'y-or-n-p)
+;; ファイル名の大文字小文字を区別しない
+(setq read-file-name-completion-ignore-case t)
 
 ;; パッケージのpull & build
 (defun tkmpypy/update-packages()
