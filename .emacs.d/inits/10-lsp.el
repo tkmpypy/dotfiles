@@ -1,8 +1,8 @@
 (use-package lsp-mode
-  :init
+  ;; :init
   ;; dart_language_serverのパフォーマンス改善
   ;; 直接dart SDKのanalysis_serverを使う
-  (setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
+  ;; (setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
   :custom
   ;; debug
   (lsp-print-io nil)
@@ -35,7 +35,7 @@
   (setq lsp-eldoc-enable-hover nil)
 
   (setq lsp-use-native-json t)
-  ;; (setq lsp-json-use-lists t)
+  (setq lsp-json-use-lists t)
   (setq lsp-enable-on-type-formatting nil)
   ;; (setq lsp-enable-file-watchers t)ß
   ;; LSP UI tools
@@ -139,11 +139,11 @@
   (setq lsp-sourcekit-executable (expand-file-name "~/work/sourcekit-lsp/.build/x86_64-apple-macosx10.10/debug/sourcekit-lsp")))
 )
 
-(with-eval-after-load 'lsp-mode
-    (lsp-register-client
-    (make-lsp-client :new-connection
-                    (lsp-stdio-connection
-                    'lsp-dart--analysis-server-command)
-                    :major-modes '(dart-mode)
-                    :priority 1
-                    :server-id 'dart_analysis_server)))
+;; (with-eval-after-load 'lsp-mode
+;;     (lsp-register-client
+;;     (make-lsp-client :new-connection
+;;                     (lsp-stdio-connection
+;;                     'lsp-dart--analysis-server-command)
+;;                     :major-modes '(dart-mode)
+;;                     :priority 1
+;;                     :server-id 'dart_analysis_server)))
