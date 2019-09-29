@@ -77,7 +77,6 @@
       (if lsp-ui-doc-mode
         (progn
           (lsp-ui-doc-mode -1)
-	  (lsp-ui-mode -1)
           (lsp-ui-doc--hide-frame))
          (lsp-ui-doc-mode 1)))
     ;;:hook

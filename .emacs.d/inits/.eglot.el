@@ -1,4 +1,5 @@
 (use-package eglot
+  :disabled
   :after flymake
   :hook
   (dart-mode . eglot-ensure))
