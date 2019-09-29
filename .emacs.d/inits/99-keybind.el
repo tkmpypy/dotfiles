@@ -172,6 +172,8 @@
  "C-p" 'eww-back-url)
 
 ;; term
+(evil-define-key 'normal term-raw-map
+  "p" 'term-paste)
 (general-define-key
  :states '(normal)
  :keymaps '(term-mode-map)

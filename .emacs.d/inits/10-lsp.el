@@ -109,7 +109,7 @@
     (company-lsp-cache-candidates t) ;; always using cache
     (company-lsp-filter-candidates t)
     (company-lsp-async t)
-    (company-lsp-enable-recompletion t)
+    (company-lsp-enable-recompletion nil)
     (company-lsp-enable-snippet t))
   ;; (use-package company-tabnine)
   (use-package company
