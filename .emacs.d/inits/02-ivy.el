@@ -41,11 +41,3 @@
   (ivy-posframe ((t (:background "#282a36"))))
     (ivy-posframe-border ((t (:background "#6272a4"))))
     (ivy-posframe-cursor ((t (:background "#61bfff")))))
-
-(use-package prescient)
-(use-package ivy-prescient
-  :after prescient
-  :config (ivy-prescient-mode))
-(use-package company-prescient
-  :after (prescient company)
-  :config (company-prescient-mode))

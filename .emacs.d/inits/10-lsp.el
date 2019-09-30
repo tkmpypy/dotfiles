@@ -11,7 +11,6 @@
   (lsp-response-timeout 15)
   (lsp-enable-completion-at-point nil)
   (lsp-document-highlight nil)
-  (lsp-document-sync-method 'increment)
 
   :hook
   (go-mode . lsp)
@@ -117,7 +116,7 @@
     ;;(define-key company-search-map (kbd "C-n") 'company-select-next)
     ;;(define-key company-search-map (kbd "C-p") 'company-select-previous)
     (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
-    (setq company-idle-delay 0) ; デフォルトは0.5
+    (setq company-idle-delay .1) ; デフォルトは0.5
     (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
     (setq completion-ignore-case t)
