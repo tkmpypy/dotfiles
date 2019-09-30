@@ -15,8 +15,6 @@ if not functions -q fisher
     fish -c fisher
 end
 
-set -x GOPATH $HOME/Go
-set -x PATH $GOPATH/bin $PATH
 set -x PATH ~/.nimble/bin $PATH
 
 set -x PATH /Users/takuma/.nimble/bin $PATH
@@ -44,8 +42,13 @@ set -x PATH $PYENV_ROOT/bin $PATH
 set -x PATH $HOME/.pyenv/versions/3.7.0/bin $PATH
 
 # Go
-set -x PATH $HOME/.goenv/ $PATH
-. (goenv init -|psub)
+set -x GOENV_ROOT $HOME/.goenv
+set -x PATH $GOENV_ROOT/.goenv/bin $PATH
+status --is-interactive; and source (goenv init -|psub)
+set -x PATH $GOROOT/.goenv/bin $PATH
+set -x PATH $GOPATH/.goenv/bin $PATH
+set -x GOPATH $HOME/go
+set -x PATH $GOPATH/bin $PATH
 
 # Rust
 set -x PATH $HOME/.cargo/bin $PATH
