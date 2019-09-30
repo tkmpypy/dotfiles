@@ -11,6 +11,7 @@
   (lsp-response-timeout 15)
   (lsp-enable-completion-at-point nil)
   (lsp-document-highlight nil)
+  (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
 
   :hook
   (go-mode . lsp)
