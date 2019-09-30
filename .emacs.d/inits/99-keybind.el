@@ -140,6 +140,14 @@
  "eR" 'flutter-hot-restart
  "eq" 'flutter-quit
  )
+;; Rust
+(general-define-key
+ :states '(normal)
+ :keymaps '(rust-mode-map)
+ :prefix "SPC"
+ "e" '(:ignore t :which-key "Run")
+ "ec" 'rust-compile
+ "er" 'rust-run)
 
 ;; Org
 (general-define-key

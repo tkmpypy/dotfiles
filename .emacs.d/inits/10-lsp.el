@@ -22,6 +22,7 @@
   (dart-mode . lsp)
   (web-mode . lsp)
   (css-mode . lsp)
+  (rust-mode . lsp)
 
   :bind
   (:map lsp-mode-map
@@ -146,7 +147,8 @@
     :hook
     (after-init . global-company-mode)
     ((go-mode
-    python-mode
+      python-mode
+      rust-mode
     typescript-mode
     js2-mode
     dart-mode
