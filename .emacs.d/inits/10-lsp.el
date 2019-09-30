@@ -1,8 +1,4 @@
 (use-package lsp-mode
-  ;; :init
-  ;; dart_language_serverのパフォーマンス改善
-  ;; 直接dart SDKのanalysis_serverを使う
-  ;; (setq lsp-dart-analysis-sdk-dir "~/flutter-sdk/flutter/bin/cache/dart-sdk/")
   :custom
   ;; debug
   (lsp-print-io nil)
@@ -15,7 +11,7 @@
   (lsp-response-timeout 15)
   (lsp-enable-completion-at-point nil)
   (lsp-document-highlight nil)
-  (lsp-document-sync-method nil)
+  (lsp-document-sync-method 'increment)
 
   :hook
   (go-mode . lsp)
@@ -34,8 +30,8 @@
   (setq lsp-eldoc-render-all nil)
   (setq lsp-eldoc-enable-hover nil)
 
-  (setq lsp-use-native-json t)
-  (setq lsp-json-use-lists t)
+  ;; (setq lsp-use-native-json t)
+  ;; (setq lsp-json-use-lists t)
   (setq lsp-enable-on-type-formatting nil)
   ;; (setq lsp-enable-file-watchers t)ß
   ;; LSP UI tools
@@ -120,7 +116,7 @@
     (define-key company-active-map (kbd "C-p") 'company-select-previous)
     ;;(define-key company-search-map (kbd "C-n") 'company-select-next)
     ;;(define-key company-search-map (kbd "C-p") 'company-select-previous)
-    ;; (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
+    (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
     (setq company-idle-delay 0) ; デフォルトは0.5
     (setq company-minimum-prefix-length 1) ; デフォルトは4
     (setq company-selection-wrap-around t) ; 候補の一番下でさらに下に行こうとすると一番上に戻る
@@ -138,12 +134,3 @@
   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-latest.xctoolchain")
   (setq lsp-sourcekit-executable (expand-file-name "~/work/sourcekit-lsp/.build/x86_64-apple-macosx10.10/debug/sourcekit-lsp")))
 )
-
-;; (with-eval-after-load 'lsp-mode
-;;     (lsp-register-client
-;;     (make-lsp-client :new-connection
-;;                     (lsp-stdio-connection
-;;                     'lsp-dart--analysis-server-command)
-;;                     :major-modes '(dart-mode)
-;;                     :priority 1
-;;                     :server-id 'dart_analysis_server)))

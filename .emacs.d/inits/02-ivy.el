@@ -47,5 +47,5 @@
   :after prescient
   :config (ivy-prescient-mode))
 (use-package company-prescient
-  :after prescient
+  :after (prescient company)
   :config (company-prescient-mode))

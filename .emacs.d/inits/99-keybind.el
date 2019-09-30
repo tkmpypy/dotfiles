@@ -23,6 +23,8 @@
  "as" '(:ignore t :which-key "Shell")
  "asa" 'ansi-term
  "ase" 'eshell
+ "asv" 'vterm
+ "ast" 'vterm-toggle
  "b" '(:ignore t :which-key "Buffer")
  "bd" 'kill-buffer
  "bq" 'kill-current-buffer
@@ -176,7 +178,7 @@
   "p" 'term-paste)
 (general-define-key
  :states '(normal)
- :keymaps '(term-mode-map)
+ :keymaps '(vterm-mode-map)
  "p" 'term-paste
  )
 
