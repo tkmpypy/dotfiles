@@ -28,28 +28,36 @@ set -x PATH /Users/takuma/.nimble/bin $PATH
 set -x PATH /usr/local/bin $PATH
 set -x PATH /usr/local/opt/node@6/bin $PATH
 
+# Android
 set -x ANDROID_HOME $HOME/Library/Android/sdk
 set -x PATH $ANDROID_HOME/platform-tools $PATH
 
+# Dart & Flutter
 set -x PATH ~/.pub-cache/bin $PATH
 set -x PATH ~/flutter-sdk/flutter/bin $PATH
 set -x PATH ~/flutter-sdk/flutter/.pub-cache/bin $PATH
 
+# Python
 set -x PYENV_ROOT $HOME/.pyenv/
 set -x PATH $PYENV_ROOT/bin $PATH
 . (pyenv init -|psub)
+set -x PATH $HOME/.pyenv/versions/3.7.0/bin $PATH
 
+# Go
 set -x PATH $HOME/.goenv/ $PATH
 . (goenv init -|psub)
 
-set -x PATH $HOME/.pyenv/versions/3.7.0/bin $PATH
+# Rust
+set -x PATH $HOME/.cargo/bin $PATH
 
+# Node.js
 set -x PATH $HOME/.nodebrew/current/bin $PATH
 
 set -x PATH /opt/local/bin:/opt/local/sbin $PATH
 set -x MANPATH /opt/local/man $MANPATH
 # set -x PATH $PATH
 
+# Docker
 set -gx DOCKER_TLS_VERIFY "1";
 set -gx DOCKER_HOST "tcp://192.168.99.100:2376";
 set -gx DOCKER_CERT_PATH "/Users/takuma/.docker/machine/machines/default";
