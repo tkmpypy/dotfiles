@@ -172,13 +172,15 @@
     (setq completion-ignore-case t)
     (setq company-tooltip-limit 10)
     (setq company-tooltip-idle-delay 0)
-    (setq company-dabbrev-downcase nil)
+    (setq company-dabbrev-downcase nil))
 
-  )
+  (use-package company-prescient
+    :after prescient
+    :config (company-prescient-mode))
 
-(use-package lsp-sourcekit
-  :after lsp-mode
-  :config
-  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-latest.xctoolchain")
-  (setq lsp-sourcekit-executable (expand-file-name "~/work/sourcekit-lsp/.build/x86_64-apple-macosx10.10/debug/sourcekit-lsp")))
+  (use-package lsp-sourcekit
+    :after lsp-mode
+    :config
+    (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Library/Developer/Toolchains/swift-latest.xctoolchain")
+    (setq lsp-sourcekit-executable (expand-file-name "~/work/sourcekit-lsp/.build/x86_64-apple-macosx10.10/debug/sourcekit-lsp")))
 )
