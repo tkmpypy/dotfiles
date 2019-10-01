@@ -57,3 +57,6 @@
 
 (use-package treemacs-magit
   :after treemacs magit)
+
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list)

@@ -148,6 +148,17 @@
  "e" '(:ignore t :which-key "Run")
  "ec" 'rust-compile
  "er" 'rust-run)
+;; Go
+(general-define-key
+ :states '(normal)
+ :keymaps '(go-mode-map)
+ :prefix "SPC"
+ "e" '(:ignore t :which-key "Run")
+ "er" 'go-run
+ "et" '(:ignore t :which-key "Test")
+ "ett" 'go-test-current-test
+ "etf" 'go-test-current-file
+ "etp" 'go-test-current-project)
 
 ;; Org
 (general-define-key
