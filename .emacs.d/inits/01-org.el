@@ -7,7 +7,7 @@
       (let ((buffer (get-buffer file)))
         (switch-to-buffer buffer)
         (message "%s" file))
-    (find-file (concat "~/Google ドライブ/org/" file))))
+    (find-file (concat "~/Dropbox/org/" file))))
 (use-package org
   :straight org-plus-contrib
   :custom-face
@@ -17,8 +17,8 @@
   (org-level-4 ((t (:inherit outline-4 :height 1.0))))
   (org-level-5 ((t (:inherit outline-5 :height 0.9))))
   :config
-  (setq org-directory "~/Google ドライブ/org")
-  (setq org-agenda-files '("~/Google ドライブ/org/todo.org"))
+  (setq org-directory "~/Dropbox/org")
+  (setq org-agenda-files '("~/Dropbox/org/todo.org"))
   (setq org-default-notes-file "notes.org")
   (setq org-hide-emphasis-markers t)
   (setq org-indent-mode-turns-on-hiding-stars nil)
@@ -42,9 +42,9 @@
   
   ; Org-captureのテンプレート（メニュー）の設定
   (setq org-capture-templates
-      '(("n" "Note" entry (file+headline "~/Google ドライブ/org/notes.org" "Notes")
+      '(("n" "Note" entry (file+headline "~/Dropbox/org/notes.org" "Notes")
          "* %?\nEntered on %U\n %i\n %a")
-      ("t" "Todo" entry (file+headline "~/Google ドライブ/org/todo.org" "INBOX")
+      ("t" "Todo" entry (file+headline "~/Dropbox/org/todo.org" "INBOX")
           "* TODO %?\n %i\n %a")
       )))
 

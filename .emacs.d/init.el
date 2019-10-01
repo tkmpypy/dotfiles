@@ -26,6 +26,9 @@
 ;; ~/.emacs.d/init/ 以下のファイルを全部読み込む
 (init-loader-load)
 
+;; Optionとメタキー（⌘）の入れ替え
+(setq mac-command-modifier 'super)
+(setq mac-option-modifier 'meta)
 ;; Macでバックスラッシュの入力が出来るように
 (define-key global-map [?\M-¥] "\\")
 ;; yes or no を y or n に
