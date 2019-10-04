@@ -9,7 +9,6 @@
         (message "%s" file))
     (find-file (concat "~/Dropbox/org/" file))))
 (use-package org
-  :straight org-plus-contrib
   :custom-face
   (org-level-1 ((t (:inherit outline-1 :height 1.3))))
   (org-level-2 ((t (:inherit outline-2 :height 1.2))))
@@ -39,7 +38,6 @@
   (setq org-export-with-sub-superscripts t)
 
   ; Org-captureの設定
-  
   ; Org-captureのテンプレート（メニュー）の設定
   (setq org-capture-templates
       '(("n" "Note" entry (file+headline "~/Dropbox/org/notes.org" "Notes")
