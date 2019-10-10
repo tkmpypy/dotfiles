@@ -35,7 +35,8 @@
   (setq org-pretty-entities t)
   (setq org-clock-persist t)
   ;; アンダースコアをエクスポートしない
-  (setq org-export-with-sub-superscripts t)
+  (setq org-export-with-sub-superscripts nil)
+  (setq org-use-sub-superscripts nil)
   (setq org-return-follows-link t)
 
   ; Org-captureの設定

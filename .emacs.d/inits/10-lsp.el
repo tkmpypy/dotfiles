@@ -9,7 +9,7 @@
   (lsp-auto-guess-root t)
   (lsp-prefer-flymake nil)
   (lsp-response-timeout 15)
-  (lsp-enable-completion-at-point t)
+  (lsp-enable-completion-at-point nil)
   (lsp-document-highlight nil)
   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
 
@@ -76,8 +76,8 @@
           (lsp-ui-doc-mode -1)
           (lsp-ui-doc--hide-frame))
          (lsp-ui-doc-mode 1)))
-    ;;:hook
-    ;;(lsp-mode . lsp-ui-mode)
+    :hook
+    (lsp-mode . lsp-ui-mode)
     )
   ;; Lsp completion
   (use-package company-box
