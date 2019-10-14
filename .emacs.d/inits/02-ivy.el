@@ -31,6 +31,7 @@
         (counsel-recentf     . ivy-posframe-display-at-window-center)
         (persp-switch     . ivy-posframe-display-at-window-center)
         (persp-window-switch     . ivy-posframe-display-at-window-center)
+        (treemacs-switch-workspace . ivy-posframe-display-at-frame-center)
 	))
   :custom
   (ivy-posframe-parameters
