@@ -60,13 +60,6 @@ set -x PATH /opt/local/bin:/opt/local/sbin $PATH
 set -x MANPATH /opt/local/man $MANPATH
 # set -x PATH $PATH
 
-# Docker
-set -gx DOCKER_TLS_VERIFY "1";
-set -gx DOCKER_HOST "tcp://192.168.99.100:2376";
-set -gx DOCKER_CERT_PATH "/Users/takuma/.docker/machine/machines/default";
-set -gx DOCKER_MACHINE_NAME "default";
-# Run this command to configure your shell:
-# eval (docker-machine env default)
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/takuma/google-cloud-sdk/path.fish.inc' ]; . '/Users/takuma/google-cloud-sdk/path.fish.inc'; end

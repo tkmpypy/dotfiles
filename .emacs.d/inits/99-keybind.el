@@ -47,6 +47,7 @@
  "sgrp" 'projectile-ripgrep
  "t" '(:ignore t :which-key "Toggle")
  "ti" 'highlight-indent-guides-mode
+ "tw" 'toggle-frame-maximized
  "p" '(:ignore t :which-key "Workspace")
  "pc" 'persp-copy
  "pK" 'persp-kill
