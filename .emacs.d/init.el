@@ -78,6 +78,32 @@
         (shrink-window-horizontally 1)
       (enlarge-window-horizontally 1))))
 
+;; 開いているバッファのパスをコピー
+(defun tkmpypy/get-curernt-path ()
+    (if (equal major-mode 'dired-mode)
+    default-directory
+    (buffer-file-name)))
+
+(defun tkmpypy/copy-current-path ()
+  (interactive)
+  (let ((fPath (tkmpypy/get-curernt-path)))
+    (when fPath
+      (message "stored path: %s" fPath)
+      (kill-new (file-truename fPath)))))
+
+;; パスをorg-link形式でコピー
+(defun tkmpypy/copy-current-org-link-path ()
+  (interactive)
+  (let* ((fPath (tkmpypy/get-curernt-path))
+     (fName (file-relative-name fPath)))
+    (my/copy-org-link fPath fName)))
+
+(defun tkmpypy/copy-org-link (my/current-path my/current-title)
+  (let ((orgPath
+     (format "[[%s][%s]]" my/current-path my/current-title)))
+    (message "stored org-link: %s" orgPath)
+    (kill-new orgPath)))
+
 (global-set-key (kbd "<M-up>") 'resize-window-up)
 (global-set-key (kbd "<M-down>") 'resize-window-down)
 (global-set-key (kbd "<M-right>") 'resize-window-right)

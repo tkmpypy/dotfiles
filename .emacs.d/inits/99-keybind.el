@@ -28,6 +28,9 @@
  "b" '(:ignore t :which-key "Buffer")
  "bd" 'kill-buffer
  "bq" 'kill-current-buffer
+ "bc" '(:ignore t :which-key "Copy")
+ "bcc" 'tkmpypy/copy-current-path
+ "bco" 'tkmpypy/copy-current-org-link-path
  "s" '(:ignore t :which-key "Search")
  "sb" 'ivy-switch-buffer
  "ss" 'swiper
