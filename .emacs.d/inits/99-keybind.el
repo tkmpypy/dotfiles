@@ -210,3 +210,9 @@
  :states '(normal)
  :keymaps '(twittering-mode-map)
  "i" 'twittering-update-status-interactive)
+
+;; Deadgrep
+(general-define-key
+ :states '(normal)
+ :keymap '(deadgrep-mode-map)
+ "o" 'deadgrep-visit-result-other-window)
