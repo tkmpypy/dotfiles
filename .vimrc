@@ -296,25 +296,6 @@ let g:vim_json_syntax_conceal = 0
 " }}
 " itchyny/lightline.vim {{
 let g:lightline = {}
-let g:lightline#asyncrun#indicator_none = ''
-let g:lightline#asyncrun#indicator_run = 'Running...'
-let g:lightline.separator = { 'left': "\ue0b8", 'right': "\ue0be" }
-let g:lightline.subseparator = { 'left': "\ue0b9", 'right': "\ue0b9" }
-let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "\ue0ba" }
-let g:lightline.tabline_subseparator = { 'left': "\ue0bb", 'right': "\ue0bb" }
-let g:lightline.colorscheme = 'edge'
-let g:lightline.component_function = {
-            \ 'gitbranch': 'fugitive#head',
-            \ 'devicons_filetype': 'Devicons_Filetype',
-            \ 'devicons_fileformat': 'Devicons_Fileformat',
-            \ 'coc_status': 'coc#status',
-            \ 'coc_currentfunction': 'CocCurrentFunction'
-            \ }
-let g:lightline.component_expand = {
-            \ 'asyncrun_status': 'lightline#asyncrun#status'
-            \ }
-let g:lightline#asyncrun#indicator_none = ''
-let g:lightline#asyncrun#indicator_run = 'Running...'
 let g:lightline.active = {
             \ 'left': [ [ 'mode', 'paste' ],
             \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
@@ -323,6 +304,45 @@ let g:lightline.active = {
 let g:lightline.inactive = {
             \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
             \ }
+let g:lightline#asyncrun#indicator_none = ''
+let g:lightline#asyncrun#indicator_run = 'Running...'
+let g:lightline.colorscheme = 'edge'
+let g:lightline.component_function = {
+            \ 'gitbranch': 'fugitive#head',
+            \ 'devicons_filetype': 'Devicons_Filetype',
+            \ 'devicons_fileformat': 'Devicons_Fileformat',
+            \ 'coc_status': 'coc#status',
+            \ 'coc_currentfunction': 'CocCurrentFunction'
+            \ }
+let g:lightline.component = {
+            \ 'bufinfo': '%{bufname("%")}:%{bufnr("%")}',
+            \ 'vim_logo': "\ue7c5",
+            \ 'mode': '%{lightline#mode()}',
+            \ 'absolutepath': '%F',
+            \ 'relativepath': '%f',
+            \ 'filename': '%t',
+            \ 'fileencoding': '%{&fenc!=#""?&fenc:&enc}',
+            \ 'fileformat': '%{&fenc!=#""?&fenc:&enc}[%{&ff}]',
+            \ 'filetype': '%{&ft!=#""?&ft:"no ft"}',
+            \ 'modified': '%M',
+            \ 'bufnum': '%n',
+            \ 'paste': '%{&paste?"PASTE":""}',
+            \ 'readonly': '%R',
+            \ 'charvalue': '%b',
+            \ 'charvaluehex': '%B',
+            \ 'percent': '%2p%%',
+            \ 'percentwin': '%P',
+            \ 'spell': '%{&spell?&spelllang:""}',
+            \ 'lineinfo': '%2p%% %3l:%-2v',
+            \ 'line': '%l',
+            \ 'column': '%c',
+            \ 'close': '%999X X ',
+            \ }
+let g:lightline.component_expand = {
+            \ 'asyncrun_status': 'lightline#asyncrun#status'
+            \ }
+let g:lightline#asyncrun#indicator_none = ''
+let g:lightline#asyncrun#indicator_run = 'Running...'
 " }
 
 " Use auocmd to force lightline update.
@@ -330,7 +350,15 @@ autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 " }}
 " ryanoasis/vim-devicons {{
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+function! Devicons_Filetype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! Devicons_Fileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_conceal_nerdtree_brackets = 1
 " }}
 " scrooloose/nerdtree {{
 let g:NERDTreeShowHidden = 1
