@@ -67,8 +67,6 @@ Plug 'neoclide/coc-neco'
 " Visual
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
-Plug 'albertomontesg/lightline-asyncrun'
-Plug 'skywind3000/asyncrun.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
@@ -299,13 +297,11 @@ let g:lightline = {}
 let g:lightline.active = {
             \ 'left': [ [ 'mode', 'paste' ],
             \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
-            \ 'right': [ [ 'asyncrun_status', 'coc_status' ] ]
+            \ 'right': [ [ 'coc_status' ] ]
             \ }
 let g:lightline.inactive = {
             \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
             \ }
-let g:lightline#asyncrun#indicator_none = ''
-let g:lightline#asyncrun#indicator_run = 'Running...'
 let g:lightline.colorscheme = 'edge'
 let g:lightline.component_function = {
             \ 'gitbranch': 'fugitive#head',
@@ -339,10 +335,7 @@ let g:lightline.component = {
             \ 'close': '%999X X ',
             \ }
 let g:lightline.component_expand = {
-            \ 'asyncrun_status': 'lightline#asyncrun#status'
             \ }
-let g:lightline#asyncrun#indicator_none = ''
-let g:lightline#asyncrun#indicator_run = 'Running...'
 " }
 
 " Use auocmd to force lightline update.
