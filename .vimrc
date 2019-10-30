@@ -38,6 +38,7 @@ Plug 'dracula/vim'
 Plug 'morhetz/gruvbox'
 Plug 'kaicataldo/material.vim'
 Plug 'edkolev/tmuxline.vim'
+Plug 'sainnhe/edge'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -634,9 +635,10 @@ set backspace=indent,eol,start
 "   autocmd VimEnter * NERDTree ./
 " endif
 
-" set background=dark
-let g:material_theme_style='palenight'
-colorscheme gruvbox
+set background=dark
+" let g:material_theme_style='palenight'
+set termguicolors
+colorscheme edge
 set shell=fish
 
 "*****************************************************************************
