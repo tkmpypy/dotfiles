@@ -114,6 +114,11 @@ command! -bang -nargs=* GGrep
   \   fzf#vim#with_preview(), <bang>0)
   " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 
+" Override Colors command. You can safely do this in your .vimrc as fzf.vim
+" will not override existing commands.
+command! -bang Colors
+  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
+
 " Augmenting Ag command using fzf#vim#with_preview function
 "   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
 "     * For syntax-highlighting, Ruby and any of the following tools are required:
@@ -126,14 +131,18 @@ command! -bang -nargs=* GGrep
 "   :Ag! - Start fzf in fullscreen and display the preview window above
 command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>,
-  \                 fzf#vim#with_preview(),
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \                 <bang>0)
+
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg -S --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(),
+  \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
+
 " Likewise, Files command with preview window
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
@@ -145,8 +154,7 @@ nnoremap <leader>sx :<C-u>Commands<CR>
 nnoremap <leader>sf :<C-u>GFiles<CR>
 nnoremap <leader>sc :<C-u>Commits<CR>
 nnoremap <leader>scb :<C-u>BCommits<CR>
-nnoremap <leader>sa :<C-u>Ag<CR>
-nnoremap <leader>sg :<C-u>GGrep<CR>
+nnoremap <leader>sg :<C-u>Rg<CR>
 nnoremap <leader>sr :History<CR>
 nnoremap <leader>sgs :<C-u>GFiles?<CR>
 " }}
@@ -293,7 +301,7 @@ let g:vim_json_syntax_conceal = 0
 " }}
 " itchyny/lightline.vim {{
 let g:lightline = {
-      \ 'colorscheme': 'material_vim',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
@@ -304,6 +312,11 @@ let g:lightline = {
       \   'currentfunction': 'CocCurrentFunction',
       \ },
       \ }
+
+
+" Use auocmd to force lightline update.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
 " }}
 " ryanoasis/vim-devicons {{
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -468,9 +481,9 @@ nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
 " }}
 " joshdick/onedark.vim {{
-let g:onedark_termcolors=256
+" let g:onedark_termcolors=256
 " let g:onedark_terminal_italics=1
-let g:onedark_hide_endofbuffer=1
+" let g:onedark_hide_endofbuffer=1
 " }}
 " tpope/vim-fugitive {{
 nnoremap <leader>gs :Gstatus<CR>
@@ -568,7 +581,7 @@ nmap <leader>p <Plug>MarkdownPreview
 " nmap <C-p> <Plug>MarkdownPreviewToggle
 " }}
 " memolist {{
-let g:memolist_path = "~/Google ドライブ/notes"
+let g:memolist_path = "~/Dropbox/notes"
 let g:memolist_memo_suffix = "markdown"
 let g:memolist_memo_date = "%Y-%m-%d %H:%M"
 let g:memolist_prompt_tags = 1
@@ -623,7 +636,7 @@ set backspace=indent,eol,start
 
 " set background=dark
 let g:material_theme_style='palenight'
-colorscheme material
+colorscheme gruvbox
 set shell=fish
 
 "*****************************************************************************
