@@ -23,6 +23,11 @@ else
   endif
 endif
 
+if executable('tmux')  && $TMUX !=# ''
+    let g:vimIsInTmux = 1
+else
+    let g:vimIsInTmux = 0
+endif
 
 " Install plugins
 call plug#begin(s:plug_dir)
@@ -62,6 +67,8 @@ Plug 'neoclide/coc-neco'
 " Visual
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
+Plug 'albertomontesg/lightline-asyncrun'
+Plug 'skywind3000/asyncrun.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
@@ -91,19 +98,6 @@ Plug 'tkmpypy/eztrans.vim'
 call plug#end()
 
 let mapleader = "\<Space>"
-
-" tmuxline {{
-let g:tmuxline_theme = "lightline"
-let g:tmuxline_preset = {
-      \'a'    : '#S',
-      \'b'    : '#W',
-      \'c'    : '#H',
-      \'win'  : '#I #W',
-      \'cwin' : '#I #W',
-      \'x'    : '%a',
-      \'y'    : '#W %R',
-      \'z'    : '#H'}
-" }}
 
 " fzf.vim {{
 
@@ -301,19 +295,29 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 let g:vim_json_syntax_conceal = 0
 " }}
 " itchyny/lightline.vim {{
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
-      \   'cocstatus': 'coc#status',
-      \   'currentfunction': 'CocCurrentFunction',
-      \ },
-      \ }
-
+let g:lightline = {}
+let g:lightline.colorscheme = 'edge'
+let g:lightline.component_function = {
+            \ 'gitbranch': 'fugitive#head',
+            \ 'devicons_filetype': 'Devicons_Filetype',
+            \ 'devicons_fileformat': 'Devicons_Fileformat',
+            \ 'coc_status': 'coc#status',
+            \ 'coc_currentfunction': 'CocCurrentFunction'
+            \ }
+let g:lightline.component_expand = {
+            \ 'asyncrun_status': 'lightline#asyncrun#status'
+            \ }
+let g:lightline#asyncrun#indicator_none = ''
+let g:lightline#asyncrun#indicator_run = 'Running...'
+let g:lightline.active = {
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
+            \ 'right': [ [ 'asyncrun_status', 'coc_status' ] ]
+            \ }
+let g:lightline.inactive = {
+            \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
+            \ }
+" }
 
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -477,7 +481,26 @@ let g:vista#renderer#icons = {
 \   "function": "\uf794",
 \   "variable": "\uf71b",
 \  }
-
+"{{{tmuxline.vim
+if g:vimIsInTmux == 1
+    let g:tmuxline_preset = {
+                \'a'    : '#S',
+                \'b'    : '%R',
+                \'c'    : [ '#{sysstat_mem} #[fg=blue]\ufa51#{upload_speed}' ],
+                \'win'  : [ '#I', '#W' ],
+                \'cwin' : [ '#I', '#W', '#F' ],
+                \'x'    : [ "#[fg=blue]#{download_speed} \uf6d9 #{sysstat_cpu}" ],
+                \'y'    : [ '%a' ],
+                \'z'    : '#H #{prefix_highlight}'
+                \}
+    let g:tmuxline_separators = {
+                \ 'left' : "\ue0bc",
+                \ 'left_alt': "\ue0bd",
+                \ 'right' : "\ue0ba",
+                \ 'right_alt' : "\ue0bd",
+                \ 'space' : ' '}
+endif
+"}}}
 nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
 " }}
