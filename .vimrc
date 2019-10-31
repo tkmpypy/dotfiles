@@ -90,6 +90,7 @@ Plug 'mbbill/undotree'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/gv.vim'
 
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
@@ -543,6 +544,10 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gp :Gpush
 nnoremap <leader>gb :Gblame<CR>
+" }}
+" junegunn/gv.vim{{
+vnoremap <leader>gl :GV<CR>
+nnoremap <leader>gl :GV<CR>
 " }}
 " vim-session {{
 let g:session_autosave = 'no'
