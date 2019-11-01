@@ -67,6 +67,7 @@ Plug 'neoclide/coc-neco'
 " Visual
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
+Plug 'taohexxx/lightline-buffer'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
@@ -293,52 +294,119 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
 " }}
+" taohexxx/lightline-buffer {{
+" lightline-buffer ui settings
+" replace these symbols with ascii characters if your environment does not support unicode
+let g:lightline_buffer_logo = ' '
+let g:lightline_buffer_readonly_icon = ''
+let g:lightline_buffer_modified_icon = '✭'
+let g:lightline_buffer_git_icon = ' '
+let g:lightline_buffer_ellipsis_icon = '..'
+let g:lightline_buffer_expand_left_icon = '◀ '
+let g:lightline_buffer_expand_right_icon = ' ▶'
+let g:lightline_buffer_active_buffer_left_icon = ''
+let g:lightline_buffer_active_buffer_right_icon = ''
+let g:lightline_buffer_separator_icon = '  '
+
+" enable devicons, only support utf-8
+" require <https://github.com/ryanoasis/vim-devicons>
+let g:lightline_buffer_enable_devicons = 1
+
+" lightline-buffer function settings
+let g:lightline_buffer_show_bufnr = 1
+
+" :help filename-modifiers
+let g:lightline_buffer_fname_mod = ':t'
+
+" hide buffer list
+let g:lightline_buffer_excludes = ['vimfiler']
+
+" max file name length
+let g:lightline_buffer_maxflen = 30
+
+" max file extension length
+let g:lightline_buffer_maxfextlen = 3
+
+" min file name length
+let g:lightline_buffer_minflen = 16
+
+" min file extension length
+let g:lightline_buffer_minfextlen = 3
+
+" reserve length for other component (e.g. info, close)
+let g:lightline_buffer_reservelen = 20
+" }}
 " itchyny/lightline.vim {{
-let g:lightline = {}
-let g:lightline.active = {
-            \ 'left': [ [ 'mode', 'paste' ],
-            \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
-            \ 'right': [ [ 'coc_status' ] ]
-            \ }
-let g:lightline.inactive = {
-            \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
-            \ }
+set showtabline=2  " always show tabline
+let g:lightline = {
+    \ 'tabline': {
+    \   'left': [ [ 'bufferinfo' ],
+    \             [ 'separator' ],
+    \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
+    \   'right': [ [ 'close' ], ],
+    \ },
+    \ 'active': {
+    \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype']  ],
+    \   'right': [ ['branch'], ['devicons_fileformat'], ['coc_status'] ],
+    \ },
+    \ 'component_expand': {
+    \   'buffercurrent': 'lightline#buffer#buffercurrent',
+    \   'bufferbefore': 'lightline#buffer#bufferbefore',
+    \   'bufferafter': 'lightline#buffer#bufferafter',
+    \ },
+    \ 'component_type': {
+    \   'buffercurrent': 'tabsel',
+    \   'bufferbefore': 'raw',
+    \   'bufferafter': 'raw',
+    \ },
+    \ 'component_function': {
+    \   'bufferinfo': 'lightline#buffer#bufferinfo',
+    \   'coc_status': 'coc#status',
+    \   'currentfunction': 'CocCurrentFunction',
+    \   'gitbranch': 'fugitive#head',
+    \   'devicons_filetype': 'Devicons_Filetype',
+    \   'devicons_fileformat': 'Devicons_Fileformat',
+    \   'branch': 'LightlineFugitive',
+    \   'filename': 'LightlineFilename',
+    \ },
+    \ 'component': {
+    \   'separator': '',
+    \ },
+    \ }
 let g:lightline.colorscheme = 'edge'
-let g:lightline.component_function = {
-            \ 'gitbranch': 'fugitive#head',
-            \ 'devicons_filetype': 'Devicons_Filetype',
-            \ 'devicons_fileformat': 'Devicons_Fileformat',
-            \ 'coc_status': 'coc#status',
-            \ 'coc_currentfunction': 'CocCurrentFunction'
-            \ }
-let g:lightline.component = {
-            \ 'bufinfo': '%{bufname("%")}:%{bufnr("%")}',
-            \ 'vim_logo': "\ue7c5",
-            \ 'mode': '%{lightline#mode()}',
-            \ 'absolutepath': '%F',
-            \ 'relativepath': '%f',
-            \ 'filename': '%t',
-            \ 'fileencoding': '%{&fenc!=#""?&fenc:&enc}',
-            \ 'fileformat': '%{&fenc!=#""?&fenc:&enc}[%{&ff}]',
-            \ 'filetype': '%{&ft!=#""?&ft:"no ft"}',
-            \ 'modified': '%M',
-            \ 'bufnum': '%n',
-            \ 'paste': '%{&paste?"PASTE":""}',
-            \ 'readonly': '%R',
-            \ 'charvalue': '%b',
-            \ 'charvaluehex': '%B',
-            \ 'percent': '%2p%%',
-            \ 'percentwin': '%P',
-            \ 'spell': '%{&spell?&spelllang:""}',
-            \ 'lineinfo': '%2p%% %3l:%-2v',
-            \ 'line': '%l',
-            \ 'column': '%c',
-            \ 'close': '%999X X ',
-            \ }
-let g:lightline.component_expand = {
-            \ }
 " }
 
+function! LightlineFugitive()
+  return exists('*fugitive#head') ? g:lightline_buffer_git_icon . fugitive#head() : ''
+endfunction
+
+function! LightlineModified()
+  if &filetype == 'help'
+    return ''
+  elseif &modified
+    return g:lightline_buffer_modified_icon
+  elseif &modifiable
+    return ''
+  else
+    return '-'
+  endif
+endfunction
+
+function! LightlineReadonly()
+  if &filetype == 'help'
+    return ''
+  elseif &readonly
+    return g:lightline_buffer_readonly_icon
+  else
+    return ''
+  endif
+endfunction
+
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
@@ -778,6 +846,9 @@ nnoremap <Leader>wr :WinResizerStartResize<Enter>
 " noremap <S-k>   {
 " noremap <S-l>   $
 
+" remap arrow keys
+nnoremap <Left> :bprev<CR>
+nnoremap <Right> :bnext<CR>
 " 折り返した行を複数行として移動
 nnoremap <silent> j gj
 nnoremap <silent> k gk
