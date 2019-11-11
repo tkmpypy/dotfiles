@@ -91,6 +91,7 @@ Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
+Plug 'itchyny/vim-gitbranch'
 
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
@@ -324,10 +325,10 @@ let g:lightline = {
     \   'bufferinfo': 'lightline#buffer#bufferinfo',
     \   'coc_status': 'coc#status',
     \   'currentfunction': 'CocCurrentFunction',
-    \   'gitbranch': 'fugitive#head',
+    \   'gitbranch': 'gitbranch#name',
     \   'devicons_filetype': 'Devicons_Filetype',
     \   'devicons_fileformat': 'Devicons_Fileformat',
-    \   'branch': 'LightlineFugitive',
+    \   'branch': 'LightlineGitbranch',
     \   'filename': 'LightlineFilename',
     \ },
     \ 'component': {
@@ -337,8 +338,8 @@ let g:lightline = {
 let g:lightline.colorscheme = 'edge'
 " }
 
-function! LightlineFugitive()
-  return exists('*fugitive#head') ? g:lightline_buffer_git_icon . fugitive#head() : ''
+function! LightlineGitbranch()
+  return exists('*gitbranch#name') ? g:lightline_buffer_git_icon . gitbranch#name() : ''
 endfunction
 
 function! LightlineModified()
@@ -680,7 +681,7 @@ nnoremap <Leader>mg  :MemoGrep<CR>
 " }}
 " undotree{{
 if has("persistent_undo")
-    set undodir="~/Google ドライブ/undodir"
+    set undodir="~/Dropbox/undodir"
     set undofile
 endif
 nnoremap <Leader>ut :UndotreeToggle<cr>
@@ -709,7 +710,7 @@ set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
 set number
-set ruler
+set noruler
 set guifont="Cica"
 set hlsearch
 set backspace=indent,eol,start
@@ -772,7 +773,7 @@ set wrap
 set noswapfile
 " 内容が変更されたら自動で再読込
 set autoread
-
+set synmaxcol=200
 "*****************************************************************************
 " KeyMap
 "*****************************************************************************
@@ -812,10 +813,10 @@ nnoremap <Leader>wr :WinResizerStartResize<Enter>
 nnoremap <Left> :bprev<CR>
 nnoremap <Right> :bnext<CR>
 " 折り返した行を複数行として移動
-nnoremap <silent> j gj
-nnoremap <silent> k gk
-nnoremap <silent> gj j
-nnoremap <silent> gk k
+" nnoremap <silent> j gj
+" nnoremap <silent> k gk
+" nnoremap <silent> gj j
+" nnoremap <silent> gk k
 
 " if has('mac')
 "   set ttimeoutlen=1
@@ -836,3 +837,8 @@ tnoremap <ESC> <C-\><C-n>
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
 
+" augroup vimrc-auto-cursorline
+"   autocmd!
+"   autocmd CursorMoved,CursorMovedI,WinLeave * setlocal nocursorline
+"   autocmd CursorHold,CursorHoldI * setlocal cursorline
+" augroup END
