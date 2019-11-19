@@ -45,7 +45,9 @@ Plug 'kaicataldo/material.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'sainnhe/edge'
 
-Plug 'liuchengxu/vim-clap'
+Plug 'junegunn/fzf', { 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+" Plug 'liuchengxu/vim-clap'
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
 Plug 'moll/vim-bbye'
@@ -63,10 +65,12 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc-neco'
 
+Plug 'mattn/sonictemplate-vim'
+
 " Visual
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
-Plug 'taohexxx/lightline-buffer'
+Plug 'mengelbrecht/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
@@ -86,6 +90,7 @@ Plug 'xolox/vim-session'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'glidenote/memolist.vim'
 Plug 'mbbill/undotree'
+Plug 'osyo-manga/vim-over'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -99,21 +104,74 @@ call plug#end()
 
 let mapleader = "\<Space>"
 
+" fzf.vim {{
+
+" Command for git grep
+" - fzf#vim#grep(command, with_column, [options], [fullscreen])
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview(), <bang>0)
+  " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+
+" Override Colors command. You can safely do this in your .vimrc as fzf.vim
+" will not override existing commands.
+command! -bang Colors
+  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
+
+" Augmenting Ag command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
+"     * For syntax-highlighting, Ruby and any of the following tools are required:
+"       - Bat: https://github.com/sharkdp/bat
+"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+"       - CodeRay: http://coderay.rubychan.de/
+"       - Rouge: https://github.com/jneen/rouge
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=? -complete=dir GFiles
+  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+nnoremap <leader>sb :<C-u>Buffers<CR>
+nnoremap <leader>sx :<C-u>Commands<CR>
+nnoremap <leader>sf :<C-u>GFiles<CR>
+nnoremap <leader>sc :<C-u>Commits<CR>
+nnoremap <leader>scb :<C-u>BCommits<CR>
+nnoremap <leader>sg :<C-u>Rg<CR>
+nnoremap <leader>sr :History<CR>
+nnoremap <leader>sgs :<C-u>GFiles?<CR>
 " vim-clap {{
-let g:clap_provider_grep_opts = '-S --hidden --smart-case -g "!.git/"'
-let g:clap_provider_notes = {
-      \ 'source': uniq(sort(map(split(globpath('~/Dropbox/notes', '*.*'), '\n'), 'v:val'))),
-      \ 'sink': 'e',
-      \ }
-nnoremap <leader>sb :<C-u>Clap buffers<CR>
-nnoremap <leader>sf :<C-u>Clap gfiles<CR>
-nnoremap <leader>sc :<C-u>Clap commits<CR>
-nnoremap <leader>scb :<C-u>Clap bcommits<CR>
-nnoremap <leader>sg :<C-u>Clap grep<CR>
-nnoremap <leader>sr :<C-u>Clap history<CR>
-nnoremap <leader>sh :<C-u>Clap hist:<CR>
-nnoremap <leader>sy :<C-u>Clap yank<CR>
-nnoremap <leader>sl :<C-u>Clap blines<CR>
+" let g:clap_provider_grep_opts = '-S --hidden --smart-case -g "!.git/"'
+" let g:clap_provider_notes = {
+"       \ 'source': uniq(sort(map(split(globpath('~/Dropbox/notes', '*.*'), '\n'), 'v:val'))),
+"       \ 'sink': 'e',
+"       \ }
+" nnoremap <leader>sb :<C-u>Clap buffers<CR>
+" nnoremap <leader>sf :<C-u>Clap gfiles<CR>
+" nnoremap <leader>sc :<C-u>Clap commits<CR>
+" nnoremap <leader>scb :<C-u>Clap bcommits<CR>
+" nnoremap <leader>sg :<C-u>Clap grep<CR>
+" nnoremap <leader>sr :<C-u>Clap history<CR>
+" nnoremap <leader>sh :<C-u>Clap hist:<CR>
+" nnoremap <leader>sy :<C-u>Clap yank<CR>
+" nnoremap <leader>sl :<C-u>Clap blines<CR>
 " }}
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
@@ -147,7 +205,7 @@ let g:python_highlight_all = 1
 " }}
 " coc.nvim {{
 function! CocCurrentFunction()
-    return get(b:, 'coc_current_function', '')
+    return ' ' . get(b:, 'coc_current_function', '')
 endfunction
 
 " if hidden not set, TextEdit might fail.
@@ -257,72 +315,37 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 let g:vim_json_syntax_conceal = 0
 " }}
 " taohexxx/lightline-buffer {{
-" lightline-buffer ui settings
-" replace these symbols with ascii characters if your environment does not support unicode
-let g:lightline_buffer_logo = ' '
+let g:lightline#bufferline#enable_devicons = 1
+let g:lightline#bufferline#show_number  = 2
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
+let g:lightline#bufferline#filename_modifier = ':t'
+let g:lightline#bufferline#unicode_symbols = 1
+
+let g:git_icon = ' '
 let g:lightline_buffer_readonly_icon = ''
 let g:lightline_buffer_modified_icon = '✭'
-let g:lightline_buffer_git_icon = ' '
-let g:lightline_buffer_ellipsis_icon = '..'
-let g:lightline_buffer_expand_left_icon = '◀ '
-let g:lightline_buffer_expand_right_icon = ' ▶'
-let g:lightline_buffer_active_buffer_left_icon = ''
-let g:lightline_buffer_active_buffer_right_icon = ''
-let g:lightline_buffer_separator_icon = '  '
-
-" enable devicons, only support utf-8
-" require <https://github.com/ryanoasis/vim-devicons>
-let g:lightline_buffer_enable_devicons = 1
-
-" lightline-buffer function settings
-let g:lightline_buffer_show_bufnr = 1
-
-" :help filename-modifiers
-let g:lightline_buffer_fname_mod = ':t'
-
-" hide buffer list
-let g:lightline_buffer_excludes = ['vimfiler']
-
-" max file name length
-let g:lightline_buffer_maxflen = 30
-
-" max file extension length
-let g:lightline_buffer_maxfextlen = 3
-
-" min file name length
-let g:lightline_buffer_minflen = 16
-
-" min file extension length
-let g:lightline_buffer_minfextlen = 3
-
-" reserve length for other component (e.g. info, close)
-let g:lightline_buffer_reservelen = 20
 " }}
 " itchyny/lightline.vim {{
 set showtabline=2  " always show tabline
 let g:lightline = {
     \ 'tabline': {
-    \   'left': [ [ 'bufferinfo' ],
+    \   'left': [ [ 'buffers' ],
     \             [ 'separator' ],
     \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
     \   'right': [ [ 'close' ], ],
     \ },
     \ 'active': {
-    \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype']  ],
+    \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
     \   'right': [ ['branch'], ['devicons_fileformat'], ['coc_status'] ],
     \ },
-    \ 'component_expand': {
-    \   'buffercurrent': 'lightline#buffer#buffercurrent',
-    \   'bufferbefore': 'lightline#buffer#bufferbefore',
-    \   'bufferafter': 'lightline#buffer#bufferafter',
-    \ },
     \ 'component_type': {
-    \   'buffercurrent': 'tabsel',
-    \   'bufferbefore': 'raw',
-    \   'bufferafter': 'raw',
+    \   'buffers': 'tabsel',
+    \ },
+    \ 'component_expand': {
+    \   'buffers': 'lightline#bufferline#buffers',
     \ },
     \ 'component_function': {
-    \   'bufferinfo': 'lightline#buffer#bufferinfo',
     \   'coc_status': 'coc#status',
     \   'currentfunction': 'CocCurrentFunction',
     \   'gitbranch': 'gitbranch#name',
@@ -336,10 +359,13 @@ let g:lightline = {
     \ },
     \ }
 let g:lightline.colorscheme = 'edge'
+" Use auocmd to force lightline update.
+" autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
 
 function! LightlineGitbranch()
-  return exists('*gitbranch#name') ? g:lightline_buffer_git_icon . gitbranch#name() : ''
+  return exists('*gitbranch#name') ? g:git_icon . gitbranch#name() : ''
 endfunction
 
 function! LightlineModified()
@@ -369,9 +395,6 @@ function! LightlineFilename()
        \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
-" Use auocmd to force lightline update.
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-
 " }}
 " ryanoasis/vim-devicons {{
 function! Devicons_Filetype()
@@ -672,8 +695,8 @@ let g:memolist_memo_suffix = "markdown"
 let g:memolist_memo_date = "%Y-%m-%d %H:%M"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 1
-let g:memolist_fzf = 0
-let g:memolist_ex_cmd = 'Clap notes'
+let g:memolist_fzf = 1
+" let g:memolist_ex_cmd = 'Clap notes'
 
 nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
@@ -686,6 +709,18 @@ if has("persistent_undo")
 endif
 nnoremap <Leader>ut :UndotreeToggle<cr>
 " }}
+"" vim-over {{{
+
+" over.vimの起動
+nnoremap <silent> <Leader>rw :OverCommandLine<CR>
+
+" カーソル下の単語をハイライト付きで置換
+nnoremap <silent> <Leader>rc :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+
+" コピーした文字列をハイライト付きで置換
+nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+
+" }}}
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************

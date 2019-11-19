@@ -1,4 +1,5 @@
 {
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "languageserver": {
     "dart": {
       "command": "dart_language_server", // in windows is dart_language_server.bat
