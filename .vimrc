@@ -205,7 +205,11 @@ let g:python_highlight_all = 1
 " }}
 " coc.nvim {{
 function! CocCurrentFunction()
-    return ' ' . get(b:, 'coc_current_function', '')
+    let funcName = get(b:, 'coc_current_function', '')
+    if funcName != ''
+        let funcName = ' ' . funcName
+    endif
+    return funcName
 endfunction
 
 " if hidden not set, TextEdit might fail.
@@ -337,7 +341,7 @@ let g:lightline = {
     \ },
     \ 'active': {
     \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
-    \   'right': [ ['branch'], ['devicons_fileformat'], ['coc_status'] ],
+    \   'right': [ ['branch'], ['devicons_fileformat', 'percent' ], ['coc_status'] ],
     \ },
     \ 'component_type': {
     \   'buffers': 'tabsel',
@@ -355,8 +359,15 @@ let g:lightline = {
     \   'filename': 'LightlineFilename',
     \ },
     \ 'component': {
-    \   'separator': '',
+    \   'lineinfo': ' %3l:%-2v',
+    \   'percent': '%3p%%',
+    \   'percentwin': '%P',
+    \   'absolutepath': '%F',
+    \   'relativepath': '%f',
+    \   'line': '%l',
     \ },
+    \ 'separator': { 'left': '', 'right': '' },
+    \ 'subseparator': { 'left': '', 'right': '' }
     \ }
 let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
