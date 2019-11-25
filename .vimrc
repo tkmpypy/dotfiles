@@ -111,7 +111,7 @@ let mapleader = "\<Space>"
 command! -bang -nargs=* GGrep
   \ call fzf#vim#grep(
   \   'git grep --line-number '.shellescape(<q-args>), 0,
-  \   fzf#vim#with_preview(), <bang>0)
+  \   fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}), <bang>0)
   " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 
 " Override Colors command. You can safely do this in your .vimrc as fzf.vim
@@ -131,16 +131,16 @@ command! -bang Colors
 "   :Ag! - Start fzf in fullscreen and display the preview window above
 command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
+  \                         : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
   \                 <bang>0)
 
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
+  \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
   \   <bang>0)
 
 " Likewise, Files command with preview window
@@ -256,7 +256,7 @@ function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
@@ -273,7 +273,7 @@ nmap <leader>f  <Plug>(coc-format-selected)
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -288,12 +288,12 @@ nmap <space>ac  <Plug>(coc-codeaction)
 nmap <space>qf  <Plug>(coc-fix-current)
 
 " Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call CocActionAsync('format')
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
 " use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
@@ -314,6 +314,8 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" coc-yank
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 " }}
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
@@ -421,6 +423,7 @@ let g:webdevicons_conceal_nerdtree_brackets = 1
 " scrooloose/nerdtree {{
 let g:NERDTreeShowHidden = 1
 nnoremap <leader>ft :NERDTreeToggle<CR>
+nnoremap <leader>ff :NERDTreeFind<CR>
 " }}
 " vim-bookmarks {{
 nmap <Leader>m <Plug>BookmarkToggle
@@ -449,21 +452,21 @@ let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
 " Require tpope/vim-repeat to enable dot repeat support
 " Jump to anywhere with only `s{char}{target}`
 " `s<CR>` repeat last find motion.
-nmap s <Plug>(easymotion-s)
+nmap es <Plug>(easymotion-s)
 " Bidirectional & within line 't' motion
-omap t <Plug>(easymotion-bd-tl)
+omap et <Plug>(easymotion-bd-tl)
 " der>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
-nmap <Leader>ff <Plug>(easymotion-overwin-f2)
+map  <Leader>ef <Plug>(easymotion-bd-f)
+nmap <Leader>ef <Plug>(easymotion-overwin-f)
+nmap <Leader>eff <Plug>(easymotion-overwin-f2)
 
 " Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+map <Leader>el <Plug>(easymotion-bd-jk)
+nmap <Leader>eL <Plug>(easymotion-overwin-line)
 
 " Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+map  <Leader>ew <Plug>(easymotion-bd-w)
+nmap <Leader>ew <Plug>(easymotion-overwin-w)
 
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
@@ -847,11 +850,6 @@ nnoremap <Leader>tp :tabp<Enter>
 " resize wondiw mode
 nnoremap <Leader>wr :WinResizerStartResize<Enter>
 
-" nnoremap j gj
-" nnoremap k gk
-" nnoremap gj j
-" nnoremap gk k
-
 " noremap <S-h>   ^
 " noremap <S-j>   }
 " noremap <S-k>   {
@@ -860,21 +858,6 @@ nnoremap <Leader>wr :WinResizerStartResize<Enter>
 " remap arrow keys
 nnoremap <Left> :bprev<CR>
 nnoremap <Right> :bnext<CR>
-" 折り返した行を複数行として移動
-" nnoremap <silent> j gj
-" nnoremap <silent> k gk
-" nnoremap <silent> gj j
-" nnoremap <silent> gk k
-
-" if has('mac')
-"   set ttimeoutlen=1
-"   let g:imeoff = 'osascript -e "tell application \"System Events\" to key code 102"'
-"   augroup MyIMEGroup
-"     autocmd!
-"     autocmd InsertLeave * :call system(g:imeoff)
-"   augroup END
-"   inoremap <silent> <C-j> <ESC>:call system(g:imeoff)<CR>
-" endif
 
 inoremap jj <ESC>
 
@@ -884,9 +867,3 @@ tnoremap <ESC> <C-\><C-n>
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
-
-" augroup vimrc-auto-cursorline
-"   autocmd!
-"   autocmd CursorMoved,CursorMovedI,WinLeave * setlocal nocursorline
-"   autocmd CursorHold,CursorHoldI * setlocal cursorline
-" augroup END
