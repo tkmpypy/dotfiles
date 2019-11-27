@@ -431,7 +431,7 @@ nmap <Leader>mi <Plug>BookmarkAnnotate
 nmap <Leader>ma <Plug>BookmarkShowAll
 nmap <Leader>mj <Plug>BookmarkNext
 nmap <Leader>mk <Plug>BookmarkPrev
-nmap <Leader>mc <Plug>BookmarkClear
+nmap <Leader>md <Plug>BookmarkClear
 nmap <Leader>mx <Plug>BookmarkClearAll
 nmap <Leader>mk <Plug>BookmarkMoveUp
 nmap <Leader>mj <Plug>BookmarkMoveDown
