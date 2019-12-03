@@ -735,6 +735,13 @@ nnoremap <silent> <Leader>rc :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
 " }}}
+" eztrans.vim {{
+
+" カーソル下の単語をハイライト付きで置換
+nnoremap <Leader>et :EztransDefaultCurrent en ja<CR>
+vnoremap <Leader>et :EztransSelection en ja<CR>
+
+" }}
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
