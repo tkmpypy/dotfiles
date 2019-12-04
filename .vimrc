@@ -537,9 +537,6 @@ let NERDTreeHijackNetrw = 0
 " tpope/vim-markdown {{
 let g:vim_markdown_conceal = 0
 " }}
-" previm/previm {{
-let g:previm_open_cmd = 'open -a Google\ Chrome'
-" }}
 " liuchengxu/vista.vim {{
 " How each level is indented and what to prepend.
 " This could make the display more compact or more spacious.
