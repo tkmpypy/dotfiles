@@ -808,6 +808,7 @@ autocmd FileType go setlocal noexpandtab
 autocmd FileType dart setlocal ts=2 sw=2
 autocmd FileType vue setlocal ts=2 sw=2
 autocmd FileType typescript setlocal ts=2 sw=2
+autocmd FileType typescriptreact setlocal ts=2 sw=2
 autocmd FileType javascript setlocal ts=2 sw=2
 
 " No beep
@@ -867,7 +868,7 @@ inoremap jj <ESC>
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ
-tnoremap <ESC> <C-\><C-n>
+" tnoremap <C-[> <C-\><C-n>
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
