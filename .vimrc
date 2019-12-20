@@ -104,6 +104,7 @@ call plug#end()
 
 let mapleader = "\<Space>"
 
+
 " fzf.vim {{
 
 " Command for git grep
@@ -181,7 +182,7 @@ nnoremap <leader>qq :Bdelete!<CR>
 nnoremap <leader>rb :QuickRun<CR>
 " }}
 " polyglot {{
-let g:polyglot_disabled = ['markdown']
+let g:polyglot_disabled = ['markdown','md']
 " }}
 " vim-markdown {{
 let g:vim_markdown_folding_disabled = 1
@@ -270,13 +271,13 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
+" augroup mygroup
+"   autocmd!
+"   " Setup formatexpr specified filetype(s).
+"   autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
+"   " Update signature help on jump placeholder
+"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
 xmap <space>a  <Plug>(coc-codeaction-selected)
@@ -759,10 +760,11 @@ endif
 " set t_Co=256
 filetype plugin indent on
 syntax on
+
+set number
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
-set number
 set noruler
 set guifont="Cica"
 set hlsearch
@@ -777,6 +779,8 @@ set backspace=indent,eol,start
 set background=dark
 " let g:material_theme_style='palenight'
 set termguicolors
+let g:edge_style = 'neon'
+let g:edge_disable_italic_comment = 1
 colorscheme edge
 set shell=fish
 
@@ -814,6 +818,7 @@ autocmd FileType javascript setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
+set redrawtime=10000
 
 
 "*****************************************************************************
@@ -829,7 +834,7 @@ set noswapfile
 set autoread
 set synmaxcol=200
 " 正規表現エンジンの固定
-set regexpengine=1
+" set regexpengine=1
 "*****************************************************************************
 " KeyMap
 "*****************************************************************************
