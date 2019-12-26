@@ -77,6 +77,7 @@ Plug 'liuchengxu/vista.vim'
 
 " Explorer
 Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-rooter'
 
 " Util
 Plug 'MattesGroeger/vim-bookmarks'
@@ -425,6 +426,9 @@ let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:NERDTreeShowHidden = 1
 nnoremap <leader>ft :NERDTreeToggle<CR>
 nnoremap <leader>ff :NERDTreeFind<CR>
+" }}
+" vim-rooter {{
+nnoremap <leader>cdr :Rooter<CR>
 " }}
 " vim-bookmarks {{
 nmap <Leader>m <Plug>BookmarkToggle
