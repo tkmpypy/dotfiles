@@ -44,6 +44,7 @@ Plug 'morhetz/gruvbox'
 Plug 'kaicataldo/material.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'sainnhe/edge'
+Plug 'arcticicestudio/nord-vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -93,6 +94,9 @@ Plug 'glidenote/memolist.vim'
 Plug 'mbbill/undotree'
 Plug 'osyo-manga/vim-over'
 Plug 'rhysd/reply.vim', { 'on': ['Repl', 'ReplAuto'] }
+Plug 'rhysd/devdocs.vim'
+Plug 'tyru/operator-camelize.vim'
+  Plug 'kana/vim-operator-user'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -374,7 +378,7 @@ let g:lightline = {
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
-let g:lightline.colorscheme = 'edge'
+let g:lightline.colorscheme = 'nord'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -757,6 +761,18 @@ nnoremap <Leader>et :EztransDefaultCurrent en ja<CR>
 vnoremap <Leader>et :EztransSelection en ja<CR>
 
 " }}
+" vimdocs {{
+let g:devdocs_filetype_map = {
+    \   'typescript.jsx': 'react',
+    \   'typescriptreact': 'react',
+    \ }
+nnoremap <Leader>d :DevDocsUnderCursor<CR>
+nnoremap <Leader>da :DevDocsAll
+" }}
+" tyru/operator-camelize.vim {{
+map <leader>c <plug>(operator-camelize)
+map <leader>C <plug>(operator-decamelize)
+" }}
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
@@ -797,7 +813,7 @@ set background=dark
 set termguicolors
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
-colorscheme edge
+colorscheme nord
 set shell=fish
 
 "*****************************************************************************
