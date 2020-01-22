@@ -2,6 +2,7 @@
   :mode
   ("\\.html$" . web-mode)
   ("\\.hbs$" . web-mode)
+  ("\\.tsx\\'" . web-mode)
   :init
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-code-indent-offset 2)

@@ -21,9 +21,9 @@
 ;;              '(font . "Cica-18"))
 ;;              default-frame-alist))
 
-(let* ((size 18)
-       (asciifont "Ricty Diminished Discord")
-       (jpfont "Ricty Diminished Discord")
+(let* ((size 14)
+       (asciifont "FuraCode Nerd Font")
+       (jpfont "FuraCode Nerd Font")
        (h (* size 10))
        (fontspec (font-spec :family asciifont))
        (jp-fontspec (font-spec :family jpfont)))
