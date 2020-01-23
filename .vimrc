@@ -378,7 +378,7 @@ let g:lightline = {
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
-let g:lightline.colorscheme = 'nord'
+let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -817,7 +817,7 @@ set background=dark
 set termguicolors
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
-colorscheme nord
+colorscheme edge
 set shell=fish
 
 "*****************************************************************************
