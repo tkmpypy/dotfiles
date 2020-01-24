@@ -97,6 +97,7 @@ Plug 'rhysd/reply.vim', { 'on': ['Repl', 'ReplAuto'] }
 Plug 'rhysd/devdocs.vim'
 Plug 'tyru/operator-camelize.vim'
   Plug 'kana/vim-operator-user'
+Plug 't9md/vim-choosewin'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -772,6 +773,10 @@ nnoremap <Leader>da :DevDocsAll
 " tyru/operator-camelize.vim {{
 map <leader>c <plug>(operator-camelize)
 map <leader>C <plug>(operator-decamelize)
+" }}
+" t9md/vim-choosewin {{
+nmap <leader>w <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
 " }}
 "*****************************************************************************
 " Visual Settings
