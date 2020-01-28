@@ -77,7 +77,7 @@ Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
 
 " Explorer
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'airblade/vim-rooter'
 
 " Util
