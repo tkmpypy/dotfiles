@@ -799,7 +799,8 @@ endif
 filetype plugin indent on
 syntax on
 
-set number
+set nonumber
+set relativenumber
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
