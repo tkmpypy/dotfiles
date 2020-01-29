@@ -62,10 +62,17 @@ Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
 
 " Completion
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'Shougo/neco-vim'
-Plug 'neoclide/coc-neco'
+" use coc.nvim
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-neco'
+" use vim-lsp
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 
+Plug 'Shougo/neco-vim'
 Plug 'mattn/sonictemplate-vim'
 
 " Visual
@@ -165,22 +172,6 @@ nnoremap <leader>scb :<C-u>BCommits<CR>
 nnoremap <leader>sg :<C-u>Rg<CR>
 nnoremap <leader>sr :History<CR>
 nnoremap <leader>sgs :<C-u>GFiles?<CR>
-" vim-clap {{
-" let g:clap_provider_grep_opts = '-S --hidden --smart-case -g "!.git/"'
-" let g:clap_provider_notes = {
-"       \ 'source': uniq(sort(map(split(globpath('~/Dropbox/notes', '*.*'), '\n'), 'v:val'))),
-"       \ 'sink': 'e',
-"       \ }
-" nnoremap <leader>sb :<C-u>Clap buffers<CR>
-" nnoremap <leader>sf :<C-u>Clap gfiles<CR>
-" nnoremap <leader>sc :<C-u>Clap commits<CR>
-" nnoremap <leader>scb :<C-u>Clap bcommits<CR>
-" nnoremap <leader>sg :<C-u>Clap grep<CR>
-" nnoremap <leader>sr :<C-u>Clap history<CR>
-" nnoremap <leader>sh :<C-u>Clap hist:<CR>
-" nnoremap <leader>sy :<C-u>Clap yank<CR>
-" nnoremap <leader>sl :<C-u>Clap blines<CR>
-" }}
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
 nnoremap <leader>qq :Bdelete!<CR>
@@ -212,71 +203,70 @@ let g:rainbow_active = 1
 let g:python_highlight_all = 1
 " }}
 " coc.nvim {{
-function! CocCurrentFunction()
-    let funcName = get(b:, 'coc_current_function', '')
-    if funcName != ''
-        let funcName = ' ' . funcName
-    endif
-    return funcName
-endfunction
+" function! CocCurrentFunction()
+"     let funcName = get(b:, 'coc_current_function', '')
+"     if funcName != ''
+"         let funcName = ' ' . funcName
+"     endif
+"     return funcName
+" endfunction
 
 " if hidden not set, TextEdit might fail.
-set hidden
-
-set nobackup
-set nowritebackup
+" set hidden
+" set nobackup
+" set nowritebackup
 
 " Better display for messages
-set cmdheight=2
+" set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
+" set updatetime=300
 
 " don't give |ins-completion-menu| messages.
-set shortmess=aFc
+" set shortmess=aFc
 
 " always show signcolumns
-set signcolumn=yes
+" set signcolumn=yes
 
 " Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" OR this mapping also breaks it in same manor
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" " OR this mapping also breaks it in same manor
 " Make <cr> select the first completion item and confirm completion when no item have selected
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" " Use `[c` and `]c` to navigate diagnostics
+" nmap <silent> [c <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
 
 " Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocActionAsync('doHover')
-  endif
-endfunction
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocActionAsync('doHover')
+"   endif
+" endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+" nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
 " augroup mygroup
 "   autocmd!
@@ -287,43 +277,64 @@ nmap <leader>f  <Plug>(coc-format-selected)
 " augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <space>a  <Plug>(coc-codeaction-selected)
-nmap <space>a  <Plug>(coc-codeaction-selected)
+" xmap <space>a  <Plug>(coc-codeaction-selected)
+" nmap <space>a  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
-nmap <space>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <space>qf  <Plug>(coc-fix-current)
+" nmap <space>ac  <Plug>(coc-codeaction)
+" " Fix autofix problem of current line
+" nmap <space>qf  <Plug>(coc-fix-current)
 
 " Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocActionAsync('format')
+" command! -nargs=0 Format :call CocActionAsync('format')
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
+" command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
+" " use `:OR` for organize import of current buffer
+" command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+" " Add status line support, for integration with other plugin, checkout `:h coc-status`
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
+" " Manage extensions
+" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " coc-yank
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+" }}
+" vim-lsp {{
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_highlights_enabled = 1
+let g:lsp_textprop_enabled = 1
+let g:lsp_highlight_references_enabled = 1
+highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
+nmap <leader>rn :LspRename<cr>
+nmap <silent> gd :LspDefinition<cr>
+nmap <silent> pd :LspPeekDefinition<cr>
+nmap <silent> gy :LspTypeDefinition<cr>
+nmap <silent> gi :LspImplementation<cr>
+nmap <silent> gr :LspReferences<cr>
+nnoremap <silent> K :LspHover<CR>
+nmap <leader>qf  :LspCodeAction<cr>
+
+command! -nargs=0 Format :LspDocumentFormat<cr>
+autocmd BufWritePre <buffer>
+                \ call execute('LspCodeActionSync source.organizeImports')
 " }}
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
@@ -556,7 +567,7 @@ let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'coc'
+let g:vista_default_executive = 'vim_lsp'
 
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
@@ -795,10 +806,11 @@ if (has('termguicolors'))
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-" set t_Co=256
+set t_Co=256
 filetype plugin indent on
 syntax on
 
+" set guifont="FiraCode Nerd Font"
 set nonumber
 set relativenumber
 set laststatus=2 " ステータスラインを常に表示
@@ -820,7 +832,6 @@ set backspace=indent,eol,start
 
 set background=dark
 " let g:material_theme_style='palenight'
-set termguicolors
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 colorscheme edge
