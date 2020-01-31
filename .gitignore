@@ -51,3 +51,6 @@ history.el
 bookmarks
 .emacs.d/url/cache/takuma/https/com/duckduckgo
 .emacs.d/url/cache/takuma/https/org/python/www
+.config/yarn
+.emacs.d/.cache
+.emacs.d/persp-confs
