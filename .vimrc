@@ -709,7 +709,7 @@ nnoremap <leader>gs :Gina status<CR>
 nnoremap <leader>gc :Gina commit<CR>
 nnoremap <leader>gd :Gina changes<CR>
 nnoremap <leader>gb :Gina blame<CR>
-nnoremap <leader>gp :Gpush<CR>
+nnoremap <leader>gp :Gina push<CR>
 " }}
 " vim-session {{
 let g:session_autosave = 'no'
