@@ -111,7 +111,6 @@ Plug 'tyru/operator-camelize.vim'
 Plug 't9md/vim-choosewin'
 
 " Git
-Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
@@ -700,14 +699,6 @@ nnoremap <leader>tt :Vista!! <CR>
 " let g:onedark_termcolors=256
 " let g:onedark_terminal_italics=1
 " let g:onedark_hide_endofbuffer=1
-" }}
-" tpope/vim-fugitive {{
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>ge :Gedit<CR>
-nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gp :Gpush
-nnoremap <leader>gb :Gblame<CR>
 " }}
 " junegunn/gv.vim{{
 vnoremap <leader>gl :GV<CR>
