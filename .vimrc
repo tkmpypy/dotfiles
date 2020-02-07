@@ -112,6 +112,7 @@ Plug 't9md/vim-choosewin'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
 Plug 'itchyny/vim-gitbranch'
