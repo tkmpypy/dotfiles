@@ -115,7 +115,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
-Plug 'itchyny/vim-gitbranch'
 
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
@@ -400,10 +399,9 @@ let g:lightline = {
     \ 'component_function': {
     \   'coc_status': 'coc#status',
     \   'currentfunction': 'CocCurrentFunction',
-    \   'gitbranch': 'gitbranch#name',
     \   'devicons_filetype': 'Devicons_Filetype',
     \   'devicons_fileformat': 'Devicons_Fileformat',
-    \   'branch': 'LightlineGitbranch',
+    \   'branch': 'gina#component#repo#branch',
     \   'filename': 'LightlineFilename',
     \ },
     \ 'component': {
@@ -422,10 +420,6 @@ let g:lightline.colorscheme = 'edge'
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
-
-function! LightlineGitbranch()
-  return exists('*gitbranch#name') ? g:git_icon . gitbranch#name() : ''
-endfunction
 
 function! LightlineModified()
   if &filetype == 'help'
@@ -718,6 +712,13 @@ nnoremap <leader>gb :Gblame<CR>
 " junegunn/gv.vim{{
 vnoremap <leader>gl :GV<CR>
 nnoremap <leader>gl :GV<CR>
+" }}
+" gina.vim {{
+nnoremap <leader>gs :Gina status<CR>
+nnoremap <leader>gc :Gina commit<CR>
+nnoremap <leader>gd :Gina changes<CR>
+nnoremap <leader>gb :Gina blame<CR>
+nnoremap <leader>gp :Gpush<CR>
 " }}
 " vim-session {{
 let g:session_autosave = 'no'
