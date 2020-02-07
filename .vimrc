@@ -113,7 +113,6 @@ Plug 't9md/vim-choosewin'
 " Git
 Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/gv.vim'
 
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
@@ -700,14 +699,12 @@ nnoremap <leader>tt :Vista!! <CR>
 " let g:onedark_terminal_italics=1
 " let g:onedark_hide_endofbuffer=1
 " }}
-" junegunn/gv.vim{{
-vnoremap <leader>gl :GV<CR>
-nnoremap <leader>gl :GV<CR>
-" }}
 " gina.vim {{
 nnoremap <leader>gs :Gina status<CR>
 nnoremap <leader>gc :Gina commit<CR>
-nnoremap <leader>gd :Gina changes<CR>
+nnoremap <leader>gd :Gina compare<CR>
+nnoremap <leader>gD :Gina diff<CR>
+nnoremap <leader>gl :Gina log<CR>
 nnoremap <leader>gb :Gina blame<CR>
 nnoremap <leader>gp :Gina push<CR>
 " }}
