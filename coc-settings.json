@@ -18,5 +18,5 @@
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
   "html.format.enable": true,
   "python.jediEnabled": false,
-  "python.formatting.provider": "autopep8"
+  "python.formatting.provider": "yapf"
 }

@@ -86,7 +86,9 @@ Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
 
 " Explorer
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'airblade/vim-rooter'
 
 " Util
@@ -122,6 +124,8 @@ let mapleader = "\<Space>"
 
 
 " fzf.vim {{
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 
@@ -462,9 +466,66 @@ let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 " }}
 " scrooloose/nerdtree {{
-let g:NERDTreeShowHidden = 1
-nnoremap <leader>ft :NERDTreeToggle<CR>
-nnoremap <leader>ff :NERDTreeFind<CR>
+" let g:NERDTreeShowHidden = 1
+" nnoremap <leader>ft :NERDTreeToggle<CR>
+" nnoremap <leader>ff :NERDTreeFind<CR>
+" }}
+" fern.vim {{
+function! s:init_fern() abort
+  setlocal nonumber
+  setlocal norelativenumber
+  " Define NERDTree like mappings
+  nmap <buffer> o <Plug>(fern-action-open:edit)
+  nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
+  nmap <buffer> t <Plug>(fern-action-open:tabedit)
+  nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
+  nmap <buffer> i <Plug>(fern-action-open:split)
+  nmap <buffer> gi <Plug>(fern-action-open:split)<C-w>p
+  nmap <buffer> s <Plug>(fern-action-open:vsplit)
+  nmap <buffer> gs <Plug>(fern-action-open:vsplit)<C-w>p
+
+  nmap <buffer> P gg
+
+  nmap <buffer> C <Plug>(fern-action-enter)
+  nmap <buffer> u <Plug>(fern-action-leave)
+  nmap <buffer> r <Plug>(fern-action-reload)
+  nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
+  nmap <buffer> cd <Plug>(fern-action-cd)
+  nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
+
+  nmap <buffer> I <Plug>(fern-action-hide-toggle)
+
+  nmap <buffer> q :<C-u>quit<CR>
+  nmap <buffer><expr>
+      \ <Plug>(fern-my-expand-or-collapse)
+      \ fern#smart#leaf(
+      \   "\<Plug>(fern-action-collapse)",
+      \   "\<Plug>(fern-action-expand)",
+      \   "\<Plug>(fern-action-collapse)",
+      \ )
+  nmap <buffer><expr>
+      \ <Plug>(fern-my-expand-or-enter)
+      \ fern#smart#drawer(
+      \   "\<Plug>(fern-open-or-expand)",
+      \   "\<Plug>(fern-open-or-enter)",
+      \ )
+  nmap <buffer><expr>
+      \ <Plug>(fern-my-collapse-or-leave)
+      \ fern#smart#drawer(
+      \   "\<Plug>(fern-action-collapse)",
+      \   "\<Plug>(fern-action-leave)",
+      \ )
+  nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
+  nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
+
+endfunction
+let g:fern#default_hidden = 1
+let g:fern#renderer = "devicons"
+nnoremap <leader>ft :Fern . -drawer<CR>
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
 " }}
 " vim-rooter {{
 nnoremap <leader>cdr :Rooter<CR>
