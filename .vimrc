@@ -75,7 +75,6 @@ Plug 'neoclide/coc-neco'
 " Plug 'mattn/vim-lsp-settings'
 
 Plug 'Shougo/neco-vim'
-Plug 'mattn/sonictemplate-vim'
 
 " Visual
 Plug 'yggdroot/indentline'
