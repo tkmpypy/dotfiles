@@ -386,7 +386,7 @@ let g:lightline = {
     \ },
     \ 'active': {
     \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
-    \   'right': [ ['branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
+    \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
     \ },
     \ 'component_type': {
     \   'buffers': 'tabsel',
@@ -400,6 +400,7 @@ let g:lightline = {
     \   'devicons_filetype': 'Devicons_Filetype',
     \   'devicons_fileformat': 'Devicons_Fileformat',
     \   'branch': 'gina#component#repo#branch',
+    \   'git_status': 'GetGitStatus',
     \   'filename': 'LightlineFilename',
     \ },
     \ 'component': {
@@ -418,6 +419,10 @@ let g:lightline.colorscheme = 'edge'
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
+
+function! GetGitStatus()
+    return gina#component#traffic#preset("fancy")
+endfunction
 
 function! LightlineModified()
   if &filetype == 'help'
@@ -700,12 +705,12 @@ nnoremap <leader>tt :Vista!! <CR>
 " let g:onedark_hide_endofbuffer=1
 " }}
 " gina.vim {{
-nnoremap <leader>gs :Gina status<CR>
-nnoremap <leader>gc :Gina commit<CR>
-nnoremap <leader>gd :Gina compare<CR>
-nnoremap <leader>gD :Gina diff<CR>
-nnoremap <leader>gl :Gina log<CR>
-nnoremap <leader>gb :Gina blame<CR>
+nnoremap <leader>gs :Gina status --opener=vsplit<CR>
+nnoremap <leader>gc :Gina commit --opener=vsplit<CR>
+nnoremap <leader>gd :Gina compare --opener=vsplit<CR>
+nnoremap <leader>gD :Gina diff --opener=vsplit<CR>
+nnoremap <leader>gl :Gina log --graph --opener=vsplit<CR>
+nnoremap <leader>gb :Gina blame --opener=vsplit<CR>
 nnoremap <leader>gp :Gina push<CR>
 " }}
 " vim-session {{
