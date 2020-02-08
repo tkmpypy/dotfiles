@@ -703,13 +703,13 @@ nnoremap <leader>tt :Vista!! <CR>
 " let g:onedark_hide_endofbuffer=1
 " }}
 " gina.vim {{
-nnoremap <leader>gs :Gina status --opener=vsplit<CR>
-nnoremap <leader>gc :Gina commit --opener=vsplit<CR>
-nnoremap <leader>gd :Gina compare --opener=vsplit<CR>
-nnoremap <leader>gD :Gina diff --opener=vsplit<CR>
-nnoremap <leader>gl :Gina log --graph --opener=vsplit<CR>
-nnoremap <leader>gb :Gina blame --opener=vsplit<CR>
-nnoremap <leader>gp :Gina push<CR>
+nnoremap <silent> <leader>gs :<C-u>Gina status --opener=vsplit<CR>
+nnoremap <silent> <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
+nnoremap <silent> <leader>gd :<C-u>Gina compare --opener=vsplit<CR>
+nnoremap <silent> <leader>gD :<C-u>Gina diff --opener=vsplit<CR>
+nnoremap <silent> <leader>gl :<C-u>Gina log --graph --opener=vsplit<CR>
+nnoremap <silent> <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
+nnoremap <leader>gp :<C-u>Gina push<CR>
 " }}
 " vim-session {{
 let g:session_autosave = 'no'
@@ -882,6 +882,18 @@ if !has('gui_running')
     set pumblend=20
   endif
 endif
+
+" completion settings
+set complete&
+      \ complete+=k
+      \ complete+=s
+      \ complete+=i
+      \ complete+=d
+      \ complete+=t
+set completeopt&
+      \ completeopt+=preview
+      \ completeopt+=menu
+      \ completeopt+=longest
 
 set t_Co=256
 filetype plugin indent on
