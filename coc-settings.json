@@ -18,5 +18,6 @@
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
   "html.format.enable": true,
   "python.jediEnabled": false,
-  "python.formatting.provider": "yapf"
+  "python.formatting.provider": "yapf",
+  "eslint.autoFixOnSave": true
 }

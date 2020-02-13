@@ -311,6 +311,8 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " coc-yank
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent> <space>F  :<C-u>Format<cr>
+nnoremap <silent> <space>I  :<C-u>OR<cr>
 " }}
 " vim-lsp {{
 " let g:lsp_settings_python = 'pyls-ms'
@@ -343,10 +345,9 @@ nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 " call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
 "     \ 'name': 'buffer',
 "     \ 'whitelist': ['*'],
-"     \ 'blacklist': ['go'],
 "     \ 'completor': function('asyncomplete#sources#buffer#completor'),
 "     \ 'config': {
-"     \    'max_buffer_size': 5000000,
+"     \    'max_buffer_size': 50,
 "     \  },
 "     \ }))
 " " file
@@ -354,6 +355,9 @@ nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 "     \ 'name': 'file',
 "     \ 'whitelist': ['*'],
 "     \ 'priority': 10,
+"     \ 'config': {
+"     \    'max_buffer_size': 50,
+"     \  },
 "     \ 'completor': function('asyncomplete#sources#file#completor')
 "     \ }))
 " }}
