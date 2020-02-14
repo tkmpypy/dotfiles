@@ -48,7 +48,7 @@ Plug 'arcticicestudio/nord-vim'
 
 " Plug 'junegunn/fzf', { 'do': './install --all' }
 "   Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
 Plug 'moll/vim-bbye'
@@ -868,26 +868,43 @@ map <leader>C <plug>(operator-decamelize)
 nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 " }}
-" vim-clap {{
-let g:clap_provider_grep_opts = '-S --hidden --smart-case'
-let g:clap_provider_notes = {
-      \ 'source': uniq(sort(map(split(globpath('~/Dropbox/notes', '*.*'), '\n'), 'v:val'))),
-      \ 'sink': 'e',
-      \ }
-let g:clap_layout = { 'relative': 'editor' }
-let g:clap_open_action = { 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
-nnoremap <leader>sb :<C-u>Clap buffers<CR>
-nnoremap <leader>sf :<C-u>Clap files --hidden<CR>
-nnoremap <leader>sc :<C-u>Clap commits<CR>
-nnoremap <leader>scb :<C-u>Clap bcommits<CR>
-nnoremap <leader>sg :<C-u>Clap grep<CR>
-nnoremap <leader>sr :<C-u>Clap history<CR>
-nnoremap <leader>sh :<C-u>Clap hist:<CR>
-nnoremap <leader>sy :<C-u>Clap yank<CR>
-nnoremap <leader>st :<C-u>Clap tags<CR>
-nnoremap <leader>sl :<C-u>Clap blines<CR>
-nnoremap <leader>sq :<C-u>Clap quickfix<CR>
-nnoremap <leader>sll :<C-u>Clap loclist<CR>
+" LeaderF {{
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+let g:Lf_ShortcutF = "<leader>sf"
+let g:Lf_ShowHidden = 1
+let g:Lf_RgConfig = [
+    \ "--glob=!git/*",
+    \ "--hidden",
+    \ "-S",
+    \ "--line-number",
+    \ "--no-heading",
+    \ "--smart-case",
+\ ]
+noremap <leader>sb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>sr :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>st :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>sl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+noremap <leader>sgb :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <leader>sgc :<C-U><C-R>=printf("Leaderf rg -e %s ", expand("<cword>"))<CR><CR>
+noremap <leader>sg :<C-U><C-R>=printf("Leaderf rg %s", "")<CR><CR>
+" search visually selected text literally
+" xnoremap <leader>sg :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+noremap <leader>sgr :<C-U>Leaderf rg --recall<CR>
+
+" should use `Leaderf gtags --update` first
+let g:Lf_GtagsAutoGenerate = 0
+let g:Lf_Gtagslabel = 'native-pygments'
 " }}
 "*****************************************************************************
 " Visual Settings
