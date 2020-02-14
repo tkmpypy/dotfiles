@@ -46,8 +46,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'sainnhe/edge'
 Plug 'arcticicestudio/nord-vim'
 
-" Plug 'junegunn/fzf', { 'do': './install --all' }
-"   Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
@@ -62,19 +60,17 @@ Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
 
 " Completion
-" use coc.nvim
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-neco'
-" use vim-lsp
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Plug 'prabirshrestha/asyncomplete-buffer.vim'
-" Plug 'prabirshrestha/asyncomplete-file.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-
+" use neovim built-in
+Plug 'neovim/nvim-lsp'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'Shougo/neco-vim'
+
+" lint
+Plug 'dense-analysis/ale'
 
 " Visual
 Plug 'yggdroot/indentline'
@@ -118,71 +114,6 @@ Plug 'tkmpypy/eztrans.vim'
 call plug#end()
 
 let mapleader = "\<Space>"
-" fzf.vim {{
-"let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-"" [Buffers] Jump to the existing window if possible
-"let g:fzf_buffers_jump = 1
-
-"" [[B]Commits] Customize the options used by 'git log':
-"let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-
-"" [Tags] Command to generate tags file
-"let g:fzf_tags_command = 'ctags -R'
-
-"" [Commands] --expect expression for directly executing the command
-"let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-"" Command for git grep
-"" - fzf#vim#grep(command, with_column, [options], [fullscreen])
-"command! -bang -nargs=* GGrep
-"  \ call fzf#vim#grep(
-"  \   'git grep --line-number '.shellescape(<q-args>), 0,
-"  \   fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}), <bang>0)
-"  " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
-
-"" Override Colors command. You can safely do this in your .vimrc as fzf.vim
-"" will not override existing commands.
-"command! -bang Colors
-"  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
-
-"" Augmenting Ag command using fzf#vim#with_preview function
-""   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
-""     * For syntax-highlighting, Ruby and any of the following tools are required:
-""       - Bat: https://github.com/sharkdp/bat
-""       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-""       - CodeRay: http://coderay.rubychan.de/
-""       - Rouge: https://github.com/jneen/rouge
-""
-""   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-""   :Ag! - Start fzf in fullscreen and display the preview window above
-"command! -bang -nargs=* Ag
-"  \ call fzf#vim#ag(<q-args>,
-"  \                 <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-"  \                         : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-"  \                 <bang>0)
-
-"" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-"command! -bang -nargs=* Rg
-"  \ call fzf#vim#grep(
-"  \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-"  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-"  \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-"  \   <bang>0)
-
-"" Likewise, Files command with preview window
-"command! -bang -nargs=? -complete=dir Files
-"  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-"command! -bang -nargs=? -complete=dir GFiles
-"  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-"nnoremap <leader>sb :<C-u>Buffers<CR>
-"nnoremap <leader>sx :<C-u>Commands<CR>
-"nnoremap <leader>sf :<C-u>GFiles<CR>
-"nnoremap <leader>sc :<C-u>Commits<CR>
-"nnoremap <leader>scb :<C-u>BCommits<CR>
-"nnoremap <leader>sg :<C-u>Rg<CR>
-"nnoremap <leader>sr :History<CR>
-"nnoremap <leader>sgs :<C-u>GFiles?<CR>
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
 nnoremap <leader>qq :Bdelete!<CR>
@@ -213,153 +144,83 @@ let g:rainbow_active = 1
 " python-syntax {{
 let g:python_highlight_all = 1
 " }}
-" coc.nvim {{
-function! CocCurrentFunction()
-    let funcName = get(b:, 'coc_current_function', '')
-    if funcName != ''
-        let funcName = ' ' . funcName
-    endif
-    return funcName
-endfunction
+" built-in lsp {{
+lua << EOF
+require'nvim_lsp'.vimls.setup{}
+require'nvim_lsp'.jsonls.setup{}
+require'nvim_lsp'.tsserver.setup{}
+require'nvim_lsp'.pyls_ms.setup{}
+EOF
+autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
+autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
+autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
+autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> rn    <cmd>lua vim.lsp.buf.rename()<CR>
 
+let g:asyncomplete_auto_popup = 1
+" buffer
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ 'config': {
+    \    'max_buffer_size': 50,
+    \  },
+    \ }))
+" file
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'priority': 10,
+    \ 'config': {
+    \    'max_buffer_size': 50,
+    \  },
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
+call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+\ 'name': 'omni',
+\ 'whitelist': ['*'],
+\ 'completor': function('asyncomplete#sources#omni#completor')
+\  }))
 
-" Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-" " OR this mapping also breaks it in same manor
-" Make <cr> select the first completion item and confirm completion when no item have selected
-" " Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocActionAsync('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <space>a  <Plug>(coc-codeaction-selected)
-nmap <space>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <space>ac  <Plug>(coc-codeaction)
-" " Fix autofix problem of current line
-nmap <space>qf  <Plug>(coc-fix-current)
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocActionAsync('format')
-
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
-" " use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-" " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
-" " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-" coc-yank
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-nnoremap <silent> <space>F  :<C-u>Format<cr>
-nnoremap <silent> <space>I  :<C-u>OR<cr>
 " }}
-" vim-lsp {{
-" let g:lsp_settings_python = 'pyls-ms'
 
-" let g:lsp_diagnostics_enabled = 1
-" let g:lsp_signs_enabled = 1         " enable signs
-" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-" let g:lsp_highlights_enabled = 1
-" let g:lsp_textprop_enabled = 1
-" let g:lsp_highlight_references_enabled = 1
-" highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
-
-" let g:lsp_signs_error = {'text': '✗'}
-" let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
-" let g:lsp_signs_hint = {'test': '?'} " icons require GUI
-" nmap <leader>rn :LspRename<cr>
-" nmap <silent> gd :LspDefinition<cr>
-" nmap <silent> pd :LspPeekDefinition<cr>
-" nmap <silent> gy :LspTypeDefinition<cr>
-" nmap <silent> gi :LspImplementation<cr>
-" nmap <silent> gr :LspReferences<cr>
-" nmap <silent> gh :LspSignatureHelp<cr>
-" nnoremap <silent> K :LspHover<CR>
-" nmap <leader>qf  :LspCodeAction<cr>
-
-" command! -nargs=0 Format call LspDocumentFormat
-" autocmd BufWritePre <buffer>
-"                 \ call execute('LspCodeActionSync source.organizeImports')
-" " buffer
-" call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-"     \ 'name': 'buffer',
-"     \ 'whitelist': ['*'],
-"     \ 'completor': function('asyncomplete#sources#buffer#completor'),
-"     \ 'config': {
-"     \    'max_buffer_size': 50,
-"     \  },
-"     \ }))
-" " file
-" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-"     \ 'name': 'file',
-"     \ 'whitelist': ['*'],
-"     \ 'priority': 10,
-"     \ 'config': {
-"     \    'max_buffer_size': 50,
-"     \  },
-"     \ 'completor': function('asyncomplete#sources#file#completor')
-"     \ }))
+" ale {{
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'javascriptreact': ['eslint'],
+\   'typescript': ['prettier', 'eslint'],
+\   'typescriptreact': ['prettier', 'eslint'],
+\   'python': ['autopep8', 'yapf'],
+\   '*': ['remove_trailing_lines', 'trim_whitespace']
+\ }
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'javascriptreact': ['eslint'],
+\   'typescript': ['eslint', 'tsserver'],
+\   'typescriptreact': ['eslint', 'tsserver'],
+\   'python': ['flake8', 'pylint']
+\ }
+let g:ale_linters_explicit = 1
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 0
+let g:ale_sign_column_always = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+nnoremap <leader>qf :<C-u>ALEFix<cr>
 " }}
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
@@ -418,7 +279,7 @@ let g:lightline = {
 let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+" autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
 
 function! GetGitStatus()
@@ -649,7 +510,7 @@ let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'coc'
+let g:vista_default_executive = 'nvim_lsp'
 
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
@@ -1023,7 +884,7 @@ set synmaxcol=200
 " KeyMap
 "*****************************************************************************
 
-nnoremap <Leader>r :source ~/.vimrc<Enter>
+nnoremap <Leader>r :source ~/.config/nvim/init.vim<Enter>
 
 " move window
 nnoremap <Leader>wmh <C-w>H
