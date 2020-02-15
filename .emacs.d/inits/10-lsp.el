@@ -14,6 +14,7 @@
   (lsp-document-sync-method 'incremental) ;; none, full, incremental, or nil
 
   :hook
+  (lsp-mode . lsp-enable-which-key-integration)
   (go-mode . lsp)
   (typescript-mode . lsp)
   (vue-mode . lsp)

@@ -27,13 +27,15 @@ set -x PATH /usr/local/bin $PATH
 set -x PATH /usr/local/opt/node@6/bin $PATH
 
 # Android
-set -x ANDROID_HOME $HOME/Library/Android/sdk
-set -x PATH $ANDROID_HOME/platform-tools $PATH
+# set -x ANDROID_HOME $HOME/Library/Android/sdk
+# set -x PATH $ANDROID_HOME/platform-tools $PATH
 
 # Dart & Flutter
 set -x PATH ~/.pub-cache/bin $PATH
-set -x PATH ~/flutter-sdk/flutter/bin $PATH
-set -x PATH ~/flutter-sdk/flutter/.pub-cache/bin $PATH
+set -x PATH /Volumes/Samsung_T5/flutter-sdk/flutter/bin $PATH
+set -x PATH /Volumes/Samsung_T5/flutter-sdk/flutter/.pub-cache/bin $PATH
+# set -x PATH ~/flutter-sdk/flutter/bin $PATH
+# set -x PATH ~/flutter-sdk/flutter/.pub-cache/bin $PATH
 
 # Python
 set -x PYENV_ROOT $HOME/.pyenv/
