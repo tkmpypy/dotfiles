@@ -194,6 +194,29 @@ call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 " }}
 
 " ale {{
+
+if executable('eslint_d')
+    let g:ale_javascript_eslint_use_global = 1
+    let g:ale_typescript_eslint_use_global = 1
+    let g:ale_typescriptreact_eslint_use_global = 1
+    let g:ale_javascriptreact_eslint_use_global = 1
+    let g:ale_javascript_eslint_executable = 'eslint_d'
+    let g:ale_typescript_eslint_executable = 'eslint_d'
+    let g:ale_typescriptreact_eslint_executable = 'eslint_d'
+    let g:ale_javascriptreact_eslint_executable = 'eslint_d'
+endif
+
+let g:ale_linters_explicit = 1
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 1
+let g:ale_sign_column_always = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \   'javascriptreact': ['eslint'],
@@ -209,17 +232,6 @@ let g:ale_linters = {
 \   'typescriptreact': ['eslint', 'tsserver'],
 \   'python': ['flake8', 'pylint']
 \ }
-let g:ale_linters_explicit = 1
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '⚠'
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_save = 0
-let g:ale_sign_column_always = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 nnoremap <leader>qf :<C-u>ALEFix<cr>
 " }}
 " vim-json {{
@@ -760,7 +772,7 @@ noremap <leader>sgc :<C-U><C-R>=printf("Leaderf rg -e %s ", expand("<cword>"))<C
 noremap <leader>sg :<C-U><C-R>=printf("Leaderf rg %s", "")<CR><CR>
 " search visually selected text literally
 " xnoremap <leader>sg :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-noremap <leader>sgr :<C-U>Leaderf rg --recall<CR>
+noremap <leader>sR :<C-U>Leaderf --recall<CR>
 
 " should use `Leaderf gtags --update` first
 let g:Lf_GtagsAutoGenerate = 0
@@ -889,7 +901,7 @@ set incsearch                                    " サーチ：インクリメ�
 set ignorecase                                   " サーチ：大文字小文字を区別しない
 set smartcase                                    " サーチ：大文字で検索されたら対象を大文字限定にする
 set showmatch                                    " カーソル：括弧にカーソルを合わせた時、対応した括弧を表示する
-set wrap
+set nowrap
 set noswapfile
 " 内容が変更されたら自動で再読込
 set autoread

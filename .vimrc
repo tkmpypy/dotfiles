@@ -900,7 +900,7 @@ noremap <leader>sgc :<C-U><C-R>=printf("Leaderf rg -e %s ", expand("<cword>"))<C
 noremap <leader>sg :<C-U><C-R>=printf("Leaderf rg %s", "")<CR><CR>
 " search visually selected text literally
 " xnoremap <leader>sg :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-noremap <leader>sgr :<C-U>Leaderf rg --recall<CR>
+noremap <leader>sR :<C-U>Leaderf --recall<CR>
 
 " should use `Leaderf gtags --update` first
 let g:Lf_GtagsAutoGenerate = 0
@@ -1029,7 +1029,7 @@ set incsearch                                    " サーチ：インクリメ�
 set ignorecase                                   " サーチ：大文字小文字を区別しない
 set smartcase                                    " サーチ：大文字で検索されたら対象を大文字限定にする
 set showmatch                                    " カーソル：括弧にカーソルを合わせた時、対応した括弧を表示する
-set wrap
+set nowrap
 set noswapfile
 " 内容が変更されたら自動で再読込
 set autoread
