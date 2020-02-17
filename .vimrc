@@ -112,6 +112,7 @@ Plug 't9md/vim-choosewin'
 " Git
 Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'gotchane/vim-git-commit-prefix'
 
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
