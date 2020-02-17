@@ -119,71 +119,6 @@ Plug 'tkmpypy/eztrans.vim'
 call plug#end()
 
 let mapleader = "\<Space>"
-" fzf.vim {{
-"let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-"" [Buffers] Jump to the existing window if possible
-"let g:fzf_buffers_jump = 1
-
-"" [[B]Commits] Customize the options used by 'git log':
-"let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-
-"" [Tags] Command to generate tags file
-"let g:fzf_tags_command = 'ctags -R'
-
-"" [Commands] --expect expression for directly executing the command
-"let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-"" Command for git grep
-"" - fzf#vim#grep(command, with_column, [options], [fullscreen])
-"command! -bang -nargs=* GGrep
-"  \ call fzf#vim#grep(
-"  \   'git grep --line-number '.shellescape(<q-args>), 0,
-"  \   fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}), <bang>0)
-"  " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
-
-"" Override Colors command. You can safely do this in your .vimrc as fzf.vim
-"" will not override existing commands.
-"command! -bang Colors
-"  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
-
-"" Augmenting Ag command using fzf#vim#with_preview function
-""   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
-""     * For syntax-highlighting, Ruby and any of the following tools are required:
-""       - Bat: https://github.com/sharkdp/bat
-""       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-""       - CodeRay: http://coderay.rubychan.de/
-""       - Rouge: https://github.com/jneen/rouge
-""
-""   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-""   :Ag! - Start fzf in fullscreen and display the preview window above
-"command! -bang -nargs=* Ag
-"  \ call fzf#vim#ag(<q-args>,
-"  \                 <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-"  \                         : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-"  \                 <bang>0)
-
-"" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-"command! -bang -nargs=* Rg
-"  \ call fzf#vim#grep(
-"  \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-"  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-"  \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-"  \   <bang>0)
-
-"" Likewise, Files command with preview window
-"command! -bang -nargs=? -complete=dir Files
-"  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-"command! -bang -nargs=? -complete=dir GFiles
-"  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-"nnoremap <leader>sb :<C-u>Buffers<CR>
-"nnoremap <leader>sx :<C-u>Commands<CR>
-"nnoremap <leader>sf :<C-u>GFiles<CR>
-"nnoremap <leader>sc :<C-u>Commits<CR>
-"nnoremap <leader>scb :<C-u>BCommits<CR>
-"nnoremap <leader>sg :<C-u>Rg<CR>
-"nnoremap <leader>sr :History<CR>
-"nnoremap <leader>sgs :<C-u>GFiles?<CR>
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
 nnoremap <leader>qq :Bdelete!<CR>
@@ -226,13 +161,15 @@ endfunction
 
 " Use <c-space> for trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if has('patch8.1.1068')
+  " Use `complete_info` if your (Neo)Vim version supports it.
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
 " " OR this mapping also breaks it in same manor
 " Make <cr> select the first completion item and confirm completion when no item have selected
 " " Use `[c` and `]c` to navigate diagnostics
@@ -282,6 +219,19 @@ nmap <space>a  <Plug>(coc-codeaction-selected)
 nmap <space>ac  <Plug>(coc-codeaction)
 " " Fix autofix problem of current line
 nmap <space>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for selections ranges.
+" NOTE: Requires 'textDocument/selectionRange' support from the language server.
+" coc-tsserver, coc-python are the examples of servers that support it.
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocActionAsync('format')
@@ -1019,10 +969,10 @@ set nowritebackup
 set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
+" set updatetime=300
 
 " don't give |ins-completion-menu| messages.
-set shortmess=aFc
+set shortmess+=c
 
 " always show signcolumns
 set signcolumn=yes
