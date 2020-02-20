@@ -83,6 +83,7 @@ Plug 'mengelbrecht/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
+Plug 'psliwka/vim-smoothie'
 
 " Explorer
 " Plug 'preservim/nerdtree'
@@ -92,7 +93,7 @@ Plug 'airblade/vim-rooter'
 
 " Util
 Plug 'MattesGroeger/vim-bookmarks'
-Plug 'easymotion/vim-easymotion'
+Plug 'unblevable/quick-scope'
 Plug 'machakann/vim-sandwich'
 Plug 'simeji/winresizer'
 Plug 'cohama/lexima.vim'
@@ -420,6 +421,11 @@ let g:webdevicons_conceal_nerdtree_brackets = 1
 " nnoremap <leader>ft :NERDTreeToggle<CR>
 " nnoremap <leader>ff :NERDTreeFind<CR>
 " }}
+" quick-scope {{
+let g:qs_lazy_highlight = 1
+let g:qs_max_chars=80
+let g:qs_highlight_on_keys = ['f', 'F']
+" }}
 " fern.vim {{
 function! s:init_fern() abort
   setlocal nonumber
@@ -493,44 +499,6 @@ nmap <Leader>mj <Plug>BookmarkMoveDown
 nmap <Leader>mg <Plug>BookmarkMoveToLine
 nmap mj <Plug>BookmarkNext
 nmap mk <Plug>BookmarkPrev
-" }}
-" easymotion {{
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
-
-let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
-
-" Require tpope/vim-repeat to enable dot repeat support
-" Jump to anywhere with only `s{char}{target}`
-" `s<CR>` repeat last find motion.
-nmap es <Plug>(easymotion-s)
-" Bidirectional & within line 't' motion
-omap et <Plug>(easymotion-bd-tl)
-" der>f{char} to move to {char}
-map  <Leader>ef <Plug>(easymotion-bd-f)
-nmap <Leader>ef <Plug>(easymotion-overwin-f)
-nmap <Leader>eff <Plug>(easymotion-overwin-f2)
-
-" Move to line
-map <Leader>el <Plug>(easymotion-bd-jk)
-nmap <Leader>eL <Plug>(easymotion-overwin-line)
-
-" Move to word
-map  <Leader>ew <Plug>(easymotion-bd-w)
-nmap <Leader>ew <Plug>(easymotion-overwin-w)
-
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-
-" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-" Without these mappings, `n` & `N` works fine. (These mappings just provide
-" different highlight method and have some other features )
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
 " }}
 
 " mhinz/vim-startify {{
