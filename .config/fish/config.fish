@@ -4,6 +4,8 @@ set -x LANG ja_JP.UTF-8
 #set fisher_home ~/.local/share/
 #set fisher_config ~/.config/fisherman
 #source $fisher_home/config.fish
+set -g theme_color_scheme nord
+set -g theme_display_git yes
 
 set -x XDG_CONFIG_HOME $HOME/.config
 
@@ -41,7 +43,6 @@ set -x PATH /Volumes/Samsung_T5/flutter-sdk/flutter/.pub-cache/bin $PATH
 set -x PYENV_ROOT $HOME/.pyenv/
 set -x PATH $PYENV_ROOT/bin $PATH
 . (pyenv init -|psub)
-set -x PATH $HOME/.pyenv/versions/3.7.0/bin $PATH
 
 # Go
 set -x GOENV_ROOT $HOME/.goenv
