@@ -75,6 +75,8 @@ Plug 'neoclide/coc-neco'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
 
+" Plug 'dense-analysis/ale'
+
 " Visual
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
@@ -174,18 +176,6 @@ function! CocCurrentFunction()
     return funcName
 endfunction
 
-
-" Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-  " Use `complete_info` if your (Neo)Vim version supports it.
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
-endif
-
 " " OR this mapping also breaks it in same manor
 " Make <cr> select the first completion item and confirm completion when no item have selected
 " " Use `[c` and `]c` to navigate diagnostics
@@ -282,10 +272,10 @@ nnoremap <silent> <space>F  :<C-u>Format<cr>
 nnoremap <silent> <space>I  :<C-u>OR<cr>
 " }}
 " vim-lsp {{
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 " let g:asyncomplete_popup_delay = 200
 " let g:lsp_settings_python = 'pyls-ms'
 " let g:lsp_settings_typescript = ['typescript-language-server', 'eslint-language-server']
+" let g:lsp_settings_typescriptreact = ['typescript-language-server', 'eslint-language-server']
 " let g:lsp_diagnostics_enabled = 1
 " let g:lsp_signs_enabled = 1         " enable signs
 " let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
@@ -329,15 +319,31 @@ nnoremap <silent> <space>I  :<C-u>OR<cr>
 "     \  },
 "     \ 'completor': function('asyncomplete#sources#file#completor')
 "     \ }))
-" augroup LspEFM
-"   au!
-"   autocmd User lsp_setup call lsp#register_server({
-"       \ 'name': 'efm-langserver',
-"       \ 'cmd': {server_info->['efm-langserver', '-c='.$HOME.'/.config/efm-langserver/config.yaml']},
-"       \ 'whitelist': ['vim', 'eruby', 'markdown', 'yaml']
-"       \ })
-" augroup END
 
+" " }}
+" " ale {{
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'python': ['yapf'],
+" \}
+" let g:ale_linters = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'python': ['flake8'],
+" \}
+" let g:ale_linters_explicit = 1
+" let g:ale_sign_error = '>>'
+" let g:ale_sign_warning = '--'
+" let g:ale_set_highlights = 0
+" let g:ale_echo_msg_error_str = 'E'
+" let g:ale_echo_msg_warning_str = 'W'
+" let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" " Write this in your vimrc file
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" " You can disable this option too
+" " if you don't want linters to run on opening a file
+" let g:ale_lint_on_enter = 0
+" let g:ale_fix_on_save = 1
 " }}
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
