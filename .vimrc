@@ -61,6 +61,7 @@ Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
 
+
 " Completion
 " use coc.nvim
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -74,8 +75,6 @@ Plug 'neoclide/coc-neco'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
 
-Plug 'Shougo/neco-vim'
-
 " Visual
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
@@ -83,12 +82,13 @@ Plug 'mengelbrecht/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
-Plug 'psliwka/vim-smoothie'
+Plug 'camspiers/animate.vim'
+Plug 'camspiers/lens.vim'
 
 " Explorer
-" Plug 'preservim/nerdtree'
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-devicons.vim'
+Plug 'preservim/nerdtree'
+" Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'airblade/vim-rooter'
 
 " Util
@@ -151,6 +151,21 @@ let g:rainbow_active = 1
 let g:python_highlight_all = 1
 " }}
 " coc.nvim {{
+let g:coc_global_extensions = [
+      \  'coc-lists'
+      \, 'coc-json'
+      \, 'coc-yaml'
+      \, 'coc-marketplace'
+      \, 'coc-html'
+      \, 'coc-css'
+      \, 'coc-tsserver'
+      \, 'coc-eslint'
+      \, 'coc-prettier'
+      \, 'coc-markdownlint'
+      \, 'coc-python'
+      \, 'coc-snippets'
+      \, 'coc-vimlsp'
+      \ ]
 function! CocCurrentFunction()
     let funcName = get(b:, 'coc_current_function', '')
     if funcName != ''
@@ -166,9 +181,9 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " position. Coc only does snippet and additional edit on confirm.
 if has('patch8.1.1068')
   " Use `complete_info` if your (Neo)Vim version supports it.
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<CR>"
 else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
 endif
 
 " " OR this mapping also breaks it in same manor
@@ -267,8 +282,10 @@ nnoremap <silent> <space>F  :<C-u>Format<cr>
 nnoremap <silent> <space>I  :<C-u>OR<cr>
 " }}
 " vim-lsp {{
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+" let g:asyncomplete_popup_delay = 200
 " let g:lsp_settings_python = 'pyls-ms'
-
+" let g:lsp_settings_typescript = ['typescript-language-server', 'eslint-language-server']
 " let g:lsp_diagnostics_enabled = 1
 " let g:lsp_signs_enabled = 1         " enable signs
 " let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
@@ -280,6 +297,7 @@ nnoremap <silent> <space>I  :<C-u>OR<cr>
 " let g:lsp_signs_error = {'text': '✗'}
 " let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
 " let g:lsp_signs_hint = {'test': '?'} " icons require GUI
+" command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
 " nmap <leader>rn :LspRename<cr>
 " nmap <silent> gd :LspDefinition<cr>
 " nmap <silent> pd :LspPeekDefinition<cr>
@@ -289,10 +307,9 @@ nnoremap <silent> <space>I  :<C-u>OR<cr>
 " nmap <silent> gh :LspSignatureHelp<cr>
 " nnoremap <silent> K :LspHover<CR>
 " nmap <leader>qf  :LspCodeAction<cr>
+" nmap <leader>F  :LspDocumentFormat<cr>
+" nmap <leader>I  :OR<cr>
 
-" command! -nargs=0 Format call LspDocumentFormat
-" autocmd BufWritePre <buffer>
-"                 \ call execute('LspCodeActionSync source.organizeImports')
 " " buffer
 " call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
 "     \ 'name': 'buffer',
@@ -312,6 +329,15 @@ nnoremap <silent> <space>I  :<C-u>OR<cr>
 "     \  },
 "     \ 'completor': function('asyncomplete#sources#file#completor')
 "     \ }))
+" augroup LspEFM
+"   au!
+"   autocmd User lsp_setup call lsp#register_server({
+"       \ 'name': 'efm-langserver',
+"       \ 'cmd': {server_info->['efm-langserver', '-c='.$HOME.'/.config/efm-langserver/config.yaml']},
+"       \ 'whitelist': ['vim', 'eruby', 'markdown', 'yaml']
+"       \ })
+" augroup END
+
 " }}
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
@@ -417,9 +443,9 @@ let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 " }}
 " scrooloose/nerdtree {{
-" let g:NERDTreeShowHidden = 1
-" nnoremap <leader>ft :NERDTreeToggle<CR>
-" nnoremap <leader>ff :NERDTreeFind<CR>
+let g:NERDTreeShowHidden = 1
+nnoremap <leader>ft :NERDTreeToggle<CR>
+nnoremap <leader>ff :NERDTreeFind<CR>
 " }}
 " quick-scope {{
 let g:qs_lazy_highlight = 1
@@ -427,61 +453,61 @@ let g:qs_max_chars=80
 let g:qs_highlight_on_keys = ['f', 'F']
 " }}
 " fern.vim {{
-function! s:init_fern() abort
-  setlocal nonumber
-  setlocal norelativenumber
-  " Define NERDTree like mappings
-  nmap <buffer> o <Plug>(fern-action-open:edit)
-  nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
-  nmap <buffer> t <Plug>(fern-action-open:tabedit)
-  nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
-  nmap <buffer> i <Plug>(fern-action-open:split)
-  nmap <buffer> gi <Plug>(fern-action-open:split)<C-w>p
-  nmap <buffer> s <Plug>(fern-action-open:vsplit)
-  nmap <buffer> gs <Plug>(fern-action-open:vsplit)<C-w>p
+" function! s:init_fern() abort
+"   setlocal nonumber
+"   setlocal norelativenumber
+"   " Define NERDTree like mappings
+"   nmap <buffer> o <Plug>(fern-action-open:edit)
+"   nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
+"   nmap <buffer> t <Plug>(fern-action-open:tabedit)
+"   nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
+"   nmap <buffer> i <Plug>(fern-action-open:split)
+"   nmap <buffer> gi <Plug>(fern-action-open:split)<C-w>p
+"   nmap <buffer> s <Plug>(fern-action-open:vsplit)
+"   nmap <buffer> gs <Plug>(fern-action-open:vsplit)<C-w>p
 
-  nmap <buffer> P gg
+"   nmap <buffer> P gg
 
-  nmap <buffer> C <Plug>(fern-action-enter)
-  nmap <buffer> u <Plug>(fern-action-leave)
-  nmap <buffer> r <Plug>(fern-action-reload)
-  nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
-  nmap <buffer> cd <Plug>(fern-action-cd)
-  nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
+"   nmap <buffer> C <Plug>(fern-action-enter)
+"   nmap <buffer> u <Plug>(fern-action-leave)
+"   nmap <buffer> r <Plug>(fern-action-reload)
+"   nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
+"   nmap <buffer> cd <Plug>(fern-action-cd)
+"   nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
 
-  nmap <buffer> I <Plug>(fern-action-hide-toggle)
+"   nmap <buffer> I <Plug>(fern-action-hide-toggle)
 
-  nmap <buffer> q :<C-u>quit<CR>
-  nmap <buffer><expr>
-      \ <Plug>(fern-my-expand-or-collapse)
-      \ fern#smart#leaf(
-      \   "\<Plug>(fern-action-collapse)",
-      \   "\<Plug>(fern-action-expand)",
-      \   "\<Plug>(fern-action-collapse)",
-      \ )
-  nmap <buffer><expr>
-      \ <Plug>(fern-my-expand-or-enter)
-      \ fern#smart#drawer(
-      \   "\<Plug>(fern-open-or-expand)",
-      \   "\<Plug>(fern-open-or-enter)",
-      \ )
-  nmap <buffer><expr>
-      \ <Plug>(fern-my-collapse-or-leave)
-      \ fern#smart#drawer(
-      \   "\<Plug>(fern-action-collapse)",
-      \   "\<Plug>(fern-action-leave)",
-      \ )
-  nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
-  nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
+"   nmap <buffer> q :<C-u>quit<CR>
+"   nmap <buffer><expr>
+"       \ <Plug>(fern-my-expand-or-collapse)
+"       \ fern#smart#leaf(
+"       \   "\<Plug>(fern-action-collapse)",
+"       \   "\<Plug>(fern-action-expand)",
+"       \   "\<Plug>(fern-action-collapse)",
+"       \ )
+"   nmap <buffer><expr>
+"       \ <Plug>(fern-my-expand-or-enter)
+"       \ fern#smart#drawer(
+"       \   "\<Plug>(fern-open-or-expand)",
+"       \   "\<Plug>(fern-open-or-enter)",
+"       \ )
+"   nmap <buffer><expr>
+"       \ <Plug>(fern-my-collapse-or-leave)
+"       \ fern#smart#drawer(
+"       \   "\<Plug>(fern-action-collapse)",
+"       \   "\<Plug>(fern-action-leave)",
+"       \ )
+"   nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
+"   nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
 
-endfunction
-let g:fern#default_hidden = 1
-let g:fern#renderer = "devicons"
-nnoremap <leader>ft :Fern . -drawer<CR>
-augroup fern-custom
-  autocmd! *
-  autocmd FileType fern call s:init_fern()
-augroup END
+" endfunction
+" let g:fern#default_hidden = 1
+" let g:fern#renderer = "devicons"
+" nnoremap <leader>ft :Fern . -drawer<CR>
+" augroup fern-custom
+"   autocmd! *
+"   autocmd FileType fern call s:init_fern()
+" augroup END
 " }}
 " vim-rooter {{
 nnoremap <leader>cdr :Rooter<CR>
@@ -559,6 +585,10 @@ let NERDTreeHijackNetrw = 0
 " }}
 " tpope/vim-markdown {{
 let g:vim_markdown_conceal = 0
+" }}
+" lens {{
+let g:lens#animate = 0
+let g:lens#disabled_filetypes = ['nerdtree', 'LeaderF']
 " }}
 " liuchengxu/vista.vim {{
 " How each level is indented and what to prepend.
