@@ -4,8 +4,6 @@ set -x LANG ja_JP.UTF-8
 #set fisher_home ~/.local/share/
 #set fisher_config ~/.config/fisherman
 #source $fisher_home/config.fish
-set -g theme_color_scheme nord
-set -g theme_display_git yes
 
 set -x XDG_CONFIG_HOME $HOME/.config
 

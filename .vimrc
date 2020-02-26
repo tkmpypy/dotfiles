@@ -65,7 +65,6 @@ Plug 'sheerun/vim-polyglot'
 " Completion
 " use coc.nvim
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-neco'
 " use vim-lsp
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/asyncomplete.vim'
@@ -89,8 +88,6 @@ Plug 'camspiers/lens.vim'
 
 " Explorer
 Plug 'preservim/nerdtree'
-" Plug 'lambdalisue/fern.vim'
-" Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'airblade/vim-rooter'
 
 " Util
@@ -246,8 +243,6 @@ command! -nargs=0 Format :call CocActionAsync('format')
 command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
 " " use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-" " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
@@ -274,14 +269,12 @@ nnoremap <silent> <space>I  :<C-u>OR<cr>
 " vim-lsp {{
 " let g:asyncomplete_popup_delay = 200
 " let g:lsp_settings_python = 'pyls-ms'
-" let g:lsp_settings_typescript = ['typescript-language-server', 'eslint-language-server']
-" let g:lsp_settings_typescriptreact = ['typescript-language-server', 'eslint-language-server']
 " let g:lsp_diagnostics_enabled = 1
 " let g:lsp_signs_enabled = 1         " enable signs
 " let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 " let g:lsp_highlights_enabled = 1
-" let g:lsp_textprop_enabled = 1
-" let g:lsp_highlight_references_enabled = 1
+" let g:lsp_textprop_enabled = 0
+" let g:lsp_highlight_references_enabled = 0
 " highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
 
 " let g:lsp_signs_error = {'text': '✗'}
@@ -297,7 +290,7 @@ nnoremap <silent> <space>I  :<C-u>OR<cr>
 " nmap <silent> gh :LspSignatureHelp<cr>
 " nnoremap <silent> K :LspHover<CR>
 " nmap <leader>qf  :LspCodeAction<cr>
-" nmap <leader>F  :LspDocumentFormat<cr>
+" " nmap <leader>F  :LspDocumentFormat<cr>
 " nmap <leader>I  :OR<cr>
 
 " " buffer
@@ -319,31 +312,39 @@ nnoremap <silent> <space>I  :<C-u>OR<cr>
 "     \  },
 "     \ 'completor': function('asyncomplete#sources#file#completor')
 "     \ }))
-
-" " }}
-" " ale {{
+" }}
+" ale {{
 " let g:ale_fixers = {
 " \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'python': ['yapf'],
+" \   'python': ['isort', 'yapf'],
+" \   'typescript': ['prettier', 'eslint'],
+" \   'typescriptreact': ['prettier', 'eslint'],
+" \   'javascript': ['prettier', 'eslint'],
+" \   'javascriptreact': ['prettier', 'eslint'],
 " \}
 " let g:ale_linters = {
 " \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 " \   'python': ['flake8'],
+" \   'typescript': ['eslint'],
+" \   'typescriptreact': ['eslint'],
+" \   'javascript': ['eslint'],
+" \   'javascriptreact': ['eslint'],
 " \}
 " let g:ale_linters_explicit = 1
-" let g:ale_sign_error = '>>'
-" let g:ale_sign_warning = '--'
+" let g:ale_sign_error = '✗'
+" let g:ale_sign_warning = '⚠'
 " let g:ale_set_highlights = 0
 " let g:ale_echo_msg_error_str = 'E'
 " let g:ale_echo_msg_warning_str = 'W'
 " let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " " Write this in your vimrc file
-" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_text_changed = 0
 " let g:ale_lint_on_insert_leave = 0
 " " You can disable this option too
 " " if you don't want linters to run on opening a file
-" let g:ale_lint_on_enter = 0
+" let g:ale_lint_on_enter = 1
 " let g:ale_fix_on_save = 1
+" nmap <leader>F  :ALEFix<cr>
 " }}
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
@@ -457,63 +458,6 @@ nnoremap <leader>ff :NERDTreeFind<CR>
 let g:qs_lazy_highlight = 1
 let g:qs_max_chars=80
 let g:qs_highlight_on_keys = ['f', 'F']
-" }}
-" fern.vim {{
-" function! s:init_fern() abort
-"   setlocal nonumber
-"   setlocal norelativenumber
-"   " Define NERDTree like mappings
-"   nmap <buffer> o <Plug>(fern-action-open:edit)
-"   nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
-"   nmap <buffer> t <Plug>(fern-action-open:tabedit)
-"   nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
-"   nmap <buffer> i <Plug>(fern-action-open:split)
-"   nmap <buffer> gi <Plug>(fern-action-open:split)<C-w>p
-"   nmap <buffer> s <Plug>(fern-action-open:vsplit)
-"   nmap <buffer> gs <Plug>(fern-action-open:vsplit)<C-w>p
-
-"   nmap <buffer> P gg
-
-"   nmap <buffer> C <Plug>(fern-action-enter)
-"   nmap <buffer> u <Plug>(fern-action-leave)
-"   nmap <buffer> r <Plug>(fern-action-reload)
-"   nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
-"   nmap <buffer> cd <Plug>(fern-action-cd)
-"   nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
-
-"   nmap <buffer> I <Plug>(fern-action-hide-toggle)
-
-"   nmap <buffer> q :<C-u>quit<CR>
-"   nmap <buffer><expr>
-"       \ <Plug>(fern-my-expand-or-collapse)
-"       \ fern#smart#leaf(
-"       \   "\<Plug>(fern-action-collapse)",
-"       \   "\<Plug>(fern-action-expand)",
-"       \   "\<Plug>(fern-action-collapse)",
-"       \ )
-"   nmap <buffer><expr>
-"       \ <Plug>(fern-my-expand-or-enter)
-"       \ fern#smart#drawer(
-"       \   "\<Plug>(fern-open-or-expand)",
-"       \   "\<Plug>(fern-open-or-enter)",
-"       \ )
-"   nmap <buffer><expr>
-"       \ <Plug>(fern-my-collapse-or-leave)
-"       \ fern#smart#drawer(
-"       \   "\<Plug>(fern-action-collapse)",
-"       \   "\<Plug>(fern-action-leave)",
-"       \ )
-"   nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
-"   nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
-
-" endfunction
-" let g:fern#default_hidden = 1
-" let g:fern#renderer = "devicons"
-" nnoremap <leader>ft :Fern . -drawer<CR>
-" augroup fern-custom
-"   autocmd! *
-"   autocmd FileType fern call s:init_fern()
-" augroup END
 " }}
 " vim-rooter {{
 nnoremap <leader>cdr :Rooter<CR>
