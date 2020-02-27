@@ -381,6 +381,16 @@ else
             \ 'completor': function('asyncomplete#sources#file#completor')
             \ }))
         " }}
+        if executable('efm-langserver') && !s:plug.is_installed('ale')
+            augroup LspEFM
+              au!
+              autocmd User lsp_setup call lsp#register_server({
+                  \ 'name': 'efm-langserver',
+                  \ 'cmd': {server_info->['efm-langserver', '-c=' . $HOME . '/.config/efm-langserver/config.yaml']},
+                  \ 'whitelist': ['vim', 'eruby', 'markdown', 'yaml', 'python', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
+                  \ })
+            augroup END
+        endif
     endif
 endif
 
