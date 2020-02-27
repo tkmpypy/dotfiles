@@ -73,6 +73,7 @@ if has('nvim')
     Plug 'prabirshrestha/asyncomplete.vim'
     Plug 'yami-beta/asyncomplete-omni.vim'
     Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -85,6 +86,7 @@ else
     Plug 'prabirshrestha/vim-lsp'
     Plug 'mattn/vim-lsp-settings'
     Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 endif
 
 " Visual
@@ -435,24 +437,14 @@ let g:lightline_buffer_modified_icon = '✭'
 " }}
 " itchyny/lightline.vim {{
 set showtabline=2  " always show tabline
-let g:lightline = {
-    \ 'tabline': {
+let g:lightline = {}
+let g:lightline.tabline = {
     \   'left': [ [ 'buffers' ],
     \             [ 'separator' ],
     \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
     \   'right': [ [ 'close' ], ],
-    \ },
-    \ 'active': {
-    \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
-    \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
-    \ },
-    \ 'component_type': {
-    \   'buffers': 'tabsel',
-    \ },
-    \ 'component_expand': {
-    \   'buffers': 'lightline#bufferline#buffers',
-    \ },
-    \ 'component_function': {
+    \ }
+let g:lightline.component_function = {
     \   'coc_status': 'coc#status',
     \   'currentfunction': 'CocCurrentFunction',
     \   'devicons_filetype': 'Devicons_Filetype',
@@ -460,18 +452,55 @@ let g:lightline = {
     \   'branch': 'gina#component#repo#branch',
     \   'git_status': 'GetGitStatus',
     \   'filename': 'LightlineFilename',
-    \ },
-    \ 'component': {
+    \ }
+let g:lightline.component = {
     \   'lineinfo': ' %3l:%-2v',
     \   'percent': '%3p%%',
     \   'percentwin': '%P',
     \   'absolutepath': '%F',
     \   'relativepath': '%f',
     \   'line': '%l',
-    \ },
-    \ 'separator': { 'left': '', 'right': '' },
-    \ 'subseparator': { 'left': '', 'right': '' }
     \ }
+let g:lightline.separator = {'left': '', 'right': ''}
+let g:lightline.subseparator = { 'left': '', 'right': '' }
+
+if s:plug.is_installed('lightline-ale')
+    let g:lightline#ale#indicator_checking = "\uf110"
+    let g:lightline#ale#indicator_infos = "\uf129"
+    let g:lightline#ale#indicator_warnings = "\uf071"
+    let g:lightline#ale#indicator_errors = "\uf05e"
+    let g:lightline#ale#indicator_ok = "\uf00c"
+    let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_infos': 'lightline#ale#infos',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+    let g:lightline.component_type = {
+      \     'linter_checking': 'right',
+      \     'linter_infos': 'right',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'right',
+      \     'buffers': 'tabsel',
+      \ }
+    let g:lightline.active = {
+        \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ],
+        \   'right': [
+        \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
+        \       ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'],
+        \   ],
+        \ }
+else
+    let g:lightline.component_type = {
+        \   'buffers': 'tabsel',
+        \ }
+    let g:lightline.active = {
+        \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
+        \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
+        \ }
+endif
 let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
