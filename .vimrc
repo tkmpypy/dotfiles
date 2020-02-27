@@ -29,13 +29,6 @@ else
     let g:vimIsInTmux = 0
 endif
 
-let s:plug = {
-      \ "plugs": get(g:, 'plugs', {})
-      \ }
-
-function! s:plug.is_installed(name)
-  return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
-endfunction
 
 " Install plugins
 call plug#begin(s:plug_dir)
@@ -133,6 +126,12 @@ Plug 'gotchane/vim-git-commit-prefix'
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
 call plug#end()
+
+let s:plug = get(g:, 'plugs', {})
+
+function! s:plug.is_installed(name)
+  return has_key(s:plug, a:name) ? isdirectory(s:plug[a:name].dir) : 0
+endfunction
 
 let mapleader = "\<Space>"
 " vim-bbye {{
