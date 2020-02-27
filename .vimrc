@@ -29,6 +29,14 @@ else
     let g:vimIsInTmux = 0
 endif
 
+let s:plug = {
+      \ "plugs": get(g:, 'plugs', {})
+      \ }
+
+function! s:plug.is_installed(name)
+  return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
+endfunction
+
 " Install plugins
 call plug#begin(s:plug_dir)
 " Colors
@@ -63,18 +71,28 @@ Plug 'sheerun/vim-polyglot'
 
 
 " Completion
-" use coc.nvim
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-" use vim-lsp
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Plug 'prabirshrestha/asyncomplete-buffer.vim'
-" Plug 'prabirshrestha/asyncomplete-file.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-
-" Plug 'dense-analysis/ale'
+if has('nvim')
+    " use neovim built-in
+    Plug 'neovim/nvim-lsp'
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
+    Plug 'dense-analysis/ale'
+else
+    " use coc.nvim
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " use vim-lsp
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'mattn/vim-lsp-settings'
+    Plug 'dense-analysis/ale'
+endif
 
 " Visual
 Plug 'yggdroot/indentline'
@@ -83,8 +101,6 @@ Plug 'mengelbrecht/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
-Plug 'camspiers/animate.vim'
-Plug 'camspiers/lens.vim'
 
 " Explorer
 Plug 'preservim/nerdtree'
@@ -149,203 +165,259 @@ let g:rainbow_active = 1
 " python-syntax {{
 let g:python_highlight_all = 1
 " }}
-" coc.nvim {{
-let g:coc_global_extensions = [
-      \  'coc-lists'
-      \, 'coc-json'
-      \, 'coc-yaml'
-      \, 'coc-marketplace'
-      \, 'coc-html'
-      \, 'coc-css'
-      \, 'coc-tsserver'
-      \, 'coc-eslint'
-      \, 'coc-prettier'
-      \, 'coc-markdownlint'
-      \, 'coc-python'
-      \, 'coc-snippets'
-      \, 'coc-vimlsp'
-      \ ]
-function! CocCurrentFunction()
-    let funcName = get(b:, 'coc_current_function', '')
-    if funcName != ''
-        let funcName = ' ' . funcName
+if has('nvim')
+lua << EOF
+    require'nvim_lsp'.vimls.setup{}
+    require'nvim_lsp'.jsonls.setup{}
+    require'nvim_lsp'.tsserver.setup{}
+    require'nvim_lsp'.pyls_ms.setup{}
+EOF
+    autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> rn    <cmd>lua vim.lsp.buf.rename()<CR>
+
+    let g:asyncomplete_auto_popup = 1
+    " buffer
+    call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+        \ 'name': 'buffer',
+        \ 'whitelist': ['*'],
+        \ 'completor': function('asyncomplete#sources#buffer#completor'),
+        \ 'config': {
+        \    'max_buffer_size': 50,
+        \  },
+        \ }))
+    " file
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+        \ 'name': 'file',
+        \ 'whitelist': ['*'],
+        \ 'priority': 10,
+        \ 'config': {
+        \    'max_buffer_size': 50,
+        \  },
+        \ 'completor': function('asyncomplete#sources#file#completor')
+        \ }))
+    call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+    \ 'name': 'omni',
+    \ 'whitelist': ['*'],
+    \ 'completor': function('asyncomplete#sources#omni#completor')
+    \  }))
+else
+    if s:plug.is_installed("coc.nvim")
+      " setting
+        let g:coc_global_extensions = [
+              \  'coc-lists'
+              \, 'coc-json'
+              \, 'coc-yaml'
+              \, 'coc-marketplace'
+              \, 'coc-html'
+              \, 'coc-css'
+              \, 'coc-tsserver'
+              \, 'coc-eslint'
+              \, 'coc-prettier'
+              \, 'coc-markdownlint'
+              \, 'coc-python'
+              \, 'coc-snippets'
+              \, 'coc-vimlsp'
+              \ ]
+        function! CocCurrentFunction()
+            let funcName = get(b:, 'coc_current_function', '')
+            if funcName != ''
+                let funcName = ' ' . funcName
+            endif
+            return funcName
+        endfunction
+
+        " " OR this mapping also breaks it in same manor
+        " Make <cr> select the first completion item and confirm completion when no item have selected
+        " " Use `[c` and `]c` to navigate diagnostics
+        nmap <silent> [c <Plug>(coc-diagnostic-prev)
+        nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+        " Remap keys for gotos
+        nmap <silent> gd <Plug>(coc-definition)
+        nmap <silent> gy <Plug>(coc-type-definition)
+        nmap <silent> gi <Plug>(coc-implementation)
+        nmap <silent> gr <Plug>(coc-references)
+
+        " Use K for show documentation in preview window
+        nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+        function! s:show_documentation()
+          if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
+          else
+            call CocActionAsync('doHover')
+          endif
+        endfunction
+
+        " Highlight symbol under cursor on CursorHold
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+
+        " Remap for rename current word
+        nmap <leader>rn <Plug>(coc-rename)
+
+        " Remap for format selected region
+        xmap <leader>f  <Plug>(coc-format-selected)
+        nmap <leader>f  <Plug>(coc-format-selected)
+
+        augroup mygroup
+          autocmd!
+          " Setup formatexpr specified filetype(s).
+          autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
+          " Update signature help on jump placeholder
+          autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+        augroup end
+
+        " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+        xmap <space>a  <Plug>(coc-codeaction-selected)
+        nmap <space>a  <Plug>(coc-codeaction-selected)
+
+        " Remap for do codeAction of current line
+        nmap <space>ac  <Plug>(coc-codeaction)
+        " " Fix autofix problem of current line
+        nmap <space>qf  <Plug>(coc-fix-current)
+
+        " Introduce function text object
+        " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+        xmap if <Plug>(coc-funcobj-i)
+        xmap af <Plug>(coc-funcobj-a)
+        omap if <Plug>(coc-funcobj-i)
+        omap af <Plug>(coc-funcobj-a)
+
+        " Use <TAB> for selections ranges.
+        " NOTE: Requires 'textDocument/selectionRange' support from the language server.
+        " coc-tsserver, coc-python are the examples of servers that support it.
+        nmap <silent> <TAB> <Plug>(coc-range-select)
+        xmap <silent> <TAB> <Plug>(coc-range-select)
+
+        " Use `:Format` to format current buffer
+        command! -nargs=0 Format :call CocActionAsync('format')
+
+        " Use `:Fold` to fold current buffer
+        command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
+        " " use `:OR` for organize import of current buffer
+        command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+        " Using CocList
+        " Show all diagnostics
+        nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
+        " " Manage extensions
+        nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+        " Show commands
+        nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+        " Find symbol of current document
+        nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+        " Search workspace symbols
+        nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+        " Do default action for next item.
+        nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+        " Do default action for previous item.
+        nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+        " Resume latest coc list
+        nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+        " coc-yank
+        nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+        nnoremap <silent> <space>F  :<C-u>Format<cr>
+        nnoremap <silent> <space>I  :<C-u>OR<cr>
     endif
-    return funcName
-endfunction
 
-" " OR this mapping also breaks it in same manor
-" Make <cr> select the first completion item and confirm completion when no item have selected
-" " Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+    if s:plug.is_installed('vim-lsp')
+        " vim-lsp {{
+        let g:asyncomplete_popup_delay = 200
+        let g:lsp_settings_python = 'pyls-ms'
+        let g:lsp_diagnostics_enabled = 1
+        let g:lsp_signs_enabled = 1         " enable signs
+        let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+        let g:lsp_highlights_enabled = 1
+        let g:lsp_textprop_enabled = 1
+        let g:lsp_highlight_references_enabled = 0
+        highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+        let g:lsp_signs_error = {'text': '✗'}
+        let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
+        let g:lsp_signs_hint = {'test': '?'} " icons require GUI
+        command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
+        nmap <leader>rn :LspRename<cr>
+        nmap <silent> gd :LspDefinition<cr>
+        nmap <silent> pd :LspPeekDefinition<cr>
+        nmap <silent> gy :LspTypeDefinition<cr>
+        nmap <silent> gi :LspImplementation<cr>
+        nmap <silent> gr :LspReferences<cr>
+        nmap <silent> gh :LspSignatureHelp<cr>
+        nnoremap <silent> K :LspHover<CR>
+        nmap <leader>qf  :LspCodeAction<cr>
+        " nmap <leader>F  :LspDocumentFormat<cr>
+        nmap <leader>I  :OR<cr>
 
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+        " buffer
+        call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+            \ 'name': 'buffer',
+            \ 'whitelist': ['*'],
+            \ 'completor': function('asyncomplete#sources#buffer#completor'),
+            \ 'config': {
+            \    'max_buffer_size': 50,
+            \  },
+            \ }))
+        " file
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+            \ 'name': 'file',
+            \ 'whitelist': ['*'],
+            \ 'priority': 10,
+            \ 'config': {
+            \    'max_buffer_size': 50,
+            \  },
+            \ 'completor': function('asyncomplete#sources#file#completor')
+            \ }))
+        " }}
+    endif
+endif
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocActionAsync('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <space>a  <Plug>(coc-codeaction-selected)
-nmap <space>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <space>ac  <Plug>(coc-codeaction)
-" " Fix autofix problem of current line
-nmap <space>qf  <Plug>(coc-fix-current)
-
-" Introduce function text object
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <TAB> for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocActionAsync('format')
-
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
-" " use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
-" " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-" coc-yank
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-nnoremap <silent> <space>F  :<C-u>Format<cr>
-nnoremap <silent> <space>I  :<C-u>OR<cr>
-" }}
-" vim-lsp {{
-" let g:asyncomplete_popup_delay = 200
-" let g:lsp_settings_python = 'pyls-ms'
-" let g:lsp_diagnostics_enabled = 1
-" let g:lsp_signs_enabled = 1         " enable signs
-" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-" let g:lsp_highlights_enabled = 1
-" let g:lsp_textprop_enabled = 0
-" let g:lsp_highlight_references_enabled = 0
-" highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
-
-" let g:lsp_signs_error = {'text': '✗'}
-" let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
-" let g:lsp_signs_hint = {'test': '?'} " icons require GUI
-" command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
-" nmap <leader>rn :LspRename<cr>
-" nmap <silent> gd :LspDefinition<cr>
-" nmap <silent> pd :LspPeekDefinition<cr>
-" nmap <silent> gy :LspTypeDefinition<cr>
-" nmap <silent> gi :LspImplementation<cr>
-" nmap <silent> gr :LspReferences<cr>
-" nmap <silent> gh :LspSignatureHelp<cr>
-" nnoremap <silent> K :LspHover<CR>
-" nmap <leader>qf  :LspCodeAction<cr>
-" " nmap <leader>F  :LspDocumentFormat<cr>
-" nmap <leader>I  :OR<cr>
-
-" " buffer
-" call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-"     \ 'name': 'buffer',
-"     \ 'whitelist': ['*'],
-"     \ 'completor': function('asyncomplete#sources#buffer#completor'),
-"     \ 'config': {
-"     \    'max_buffer_size': 50,
-"     \  },
-"     \ }))
-" " file
-" au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-"     \ 'name': 'file',
-"     \ 'whitelist': ['*'],
-"     \ 'priority': 10,
-"     \ 'config': {
-"     \    'max_buffer_size': 50,
-"     \  },
-"     \ 'completor': function('asyncomplete#sources#file#completor')
-"     \ }))
-" }}
-" ale {{
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'python': ['isort', 'yapf'],
-" \   'typescript': ['prettier', 'eslint'],
-" \   'typescriptreact': ['prettier', 'eslint'],
-" \   'javascript': ['prettier', 'eslint'],
-" \   'javascriptreact': ['prettier', 'eslint'],
-" \}
-" let g:ale_linters = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'python': ['flake8'],
-" \   'typescript': ['eslint'],
-" \   'typescriptreact': ['eslint'],
-" \   'javascript': ['eslint'],
-" \   'javascriptreact': ['eslint'],
-" \}
-" let g:ale_linters_explicit = 1
-" let g:ale_sign_error = '✗'
-" let g:ale_sign_warning = '⚠'
-" let g:ale_set_highlights = 0
-" let g:ale_echo_msg_error_str = 'E'
-" let g:ale_echo_msg_warning_str = 'W'
-" let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" " Write this in your vimrc file
-" let g:ale_lint_on_text_changed = 0
-" let g:ale_lint_on_insert_leave = 0
-" " You can disable this option too
-" " if you don't want linters to run on opening a file
-" let g:ale_lint_on_enter = 1
-" let g:ale_fix_on_save = 1
-" nmap <leader>F  :ALEFix<cr>
-" }}
+if s:plug.is_installed('ale')
+    " ale {{
+    let g:ale_fixers = {
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'python': ['isort', 'yapf'],
+    \   'typescript': ['prettier', 'eslint'],
+    \   'typescriptreact': ['prettier', 'eslint'],
+    \   'javascript': ['prettier', 'eslint'],
+    \   'javascriptreact': ['prettier', 'eslint'],
+    \}
+    let g:ale_linters = {
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'python': ['flake8'],
+    \   'typescript': ['eslint'],
+    \   'typescriptreact': ['eslint'],
+    \   'javascript': ['eslint'],
+    \   'javascriptreact': ['eslint'],
+    \   'vim': ['vint'],
+    \}
+    let g:ale_linters_explicit = 1
+    let g:ale_sign_error = '✗'
+    let g:ale_sign_warning = '⚠'
+    let g:ale_set_highlights = 0
+    let g:ale_echo_msg_error_str = 'E'
+    let g:ale_echo_msg_warning_str = 'W'
+    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    " Write this in your vimrc file
+    let g:ale_lint_on_text_changed = 0
+    let g:ale_lint_on_insert_leave = 0
+    " You can disable this option too
+    " if you don't want linters to run on opening a file
+    let g:ale_lint_on_enter = 1
+    let g:ale_fix_on_save = 1
+    nmap <leader>F  :ALEFix<cr>
+    " }}
+endif
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
 " }}
@@ -536,10 +608,6 @@ let NERDTreeHijackNetrw = 0
 " tpope/vim-markdown {{
 let g:vim_markdown_conceal = 0
 " }}
-" lens {{
-let g:lens#animate = 0
-let g:lens#disabled_filetypes = ['nerdtree', 'LeaderF']
-" }}
 " liuchengxu/vista.vim {{
 " How each level is indented and what to prepend.
 " This could make the display more compact or more spacious.
@@ -548,7 +616,7 @@ let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'coc'
+let g:vista_default_executive = 'vim_lsp'
 
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
