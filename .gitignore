@@ -25,6 +25,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+setup/nvim*
 .config/.mono
 .config/composer
 .config/configstore

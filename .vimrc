@@ -178,6 +178,7 @@ EOF
     autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
     nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
     nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -332,7 +333,7 @@ else
 
     if s:plug.is_installed('vim-lsp')
         " vim-lsp {{
-        let g:asyncomplete_popup_delay = 200
+        let g:asyncomplete_popup_delay = 30
         let g:lsp_settings_python = 'pyls-ms'
         let g:lsp_diagnostics_enabled = 1
         let g:lsp_signs_enabled = 1         " enable signs
