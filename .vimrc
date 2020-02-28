@@ -232,6 +232,7 @@ else
               \, 'coc-python'
               \, 'coc-snippets'
               \, 'coc-vimlsp'
+              \, 'coc-flutter'
               \ ]
         function! CocCurrentFunction()
             let funcName = get(b:, 'coc_current_function', '')
