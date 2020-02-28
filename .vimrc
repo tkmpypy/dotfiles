@@ -358,7 +358,7 @@ else
         nmap <silent> gh :LspSignatureHelp<cr>
         nnoremap <silent> K :LspHover<CR>
         nmap <leader>qf  :LspCodeAction<cr>
-        " nmap <leader>F  :LspDocumentFormat<cr>
+        nmap <leader>F  :LspDocumentFormat<cr>
         nmap <leader>I  :OR<cr>
 
         " buffer
@@ -481,6 +481,7 @@ if s:plug.is_installed('lightline-ale')
     let g:lightline#ale#indicator_errors = "\uf05e"
     let g:lightline#ale#indicator_ok = "\uf00c"
     let g:lightline.component_expand = {
+      \  'buffers': 'lightline#bufferline#buffers',
       \  'linter_checking': 'lightline#ale#checking',
       \  'linter_infos': 'lightline#ale#infos',
       \  'linter_warnings': 'lightline#ale#warnings',
@@ -503,6 +504,9 @@ if s:plug.is_installed('lightline-ale')
         \   ],
         \ }
 else
+    let g:lightline.component_expand = {
+      \  'buffers': 'lightline#bufferline#buffers',
+      \ }
     let g:lightline.component_type = {
         \   'buffers': 'tabsel',
         \ }

@@ -13,8 +13,8 @@ tools:
     format-command: htmlbeautifier
 
   vim-vint: &vim-vint
-    lint-command: 'vint'
-    lint-stdin: false
+    lint-command: 'vint ${INPUT}'
+    lint-stdin: true
 
   make-checkmake: &make-checkmake
     lint-command: 'checkmake'
@@ -33,8 +33,6 @@ tools:
   python-flake8: &python-flake8
     lint-command: 'flake8 --stdin-display-name ${INPUT}'
     lint-stdin: true
-    lint-formats:
-      - '%f:%l:%c: %m'
 
   python-mypy: &python-mypy
     lint-command: 'mypy --show-column-numbers'
@@ -44,7 +42,7 @@ tools:
       - '%f:%l:%c: %tote: %m'
 
   python-yapf: &python-yapf
-    format-command: 'yapf --style {based_on_style: chromium, indent_width: 20}'
+    format-command: 'yapf ${INPUT}'
 
   python-autopep8: &python-autopep8
     format-command: 'autopep8 --max-line-length 120 --experimental'
@@ -110,8 +108,7 @@ languages:
   python:
     - <<: *python-flake8
     - <<: *python-isort
-    - <<: *python-mypy
-    - <<: *python-autopep8
+    - <<: *python-yapf
 
   javascript:
     - <<: *eslint-lint
