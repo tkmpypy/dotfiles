@@ -337,11 +337,11 @@ else
         " vim-lsp {{
         let g:asyncomplete_popup_delay = 30
         let g:lsp_settings_python = 'pyls-ms'
-        let g:lsp_diagnostics_enabled = 1
-        let g:lsp_signs_enabled = 1         " enable signs
-        let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-        let g:lsp_highlights_enabled = 1
-        let g:lsp_textprop_enabled = 1
+        let g:lsp_diagnostics_enabled = 0
+        let g:lsp_signs_enabled = 0         " enable signs
+        let g:lsp_diagnostics_echo_cursor = 0 " enable echo under cursor when in normal mode
+        let g:lsp_highlights_enabled = 0
+        let g:lsp_textprop_enabled = 0
         let g:lsp_highlight_references_enabled = 0
         highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
 
