@@ -65,15 +65,17 @@ Plug 'sheerun/vim-polyglot'
 
 " Completion
 if has('nvim')
+    " use coc.nvim
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
-    Plug 'neovim/nvim-lsp'
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'neovim/nvim-lsp'
+    " Plug 'prabirshrestha/async.vim'
+    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    " Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'yami-beta/asyncomplete-omni.vim'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -166,7 +168,7 @@ let g:rainbow_active = 1
 " python-syntax {{
 let g:python_highlight_all = 1
 " }}
-if has('nvim')
+if s:plug.is_installed("nvim-lsp")
 lua << EOF
     require'nvim_lsp'.vimls.setup{}
     require'nvim_lsp'.jsonls.setup{}
