@@ -34,6 +34,7 @@ endif
 call plug#begin(s:plug_dir)
 " Colors
 Plug 'altercation/vim-colors-solarized'
+Plug 'Rigellute/rigel'
 Plug 'w0ng/vim-hybrid'
 Plug 'flrnprz/plastic.vim'
 Plug 'KeitaNakamura/neodark.vim'
@@ -46,6 +47,8 @@ Plug 'kaicataldo/material.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'sainnhe/edge'
 Plug 'arcticicestudio/nord-vim'
+Plug 'whatyouhide/vim-gotham'
+Plug 'yuttie/hydrangea-vim'
 
 " Plug 'junegunn/fzf', { 'do': './install --all' }
 "   Plug 'junegunn/fzf.vim'
@@ -66,29 +69,29 @@ Plug 'sheerun/vim-polyglot'
 " Completion
 if has('nvim')
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-    " use neovim built-in
-    " Plug 'neovim/nvim-lsp'
-    " Plug 'prabirshrestha/async.vim'
-    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    " Plug 'prabirshrestha/asyncomplete-file.vim'
-    " Plug 'prabirshrestha/asyncomplete.vim'
-    " Plug 'yami-beta/asyncomplete-omni.vim'
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
-else
-    " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-    " use vim-lsp
+    " use neovim built-in
+    Plug 'neovim/nvim-lsp'
     Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
     Plug 'prabirshrestha/asyncomplete-buffer.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'mattn/vim-lsp-settings'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
     Plug 'dense-analysis/ale'
     Plug 'maximbaz/lightline-ale'
+else
+    " use coc.nvim
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " use vim-lsp
+    " Plug 'prabirshrestha/async.vim'
+    " Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    " Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Plug 'prabirshrestha/vim-lsp'
+    " Plug 'mattn/vim-lsp-settings'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 endif
 
 " Visual
@@ -518,7 +521,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'edge'
+let g:lightline.colorscheme = 'nord'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -976,10 +979,10 @@ set backspace=indent,eol,start
 " endif
 
 set background=dark
-" let g:material_theme_style='palenight'
+let g:material_theme_style='palenight'
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
-colorscheme edge
+colorscheme nord
 set shell=fish
 
 "*****************************************************************************
