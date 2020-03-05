@@ -404,7 +404,7 @@ if s:plug.is_installed('ale')
     " ale {{
     let g:ale_fixers = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \   'python': ['isort', 'yapf'],
+    \   'python': ['yapf'],
     \   'typescript': ['prettier', 'eslint'],
     \   'typescriptreact': ['prettier', 'eslint'],
     \   'javascript': ['prettier', 'eslint'],
@@ -521,7 +521,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'nord'
+let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -982,7 +982,7 @@ set background=dark
 let g:material_theme_style='palenight'
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
-colorscheme nord
+colorscheme edge
 set shell=fish
 
 "*****************************************************************************
