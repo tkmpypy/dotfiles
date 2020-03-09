@@ -18,7 +18,7 @@ if has('nvim')
 else
   if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
 endif
@@ -722,11 +722,11 @@ nnoremap <leader>tt :Vista!! <CR>
 " let g:onedark_hide_endofbuffer=1
 " }}
 " gina.vim {{
-nnoremap <silent> <leader>gs :<C-u>Gina status --opener=vsplit<CR>
+nnoremap <silent> <leader>gs :<C-u>Gina status --opener=split<CR>
 nnoremap <silent> <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
-nnoremap <silent> <leader>gd :<C-u>Gina compare --opener=vsplit<CR>
-nnoremap <silent> <leader>gD :<C-u>Gina diff --opener=vsplit<CR>
-nnoremap <silent> <leader>gl :<C-u>Gina log --graph --opener=vsplit<CR>
+nnoremap <silent> <leader>gd :<C-u>Gina compare --opener=tabedit<CR>
+nnoremap <silent> <leader>gD :<C-u>Gina diff --opener=tabedit<CR>
+nnoremap <silent> <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
 nnoremap <silent> <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
 nnoremap <leader>gp :<C-u>Gina push<CR>
 " }}
