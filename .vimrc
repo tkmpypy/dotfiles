@@ -119,7 +119,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'glidenote/memolist.vim'
 Plug 'mbbill/undotree'
 Plug 'osyo-manga/vim-over'
-Plug 'rhysd/reply.vim', { 'on': ['Repl', 'ReplAuto'] }
 Plug 'rhysd/devdocs.vim'
 Plug 'tyru/operator-camelize.vim'
   Plug 'kana/vim-operator-user'
@@ -848,18 +847,6 @@ nnoremap <silent> <Leader>rc :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 " コピーした文字列をハイライト付きで置換
 nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
-" }}
-" rhysd/reply.vim {{
-nnoremap <Leader>rpl :Repl<cr>
-nnoremap <Leader>rpla :ReplAuto<cr>
-nnoremap <Leader>rpls :ReplSend<cr>
-nnoremap <Leader>rplr :ReplRecv<cr>
-vnoremap <Leader>rpl :Repl<cr>
-vnoremap <Leader>rpla :ReplAuto<cr>
-vnoremap <Leader>rpls :ReplSend<cr>
-vnoremap <Leader>rplr :ReplRecv<cr>
-nnoremap <Leader>rpll :ReplList<cr>
-nnoremap <Leader>rplx :ReplStop<cr>
 " }}
 " eztrans.vim {{
 
