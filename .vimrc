@@ -29,7 +29,6 @@ else
     let g:vimIsInTmux = 0
 endif
 
-
 " Install plugins
 call plug#begin(s:plug_dir)
 " Colors
@@ -65,20 +64,20 @@ Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
 
-
 " Completion
 if has('nvim')
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
     Plug 'neovim/nvim-lsp'
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
+    " use asyncomplete
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/asyncomplete-buffer.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
     Plug 'prabirshrestha/asyncomplete.vim'
     Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -170,13 +169,12 @@ let g:rainbow_active = 1
 " python-syntax {{
 let g:python_highlight_all = 1
 " }}
-if s:plug.is_installed("nvim-lsp")
-lua << EOF
-    require'nvim_lsp'.vimls.setup{}
-    require'nvim_lsp'.jsonls.setup{}
-    require'nvim_lsp'.tsserver.setup{}
-    require'nvim_lsp'.pyls_ms.setup{}
-EOF
+
+function! s:setup_nvim_lsp()
+    lua require'nvim_lsp'.vimls.setup{}
+    lua require'nvim_lsp'.jsonls.setup{}
+    lua require'nvim_lsp'.tsserver.setup{}
+    lua require'nvim_lsp'.pyls_ms.setup{}
     autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
@@ -191,12 +189,163 @@ EOF
     nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
     nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <silent> rn    <cmd>lua vim.lsp.buf.rename()<CR>
+endfunction
 
+function! s:setup_vim_lsp()
+    let g:lsp_settings_python = 'pyls-ms'
+    let g:lsp_diagnostics_enabled = 0
+    let g:lsp_signs_enabled = 0         " enable signs
+    let g:lsp_diagnostics_echo_cursor = 0 " enable echo under cursor when in normal mode
+    let g:lsp_highlights_enabled = 0
+    let g:lsp_textprop_enabled = 0
+    let g:lsp_highlight_references_enabled = 0
+    highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
+
+    let g:lsp_signs_error = {'text': '✗'}
+    let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
+    let g:lsp_signs_hint = {'test': '?'} " icons require GUI
+    command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
+    nmap <leader>rn :LspRename<cr>
+    nmap <silent> gd :LspDefinition<cr>
+    nmap <silent> pd :LspPeekDefinition<cr>
+    nmap <silent> gy :LspTypeDefinition<cr>
+    nmap <silent> gi :LspImplementation<cr>
+    nmap <silent> gr :LspReferences<cr>
+    nmap <silent> gh :LspSignatureHelp<cr>
+    nnoremap <silent> K :LspHover<CR>
+    nmap <leader>qf  :LspCodeAction<cr>
+    nmap <leader>F  :LspDocumentFormat<cr>
+    nmap <leader>I  :OR<cr>
+endfunction
+
+function! s:setup_coc()
+  " setting
+    let g:coc_global_extensions = [
+          \  'coc-lists'
+          \, 'coc-json'
+          \, 'coc-yaml'
+          \, 'coc-marketplace'
+          \, 'coc-html'
+          \, 'coc-css'
+          \, 'coc-tsserver'
+          \, 'coc-eslint'
+          \, 'coc-prettier'
+          \, 'coc-markdownlint'
+          \, 'coc-python'
+          \, 'coc-snippets'
+          \, 'coc-vimlsp'
+          \, 'coc-flutter'
+          \ ]
+    function! CocCurrentFunction()
+        let funcName = get(b:, 'coc_current_function', '')
+        if funcName != ''
+            let funcName = ' ' . funcName
+        endif
+        return funcName
+    endfunction
+
+    " " OR this mapping also breaks it in same manor
+    " Make <cr> select the first completion item and confirm completion when no item have selected
+    " " Use `[c` and `]c` to navigate diagnostics
+    nmap <silent> [c <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K for show documentation in preview window
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+      else
+        call CocActionAsync('doHover')
+      endif
+    endfunction
+
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Remap for rename current word
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " Remap for format selected region
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
+
+    augroup mygroup
+      autocmd!
+      " Setup formatexpr specified filetype(s).
+      autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
+      " Update signature help on jump placeholder
+      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
+
+    " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+    xmap <space>a  <Plug>(coc-codeaction-selected)
+    nmap <space>a  <Plug>(coc-codeaction-selected)
+
+    " Remap for do codeAction of current line
+    nmap <space>ac  <Plug>(coc-codeaction)
+    " " Fix autofix problem of current line
+    nmap <space>qf  <Plug>(coc-fix-current)
+
+    " Introduce function text object
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap if <Plug>(coc-funcobj-i)
+    omap af <Plug>(coc-funcobj-a)
+
+    " Use <TAB> for selections ranges.
+    " NOTE: Requires 'textDocument/selectionRange' support from the language server.
+    " coc-tsserver, coc-python are the examples of servers that support it.
+    nmap <silent> <TAB> <Plug>(coc-range-select)
+    xmap <silent> <TAB> <Plug>(coc-range-select)
+
+    " Use `:Format` to format current buffer
+    command! -nargs=0 Format :call CocActionAsync('format')
+
+    " Use `:Fold` to fold current buffer
+    command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
+    " " use `:OR` for organize import of current buffer
+    command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+    " Using CocList
+    " Show all diagnostics
+    nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
+    " " Manage extensions
+    nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+    " Show commands
+    nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+    " Find symbol of current document
+    nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+    " Search workspace symbols
+    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list
+    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+    " coc-yank
+    nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+    nnoremap <silent> <space>F  :<C-u>Format<cr>
+    nnoremap <silent> <space>I  :<C-u>OR<cr>
+
+endfunction
+
+function! s:setup_asyncomplete()
     let g:asyncomplete_auto_popup = 1
     " buffer
     call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
         \ 'name': 'buffer',
         \ 'whitelist': ['*'],
+        \ 'priority': 11,
         \ 'completor': function('asyncomplete#sources#buffer#completor'),
         \ 'config': {
         \    'max_buffer_size': 50,
@@ -215,177 +364,28 @@ EOF
     call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
     \ 'name': 'omni',
     \ 'whitelist': ['*'],
+    \ 'priority': 5,
     \ 'completor': function('asyncomplete#sources#omni#completor')
     \  }))
+endfunction
+
+if s:plug.is_installed('nvim-lsp')
+    call s:setup_nvim_lsp()
+    if s:plug.is_installed('asyncomplete.vim')
+        call s:setup_asyncomplete()
+    endif
+
 else
-    if s:plug.is_installed("coc.nvim")
-      " setting
-        let g:coc_global_extensions = [
-              \  'coc-lists'
-              \, 'coc-json'
-              \, 'coc-yaml'
-              \, 'coc-marketplace'
-              \, 'coc-html'
-              \, 'coc-css'
-              \, 'coc-tsserver'
-              \, 'coc-eslint'
-              \, 'coc-prettier'
-              \, 'coc-markdownlint'
-              \, 'coc-python'
-              \, 'coc-snippets'
-              \, 'coc-vimlsp'
-              \, 'coc-flutter'
-              \ ]
-        function! CocCurrentFunction()
-            let funcName = get(b:, 'coc_current_function', '')
-            if funcName != ''
-                let funcName = ' ' . funcName
-            endif
-            return funcName
-        endfunction
-
-        " " OR this mapping also breaks it in same manor
-        " Make <cr> select the first completion item and confirm completion when no item have selected
-        " " Use `[c` and `]c` to navigate diagnostics
-        nmap <silent> [c <Plug>(coc-diagnostic-prev)
-        nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-        " Remap keys for gotos
-        nmap <silent> gd <Plug>(coc-definition)
-        nmap <silent> gy <Plug>(coc-type-definition)
-        nmap <silent> gi <Plug>(coc-implementation)
-        nmap <silent> gr <Plug>(coc-references)
-
-        " Use K for show documentation in preview window
-        nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-        function! s:show_documentation()
-          if (index(['vim','help'], &filetype) >= 0)
-            execute 'h '.expand('<cword>')
-          else
-            call CocActionAsync('doHover')
-          endif
-        endfunction
-
-        " Highlight symbol under cursor on CursorHold
-        autocmd CursorHold * silent call CocActionAsync('highlight')
-
-        " Remap for rename current word
-        nmap <leader>rn <Plug>(coc-rename)
-
-        " Remap for format selected region
-        xmap <leader>f  <Plug>(coc-format-selected)
-        nmap <leader>f  <Plug>(coc-format-selected)
-
-        augroup mygroup
-          autocmd!
-          " Setup formatexpr specified filetype(s).
-          autocmd FileType typescript,json setl formatexpr=CocActionAsync('formatSelected')
-          " Update signature help on jump placeholder
-          autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-        augroup end
-
-        " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-        xmap <space>a  <Plug>(coc-codeaction-selected)
-        nmap <space>a  <Plug>(coc-codeaction-selected)
-
-        " Remap for do codeAction of current line
-        nmap <space>ac  <Plug>(coc-codeaction)
-        " " Fix autofix problem of current line
-        nmap <space>qf  <Plug>(coc-fix-current)
-
-        " Introduce function text object
-        " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-        xmap if <Plug>(coc-funcobj-i)
-        xmap af <Plug>(coc-funcobj-a)
-        omap if <Plug>(coc-funcobj-i)
-        omap af <Plug>(coc-funcobj-a)
-
-        " Use <TAB> for selections ranges.
-        " NOTE: Requires 'textDocument/selectionRange' support from the language server.
-        " coc-tsserver, coc-python are the examples of servers that support it.
-        nmap <silent> <TAB> <Plug>(coc-range-select)
-        xmap <silent> <TAB> <Plug>(coc-range-select)
-
-        " Use `:Format` to format current buffer
-        command! -nargs=0 Format :call CocActionAsync('format')
-
-        " Use `:Fold` to fold current buffer
-        command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
-        " " use `:OR` for organize import of current buffer
-        command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-
-        " Using CocList
-        " Show all diagnostics
-        nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
-        " " Manage extensions
-        nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-        " Show commands
-        nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-        " Find symbol of current document
-        nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-        " Search workspace symbols
-        nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-        " Do default action for next item.
-        nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-        " Do default action for previous item.
-        nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-        " Resume latest coc list
-        nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-        " coc-yank
-        nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-        nnoremap <silent> <space>F  :<C-u>Format<cr>
-        nnoremap <silent> <space>I  :<C-u>OR<cr>
+    if s:plug.is_installed('coc.nvim')
+        call s:setup_coc()
     endif
 
     if s:plug.is_installed('vim-lsp')
-        " vim-lsp {{
-        let g:asyncomplete_popup_delay = 30
-        let g:lsp_settings_python = 'pyls-ms'
-        let g:lsp_diagnostics_enabled = 0
-        let g:lsp_signs_enabled = 0         " enable signs
-        let g:lsp_diagnostics_echo_cursor = 0 " enable echo under cursor when in normal mode
-        let g:lsp_highlights_enabled = 0
-        let g:lsp_textprop_enabled = 0
-        let g:lsp_highlight_references_enabled = 0
-        highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
+        call s:setup_vim_lsp()
+        if s:plug.is_installed('asyncomplete.vim')
+            call s:setup_asyncomplete()
+        endif
 
-        let g:lsp_signs_error = {'text': '✗'}
-        let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
-        let g:lsp_signs_hint = {'test': '?'} " icons require GUI
-        command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
-        nmap <leader>rn :LspRename<cr>
-        nmap <silent> gd :LspDefinition<cr>
-        nmap <silent> pd :LspPeekDefinition<cr>
-        nmap <silent> gy :LspTypeDefinition<cr>
-        nmap <silent> gi :LspImplementation<cr>
-        nmap <silent> gr :LspReferences<cr>
-        nmap <silent> gh :LspSignatureHelp<cr>
-        nnoremap <silent> K :LspHover<CR>
-        nmap <leader>qf  :LspCodeAction<cr>
-        nmap <leader>F  :LspDocumentFormat<cr>
-        nmap <leader>I  :OR<cr>
-
-        " buffer
-        call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-            \ 'name': 'buffer',
-            \ 'whitelist': ['*'],
-            \ 'completor': function('asyncomplete#sources#buffer#completor'),
-            \ 'config': {
-            \    'max_buffer_size': 50,
-            \  },
-            \ }))
-        " file
-        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-            \ 'name': 'file',
-            \ 'whitelist': ['*'],
-            \ 'priority': 10,
-            \ 'config': {
-            \    'max_buffer_size': 50,
-            \  },
-            \ 'completor': function('asyncomplete#sources#file#completor')
-            \ }))
-        " }}
         if executable('efm-langserver') && !s:plug.is_installed('ale')
             augroup LspEFM
               au!
@@ -398,6 +398,7 @@ else
         endif
     endif
 endif
+
 
 if s:plug.is_installed('ale')
     " ale {{
@@ -664,7 +665,14 @@ let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive = 'vim_lsp'
+
+if s:plug.is_installed('vim-lsp')
+    let g:vista_default_executive = 'vim_lsp'
+elseif s:plug.is_installed('nvim_lsp')
+    let g:vista_default_executive = 'vim_lsp'
+elseif s:plug.is_installed('coc.nvim')
+    let g:vista_default_executive = 'coc'
+endif
 
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
