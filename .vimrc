@@ -439,6 +439,11 @@ endif
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
 " }}
+
+let g:git_icon = ' '
+function! GetBranchName()
+    return g:git_icon . gina#component#repo#branch()
+endfunction
 " taohexxx/lightline-buffer {{
 let g:lightline#bufferline#enable_devicons = 1
 let g:lightline#bufferline#show_number  = 2
@@ -447,7 +452,6 @@ let g:lightline#bufferline#unnamed      = '[No Name]'
 let g:lightline#bufferline#filename_modifier = ':t'
 let g:lightline#bufferline#unicode_symbols = 1
 
-let g:git_icon = ' '
 let g:lightline_buffer_readonly_icon = ''
 let g:lightline_buffer_modified_icon = '✭'
 " }}
@@ -465,7 +469,7 @@ let g:lightline.component_function = {
     \   'currentfunction': 'CocCurrentFunction',
     \   'devicons_filetype': 'Devicons_Filetype',
     \   'devicons_fileformat': 'Devicons_Fileformat',
-    \   'branch': 'gina#component#repo#branch',
+    \   'branch': 'GetBranchName',
     \   'git_status': 'GetGitStatus',
     \   'filename': 'LightlineFilename',
     \ }
