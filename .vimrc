@@ -528,7 +528,7 @@ autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
 
 function! GetGitStatus()
-    return gina#component#traffic#preset("fancy")
+    return gina#component#traffic#preset("fancy") == ' ' ? '↑0 ↓0' : gina#component#traffic#preset("fancy")
 endfunction
 
 function! LightlineModified()
