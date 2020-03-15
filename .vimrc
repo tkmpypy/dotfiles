@@ -70,6 +70,7 @@ if has('nvim')
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
     Plug 'neovim/nvim-lsp'
+    Plug 'h-michael/lsp-ext.nvim'
     Plug 'dense-analysis/ale'
     Plug 'maximbaz/lightline-ale'
     " use asyncomplete
@@ -122,6 +123,7 @@ Plug 'rhysd/devdocs.vim'
 Plug 'tyru/operator-camelize.vim'
   Plug 'kana/vim-operator-user'
 Plug 't9md/vim-choosewin'
+Plug 'pechorin/any-jump.vim'
 
 " Git
 Plug 'lambdalisue/gina.vim'
@@ -867,6 +869,9 @@ nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '
 nnoremap <Leader>et :EztransDefaultCurrent en ja<CR>
 vnoremap <Leader>et :EztransSelection en ja<CR>
 
+" }}
+" pechorin/any-jump.vim{{
+nnoremap <Leader>aj :AnyJump<CR>
 " }}
 " vimdocs {{
 let g:devdocs_filetype_map = {
