@@ -67,31 +67,32 @@ Plug 'sheerun/vim-polyglot'
 " Completion
 if has('nvim')
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-    " use neovim built-in
-    Plug 'neovim/nvim-lsp'
-    Plug 'h-michael/lsp-ext.nvim'
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
-    " use asyncomplete
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-else
-    " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-    " use vim-lsp
-    " Plug 'prabirshrestha/async.vim'
-    " Plug 'prabirshrestha/asyncomplete.vim'
-    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    " Plug 'prabirshrestha/asyncomplete-file.vim'
-    " Plug 'prabirshrestha/vim-lsp'
-    " Plug 'mattn/vim-lsp-settings'
+    " use neovim built-in
+    " Plug 'neovim/nvim-lsp'
+    " Plug 'h-michael/lsp-ext.nvim'
     " Plug 'dense-analysis/ale'
     " Plug 'maximbaz/lightline-ale'
+    " use asyncomplete
+    " Plug 'prabirshrestha/async.vim'
+    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    " Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'yami-beta/asyncomplete-omni.vim'
+else
+    " use coc.nvim
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " use vim-lsp
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'mattn/vim-lsp-settings'
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 endif
 
 " Visual
@@ -194,12 +195,12 @@ function! s:setup_nvim_lsp()
 endfunction
 
 function! s:setup_vim_lsp()
-    let g:lsp_settings_python = 'pyls-ms'
-    let g:lsp_diagnostics_enabled = 0
-    let g:lsp_signs_enabled = 0         " enable signs
+    let g:lsp_settings_filetype_python = 'pyls-ms'
+    let g:lsp_diagnostics_enabled = 1
+    let g:lsp_signs_enabled = 1         " enable signs
     let g:lsp_diagnostics_echo_cursor = 0 " enable echo under cursor when in normal mode
     let g:lsp_highlights_enabled = 0
-    let g:lsp_textprop_enabled = 0
+    let g:lsp_textprop_enabled = 1
     let g:lsp_highlight_references_enabled = 0
     highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
 
@@ -1024,7 +1025,7 @@ autocmd FileType javascript setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-set redrawtime=10000
+" set redrawtime=10000
 
 
 "*****************************************************************************
@@ -1039,7 +1040,7 @@ set nowritebackup
 set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-" set updatetime=300
+set updatetime=300
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
