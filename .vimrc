@@ -45,9 +45,11 @@ Plug 'morhetz/gruvbox'
 Plug 'kaicataldo/material.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'sainnhe/edge'
+Plug 'sainnhe/gruvbox-material'
 Plug 'arcticicestudio/nord-vim'
 Plug 'whatyouhide/vim-gotham'
 Plug 'yuttie/hydrangea-vim'
+Plug 'NLKNguyen/papercolor-theme'
 
 " Plug 'junegunn/fzf', { 'do': './install --all' }
 "   Plug 'junegunn/fzf.vim'
@@ -226,7 +228,6 @@ function! s:setup_coc()
     let g:coc_global_extensions = [
           \  'coc-lists'
           \, 'coc-json'
-          \, 'coc-yaml'
           \, 'coc-marketplace'
           \, 'coc-html'
           \, 'coc-css'
@@ -238,6 +239,7 @@ function! s:setup_coc()
           \, 'coc-snippets'
           \, 'coc-vimlsp'
           \, 'coc-flutter'
+          \, 'coc-translator'
           \ ]
     function! CocCurrentFunction()
         let funcName = get(b:, 'coc_current_function', '')
@@ -339,6 +341,10 @@ function! s:setup_coc()
     nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
     nnoremap <silent> <space>F  :<C-u>Format<cr>
     nnoremap <silent> <space>I  :<C-u>OR<cr>
+    " coc-translator
+    " popup
+    nmap <Leader>tr <Plug>(coc-translator-p)
+    vmap <Leader>tr <Plug>(coc-translator-pv)
 
 endfunction
 
@@ -529,7 +535,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'edge'
+let g:lightline.colorscheme = 'gruvbox_material'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -988,7 +994,8 @@ set background=dark
 let g:material_theme_style='palenight'
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
-colorscheme edge
+let g:gruvbox_material_background = 'soft'
+colorscheme gruvbox-material
 set shell=fish
 
 "*****************************************************************************

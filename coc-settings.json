@@ -7,5 +7,10 @@
   "eslint.autoFixOnSave": true,
   "flutter.lsp.initialization.closingLabels": true,
   "flutter.lsp.initialization.suggestFromUnimportedLibraries": true,
-  "flutter.provider.hot-reload": true
+  "flutter.provider.hot-reload": true,
+  "translator.toLang": "ja",
+  "translator.engines": [
+      "bing",
+      "google"
+  ]
 }
