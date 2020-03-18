@@ -236,6 +236,8 @@ function! s:setup_coc()
           \, 'coc-prettier'
           \, 'coc-markdownlint'
           \, 'coc-python'
+          \, 'coc-rls'
+          \, 'coc-rust-analyzer'
           \, 'coc-snippets'
           \, 'coc-vimlsp'
           \, 'coc-flutter'
@@ -448,6 +450,10 @@ if s:plug.is_installed('ale')
 endif
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
+" }}
+" indentLine {{
+let g:indentLine_concealcursor = 'inc'
+let g:indentLine_conceallevel = 2
 " }}
 
 let g:git_icon = ' '
