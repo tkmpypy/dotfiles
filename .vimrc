@@ -749,13 +749,24 @@ nnoremap <leader>tt :Vista!! <CR>
 " let g:onedark_hide_endofbuffer=1
 " }}
 " gina.vim {{
+call gina#custom#mapping#nmap(
+	      \ 'status', 'dd',
+	      \ ':<C-u>Gina diff --opener=tabedit<CR>',
+	      \ {'noremap': 1, 'silent': 1},
+	      \)
+call gina#custom#mapping#nmap(
+	      \ 'status', 'dp',
+	      \ ':<C-u>Gina diff --opener=preview<CR>',
+	      \ {'noremap': 1, 'silent': 1},
+	      \)
 nnoremap <silent> <leader>gs :<C-u>Gina status --opener=split<CR>
 nnoremap <silent> <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
-nnoremap <silent> <leader>gd :<C-u>Gina compare --opener=tabedit<CR>
-nnoremap <silent> <leader>gD :<C-u>Gina diff --opener=tabedit<CR>
+nnoremap <silent> <leader>gD :<C-u>Gina compare --opener=tabedit<CR>
+nnoremap <silent> <leader>gd :<C-u>Gina diff --opener=tabedit<CR>
 nnoremap <silent> <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
 nnoremap <silent> <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
 nnoremap <leader>gp :<C-u>Gina push<CR>
+
 " }}
 " vim-session {{
 let g:session_autosave = 'no'
