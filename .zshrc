@@ -9,6 +9,10 @@ export PATH="$PATH:/usr/local/bin"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.anyenv/bin:$PATH"
+if command -v anyenv 1>/dev/null 2>&1; then
+  eval "$(anyenv init -)"
+fi
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
@@ -107,3 +111,5 @@ setopt hist_reduce_blanks
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+### End of Zinit's installer chunk
+### End of Zinit's installer chunk
