@@ -50,6 +50,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'whatyouhide/vim-gotham'
 Plug 'yuttie/hydrangea-vim'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'junegunn/seoul256.vim'
 
 " Plug 'junegunn/fzf', { 'do': './install --all' }
 "   Plug 'junegunn/fzf.vim'
@@ -83,18 +84,18 @@ if has('nvim')
     " Plug 'yami-beta/asyncomplete-omni.vim'
 else
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use vim-lsp
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'mattn/vim-lsp-settings'
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'prabirshrestha/async.vim'
+    " Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    " Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Plug 'yami-beta/asyncomplete-omni.vim'
+    " Plug 'prabirshrestha/vim-lsp'
+    " Plug 'mattn/vim-lsp-settings'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 endif
 
 " Visual
@@ -236,7 +237,6 @@ function! s:setup_coc()
           \, 'coc-prettier'
           \, 'coc-markdownlint'
           \, 'coc-python'
-          \, 'coc-rls'
           \, 'coc-rust-analyzer'
           \, 'coc-snippets'
           \, 'coc-vimlsp'
@@ -541,7 +541,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'gruvbox_material'
+let g:lightline.colorscheme = 'neodark'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -1012,8 +1012,9 @@ let g:material_theme_style='palenight'
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 let g:gruvbox_material_background = 'soft'
-colorscheme gruvbox-material
-set shell=fish
+let g:seoul256_background = 237
+colorscheme neodark
+set shell=zsh
 
 "*****************************************************************************
 " Copy/Paste/Cut
