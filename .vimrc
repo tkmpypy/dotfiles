@@ -84,18 +84,18 @@ if has('nvim')
     " Plug 'yami-beta/asyncomplete-omni.vim'
 else
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use vim-lsp
-    " Plug 'prabirshrestha/async.vim'
-    " Plug 'prabirshrestha/asyncomplete.vim'
-    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    " Plug 'prabirshrestha/asyncomplete-file.vim'
-    " Plug 'yami-beta/asyncomplete-omni.vim'
-    " Plug 'prabirshrestha/vim-lsp'
-    " Plug 'mattn/vim-lsp-settings'
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'mattn/vim-lsp-settings'
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 endif
 
 " Visual
@@ -421,6 +421,7 @@ if s:plug.is_installed('ale')
     \   'typescriptreact': ['prettier', 'eslint'],
     \   'javascript': ['prettier', 'eslint'],
     \   'javascriptreact': ['prettier', 'eslint'],
+    \   'rust': ['rustfmt'],
     \}
     let g:ale_linters = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -429,8 +430,18 @@ if s:plug.is_installed('ale')
     \   'typescriptreact': ['eslint'],
     \   'javascript': ['eslint'],
     \   'javascriptreact': ['eslint'],
+    \   'rust': ['rls'],
     \   'vim': ['vint'],
     \}
+    let g:ale_rust_rls_config = {
+        \ 'rust': {
+            \ 'all_targets': 1,
+            \ 'build_on_save': 1,
+            \ 'clippy_preference': 'on'
+        \ }
+	\ }
+let g:ale_rust_rls_toolchain = 'stable'
+let g:ale_rust_rls_executable = 'rust-analyzer'
     let g:ale_linters_explicit = 1
     let g:ale_sign_error = '✗'
     let g:ale_sign_warning = '⚠'
@@ -1050,7 +1061,7 @@ autocmd FileType javascript setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-" set redrawtime=10000
+set redrawtime=300
 
 
 "*****************************************************************************
