@@ -70,32 +70,32 @@ Plug 'sheerun/vim-polyglot'
 " Completion
 if has('nvim')
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-    " use neovim built-in
-    " Plug 'neovim/nvim-lsp'
-    " Plug 'h-michael/lsp-ext.nvim'
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
-    " use asyncomplete
-    " Plug 'prabirshrestha/async.vim'
-    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    " Plug 'prabirshrestha/asyncomplete-file.vim'
-    " Plug 'prabirshrestha/asyncomplete.vim'
-    " Plug 'yami-beta/asyncomplete-omni.vim'
-else
-    " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-    " use vim-lsp
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'mattn/vim-lsp-settings'
+    " use neovim built-in
+    Plug 'neovim/nvim-lsp'
+    Plug 'h-michael/lsp-ext.nvim'
     Plug 'dense-analysis/ale'
     Plug 'maximbaz/lightline-ale'
+    " use asyncomplete
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
+else
+    " use coc.nvim
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " use vim-lsp
+    " Plug 'prabirshrestha/async.vim'
+    " Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    " Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Plug 'yami-beta/asyncomplete-omni.vim'
+    " Plug 'prabirshrestha/vim-lsp'
+    " Plug 'mattn/vim-lsp-settings'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 endif
 
 " Visual
@@ -105,6 +105,7 @@ Plug 'mengelbrecht/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Explorer
 Plug 'preservim/nerdtree'
@@ -181,11 +182,13 @@ function! s:setup_nvim_lsp()
     lua require'nvim_lsp'.jsonls.setup{}
     lua require'nvim_lsp'.tsserver.setup{}
     lua require'nvim_lsp'.pyls_ms.setup{}
+    lua require'nvim_lsp'.rust_analyzer.setup{}
     autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
@@ -410,7 +413,6 @@ else
         endif
     endif
 endif
-
 
 if s:plug.is_installed('ale')
     " ale {{
@@ -999,8 +1001,7 @@ set wildmenu
 set wildmode=full
 
 " set guifont="FiraCode Nerd Font"
-set nonumber
-set relativenumber
+set number relativenumber
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
@@ -1061,7 +1062,7 @@ autocmd FileType javascript setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-set redrawtime=300
+" set redrawtime=300
 
 
 "*****************************************************************************
