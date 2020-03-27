@@ -84,18 +84,25 @@ if has('nvim')
     Plug 'yami-beta/asyncomplete-omni.vim'
 else
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use vim-lsp
-    " Plug 'prabirshrestha/async.vim'
-    " Plug 'prabirshrestha/asyncomplete.vim'
-    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    " Plug 'prabirshrestha/asyncomplete-file.vim'
-    " Plug 'yami-beta/asyncomplete-omni.vim'
-    " Plug 'prabirshrestha/vim-lsp'
-    " Plug 'mattn/vim-lsp-settings'
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'mattn/vim-lsp-settings'
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
+    " use deoplete
+    " Plug 'roxma/nvim-yarp'
+    " Plug 'roxma/vim-hug-neovim-rpc'
+    " Plug 'Shougo/deoplete.nvim'
+    " Plug 'lighttiger2505/deoplete-vim-lsp'
+    " Plug 'Shougo/echodoc.vim'
+    " use asyncomplete
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'yami-beta/asyncomplete-omni.vim'
 endif
 
 " Visual
@@ -353,6 +360,17 @@ function! s:setup_coc()
 
 endfunction
 
+function! s:setup_deoplete()
+    let g:deoplete#enable_at_startup = 1
+    let g:echodoc#enable_at_startup = 1
+    if has("nvim")
+        let g:echodoc#type = "floating"
+    else
+        let g:echodoc#type = "popup"
+    endif
+    highlight link EchoDocPopup Pmenu
+endfunction
+
 function! s:setup_asyncomplete()
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_popup_delay = 200
@@ -363,7 +381,7 @@ function! s:setup_asyncomplete()
         \ 'priority': 11,
         \ 'completor': function('asyncomplete#sources#buffer#completor'),
         \ 'config': {
-        \    'max_buffer_size': 50,
+        \    'max_buffer_size': 5000000,
         \  },
         \ }))
     " file
@@ -372,7 +390,7 @@ function! s:setup_asyncomplete()
         \ 'whitelist': ['*'],
         \ 'priority': 10,
         \ 'config': {
-        \    'max_buffer_size': 50,
+        \    'max_buffer_size': 5000,
         \  },
         \ 'completor': function('asyncomplete#sources#file#completor')
         \ }))
@@ -399,6 +417,8 @@ else
         call s:setup_vim_lsp()
         if s:plug.is_installed('asyncomplete.vim')
             call s:setup_asyncomplete()
+        elseif s:plug.is_installed('deoplete.nvim')
+            call s:setup_deoplete()
         endif
 
         if executable('efm-langserver') && !s:plug.is_installed('ale')
