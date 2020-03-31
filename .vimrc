@@ -82,6 +82,7 @@ if has('nvim')
     Plug 'prabirshrestha/asyncomplete-file.vim'
     Plug 'prabirshrestha/asyncomplete.vim'
     Plug 'yami-beta/asyncomplete-omni.vim'
+    Plug 'donniewest/asyncomplete_neovim_lsp'
 else
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -190,12 +191,12 @@ function! s:setup_nvim_lsp()
     lua require'nvim_lsp'.tsserver.setup{}
     lua require'nvim_lsp'.pyls_ms.setup{}
     lua require'nvim_lsp'.rust_analyzer.setup{}
-    autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    " autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    " autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    " autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    " autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    " autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    " autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
@@ -209,11 +210,11 @@ endfunction
 
 function! s:setup_vim_lsp()
     let g:lsp_settings_filetype_python = 'pyls-ms'
-    let g:lsp_diagnostics_enabled = 1
+    let g:lsp_diagnostics_enabled = 0
     let g:lsp_signs_enabled = 1         " enable signs
     let g:lsp_diagnostics_echo_cursor = 0 " enable echo under cursor when in normal mode
     let g:lsp_highlights_enabled = 0
-    let g:lsp_textprop_enabled = 1
+    let g:lsp_textprop_enabled = 0
     let g:lsp_highlight_references_enabled = 0
     highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
 
@@ -374,11 +375,18 @@ endfunction
 function! s:setup_asyncomplete()
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_popup_delay = 200
+    let g:asyncomplete_smart_completion = 1
+    let g:asyncomplete_remove_duplicates = 1
     " buffer
+    call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+    \ 'name': 'omni',
+    \ 'whitelist': ['*'],
+    \ 'completor': function('asyncomplete#sources#omni#completor')
+    \  }))
     call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
         \ 'name': 'buffer',
         \ 'whitelist': ['*'],
-        \ 'priority': 11,
+        \ 'priority': 200,
         \ 'completor': function('asyncomplete#sources#buffer#completor'),
         \ 'config': {
         \    'max_buffer_size': 5000000,
@@ -388,18 +396,15 @@ function! s:setup_asyncomplete()
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
         \ 'name': 'file',
         \ 'whitelist': ['*'],
-        \ 'priority': 10,
+        \ 'priority': 300,
         \ 'config': {
         \    'max_buffer_size': 5000,
         \  },
         \ 'completor': function('asyncomplete#sources#file#completor')
         \ }))
-    call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-    \ 'name': 'omni',
-    \ 'whitelist': ['*'],
-    \ 'priority': 5,
-    \ 'completor': function('asyncomplete#sources#omni#completor')
-    \  }))
+    if s:plug.is_installed('asyncomplete_neovim_lsp')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#lsp#get_source_options({}))
+    endif
 endfunction
 
 if s:plug.is_installed('nvim-lsp')
@@ -574,7 +579,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'neodark'
+let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -983,6 +988,7 @@ noremap <leader>sR :<C-U>Leaderf --recall<CR>
 " should use `Leaderf gtags --update` first
 let g:Lf_GtagsAutoGenerate = 0
 let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_ShowDevIcons = 1
 " }}
 "*****************************************************************************
 " Visual Settings
@@ -1045,7 +1051,7 @@ let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 let g:gruvbox_material_background = 'soft'
 let g:seoul256_background = 237
-colorscheme neodark
+colorscheme edge
 set shell=zsh
 
 "*****************************************************************************
