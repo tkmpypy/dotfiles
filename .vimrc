@@ -66,23 +66,28 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
+Plug 'metakirby5/codi.vim'
 
 " Completion
 if has('nvim')
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
-    Plug 'neovim/nvim-lsp'
-    Plug 'h-michael/lsp-ext.nvim'
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'neovim/nvim-lsp'
+    " Plug 'h-michael/lsp-ext.nvim'
+    " Plug 'donniewest/asyncomplete_neovim_lsp'
+    " use vim-lsp
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'mattn/vim-lsp-settings'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
     " use asyncomplete
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/asyncomplete-buffer.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
     Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
-    Plug 'donniewest/asyncomplete_neovim_lsp'
+    " use ale
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -378,11 +383,6 @@ function! s:setup_asyncomplete()
     let g:asyncomplete_smart_completion = 1
     let g:asyncomplete_remove_duplicates = 1
     " buffer
-    call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-    \ 'name': 'omni',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#omni#completor')
-    \  }))
     call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
         \ 'name': 'buffer',
         \ 'whitelist': ['*'],
