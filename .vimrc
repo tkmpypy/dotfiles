@@ -108,7 +108,6 @@ else
     Plug 'prabirshrestha/asyncomplete-lsp.vim'
     Plug 'prabirshrestha/asyncomplete-buffer.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'yami-beta/asyncomplete-omni.vim'
 endif
 
 " Visual
@@ -443,7 +442,7 @@ if s:plug.is_installed('ale')
     " ale {{
     let g:ale_fixers = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \   'python': ['yapf'],
+    \   'python': ['autopep8'],
     \   'typescript': ['prettier', 'eslint'],
     \   'typescriptreact': ['prettier', 'eslint'],
     \   'javascript': ['prettier', 'eslint'],
