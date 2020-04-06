@@ -214,9 +214,9 @@ endfunction
 
 function! s:setup_vim_lsp()
     let g:lsp_settings_filetype_python = 'pyls-ms'
-    let g:lsp_diagnostics_enabled = 0
+    let g:lsp_diagnostics_enabled = 1
     let g:lsp_signs_enabled = 1         " enable signs
-    let g:lsp_diagnostics_echo_cursor = 0 " enable echo under cursor when in normal mode
+    let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
     let g:lsp_highlights_enabled = 0
     let g:lsp_textprop_enabled = 0
     let g:lsp_highlight_references_enabled = 0
@@ -448,6 +448,7 @@ if s:plug.is_installed('ale')
     \   'javascript': ['prettier', 'eslint'],
     \   'javascriptreact': ['prettier', 'eslint'],
     \   'rust': ['rustfmt'],
+    \   'go': ['gofmt', 'goimports'],
     \}
     let g:ale_linters = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -457,6 +458,7 @@ if s:plug.is_installed('ale')
     \   'javascript': ['eslint'],
     \   'javascriptreact': ['eslint'],
     \   'rust': ['rls'],
+    \   'go': ['gofmt', 'golint'],
     \   'vim': ['vint'],
     \}
     let g:ale_rust_rls_config = {
@@ -466,8 +468,8 @@ if s:plug.is_installed('ale')
             \ 'clippy_preference': 'on'
         \ }
 	\ }
-let g:ale_rust_rls_toolchain = 'stable'
-let g:ale_rust_rls_executable = 'rust-analyzer'
+    let g:ale_rust_rls_toolchain = 'stable'
+    let g:ale_rust_rls_executable = 'rust-analyzer'
     let g:ale_linters_explicit = 1
     let g:ale_sign_error = '✗'
     let g:ale_sign_warning = '⚠'
