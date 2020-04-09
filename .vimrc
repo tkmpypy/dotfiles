@@ -164,6 +164,14 @@ nnoremap <leader>qq :Bdelete!<CR>
 " }}
 " vim-quickrun {{
 nnoremap <leader>rb :QuickRun<CR>
+let g:quickrun_config = {}
+let g:quickrun_config['typescript'] = { 'type' : 'typescript/tsc' }
+let g:quickrun_config['typescript/tsc'] = {
+\   'command': 'tsc',
+\   'exec': ['%c --target esnext --module commonjs %o %s', 'node %s:r.js'],
+\   'tempfile': '%{tempname()}.ts',
+\   'hook/sweep/files': ['%S:p:r.js'],
+\ }
 " }}
 " polyglot {{
 let g:polyglot_disabled = ['markdown','md']

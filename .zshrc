@@ -16,6 +16,7 @@ fi
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+export PATH="$HOME/.anyenv/envs/nodenv/bin:$PATH"
 
 # Two regular plugins loaded without tracking.
 zinit light zsh-users/zsh-autosuggestions
