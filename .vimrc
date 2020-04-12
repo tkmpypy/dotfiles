@@ -75,7 +75,7 @@ if has('nvim')
     " use neovim built-in
     " Plug 'neovim/nvim-lsp'
     " Plug 'h-michael/lsp-ext.nvim'
-    " Plug 'donniewest/asyncomplete_neovim_lsp'
+    " Plug 'haorenW1025/completion-nvim'
     " use vim-lsp
     Plug 'prabirshrestha/vim-lsp'
     Plug 'mattn/vim-lsp-settings'
@@ -198,17 +198,19 @@ let g:python_highlight_all = 1
 " }}
 
 function! s:setup_nvim_lsp()
-    lua require'nvim_lsp'.vimls.setup{}
-    lua require'nvim_lsp'.jsonls.setup{}
-    lua require'nvim_lsp'.tsserver.setup{}
-    lua require'nvim_lsp'.pyls_ms.setup{}
-    lua require'nvim_lsp'.rust_analyzer.setup{}
+    " use omnifunc
+    " lua require'nvim_lsp'.vimls.setup{}
+    " lua require'nvim_lsp'.jsonls.setup{}
+    " lua require'nvim_lsp'.tsserver.setup{}
+    " lua require'nvim_lsp'.pyls_ms.setup{}
+    " lua require'nvim_lsp'.rust_analyzer.setup{}
     " autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
     " autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
     " autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
     " autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
     " autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
     " autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
@@ -218,6 +220,19 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
     nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <silent> rn    <cmd>lua vim.lsp.buf.rename()<CR>
+endfunction
+
+function! s:setup_complete_nvim()
+    lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
+    lua require'nvim_lsp'.vimls.setup{on_attach=require'completion'.on_attach}
+    lua require'nvim_lsp'.jsonls.setup{on_attach=require'completion'.on_attach}
+    lua require'nvim_lsp'.tsserver.setup{on_attach=require'completion'.on_attach}
+    lua require'nvim_lsp'.rust_analyzer.setup{on_attach=require'completion'.on_attach}
+
+    let g:completion_enable_auto_hover = 1
+    let g:completion_enable_auto_signature = 1
+    let g:completion_max_items = 20
+    let g:completion_trigger_character = ['.', '::']
 endfunction
 
 function! s:setup_vim_lsp()
@@ -386,7 +401,7 @@ endfunction
 
 function! s:setup_asyncomplete()
     let g:asyncomplete_auto_popup = 1
-    let g:asyncomplete_popup_delay = 200
+    let g:asyncomplete_popup_delay = 0
     let g:asyncomplete_smart_completion = 1
     let g:asyncomplete_remove_duplicates = 1
     " buffer
@@ -418,6 +433,8 @@ if s:plug.is_installed('nvim-lsp')
     call s:setup_nvim_lsp()
     if s:plug.is_installed('asyncomplete.vim')
         call s:setup_asyncomplete()
+    elseif s:plug.is_installed('completion-nvim')
+        call s:setup_complete_nvim()
     endif
 
 else
