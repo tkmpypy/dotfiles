@@ -411,7 +411,7 @@ function! s:setup_asyncomplete()
         \ 'priority': 200,
         \ 'completor': function('asyncomplete#sources#buffer#completor'),
         \ 'config': {
-        \    'max_buffer_size': 5000000,
+        \    'max_buffer_size': 500,
         \  },
         \ }))
     " file
@@ -420,7 +420,7 @@ function! s:setup_asyncomplete()
         \ 'whitelist': ['*'],
         \ 'priority': 300,
         \ 'config': {
-        \    'max_buffer_size': 5000,
+        \    'max_buffer_size': 500,
         \  },
         \ 'completor': function('asyncomplete#sources#file#completor')
         \ }))
@@ -483,7 +483,7 @@ if s:plug.is_installed('ale')
     \   'javascript': ['eslint'],
     \   'javascriptreact': ['eslint'],
     \   'rust': ['rls'],
-    \   'go': ['gofmt', 'golint'],
+    \   'go': ['golint', 'govet', 'gofmt'],
     \   'vim': ['vint'],
     \}
     let g:ale_rust_rls_config = {
