@@ -250,10 +250,10 @@ function! s:setup_vim_lsp()
     let g:lsp_signs_hint = {'test': '?'} " icons require GUI
     command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
     nmap <leader>rn :LspRename<cr>
-    nmap <silent> gd :LspDefinition<cr>
+    nmap <silent> gd :tab LspDefinition<cr>
     nmap <silent> pd :LspPeekDefinition<cr>
-    nmap <silent> gy :LspTypeDefinition<cr>
-    nmap <silent> gi :LspImplementation<cr>
+    nmap <silent> gy :tab LspTypeDefinition<cr>
+    nmap <silent> gi :tab LspImplementation<cr>
     nmap <silent> gr :LspReferences<cr>
     nmap <silent> gh :LspSignatureHelp<cr>
     nnoremap <silent> K :LspHover<CR>
