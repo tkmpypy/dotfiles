@@ -1051,6 +1051,7 @@ filetype plugin indent on
 syntax on
 set wildmenu
 set wildmode=full
+set ttyfast
 
 " set guifont="FiraCode Nerd Font"
 set number relativenumber
