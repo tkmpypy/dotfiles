@@ -71,32 +71,32 @@ Plug 'metakirby5/codi.vim'
 " Completion
 if has('nvim')
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
     " Plug 'neovim/nvim-lsp'
     " Plug 'h-michael/lsp-ext.nvim'
     " Plug 'haorenW1025/completion-nvim'
     " use vim-lsp
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'mattn/vim-lsp-settings'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    " Plug 'prabirshrestha/vim-lsp'
+    " Plug 'mattn/vim-lsp-settings'
+    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
     " use asyncomplete
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'prabirshrestha/async.vim'
+    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    " Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Plug 'prabirshrestha/asyncomplete.vim'
     " use ale
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use vim-lsp
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'mattn/vim-lsp-settings'
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'prabirshrestha/async.vim'
+    " Plug 'prabirshrestha/vim-lsp'
+    " Plug 'mattn/vim-lsp-settings'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
     " use deoplete
     " Plug 'roxma/nvim-yarp'
     " Plug 'roxma/vim-hug-neovim-rpc'
@@ -104,10 +104,10 @@ else
     " Plug 'lighttiger2505/deoplete-vim-lsp'
     " Plug 'Shougo/echodoc.vim'
     " use asyncomplete
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
+    " Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    " Plug 'prabirshrestha/asyncomplete-file.vim'
 endif
 
 " Visual
@@ -267,6 +267,7 @@ function! s:setup_coc()
     let g:coc_global_extensions = [
           \  'coc-lists'
           \, 'coc-json'
+          \, 'coc-yaml'
           \, 'coc-marketplace'
           \, 'coc-html'
           \, 'coc-css'
@@ -280,6 +281,8 @@ function! s:setup_coc()
           \, 'coc-vimlsp'
           \, 'coc-flutter'
           \, 'coc-translator'
+          \, 'coc-go'
+          \, 'coc-gitignore'
           \ ]
     function! CocCurrentFunction()
         let funcName = get(b:, 'coc_current_function', '')
