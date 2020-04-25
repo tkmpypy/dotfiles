@@ -10,12 +10,13 @@ if exists('g:vscode')
   nnoremap <silent> <leader>ft <Cmd>call VSCodeCall('workbench.action.toggleSidebarVisibility')<CR>
   nnoremap <silent> - <Cmd>call VSCodeCall('workbench.files.action.showActiveFileInExplorer')<CR>
   nnoremap <silent> <leader>p <Cmd>call VSCodeCall('workbench.action.showCommands')<CR>
-  nnoremap <silent> <leader>sf < puuuCmd>call VSCodeCall('workbench.action.quickOpen')<CR>
+  nnoremap <silent> <leader>sf <Cmd>call VSCodeCall('workbench.action.quickOpen')<CR>
+  nnoremap <silent> <leader>sp <Cmd>call VSCodeCall('projectManager.listProjects')<CR>
   nnoremap <silent> <leader>tt <Cmd>call VSCodeCall('workbench.action.terminal.focus')<CR>
   nnoremap <silent> <leader>gs <Cmd>call VSCodeCall('workbench.view.scm')<CR>
   nnoremap <silent> K <Cmd>call VSCodeCall('editor.action.showHover')<CR>
   nnoremap <silent> gD <Cmd>call VSCodeCall('editor.action.goToImplementation')<CR>
-  nnoremap <silent> gd <Cmd>call VSCodeCall('editor.action.goToDefinition')<CR>
+  nnoremap <silent> gd <Cmd>call VSCodeCall('editor.action.goToDeclaration')<CR>
   nnoremap <silent> gr <Cmd>call VSCodeCall('references-view.find')<CR>
   nnoremap <silent> gR <Cmd>call VSCodeCall('references-view.findImplementations')<CR>
   nnoremap <silent> <delete> <Cmd>call VSCodeCall('editor.debug.action.toggleBreakpoint')<CR>
