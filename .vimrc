@@ -4,7 +4,7 @@ endif
 
 if exists('g:vscode')
   let mapleader = "\<Space>"
-  
+
   nnoremap <silent> <leader>qp <Cmd>call VSCodeCall('workbench.action.closePanel')<CR>
   nnoremap <silent> <leader>q <Cmd>call VSCodeCall('workbench.action.closeActiveEditor')<CR>
   nnoremap <silent> <leader>ft <Cmd>call VSCodeCall('workbench.action.toggleSidebarVisibility')<CR>
@@ -14,6 +14,7 @@ if exists('g:vscode')
   nnoremap <silent> <leader>sp <Cmd>call VSCodeCall('projectManager.listProjects')<CR>
   nnoremap <silent> <leader>tt <Cmd>call VSCodeCall('workbench.action.terminal.focus')<CR>
   nnoremap <silent> <leader>gs <Cmd>call VSCodeCall('workbench.view.scm')<CR>
+  nnoremap <silent> <leader>rn <Cmd>call VSCodeCall('editor.action.rename')<CR>
   nnoremap <silent> K <Cmd>call VSCodeCall('editor.action.showHover')<CR>
   nnoremap <silent> gD <Cmd>call VSCodeCall('editor.action.goToImplementation')<CR>
   nnoremap <silent> gd <Cmd>call VSCodeCall('editor.action.goToDeclaration')<CR>
