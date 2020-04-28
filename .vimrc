@@ -1090,7 +1090,7 @@ set wildmenu
 set wildmode=full
 set ttyfast
 
-" set guifont="FiraCode Nerd Font"
+set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number relativenumber
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
@@ -1152,7 +1152,7 @@ autocmd FileType javascript setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-" set redrawtime=300
+set redrawtime=10000
 
 
 "*****************************************************************************
