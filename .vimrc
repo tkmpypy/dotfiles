@@ -845,9 +845,9 @@ nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
 " }}
 " joshdick/onedark.vim {{
-" let g:onedark_termcolors=256
-" let g:onedark_terminal_italics=1
-" let g:onedark_hide_endofbuffer=1
+let g:onedark_termcolors=256
+let g:onedark_terminal_italics=0
+let g:onedark_hide_endofbuffer=1
 " }}
 " gina.vim {{
 call gina#custom#mapping#nmap(
@@ -1061,19 +1061,11 @@ if !has('gui_running')
       \ && exists('&termguicolors')
       \ && $COLORTERM =~# '^\%(truecolor\|24bit\)$'
   " https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-  if !has('nvim')
-    let &t_8f = "\e[38;2;%lu;%lu;%lum"
-    let &t_8b = "\e[48;2;%lu;%lu;%lum"
-  endif
   set termguicolors       " use truecolor in term
   if exists('&pumblend')
     set pumblend=20
   endif
 endif
-set termguicolors       " use truecolor in term
-" for kitty
-" https://sw.kovidgoyal.net/kitty/faq.html#id3
-let &t_ut=''
 
 " completion settings
 set complete&
@@ -1087,7 +1079,7 @@ set completeopt&
       \ completeopt+=menu
       \ completeopt+=longest
 
-set t_Co=256
+" set t_Co=256
 
 filetype plugin indent on
 syntax on
@@ -1117,11 +1109,12 @@ set backspace=indent,eol,start
 
 set background=dark
 let g:material_theme_style='palenight'
-let g:edge_style = 'neon'
+" let g:edge_style = 'neon'
+let g:edge_enable_italic = 0
 let g:edge_disable_italic_comment = 1
 let g:gruvbox_material_background = 'soft'
 let g:seoul256_background = 237
-colorscheme edge
+colorscheme onedark
 set shell=zsh
 
 "*****************************************************************************
