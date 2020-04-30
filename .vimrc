@@ -1094,6 +1094,7 @@ syntax on
 set wildmenu
 set wildmode=full
 set ttyfast
+set lazyredraw
 
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number relativenumber
