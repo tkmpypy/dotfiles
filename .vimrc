@@ -1070,6 +1070,10 @@ if !has('gui_running')
     set pumblend=20
   endif
 endif
+set termguicolors       " use truecolor in term
+" for kitty
+" https://sw.kovidgoyal.net/kitty/faq.html#id3
+let &t_ut=''
 
 " completion settings
 set complete&
@@ -1084,6 +1088,7 @@ set completeopt&
       \ completeopt+=longest
 
 set t_Co=256
+
 filetype plugin indent on
 syntax on
 set wildmenu

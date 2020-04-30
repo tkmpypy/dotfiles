@@ -12,5 +12,6 @@
   "translator.engines": [
       "bing",
       "google"
-  ]
+  ],
+  "coc.preferences.formatOnSaveFiletypes": ["python", "go"]
 }
