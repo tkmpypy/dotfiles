@@ -1079,7 +1079,15 @@ set completeopt&
       \ completeopt+=menu
       \ completeopt+=longest
 
+if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
+  if has('osx')
+    let &t_ZH = "\e[3m"
+    let &t_ZR = "\e[23m"
+  endif
+endif
 " set t_Co=256
+" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 
 filetype plugin indent on
 syntax on
@@ -1095,9 +1103,6 @@ set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
 set noruler
 set nocursorline
-" lazy drawing
-" set lazyredraw
-" set ttyfast
 set hlsearch
 set backspace=indent,eol,start
 
@@ -1110,11 +1115,11 @@ set backspace=indent,eol,start
 set background=dark
 let g:material_theme_style='palenight'
 " let g:edge_style = 'neon'
-let g:edge_enable_italic = 0
-let g:edge_disable_italic_comment = 1
+let g:edge_enable_italic = 1
+let g:edge_disable_italic_comment = 0
 let g:gruvbox_material_background = 'soft'
 let g:seoul256_background = 237
-colorscheme onedark
+colorscheme edge
 set shell=zsh
 
 "*****************************************************************************
