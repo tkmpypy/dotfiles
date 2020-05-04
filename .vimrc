@@ -847,11 +847,6 @@ endif
 nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
 " }}
-" joshdick/onedark.vim {{
-let g:onedark_termcolors=256
-let g:onedark_terminal_italics=0
-let g:onedark_hide_endofbuffer=1
-" }}
 " gina.vim {{
 call gina#custom#mapping#nmap(
 	      \ 'status', 'dd',
@@ -1117,11 +1112,16 @@ set backspace=indent,eol,start
 
 set background=dark
 let g:material_theme_style='palenight'
-" let g:edge_style = 'neon'
+let g:edge_style = 'neon'
 let g:edge_enable_italic = 1
 let g:edge_disable_italic_comment = 0
 let g:gruvbox_material_background = 'soft'
 let g:seoul256_background = 237
+" joshdick/onedark.vim {{
+let g:onedark_termcolors=256
+let g:onedark_terminal_italics=1
+let g:onedark_hide_endofbuffer=1
+" }}
 colorscheme edge
 set shell=zsh
 
