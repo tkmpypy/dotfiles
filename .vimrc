@@ -193,6 +193,9 @@ endfunction
 
 let mapleader = "\<Space>"
 " fzf {{
+" Default fzf layout
+" - down / up / left / right
+" let g:fzf_layout = { 'down': '~40%' }
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " [Buffers] Jump to the existing window if possible
