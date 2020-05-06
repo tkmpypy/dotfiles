@@ -120,3 +120,5 @@ setopt hist_reduce_blanks
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 ### End of Zinit's installer chunk
 ### End of Zinit's installer chunk
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
