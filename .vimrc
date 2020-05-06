@@ -92,8 +92,8 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
 Plug 'moll/vim-bbye'
-" gcでコメントアウト
-Plug 'tpope/vim-commentary'
+" gccでコメントアウト
+Plug 'tyru/caw.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'godlygeek/tabular'
 " Languages
