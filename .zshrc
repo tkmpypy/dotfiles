@@ -3,6 +3,10 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Env
+if [[ -z "$XDG_CONFIG_HOME" ]]
+then
+        export XDG_CONFIG_HOME="$HOME/.config/"
+fi
 export TERM="xterm-256color"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
