@@ -86,14 +86,14 @@ Plug 'yuttie/hydrangea-vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 
-" Plug 'junegunn/fzf', { 'do': './install --all' }
-"   Plug 'junegunn/fzf.vim'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'junegunn/fzf', { 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
 Plug 'moll/vim-bbye'
-" gcでコメントアウト
-Plug 'tpope/vim-commentary'
+" gccでコメントアウト
+Plug 'tyru/caw.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'godlygeek/tabular'
 " Languages
@@ -192,6 +192,77 @@ function! s:plug.is_installed(name)
 endfunction
 
 let mapleader = "\<Space>"
+" fzf {{
+" Default fzf layout
+" - down / up / left / right
+" let g:fzf_layout = { 'down': '~40%' }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+
+" [Commands] --expect expression for directly executing the command
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+" Command for git grep
+" - fzf#vim#grep(command, with_column, [options], [fullscreen])
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}), <bang>0)
+  " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+
+" Override Colors command. You can safely do this in your .vimrc as fzf.vim
+" will not override existing commands.
+command! -bang Colors
+  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
+
+" Augmenting Ag command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
+"     * For syntax-highlighting, Ruby and any of the following tools are required:
+"       - Bat: https://github.com/sharkdp/bat
+"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+"       - CodeRay: http://coderay.rubychan.de/
+"       - Rouge: https://github.com/jneen/rouge
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
+  \                         : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
+  \                 <bang>0)
+
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
+  \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
+  \   <bang>0)
+
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=? -complete=dir GFiles
+  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+nnoremap <leader>sb :<C-u>Buffers<CR>
+nnoremap <leader>sx :<C-u>Commands<CR>
+nnoremap <leader>sf :<C-u>GFiles<CR>
+nnoremap <leader>sc :<C-u>Commits<CR>
+nnoremap <leader>scb :<C-u>BCommits<CR>
+nnoremap <leader>sg :<C-u>Rg<CR>
+nnoremap <leader>sG :<C-u>GGrep<CR>
+nnoremap <leader>sr :History<CR>
+nnoremap <leader>sgs :<C-u>GFiles?<CR>
+
+" }}
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
 nnoremap <leader>qq :Bdelete!<CR>
@@ -847,11 +918,6 @@ endif
 nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
 " }}
-" joshdick/onedark.vim {{
-let g:onedark_termcolors=256
-let g:onedark_terminal_italics=0
-let g:onedark_hide_endofbuffer=1
-" }}
 " gina.vim {{
 call gina#custom#mapping#nmap(
 	      \ 'status', 'dd',
@@ -965,7 +1031,7 @@ let g:memolist_memo_suffix = "markdown"
 let g:memolist_memo_date = "%Y-%m-%d %H:%M"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 1
-" let g:memolist_fzf = 1
+let g:memolist_fzf = 1
 let g:memolist_ex_cmd = 'Clap notes'
 
 nnoremap <Leader>mn  :MemoNew<CR>
@@ -1016,45 +1082,6 @@ map <leader>C <plug>(operator-decamelize)
 " t9md/vim-choosewin {{
 nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
-" }}
-" LeaderF {{
-" don't show the help in normal mode
-let g:Lf_HideHelp = 1
-let g:Lf_UseCache = 0
-let g:Lf_UseVersionControlTool = 0
-let g:Lf_IgnoreCurrentBufferName = 1
-" popup mode
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
-let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
-
-let g:Lf_ShortcutF = "<leader>sf"
-let g:Lf_ShowHidden = 1
-let g:Lf_RgConfig = [
-    \ "--glob=!git/*",
-    \ "--hidden",
-    \ "-S",
-    \ "--line-number",
-    \ "--no-heading",
-    \ "--smart-case",
-\ ]
-noremap <leader>sb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-noremap <leader>sr :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-noremap <leader>st :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-noremap <leader>sl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-
-noremap <leader>sgb :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
-noremap <leader>sgc :<C-U><C-R>=printf("Leaderf rg -e %s ", expand("<cword>"))<CR><CR>
-noremap <leader>sg :<C-U><C-R>=printf("Leaderf rg %s", "")<CR><CR>
-" search visually selected text literally
-" xnoremap <leader>sg :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-noremap <leader>sR :<C-U>Leaderf --recall<CR>
-
-" should use `Leaderf gtags --update` first
-let g:Lf_GtagsAutoGenerate = 0
-let g:Lf_Gtagslabel = 'native-pygments'
-let g:Lf_ShowDevIcons = 1
 " }}
 "*****************************************************************************
 " Visual Settings
@@ -1117,11 +1144,16 @@ set backspace=indent,eol,start
 
 set background=dark
 let g:material_theme_style='palenight'
-" let g:edge_style = 'neon'
+let g:edge_style = 'neon'
 let g:edge_enable_italic = 1
 let g:edge_disable_italic_comment = 0
 let g:gruvbox_material_background = 'soft'
 let g:seoul256_background = 237
+" joshdick/onedark.vim {{
+let g:onedark_termcolors=256
+let g:onedark_terminal_italics=1
+let g:onedark_hide_endofbuffer=1
+" }}
 colorscheme edge
 set shell=zsh
 
