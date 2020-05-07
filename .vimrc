@@ -715,7 +715,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'material_vim'
+let g:lightline.colorscheme = 'gruvbox_material'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -1147,14 +1147,14 @@ let g:material_terminal_italics = 1
 let g:edge_style = 'neon'
 let g:edge_enable_italic = 1
 let g:edge_disable_italic_comment = 0
-let g:gruvbox_material_background = 'soft'
+let g:gruvbox_material_background = 'medium'
 let g:seoul256_background = 237
 " joshdick/onedark.vim {{
 let g:onedark_termcolors=256
 let g:onedark_terminal_italics=1
 let g:onedark_hide_endofbuffer=1
 " }}
-colorscheme material
+colorscheme gruvbox-material
 set shell=zsh
 
 "*****************************************************************************
