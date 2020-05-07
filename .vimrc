@@ -326,8 +326,8 @@ function! s:setup_coc()
         return funcName
     endfunction
 
-    let g:coc_status_error_sign = "\uf05e"
-    let g:coc_status_warning_sign = "\uf071"
+    let g:coc_status_error_sign = "✘"
+    let g:coc_status_warning_sign = "⚠"
 
     " " OR this mapping also breaks it in same manor
     " Make <cr> select the first completion item and confirm completion when no item have selected
