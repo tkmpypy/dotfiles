@@ -1148,6 +1148,8 @@ let g:edge_style = 'neon'
 let g:edge_enable_italic = 1
 let g:edge_disable_italic_comment = 0
 let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_disable_italic_comment = 1
 let g:seoul256_background = 237
 " joshdick/onedark.vim {{
 let g:onedark_termcolors=256
