@@ -13,9 +13,9 @@
   "coc.preferences.formatOnSaveFiletypes": ["python", "go", "json"],
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.refreshAfterSave": true,
-  "diagnostic.infoSign": "\uf129",
-  "diagnostic.hintSign": "\uf05a",
-  "diagnostic.errorSign": "\uf05e",
-  "diagnostic.warningSign": "\uf071",
+  "diagnostic.infoSign": "ℹ",
+  "diagnostic.hintSign": "•",
+  "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "⚠",
   "codeLens.enable": true
 }
