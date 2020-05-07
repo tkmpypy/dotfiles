@@ -17,5 +17,5 @@
   "diagnostic.hintSign": "•",
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
-  "codeLens.enable": true
+  "codeLens.enable": false
 }

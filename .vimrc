@@ -88,7 +88,6 @@ Plug 'junegunn/seoul256.vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
-" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
 Plug 'moll/vim-bbye'
@@ -716,7 +715,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'edge'
+let g:lightline.colorscheme = 'material_vim'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -1143,7 +1142,8 @@ set backspace=indent,eol,start
 " endif
 
 set background=dark
-let g:material_theme_style='palenight'
+let g:material_theme_style='darker'
+let g:material_terminal_italics = 1
 let g:edge_style = 'neon'
 let g:edge_enable_italic = 1
 let g:edge_disable_italic_comment = 0
@@ -1154,7 +1154,7 @@ let g:onedark_termcolors=256
 let g:onedark_terminal_italics=1
 let g:onedark_hide_endofbuffer=1
 " }}
-colorscheme edge
+colorscheme material
 set shell=zsh
 
 "*****************************************************************************
