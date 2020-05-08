@@ -1262,7 +1262,7 @@ inoremap jj <ESC>
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ
-" tnoremap <C-[> <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
