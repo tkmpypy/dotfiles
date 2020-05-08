@@ -386,6 +386,7 @@ function! s:setup_coc()
           \, 'coc-flutter'
           \, 'coc-translator'
           \, 'coc-go'
+          \, 'coc-sql'
           \, 'coc-gitignore'
           \ ]
     function! CocCurrentFunction()
@@ -1154,7 +1155,7 @@ let g:onedark_hide_endofbuffer=1
 let g:neodark#use_256color = 1 " default: 0
 let g:neodark#solid_vertsplit = 1 " default: 0
 
-colorscheme material
+colorscheme onedark
 set shell=zsh
 
 "*****************************************************************************
@@ -1262,7 +1263,7 @@ inoremap jj <ESC>
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ
-tnoremap <Esc> <C-\><C-n>
+tnoremap <C-q> <C-\><C-n>
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
