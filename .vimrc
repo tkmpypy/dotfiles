@@ -1263,7 +1263,9 @@ inoremap jj <ESC>
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ
-tnoremap <C-q> <C-\><C-n>
+if has("nvim")
+    tnoremap <C-W>N <C-\><C-N>
+endif
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
