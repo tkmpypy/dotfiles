@@ -7,7 +7,7 @@ if [[ -z "$XDG_CONFIG_HOME" ]]
 then
         export XDG_CONFIG_HOME="$HOME/.config/"
 fi
-export TERM="xterm-256color-italic"
+# export TERM="xterm-256color-italic"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
 export PYENV_ROOT="$HOME/.pyenv"
