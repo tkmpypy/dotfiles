@@ -179,6 +179,7 @@ Plug 'pechorin/any-jump.vim'
 Plug 'lambdalisue/gina.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'gotchane/vim-git-commit-prefix'
+Plug 'APZelos/blamer.nvim'
 
 " MyPlug
 Plug 'tkmpypy/eztrans.vim'
@@ -635,6 +636,15 @@ let g:git_icon = ' '
 function! GetBranchName()
     return g:git_icon . gina#component#repo#branch()
 endfunction
+" blamer.nvim{{
+let g:blamer_enabled = 0
+let g:blamer_delay = 1000
+let g:blamer_show_in_visual_modes = 1
+let g:blamer_prefix = '  '
+" Available options: <author>, <author-mail>, <author-time>, <committer>, <committer-mail>, <committer-time>, <summary>, <commit-short>, <commit-long>.
+let g:blamer_template = '<committer>, <committer-time> • <summary>'
+nnoremap <Leader>gbt :BlamerToggle<CR>
+" }}
 " taohexxx/lightline-buffer {{
 let g:lightline#bufferline#enable_devicons = 1
 let g:lightline#bufferline#show_number  = 2
@@ -848,6 +858,7 @@ let g:startify_list_order = [
         \ 'bookmarks',
         \ ]
 let NERDTreeHijackNetrw = 0
+let g:webdevicons_enable_startify = 1
 " }}
 " tpope/vim-markdown {{
 let g:vim_markdown_conceal = 0
