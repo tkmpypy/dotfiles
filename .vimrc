@@ -196,7 +196,11 @@ let mapleader = "\<Space>"
 " Default fzf layout
 " - down / up / left / right
 " let g:fzf_layout = { 'down': '~40%' }
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+if has("nvim")
+    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+else
+    let g:fzf_layout = { 'down': '~40%' }
+endif
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
