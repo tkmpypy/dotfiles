@@ -13,7 +13,7 @@
   "coc.preferences.formatOnSaveFiletypes": ["python", "go", "json"],
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.refreshAfterSave": true,
-  "diagnostic.infoSign": "ℹ",
+  "diagnostic.infoSign": "",
   "diagnostic.hintSign": "•",
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
