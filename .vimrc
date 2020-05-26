@@ -88,6 +88,7 @@ Plug 'junegunn/seoul256.vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+Plug 'laher/fuzzymenu.vim'
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
 Plug 'moll/vim-bbye'
@@ -262,6 +263,10 @@ nnoremap <leader>sG :<C-u>GGrep<CR>
 nnoremap <leader>sr :History<CR>
 nnoremap <leader>sgs :<C-u>GFiles?<CR>
 
+" }}
+" laher/fuzzymenu.vim {{
+nmap <Leader><Leader> <Plug>Fzm
+vmap <Leader><Leader> <Plug>FzmVisual
 " }}
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
