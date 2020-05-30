@@ -10,7 +10,7 @@
   "flutter.provider.hot-reload": true,
   "translator.toLang": "ja",
   "translator.engines": ["bing", "google"],
-  "coc.preferences.formatOnSaveFiletypes": ["python", "go", "json"],
+  "coc.preferences.formatOnSaveFiletypes": ["python", "go", "json", "css"],
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.refreshAfterSave": true,
   "diagnostic.infoSign": "",

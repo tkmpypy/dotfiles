@@ -175,6 +175,7 @@ Plug 'tyru/operator-camelize.vim'
   Plug 'kana/vim-operator-user'
 Plug 't9md/vim-choosewin'
 Plug 'pechorin/any-jump.vim'
+Plug 'rhysd/accelerated-jk'
 
 " Git
 Plug 'lambdalisue/gina.vim'
@@ -620,12 +621,12 @@ if s:plug.is_installed('ale')
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
     " Write this in your vimrc file
-    let g:ale_lint_on_text_changed = 0
-    let g:ale_lint_on_insert_leave = 0
+    let g:ale_lint_on_text_changed = 1
+    let g:ale_lint_on_insert_leave = 1
     " You can disable this option too
     " if you don't want linters to run on opening a file
     let g:ale_lint_on_enter = 1
-    let g:ale_fix_on_save = 0
+    let g:ale_fix_on_save = 1
     nmap <leader>F  :ALEFix<cr>
     " }}
 endif
@@ -1098,6 +1099,10 @@ map <leader>C <plug>(operator-decamelize)
 " t9md/vim-choosewin {{
 nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
+" }}
+" rhysd/accelerated-jk{{
+nmap j <Plug>(accelerated_jk_gj)
+nmap k <Plug>(accelerated_jk_gk)
 " }}
 "*****************************************************************************
 " Visual Settings
