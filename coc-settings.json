@@ -3,7 +3,7 @@
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
   "html.format.enable": true,
   "python.jediEnabled": false,
-  "python.formatting.provider": "yapf",
+  "python.formatting.provider": "autopep8",
   "eslint.autoFixOnSave": true,
   "flutter.lsp.initialization.closingLabels": true,
   "flutter.lsp.initialization.suggestFromUnimportedLibraries": true,
