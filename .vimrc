@@ -797,6 +797,7 @@ let g:qs_highlight_on_keys = ['f', 'F']
 function! s:init_fern() abort
     setlocal nonumber
     setlocal norelativenumber
+    let b:indentLine_enabled = 0
     " Define NERDTree like mappings
     nmap <buffer> o <Plug>(fern-action-open:edit)
     nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
@@ -844,8 +845,8 @@ function! s:init_fern() abort
 endfunction
 let g:fern#default_hidden = 1
 let g:fern#renderer = "devicons"
-nnoremap <leader>ft :Fern . -drawer<CR>
-nnoremap <leader>ff :Fern . -reveal=% -drawer<CR>
+nnoremap <leader>ft :Fern . -drawer -toggle<CR>
+nnoremap <leader>ff :Fern . -reveal=% -drawer -toggle<CR>
 
 augroup fern-custom
     autocmd! *
