@@ -181,7 +181,11 @@ Plug 'rhysd/accelerated-jk'
 
 " Git
 Plug 'lambdalisue/gina.vim'
-Plug 'airblade/vim-gitgutter'
+if has('nvim') || has('patch-8.0.902')
+  Plug 'mhinz/vim-signify'
+else
+  Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+endif
 Plug 'gotchane/vim-git-commit-prefix'
 Plug 'APZelos/blamer.nvim'
 
