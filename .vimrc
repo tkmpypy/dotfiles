@@ -129,6 +129,7 @@ else
     " Plug 'prabirshrestha/async.vim'
     " Plug 'prabirshrestha/vim-lsp'
     " Plug 'mattn/vim-lsp-settings'
+    " Plug 'tsuyoshicho/vim-efm-langserver-settings'
     " Plug 'dense-analysis/ale'
     " Plug 'maximbaz/lightline-ale'
     " use deoplete
@@ -361,6 +362,8 @@ function! s:setup_vim_lsp()
     let g:lsp_textprop_enabled = 0
     let g:lsp_highlight_references_enabled = 0
     highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
+    let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
+    let g:lsp_settings_filetype_typescriptreact = ['typescript-language-server', 'eslint-language-server']
 
     let g:lsp_signs_error = {'text': '✗'}
     let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
@@ -515,6 +518,7 @@ endfunction
 function! s:setup_deoplete()
     let g:deoplete#enable_at_startup = 1
     let g:echodoc#enable_at_startup = 1
+    let g:python3_host_prog = $HOME.'/.pyenv/versions/3.7.1/bin/python'
     if has("nvim")
         let g:echodoc#type = "floating"
     else
