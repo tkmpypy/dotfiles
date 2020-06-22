@@ -85,6 +85,7 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'yuttie/hydrangea-vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
+Plug 'ghifarit53/tokyonight.vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -742,7 +743,7 @@ else
         \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
 endif
-let g:lightline.colorscheme = 'onedark'
+let g:lightline.colorscheme = 'tokyonight'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -1239,6 +1240,11 @@ let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_disable_italic_comment = 1
 let g:seoul256_background = 237
+" ghifarit53/tokyonight.vim {{
+let g:tokyonight_style = 'storm' " available: night, storm
+let g:tokyonight_enable_italic = 1
+let g:tokyonight_disable_italic_comment = 0
+" }}
 " joshdick/onedark.vim {{
 let g:onedark_termcolors=256
 let g:onedark_terminal_italics=1
@@ -1247,7 +1253,7 @@ let g:onedark_hide_endofbuffer=1
 let g:neodark#use_256color = 1 " default: 0
 let g:neodark#solid_vertsplit = 1 " default: 0
 
-colorscheme onedark
+colorscheme tokyonight
 set shell=zsh
 
 "*****************************************************************************
