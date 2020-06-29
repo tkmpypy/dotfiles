@@ -127,7 +127,6 @@ else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use vim-lsp
-    " Plug 'prabirshrestha/async.vim'
     " Plug 'prabirshrestha/vim-lsp'
     " Plug 'mattn/vim-lsp-settings'
     " Plug 'tsuyoshicho/vim-efm-langserver-settings'
@@ -156,7 +155,6 @@ Plug 'liuchengxu/vista.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Explorer
-Plug 'preservim/nerdtree'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'airblade/vim-rooter'
@@ -1121,7 +1119,6 @@ let g:memolist_memo_date = "%Y-%m-%d %H:%M"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 1
 let g:memolist_fzf = 1
-let g:memolist_ex_cmd = 'Clap notes'
 
 nnoremap <Leader>mn  :MemoNew<CR>
 nnoremap <Leader>ml  :MemoList<CR>
