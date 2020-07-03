@@ -105,7 +105,7 @@ Plug 'metakirby5/codi.vim'
 
 " Completion
 if has('nvim')
-    Plug 'nvim-treesitter/nvim-treesitter'
+    " Plug 'nvim-treesitter/nvim-treesitter'
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
@@ -297,7 +297,11 @@ let g:quickrun_config['typescript/tsc'] = {
 \ }
 " }}
 " polyglot {{
-let g:polyglot_disabled = ['markdown','md']
+if s:plug.is_installed('nvim-treesitter')
+    let g:polyglot_disabled = ['markdown','md']
+else
+    let g:polyglot_disabled = ['markdown','md', 'python', 'lua', 'go']
+end
 " }}
 " vim-markdown {{
 let g:vim_markdown_folding_disabled = 1
@@ -623,21 +627,16 @@ if s:plug.is_installed('ale')
     \   'typescriptreact': ['eslint'],
     \   'javascript': ['eslint'],
     \   'javascriptreact': ['eslint'],
-    \   'rust': ['rls'],
+    \   'rust': ['analyzer', 'cargo', 'rustc'],
     \   'go': ['golint', 'govet', 'gofmt'],
     \   'vim': ['vint'],
     \   'markdown': ['textlint'],
     \   'lua': ['luac', 'luacheck'],
     \}
-    let g:ale_rust_rls_config = {
-        \ 'rust': {
-            \ 'all_targets': 1,
-            \ 'build_on_save': 1,
-            \ 'clippy_preference': 'on'
-        \ }
-	\ }
-    let g:ale_rust_rls_toolchain = 'stable'
-    let g:ale_rust_rls_executable = 'rust-analyzer'
+    if executable('eslint_d')
+      let g:ale_javascript_eslint_use_global = 1
+      let g:ale_javascript_eslint_executable = 'eslint_d'
+    endif
     let g:ale_linters_explicit = 1
     let g:ale_sign_error = '✗'
     let g:ale_sign_warning = '⚠'
