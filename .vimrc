@@ -355,6 +355,7 @@ function! s:setup_complete_nvim()
         \ { 'mode': '<c-n>' }
 	\ ]
     let g:completion_auto_change_source = 1
+    let g:completion_sorting = "none"
     imap <c-j> <Plug>(completion_next_source)
     imap <c-k> <Plug>(completion_prev_source)
 
