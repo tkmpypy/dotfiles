@@ -102,7 +102,8 @@ vim.g.indicator_hint = '!'
 vim.g.indicator_ok = ''
 vim.g.spinner_frames = {'⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'}
 
-vim.g.lsp_publish_diagnostics_severity_string_error = ''
-vim.g.lsp_publish_diagnostics_severity_string_warning = ''
-vim.g.lsp_publish_diagnostics_severity_string_info = '🛈'
-vim.g.lsp_publish_diagnostics_severity_string_hint = '!'
+-- for lsp_ext
+-- vim.g.lsp_publish_diagnostics_severity_string_error = ''
+-- vim.g.lsp_publish_diagnostics_severity_string_warning = ''
+-- vim.g.lsp_publish_diagnostics_severity_string_info = '🛈'
+-- vim.g.lsp_publish_diagnostics_severity_string_hint = '!'
