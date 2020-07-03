@@ -17,5 +17,11 @@
   "diagnostic.hintSign": "•",
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
-  "codeLens.enable": false
+  "codeLens.enable": false,
+  "yaml.validate": true,
+  "yaml.completion": true,
+  "yaml.format.enable": true,
+  "yaml.schemas": {
+    "kubernetes": "/*.y*ml"
+  }
 }
