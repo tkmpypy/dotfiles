@@ -113,7 +113,7 @@ if has('nvim')
     Plug 'h-michael/lsp-ext.nvim'
     Plug 'haorenW1025/completion-nvim'
     Plug 'steelsojka/completion-buffers'
-    Plug 'nvim-lua/diagnostic-nvim'
+    " Plug 'nvim-lua/diagnostic-nvim'
     Plug 'nvim-lua/lsp-status.nvim'
     Plug 'hrsh7th/vim-vsnip'
     Plug 'hrsh7th/vim-vsnip-integ'
@@ -327,12 +327,16 @@ let g:python_highlight_all = 1
 function! s:setup_nvim_lsp()
     lua require('lsp_settings')
     let g:diagnostic_virtual_text_prefix = ' '
-    let g:diagnostic_trimmed_virtual_text = '20'
+    " let g:diagnostic_trimmed_virtual_text = '20'
     let g:space_before_virtual_text = 5
     let g:diagnostic_auto_popup_while_jump = 1
     let g:diagnostic_insert_delay = 1
     let g:diagnostic_show_sign = 1
 
+    call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
+    call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
+    call sign_define("LspDiagnosticInformationSign", {"text" : "🛈", "texthl" : "LspDiagnosticsInformation"})
+    call sign_define("LspDiagnosticHintSign", {"text" : "!", "texthl" : "LspDiagnosticsHint"})
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
@@ -1218,7 +1222,8 @@ if !has('gui_running')
       \ && exists('&termguicolors')
       \ && $COLORTERM =~# '^\%(truecolor\|24bit\)$'
   " https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-  set termguicolors       " use truecolor in term
+  set termguicolors
+" use truecolor in term
   if exists('&pumblend')
     set pumblend=20
   endif

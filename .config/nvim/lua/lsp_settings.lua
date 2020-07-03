@@ -1,12 +1,13 @@
 local lsp_status = require('lsp-status')
 local completion = require('completion')
-local diagnostic = require('diagnostic')
+-- local diagnostic = require('diagnostic')
 local nvim_lsp = require('nvim_lsp')
+local lsp_ext = require('lsp_ext')
 
 local custom_attach = function(client)
     lsp_status.on_attach(client)
     completion.on_attach(client)
-    diagnostic.on_attach(client)
+    -- diagnostic.on_attach(client)
 end
 
 local function isModuleAvailable(name)
@@ -46,6 +47,7 @@ if isModuleAvailable('nvim-treesitter.configs') then
         ensure_installed = 'all'
     }
 end
+
 
 lsp_status.register_progress()
 
@@ -100,3 +102,10 @@ vim.g.indicator_info = '🛈'
 vim.g.indicator_hint = '!'
 vim.g.indicator_ok = ''
 vim.g.spinner_frames = {'⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'}
+
+lsp_ext.set_publish_diagnostics_autocmd(100)
+lsp_ext.set_signature_help_autocmd(100)
+vim.g.lsp_publish_diagnostics_severity_string_error = ''
+vim.g.lsp_publish_diagnostics_severity_string_warning = ''
+vim.g.lsp_publish_diagnostics_severity_string_info = '🛈'
+vim.g.lsp_publish_diagnostics_severity_string_hint = '!'
