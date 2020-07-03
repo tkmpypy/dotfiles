@@ -105,12 +105,18 @@ Plug 'metakirby5/codi.vim'
 
 " Completion
 if has('nvim')
+    Plug 'nvim-treesitter/nvim-treesitter'
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
-    " Plug 'neovim/nvim-lsp'
-    " Plug 'h-michael/lsp-ext.nvim'
-    " Plug 'haorenW1025/completion-nvim'
+    Plug 'neovim/nvim-lsp'
+    Plug 'h-michael/lsp-ext.nvim'
+    Plug 'haorenW1025/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    Plug 'nvim-lua/diagnostic-nvim'
+    Plug 'nvim-lua/lsp-status.nvim'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
     " Plug 'mattn/vim-lsp-settings'
@@ -121,8 +127,8 @@ if has('nvim')
     " Plug 'prabirshrestha/asyncomplete-file.vim'
     " Plug 'prabirshrestha/asyncomplete.vim'
     " use ale
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -315,41 +321,47 @@ let g:python_highlight_all = 1
 " }}
 
 function! s:setup_nvim_lsp()
-    " use omnifunc
-    " lua require'nvim_lsp'.vimls.setup{}
-    " lua require'nvim_lsp'.jsonls.setup{}
-    " lua require'nvim_lsp'.tsserver.setup{}
-    " lua require'nvim_lsp'.pyls_ms.setup{}
-    " lua require'nvim_lsp'.rust_analyzer.setup{}
-    " autocmd Filetype vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    " autocmd Filetype typescript setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    " autocmd Filetype typescriptreact setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    " autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    " autocmd Filetype json setlocal omnifunc=v:lua.vim.lsp.omnifunc
-    " autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    lua require('lsp_settings')
+    let g:diagnostic_virtual_text_prefix = ' '
+    let g:diagnostic_trimmed_virtual_text = '20'
+    let g:space_before_virtual_text = 5
+    let g:diagnostic_auto_popup_while_jump = 1
+    let g:diagnostic_insert_delay = 1
+    let g:diagnostic_show_sign = 1
 
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
     nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <silent> gtd   <cmd>lua vim.lsp.buf.type_definition()<CR>
     nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <silent> rn    <cmd>lua vim.lsp.buf.rename()<CR>
 endfunction
 
 function! s:setup_complete_nvim()
-    lua require'nvim_lsp'.pyls_ms.setup{on_attach=require'completion'.on_attach}
-    lua require'nvim_lsp'.vimls.setup{on_attach=require'completion'.on_attach}
-    lua require'nvim_lsp'.jsonls.setup{on_attach=require'completion'.on_attach}
-    lua require'nvim_lsp'.tsserver.setup{on_attach=require'completion'.on_attach}
-    lua require'nvim_lsp'.rust_analyzer.setup{on_attach=require'completion'.on_attach}
-
     let g:completion_enable_auto_hover = 1
     let g:completion_enable_auto_signature = 1
     let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
+    let g:completion_chain_complete_list = [
+        \ { 'complete_items': [ 'lsp', 'buffers' ] },
+        \ { 'mode': '<c-p>' },
+        \ { 'mode': '<c-n>' }
+	\ ]
+    let g:completion_auto_change_source = 1
+    imap <c-j> <Plug>(completion_next_source)
+    imap <c-k> <Plug>(completion_prev_source)
+
+endfunction
+
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
 endfunction
 
 function! s:setup_vim_lsp()
@@ -357,9 +369,10 @@ function! s:setup_vim_lsp()
     let g:lsp_diagnostics_enabled = 1
     let g:lsp_signs_enabled = 1         " enable signs
     let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-    let g:lsp_highlights_enabled = 0
-    let g:lsp_textprop_enabled = 0
-    let g:lsp_highlight_references_enabled = 0
+    let g:lsp_highlights_enabled = 1
+    let g:lsp_textprop_enabled = 1
+    let g:lsp_highlight_references_enabled = 1
+    let g:lsp_virtual_text_enabled = 0
     highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
     let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
     let g:lsp_settings_filetype_typescriptreact = ['typescript-language-server', 'eslint-language-server']
@@ -535,7 +548,7 @@ function! s:setup_asyncomplete()
     call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
         \ 'name': 'buffer',
         \ 'whitelist': ['*'],
-        \ 'priority': 200,
+        \ 'priority': 1000,
         \ 'completor': function('asyncomplete#sources#buffer#completor'),
         \ 'config': {
         \    'max_buffer_size': 500,
@@ -545,7 +558,7 @@ function! s:setup_asyncomplete()
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
         \ 'name': 'file',
         \ 'whitelist': ['*'],
-        \ 'priority': 300,
+        \ 'priority': 1001,
         \ 'config': {
         \    'max_buffer_size': 500,
         \  },
@@ -583,7 +596,7 @@ else
               autocmd User lsp_setup call lsp#register_server({
                   \ 'name': 'efm-langserver',
                   \ 'cmd': {server_info->['efm-langserver', '-c=' . $HOME . '/.config/efm-langserver/config.yaml']},
-                  \ 'whitelist': ['vim', 'eruby', 'markdown', 'yaml', 'python', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
+                  \ 'whitelist': ['vim', 'eruby', 'markdown', 'yaml', 'python', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'go', 'rust'],
                   \ })
             augroup END
         endif
@@ -601,6 +614,7 @@ if s:plug.is_installed('ale')
     \   'javascriptreact': ['prettier', 'eslint'],
     \   'rust': ['rustfmt'],
     \   'go': ['gofmt', 'goimports'],
+    \   'markdown': ['textlint'],
     \}
     let g:ale_linters = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -612,6 +626,8 @@ if s:plug.is_installed('ale')
     \   'rust': ['rls'],
     \   'go': ['golint', 'govet', 'gofmt'],
     \   'vim': ['vint'],
+    \   'markdown': ['textlint'],
+    \   'lua': ['luac', 'luacheck'],
     \}
     let g:ale_rust_rls_config = {
         \ 'rust': {
@@ -688,6 +704,7 @@ let g:lightline.component_function = {
     \   'branch': 'GetBranchName',
     \   'git_status': 'GetGitStatus',
     \   'filename': 'LightlineFilename',
+    \   'lsp': 'LspStatus',
     \ }
 let g:lightline.component = {
     \   'lineinfo': ' %3l:%-2v',
@@ -722,13 +739,24 @@ if s:plug.is_installed('lightline-ale')
       \     'linter_ok': 'right',
       \     'buffers': 'tabsel',
       \ }
-    let g:lightline.active = {
-        \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ],
-        \   'right': [
-        \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
-        \       ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'],
-        \   ],
-        \ }
+
+    if s:plug.is_installed('nvim-lsp')
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ],
+            \   'right': [
+            \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
+            \       ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['lsp'],
+            \   ],
+            \ }
+    else
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ],
+            \   'right': [
+            \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
+            \       ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'],
+            \   ],
+            \ }
+    end
 else
     let g:lightline.component_expand = {
       \  'buffers': 'lightline#bufferline#buffers',
@@ -736,10 +764,19 @@ else
     let g:lightline.component_type = {
         \   'buffers': 'tabsel',
         \ }
-    let g:lightline.active = {
-        \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
-        \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
-        \ }
+
+    if s:plug.is_installed('coc.nvim')
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
+            \ }
+    else
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['lsp'] ],
+            \ }
+    end
+
 endif
 let g:lightline.colorscheme = 'tokyonight'
 " Use auocmd to force lightline update.
@@ -1037,7 +1074,7 @@ let g:mkdp_auto_start = 0
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
 " default: 1
-let g:mkdp_auto_close = 1
+let g:mkdp_auto_close = 0
 
 " set to 1, the vim will refresh markdown when save the buffer or
 " leave from insert mode, default 0 is auto refresh markdown as you edit or
@@ -1048,7 +1085,7 @@ let g:mkdp_refresh_slow = 0
 " set to 1, the MarkdownPreview command can be use for all files,
 " by default it can be use in markdown file
 " default: 0
-let g:mkdp_command_for_global = 0
+let g:mkdp_command_for_global = 1
 
 " set to 1, preview server available to others in your network
 " by default, the server listens on localhost (127.0.0.1)
@@ -1195,9 +1232,11 @@ set complete&
       \ complete+=d
       \ complete+=t
 set completeopt&
-      \ completeopt+=preview
-      \ completeopt+=menu
+      \ completeopt+=menuone
+      \ completeopt+=noinsert
+      \ completeopt+=noselect
       \ completeopt+=longest
+      \ completeopt-=preview
 
 if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
   if has('osx')
