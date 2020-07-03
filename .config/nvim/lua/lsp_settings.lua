@@ -104,7 +104,7 @@ vim.g.indicator_ok = ''
 vim.g.spinner_frames = {'⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'}
 
 lsp_ext.set_publish_diagnostics_autocmd(100)
-lsp_ext.set_signature_help_autocmd(100)
+lsp_ext.unset_signature_help_autocmd()
 vim.g.lsp_publish_diagnostics_severity_string_error = ''
 vim.g.lsp_publish_diagnostics_severity_string_warning = ''
 vim.g.lsp_publish_diagnostics_severity_string_info = '🛈'
