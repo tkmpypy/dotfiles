@@ -106,17 +106,20 @@ Plug 'metakirby5/codi.vim'
 " Completion
 if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter'
+
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
     " use neovim built-in
-    Plug 'neovim/nvim-lsp'
-    Plug 'h-michael/lsp-ext.nvim'
-    Plug 'haorenW1025/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
+    " Plug 'neovim/nvim-lsp'
+    " Plug 'h-michael/lsp-ext.nvim'
+    " Plug 'haorenW1025/completion-nvim'
+    " Plug 'steelsojka/completion-buffers'
     " Plug 'nvim-lua/diagnostic-nvim'
-    Plug 'nvim-lua/lsp-status.nvim'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
+    " Plug 'nvim-lua/lsp-status.nvim'
+    " Plug 'hrsh7th/vim-vsnip'
+    " Plug 'hrsh7th/vim-vsnip-integ'
+
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
     " Plug 'mattn/vim-lsp-settings'
@@ -126,9 +129,10 @@ if has('nvim')
     " Plug 'prabirshrestha/asyncomplete-buffer.vim'
     " Plug 'prabirshrestha/asyncomplete-file.vim'
     " Plug 'prabirshrestha/asyncomplete.vim'
+
     " use ale
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -298,9 +302,10 @@ let g:quickrun_config['typescript/tsc'] = {
 " }}
 " polyglot {{
 if s:plug.is_installed('nvim-treesitter')
-    let g:polyglot_disabled = ['markdown','md']
+    lua require('treesitter')
+    let g:polyglot_disabled = ['markdown','md', 'python', 'lua', 'go', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact']
 else
-    let g:polyglot_disabled = ['markdown','md', 'python', 'lua', 'go']
+    let g:polyglot_disabled = ['markdown','md']
 end
 " }}
 " vim-markdown {{
@@ -425,6 +430,7 @@ function! s:setup_coc()
           \, 'coc-flutter'
           \, 'coc-translator'
           \, 'coc-go'
+          \, 'coc-lua'
           \, 'coc-sql'
           \, 'coc-gitignore'
           \ ]
@@ -643,6 +649,25 @@ if s:plug.is_installed('ale')
     if executable('eslint_d')
       let g:ale_javascript_eslint_use_global = 1
       let g:ale_javascript_eslint_executable = 'eslint_d'
+      let g:ale_javascriptreact_eslint_use_global = 1
+      let g:ale_javascriptreact_eslint_executable = 'eslint_d'
+      let g:ale_typescript_eslint_use_global = 1
+      let g:ale_typescript_eslint_executable = 'eslint_d'
+      let g:ale_typescriptreact_eslint_use_global = 1
+      let g:ale_typescriptreact_eslint_executable = 'eslint_d'
+    else
+      let g:ale_javascript_eslint_use_global = 1
+      let g:ale_javascript_eslint_executable = 'yarn'
+      let g:ale_javascript_eslint_option = 'run eslint'
+      let g:ale_javascriptreact_eslint_use_global = 1
+      let g:ale_javascriptreact_eslint_executable = 'yarn'
+      let g:ale_javascriptreact_eslint_option = 'run eslint'
+      let g:ale_typescript_eslint_use_global = 1
+      let g:ale_typescript_eslint_executable = 'yarn'
+      let g:ale_typescript_eslint_option = 'run eslint'
+      let g:ale_typescriptreact_eslint_use_global = 1
+      let g:ale_typescriptreact_eslint_executable = 'yarn'
+      let g:ale_typescriptreact_eslint_option = 'run eslint'
     endif
     let g:ale_linters_explicit = 1
     let g:ale_sign_error = '✗'
@@ -657,7 +682,7 @@ if s:plug.is_installed('ale')
     " You can disable this option too
     " if you don't want linters to run on opening a file
     let g:ale_lint_on_enter = 1
-    let g:ale_fix_on_save = 1
+    let g:ale_fix_on_save = 0
     nmap <leader>F  :ALEFix<cr>
     " }}
 endif
