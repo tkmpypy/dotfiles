@@ -85,7 +85,7 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'yuttie/hydrangea-vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
-Plug 'ghifarit53/tokyonight.vim'
+Plug 'ghifarit53/tokyonight-vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -105,7 +105,7 @@ Plug 'metakirby5/codi.vim'
 
 " Completion
 if has('nvim')
-    " Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter'
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     " use neovim built-in
@@ -343,9 +343,11 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> gtd   <cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
     nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-    nnoremap <silent> rn    <cmd>lua vim.lsp.buf.rename()<CR>
+    nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
+    nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
+
 endfunction
 
 function! s:setup_complete_nvim()
