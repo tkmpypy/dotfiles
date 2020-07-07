@@ -102,6 +102,7 @@ Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
 Plug 'metakirby5/codi.vim'
+Plug 'vim-test/vim-test'
 
 " Completion
 if has('nvim')
@@ -125,7 +126,6 @@ if has('nvim')
     " Plug 'mattn/vim-lsp-settings'
     " Plug 'prabirshrestha/asyncomplete-lsp.vim'
     " use asyncomplete
-    " Plug 'prabirshrestha/async.vim'
     " Plug 'prabirshrestha/asyncomplete-buffer.vim'
     " Plug 'prabirshrestha/asyncomplete-file.vim'
     " Plug 'prabirshrestha/asyncomplete.vim'
@@ -139,15 +139,8 @@ else
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
     " Plug 'mattn/vim-lsp-settings'
-    " Plug 'tsuyoshicho/vim-efm-langserver-settings'
     " Plug 'dense-analysis/ale'
     " Plug 'maximbaz/lightline-ale'
-    " use deoplete
-    " Plug 'roxma/nvim-yarp'
-    " Plug 'roxma/vim-hug-neovim-rpc'
-    " Plug 'Shougo/deoplete.nvim'
-    " Plug 'lighttiger2505/deoplete-vim-lsp'
-    " Plug 'Shougo/echodoc.vim'
     " use asyncomplete
     " Plug 'prabirshrestha/asyncomplete.vim'
     " Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -160,7 +153,8 @@ Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
-Plug 'hardcoreplayers/dashboard-nvim'
+" Plug 'hardcoreplayers/dashboard-nvim'
+Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
@@ -308,6 +302,20 @@ if s:plug.is_installed('nvim-treesitter')
 else
     let g:polyglot_disabled = ['markdown','md']
 end
+" }}
+" vim-test {{
+
+if has('nvim')
+    let test#strategy = "neovim"
+else
+    let test#strategy = "vimterminal"
+endif
+let g:test#python#runner = 'pytest'
+nmap <leader>trn :TestNearest<CR>
+nmap <leader>trf :TestFile<CR>
+nmap <leader>trs :TestSuite<CR>
+nmap <leader>trl :TestLast<CR>
+nmap <leader>trg :TestVisit<CR>
 " }}
 " vim-markdown {{
 let g:vim_markdown_folding_disabled = 1
@@ -545,18 +553,6 @@ function! s:setup_coc()
 
 endfunction
 
-function! s:setup_deoplete()
-    let g:deoplete#enable_at_startup = 1
-    let g:echodoc#enable_at_startup = 1
-    let g:python3_host_prog = $HOME.'/.pyenv/versions/3.7.1/bin/python'
-    if has("nvim")
-        let g:echodoc#type = "floating"
-    else
-        let g:echodoc#type = "popup"
-    endif
-    highlight link EchoDocPopup Pmenu
-endfunction
-
 function! s:setup_asyncomplete()
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_popup_delay = 0
@@ -604,8 +600,6 @@ else
         call s:setup_vim_lsp()
         if s:plug.is_installed('asyncomplete.vim')
             call s:setup_asyncomplete()
-        elseif s:plug.is_installed('deoplete.nvim')
-            call s:setup_deoplete()
         endif
 
         if executable('efm-langserver') && !s:plug.is_installed('ale')
@@ -614,7 +608,7 @@ else
               autocmd User lsp_setup call lsp#register_server({
                   \ 'name': 'efm-langserver',
                   \ 'cmd': {server_info->['efm-langserver', '-c=' . $HOME . '/.config/efm-langserver/config.yaml']},
-                  \ 'whitelist': ['vim', 'eruby', 'markdown', 'yaml', 'python', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'go', 'rust'],
+                  \ 'whitelist': ['vim', 'eruby', 'markdown', 'yaml', 'python', 'go', 'rust'],
                   \ })
             augroup END
         endif
@@ -720,7 +714,6 @@ let g:lightline_buffer_readonly_icon = ''
 let g:lightline_buffer_modified_icon = '✭'
 " }}
 " itchyny/lightline.vim {{
-set showtabline=2  " always show tabline
 let g:lightline = {}
 let g:lightline.tabline = {
     \   'left': [ [ 'buffers' ],
@@ -728,16 +721,29 @@ let g:lightline.tabline = {
     \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
     \   'right': [ [ 'close' ], ],
     \ }
-let g:lightline.component_function = {
-    \   'coc_status': 'coc#status',
-    \   'currentfunction': 'CocCurrentFunction',
-    \   'devicons_filetype': 'Devicons_Filetype',
-    \   'devicons_fileformat': 'Devicons_Fileformat',
-    \   'branch': 'GetBranchName',
-    \   'git_status': 'GetGitStatus',
-    \   'filename': 'LightlineFilename',
-    \   'lsp': 'LspStatus',
-    \ }
+if s:plug.is_installed('nvim-lsp')
+    let g:lightline.component_function = {
+        \   'coc_status': 'coc#status',
+        \   'currentfunction': 'CocCurrentFunction',
+        \   'devicons_filetype': 'Devicons_Filetype',
+        \   'devicons_fileformat': 'Devicons_Fileformat',
+        \   'branch': 'GetBranchName',
+        \   'git_status': 'GetGitStatus',
+        \   'filename': 'LightlineFilename',
+        \   'lsp': 'LspStatus',
+        \ }
+else
+    let g:lightline.component_function = {
+        \   'coc_status': 'coc#status',
+        \   'currentfunction': 'CocCurrentFunction',
+        \   'devicons_filetype': 'Devicons_Filetype',
+        \   'devicons_fileformat': 'Devicons_Fileformat',
+        \   'branch': 'GetBranchName',
+        \   'git_status': 'GetGitStatus',
+        \   'filename': 'LightlineFilename',
+        \ }
+endif
+
 let g:lightline.component = {
     \   'lineinfo': ' %3l:%-2v',
     \   'percent': '%3p%%',
@@ -802,17 +808,22 @@ else
             \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
             \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
             \ }
-    else
+    elseif s:plug.is_installed('nvim-lsp')
         let g:lightline.active = {
             \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
             \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['lsp'] ],
+            \ }
+    else
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'] ],
             \ }
     end
 
 endif
 let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
-" autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
+autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
 
@@ -947,28 +958,85 @@ nmap mj <Plug>BookmarkNext
 nmap mk <Plug>BookmarkPrev
 " }}
 
+" mhinz/vim-startify {{
+let g:startify_bookmarks = split(system('awk "{print \$2}" ~/.NERDTreeBookmarks'),'\n')
+let g:startify_custom_header = [
+    \ '      ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁    ░▓▓▒         ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁',
+    \ '     ▕                        ▁  ░░▓▓▒▒▒     ▁▔                        ▔▏',
+    \ '    ▕ ▗▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚  ░░░▓▓▓▓▓▒▒▒  ▕ ▗▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▖▒▒',
+    \ '    ▕ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒ ▓▓▓▓▓▓▓▓▓▒▒ ▕ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒',
+    \ '    ▕ ▝▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚ ▒▓▓▓▓▓▓▓▓▓▓▓▒▒▒ ▝▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▀▘▒',
+    \ '     ▕     ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▏',
+    \ '      ▔▔▔▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒  ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓   ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▒',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓   ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▓▓▒▒▒',
+    \ '        ░▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓   ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▒▒▒',
+    \ '       ░░▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒',
+    \ '     ░░░▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒',
+    \ '   ░░░▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒',
+    \ ' ░░░▓▓▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒  ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒',
+    \ '▒▒▒▓▓▓▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒',
+    \ ' ▒▒▒▓▓▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████',
+    \ '   ▒▒▒▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
+    \ '     ▒▒▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▖▖▖▖▖▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
+    \ '      ▒▒▒▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▚▚▚▚▚▘▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
+    \ '       ▒▒▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒ ▚▚▚▚▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
+    \ '        ▒▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▚▚▚▚▚▚▚▚▓▓▓▚▚▚▚▚▚▖▓▓▗▚▚▚▚▚▖██ ▗▚▚▚▚▚',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▓▓▓▚▚▚▚▘▓▓▓▓▓▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▓▓▓▓▚▚▚▚▚▎▓▓▓▓▓▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▚▚▚▚▚▎▓▓▓▓▓▚▚▚▚▓▓▓▓▞▚▚▚▚▚      ▚▚▚▚▚',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▓▓▓▓▓▚▚▚▚▚▘▓▓▓▓▓▚▚▚▚▚▓▓██▞▚▚▚▚▚     ▚▚▚▚▚',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▓▓▓▓▓▚▚▚▚▚▘▓▓▓▓▚▚▚▚▚▓███  ▚▚▚▚      ▚▚▚▚▚',
+    \ '         ▏ ▚▚▚▚▚▚▚▚▚▒▒▒▒▒▒▒▓▓▓▚▚▚▚▞▞▓▓▓▓▓▚▚▚▚▓██   ▚▚▚▚▚     ▚▚▚▚▚',
+    \ '         ▏ ▚▚▚▚▚▚▒▒▒▒    ▒▒▒▒▚▚▚▚▚▚▓▓▓▓▓▚▚▚▚▚██    ▚▚▚▚     ▚▚▚▚▚▚',
+    \ '         ▔▁▀▒▒▒▒▒▒         ▒▒▚▚▚▚▚▚▚▚▓▓▓▚▚▚▚▚▚    ▚▚▚▚▚▚    ▚▚▚▚▚▚▚',
+    \ '           ▔                  ▒▒▓▓▓▓▓▓▓▓███',
+    \ '                               ▒▒▒▓▓▓▓███',
+    \ '                                 ▒▒▒▓██▓',
+    \ '                                   ▒█▓',
+    \ ]
+let g:startify_files_number = 10
+let g:startify_list_order = [
+        \ ['♻  最近使ったファイル:'],
+        \ 'files',
+        \ ['♲  最近使ったファイル(カレントディレクトリ下):'],
+        \ 'dir',
+        \ ['⚑  セッション:'],
+        \ 'sessions',
+        \ ['☺  ブックマーク:'],
+        \ 'bookmarks',
+        \ ]
+let NERDTreeHijackNetrw = 0
+let g:webdevicons_enable_startify = 1
+" }}
 " hardcoreplayers/dashboard-nvim {{
-function! s:init_dashboard() abort
-    setlocal nonumber
-    setlocal norelativenumber
-    let b:indentLine_enabled = 0
-endfunction
-
-let g:dashboard_default_executive ='fzf'
-let g:dashboard_custom_shortcut={
-      \ 'last_session'       : 'SPC s l',
-      \ 'find_history'       : 'SPC s r',
-      \ 'find_file'          : 'SPC s f',
-      \ 'change_colorscheme' : 'SPC t c',
-      \ 'find_word'          : 'SPC s g',
-      \ 'book_marks'         : 'SPC s m',
-      \ }
-nmap <Leader>ss :<C-u>SessionSave<CR>
-nmap <Leader>sl :<C-u>SessionLoad<CR>
-
-augroup dashboard-custom
-    autocmd FileType dashboard IndentLinesDisable
-augroup END
+" function! s:init_dashboard() abort
+"     setlocal nonumber
+"     setlocal norelativenumber
+"     let b:indentLine_enabled = 0
+" endfunction
+" 
+" let g:dashboard_default_executive ='fzf'
+" let g:dashboard_custom_shortcut={
+"      \ 'last_session'       : 'SPC s l',
+"      \ 'find_history'       : 'SPC s r',
+"      \ 'find_file'          : 'SPC s f',
+"      \ 'change_colorscheme' : 'SPC t c',
+"      \ 'find_word'          : 'SPC s g',
+"      \ 'book_marks'         : 'SPC s m',
+"      \ }
+" nmap <Leader>ss :<C-u>SessionSave<CR>
+" nmap <Leader>sl :<C-u>SessionLoad<CR>
+" 
+" augroup dashboard-custom
+"     autocmd FileType dashboard IndentLinesDisable
+" augroup END
 
 " }}
 " tpope/vim-markdown {{
@@ -1339,6 +1407,7 @@ set nowritebackup
 " Better display for messages
 set cmdheight=2
 
+set showtabline=2
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 

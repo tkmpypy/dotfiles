@@ -1,4 +1,3 @@
----
 version: 2
 # command define
 commands:
@@ -160,6 +159,13 @@ tools:
       - '%f:%l:%c: %tarning: %m'
       - '%f:%l:%c: %tote: %m'
 
+  autopep8-format: &autopep8-format
+    format-command: 'autopep8 --in-place --aggressive --aggressive ${INPUT}'
+    format-stdin: false
+  
+  autoflake-format: &autoflake-format
+    format-command: 'autoflake --in-place --remove-unused-variables ${INPUT}'
+    format-stdin: false
 
   rubocop-lint: &rubocop-lint
     lint-command: 'bundle exec rubocop --format emacs --force-exclusion --stdin ${INPUT}'
@@ -318,6 +324,8 @@ languages:
   python:
     - <<: *flake8-lint
     - <<: *mypy-lint
+    - <<: *autopep8-format
+    - <<: *autoflake-format
 
   ruby:
     - <<: *rubocop-lint
@@ -336,4 +344,3 @@ languages:
 
   _:
     - <<: *excitetranslate-hover
-...
