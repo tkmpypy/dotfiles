@@ -160,7 +160,7 @@ Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'ryanoasis/vim-devicons'
-Plug 'mhinz/vim-startify'
+Plug 'hardcoreplayers/dashboard-nvim'
 Plug 'liuchengxu/vista.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
@@ -274,6 +274,7 @@ nnoremap <leader>sb :<C-u>Buffers<CR>
 nnoremap <leader>sx :<C-u>Commands<CR>
 nnoremap <leader>sf :<C-u>GFiles<CR>
 nnoremap <leader>sc :<C-u>Commits<CR>
+nnoremap <leader>sm :<C-u>Marks<CR>
 nnoremap <leader>scb :<C-u>BCommits<CR>
 nnoremap <leader>sg :<C-u>Rg<CR>
 nnoremap <leader>sG :<C-u>GGrep<CR>
@@ -303,7 +304,7 @@ let g:quickrun_config['typescript/tsc'] = {
 " polyglot {{
 if s:plug.is_installed('nvim-treesitter')
     lua require('treesitter')
-    let g:polyglot_disabled = ['markdown','md', 'python', 'lua', 'go', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact']
+    let g:polyglot_disabled = ['markdown','md', 'python', 'lua', 'go', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'rust']
 else
     let g:polyglot_disabled = ['markdown','md']
 end
@@ -809,7 +810,7 @@ else
     end
 
 endif
-let g:lightline.colorscheme = 'tokyonight'
+let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 " autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -924,7 +925,6 @@ nnoremap <leader>ft :Fern . -drawer -toggle<CR>
 nnoremap <leader>ff :Fern . -reveal=% -drawer -toggle<CR>
 
 augroup fern-custom
-    autocmd! *
     autocmd FileType fern call s:init_fern()
 augroup END
 " }}
@@ -947,62 +947,29 @@ nmap mj <Plug>BookmarkNext
 nmap mk <Plug>BookmarkPrev
 " }}
 
-" mhinz/vim-startify {{
-let g:startify_bookmarks = split(system('awk "{print \$2}" ~/.NERDTreeBookmarks'),'\n')
-let g:startify_custom_header = [
-    \ '      ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁    ░▓▓▒         ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁',
-    \ '     ▕                        ▁  ░░▓▓▒▒▒     ▁▔                        ▔▏',
-    \ '    ▕ ▗▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚  ░░░▓▓▓▓▓▒▒▒  ▕ ▗▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▖▒▒',
-    \ '    ▕ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒ ▓▓▓▓▓▓▓▓▓▒▒ ▕ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒',
-    \ '    ▕ ▝▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚ ▒▓▓▓▓▓▓▓▓▓▓▓▒▒▒ ▝▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▀▘▒',
-    \ '     ▕     ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▏',
-    \ '      ▔▔▔▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒  ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓   ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▒',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓   ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▓▓▒▒▒',
-    \ '        ░▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓   ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▒▒▒',
-    \ '       ░░▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒',
-    \ '     ░░░▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒',
-    \ '   ░░░▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒    ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒',
-    \ ' ░░░▓▓▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒  ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒',
-    \ '▒▒▒▓▓▓▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒',
-    \ ' ▒▒▒▓▓▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓████',
-    \ '   ▒▒▒▓▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
-    \ '     ▒▒▓▓▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▖▖▖▖▖▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
-    \ '      ▒▒▒▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▚▚▚▚▚▘▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
-    \ '       ▒▒▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒ ▚▚▚▚▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
-    \ '        ▒▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▚▚▚▚▚▚▚▚▓▓▓▚▚▚▚▚▚▖▓▓▗▚▚▚▚▚▖██ ▗▚▚▚▚▚',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▓▓▓▚▚▚▚▘▓▓▓▓▓▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▓▓▓▓▚▚▚▚▚▎▓▓▓▓▓▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▒▓▓▓▓▚▚▚▚▚▎▓▓▓▓▓▚▚▚▚▓▓▓▓▞▚▚▚▚▚      ▚▚▚▚▚',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▚▚▒▒▓▓▓▓▓▚▚▚▚▚▘▓▓▓▓▓▚▚▚▚▚▓▓██▞▚▚▚▚▚     ▚▚▚▚▚',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▚▚▒▒▒▒▓▓▓▓▓▚▚▚▚▚▘▓▓▓▓▚▚▚▚▚▓███  ▚▚▚▚      ▚▚▚▚▚',
-    \ '         ▏ ▚▚▚▚▚▚▚▚▚▒▒▒▒▒▒▒▓▓▓▚▚▚▚▞▞▓▓▓▓▓▚▚▚▚▓██   ▚▚▚▚▚     ▚▚▚▚▚',
-    \ '         ▏ ▚▚▚▚▚▚▒▒▒▒    ▒▒▒▒▚▚▚▚▚▚▓▓▓▓▓▚▚▚▚▚██    ▚▚▚▚     ▚▚▚▚▚▚',
-    \ '         ▔▁▀▒▒▒▒▒▒         ▒▒▚▚▚▚▚▚▚▚▓▓▓▚▚▚▚▚▚    ▚▚▚▚▚▚    ▚▚▚▚▚▚▚',
-    \ '           ▔                  ▒▒▓▓▓▓▓▓▓▓███',
-    \ '                               ▒▒▒▓▓▓▓███',
-    \ '                                 ▒▒▒▓██▓',
-    \ '                                   ▒█▓',
-    \ ]
-let g:startify_files_number = 10
-let g:startify_list_order = [
-        \ ['♻  最近使ったファイル:'],
-        \ 'files',
-        \ ['♲  最近使ったファイル(カレントディレクトリ下):'],
-        \ 'dir',
-        \ ['⚑  セッション:'],
-        \ 'sessions',
-        \ ['☺  ブックマーク:'],
-        \ 'bookmarks',
-        \ ]
-let NERDTreeHijackNetrw = 0
-let g:webdevicons_enable_startify = 1
+" hardcoreplayers/dashboard-nvim {{
+function! s:init_dashboard() abort
+    setlocal nonumber
+    setlocal norelativenumber
+    let b:indentLine_enabled = 0
+endfunction
+
+let g:dashboard_default_executive ='fzf'
+let g:dashboard_custom_shortcut={
+      \ 'last_session'       : 'SPC s l',
+      \ 'find_history'       : 'SPC s r',
+      \ 'find_file'          : 'SPC s f',
+      \ 'change_colorscheme' : 'SPC t c',
+      \ 'find_word'          : 'SPC s g',
+      \ 'book_marks'         : 'SPC s m',
+      \ }
+nmap <Leader>ss :<C-u>SessionSave<CR>
+nmap <Leader>sl :<C-u>SessionLoad<CR>
+
+augroup dashboard-custom
+    autocmd FileType dashboard IndentLinesDisable
+augroup END
+
 " }}
 " tpope/vim-markdown {{
 let g:vim_markdown_conceal = 0
@@ -1300,7 +1267,7 @@ set backspace=indent,eol,start
 set background=dark
 let g:material_theme_style='default'
 let g:material_terminal_italics = 1
-let g:edge_style = 'neon'
+let g:edge_style = 'default'
 let g:edge_enable_italic = 1
 let g:edge_disable_italic_comment = 0
 let g:edge_current_word = 'bold'
@@ -1321,7 +1288,7 @@ let g:onedark_hide_endofbuffer=1
 let g:neodark#use_256color = 1 " default: 0
 let g:neodark#solid_vertsplit = 1 " default: 0
 
-colorscheme tokyonight
+colorscheme edge
 set shell=zsh
 
 "*****************************************************************************
