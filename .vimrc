@@ -1285,7 +1285,6 @@ if !has('gui_running')
       \ && exists('&termguicolors')
       \ && $COLORTERM =~# '^\%(truecolor\|24bit\)$'
   " https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-  set termguicolors
 " use truecolor in term
   if exists('&pumblend')
     set pumblend=20

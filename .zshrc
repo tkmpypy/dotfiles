@@ -5,7 +5,7 @@ autoload -Uz _zinit
 # Env
 if [[ -z "$XDG_CONFIG_HOME" ]]
 then
-        export XDG_CONFIG_HOME="$HOME/.config/"
+    export XDG_CONFIG_HOME="$HOME/.config/"
 fi
 # export TERM="xterm-256color-italic"
 export PATH="$PATH:$HOME/.local/bin"
@@ -23,14 +23,6 @@ fi
 export PATH="$HOME/.anyenv/envs/nodenv/bin:$PATH"
 export PATH="$HOME/.anyenv/envs/nodenv/versions/*/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
-
-# Two regular plugins loaded without tracking.
-zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zdharma/fast-syntax-highlighting
-
-# Plugin history-search-multi-word loaded with tracking.
-zinit load zdharma/history-search-multi-word
 
 # A glance at the new for-syntax – load all of the above
 # plugins with a single command. For more information see:
@@ -68,7 +60,9 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 # Theme
-zinit load denysdovhan/spaceship-prompt.git
+# zinit load denysdovhan/spaceship-prompt.git
+zinit ice from"gh-r" as"program" bpick"*apple-darwin*" atload='eval "$(starship init zsh)"'
+zinit load starship/starship
 
 # alias
 alias ls='gls --color=auto'
