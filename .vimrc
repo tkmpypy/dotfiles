@@ -318,7 +318,8 @@ nmap <leader>trl :TestLast<CR>
 nmap <leader>trg :TestVisit<CR>
 " }}
 " vim-markdown {{
-let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_folding_disabled = 0
+let g:vim_markdown_folding_level = 6
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_new_list_item_indent = 2
@@ -1393,7 +1394,7 @@ autocmd FileType javascript setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-set redrawtime=10000
+" set redrawtime=10000
 
 
 "*****************************************************************************
@@ -1409,7 +1410,7 @@ set cmdheight=2
 
 set showtabline=2
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
+set updatetime=3000
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
