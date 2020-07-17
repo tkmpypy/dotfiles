@@ -106,7 +106,7 @@ Plug 'vim-test/vim-test'
 
 " Completion
 if has('nvim')
-    Plug 'nvim-treesitter/nvim-treesitter'
+    " Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
