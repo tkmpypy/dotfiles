@@ -20,8 +20,5 @@
   "codeLens.enable": false,
   "yaml.validate": true,
   "yaml.completion": true,
-  "yaml.format.enable": true,
-  "yaml.schemas": {
-    "kubernetes": "/*.y*ml"
-  }
+  "yaml.format.enable": true
 }

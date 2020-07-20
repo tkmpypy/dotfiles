@@ -193,8 +193,6 @@ endif
 Plug 'gotchane/vim-git-commit-prefix'
 Plug 'APZelos/blamer.nvim'
 
-" MyPlug
-Plug 'tkmpypy/eztrans.vim'
 call plug#end()
 
 let s:plug = get(g:, 'plugs', {})
@@ -324,6 +322,7 @@ let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_folding_style_pythonic = 1
 " }}
 
 " thosakwe/vim-flutter {{
@@ -1247,13 +1246,6 @@ nnoremap <silent> <Leader>rc :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
 " }}
-" eztrans.vim {{
-
-" カーソル下の単語をハイライト付きで置換
-nnoremap <Leader>et :EztransDefaultCurrent en ja<CR>
-vnoremap <Leader>et :EztransSelection en ja<CR>
-
-" }}
 " pechorin/any-jump.vim{{
 nnoremap <Leader>aj :AnyJump<CR>
 " }}
@@ -1432,6 +1424,9 @@ set synmaxcol=200
 "*****************************************************************************
 
 nnoremap <Leader>r :source ~/.vimrc<Enter>
+
+" echo current buffer path
+nnoremap <leader>ec :echo expand("%:p")<CR>
 
 " move window
 nnoremap <Leader>wmh <C-w>H
