@@ -86,6 +86,7 @@ Plug 'yuttie/hydrangea-vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'drewtempelmeyer/palenight.vim'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -821,7 +822,7 @@ else
     end
 
 endif
-let g:lightline.colorscheme = 'edge'
+let g:lightline.colorscheme = 'palenight'
 " Use auocmd to force lightline update.
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -1283,6 +1284,10 @@ if !has('gui_running')
   endif
 endif
 
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 " completion settings
 set complete&
       \ complete+=k
@@ -1348,7 +1353,11 @@ let g:onedark_hide_endofbuffer=1
 let g:neodark#use_256color = 1 " default: 0
 let g:neodark#solid_vertsplit = 1 " default: 0
 
-colorscheme edge
+" 'drewtempelmeyer/palenight.vim'{{
+let g:palenight_terminal_italics=1
+" }}
+
+colorscheme palenight
 set shell=zsh
 
 "*****************************************************************************
