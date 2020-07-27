@@ -443,6 +443,7 @@ function! s:setup_coc()
           \, 'coc-go'
           \, 'coc-lua'
           \, 'coc-sql'
+          \, 'coc-emoji'
           \, 'coc-gitignore'
           \ ]
     function! CocCurrentFunction()
