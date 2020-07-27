@@ -824,7 +824,6 @@ else
 endif
 let g:lightline.colorscheme = 'palenight'
 " Use auocmd to force lightline update.
-autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
 
