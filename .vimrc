@@ -163,6 +163,7 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Explorer
 Plug 'preservim/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 " Plug 'lambdalisue/fern.vim'
 " Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'airblade/vim-rooter'
