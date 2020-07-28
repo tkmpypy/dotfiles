@@ -105,6 +105,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'metakirby5/codi.vim'
 Plug 'vim-test/vim-test'
 
+Plug 'wakatime/vim-wakatime'
+
 " Completion
 if has('nvim')
     " Plug 'nvim-treesitter/nvim-treesitter'
