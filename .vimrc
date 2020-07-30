@@ -270,6 +270,7 @@ command! -bang -nargs=? -complete=dir GFiles
 nnoremap <leader>sb :<C-u>Buffers<CR>
 nnoremap <leader>sx :<C-u>Commands<CR>
 nnoremap <leader>sf :<C-u>GFiles<CR>
+nnoremap <leader>sF :<C-u>Files<CR>
 nnoremap <leader>sc :<C-u>Commits<CR>
 nnoremap <leader>sm :<C-u>Marks<CR>
 nnoremap <leader>scb :<C-u>BCommits<CR>
