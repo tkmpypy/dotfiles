@@ -64,6 +64,10 @@ zinit light-mode for \
 zinit ice from"gh-r" as"program" bpick"*apple-darwin*" atload='eval "$(starship init zsh)"'
 zinit load starship/starship
 
+# Neovim
+zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim"
+zinit load neovim/neovim
+
 # alias
 alias ls='gls --color=auto'
 alias ll='gls --color=auto -la'
