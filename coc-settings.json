@@ -20,5 +20,13 @@
   "codeLens.enable": false,
   "yaml.validate": true,
   "yaml.completion": true,
-  "yaml.format.enable": true
+  "yaml.format.enable": true,
+  "markdownlint.config": {
+    "no-duplicate-header": false,
+    "no-duplicate-heading": false,
+    "ul-indent": {
+      "indent": 4
+    }
+  },
+  "prettier.disableLanguages": ["markdown"]
 }
