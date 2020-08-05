@@ -155,17 +155,18 @@ endif
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
-Plug 'ryanoasis/vim-devicons'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'hardcoreplayers/dashboard-nvim'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Explorer
-Plug 'preservim/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'lambdalisue/fern.vim'
-" Plug 'lambdalisue/fern-renderer-devicons.vim'
+" Plug 'preservim/nerdtree'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'airblade/vim-rooter'
 
 " Util
@@ -710,7 +711,7 @@ let g:blamer_template = '<committer>, <committer-time> • <summary>'
 nnoremap <Leader>gbt :BlamerToggle<CR>
 " }}
 " taohexxx/lightline-buffer {{
-let g:lightline#bufferline#enable_devicons = 1
+let g:lightline#bufferline#enable_nerdfont = 1
 let g:lightline#bufferline#show_number  = 2
 let g:lightline#bufferline#shorten_path = 0
 let g:lightline#bufferline#unnamed      = '[No Name]'
@@ -732,8 +733,8 @@ if s:plug.is_installed('nvim-lsp')
     let g:lightline.component_function = {
         \   'coc_status': 'coc#status',
         \   'currentfunction': 'CocCurrentFunction',
-        \   'devicons_filetype': 'Devicons_Filetype',
-        \   'devicons_fileformat': 'Devicons_Fileformat',
+        \   'icon_filetype': 'Get_Icon_Filetype',
+        \   'icon_fileformat': 'Get_Icon_Fileformat',
         \   'branch': 'GetBranchName',
         \   'git_status': 'GetGitStatus',
         \   'filename': 'LightlineFilename',
@@ -743,8 +744,8 @@ else
     let g:lightline.component_function = {
         \   'coc_status': 'coc#status',
         \   'currentfunction': 'CocCurrentFunction',
-        \   'devicons_filetype': 'Devicons_Filetype',
-        \   'devicons_fileformat': 'Devicons_Fileformat',
+        \   'icon_filetype': 'Get_Icon_Filetype',
+        \   'icon_fileformat': 'Get_Icon_Fileformat',
         \   'branch': 'GetBranchName',
         \   'git_status': 'GetGitStatus',
         \   'filename': 'LightlineFilename',
@@ -787,18 +788,18 @@ if s:plug.is_installed('lightline-ale')
 
     if s:plug.is_installed('nvim-lsp')
         let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ],
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ],
             \   'right': [
             \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
-            \       ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['lsp'],
+            \       ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'],
             \   ],
             \ }
     else
         let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ],
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ],
             \   'right': [
             \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
-            \       ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'],
+            \       ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'],
             \   ],
             \ }
     end
@@ -812,18 +813,18 @@ else
 
     if s:plug.is_installed('coc.nvim')
         let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['coc_status'] ],
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['coc_status'] ],
             \ }
     elseif s:plug.is_installed('nvim-lsp')
         let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'], ['lsp'] ],
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'] ],
             \ }
     else
         let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'devicons_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['devicons_fileformat', 'percent', 'line'] ],
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'] ],
             \ }
     end
 
@@ -865,21 +866,25 @@ function! LightlineFilename()
        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
 " }}
-" ryanoasis/vim-devicons {{
-function! Devicons_Filetype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+" lambdalisue/glyph-palette.vim{{
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
+
+function! Get_Icon_Filetype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . nerdfont#find() : 'no ft') : ''
 endfunction
 
-function! Devicons_Fileformat()
-  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+function! Get_Icon_Fileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . nerdfont#find()) : ''
 endfunction
-let g:webdevicons_enable_nerdtree = 1
-let g:webdevicons_conceal_nerdtree_brackets = 1
 " }}
 " scrooloose/nerdtree {{
-let g:NERDTreeShowHidden = 1
-nnoremap <leader>ft :NERDTreeToggle<CR>
-nnoremap <leader>ff :NERDTreeFind<CR>
+" let g:NERDTreeShowHidden = 1
+" nnoremap <leader>ft :NERDTreeToggle<CR>
+" nnoremap <leader>ff :NERDTreeFind<CR>
 " }}
 " quick-scope {{
 let g:qs_lazy_highlight = 1
@@ -887,63 +892,71 @@ let g:qs_max_chars=80
 let g:qs_highlight_on_keys = ['f', 'F']
 " }}
 " fern.vim {{
-" function! s:init_fern() abort
-"     setlocal nonumber
-"     setlocal norelativenumber
-"     let b:indentLine_enabled = 0
-"     " Define NERDTree like mappings
-"     nmap <buffer> o <Plug>(fern-action-open:edit)
-"     nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
-"     nmap <buffer> t <Plug>(fern-action-open:tabedit)
-"     nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
-"     nmap <buffer> i <Plug>(fern-action-open:split)
-"     nmap <buffer> gi <Plug>(fern-action-open:split)<C-w>p
-"     nmap <buffer> s <Plug>(fern-action-open:vsplit)
-"     nmap <buffer> gs <Plug>(fern-action-open:vsplit)<C-w>p
-" 
-"     nmap <buffer> P gg
-" 
-"     nmap <buffer> C <Plug>(fern-action-enter)
-"     nmap <buffer> u <Plug>(fern-action-leave)
-"     nmap <buffer> r <Plug>(fern-action-reload)
-"     nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
-"     nmap <buffer> cd <Plug>(fern-action-cd)
-"     nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
-" 
-"     nmap <buffer> I <Plug>(fern-action-hide-toggle)
-" 
-"     nmap <buffer> q :<C-u>quit<CR>
-"     nmap <buffer><expr>
-"       \ <Plug>(fern-my-expand-or-collapse)
-"       \ fern#smart#leaf(
-"       \   "\<Plug>(fern-action-collapse)",
-"       \   "\<Plug>(fern-action-expand)",
-"       \   "\<Plug>(fern-action-collapse)",
-"       \ )
-"     nmap <buffer><expr>
-"       \ <Plug>(fern-my-expand-or-enter)
-"       \ fern#smart#drawer(
-"       \   "\<Plug>(fern-open-or-expand)",
-"       \   "\<Plug>(fern-open-or-enter)",
-"       \ )
-"     nmap <buffer><expr>
-"       \ <Plug>(fern-my-collapse-or-leave)
-"       \ fern#smart#drawer(
-"       \   "\<Plug>(fern-action-collapse)",
-"       \   "\<Plug>(fern-action-leave)",
-"       \ )
-"     nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
-"     nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
-" 
-" endfunction
-" let g:fern#default_hidden = 1
-" let g:fern#renderer = "devicons"
-" nnoremap <leader>ft :Fern . -drawer -toggle<CR>
-" nnoremap <leader>ff :Fern . -reveal=% -drawer -toggle<CR>
-" 
-" augroup fern-custom
-"     autocmd FileType fern call s:init_fern()
-" augroup END
+function! s:init_fern() abort
+    setlocal nonumber
+    setlocal norelativenumber
+    let b:indentLine_enabled = 0
+    " Disable netrw
+    let g:loaded_netrw             = 1
+    let g:loaded_netrwPlugin       = 1
+    let g:loaded_netrwSettings     = 1
+    let g:loaded_netrwFileHandlers = 1
+
+    " Define NERDTree like mappings
+    nmap <buffer> o <Plug>(fern-action-open:edit)
+    nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
+    nmap <buffer> t <Plug>(fern-action-open:tabedit)
+    nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
+    nmap <buffer> i <Plug>(fern-action-open:split)
+    nmap <buffer> gi <Plug>(fern-action-open:split)<C-w>p
+    nmap <buffer> s <Plug>(fern-action-open:vsplit)
+    nmap <buffer> gs <Plug>(fern-action-open:vsplit)<C-w>p
+
+    nmap <buffer> P gg
+
+    nmap <buffer> C <Plug>(fern-action-enter)
+    nmap <buffer> u <Plug>(fern-action-leave)
+    nmap <buffer> r <Plug>(fern-action-reload)
+    nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
+    nmap <buffer> cd <Plug>(fern-action-cd)
+    nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
+
+    nmap <buffer> I <Plug>(fern-action-hide-toggle)
+
+    nmap <buffer> q :<C-u>quit<CR>
+    nmap <buffer><expr>
+      \ <Plug>(fern-my-expand-or-collapse)
+      \ fern#smart#leaf(
+      \   "\<Plug>(fern-action-collapse)",
+      \   "\<Plug>(fern-action-expand)",
+      \   "\<Plug>(fern-action-collapse)",
+      \ )
+    nmap <buffer><expr>
+      \ <Plug>(fern-my-expand-or-enter)
+      \ fern#smart#drawer(
+      \   "\<Plug>(fern-open-or-expand)",
+      \   "\<Plug>(fern-open-or-enter)",
+      \ )
+    nmap <buffer><expr>
+      \ <Plug>(fern-my-collapse-or-leave)
+      \ fern#smart#drawer(
+      \   "\<Plug>(fern-action-collapse)",
+      \   "\<Plug>(fern-action-leave)",
+      \ )
+    nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
+    nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
+
+endfunction
+
+augroup fern-custom
+    autocmd! *
+    autocmd FileType fern call s:init_fern()
+augroup END
+
+let g:fern#default_hidden = 1
+let g:fern#renderer = "nerdfont"
+nmap <leader>ft :Fern . -drawer -toggle<CR>
+nmap <leader>ff :Fern . -reveal=% -drawer -toggle<CR>
 " }}
 " }}
 " vim-rooter {{
@@ -1019,7 +1032,6 @@ let g:startify_list_order = [
         \ 'bookmarks',
         \ ]
 let NERDTreeHijackNetrw = 0
-let g:webdevicons_enable_startify = 1
 " }}
 " hardcoreplayers/dashboard-nvim {{
 " function! s:init_dashboard() abort
@@ -1275,6 +1287,8 @@ let g:choosewin_overlay_enable = 1
 nmap j <Plug>(accelerated_jk_gj)
 nmap k <Plug>(accelerated_jk_gk)
 " }}
+
+
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
