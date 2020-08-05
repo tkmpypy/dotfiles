@@ -65,7 +65,7 @@ zinit ice from"gh-r" as"program" bpick"*apple-darwin*" atload='eval "$(starship 
 zinit load starship/starship
 
 # Neovim
-zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim"
+zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
 zinit load neovim/neovim
 
 # alias
