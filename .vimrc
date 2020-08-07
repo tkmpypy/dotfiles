@@ -316,6 +316,9 @@ else
     let test#strategy = "vimterminal"
 endif
 let g:test#python#runner = 'pytest'
+let g:test#rust#cargotest#options = {
+    \ 'nearest': '-- --nocapture'
+\ }
 nmap <leader>trn :TestNearest<CR>
 nmap <leader>trf :TestFile<CR>
 nmap <leader>trs :TestSuite<CR>
@@ -953,10 +956,13 @@ augroup fern-custom
     autocmd FileType fern call s:init_fern()
 augroup END
 
+" let g:fern#profile = 1
+let g:fern#drawer_keep = v:false
 let g:fern#default_hidden = 1
+let g:fern#keepalt_on_edit = 1
 let g:fern#renderer = "nerdfont"
-nmap <leader>ft :Fern . -drawer -toggle<CR>
-nmap <leader>ff :Fern . -reveal=% -drawer -toggle<CR>
+nmap <silent><leader>ft :Fern . -drawer -toggle<CR>
+nmap <silent><leader>ff :Fern . -reveal=% -drawer -toggle<CR>
 " }}
 " }}
 " vim-rooter {{
