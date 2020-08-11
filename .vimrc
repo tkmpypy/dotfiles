@@ -167,6 +167,8 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-mapping-git.vim'
 Plug 'airblade/vim-rooter'
 
 " Util
