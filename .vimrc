@@ -359,9 +359,9 @@ function! s:setup_nvim_lsp()
     let g:diagnostic_insert_delay = 1
     let g:diagnostic_show_sign = 1
 
-    call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
-    call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
-    call sign_define("LspDiagnosticInformationSign", {"text" : "🛈", "texthl" : "LspDiagnosticsInformation"})
+    call sign_define("LspDiagnosticsErrorSign", {"text" : " ", "texthl" : "LspDiagnosticsError"})
+    call sign_define("LspDiagnosticsWarningSign", {"text" : " ", "texthl" : "LspDiagnosticsWarning"})
+    call sign_define("LspDiagnosticInformationSign", {"text" : "🛈 ", "texthl" : "LspDiagnosticsInformation"})
     call sign_define("LspDiagnosticHintSign", {"text" : "!", "texthl" : "LspDiagnosticsHint"})
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
@@ -414,8 +414,8 @@ function! s:setup_vim_lsp()
     let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
     let g:lsp_settings_filetype_typescriptreact = ['typescript-language-server', 'eslint-language-server']
 
-    let g:lsp_signs_error = {'text': '✗'}
-    let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
+    let g:lsp_signs_error = {'text': '✗ '}
+    let g:lsp_signs_warning = {'text': '‼ '} " icons require GUI
     let g:lsp_signs_hint = {'test': '?'} " icons require GUI
     command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
     nmap <leader>rn :LspRename<cr>
@@ -464,8 +464,8 @@ function! s:setup_coc()
         return funcName
     endfunction
 
-    let g:coc_status_error_sign = "✘"
-    let g:coc_status_warning_sign = "⚠"
+    let g:coc_status_error_sign = "✘ "
+    let g:coc_status_warning_sign = "⚠ "
 
     " " OR this mapping also breaks it in same manor
     " Make <cr> select the first completion item and confirm completion when no item have selected
@@ -678,8 +678,8 @@ if s:plug.is_installed('ale')
       let g:ale_typescriptreact_eslint_option = 'run eslint'
     endif
     let g:ale_linters_explicit = 1
-    let g:ale_sign_error = '✗'
-    let g:ale_sign_warning = '⚠'
+    let g:ale_sign_error = '✗ '
+    let g:ale_sign_warning = '⚠ '
     let g:ale_set_highlights = 1
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
@@ -723,7 +723,7 @@ let g:lightline#bufferline#unnamed      = '[No Name]'
 let g:lightline#bufferline#filename_modifier = ':t'
 let g:lightline#bufferline#unicode_symbols = 1
 
-let g:lightline_buffer_readonly_icon = ''
+let g:lightline_buffer_readonly_icon = ' '
 let g:lightline_buffer_modified_icon = '✭'
 " }}
 " itchyny/lightline.vim {{
@@ -765,8 +765,8 @@ let g:lightline.component = {
     \   'relativepath': '%f',
     \   'line': '%l',
     \ }
-let g:lightline.separator = {'left': '', 'right': ''}
-let g:lightline.subseparator = { 'left': '', 'right': '' }
+let g:lightline.separator = {'left': ' ', 'right': ' '}
+let g:lightline.subseparator = { 'left': ' ', 'right': ' ' }
 
 if s:plug.is_installed('lightline-ale')
     let g:lightline#ale#indicator_checking = "\uf110"
@@ -1072,7 +1072,45 @@ let g:vim_markdown_conceal = 0
 " How each level is indented and what to prepend.
 " This could make the display more compact or more spacious.
 " e.g., more compact: ["▸ ", ""]
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_icon_indent = ["󳄀󳄂 ", "󳄁󳄂 "]
+let g:vista#renderer#icons = {
+            \ 'func':           "\Uff794",
+            \ 'function':       "\Uff794",
+            \ 'functions':      "\Uff794",
+            \ 'var':            "\Uff71b",
+            \ 'variable':       "\Uff71b",
+            \ 'variables':      "\Uff71b",
+            \ 'const':          "\Uff8ff",
+            \ 'constant':       "\Uff8ff",
+            \ 'method':         "\Uff6a6",
+            \ 'package':        "\Ufe612",
+            \ 'packages':       "\Ufe612",
+            \ 'enum':           "\Uff435",
+            \ 'enumerator':     "\Uff435",
+            \ 'module':         "\Uff668",
+            \ 'modules':        "\Uff668",
+            \ 'type':           "\Ufe22b",
+            \ 'typedef':        "\Ufe22b",
+            \ 'types':          "\Ufe22b",
+            \ 'field':          "\Uff93d",
+            \ 'fields':         "\Uff93d",
+            \ 'macro':          "\Uff8a3",
+            \ 'macros':         "\Uff8a3",
+            \ 'map':            "\Uffb44",
+            \ 'class':          "\Uff9a9",
+            \ 'augroup':        "\Uffb44",
+            \ 'struct':         "\Uffb44",
+            \ 'union':          "\Uffacd",
+            \ 'member':         "\Uff02b",
+            \ 'target':         "\Uff893",
+            \ 'property':       "\Uffab6",
+            \ 'interface':      "\Uffa52",
+            \ 'namespace':      "\Uff475",
+            \ 'subroutine':     "\Uff915",
+            \ 'implementation': "\Uff87a",
+            \ 'typeParameter':  "\Uff278",
+            \ 'default':        "\Uff29c"
+            \ }
 
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
@@ -1105,12 +1143,6 @@ endif
 let g:vista_fzf_preview = ['right:50%']
 " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 1
-
-" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
-let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
-\  }
 "{{{tmuxline.vim
 if g:vimIsInTmux == 1
     let g:tmuxline_preset = {
