@@ -99,7 +99,7 @@ Plug 'tyru/caw.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'godlygeek/tabular'
 " Languages
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+Plug 'SidOfc/mkdx', {'for': 'markdown'}
 Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
 Plug 'metakirby5/codi.vim'
@@ -327,15 +327,15 @@ nmap <leader>trs :TestSuite<CR>
 nmap <leader>trl :TestLast<CR>
 nmap <leader>trg :TestVisit<CR>
 " }}
-" vim-markdown {{
-let g:vim_markdown_folding_disabled = 0
-let g:vim_markdown_folding_level = 6
-let g:vim_markdown_toc_autofit = 1
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_new_list_item_indent = 2
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_folding_style_pythonic = 1
+" mkdx {{
+let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
+                        \ 'enter': { 'shift': 1 },
+                        \ 'links': { 'external': { 'enable': 1 } },
+                        \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
+                        \ 'map': { 'prefix': 'm' },
+                        \ 'fold': { 'enable': 1 } }
 " }}
+
 
 " thosakwe/vim-flutter {{
 nnoremap <leader>fa :FlutterRun<cr>
