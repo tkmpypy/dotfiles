@@ -163,8 +163,6 @@ Plug 'liuchengxu/vista.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Explorer
-" Plug 'preservim/nerdtree'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -362,7 +360,7 @@ function! s:setup_nvim_lsp()
 
     call sign_define("LspDiagnosticsErrorSign", {"text" : " ", "texthl" : "LspDiagnosticsError"})
     call sign_define("LspDiagnosticsWarningSign", {"text" : " ", "texthl" : "LspDiagnosticsWarning"})
-    call sign_define("LspDiagnosticInformationSign", {"text" : "🛈 ", "texthl" : "LspDiagnosticsInformation"})
+    call sign_define("LspDiagnosticInformationSign", {"text" : " ", "texthl" : "LspDiagnosticsInformation"})
     call sign_define("LspDiagnosticHintSign", {"text" : "!", "texthl" : "LspDiagnosticsHint"})
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
