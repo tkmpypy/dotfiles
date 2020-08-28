@@ -322,7 +322,7 @@ let g:test#rust#cargotest#options = {
 nmap <leader>trn :TestNearest<CR>
 nmap <leader>trf :TestFile<CR>
 nmap <leader>trs :TestSuite<CR>
-nmap <leader>trl :TestLast<CR>
+nmap <leader>trr :TestLast<CR>
 nmap <leader>trg :TestVisit<CR>
 " }}
 " mkdx {{
