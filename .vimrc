@@ -447,6 +447,7 @@ function! s:setup_coc()
           \, 'coc-translator'
           \, 'coc-go'
           \, 'coc-lua'
+          \, 'coc-tabnine'
           \, 'coc-sql'
           \, 'coc-emoji'
           \, 'coc-gitignore'
