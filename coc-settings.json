@@ -10,7 +10,13 @@
   "flutter.provider.hot-reload": true,
   "translator.toLang": "ja",
   "translator.engines": ["bing", "google"],
-  "coc.preferences.formatOnSaveFiletypes": ["python", "go", "json", "css"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "python",
+    "go",
+    "json",
+    "css",
+    "markdown"
+  ],
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.refreshAfterSave": true,
   "diagnostic.infoSign": "כֿ",
@@ -27,6 +33,5 @@
     "ul-indent": {
       "indent": 4
     }
-  },
-  "prettier.disableLanguages": ["markdown"]
+  }
 }
