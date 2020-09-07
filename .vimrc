@@ -295,6 +295,11 @@ let g:quickrun_config['typescript/tsc'] = {
 \   'tempfile': '%{tempname()}.ts',
 \   'hook/sweep/files': ['%S:p:r.js'],
 \ }
+let g:quickrun_config['rust'] = { 'type' : 'rust/cargo' }
+let g:quickrun_config['rust/cargo'] = {
+\   'command': 'cargo',
+\   'exec': ['%c run'],
+\ }
 " }}
 " polyglot {{
 if s:plug.is_installed('nvim-treesitter')
