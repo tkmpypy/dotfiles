@@ -99,7 +99,7 @@ Plug 'tyru/caw.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'godlygeek/tabular'
 " Languages
-Plug 'SidOfc/mkdx', {'for': 'markdown'}
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'thosakwe/vim-flutter'
 Plug 'sheerun/vim-polyglot'
 Plug 'metakirby5/codi.vim'
@@ -109,20 +109,20 @@ Plug 'wakatime/vim-wakatime'
 
 " Completion
 if has('nvim')
-    " Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    " Plug 'neovim/nvim-lsp'
+    Plug 'neovim/nvim-lspconfig'
     " Plug 'h-michael/lsp-ext.nvim'
-    " Plug 'haorenW1025/completion-nvim'
-    " Plug 'steelsojka/completion-buffers'
+    Plug 'haorenW1025/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
     " Plug 'nvim-lua/diagnostic-nvim'
-    " Plug 'nvim-lua/lsp-status.nvim'
-    " Plug 'hrsh7th/vim-vsnip'
-    " Plug 'hrsh7th/vim-vsnip-integ'
+    Plug 'nvim-lua/lsp-status.nvim'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
 
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
@@ -134,8 +134,8 @@ if has('nvim')
     " Plug 'prabirshrestha/asyncomplete.vim'
 
     " use ale
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -304,7 +304,9 @@ let g:quickrun_config['rust/cargo'] = {
 " polyglot {{
 if s:plug.is_installed('nvim-treesitter')
     lua require('treesitter')
-    let g:polyglot_disabled = ['markdown','md', 'python', 'lua', 'go', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact', 'rust']
+    set foldmethod=expr
+    " set foldexpr=nvim_treesitter#foldexpr()
+    let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
 else
     let g:polyglot_disabled = ['markdown','md']
 end
@@ -326,16 +328,15 @@ nmap <leader>trs :TestSuite<CR>
 nmap <leader>trr :TestLast<CR>
 nmap <leader>trg :TestVisit<CR>
 " }}
-" mkdx {{
-let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
-                        \ 'enter': { 'shift': 1 },
-                        \ 'links': { 'external': { 'enable': 0 } },
-                        \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
-                        \ 'auto_update': { 'enable': 1 },
-                        \ 'map': { 'prefix': 'm' },
-                        \ 'fold': { 'enable': 1 } }
+" vim-markdown {{
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_math = 1
+let g:vim_markdown_conceal_code_blocks = 0
+nmap <leader>mit :InsertToc<CR>
+nmap <leader>mt :Toc<CR>
+nmap <leader>mf :TableFormat<CR>
 " }}
-
 " thosakwe/vim-flutter {{
 nnoremap <leader>fa :FlutterRun<cr>
 nnoremap <leader>fq :FlutterQuit<cr>
@@ -596,7 +597,7 @@ function! s:setup_asyncomplete()
     endif
 endfunction
 
-if s:plug.is_installed('nvim-lsp')
+if s:plug.is_installed('nvim-lspconfig')
     call s:setup_nvim_lsp()
     if s:plug.is_installed('asyncomplete.vim')
         call s:setup_asyncomplete()
@@ -648,7 +649,7 @@ if s:plug.is_installed('ale')
     \   'typescriptreact': ['eslint'],
     \   'javascript': ['eslint'],
     \   'javascriptreact': ['eslint'],
-    \   'rust': ['analyzer', 'cargo', 'rustc'],
+    \   'rust': ['analyzer'],
     \   'go': ['golint', 'govet', 'gofmt'],
     \   'vim': ['vint'],
     \   'markdown': ['textlint'],
@@ -678,7 +679,7 @@ if s:plug.is_installed('ale')
       let g:ale_typescriptreact_eslint_option = 'run eslint'
     endif
     let g:ale_linters_explicit = 1
-    let g:ale_sign_error = '✗'
+    let g:ale_sign_error = '✘'
     let g:ale_sign_warning = '⚠'
     let g:ale_set_highlights = 1
     let g:ale_echo_msg_error_str = 'E'
@@ -734,7 +735,7 @@ let g:lightline.tabline = {
     \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
     \   'right': [ [ 'close' ], ],
     \ }
-if s:plug.is_installed('nvim-lsp')
+if s:plug.is_installed('nvim-lspconfig')
     let g:lightline.component_function = {
         \   'coc_status': 'coc#status',
         \   'currentfunction': 'CocCurrentFunction',
@@ -769,11 +770,11 @@ let g:lightline.separator = {'left': '', 'right': ''}
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
 if s:plug.is_installed('lightline-ale')
-    let g:lightline#ale#indicator_checking = "\uf110"
-    let g:lightline#ale#indicator_infos = "\uf129"
-    let g:lightline#ale#indicator_warnings = "\uf071"
-    let g:lightline#ale#indicator_errors = "\uf05e"
-    let g:lightline#ale#indicator_ok = "\uf00c"
+    let g:lightline#ale#indicator_checking = " "
+    let g:lightline#ale#indicator_infos = "כֿ"
+    let g:lightline#ale#indicator_warnings = "⚠"
+    let g:lightline#ale#indicator_errors = "✘"
+    let g:lightline#ale#indicator_ok = "✔"
     let g:lightline.component_expand = {
       \  'buffers': 'lightline#bufferline#buffers',
       \  'linter_checking': 'lightline#ale#checking',
@@ -791,7 +792,7 @@ if s:plug.is_installed('lightline-ale')
       \     'buffers': 'tabsel',
       \ }
 
-    if s:plug.is_installed('nvim-lsp')
+    if s:plug.is_installed('nvim-lspconfig')
         let g:lightline.active = {
             \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ],
             \   'right': [
@@ -821,7 +822,7 @@ else
             \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
             \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['coc_status'] ],
             \ }
-    elseif s:plug.is_installed('nvim-lsp')
+    elseif s:plug.is_installed('nvim-lspconfig')
         let g:lightline.active = {
             \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
             \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'] ],
@@ -834,7 +835,7 @@ else
     end
 
 endif
-let g:lightline.colorscheme = 'palenight'
+let g:lightline.colorscheme = 'gruvbox_material'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
@@ -1380,7 +1381,7 @@ let g:neodark#solid_vertsplit = 1 " default: 0
 let g:palenight_terminal_italics=1
 " }}
 
-colorscheme palenight
+colorscheme gruvbox-material
 set shell=zsh
 
 "*****************************************************************************

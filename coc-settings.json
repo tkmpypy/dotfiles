@@ -24,14 +24,14 @@
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
   "codeLens.enable": false,
-  "yaml.validate": true,
+  "yaml.validate": false,
   "yaml.completion": true,
   "yaml.format.enable": true,
   "markdownlint.config": {
     "no-duplicate-header": false,
     "no-duplicate-heading": false,
     "ul-indent": {
-      "indent": 4
+      "indent": 2
     }
   }
 }

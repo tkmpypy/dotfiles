@@ -29,8 +29,15 @@ nvim_lsp.yamlls.setup({
 })
 
 nvim_lsp.pyls_ms.setup({
+  init_options = {
+    interpreter = {
+      properties = {
+        InterpreterPath = '/Users/takuma/.pyenv/versions/3.5.2/bin/python',
+        Version = '3.5.2',
+      }
+    }
+  },
   callbacks = lsp_status.extensions.pyls_ms.setup(),
-  settings = { python = { workspaceSymbols = { enabled = true }}},
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities
 })
@@ -56,11 +63,11 @@ nvim_lsp.tsserver.setup({
   capabilities = lsp_status.capabilities
 })
 
-vim.g.indicator_errors = ''
-vim.g.indicator_warnings = ''
-vim.g.indicator_info = '🛈'
-vim.g.indicator_hint = '!'
-vim.g.indicator_ok = ''
+vim.g.indicator_errors = '✘'
+vim.g.indicator_warnings = '⚠'
+vim.g.indicator_info = 'כֿ'
+vim.g.indicator_hint = '•'
+vim.g.indicator_ok = '✔'
 vim.g.spinner_frames = {'⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'}
 
 -- for lsp_ext
