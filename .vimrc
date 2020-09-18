@@ -938,8 +938,8 @@ function! s:init_fern() abort
     nmap <buffer><expr>
       \ <Plug>(fern-my-expand-or-enter)
       \ fern#smart#drawer(
-      \   "\<Plug>(fern-open-or-expand)",
-      \   "\<Plug>(fern-open-or-enter)",
+      \   "\<Plug>(fern-action-open-or-expand)",
+      \   "\<Plug>(fern-action-open-or-enter)",
       \ )
     nmap <buffer><expr>
       \ <Plug>(fern-my-collapse-or-leave)

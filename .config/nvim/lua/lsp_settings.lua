@@ -1,12 +1,12 @@
 local lsp_status = require('lsp-status')
 local completion = require('completion')
--- local diagnostic = require('diagnostic')
+local diagnostic = require('diagnostic')
 local nvim_lsp = require('nvim_lsp')
 
 local custom_attach = function(client)
     lsp_status.on_attach(client)
     completion.on_attach(client)
-    -- diagnostic.on_attach(client)
+    diagnostic.on_attach(client)
 end
 
 lsp_status.register_progress()
