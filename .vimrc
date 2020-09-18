@@ -5,40 +5,6 @@ if !&compatible
   set nocompatible
 endif
 
-if exists('g:vscode')
-  let mapleader = "\<Space>"
-
-  nnoremap <silent> <leader>qp <Cmd>call VSCodeCall('workbench.action.closePanel')<CR>
-  nnoremap <silent> <leader>q <Cmd>call VSCodeCall('workbench.action.closeActiveEditor')<CR>
-  nnoremap <silent> <leader>ft <Cmd>call VSCodeCall('workbench.action.toggleSidebarVisibility')<CR>
-  nnoremap <silent> - <Cmd>call VSCodeCall('workbench.files.action.showActiveFileInExplorer')<CR>
-  nnoremap <silent> <leader>p <Cmd>call VSCodeCall('workbench.action.showCommands')<CR>
-  nnoremap <silent> <leader>sf <Cmd>call VSCodeCall('workbench.action.quickOpen')<CR>
-  nnoremap <silent> <leader>sp <Cmd>call VSCodeCall('projectManager.listProjects')<CR>
-  nnoremap <silent> <leader>tt <Cmd>call VSCodeCall('workbench.action.terminal.focus')<CR>
-  nnoremap <silent> <leader>gs <Cmd>call VSCodeCall('workbench.view.scm')<CR>
-  nnoremap <silent> <leader>rn <Cmd>call VSCodeCall('editor.action.rename')<CR>
-  nnoremap <silent> K <Cmd>call VSCodeCall('editor.action.showHover')<CR>
-  nnoremap <silent> gD <Cmd>call VSCodeCall('editor.action.goToImplementation')<CR>
-  nnoremap <silent> gd <Cmd>call VSCodeCall('editor.action.goToDeclaration')<CR>
-  nnoremap <silent> gr <Cmd>call VSCodeCall('references-view.find')<CR>
-  nnoremap <silent> gR <Cmd>call VSCodeCall('references-view.findImplementations')<CR>
-  nnoremap <silent> <delete> <Cmd>call VSCodeCall('editor.debug.action.toggleBreakpoint')<CR>
-  " nnoremap <silent> gO <Cmd>call VSCodeCall('workbench.action.gotoSymbol')<CR>
-  nnoremap <silent> gO <Cmd>call VSCodeCall('outline.focus')<CR>
-  nnoremap <silent> z/ <Cmd>call VSCodeCall('workbench.action.showAllSymbols')<CR>
-  nnoremap <silent> <c-b> <Cmd>call VSCodeCall('workbench.action.showAllEditorsByMostRecentlyUsed')<CR>
-
-  nnoremap <silent> UD <Cmd>call VSCodeCall('git.openChange')<CR>
-  nnoremap <silent> UW <Cmd>call VSCodeCall('git.stage')<CR>
-  nnoremap <silent> UB <Cmd>call VSCodeCall('gitlens.toggleFileBlame')<CR>
-  xmap gc  <Plug>VSCodeCommentary
-  nmap gc  <Plug>VSCodeCommentary
-  omap gc  <Plug>VSCodeCommentary
-  nmap gcc <Plug>VSCodeCommentaryLine
-  finish
-endif
-
 " reset augroup
 augroup MyAutoCmd
   autocmd!
@@ -90,6 +56,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'drewtempelmeyer/palenight.vim'
+Plug 'franbach/miramare'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -828,7 +795,7 @@ else
     end
 
 endif
-let g:lightline.colorscheme = 'onedark'
+let g:lightline.colorscheme = 'miramare'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
@@ -1373,8 +1340,13 @@ let g:neodark#solid_vertsplit = 1 " default: 0
 " 'drewtempelmeyer/palenight.vim'{{
 let g:palenight_terminal_italics=1
 " }}
+" miramare {{
+let g:miramare_enable_italic = 1
+let g:miramare_disable_italic_comment = 1
+let g:miramare_enable_bold = 1
+" }}
 
-colorscheme onedark
+colorscheme miramare
 set shell=zsh
 
 "*****************************************************************************
