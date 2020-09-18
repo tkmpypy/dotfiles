@@ -795,7 +795,7 @@ else
     end
 
 endif
-let g:lightline.colorscheme = 'miramare'
+let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
@@ -1316,9 +1316,9 @@ set backspace=indent,eol,start
 set background=dark
 let g:material_theme_style='default'
 let g:material_terminal_italics = 1
-let g:edge_style = 'default'
+let g:edge_style = 'neon'
 let g:edge_enable_italic = 1
-let g:edge_disable_italic_comment = 0
+let g:edge_disable_italic_comment = 1
 let g:edge_current_word = 'bold'
 let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_enable_italic = 1
@@ -1346,7 +1346,7 @@ let g:miramare_disable_italic_comment = 1
 let g:miramare_enable_bold = 1
 " }}
 
-colorscheme miramare
+colorscheme edge
 set shell=zsh
 
 "*****************************************************************************
