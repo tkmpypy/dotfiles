@@ -15,7 +15,8 @@
     "go",
     "json",
     "css",
-    "markdown"
+    "markdown",
+    "rust"
   ],
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.refreshAfterSave": true,
@@ -23,6 +24,7 @@
   "diagnostic.hintSign": "•",
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
+  "diagnostic.virtualText": true,
   "codeLens.enable": false,
   "yaml.validate": false,
   "yaml.completion": true,

@@ -1,3 +1,6 @@
+" let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
+let g:polyglot_disabled = ['markdown','md']
+
 if !&compatible
   set nocompatible
 endif
@@ -109,20 +112,20 @@ Plug 'wakatime/vim-wakatime'
 
 " Completion
 if has('nvim')
-    Plug 'nvim-treesitter/nvim-treesitter'
+    " Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    Plug 'neovim/nvim-lspconfig'
+    " Plug 'neovim/nvim-lspconfig'
     " Plug 'h-michael/lsp-ext.nvim'
-    Plug 'haorenW1025/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
+    " Plug 'nvim-lua/completion-nvim'
+    " Plug 'steelsojka/completion-buffers'
     " Plug 'nvim-lua/diagnostic-nvim'
-    Plug 'nvim-lua/lsp-status.nvim'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
+    " Plug 'nvim-lua/lsp-status.nvim'
+    " Plug 'hrsh7th/vim-vsnip'
+    " Plug 'hrsh7th/vim-vsnip-integ'
 
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
@@ -134,8 +137,8 @@ if has('nvim')
     " Plug 'prabirshrestha/asyncomplete.vim'
 
     " use ale
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -301,16 +304,6 @@ let g:quickrun_config['rust/cargo'] = {
 \   'exec': ['%c run'],
 \ }
 " }}
-" polyglot {{
-if s:plug.is_installed('nvim-treesitter')
-    lua require('treesitter')
-    set foldmethod=expr
-    " set foldexpr=nvim_treesitter#foldexpr()
-    let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
-else
-    let g:polyglot_disabled = ['markdown','md']
-end
-" }}
 " vim-test {{
 
 if has('nvim')
@@ -359,10 +352,10 @@ function! s:setup_nvim_lsp()
     let g:diagnostic_insert_delay = 1
     let g:diagnostic_show_sign = 1
 
-    call sign_define("LspDiagnosticsErrorSign", {"text" : " ", "texthl" : "LspDiagnosticsError"})
-    call sign_define("LspDiagnosticsWarningSign", {"text" : " ", "texthl" : "LspDiagnosticsWarning"})
-    call sign_define("LspDiagnosticInformationSign", {"text" : " ", "texthl" : "LspDiagnosticsInformation"})
-    call sign_define("LspDiagnosticHintSign", {"text" : "!", "texthl" : "LspDiagnosticsHint"})
+    call sign_define("LspDiagnosticsErrorSign", {"text" : "✘", "texthl" : "LspDiagnosticsError"})
+    call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarning"})
+    call sign_define("LspDiagnosticInformationSign", {"text" : "כֿ", "texthl" : "LspDiagnosticsInformation"})
+    call sign_define("LspDiagnosticHintSign", {"text" : "•", "texthl" : "LspDiagnosticsHint"})
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
@@ -414,9 +407,9 @@ function! s:setup_vim_lsp()
     let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
     let g:lsp_settings_filetype_typescriptreact = ['typescript-language-server', 'eslint-language-server']
 
-    let g:lsp_signs_error = {'text': '✗'}
-    let g:lsp_signs_warning = {'text': '‼'} " icons require GUI
-    let g:lsp_signs_hint = {'test': '?'} " icons require GUI
+    let g:lsp_signs_error = {'text': '✘'}
+    let g:lsp_signs_warning = {'text': '⚠'} " icons require GUI
+    let g:lsp_signs_hint = {'test': '•'} " icons require GUI
     command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
     nmap <leader>rn :LspRename<cr>
     nmap <silent> gd :tab LspDefinition<cr>
@@ -649,7 +642,7 @@ if s:plug.is_installed('ale')
     \   'typescriptreact': ['eslint'],
     \   'javascript': ['eslint'],
     \   'javascriptreact': ['eslint'],
-    \   'rust': ['analyzer'],
+    \   'rust': [''],
     \   'go': ['golint', 'govet', 'gofmt'],
     \   'vim': ['vint'],
     \   'markdown': ['textlint'],
@@ -700,7 +693,7 @@ let g:vim_json_syntax_conceal = 0
 " }}
 " indentLine {{
 let g:indentLine_concealcursor = 'inc'
-let g:indentLine_conceallevel = 2
+let g:indentLine_conceallevel = 0
 " }}
 
 let g:git_icon = ' '
@@ -835,7 +828,7 @@ else
     end
 
 endif
-let g:lightline.colorscheme = 'gruvbox_material'
+let g:lightline.colorscheme = 'onedark'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
@@ -1340,8 +1333,8 @@ filetype plugin indent on
 syntax on
 set wildmenu
 set wildmode=full
-set ttyfast
-set lazyredraw
+" set ttyfast
+" set lazyredraw
 
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number relativenumber
@@ -1381,7 +1374,7 @@ let g:neodark#solid_vertsplit = 1 " default: 0
 let g:palenight_terminal_italics=1
 " }}
 
-colorscheme gruvbox-material
+colorscheme onedark
 set shell=zsh
 
 "*****************************************************************************
