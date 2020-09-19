@@ -79,6 +79,9 @@ Plug 'wakatime/vim-wakatime'
 
 " Completion
 if has('nvim')
+    
+    " perform
+    Plug 'antoinemadec/FixCursorHold.nvim'
     " Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
@@ -174,6 +177,10 @@ function! s:plug.is_installed(name)
 endfunction
 
 let mapleader = "\<Space>"
+
+if s:plug.is_installed('FixCursorHold.nvim')
+  let g:cursorhold_updatetime = 100
+endif
 " fzf {{
 " Default fzf layout
 " - down / up / left / right
@@ -1300,8 +1307,8 @@ filetype plugin indent on
 syntax on
 set wildmenu
 set wildmode=full
-" set ttyfast
-" set lazyredraw
+set ttyfast
+set lazyredraw
 
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number relativenumber
