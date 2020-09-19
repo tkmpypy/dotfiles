@@ -936,6 +936,7 @@ let g:fern#drawer_keep = v:false
 let g:fern#default_hidden = 1
 let g:fern#keepalt_on_edit = 1
 let g:fern#renderer = "nerdfont"
+let g:fern#disable_viewer_hide_cursor = 1
 nmap <silent><leader>ft :Fern . -drawer -toggle<CR>
 nmap <silent><leader>ff :Fern . -reveal=% -drawer -toggle<CR>
 " }}
