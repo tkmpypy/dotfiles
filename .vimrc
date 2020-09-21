@@ -322,7 +322,8 @@ let g:python_highlight_all = 1
 
 function! s:setup_nvim_lsp()
     lua require('lsp_settings')
-    let g:diagnostic_virtual_text_prefix = ' '
+    let g:diagnostic_enable_virtual_text = 1
+    let g:diagnostic_enable_underline = 1
     " let g:diagnostic_trimmed_virtual_text = '20'
     let g:space_before_virtual_text = 5
     let g:diagnostic_auto_popup_while_jump = 1
