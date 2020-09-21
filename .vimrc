@@ -1,5 +1,5 @@
-" let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
-let g:polyglot_disabled = ['markdown','md']
+let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
+" let g:polyglot_disabled = ['markdown','md']
 
 if !&compatible
   set nocompatible
@@ -82,20 +82,23 @@ if has('nvim')
     
     " perform
     Plug 'antoinemadec/FixCursorHold.nvim'
-    " Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    " Plug 'neovim/nvim-lspconfig'
+    Plug 'neovim/nvim-lspconfig'
     " Plug 'h-michael/lsp-ext.nvim'
-    " Plug 'nvim-lua/completion-nvim'
-    " Plug 'steelsojka/completion-buffers'
-    " Plug 'nvim-lua/diagnostic-nvim'
-    " Plug 'nvim-lua/lsp-status.nvim'
-    " Plug 'hrsh7th/vim-vsnip'
-    " Plug 'hrsh7th/vim-vsnip-integ'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    Plug 'nvim-lua/diagnostic-nvim'
+    Plug 'nvim-lua/lsp-status.nvim'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+    
+    Plug 'RishabhRD/popfix'
+    Plug 'RishabhRD/nvim-lsputils'
 
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
@@ -107,8 +110,8 @@ if has('nvim')
     " Plug 'prabirshrestha/asyncomplete.vim'
 
     " use ale
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
+    Plug 'dense-analysis/ale'
+    Plug 'maximbaz/lightline-ale'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
