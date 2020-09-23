@@ -89,7 +89,6 @@ if has('nvim')
 
     " use neovim built-in
     Plug 'neovim/nvim-lspconfig'
-    " Plug 'h-michael/lsp-ext.nvim'
     Plug 'nvim-lua/completion-nvim'
     Plug 'steelsojka/completion-buffers'
     Plug 'nvim-lua/diagnostic-nvim'
