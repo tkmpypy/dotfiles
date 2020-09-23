@@ -1,3 +1,10 @@
+function prequire(...)
+    local status, lib = pcall(require, ...)
+    if(status) then return lib end
+    --Library failed to load, so perhaps return `nil` or something?
+    return nil
+end
+
 local lsp_status = require('lsp-status')
 local completion = require('completion')
 local diagnostic = require('diagnostic')
@@ -63,14 +70,24 @@ nvim_lsp.tsserver.setup({
   capabilities = lsp_status.capabilities
 })
 
-vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.callbacks['textDocument/references'] = require'lsputil.locations'.references_handler
-vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+local lsp_util_codeaction = prequire('lsputil.codeAction')
+if lsp_util_codeaction then
+  vim.lsp.callbacks['textDocument/codeAction'] = lsp_util_codeaction.code_action_handler
+end
+local lsp_util_locations = prequire('lsputil.locations')
+if lsp_util_locations then
+  vim.lsp.callbacks['textDocument/references'] = lsp_util_locations.references_handler
+  vim.lsp.callbacks['textDocument/definition'] = lsp_util_locations.definition_handler
+  vim.lsp.callbacks['textDocument/declaration'] = lsp_util_locations.declaration_handler
+  vim.lsp.callbacks['textDocument/typeDefinition'] = lsp_util_locations.typeDefinition_handler
+  vim.lsp.callbacks['textDocument/implementation'] = lsp_util_locations.implementation_handler
+end
+local lsp_util_symbols = prequire('lsputil.symbols')
+if lsp_util_symbols then
+  vim.lsp.callbacks['textDocument/documentSymbol'] = lsp_util_symbols.document_handler
+  vim.lsp.callbacks['workspace/symbol'] = lsp_util_symbols.workspace_handler
+end
+
 
 vim.g.indicator_errors = '✘'
 vim.g.indicator_warnings = '⚠'
