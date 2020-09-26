@@ -98,6 +98,7 @@ if has('nvim')
     
     Plug 'RishabhRD/popfix'
     Plug 'RishabhRD/nvim-lsputils'
+    Plug 'tjdevries/lsp_extensions.nvim'
 
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
@@ -319,6 +320,14 @@ let g:rainbow_active = 1
 let g:python_highlight_all = 1
 " }}
 
+function! s:set_nvim_lsp_diagnostic_color()
+    hi! LspDiagnosticsError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
+endfunction
+
+
 function! s:setup_nvim_lsp()
     lua require('lsp_settings')
     let g:diagnostic_enable_virtual_text = 1
@@ -343,6 +352,9 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
     nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
+
+    autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
+    autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
 
 endfunction
 
