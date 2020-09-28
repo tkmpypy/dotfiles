@@ -337,6 +337,9 @@ function! s:setup_nvim_lsp()
     let g:diagnostic_auto_popup_while_jump = 1
     let g:diagnostic_insert_delay = 1
     let g:diagnostic_show_sign = 1
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+    let g:completion_sorting = "length"
+    let g:completion_matching_ignore_case = 1
 
     call sign_define("LspDiagnosticsErrorSign", {"text" : "✘", "texthl" : "LspDiagnosticsError"})
     call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarning"})
