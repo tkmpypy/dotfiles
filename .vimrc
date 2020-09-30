@@ -1,5 +1,5 @@
-" let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
-let g:polyglot_disabled = ['markdown','md']
+let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'rust', 'html', 'toml', 'json', 'yaml']
+" let g:polyglot_disabled = ['markdown','md']
 
 if !&compatible
   set nocompatible
@@ -58,8 +58,6 @@ Plug 'ghifarit53/tokyonight-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'franbach/miramare'
 
-Plug 'junegunn/fzf', { 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
 Plug 'laher/fuzzymenu.vim'
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
@@ -82,7 +80,7 @@ if has('nvim')
     
     " perform
     Plug 'antoinemadec/FixCursorHold.nvim'
-    " Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -116,6 +114,11 @@ if has('nvim')
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
     Plug 'kyazdani42/nvim-tree.lua'
+
+    " finder
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-lua/telescope.nvim'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -135,6 +138,11 @@ else
     Plug 'lambdalisue/fern-renderer-nerdfont.vim'
     Plug 'lambdalisue/fern-git-status.vim'
     Plug 'lambdalisue/fern-mapping-git.vim'
+
+    " finder
+    Plug 'junegunn/fzf', { 'do': './install --all' }
+      Plug 'junegunn/fzf.vim'
+
 endif
 
 " Visual
@@ -189,77 +197,110 @@ let mapleader = "\<Space>"
 if s:plug.is_installed('FixCursorHold.nvim')
   let g:cursorhold_updatetime = 100
 endif
+
+" telescope.nvim {{
+function! s:init_telescope()
+  " bat (preview) * 
+  " ripgrep (finder) * 
+  " Treesitter (nvim-treesitter) (finder/preview)
+  " fd (sharkdp/fd) (finder)
+  " git (picker) * 
+  " neovim LSP (picker)
+  " devicons 
+  lua require('telescope_settings')
+  nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.git_files{}<CR>
+  nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.find_files{}<CR>
+  nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
+  nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
+  nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{}<CR>
+  nnoremap <Leader>sc <cmd>lua require'telescope.builtin'.command_history{}<CR>
+  nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
+endfunction
+
+if s:plug.is_installed('telescope.nvim')
+  call s:init_telescope()
+endif
+" }}
+
+
 " fzf {{
-" Default fzf layout
-" - down / up / left / right
-" let g:fzf_layout = { 'down': '~40%' }
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+function! s:init_fzf()
+  " Default fzf layout
+  " - down / up / left / right
+  " let g:fzf_layout = { 'down': '~40%' }
+  let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
-" [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
+  " [Buffers] Jump to the existing window if possible
+  let g:fzf_buffers_jump = 1
 
-" [[B]Commits] Customize the options used by 'git log':
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+  " [[B]Commits] Customize the options used by 'git log':
+  let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
-" [Tags] Command to generate tags file
-let g:fzf_tags_command = 'ctags -R'
+  " [Tags] Command to generate tags file
+  let g:fzf_tags_command = 'ctags -R'
 
-" [Commands] --expect expression for directly executing the command
-let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-" Command for git grep
-" - fzf#vim#grep(command, with_column, [options], [fullscreen])
-command! -bang -nargs=* GGrep
-  \ call fzf#vim#grep(
-  \   'git grep --line-number '.shellescape(<q-args>), 0,
-  \   fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}), <bang>0)
-  " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+  " [Commands] --expect expression for directly executing the command
+  let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+  " Command for git grep
+  " - fzf#vim#grep(command, with_column, [options], [fullscreen])
+  command! -bang -nargs=* GGrep
+    \ call fzf#vim#grep(
+    \   'git grep --line-number '.shellescape(<q-args>), 0,
+    \   fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}), <bang>0)
+    " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 
-" Override Colors command. You can safely do this in your .vimrc as fzf.vim
-" will not override existing commands.
-command! -bang Colors
-  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
+  " Override Colors command. You can safely do this in your .vimrc as fzf.vim
+  " will not override existing commands.
+  command! -bang Colors
+    \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
 
-" Augmenting Ag command using fzf#vim#with_preview function
-"   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
-"     * For syntax-highlighting, Ruby and any of the following tools are required:
-"       - Bat: https://github.com/sharkdp/bat
-"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-"       - CodeRay: http://coderay.rubychan.de/
-"       - Rouge: https://github.com/jneen/rouge
-"
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-  \                         : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-  \                 <bang>0)
+  " Augmenting Ag command using fzf#vim#with_preview function
+  "   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
+  "     * For syntax-highlighting, Ruby and any of the following tools are required:
+  "       - Bat: https://github.com/sharkdp/bat
+  "       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+  "       - CodeRay: http://coderay.rubychan.de/
+  "       - Rouge: https://github.com/jneen/rouge
+  "
+  "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+  "   :Ag! - Start fzf in fullscreen and display the preview window above
+  command! -bang -nargs=* Ag
+    \ call fzf#vim#ag(<q-args>,
+    \                 <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
+    \                         : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
+    \                 <bang>0)
 
-" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-  \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-  \   <bang>0)
+  " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+    \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
+    \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
+    \   <bang>0)
 
-" Likewise, Files command with preview window
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-command! -bang -nargs=? -complete=dir GFiles
-  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+  " Likewise, Files command with preview window
+  command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+  command! -bang -nargs=? -complete=dir GFiles
+    \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-nnoremap <leader>sb :<C-u>Buffers<CR>
-nnoremap <leader>sx :<C-u>Commands<CR>
-nnoremap <leader>sf :<C-u>GFiles<CR>
-nnoremap <leader>sF :<C-u>Files<CR>
-nnoremap <leader>sc :<C-u>Commits<CR>
-nnoremap <leader>sm :<C-u>Marks<CR>
-nnoremap <leader>scb :<C-u>BCommits<CR>
-nnoremap <leader>sg :<C-u>Rg<CR>
-nnoremap <leader>sG :<C-u>GGrep<CR>
-nnoremap <leader>sr :History<CR>
-nnoremap <leader>sgs :<C-u>GFiles?<CR>
+  nnoremap <leader>sb :<C-u>Buffers<CR>
+  nnoremap <leader>sx :<C-u>Commands<CR>
+  nnoremap <leader>sf :<C-u>GFiles<CR>
+  nnoremap <leader>sF :<C-u>Files<CR>
+  nnoremap <leader>sc :<C-u>Commits<CR>
+  nnoremap <leader>sm :<C-u>Marks<CR>
+  nnoremap <leader>scb :<C-u>BCommits<CR>
+  nnoremap <leader>sg :<C-u>Rg<CR>
+  nnoremap <leader>sG :<C-u>GGrep<CR>
+  nnoremap <leader>sr :History<CR>
+  nnoremap <leader>sgs :<C-u>GFiles?<CR>
+endfunction
+
+if s:plug.is_installed('fzf.vim')
+  call s:init_fzf()
+endif
+
 
 " }}
 " laher/fuzzymenu.vim {{
@@ -342,7 +383,8 @@ function! s:setup_nvim_lsp()
     let g:diagnostic_auto_popup_while_jump = 1
     let g:diagnostic_insert_delay = 1
     let g:diagnostic_show_sign = 1
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+    let g:completion_matching_strategy_list = ['exact']
     let g:completion_sorting = "length"
     let g:completion_matching_ignore_case = 1
 
