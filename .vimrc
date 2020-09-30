@@ -1,5 +1,5 @@
-let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
-" let g:polyglot_disabled = ['markdown','md']
+" let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'typescript', 'javascript', 'rust', 'html', 'toml', 'json', 'yaml']
+let g:polyglot_disabled = ['markdown','md']
 
 if !&compatible
   set nocompatible
@@ -82,7 +82,7 @@ if has('nvim')
     
     " perform
     Plug 'antoinemadec/FixCursorHold.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter'
+    " Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -112,6 +112,10 @@ if has('nvim')
     " use ale
     Plug 'dense-analysis/ale'
     Plug 'maximbaz/lightline-ale'
+
+    " explorer
+    Plug 'kyazdani42/nvim-web-devicons' " for file icons
+    Plug 'kyazdani42/nvim-tree.lua'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -125,6 +129,12 @@ else
     " Plug 'prabirshrestha/asyncomplete-lsp.vim'
     " Plug 'prabirshrestha/asyncomplete-buffer.vim'
     " Plug 'prabirshrestha/asyncomplete-file.vim'
+
+    " explorer
+    Plug 'lambdalisue/fern.vim'
+    Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+    Plug 'lambdalisue/fern-git-status.vim'
+    Plug 'lambdalisue/fern-mapping-git.vim'
 endif
 
 " Visual
@@ -138,11 +148,6 @@ Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
-" Explorer
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-mapping-git.vim'
 Plug 'airblade/vim-rooter'
 
 " Util
@@ -857,12 +862,6 @@ function! LightlineFilename()
        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
 " }}
-" lambdalisue/glyph-palette.vim{{
-augroup my-glyph-palette
-  autocmd! *
-  autocmd FileType fern call glyph_palette#apply()
-  autocmd FileType nerdtree,startify call glyph_palette#apply()
-augroup END
 
 function! Get_Icon_Filetype()
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . nerdfont#find() : 'no ft') : ''
@@ -944,20 +943,100 @@ function! s:init_fern() abort
 
 endfunction
 
-augroup fern-custom
-    autocmd! *
-    autocmd FileType fern call s:init_fern()
-augroup END
+function! s:init_nvim_tree() abort
+  let g:lua_tree_side = 'left' "left by default
+  let g:lua_tree_width = 30 "30 by default
+  let g:lua_tree_ignore = [ 'node_modules', '.cache', '.DS_Store' ] "empty by default
+  let g:lua_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+  let g:lua_tree_auto_close = 0 "0 by default, closes the tree when it's the last window
+  let g:lua_tree_follow = 0 "0 by default, this option allows the cursor to be updated when entering a buffer
+  let g:lua_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+  let g:lua_tree_hide_dotfiles = 0 "0 by default, this option hides files and folders starting with a dot `.`
+  let g:lua_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+  let g:lua_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+  let g:lua_tree_tab_open = 0 "0 by default, will open the tree when entering a new tab and the tree was previously open
+  let g:lua_tree_show_icons = {
+      \ 'git': 1,
+      \ 'folders': 1,
+      \ 'files': 1,
+      \}
+  "If 0, do not show the icons for one of 'git' 'folder' and 'files'
+  "1 by default, notice that if 'files' is 1, it will only display
+  "if nvim-web-devicons is installed and on your runtimepath
 
-" let g:fern#profile = 1
-let g:fern#drawer_keep = v:false
-let g:fern#default_hidden = 1
-let g:fern#keepalt_on_edit = 1
-let g:fern#renderer = "nerdfont"
-let g:fern#disable_viewer_hide_cursor = 1
-nmap <silent><leader>ft :Fern . -drawer -toggle<CR>
-nmap <silent><leader>ff :Fern . -reveal=% -drawer -toggle<CR>
-" }}
+  " You can edit keybindings be defining this variable
+  " You don't have to define all keys.
+  " NOTE: the 'edit' key will wrap/unwrap a folder and open a file
+  let g:lua_tree_bindings = {
+      \ 'edit':            ['<CR>', 'o'],
+      \ 'edit_vsplit':     's',
+      \ 'edit_split':      'x',
+      \ 'edit_tab':        't',
+      \ 'toggle_ignored':  'I',
+      \ 'toggle_dotfiles': 'H',
+      \ 'refresh':         'R',
+      \ 'preview':         '<Tab>',
+      \ 'cd':              '<C-]>',
+      \ 'create':          'n',
+      \ 'remove':          'd',
+      \ 'rename':          'r',
+      \ 'cut':             'x',
+      \ 'copy':            'c',
+      \ 'paste':           'p',
+      \ 'prev_git_item':   '[c',
+      \ 'next_git_item':   ']c',
+      \ }
+
+  " Disable default mappings by plugin
+  " Bindings are enable by default, disabled on any non-zero value
+  " let lua_tree_disable_keybindings=1
+
+  " default will show icon by default if no icon is provided
+  " default shows no icon by default
+  let g:lua_tree_icons = {
+      \ 'default': '',
+      \ 'symlink': '',
+      \ 'git': {
+      \   'unstaged': "✗",
+      \   'staged': "✓",
+      \   'unmerged': "",
+      \   'renamed': "➜",
+      \   'untracked': "★"
+      \   },
+      \ 'folder': {
+      \   'default': "",
+      \   'open': ""
+      \   }
+      \ }
+
+  nnoremap <leader>ft :LuaTreeToggle<CR>
+  nnoremap <leader>fr :LuaTreeRefresh<CR>
+  nnoremap <leader>ff :LuaTreeFindFile<CR>
+  " LuaTreeOpen and LuaTreeClose are also available if you need them
+
+  " a list of groups can be found at `:help lua_tree_highlight`
+  highlight LuaTreeFolderIcon guibg=blue
+endfunction
+
+if s:plug.is_installed('fern.vim')
+  augroup fern-custom
+      autocmd! *
+      autocmd FileType fern call glyph_palette#apply()
+      autocmd FileType fern call s:init_fern()
+  augroup END
+  let g:fern#drawer_keep = v:false
+  let g:fern#default_hidden = 1
+  let g:fern#keepalt_on_edit = 1
+  let g:fern#renderer = "nerdfont"
+  let g:fern#disable_viewer_hide_cursor = 1
+  nmap <silent><leader>ft :Fern . -drawer -toggle<CR>
+  nmap <silent><leader>ff :Fern . -reveal=% -drawer -toggle<CR>
+end
+
+if s:plug.is_installed('nvim-tree.lua')
+  call s:init_nvim_tree()
+end
+
 " }}
 " vim-rooter {{
 nnoremap <leader>cdr :Rooter<CR>
