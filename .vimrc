@@ -411,17 +411,30 @@ endfunction
 function! s:setup_complete_nvim()
     " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
     let g:completion_matching_strategy_list = ['exact']
+    let g:completion_enable_snippet         = 'vim-vsnip'
     let g:completion_sorting = "length"
     let g:completion_matching_ignore_case = 1
     let g:completion_enable_auto_hover = 1
     let g:completion_enable_auto_signature = 1
     let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
-    let g:completion_chain_complete_list = [
-        \ { 'complete_items': [ 'lsp', 'buffers' ] },
-        \ { 'mode': '<c-p>' },
-        \ { 'mode': '<c-n>' }
-	\ ]
+    let g:completion_chain_complete_list = {
+                \ 'default': {
+                \   'default': [
+                \      {'complete_items': ['lsp', 'snippet']},
+                \      {'complete_items': ['buffer', 'buffers']},
+                \      {'mode': '<c-n>'},
+                \   ],
+                \   'string': [
+                \      {'complete_items': ['path']},
+                \      {'complete_items': ['buffer', 'buffers']},
+                \   ],
+                \   'comment': [
+                \      {'complete_items': ['path']},
+                \      {'complete_items': ['buffer', 'buffers']},
+                \   ],
+                \ },
+                \ }
     let g:completion_auto_change_source = 1
     imap <c-j> <Plug>(completion_next_source)
     imap <c-k> <Plug>(completion_prev_source)
