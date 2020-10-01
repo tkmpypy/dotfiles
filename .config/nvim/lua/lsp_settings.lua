@@ -5,6 +5,7 @@ local prequire = function(...)
     return nil
 end
 
+local vim = vim
 local lsp_status = require('lsp-status')
 local completion = require('completion')
 local diagnostic = require('diagnostic')
@@ -69,6 +70,75 @@ nvim_lsp.tsserver.setup({
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities
 })
+nvim_lsp.diagnosticls.setup{
+  filetypes={'javascript', 'javascriptreact', 'typescript', 'typescriptreact'},
+  init_options = {
+    linters = {
+      eslint = {
+        command = './node_modules/.bin/eslint',
+        rootPatterns = {'.git'},
+        debounce = 100,
+        args = {
+          '--stdin',
+          '--stdin-filename',
+          '%filepath',
+          '--format',
+          'json'
+        },
+        sourceName = 'eslint',
+        parseJson = {
+          errorsRoot = '[0].messages',
+          line = 'line',
+          column = 'column',
+          endLine = 'endLine',
+          endColumn = 'endColumn',
+          message = '${message} [${ruleId}]',
+          security = 'severity'
+        },
+        securities = {
+          [2] = 'error',
+          [1] = 'warning',
+        },
+      },
+    },
+    filetypes = {
+      javascript = 'eslint',
+      javascriptreact = 'eslint',
+      typescript = 'eslint',
+      typescriptreact = 'eslint'
+    },
+    formatters = {
+      prettier = {
+        command = "./node_modules/.bin/prettier",
+        args = {"--stdin-filepath" ,"%filepath", '--single-quote', '--print-width 120'}
+      },
+      eslint_fix = {
+        command = "./node_modules/.bin/prettier",
+        args = {"--fix", "--stdin-filepath" ,"%filepath", '--single-quote', '--print-width 120'}
+      },
+      rustfmt = {
+        command = "rustfmt",
+        args = {"%filepath"}
+      },
+      gofmt = {
+        command = "gofmt",
+        args = {"%filepath"}
+      },
+      goimports = {
+        command = "goimports",
+        args = {"%filepath"}
+      },
+    },
+    formatFiletypes = {
+      javascript = {"prettier", "eslint_fix"},
+      javascriptreact = {"prettier", "eslint_fix"},
+      typescript = {"prettier", "eslint_fix"},
+      typescriptreact = {"prettier", "eslint_fix"},
+      rust = "rustfmt",
+      go = {"gofmt", "goimports"}
+    },
+  }
+}
 
 local lsp_util_codeaction = prequire('lsputil.codeAction')
 if lsp_util_codeaction then
@@ -96,8 +166,3 @@ vim.g.indicator_hint = '•'
 vim.g.indicator_ok = '✔'
 vim.g.spinner_frames = {'⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'}
 
--- for lsp_ext
--- vim.g.lsp_publish_diagnostics_severity_string_error = ''
--- vim.g.lsp_publish_diagnostics_severity_string_warning = ''
--- vim.g.lsp_publish_diagnostics_severity_string_info = '🛈'
--- vim.g.lsp_publish_diagnostics_severity_string_hint = '!'

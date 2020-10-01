@@ -1,6 +1,9 @@
 let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'rust', 'html', 'toml', 'json', 'yaml']
 " let g:polyglot_disabled = ['markdown','md']
 
+filetype plugin indent on
+syntax on
+
 if !&compatible
   set nocompatible
 endif
@@ -108,8 +111,8 @@ if has('nvim')
     " Plug 'prabirshrestha/asyncomplete.vim'
 
     " use ale
-    Plug 'dense-analysis/ale'
-    Plug 'maximbaz/lightline-ale'
+    " Plug 'dense-analysis/ale'
+    " Plug 'maximbaz/lightline-ale'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -383,15 +386,11 @@ function! s:setup_nvim_lsp()
     let g:diagnostic_auto_popup_while_jump = 1
     let g:diagnostic_insert_delay = 1
     let g:diagnostic_show_sign = 1
-    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-    let g:completion_matching_strategy_list = ['exact']
-    let g:completion_sorting = "length"
-    let g:completion_matching_ignore_case = 1
 
     call sign_define("LspDiagnosticsErrorSign", {"text" : "✘", "texthl" : "LspDiagnosticsError"})
     call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarning"})
-    call sign_define("LspDiagnosticInformationSign", {"text" : "כֿ", "texthl" : "LspDiagnosticsInformation"})
-    call sign_define("LspDiagnosticHintSign", {"text" : "•", "texthl" : "LspDiagnosticsHint"})
+    call sign_define("LspDiagnosticsInformationSign", {"text" : "כֿ", "texthl" : "LspDiagnosticsInformation"})
+    call sign_define("LspDiagnosticsHintSign", {"text" : "•", "texthl" : "LspDiagnosticsHint"})
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
@@ -402,6 +401,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
     nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
+    nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
@@ -409,6 +409,10 @@ function! s:setup_nvim_lsp()
 endfunction
 
 function! s:setup_complete_nvim()
+    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+    let g:completion_matching_strategy_list = ['exact']
+    let g:completion_sorting = "length"
+    let g:completion_matching_ignore_case = 1
     let g:completion_enable_auto_hover = 1
     let g:completion_enable_auto_signature = 1
     let g:completion_max_items = 20
@@ -419,7 +423,6 @@ function! s:setup_complete_nvim()
         \ { 'mode': '<c-n>' }
 	\ ]
     let g:completion_auto_change_source = 1
-    let g:completion_sorting = "none"
     imap <c-j> <Plug>(completion_next_source)
     imap <c-k> <Plug>(completion_prev_source)
 
@@ -1404,6 +1407,7 @@ nmap k <Plug>(accelerated_jk_gk)
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
+
 " Use as many color as possible
 if !has('gui_running')
       \ && exists('&termguicolors')
@@ -1443,8 +1447,6 @@ endif
 " let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 
-filetype plugin indent on
-syntax on
 set wildmenu
 set wildmode=full
 set ttyfast
