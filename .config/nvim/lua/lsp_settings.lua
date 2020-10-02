@@ -36,6 +36,11 @@ nvim_lsp.yamlls.setup({
     }
 })
 
+nvim_lsp.terraformls.setup({
+    on_attach = custom_attach,
+    capabilities = lsp_status.capabilities,
+})
+
 nvim_lsp.pyls_ms.setup({
   init_options = {
     interpreter = {
