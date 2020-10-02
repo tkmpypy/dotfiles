@@ -211,8 +211,8 @@ function! s:init_telescope()
   " neovim LSP (picker)
   " devicons 
   lua require('telescope_settings')
-  nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.git_files{}<CR>
-  nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.find_files{}<CR>
+  nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.git_files{}<CR>
+  nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.find_files{}<CR>
   nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
   nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
   nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{}<CR>
