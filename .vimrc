@@ -163,7 +163,6 @@ Plug 'airblade/vim-rooter'
 
 " Util
 Plug 'MattesGroeger/vim-bookmarks'
-Plug 'unblevable/quick-scope'
 Plug 'machakann/vim-sandwich'
 Plug 'simeji/winresizer'
 Plug 'cohama/lexima.vim'
@@ -179,7 +178,7 @@ Plug 'tyru/operator-camelize.vim'
   Plug 'kana/vim-operator-user'
 Plug 't9md/vim-choosewin'
 Plug 'pechorin/any-jump.vim'
-Plug 'rhysd/accelerated-jk'
+Plug 'hrsh7th/vim-eft'
 
 " Git
 Plug 'lambdalisue/gina.vim'
@@ -1395,6 +1394,42 @@ nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '
 " pechorin/any-jump.vim{{
 nnoremap <Leader>aj :AnyJump<CR>
 " }}
+" eft {{
+let g:eft_ignorecase = v:true
+nmap ; <Plug>(eft-repeat)
+xmap ; <Plug>(eft-repeat)
+
+nmap f <Plug>(eft-f)
+xmap f <Plug>(eft-f)
+omap f <Plug>(eft-f)
+nmap F <Plug>(eft-F)
+xmap F <Plug>(eft-F)
+omap F <Plug>(eft-F)
+
+nmap t <Plug>(eft-t)
+xmap t <Plug>(eft-t)
+omap t <Plug>(eft-t)
+nmap T <Plug>(eft-T)
+xmap T <Plug>(eft-T)
+omap T <Plug>(eft-T)
+let g:eft_highlight = {
+    \   '1': {
+    \     'highlight': 'EftChar',
+    \     'allow_space': v:true,
+    \     'allow_operator': v:true,
+    \   },
+    \   '2': {
+    \     'highlight': 'EftSubChar',
+    \     'allow_space': v:false,
+    \     'allow_operator': v:false,
+    \   },
+    \   'n': {
+    \     'highlight': 'EftSubChar',
+    \     'allow_space': v:false,
+    \     'allow_operator': v:false,
+    \   }
+    \ }
+" }}
 " vimdocs {{
 let g:devdocs_filetype_map = {
     \   'typescript.jsx': 'react',
@@ -1410,10 +1445,6 @@ map <leader>C <plug>(operator-decamelize)
 " t9md/vim-choosewin {{
 nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
-" }}
-" rhysd/accelerated-jk{{
-nmap j <Plug>(accelerated_jk_gj)
-nmap k <Plug>(accelerated_jk_gk)
 " }}
 
 
