@@ -1066,9 +1066,9 @@ function! s:init_nvim_tree() abort
       \   }
       \ }
 
-  nnoremap <leader>ft :LuaTreeToggle<CR>
-  nnoremap <leader>fr :LuaTreeRefresh<CR>
-  nnoremap <leader>ff :LuaTreeFindFile<CR>
+  nnoremap <silent><leader>ft :LuaTreeToggle<CR>
+  nnoremap <silent><leader>fr :LuaTreeRefresh<CR>
+  nnoremap <silent><leader>ff :LuaTreeFindFile<CR>
   " LuaTreeOpen and LuaTreeClose are also available if you need them
 
   " a list of groups can be found at `:help lua_tree_highlight`
