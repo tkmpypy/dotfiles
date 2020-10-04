@@ -1197,15 +1197,15 @@ let NERDTreeHijackNetrw = 0
 " How each level is indented and what to prepend.
 " This could make the display more compact or more spacious.
 " e.g., more compact: ["▸ ", ""]
-let g:vista_icon_indent = ["󳄀󳄂 ", "󳄁󳄂 "]
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
 
 if s:plug.is_installed('vim-lsp')
     let g:vista_default_executive = 'vim_lsp'
-elseif s:plug.is_installed('nvim_lsp')
-    let g:vista_default_executive = 'vim_lsp'
+elseif s:plug.is_installed('nvim-lspconfig')
+    let g:vista_default_executive = 'nvim_lsp'
 elseif s:plug.is_installed('coc.nvim')
     let g:vista_default_executive = 'coc'
 endif
