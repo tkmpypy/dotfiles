@@ -37,6 +37,7 @@ nvim_lsp.yamlls.setup({
 })
 
 nvim_lsp.terraformls.setup({
+    cmd = {"terraform-ls", "serve"},
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities,
 })
