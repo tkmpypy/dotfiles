@@ -422,15 +422,20 @@ function! s:setup_complete_nvim()
                 \   'default': [
                 \      {'complete_items': ['lsp', 'snippet']},
                 \      {'complete_items': ['buffer', 'buffers']},
+                \      {'mode': '<c-p>'},
                 \      {'mode': '<c-n>'},
                 \   ],
                 \   'string': [
                 \      {'complete_items': ['path']},
                 \      {'complete_items': ['buffer', 'buffers']},
+                \      {'mode': '<c-p>'},
+                \      {'mode': '<c-n>'},
                 \   ],
                 \   'comment': [
                 \      {'complete_items': ['path']},
                 \      {'complete_items': ['buffer', 'buffers']},
+                \      {'mode': '<c-p>'},
+                \      {'mode': '<c-n>'},
                 \   ],
                 \ },
                 \ }
