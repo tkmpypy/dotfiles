@@ -1,5 +1,5 @@
 let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'rust', 'html', 'toml', 'json', 'yaml']
-" let g:polyglot_disabled = ['markdown','md']
+" let g:polyglot_disabled = ['markdown','md', 'lua']
 
 filetype plugin indent on
 syntax on
@@ -118,6 +118,9 @@ if has('nvim')
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
     Plug 'kyazdani42/nvim-tree.lua'
 
+    " lang
+    Plug 'tjdevries/nlua.nvim'
+
     " finder
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
@@ -147,6 +150,9 @@ else
       Plug 'junegunn/fzf.vim'
 
 endif
+
+" lang
+Plug 'euclidianAce/BetterLua.vim'
 
 " Visual
 Plug 'yggdroot/indentline'

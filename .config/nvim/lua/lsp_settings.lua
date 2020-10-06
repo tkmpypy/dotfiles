@@ -68,10 +68,24 @@ nvim_lsp.gopls.setup({
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities
 })
+
 nvim_lsp.sumneko_lua.setup({
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities
 })
+local nlua_lsp_nvim = prequire('nlua.lsp.nvim')
+if nlua_lsp_nvim then
+  nlua_lsp_nvim.setup(nvim_lsp, {
+    on_attach = custom_attach,
+
+    -- Include globals you want to tell the LSP are real :)
+    globals = {
+      -- Colorbuddy
+      "Color", "c", "Group", "g", "s",
+    }
+  })
+end
+
 nvim_lsp.tsserver.setup({
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities
@@ -163,7 +177,6 @@ if lsp_util_symbols then
   vim.lsp.callbacks['textDocument/documentSymbol'] = lsp_util_symbols.document_handler
   vim.lsp.callbacks['workspace/symbol'] = lsp_util_symbols.workspace_handler
 end
-
 
 vim.g.indicator_errors = '✘'
 vim.g.indicator_warnings = '⚠'
