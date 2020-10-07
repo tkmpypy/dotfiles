@@ -1603,7 +1603,7 @@ set cmdheight=2
 
 set showtabline=2
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=3000
+" set updatetime=3000
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
@@ -1662,12 +1662,8 @@ inoremap jj <ESC>
 
 nnoremap L 10l
 nnoremap H 10h
-nnoremap J 10j
-nnoremap K 10k
 vnoremap L 10l
 vnoremap H 10h
-vnoremap J 10j
-vnoremap K 10k
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ
