@@ -1,6 +1,28 @@
 let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'rust', 'html', 'toml', 'json', 'yaml']
 " let g:polyglot_disabled = ['markdown','md', 'lua']
 
+" Disable unnecessary default plugins
+" let g:loaded_gzip              = 1
+" let g:loaded_tar               = 1
+" let g:loaded_tarPlugin         = 1
+" let g:loaded_zip               = 1
+" let g:loaded_zipPlugin         = 1
+let g:loaded_rrhelper          = 1
+" let g:loaded_2html_plugin      = 1
+let g:loaded_vimball           = 1
+let g:loaded_vimballPlugin     = 1
+let g:loaded_getscript         = 1
+let g:loaded_getscriptPlugin   = 1
+let g:loaded_logipat           = 1
+let g:loaded_matchparen        = 1
+let g:loaded_man               = 1
+" NOTE:
+" The Netrw is use to download a missing spellfile
+let g:loaded_netrw             = 1
+let g:loaded_netrwPlugin       = 1
+let g:loaded_netrwSettings     = 1
+let g:loaded_netrwFileHandlers = 1
+
 filetype plugin indent on
 syntax on
 
@@ -216,8 +238,8 @@ function! s:init_telescope()
   " neovim LSP (picker)
   " devicons 
   lua require('telescope_settings')
-  nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.git_files{}<CR>
-  nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.find_files{}<CR>
+  nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.git_files{}<CR>
+  nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.find_files{}<CR>
   nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
   nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
   nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{}<CR>
@@ -893,7 +915,7 @@ else
     end
 
 endif
-let g:lightline.colorscheme = 'edge'
+let g:lightline.colorscheme = 'tokyonight'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
@@ -1492,12 +1514,12 @@ set completeopt&
       \ completeopt+=longest
       \ completeopt-=preview
 
-if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
-  if has('osx')
-    let &t_ZH = "\e[3m"
-    let &t_ZR = "\e[23m"
-  endif
-endif
+" if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
+"   if has('osx')
+"     let &t_ZH = "\e[3m"
+"     let &t_ZR = "\e[23m"
+"   endif
+" endif
 " set t_Co=256
 " let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
@@ -1550,7 +1572,7 @@ let g:miramare_disable_italic_comment = 1
 let g:miramare_enable_bold = 1
 " }}
 
-colorscheme edge
+colorscheme tokyonight
 set shell=zsh
 
 "*****************************************************************************
