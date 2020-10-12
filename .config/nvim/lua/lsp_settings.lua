@@ -27,13 +27,6 @@ nvim_lsp.jsonls.setup({
 nvim_lsp.yamlls.setup({
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities,
-    settings = {
-        yaml = {
-            schemas = {
-                kubernetes = "/*.y*ml"
-            }
-        }
-    }
 })
 
 nvim_lsp.terraformls.setup({
