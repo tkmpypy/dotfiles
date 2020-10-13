@@ -1,4 +1,4 @@
-let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'rust', 'html', 'toml', 'json', 'yaml']
+let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
 " let g:polyglot_disabled = ['markdown','md', 'lua']
 
 " Disable unnecessary default plugins

@@ -53,10 +53,17 @@ nvim_lsp.vimls.setup({
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities
 })
+
 nvim_lsp.rust_analyzer.setup({
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities
 })
+
+nvim_lsp.solargraph.setup({
+  on_attach = custom_attach,
+  capabilities = lsp_status.capabilities
+})
+
 nvim_lsp.gopls.setup({
   on_attach = custom_attach,
   capabilities = lsp_status.capabilities

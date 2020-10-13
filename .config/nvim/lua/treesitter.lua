@@ -22,5 +22,5 @@ require'nvim-treesitter.configs'.setup {
         enable = false,
       }
     },
-    ensure_installed = {"go", "rust", "markdown", "python", "lua", "yaml", "toml", "json", "typescript", "javascript"}
+    ensure_installed = {"go", "rust", "ruby", "markdown", "python", "lua", "yaml", "toml", "json", "typescript", "javascript"}
 }
