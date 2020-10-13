@@ -185,7 +185,6 @@ Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'hardcoreplayers/dashboard-nvim'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vista.vim'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 Plug 'airblade/vim-rooter'
 
@@ -1530,7 +1529,7 @@ set ttyfast
 set lazyredraw
 
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
-set number relativenumber
+set number norelativenumber
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
