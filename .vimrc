@@ -83,7 +83,6 @@ Plug 'ghifarit53/tokyonight-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'franbach/miramare'
 
-Plug 'laher/fuzzymenu.vim'
 Plug 'luochen1990/rainbow'
 " <leader>qでアクティブなBufferをキル（windowはそのまま）
 Plug 'moll/vim-bbye'
@@ -332,10 +331,6 @@ endif
 
 
 " }}
-" laher/fuzzymenu.vim {{
-nmap <Leader><Leader> <Plug>Fzm
-vmap <Leader><Leader> <Plug>FzmVisual
-" }}
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
 nnoremap <leader>qq :Bdelete!<CR>
@@ -449,18 +444,7 @@ function! s:setup_complete_nvim()
                 \   'default': [
                 \      {'complete_items': ['lsp', 'snippet']},
                 \      {'complete_items': ['buffer', 'buffers']},
-                \      {'mode': '<c-p>'},
-                \      {'mode': '<c-n>'},
-                \   ],
-                \   'string': [
                 \      {'complete_items': ['path']},
-                \      {'complete_items': ['buffer', 'buffers']},
-                \      {'mode': '<c-p>'},
-                \      {'mode': '<c-n>'},
-                \   ],
-                \   'comment': [
-                \      {'complete_items': ['path']},
-                \      {'complete_items': ['buffer', 'buffers']},
                 \      {'mode': '<c-p>'},
                 \      {'mode': '<c-n>'},
                 \   ],

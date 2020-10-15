@@ -27,6 +27,15 @@ nvim_lsp.jsonls.setup({
 nvim_lsp.yamlls.setup({
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities,
+    -- settings = {
+    --   yaml = {
+    --     schemas = {
+    --       ['http://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
+    --       ['http://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
+    --       kubernetes = "/*.y*ml",
+    --     }
+    --   }
+    -- }
 })
 
 nvim_lsp.terraformls.setup({
