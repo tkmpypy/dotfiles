@@ -1484,12 +1484,13 @@ if (has("termguicolors"))
 endif
 
 " completion settings
-set complete&
-      \ complete+=k
-      \ complete+=s
-      \ complete+=i
-      \ complete+=d
-      \ complete+=t
+" set complete&
+"      \ complete+=k
+"      \ complete+=s
+"      \ complete+=i
+"      \ complete+=d
+"      \ complete+=t
+set complete-=i
 set completeopt&
       \ completeopt+=menuone
       \ completeopt+=noinsert
@@ -1521,6 +1522,18 @@ set noruler
 set nocursorline
 set hlsearch
 set backspace=indent,eol,start
+
+if !&scrolloff
+  set scrolloff=1
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+set display+=lastline
+
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
 
 set background=dark
 let g:material_theme_style='default'
