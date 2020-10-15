@@ -1508,6 +1508,7 @@ set completeopt&
 " let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 
+set wrap
 set wildmenu
 set wildmode=full
 set ttyfast
@@ -1633,7 +1634,6 @@ set incsearch                                    " サーチ：インクリメ�
 set ignorecase                                   " サーチ：大文字小文字を区別しない
 set smartcase                                    " サーチ：大文字で検索されたら対象を大文字限定にする
 set showmatch                                    " カーソル：括弧にカーソルを合わせた時、対応した括弧を表示する
-set nowrap
 set noswapfile
 " 内容が変更されたら自動で再読込
 set autoread

@@ -82,6 +82,7 @@ nvim_lsp.sumneko_lua.setup({
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities
 })
+
 local nlua_lsp_nvim = prequire('nlua.lsp.nvim')
 if nlua_lsp_nvim then
     nlua_lsp_nvim.setup(nvim_lsp, {
