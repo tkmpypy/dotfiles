@@ -451,6 +451,33 @@ function! s:setup_complete_nvim()
                 \ },
                 \ }
     let g:completion_auto_change_source = 1
+    let g:completion_customize_lsp_label = {
+          \  'Function'      : "",
+          \  'Method'        : "",
+          \  'Variable'      : "",
+          \  'Constant'      : "",
+          \  'Struct'        : "פּ",
+          \  'Class'         : "",
+          \  'Interface'     : "禍",
+          \  'Text'          : "",
+          \  'Enum'          : "",
+          \  'EnumMember'    : "",
+          \  'Module'        : "",
+          \  'Color'         : "",
+          \  'Property'      : "襁",
+          \  'Field'         : "綠",
+          \  'Unit'          : "",
+          \  'File'          : "",
+          \  'Value'         : "",
+          \  'Event'         : "鬒",
+          \  'Folder'        : "",
+          \  'Keyword'       : "",
+          \  'Snippet'       : "",
+          \  'Operator'      : "洛",
+          \  'Reference'     : " ",
+          \  'TypeParameter' : "",
+          \  'Default'       : ""
+    \ }
     imap <c-j> <Plug>(completion_next_source)
     imap <c-k> <Plug>(completion_prev_source)
 
