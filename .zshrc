@@ -23,6 +23,7 @@ fi
 export PATH="$HOME/.anyenv/envs/nodenv/bin:$PATH"
 export PATH="$HOME/.anyenv/envs/nodenv/versions/*/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 # A glance at the new for-syntax – load all of the above
 # plugins with a single command. For more information see:

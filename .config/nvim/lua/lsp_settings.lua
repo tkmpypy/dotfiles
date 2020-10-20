@@ -152,13 +152,22 @@ nvim_lsp.diagnosticls.setup {
                     security = 'severity'
                 },
                 securities = {[2] = 'error', [1] = 'warning'}
+            },
+            dartanalyzer = {
+                command = dart_sdk.."/dartanalyzer",
+                args = {'%filepath'},
+                isStdout = true,
+                isStderr = false,
+                rootPatterns = {'.git', 'pubspec.yaml'},
+                debounce = 100,
             }
         },
         filetypes = {
             javascript = 'eslint',
             javascriptreact = 'eslint',
             typescript = 'eslint',
-            typescriptreact = 'eslint'
+            typescriptreact = 'eslint',
+            dart = 'dartanalyzer'
         },
         formatters = {
             dartfmt = {
