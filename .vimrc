@@ -141,6 +141,7 @@ if has('nvim')
 
     " lang
     Plug 'tjdevries/nlua.nvim'
+    Plug 'rafcamlet/nvim-luapad'
 
     " finder
     Plug 'nvim-lua/popup.nvim'
@@ -239,10 +240,13 @@ function! s:init_telescope()
   nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.git_files{}<CR>
   nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
   nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
+  nnoremap <Leader>ss <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
   nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
   nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{}<CR>
   nnoremap <Leader>sc <cmd>lua require'telescope.builtin'.command_history{}<CR>
   nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
+  nnoremap <Leader>sl <cmd>lua require'telescope.builtin'.loclist{}<CR>
+  nnoremap <Leader>sq <cmd>lua require'telescope.builtin'.quickfix{}<CR>
 endfunction
 
 if s:plug.is_installed('telescope.nvim')

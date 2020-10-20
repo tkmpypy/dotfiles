@@ -58,6 +58,29 @@ nvim_lsp.pyls_ms.setup({
     capabilities = lsp_status.capabilities
 })
 
+local dart_sdk = vim.env.DART_SDK
+local dartls_cmd = {
+    "dart", "./snapshots/analysis_server.dart.snapshot", "--lsp"
+}
+if dart_sdk ~= nil then
+    dartls_cmd = {
+        "dart", 
+        dart_sdk .. "/snapshots/analysis_server.dart.snapshot",
+        "--lsp"
+    }
+end
+nvim_lsp.dartls.setup({
+    cmd = dartls_cmd,
+    init_options = {
+        closingLabels = true,
+    },
+    on_attach = custom_attach,
+    capabilities = lsp_status.capabilities,
+    callbacks = {
+        ['dart/textDocument/publishClosingLabels'] = require('lsp_extensions.dart.closing_labels').get_callback({highlight = "Special", prefix = " >> "}),
+    },
+})
+
 nvim_lsp.vimls.setup({
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities
