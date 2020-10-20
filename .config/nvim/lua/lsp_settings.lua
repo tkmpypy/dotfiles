@@ -58,7 +58,8 @@ nvim_lsp.pyls_ms.setup({
     capabilities = lsp_status.capabilities
 })
 
-local dart_sdk = vim.env.DART_SDK
+local dart_sdk = ""
+dart_sdk = vim.env.DART_SDK
 local dartls_cmd = {
     "dart", "./snapshots/analysis_server.dart.snapshot", "--lsp"
 }
@@ -128,7 +129,7 @@ nvim_lsp.diagnosticls.setup {
     capabilities = lsp_status.capabilities,
     filetypes = {
         'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'go',
-        'rust', 'lua'
+        'rust', 'lua', 'dart'
     },
     init_options = {
         linters = {
@@ -160,6 +161,12 @@ nvim_lsp.diagnosticls.setup {
             typescriptreact = 'eslint'
         },
         formatters = {
+            dartfmt = {
+                command = dart_sdk.."/dartfmt",
+                args = {"--fix"},
+                isStdout = true,
+                isStderr = false,
+            },
             prettier = {
                 command = "./node_modules/.bin/prettier",
                 args = {
@@ -186,7 +193,8 @@ nvim_lsp.diagnosticls.setup {
             typescriptreact = {"prettier", "eslint_fix"},
             rust = "rustfmt",
             go = {"gofmt", "goimports"},
-            lua = {"luaformatter"}
+            lua = {"luaformatter"},
+            dart = {"dartfmt"}
         }
     }
 }
