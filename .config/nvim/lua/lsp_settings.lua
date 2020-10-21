@@ -73,7 +73,11 @@ end
 nvim_lsp.dartls.setup({
     cmd = dartls_cmd,
     init_options = {
-        closingLabels = true,
+        closingLabels = "true",
+        flutterOutline = "true",
+        onlyAnalyzeProjectsWithOpenFiles = "false",
+        outline = "true",
+        suggestFromUnimportedLibraries = "true"
     },
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities,
