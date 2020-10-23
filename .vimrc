@@ -603,13 +603,14 @@ function! s:setup_coc()
     augroup end
 
     " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-    xmap <space>a  <Plug>(coc-codeaction-selected)
-    nmap <space>a  <Plug>(coc-codeaction-selected)
+    xmap <leader>as  <Plug>(coc-codeaction-selected)<CR>
+    nmap <leader>as  <Plug>(coc-codeaction-selected)<CR>
 
     " Remap for do codeAction of current line
-    nmap <space>ac  <Plug>(coc-codeaction)
+    nmap <leader>ac  <Plug>(coc-codeaction)
+    nmap <leader>aC  <Plug>(coc-codelens-action)
     " " Fix autofix problem of current line
-    nmap <space>qf  <Plug>(coc-fix-current)
+    nmap <leader>qf  <Plug>(coc-fix-current)
 
     " Introduce function text object
     " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -657,6 +658,11 @@ function! s:setup_coc()
     " popup
     nmap <Leader>tr <Plug>(coc-translator-p)
     vmap <Leader>tr <Plug>(coc-translator-pv)
+
+    " Make <CR> auto-select the first completion item and notify coc.nvim to
+    " format on enter, <cr> could be remapped by other vim plugin
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                                  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 endfunction
 
@@ -1438,7 +1444,7 @@ nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '
 
 " }}
 " pechorin/any-jump.vim{{
-nnoremap <Leader>aj :AnyJump<CR>
+nnoremap <Leader>j :AnyJump<CR>
 " }}
 " eft {{
 let g:eft_ignorecase = v:true
@@ -1550,7 +1556,7 @@ set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
 set noruler
-set nocursorline
+set cursorline
 set hlsearch
 set backspace=indent,eol,start
 
