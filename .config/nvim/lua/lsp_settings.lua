@@ -58,8 +58,7 @@ nvim_lsp.pyls_ms.setup({
     capabilities = lsp_status.capabilities
 })
 
-local dart_sdk = ""
-dart_sdk = vim.env.DART_SDK
+local dart_sdk = vim.env.DART_SDK or ""
 local dartls_cmd = {
     "dart", "./snapshots/analysis_server.dart.snapshot", "--lsp"
 }
