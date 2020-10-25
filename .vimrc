@@ -131,10 +131,6 @@ if has('nvim')
     " Plug 'prabirshrestha/asyncomplete-file.vim'
     " Plug 'prabirshrestha/asyncomplete.vim'
 
-    " use ale
-    " Plug 'dense-analysis/ale'
-    " Plug 'maximbaz/lightline-ale'
-
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
     Plug 'kyazdani42/nvim-tree.lua'
