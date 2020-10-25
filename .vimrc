@@ -147,6 +147,10 @@ if has('nvim')
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/telescope.nvim'
+
+    " ui
+    Plug 'romgrk/lib.kom'
+    Plug 'romgrk/barbar.nvim'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -171,6 +175,9 @@ else
     Plug 'junegunn/fzf', { 'do': './install --all' }
       Plug 'junegunn/fzf.vim'
 
+    " ui
+    Plug 'mengelbrecht/lightline-bufferline'
+
 endif
 
 " lang
@@ -179,7 +186,6 @@ Plug 'euclidianAce/BetterLua.vim'
 " Visual
 Plug 'yggdroot/indentline'
 Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'hardcoreplayers/dashboard-nvim'
@@ -206,6 +212,7 @@ Plug 'tyru/operator-camelize.vim'
 Plug 't9md/vim-choosewin'
 Plug 'pechorin/any-jump.vim'
 Plug 'hrsh7th/vim-eft'
+Plug 'tjdevries/cyclist.vim'
 
 " Git
 Plug 'lambdalisue/gina.vim'
@@ -814,6 +821,37 @@ let g:blamer_prefix = '  '
 " Available options: <author>, <author-mail>, <author-time>, <committer>, <committer-mail>, <committer-time>, <summary>, <commit-short>, <commit-long>.
 let g:blamer_template = '<committer>, <committer-time> • <summary>'
 nnoremap <Leader>gbt :BlamerToggle<CR>
+" }}
+" romgrk/barbar.nvim {{
+if s:plug.is_installed('barbar.nvim') 
+    let bg_current = get(nvim_get_hl_by_name('Normal',     1), 'background', '#000000')
+    let bg_visible = get(nvim_get_hl_by_name('TabLineSel', 1), 'background', '#000000')
+    let bg_inactive = get(nvim_get_hl_by_name('TabLine',   1), 'background', '#000000')
+
+    " For the current active buffer
+    hi default link BufferCurrent      Normal
+    " For the current active buffer when modified
+    hi default link BufferCurrentMod   Normal
+    " For the current active buffer icon
+    hi default link BufferCurrentSign  Normal
+    " For the current active buffer target when buffer-picking
+    exe 'hi default BufferCurrentTarget   guifg=red gui=bold guibg=' . bg_current
+
+    " For buffers visible but not the current one
+    hi default link BufferVisible      TabLineSel
+    hi default link BufferVisibleMod   TaLineSel
+    hi default link BufferVisibleSign  TabLineSel
+    exe 'hi default BufferVisibleTarget   guifg=red gui=bold guibg=' . bg_visible
+
+    " For buffers invisible buffers
+    hi default link BufferInactive     TabLine
+    hi default link BufferInactiveMod  TabLine
+    hi default link BufferInactiveSign TabLine
+    exe 'hi default BufferInactiveTarget   guifg=red gui=bold guibg=' . bg_inactive
+
+    " For the shadow in buffer-picking mode
+    hi BufferShadow guifg=#ffffff guibg=#ffffffb
+endif
 " }}
 " taohexxx/lightline-buffer {{
 let g:lightline#bufferline#enable_nerdfont = 1
@@ -1481,6 +1519,37 @@ let g:eft_highlight = {
     \     'allow_operator': v:false,
     \   }
     \ }
+" }}
+" cyclist {{
+call cyclist#add_listchar_option_set('limited', {
+        \ 'eol': '↲',
+        \ 'tab': '» ',
+        \ 'trail': '·',
+        \ 'extends': '<',
+        \ 'precedes': '>',    
+        \ 'conceal': '┊',
+        \ 'nbsp': '␣',
+        \ })
+
+call cyclist#add_listchar_option_set('default', {
+        \ 'eol': '↲',
+        \ 'tab': '»·',
+        \ 'space': '␣',
+        \ 'trail': '-',
+        \ 'extends': '☛',
+        \ 'precedes': '☚',    
+        \ 'conceal': '┊',
+        \ 'nbsp': '☠',
+        \ })
+" Cycle to the next configuration
+nmap <leader>cn <Plug>CyclistNext
+nmap <leader>cp <Plug>CyclistPrev
+
+" Set a specific configuration
+" call cyclist#activate_listchars('limited')
+
+" Reset to default configuration
+call cyclist#activate_listchars('default')
 " }}
 " vimdocs {{
 let g:devdocs_filetype_map = {
