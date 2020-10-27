@@ -1,4 +1,4 @@
-let g:polyglot_disabled = ['markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
+let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
 " let g:polyglot_disabled = ['markdown','md', 'lua']
 
 " Disable unnecessary default plugins
@@ -230,6 +230,12 @@ if s:plug.is_installed('FixCursorHold.nvim')
   let g:cursorhold_updatetime = 100
 endif
 
+" nvim-treesitter {{
+if s:plug.is_installed("nvim-treesitter")
+    lua require('treesitter')
+endif
+" }}
+
 " telescope.nvim {{
 function! s:init_telescope()
   " bat (preview) * 
@@ -250,6 +256,7 @@ function! s:init_telescope()
   nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
   nnoremap <Leader>sl <cmd>lua require'telescope.builtin'.loclist{}<CR>
   nnoremap <Leader>sq <cmd>lua require'telescope.builtin'.quickfix{}<CR>
+  nnoremap <Leader>st <cmd>lua require'telescope.builtin'.treesitter{}<CR>
 endfunction
 
 if s:plug.is_installed('telescope.nvim')
@@ -440,8 +447,9 @@ function! s:setup_complete_nvim()
     " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
     let g:completion_matching_strategy_list = ['exact']
     let g:completion_enable_snippet         = 'vim-vsnip'
-    let g:completion_sorting = "length"
-    let g:completion_matching_ignore_case = 1
+    let g:completion_sorting = "none" " length or alphabet, none
+    let g:completion_matching_ignore_case = 0
+    let g:completion_matching_smart_case = 0
     let g:completion_enable_auto_hover = 1
     let g:completion_enable_auto_signature = 1
     let g:completion_max_items = 20
@@ -449,9 +457,7 @@ function! s:setup_complete_nvim()
     let g:completion_chain_complete_list = {
                 \ 'default': {
                 \   'default': [
-                \      {'complete_items': ['lsp', 'snippet']},
-                \      {'complete_items': ['buffer', 'buffers']},
-                \      {'complete_items': ['path']},
+                \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
                 \      {'mode': '<c-p>'},
                 \      {'mode': '<c-n>'},
                 \   ],
