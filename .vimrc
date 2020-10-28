@@ -97,6 +97,10 @@ Plug 'sheerun/vim-polyglot'
 Plug 'metakirby5/codi.vim'
 Plug 'vim-test/vim-test'
 
+" UI
+Plug 'itchyny/lightline.vim'
+
+
 Plug 'wakatime/vim-wakatime'
 
 " Completion
@@ -107,20 +111,19 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
-    Plug 'nvim-lua/diagnostic-nvim'
-    Plug 'nvim-lua/lsp-status.nvim'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
-    
-    Plug 'RishabhRD/popfix'
-    Plug 'RishabhRD/nvim-lsputils'
-    Plug 'tjdevries/lsp_extensions.nvim'
+    " Plug 'neovim/nvim-lspconfig'
+    " Plug 'nvim-lua/completion-nvim'
+    " Plug 'steelsojka/completion-buffers'
+    " Plug 'nvim-lua/diagnostic-nvim'
+    " Plug 'nvim-lua/lsp-status.nvim'
+    " Plug 'hrsh7th/vim-vsnip'
+    " Plug 'hrsh7th/vim-vsnip-integ'
+    " Plug 'RishabhRD/popfix'
+    " Plug 'RishabhRD/nvim-lsputils'
+    " Plug 'tjdevries/lsp_extensions.nvim'
 
     " use vim-lsp
     " Plug 'prabirshrestha/vim-lsp'
@@ -146,7 +149,8 @@ if has('nvim')
 
     " ui
     Plug 'romgrk/lib.kom'
-    Plug 'romgrk/barbar.nvim'
+    " Plug 'romgrk/barbar.nvim'
+    Plug 'akinsho/nvim-bufferline.lua'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -181,7 +185,6 @@ Plug 'euclidianAce/BetterLua.vim'
 
 " Visual
 Plug 'yggdroot/indentline'
-Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'hardcoreplayers/dashboard-nvim'
@@ -855,25 +858,32 @@ if s:plug.is_installed('barbar.nvim')
     hi BufferShadow guifg=#ffffff guibg=#ffffffb
 endif
 " }}
-" taohexxx/lightline-buffer {{
-let g:lightline#bufferline#enable_nerdfont = 1
-let g:lightline#bufferline#show_number  = 2
-let g:lightline#bufferline#shorten_path = 0
-let g:lightline#bufferline#unnamed      = '[No Name]'
-let g:lightline#bufferline#filename_modifier = ':t'
-let g:lightline#bufferline#unicode_symbols = 1
-
-let g:lightline_buffer_readonly_icon = ''
-let g:lightline_buffer_modified_icon = '✭'
-" }}
 " itchyny/lightline.vim {{
 let g:lightline = {}
-let g:lightline.tabline = {
-    \   'left': [ [ 'buffers' ],
-    \             [ 'separator' ],
-    \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-    \   'right': [ [ 'close' ], ],
-    \ }
+let g:lightline_buffer_readonly_icon = ''
+let g:lightline_buffer_modified_icon = '✭'
+if s:plug.is_installed('lightline-bufferline')
+    set showtabline=2
+    let g:lightline#bufferline#enable_nerdfont = 1
+    let g:lightline#bufferline#show_number  = 2
+    let g:lightline#bufferline#shorten_path = 0
+    let g:lightline#bufferline#unnamed      = '[No Name]'
+    let g:lightline#bufferline#filename_modifier = ':t'
+    let g:lightline#bufferline#unicode_symbols = 1
+
+    let g:lightline.tabline = {
+        \   'left': [ [ 'buffers' ],
+        \             [ 'separator' ],
+        \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
+        \   'right': [ [ 'close' ], ],
+        \ }
+    let g:lightline.component_expand = {
+      \  'buffers': 'lightline#bufferline#buffers',
+      \ }
+    let g:lightline.component_type = {
+        \   'buffers': 'tabsel',
+        \ }
+endif
 if s:plug.is_installed('nvim-lspconfig')
     let g:lightline.component_function = {
         \   'coc_status': 'coc#status',
@@ -908,72 +918,23 @@ let g:lightline.component = {
 let g:lightline.separator = {'left': '', 'right': ''}
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 
-if s:plug.is_installed('lightline-ale')
-    let g:lightline#ale#indicator_checking = " "
-    let g:lightline#ale#indicator_infos = "כֿ"
-    let g:lightline#ale#indicator_warnings = "⚠"
-    let g:lightline#ale#indicator_errors = "✘"
-    let g:lightline#ale#indicator_ok = "✔"
-    let g:lightline.component_expand = {
-      \  'buffers': 'lightline#bufferline#buffers',
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_infos': 'lightline#ale#infos',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \  'linter_ok': 'lightline#ale#ok',
-      \ }
-    let g:lightline.component_type = {
-      \     'linter_checking': 'right',
-      \     'linter_infos': 'right',
-      \     'linter_warnings': 'warning',
-      \     'linter_errors': 'error',
-      \     'linter_ok': 'right',
-      \     'buffers': 'tabsel',
-      \ }
-
-    if s:plug.is_installed('nvim-lspconfig')
-        let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ],
-            \   'right': [
-            \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
-            \       ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'],
-            \   ],
-            \ }
-    else
-        let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ],
-            \   'right': [
-            \       [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
-            \       ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'],
-            \   ],
-            \ }
-    end
-else
-    let g:lightline.component_expand = {
-      \  'buffers': 'lightline#bufferline#buffers',
-      \ }
-    let g:lightline.component_type = {
-        \   'buffers': 'tabsel',
+if s:plug.is_installed('coc.nvim')
+    let g:lightline.active = {
+        \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+        \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['coc_status'] ],
         \ }
+elseif s:plug.is_installed('nvim-lspconfig')
+    let g:lightline.active = {
+        \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+        \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'] ],
+        \ }
+else
+    let g:lightline.active = {
+        \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+        \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'] ],
+        \ }
+end
 
-    if s:plug.is_installed('coc.nvim')
-        let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['coc_status'] ],
-            \ }
-    elseif s:plug.is_installed('nvim-lspconfig')
-        let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'] ],
-            \ }
-    else
-        let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'] ],
-            \ }
-    end
-
-endif
 let g:lightline.colorscheme = 'tokyonight'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -1020,6 +981,16 @@ function! Get_Icon_Fileformat()
   return winwidth(0) > 70 ? (&fileformat . ' ' . nerdfont#find()) : ''
 endfunction
 " }}
+" 'akinsho/nvim-bufferline.lua'{{
+if s:plug.is_installed('nvim-bufferline.lua')
+    let g:lightline.enable = {
+                \ 'statusline': 1,
+                \ 'tabline': 0,
+                \}
+    lua require('bufferline_settings')
+endif
+" }}
+
 " scrooloose/nerdtree {{
 " let g:NERDTreeShowHidden = 1
 " nnoremap <leader>ft :NERDTreeToggle<CR>
@@ -1727,7 +1698,6 @@ set nowritebackup
 " Better display for messages
 set cmdheight=2
 
-set showtabline=2
 " Smaller updatetime for CursorHold & CursorHoldI
 " set updatetime=3000
 
