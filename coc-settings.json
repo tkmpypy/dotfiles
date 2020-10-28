@@ -1,7 +1,7 @@
 {
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
-  "html.format.enable": true,
+  "html.format.enable": false,
   "python.jediEnabled": false,
   "python.formatting.provider": "autopep8",
   "eslint.autoFixOnSave": true,
@@ -10,14 +10,6 @@
   "flutter.provider.hot-reload": true,
   "translator.toLang": "ja",
   "translator.engines": ["bing", "google"],
-  "coc.preferences.formatOnSaveFiletypes": [
-    "python",
-    "go",
-    "json",
-    "css",
-    "markdown",
-    "rust"
-  ],
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.refreshAfterSave": true,
   "diagnostic.infoSign": "כֿ",

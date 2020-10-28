@@ -151,6 +151,9 @@ if has('nvim')
     Plug 'romgrk/lib.kom'
     " Plug 'romgrk/barbar.nvim'
     Plug 'akinsho/nvim-bufferline.lua'
+
+    " formatter
+    Plug 'lukas-reineke/format.nvim'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -664,8 +667,11 @@ function! s:setup_coc()
     nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
     " coc-yank
     nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-    nnoremap <silent> <space>F  :<C-u>Format<cr>
-    nnoremap <silent> <space>I  :<C-u>OR<cr>
+
+    if !s:plug.is_installed('format.nvim')
+      nnoremap <silent> <space>F  :<C-u>Format<cr>
+      nnoremap <silent> <space>I  :<C-u>OR<cr>
+    endif
     " coc-translator
     " popup
     nmap <Leader>tr <Plug>(coc-translator-p)
@@ -990,7 +996,13 @@ if s:plug.is_installed('nvim-bufferline.lua')
     lua require('bufferline_settings')
 endif
 " }}
-
+" format.nvim {{
+if s:plug.is_installed('format.nvim')
+    lua require('formatter_settings')
+    let g:format_debug = v:true
+    nnoremap <space>F  :<C-u>Format<cr>
+endif
+" }}
 " scrooloose/nerdtree {{
 " let g:NERDTreeShowHidden = 1
 " nnoremap <leader>ft :NERDTreeToggle<CR>

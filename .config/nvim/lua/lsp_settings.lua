@@ -64,9 +64,7 @@ local dartls_cmd = {
 }
 if dart_sdk ~= nil then
     dartls_cmd = {
-        "dart", 
-        dart_sdk .. "/snapshots/analysis_server.dart.snapshot",
-        "--lsp"
+        "dart", dart_sdk .. "/snapshots/analysis_server.dart.snapshot", "--lsp"
     }
 end
 nvim_lsp.dartls.setup({
@@ -81,8 +79,10 @@ nvim_lsp.dartls.setup({
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities,
     callbacks = {
-        ['dart/textDocument/publishClosingLabels'] = require('lsp_extensions.dart.closing_labels').get_callback({highlight = "Special", prefix = " >> "}),
-    },
+        ['dart/textDocument/publishClosingLabels'] = require(
+            'lsp_extensions.dart.closing_labels').get_callback(
+            {highlight = "Special", prefix = " >> "})
+    }
 })
 
 nvim_lsp.vimls.setup({
@@ -157,12 +157,12 @@ nvim_lsp.diagnosticls.setup {
                 securities = {[2] = 'error', [1] = 'warning'}
             },
             dartanalyzer = {
-                command = dart_sdk.."/dartanalyzer",
+                command = dart_sdk .. "/dartanalyzer",
                 args = {'%filepath'},
                 isStdout = true,
                 isStderr = false,
                 rootPatterns = {'.git', 'pubspec.yaml'},
-                debounce = 100,
+                debounce = 100
             }
         },
         filetypes = {
@@ -171,43 +171,43 @@ nvim_lsp.diagnosticls.setup {
             typescript = 'eslint',
             typescriptreact = 'eslint',
             dart = 'dartanalyzer'
-        },
-        formatters = {
-            dartfmt = {
-                command = dart_sdk.."/dartfmt",
-                args = {"--fix"},
-                isStdout = true,
-                isStderr = false,
-            },
-            prettier = {
-                command = "./node_modules/.bin/prettier",
-                args = {
-                    "--stdin-filepath", "%filepath", '--single-quote',
-                    '--print-width 120'
-                }
-            },
-            eslint_fix = {
-                command = "./node_modules/.bin/prettier",
-                args = {
-                    "--fix", "--stdin-filepath", "%filepath", '--single-quote',
-                    '--print-width 120'
-                }
-            },
-            rustfmt = {command = "rustfmt", args = {"%filepath"}},
-            gofmt = {command = "gofmt", args = {"%filepath"}},
-            goimports = {command = "goimports", args = {"%filepath"}},
-            luaformatter = {command = "lua-format", args = {"-i"}}
-        },
-        formatFiletypes = {
-            javascript = {"prettier", "eslint_fix"},
-            javascriptreact = {"prettier", "eslint_fix"},
-            typescript = {"prettier", "eslint_fix"},
-            typescriptreact = {"prettier", "eslint_fix"},
-            rust = "rustfmt",
-            go = {"gofmt", "goimports"},
-            lua = {"luaformatter"},
-            dart = {"dartfmt"}
         }
+        -- formatters = {
+        --     dartfmt = {
+        --         command = dart_sdk.."/dartfmt",
+        --         args = {"--fix"},
+        --         isStdout = true,
+        --         isStderr = false,
+        --     },
+        --     prettier = {
+        --         command = "./node_modules/.bin/prettier",
+        --         args = {
+        --             "--stdin-filepath", "%filepath", '--single-quote',
+        --             '--print-width 120'
+        --         }
+        --     },
+        --     eslint_fix = {
+        --         command = "./node_modules/.bin/prettier",
+        --         args = {
+        --             "--fix", "--stdin-filepath", "%filepath", '--single-quote',
+        --             '--print-width 120'
+        --         }
+        --     },
+        --     rustfmt = {command = "rustfmt", args = {"%filepath"}},
+        --     gofmt = {command = "gofmt", args = {"%filepath"}},
+        --     goimports = {command = "goimports", args = {"%filepath"}},
+        --     luaformatter = {command = "lua-format", args = {"-i"}}
+        -- },
+        -- formatFiletypes = {
+        --     javascript = {"prettier", "eslint_fix"},
+        --     javascriptreact = {"prettier", "eslint_fix"},
+        --     typescript = {"prettier", "eslint_fix"},
+        --     typescriptreact = {"prettier", "eslint_fix"},
+        --     rust = "rustfmt",
+        --     go = {"gofmt", "goimports"},
+        --     lua = {"luaformatter"},
+        --     dart = {"dartfmt"}
+        -- }
     }
 }
 
