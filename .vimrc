@@ -640,8 +640,6 @@ function! s:setup_coc()
     nmap <silent> <TAB> <Plug>(coc-range-select)
     xmap <silent> <TAB> <Plug>(coc-range-select)
 
-    " Use `:Format` to format current buffer
-    command! -nargs=0 Format :call CocActionAsync('format')
 
     " Use `:Fold` to fold current buffer
     command! -nargs=? Fold :call     CocActionAsync('fold', <f-args>)
@@ -669,9 +667,12 @@ function! s:setup_coc()
     nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
     if !s:plug.is_installed('format.nvim')
+      " Use `:Format` to format current buffer
+      command! -nargs=0 Format :call CocActionAsync('format')
       nnoremap <silent> <space>F  :<C-u>Format<cr>
-      nnoremap <silent> <space>I  :<C-u>OR<cr>
     endif
+    
+    nnoremap <silent> <space>I  :<C-u>OR<cr>
     " coc-translator
     " popup
     nmap <Leader>tr <Plug>(coc-translator-p)
