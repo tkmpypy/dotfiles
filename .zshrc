@@ -117,6 +117,8 @@ setopt hist_reduce_blanks
 
 setopt no_flow_control
 
+setopt nonomatch
+
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
