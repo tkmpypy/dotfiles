@@ -218,6 +218,7 @@ Plug 'tjdevries/cyclist.vim'
 
 " Git
 Plug 'lambdalisue/gina.vim'
+Plug 'rhysd/git-messenger.vim'
 Plug 'mhinz/vim-signify'
 Plug 'gotchane/vim-git-commit-prefix'
 Plug 'APZelos/blamer.nvim'
@@ -1347,6 +1348,11 @@ nnoremap <silent> <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
 nnoremap <silent> <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
 nnoremap <leader>gp :<C-u>Gina push<CR>
 
+" }}
+" git-messanger {{
+let g:git_messenger_always_into_popup = v:true
+let g:git_messenger_include_diff = "current"
+nmap <Leader>gm <Plug>(git-messenger)
 " }}
 " vim-session {{
 let g:session_autosave = 'no'
