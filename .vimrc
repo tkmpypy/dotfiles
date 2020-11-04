@@ -1,5 +1,5 @@
-let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
-" let g:polyglot_disabled = ['markdown','md', 'lua']
+" let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
+let g:polyglot_disabled = ['markdown','md', 'lua']
 
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
@@ -108,7 +108,7 @@ if has('nvim')
     
     " perform
     Plug 'antoinemadec/FixCursorHold.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter'
+    " Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -154,6 +154,8 @@ if has('nvim')
 
     " formatter
     Plug 'lukas-reineke/format.nvim'
+    " cololizer
+    Plug 'norcalli/nvim-colorizer.lua'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -234,7 +236,7 @@ endfunction
 let mapleader = "\<Space>"
 
 if s:plug.is_installed('FixCursorHold.nvim')
-  let g:cursorhold_updatetime = 100
+  " let g:cursorhold_updatetime = 100
 endif
 
 " nvim-treesitter {{
@@ -1003,6 +1005,13 @@ if s:plug.is_installed('format.nvim')
     lua require('formatter_settings')
     let g:format_debug = v:true
     nnoremap <space>F  :<C-u>Format<cr>
+endif
+" }}
+
+" nvim-colorizer.lua{{
+if s:plug.is_installed('nvim-colorizer.lua')
+    set termguicolors
+    lua require('colorizer').setup()
 endif
 " }}
 " scrooloose/nerdtree {{
