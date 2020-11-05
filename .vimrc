@@ -560,7 +560,7 @@ function! s:setup_coc()
           \, 'coc-rust-analyzer'
           \, 'coc-snippets'
           \, 'coc-vimlsp'
-          \, 'coc-flutter'
+          \, 'coc-flutter-tools'
           \, 'coc-translator'
           \, 'coc-go'
           \, 'coc-lua'
