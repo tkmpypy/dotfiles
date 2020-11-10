@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -61,13 +68,14 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 # Theme
-# zinit load denysdovhan/spaceship-prompt.git
-zinit ice from"gh-r" as"program" bpick"*apple-darwin*" atload='eval "$(starship init zsh)"'
-zinit load starship/starship
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+# zinit ice from"gh-r" as"program" bpick"*apple-darwin*" atload='eval "$(starship init zsh)"'
+# zinit load starship/starship
 
 # Neovim
 zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
 zinit load neovim/neovim
+
 
 # alias
 alias ls='gls --color=auto'
@@ -131,3 +139,6 @@ if [ -f $HOME/google-cloud-sdk/path.zsh.inc ]; then . $HOME/google-cloud-sdk/pat
 if [ -f $HOME/google-cloud-sdk/completion.zsh.inc ]; then . $HOME/google-cloud-sdk/completion.zsh.inc; fi
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
