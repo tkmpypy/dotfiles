@@ -41,7 +41,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         priority = 20
     },
     -- Disable a feature
-    update_in_insert = true,
+    update_in_insert = false,
   }
 )
 
