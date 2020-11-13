@@ -1,5 +1,5 @@
-" let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
-let g:polyglot_disabled = ['markdown','md', 'lua']
+let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
+" let g:polyglot_disabled = ['markdown','md', 'lua']
 
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
@@ -107,32 +107,22 @@ Plug 'wakatime/vim-wakatime'
 if has('nvim')
     
     " perform
-    Plug 'antoinemadec/FixCursorHold.nvim'
-    " Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'antoinemadec/FixCursorHold.nvim' " https://github.com/neovim/neovim/issues/12587
+    Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    " Plug 'neovim/nvim-lspconfig'
-    " Plug 'nvim-lua/completion-nvim'
-    " Plug 'steelsojka/completion-buffers'
-    " Plug 'nvim-lua/diagnostic-nvim'
-    " Plug 'nvim-lua/lsp-status.nvim'
-    " Plug 'hrsh7th/vim-vsnip'
-    " Plug 'hrsh7th/vim-vsnip-integ'
-    " Plug 'RishabhRD/popfix'
-    " Plug 'RishabhRD/nvim-lsputils'
-    " Plug 'tjdevries/lsp_extensions.nvim'
-
-    " use vim-lsp
-    " Plug 'prabirshrestha/vim-lsp'
-    " Plug 'mattn/vim-lsp-settings'
-    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    " use asyncomplete
-    " Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    " Plug 'prabirshrestha/asyncomplete-file.vim'
-    " Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    Plug 'nvim-lua/lsp-status.nvim'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+    Plug 'RishabhRD/popfix'
+    Plug 'RishabhRD/nvim-lsputils'
+    Plug 'tjdevries/lsp_extensions.nvim'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -156,6 +146,9 @@ if has('nvim')
     Plug 'lukas-reineke/format.nvim'
     " cololizer
     Plug 'norcalli/nvim-colorizer.lua'
+
+    " github
+    Plug 'pwntester/octo.nvim'
 else
     " use coc.nvim
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -414,27 +407,28 @@ let g:python_highlight_all = 1
 " }}
 
 function! s:set_nvim_lsp_diagnostic_color()
-    hi! LspDiagnosticsError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsVirtualTextError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsVirtualTextWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsVirtualTextInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsVirtualTextHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsUnderlineError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsUnderlineWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsUnderlineInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsUnderlineHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
 endfunction
 
 
 function! s:setup_nvim_lsp()
     lua require('lsp_settings')
-    let g:diagnostic_enable_virtual_text = 1
-    let g:diagnostic_enable_underline = 1
-    " let g:diagnostic_trimmed_virtual_text = '20'
-    let g:space_before_virtual_text = 5
-    let g:diagnostic_auto_popup_while_jump = 1
-    let g:diagnostic_insert_delay = 1
-    let g:diagnostic_show_sign = 1
+    call sign_define("LspDiagnosticsSignError", {"text" : "✘", "texthl" : "LspDiagnosticsSignError"})
+    call sign_define("LspDiagnosticsSignWarning", {"text" : "⚠", "texthl" : "LspDiagnosticsSignWarning"})
+    call sign_define("LspDiagnosticsSignInformation", {"text" : "כֿ", "texthl" : "LspDiagnosticsSignInformation"})
+    call sign_define("LspDiagnosticsSignHint", {"text" : "•", "texthl" : "LspDiagnosticsSignHint"})
 
-    call sign_define("LspDiagnosticsErrorSign", {"text" : "✘", "texthl" : "LspDiagnosticsError"})
-    call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarning"})
-    call sign_define("LspDiagnosticsInformationSign", {"text" : "כֿ", "texthl" : "LspDiagnosticsInformation"})
-    call sign_define("LspDiagnosticsHintSign", {"text" : "•", "texthl" : "LspDiagnosticsHint"})
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
@@ -446,6 +440,9 @@ function! s:setup_nvim_lsp()
     nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
     nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
+    nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+    nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+    nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
@@ -945,7 +942,7 @@ else
         \ }
 end
 
-let g:lightline.colorscheme = 'tokyonight'
+let g:lightline.colorscheme = 'edge'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
@@ -1012,6 +1009,11 @@ endif
 if s:plug.is_installed('nvim-colorizer.lua')
     set termguicolors
     lua require('colorizer').setup()
+endif
+" }}
+" octo.nvim {{
+if s:plug.is_installed('octo.nvim')
+    nnoremap <leader>ghi <Plug>(GoToIssue)
 endif
 " }}
 " scrooloose/nerdtree {{
@@ -1617,7 +1619,7 @@ set wrap
 set wildmenu
 set wildmode=full
 set ttyfast
-set lazyredraw
+" set lazyredraw
 
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number norelativenumber
@@ -1674,7 +1676,7 @@ let g:miramare_disable_italic_comment = 1
 let g:miramare_enable_bold = 1
 " }}
 
-colorscheme tokyonight
+colorscheme edge
 set shell=zsh
 
 "*****************************************************************************
