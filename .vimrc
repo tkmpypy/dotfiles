@@ -451,7 +451,9 @@ endfunction
 
 function! s:setup_complete_nvim()
     " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-    let g:completion_matching_strategy_list = ['exact']
+    let g:completion_confirm_key = ""
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
     let g:completion_enable_snippet         = 'vim-vsnip'
     let g:completion_sorting = "none" " length or alphabet, none
     let g:completion_matching_ignore_case = 0
