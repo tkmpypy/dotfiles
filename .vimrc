@@ -135,7 +135,7 @@ if has('nvim')
     " finder
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-lua/telescope.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
 
     " ui
     " Plug 'romgrk/barbar.nvim'
