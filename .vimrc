@@ -138,9 +138,12 @@ if has('nvim')
     Plug 'nvim-lua/telescope.nvim'
 
     " ui
-    Plug 'romgrk/lib.kom'
     " Plug 'romgrk/barbar.nvim'
+        " Plug 'romgrk/lib.kom'
     Plug 'akinsho/nvim-bufferline.lua'
+   
+    " terminal
+    Plug 'akinsho/nvim-toggleterm.lua'
 
     " formatter
     Plug 'lukas-reineke/format.nvim'
@@ -998,7 +1001,13 @@ if s:plug.is_installed('nvim-bufferline.lua')
                 \}
     lua require('bufferline_settings')
 endif
+
+" nvim-toggleterm.lua {{
+if s:plug.is_installed('nvim-toggleterm.lua')
+    lua require('terminal_settings')
+endif
 " }}
+
 " format.nvim {{
 if s:plug.is_installed('format.nvim')
     lua require('formatter_settings')
