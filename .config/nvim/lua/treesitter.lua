@@ -15,7 +15,7 @@ require'nvim-treesitter.configs'.setup {
         navigation = {enable = false}
     },
     ensure_installed = {
-        "dart", "go", "rust", "ruby", "markdown", "python", "lua", "yaml",
+        "dart", "go", "rust", "ruby", "python", "lua", "yaml",
         "toml", "json", "typescript", "javascript"
     }
 }
