@@ -8,7 +8,7 @@ end
 local vim = vim
 local lsp_status = require('lsp-status')
 local completion = require('completion')
-local nvim_lsp = require('nvim_lsp')
+local nvim_lsp = require('lspconfig')
 
 local custom_attach = function(client)
     lsp_status.on_attach(client)
