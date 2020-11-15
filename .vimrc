@@ -105,7 +105,10 @@ Plug 'wakatime/vim-wakatime'
 
 " Completion
 if has('nvim')
-    
+
+    " colorscheme
+    Plug 'mhartington/oceanic-next'
+
     " perform
     Plug 'antoinemadec/FixCursorHold.nvim' " https://github.com/neovim/neovim/issues/12587
     Plug 'nvim-treesitter/nvim-treesitter'
@@ -947,7 +950,7 @@ else
         \ }
 end
 
-let g:lightline.colorscheme = 'edge'
+let g:lightline.colorscheme = 'oceanicnext'
 " Use auocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }
@@ -1687,7 +1690,14 @@ let g:miramare_disable_italic_comment = 1
 let g:miramare_enable_bold = 1
 " }}
 
-colorscheme edge
+" oceanic-next{{
+if s:plug.is_installed('oceanic-next')
+    let g:oceanic_next_terminal_bold = 1
+    let g:oceanic_next_terminal_italic = 1
+endif
+" }}
+
+colorscheme OceanicNext
 set shell=zsh
 
 "*****************************************************************************
