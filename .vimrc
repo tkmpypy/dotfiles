@@ -114,7 +114,7 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
     " Plug 'neovim/nvim-lspconfig'
