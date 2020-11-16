@@ -1,6 +1,9 @@
 require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
+    },
+    incremental_selection = {
+        enable = true,
         keymaps = {
             init_selection = "gnn",
             node_incremental = "grn",
@@ -8,7 +11,9 @@ require'nvim-treesitter.configs'.setup {
             node_decremental = "grm"
         }
     },
-    incremental_selection = {enable = true},
+    indent = {
+        enable = true,
+    },
     refactor = {
         highlight_defintions = {enable = true},
         smart_rename = {enable = false},
