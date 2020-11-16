@@ -117,15 +117,15 @@ if has('nvim')
     " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
-    Plug 'nvim-lua/lsp-status.nvim'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
-    Plug 'RishabhRD/popfix'
-    Plug 'RishabhRD/nvim-lsputils'
-    Plug 'tjdevries/lsp_extensions.nvim'
+    " Plug 'neovim/nvim-lspconfig'
+    " Plug 'nvim-lua/completion-nvim'
+    " Plug 'steelsojka/completion-buffers'
+    " Plug 'nvim-lua/lsp-status.nvim'
+    " Plug 'hrsh7th/vim-vsnip'
+    " Plug 'hrsh7th/vim-vsnip-integ'
+    " Plug 'RishabhRD/popfix'
+    " Plug 'RishabhRD/nvim-lsputils'
+    " Plug 'tjdevries/lsp_extensions.nvim'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -144,7 +144,7 @@ if has('nvim')
     " Plug 'romgrk/barbar.nvim'
         " Plug 'romgrk/lib.kom'
     Plug 'akinsho/nvim-bufferline.lua'
-   
+
     " terminal
     Plug 'akinsho/nvim-toggleterm.lua'
 
@@ -1542,21 +1542,24 @@ call cyclist#add_listchar_option_set('limited', {
         \ 'tab': '» ',
         \ 'trail': '·',
         \ 'extends': '<',
-        \ 'precedes': '>',    
+        \ 'precedes': '>',
         \ 'conceal': '┊',
         \ 'nbsp': '␣',
         \ })
-
-call cyclist#add_listchar_option_set('default', {
+call cyclist#add_listchar_option_set('busy', {
         \ 'eol': '↲',
         \ 'tab': '»·',
         \ 'space': '␣',
         \ 'trail': '-',
         \ 'extends': '☛',
-        \ 'precedes': '☚',    
+        \ 'precedes': '☚',
         \ 'conceal': '┊',
         \ 'nbsp': '☠',
         \ })
+
+call cyclist#set_trail('default', '░')
+call cyclist#set_tab('default', '» ')
+call cyclist#set_nbsp('default', '␣')
 " Cycle to the next configuration
 nmap <leader>cn <Plug>CyclistNext
 nmap <leader>cp <Plug>CyclistPrev
@@ -1616,7 +1619,6 @@ set completeopt&
       \ completeopt+=menuone
       \ completeopt+=noinsert
       \ completeopt+=noselect
-      \ completeopt+=longest
       \ completeopt-=preview
 
 if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
