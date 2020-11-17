@@ -114,18 +114,18 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    " Plug 'neovim/nvim-lspconfig'
-    " Plug 'nvim-lua/completion-nvim'
-    " Plug 'steelsojka/completion-buffers'
-    " Plug 'nvim-lua/lsp-status.nvim'
-    " Plug 'hrsh7th/vim-vsnip'
-    " Plug 'hrsh7th/vim-vsnip-integ'
-    " Plug 'RishabhRD/popfix'
-    " Plug 'RishabhRD/nvim-lsputils'
-    " Plug 'tjdevries/lsp_extensions.nvim'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    Plug 'nvim-lua/lsp-status.nvim'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+    Plug 'RishabhRD/popfix'
+    Plug 'RishabhRD/nvim-lsputils'
+    Plug 'tjdevries/lsp_extensions.nvim'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -255,8 +255,13 @@ function! s:init_telescope()
   " devicons 
   lua require('telescope_settings')
   nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.git_files{}<CR>
+  nnoremap <Leader>sgc <cmd>lua require'telescope.builtin'.git_bcommits{}<CR>
+  nnoremap <Leader>sgC <cmd>lua require'telescope.builtin'.git_commits{}<CR>
+  nnoremap <Leader>sgs <cmd>lua require'telescope.builtin'.git_status{}<CR>
+  nnoremap <Leader>sgb <cmd>lua require'telescope.builtin'.git_branches{}<CR>
   nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
   nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
+  nnoremap <Leader>s <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>
   nnoremap <Leader>ss <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
   nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
   nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{}<CR>
@@ -456,27 +461,28 @@ function! s:setup_nvim_lsp()
 endfunction
 
 function! s:setup_complete_nvim()
-    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+    let g:completion_trigger_keyword_length = 2
     let g:completion_confirm_key = ""
 imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                  \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
     let g:completion_enable_snippet         = 'vim-vsnip'
-    let g:completion_sorting = "none" " length or alphabet, none
-    let g:completion_matching_ignore_case = 0
-    let g:completion_matching_smart_case = 0
+    " let g:completion_sorting = "none" " length or alphabet, none
+    " let g:completion_matching_ignore_case = 0
+    " let g:completion_matching_smart_case = 0
     let g:completion_enable_auto_hover = 1
     let g:completion_enable_auto_signature = 1
-    let g:completion_max_items = 20
+    " let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
-    let g:completion_chain_complete_list = {
-                \ 'default': {
-                \   'default': [
-                \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
-                \      {'mode': '<c-p>'},
-                \      {'mode': '<c-n>'},
-                \   ],
-                \ },
-                \ }
+    " let g:completion_chain_complete_list = {
+    "            \ 'default': {
+    "            \   'default': [
+    "            \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
+    "            \      {'mode': '<c-p>'},
+    "            \      {'mode': '<c-n>'},
+    "            \   ],
+    "            \ },
+    "            \ }
     let g:completion_auto_change_source = 1
     let g:completion_customize_lsp_label = {
           \  'Function'      : "",
@@ -664,7 +670,7 @@ function! s:setup_coc()
     " Find symbol of current document
     nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
     " Search workspace symbols
-    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+    nnoremap <silent> <space>S  :<C-u>CocList -I symbols<cr>
     " Do default action for next item.
     nnoremap <silent> <space>j  :<C-u>CocNext<CR>
     " Do default action for previous item.
@@ -1614,7 +1620,9 @@ endif
 "      \ complete+=i
 "      \ complete+=d
 "      \ complete+=t
-set complete-=i
+set complete&
+    \ complete-=i
+    \ complete-=t
 set completeopt&
       \ completeopt+=menuone
       \ completeopt+=noinsert
