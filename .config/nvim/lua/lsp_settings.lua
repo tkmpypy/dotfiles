@@ -13,6 +13,7 @@ local nvim_lsp = require('lspconfig')
 local custom_attach = function(client)
     lsp_status.on_attach(client)
     completion.on_attach(client)
+    vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
 lsp_status.register_progress()
@@ -79,7 +80,7 @@ nvim_lsp.pyls_ms.setup({
             }
         }
     },
-    callbacks = lsp_status.extensions.pyls_ms.setup(),
+    handlers = lsp_status.extensions.pyls_ms.setup(),
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities
 })
@@ -104,7 +105,7 @@ nvim_lsp.dartls.setup({
     },
     on_attach = custom_attach,
     capabilities = lsp_status.capabilities,
-    callbacks = {
+    handlers = {
         ['dart/textDocument/publishClosingLabels'] = require(
             'lsp_extensions.dart.closing_labels').get_callback(
             {highlight = "Special", prefix = " >> "})
@@ -239,33 +240,26 @@ nvim_lsp.diagnosticls.setup {
 
 local lsp_util_codeaction = prequire('lsputil.codeAction')
 if lsp_util_codeaction then
-    vim.lsp.callbacks['textDocument/codeAction'] =
+    vim.lsp.handlers['textDocument/codeAction'] =
         lsp_util_codeaction.code_action_handler
 end
 local lsp_util_locations = prequire('lsputil.locations')
 if lsp_util_locations then
-    vim.lsp.callbacks['textDocument/references'] =
+    vim.lsp.handlers['textDocument/references'] =
         lsp_util_locations.references_handler
-    vim.lsp.callbacks['textDocument/definition'] =
+    vim.lsp.handlers['textDocument/definition'] =
         lsp_util_locations.definition_handler
-    vim.lsp.callbacks['textDocument/declaration'] =
+    vim.lsp.handlers['textDocument/declaration'] =
         lsp_util_locations.declaration_handler
-    vim.lsp.callbacks['textDocument/typeDefinition'] =
+    vim.lsp.handlers['textDocument/typeDefinition'] =
         lsp_util_locations.typeDefinition_handler
-    vim.lsp.callbacks['textDocument/implementation'] =
+    vim.lsp.handlers['textDocument/implementation'] =
         lsp_util_locations.implementation_handler
 end
 local lsp_util_symbols = prequire('lsputil.symbols')
 if lsp_util_symbols then
-    vim.lsp.callbacks['textDocument/documentSymbol'] =
+    vim.lsp.handlers['textDocument/documentSymbol'] =
         lsp_util_symbols.document_handler
-    vim.lsp.callbacks['workspace/symbol'] = lsp_util_symbols.workspace_handler
+    vim.lsp.handlers['workspace/symbol'] = lsp_util_symbols.workspace_handler
 end
-
-vim.g.indicator_errors = '✘'
-vim.g.indicator_warnings = '⚠'
-vim.g.indicator_info = 'כֿ'
-vim.g.indicator_hint = '•'
-vim.g.indicator_ok = '✔'
-vim.g.spinner_frames = {'⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'}
 
