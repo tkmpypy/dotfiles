@@ -115,18 +115,18 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
-    Plug 'nvim-lua/lsp-status.nvim'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
-    Plug 'RishabhRD/popfix'
-    Plug 'RishabhRD/nvim-lsputils'
-    Plug 'tjdevries/lsp_extensions.nvim'
+    " Plug 'neovim/nvim-lspconfig'
+    " Plug 'nvim-lua/completion-nvim'
+    " Plug 'steelsojka/completion-buffers'
+    " Plug 'nvim-lua/lsp-status.nvim'
+    " Plug 'hrsh7th/vim-vsnip'
+    " Plug 'hrsh7th/vim-vsnip-integ'
+    " Plug 'RishabhRD/popfix'
+    " Plug 'RishabhRD/nvim-lsputils'
+    " Plug 'tjdevries/lsp_extensions.nvim'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -142,9 +142,9 @@ if has('nvim')
     Plug 'nvim-telescope/telescope.nvim'
 
     " ui
-    " Plug 'romgrk/barbar.nvim'
-        " Plug 'romgrk/lib.kom'
-    Plug 'akinsho/nvim-bufferline.lua'
+    Plug 'romgrk/barbar.nvim'
+        Plug 'romgrk/lib.kom'
+    " Plug 'akinsho/nvim-bufferline.lua'
 
     " terminal
     Plug 'akinsho/nvim-toggleterm.lua'
@@ -1365,7 +1365,7 @@ nnoremap <leader>tt :Vista!! <CR>
 " gina.vim {{
 call gina#custom#mapping#nmap(
 	      \ 'status', 'dd',
-	      \ ':<C-u>Gina diff --opener=tabedit<CR>',
+	      \ ':<C-u>Gina diff --opener=vsplit<CR>',
 	      \ {'noremap': 1, 'silent': 1},
 	      \)
 call gina#custom#mapping#nmap(
