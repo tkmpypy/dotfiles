@@ -166,7 +166,7 @@ nvim_lsp.diagnosticls.setup {
             eslint = {
                 command = './node_modules/.bin/eslint',
                 rootPatterns = {'.git'},
-                debounce = 100,
+                debounce = 500,
                 args = {
                     '--stdin', '--stdin-filename', '%filepath', '--format',
                     'json'
@@ -189,7 +189,7 @@ nvim_lsp.diagnosticls.setup {
                 isStdout = true,
                 isStderr = false,
                 rootPatterns = {'.git', 'pubspec.yaml'},
-                debounce = 100
+                debounce = 500
             }
         },
         filetypes = {

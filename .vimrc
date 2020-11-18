@@ -99,6 +99,7 @@ Plug 'vim-test/vim-test'
 
 " UI
 Plug 'itchyny/lightline.vim'
+Plug 'google/vim-searchindex'
 
 
 Plug 'wakatime/vim-wakatime'
@@ -114,18 +115,18 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    " Plug 'neovim/nvim-lspconfig'
-    " Plug 'nvim-lua/completion-nvim'
-    " Plug 'steelsojka/completion-buffers'
-    " Plug 'nvim-lua/lsp-status.nvim'
-    " Plug 'hrsh7th/vim-vsnip'
-    " Plug 'hrsh7th/vim-vsnip-integ'
-    " Plug 'RishabhRD/popfix'
-    " Plug 'RishabhRD/nvim-lsputils'
-    " Plug 'tjdevries/lsp_extensions.nvim'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    Plug 'nvim-lua/lsp-status.nvim'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+    Plug 'RishabhRD/popfix'
+    Plug 'RishabhRD/nvim-lsputils'
+    Plug 'tjdevries/lsp_extensions.nvim'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -458,6 +459,7 @@ function! s:setup_nvim_lsp()
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
+        autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost call 
 
 endfunction
 
@@ -1764,7 +1766,9 @@ set cmdheight=2
 " set updatetime=3000
 
 " don't give |ins-completion-menu| messages.
-set shortmess+=c
+set shortmess&
+    \ shortmess+=c
+    \ shortmess-=S
 
 " always show signcolumns
 set signcolumn=yes
