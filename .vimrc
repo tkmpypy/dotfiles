@@ -98,7 +98,6 @@ Plug 'metakirby5/codi.vim'
 Plug 'vim-test/vim-test'
 
 " UI
-Plug 'itchyny/lightline.vim'
 Plug 'google/vim-searchindex'
 
 
@@ -115,18 +114,18 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter'
 
     " use coc.nvim
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " use neovim built-in
-    " Plug 'neovim/nvim-lspconfig'
-    " Plug 'nvim-lua/completion-nvim'
-    " Plug 'steelsojka/completion-buffers'
-    " Plug 'nvim-lua/lsp-status.nvim'
-    " Plug 'hrsh7th/vim-vsnip'
-    " Plug 'hrsh7th/vim-vsnip-integ'
-    " Plug 'RishabhRD/popfix'
-    " Plug 'RishabhRD/nvim-lsputils'
-    " Plug 'tjdevries/lsp_extensions.nvim'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    Plug 'nvim-lua/lsp-status.nvim'
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+    Plug 'RishabhRD/popfix'
+    Plug 'RishabhRD/nvim-lsputils'
+    Plug 'tjdevries/lsp_extensions.nvim'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -142,6 +141,7 @@ if has('nvim')
     Plug 'nvim-telescope/telescope.nvim'
 
     " ui
+    Plug 'glepnir/galaxyline.nvim'
     Plug 'romgrk/barbar.nvim'
         Plug 'romgrk/lib.kom'
     " Plug 'akinsho/nvim-bufferline.lua'
@@ -181,6 +181,7 @@ else
       Plug 'junegunn/fzf.vim'
 
     " ui
+    Plug 'itchyny/lightline.vim'
     Plug 'mengelbrecht/lightline-bufferline'
 
 endif
@@ -464,14 +465,16 @@ endfunction
 
 function! s:setup_complete_nvim()
     let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    let g:completion_trigger_keyword_length = 2
+    let g:completion_trigger_keyword_length = 3
+    let g:completion_trigger_on_delete = 1
+    let g:completion_time_cycle = 500
     let g:completion_confirm_key = ""
 imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                  \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
     let g:completion_enable_snippet         = 'vim-vsnip'
-    let g:completion_sorting = "none" " length or alphabet, none
-    " let g:completion_matching_ignore_case = 0
-    " let g:completion_matching_smart_case = 0
+    " let g:completion_sorting = "length" " length or alphabet, none
+    let g:completion_matching_ignore_case = 1
+    let g:completion_matching_smart_case = 1
     let g:completion_enable_auto_hover = 1
     let g:completion_enable_auto_signature = 1
     let g:completion_max_items = 20
@@ -852,116 +855,98 @@ nnoremap <Leader>gbt :BlamerToggle<CR>
 " }}
 " romgrk/barbar.nvim {{
 if s:plug.is_installed('barbar.nvim') 
-    let bg_current = get(nvim_get_hl_by_name('Normal',     1), 'background', '#000000')
-    let bg_visible = get(nvim_get_hl_by_name('TabLineSel', 1), 'background', '#000000')
-    let bg_inactive = get(nvim_get_hl_by_name('TabLine',   1), 'background', '#000000')
-
-    " For the current active buffer
-    hi default link BufferCurrent      Normal
-    " For the current active buffer when modified
-    hi default link BufferCurrentMod   Normal
-    " For the current active buffer icon
-    hi default link BufferCurrentSign  Normal
-    " For the current active buffer target when buffer-picking
-    exe 'hi default BufferCurrentTarget   guifg=red gui=bold guibg=' . bg_current
-
-    " For buffers visible but not the current one
-    hi default link BufferVisible      TabLineSel
-    hi default link BufferVisibleMod   TaLineSel
-    hi default link BufferVisibleSign  TabLineSel
-    exe 'hi default BufferVisibleTarget   guifg=red gui=bold guibg=' . bg_visible
-
-    " For buffers invisible buffers
-    hi default link BufferInactive     TabLine
-    hi default link BufferInactiveMod  TabLine
-    hi default link BufferInactiveSign TabLine
-    exe 'hi default BufferInactiveTarget   guifg=red gui=bold guibg=' . bg_inactive
-
-    " For the shadow in buffer-picking mode
-    hi BufferShadow guifg=#ffffff guibg=#ffffffb
 endif
 " }}
 " itchyny/lightline.vim {{
-let g:lightline = {}
-let g:lightline_buffer_readonly_icon = ''
-let g:lightline_buffer_modified_icon = '✭'
-if s:plug.is_installed('lightline-bufferline')
-    set showtabline=2
-    let g:lightline#bufferline#enable_nerdfont = 1
-    let g:lightline#bufferline#show_number  = 2
-    let g:lightline#bufferline#shorten_path = 0
-    let g:lightline#bufferline#unnamed      = '[No Name]'
-    let g:lightline#bufferline#filename_modifier = ':t'
-    let g:lightline#bufferline#unicode_symbols = 1
+if s:plug.is_installed('lightline.vim')
 
-    let g:lightline.tabline = {
-        \   'left': [ [ 'buffers' ],
-        \             [ 'separator' ],
-        \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-        \   'right': [ [ 'close' ], ],
+    let g:lightline = {}
+    let g:lightline_buffer_readonly_icon = ''
+    let g:lightline_buffer_modified_icon = '✭'
+    if s:plug.is_installed('lightline-bufferline')
+        set showtabline=2
+        let g:lightline#bufferline#enable_nerdfont = 1
+        let g:lightline#bufferline#show_number  = 2
+        let g:lightline#bufferline#shorten_path = 0
+        let g:lightline#bufferline#unnamed      = '[No Name]'
+        let g:lightline#bufferline#filename_modifier = ':t'
+        let g:lightline#bufferline#unicode_symbols = 1
+
+        let g:lightline.tabline = {
+            \   'left': [ [ 'buffers' ],
+            \             [ 'separator' ],
+            \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
+            \   'right': [ [ 'close' ], ],
+            \ }
+        let g:lightline.component_expand = {
+          \  'buffers': 'lightline#bufferline#buffers',
+          \ }
+        let g:lightline.component_type = {
+            \   'buffers': 'tabsel',
+            \ }
+    endif
+    if s:plug.is_installed('nvim-lspconfig')
+        let g:lightline.component_function = {
+            \   'coc_status': 'coc#status',
+            \   'currentfunction': 'CocCurrentFunction',
+            \   'icon_filetype': 'Get_Icon_Filetype',
+            \   'icon_fileformat': 'Get_Icon_Fileformat',
+            \   'branch': 'GetBranchName',
+            \   'git_status': 'GetGitStatus',
+            \   'filename': 'LightlineFilename',
+            \   'lsp': 'LspStatus',
+            \ }
+    else
+        let g:lightline.component_function = {
+            \   'coc_status': 'coc#status',
+            \   'currentfunction': 'CocCurrentFunction',
+            \   'icon_filetype': 'Get_Icon_Filetype',
+            \   'icon_fileformat': 'Get_Icon_Fileformat',
+            \   'branch': 'GetBranchName',
+            \   'git_status': 'GetGitStatus',
+            \   'filename': 'LightlineFilename',
+            \ }
+    endif
+
+    let g:lightline.component = {
+        \   'lineinfo': ' %3l:%-2v',
+        \   'percent': '%3p%%',
+        \   'percentwin': '%P',
+        \   'absolutepath': '%F',
+        \   'relativepath': '%f',
+        \   'line': '%l',
         \ }
-    let g:lightline.component_expand = {
-      \  'buffers': 'lightline#bufferline#buffers',
-      \ }
-    let g:lightline.component_type = {
-        \   'buffers': 'tabsel',
-        \ }
+    let g:lightline.separator = {'left': '', 'right': ''}
+    let g:lightline.subseparator = { 'left': '', 'right': '' }
+
+    if s:plug.is_installed('coc.nvim')
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['coc_status'] ],
+            \ }
+    elseif s:plug.is_installed('nvim-lspconfig')
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'] ],
+            \ }
+    else
+        let g:lightline.active = {
+            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
+            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'] ],
+            \ }
+    end
+
+    let g:lightline.colorscheme = 'oceanicnext'
+    " Use auocmd to force lightline update.
+    autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 endif
-if s:plug.is_installed('nvim-lspconfig')
-    let g:lightline.component_function = {
-        \   'coc_status': 'coc#status',
-        \   'currentfunction': 'CocCurrentFunction',
-        \   'icon_filetype': 'Get_Icon_Filetype',
-        \   'icon_fileformat': 'Get_Icon_Fileformat',
-        \   'branch': 'GetBranchName',
-        \   'git_status': 'GetGitStatus',
-        \   'filename': 'LightlineFilename',
-        \   'lsp': 'LspStatus',
-        \ }
-else
-    let g:lightline.component_function = {
-        \   'coc_status': 'coc#status',
-        \   'currentfunction': 'CocCurrentFunction',
-        \   'icon_filetype': 'Get_Icon_Filetype',
-        \   'icon_fileformat': 'Get_Icon_Fileformat',
-        \   'branch': 'GetBranchName',
-        \   'git_status': 'GetGitStatus',
-        \   'filename': 'LightlineFilename',
-        \ }
+" }}
+
+" galaxyline.nvim{{
+if s:plug.is_installed('galaxyline.nvim')
+    lua require('statusline')
 endif
-
-let g:lightline.component = {
-    \   'lineinfo': ' %3l:%-2v',
-    \   'percent': '%3p%%',
-    \   'percentwin': '%P',
-    \   'absolutepath': '%F',
-    \   'relativepath': '%f',
-    \   'line': '%l',
-    \ }
-let g:lightline.separator = {'left': '', 'right': ''}
-let g:lightline.subseparator = { 'left': '', 'right': '' }
-
-if s:plug.is_installed('coc.nvim')
-    let g:lightline.active = {
-        \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-        \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['coc_status'] ],
-        \ }
-elseif s:plug.is_installed('nvim-lspconfig')
-    let g:lightline.active = {
-        \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-        \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['lsp'] ],
-        \ }
-else
-    let g:lightline.active = {
-        \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-        \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'] ],
-        \ }
-end
-
-let g:lightline.colorscheme = 'oceanicnext'
-" Use auocmd to force lightline update.
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-" }
+" }}
 
 function! GetGitStatus()
     return gina#component#traffic#preset("fancy") == ' ' ? '↑0 ↓0' : gina#component#traffic#preset("fancy")

@@ -159,7 +159,7 @@ nvim_lsp.diagnosticls.setup {
     capabilities = lsp_status.capabilities,
     filetypes = {
         'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'go',
-        'rust', 'lua', 'dart'
+        'rust', 'lua'
     },
     init_options = {
         linters = {
