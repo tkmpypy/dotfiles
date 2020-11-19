@@ -118,8 +118,9 @@ if has('nvim')
 
     " use neovim built-in
     Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
+    Plug 'hrsh7th/nvim-compe'
+    " Plug 'nvim-lua/completion-nvim'
+    " Plug 'steelsojka/completion-buffers'
     Plug 'nvim-lua/lsp-status.nvim'
     Plug 'hrsh7th/vim-vsnip'
     Plug 'hrsh7th/vim-vsnip-integ'
@@ -463,20 +464,37 @@ function! s:setup_nvim_lsp()
 
 endfunction
 
+function! s:setup_nvim_compe()
+
+    let g:compe_enabled = v:true
+    let g:compe_min_length = 1
+    let g:compe_auto_preselect = v:true " or v:false
+    let g:compe_source_timeout = 200
+    let g:compe_incomplete_delay = 400
+    inoremap <expr><CR>  compe#confirm(lexima#expand('<LT>CR>', 'i'))
+    inoremap <expr><C-e> compe#close('<C-e>')
+
+    lua require'compe_nvim_lsp'.attach()
+    lua require'compe':register_lua_source('buffer', require'compe_buffer')
+    call compe#source#vim_bridge#register('path', compe_path#source#create())
+    call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())
+
+endfunction
+
 function! s:setup_complete_nvim()
     let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
     let g:completion_trigger_keyword_length = 3
     let g:completion_trigger_on_delete = 1
     let g:completion_time_cycle = 500
     let g:completion_confirm_key = ""
-imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
+    imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                     \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
     let g:completion_enable_snippet         = 'vim-vsnip'
-    " let g:completion_sorting = "length" " length or alphabet, none
-    let g:completion_matching_ignore_case = 1
+    let g:completion_sorting = "none" " length or alphabet, none
+    let g:completion_matching_ignore_case = 0
     let g:completion_matching_smart_case = 1
-    let g:completion_enable_auto_hover = 1
-    let g:completion_enable_auto_signature = 1
+    let g:completion_enable_auto_hover = 0
+    let g:completion_enable_auto_signature = 0
     let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
     " let g:completion_chain_complete_list = {
@@ -740,6 +758,8 @@ if s:plug.is_installed('nvim-lspconfig')
         call s:setup_asyncomplete()
     elseif s:plug.is_installed('completion-nvim')
         call s:setup_complete_nvim()
+    elseif s:plug.is_installed('nvim-compe')
+        call s:setup_nvim_compe()
     endif
 
 else
