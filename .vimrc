@@ -1,3 +1,5 @@
+scriptencoding=utf-8
+
 let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
 " let g:polyglot_disabled = ['markdown','md', 'lua']
 
@@ -103,6 +105,8 @@ Plug 'google/vim-searchindex'
 
 Plug 'wakatime/vim-wakatime'
 
+
+let s:use_builtin_lsp = v:true
 " Completion
 if has('nvim')
 
@@ -113,20 +117,23 @@ if has('nvim')
     Plug 'antoinemadec/FixCursorHold.nvim' " https://github.com/neovim/neovim/issues/12587
     Plug 'nvim-treesitter/nvim-treesitter'
 
-    " use coc.nvim
-    " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    if (s:use_builtin_lsp)
+        " use neovim built-in
+        Plug 'neovim/nvim-lspconfig'
+        " Plug 'hrsh7th/nvim-compe'
+        Plug 'nvim-lua/completion-nvim'
+        Plug 'steelsojka/completion-buffers'
+        Plug 'nvim-lua/lsp-status.nvim'
+        Plug 'hrsh7th/vim-vsnip'
+        Plug 'hrsh7th/vim-vsnip-integ'
+        Plug 'RishabhRD/popfix'
+        Plug 'RishabhRD/nvim-lsputils'
+        Plug 'tjdevries/lsp_extensions.nvim'
+    else
+        " use coc.nvim
+        Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    endif
 
-    " use neovim built-in
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'hrsh7th/nvim-compe'
-    " Plug 'nvim-lua/completion-nvim'
-    " Plug 'steelsojka/completion-buffers'
-    Plug 'nvim-lua/lsp-status.nvim'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
-    Plug 'RishabhRD/popfix'
-    Plug 'RishabhRD/nvim-lsputils'
-    Plug 'tjdevries/lsp_extensions.nvim'
 
     " explorer
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
@@ -238,7 +245,7 @@ endfunction
 let mapleader = "\<Space>"
 
 if s:plug.is_installed('FixCursorHold.nvim')
-  " let g:cursorhold_updatetime = 100
+  let g:cursorhold_updatetime = 1000
 endif
 
 " nvim-treesitter {{
@@ -1716,6 +1723,7 @@ endif
 
 colorscheme OceanicNext
 set shell=zsh
+set mouse=n
 
 "*****************************************************************************
 " Copy/Paste/Cut
@@ -1767,7 +1775,7 @@ set nowritebackup
 set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-" set updatetime=3000
+set updatetime=1000
 
 " don't give |ins-completion-menu| messages.
 set shortmess&
@@ -1820,8 +1828,8 @@ nnoremap <Leader>wr :WinResizerStartResize<Enter>
 " noremap <S-l>   $
 
 " remap arrow keys
-nnoremap <Left> :bprev<CR>
-nnoremap <Right> :bnext<CR>
+nnoremap j gj
+nnoremap k gk
 
 inoremap jj <ESC>
 
