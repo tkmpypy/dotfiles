@@ -106,7 +106,7 @@ Plug 'google/vim-searchindex'
 Plug 'wakatime/vim-wakatime'
 
 
-let s:use_builtin_lsp = v:true
+let s:use_builtin_lsp = v:false
 " Completion
 if has('nvim')
 
@@ -489,10 +489,11 @@ function! s:setup_nvim_compe()
 endfunction
 
 function! s:setup_complete_nvim()
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    let g:completion_trigger_keyword_length = 3
+    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+    let g:completion_matching_strategy_list = ['exact']
+    let g:completion_trigger_keyword_length = 2
     let g:completion_trigger_on_delete = 1
-    let g:completion_time_cycle = 500
+    let g:completion_time_cycle = 2000
     let g:completion_confirm_key = ""
     imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                      \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
