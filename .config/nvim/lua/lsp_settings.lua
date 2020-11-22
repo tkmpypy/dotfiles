@@ -7,12 +7,12 @@ end
 
 local vim = vim
 local lsp_status = require('lsp-status')
-local completion = require('completion')
+-- local completion = require('completion')
 local nvim_lsp = require('lspconfig')
 
 local custom_attach = function(client)
     lsp_status.on_attach(client)
-    completion.on_attach(client)
+    -- completion.on_attach(client)
     vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 

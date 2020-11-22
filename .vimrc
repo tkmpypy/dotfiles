@@ -106,7 +106,7 @@ Plug 'google/vim-searchindex'
 Plug 'wakatime/vim-wakatime'
 
 
-let s:use_builtin_lsp = v:false
+let s:use_builtin_lsp = v:true
 " Completion
 if has('nvim')
 
@@ -120,9 +120,9 @@ if has('nvim')
     if (s:use_builtin_lsp)
         " use neovim built-in
         Plug 'neovim/nvim-lspconfig'
-        " Plug 'hrsh7th/nvim-compe'
-        Plug 'nvim-lua/completion-nvim'
-        Plug 'steelsojka/completion-buffers'
+        Plug 'hrsh7th/nvim-compe'
+        " Plug 'nvim-lua/completion-nvim'
+        " Plug 'steelsojka/completion-buffers'
         Plug 'nvim-lua/lsp-status.nvim'
         Plug 'hrsh7th/vim-vsnip'
         Plug 'hrsh7th/vim-vsnip-integ'
@@ -149,6 +149,7 @@ if has('nvim')
     Plug 'nvim-telescope/telescope.nvim'
 
     " ui
+    Plug 'lewis6991/gitsigns.nvim'
     Plug 'glepnir/galaxyline.nvim'
     Plug 'romgrk/barbar.nvim'
         Plug 'romgrk/lib.kom'
@@ -191,6 +192,7 @@ else
     " ui
     Plug 'itchyny/lightline.vim'
     Plug 'mengelbrecht/lightline-bufferline'
+    Plug 'mhinz/vim-signify'
 
 endif
 
@@ -230,7 +232,6 @@ Plug 'tjdevries/cyclist.vim'
 " Git
 Plug 'lambdalisue/gina.vim'
 Plug 'rhysd/git-messenger.vim'
-Plug 'mhinz/vim-signify'
 Plug 'gotchane/vim-git-commit-prefix'
 Plug 'APZelos/blamer.nvim'
 
@@ -970,6 +971,11 @@ if s:plug.is_installed('lightline.vim')
 endif
 " }}
 
+" gitsigns.nvim {{
+if s:plug.is_installed('gitsigns.nvim')
+    lua require('gitsigns').setup()
+endif
+" }}
 " galaxyline.nvim{{
 if s:plug.is_installed('galaxyline.nvim')
     lua require('statusline')
