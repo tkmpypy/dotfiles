@@ -70,15 +70,16 @@ packer.startup {
     -- tree
     use {'kyazdani42/nvim-tree.lua'}
 
+    -- Lua Utils
+    use {'tjdevries/nlua.nvim'}
+    use {'rafcamlet/nvim-luapad'}
+
     -- Utils
     use {'akinsho/nvim-toggleterm.lua'}
     use {'moll/vim-bbye'}
     use {'tyru/caw.vim'}
     use {'godlygeek/tabular'}
     use {'lukas-reineke/format.nvim'}
-    -- Lua Utils
-    use {'tjdevries/nlua.nvim'}
-    use {'rafcamlet/nvim-luapad'}
     use {'airblade/vim-rooter'}
     use {'machakann/vim-sandwich'}
     use {'simeji/winresizer'}
