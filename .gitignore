@@ -54,3 +54,5 @@ bookmarks
 .config/yarn
 .emacs.d/.cache
 .emacs.d/persp-confs
+packer_compiled.vim
+packer_load.vim

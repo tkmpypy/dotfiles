@@ -1,6 +1,7 @@
 scriptencoding=utf-8
 
-let g:polyglot_disabled = ['markdown','md', 'lua']
+let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
+" let g:polyglot_disabled = ['markdown','md', 'lua']
 
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
@@ -36,13 +37,14 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
-" vim-plugの自動インストール
-let s:plug_dir = '~/.vim/plugged'
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-   \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if empty(glob('~/.local/share/nvim/site/pack/packer/opt/packer.nvim'))
+  echo 'start packer.nvim install'
+  silent !git clone https://github.com/wbthomason/packer.nvim
+    \ ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
+  echo 'packer.nvim installed'
 endif
+
+lua require('plugins')
 
 if executable('tmux')  && $TMUX !=# ''
     let g:vimIsInTmux = 1
@@ -50,212 +52,47 @@ else
     let g:vimIsInTmux = 0
 endif
 
-" Install plugins
-call plug#begin(s:plug_dir)
-" Colors
-Plug 'altercation/vim-colors-solarized'
-Plug 'Rigellute/rigel'
-Plug 'w0ng/vim-hybrid'
-Plug 'flrnprz/plastic.vim'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'joshdick/onedark.vim'
-Plug 'sonph/onehalf'
-Plug 'cocopon/iceberg.vim'
-Plug 'dracula/vim'
-Plug 'morhetz/gruvbox'
-Plug 'kaicataldo/material.vim'
-Plug 'edkolev/tmuxline.vim'
-Plug 'sainnhe/edge'
-Plug 'sainnhe/gruvbox-material'
-Plug 'arcticicestudio/nord-vim'
-Plug 'whatyouhide/vim-gotham'
-Plug 'yuttie/hydrangea-vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'junegunn/seoul256.vim'
-Plug 'ghifarit53/tokyonight-vim'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'franbach/miramare'
-
-Plug 'luochen1990/rainbow'
-" <leader>qでアクティブなBufferをキル（windowはそのまま）
-Plug 'moll/vim-bbye'
-" gccでコメントアウト
-Plug 'tyru/caw.vim'
-Plug 'thinca/vim-quickrun'
-Plug 'godlygeek/tabular'
-" Languages
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-Plug 'thosakwe/vim-flutter'
-Plug 'sheerun/vim-polyglot'
-Plug 'metakirby5/codi.vim'
-Plug 'vim-test/vim-test'
-
-" UI
-Plug 'google/vim-searchindex'
-
-
-Plug 'wakatime/vim-wakatime'
-
-
-" Completion
-" use coc.nvim
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-" use vim-lsp
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-" Plug 'dense-analysis/ale'
-" Plug 'maximbaz/lightline-ale'
-" use asyncomplete
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Plug 'prabirshrestha/asyncomplete-buffer.vim'
-" Plug 'prabirshrestha/asyncomplete-file.vim'
-
-" explorer
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-mapping-git.vim'
-
-" finder
-Plug 'junegunn/fzf', { 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
-
-" ui
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'mhinz/vim-signify'
-
-" lang
-Plug 'euclidianAce/BetterLua.vim'
-
-" Visual
-Plug 'yggdroot/indentline'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/glyph-palette.vim'
-" Plug 'hardcoreplayers/dashboard-nvim'
-Plug 'mhinz/vim-startify'
-Plug 'liuchengxu/vista.vim'
-
-Plug 'airblade/vim-rooter'
-
-" Util
-Plug 'MattesGroeger/vim-bookmarks'
-Plug 'machakann/vim-sandwich'
-Plug 'simeji/winresizer'
-Plug 'cohama/lexima.vim'
-Plug 'mattn/webapi-vim'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
-Plug 'glidenote/memolist.vim'
-Plug 'mbbill/undotree'
-Plug 'osyo-manga/vim-over'
-Plug 'rhysd/devdocs.vim'
-Plug 'tyru/operator-camelize.vim'
-  Plug 'kana/vim-operator-user'
-Plug 't9md/vim-choosewin'
-Plug 'pechorin/any-jump.vim'
-Plug 'hrsh7th/vim-eft'
-Plug 'tjdevries/cyclist.vim'
-
-" Git
-Plug 'lambdalisue/gina.vim'
-Plug 'rhysd/git-messenger.vim'
-Plug 'gotchane/vim-git-commit-prefix'
-Plug 'APZelos/blamer.nvim'
-
-call plug#end()
-
-let s:plug = get(g:, 'plugs', {})
-
-function! s:plug.is_installed(name)
-  return has_key(s:plug, a:name) ? isdirectory(s:plug[a:name].dir) : 0
-endfunction
 
 let mapleader = "\<Space>"
 
+let g:cursorhold_updatetime = 1000
 
-" fzf {{
-function! s:init_fzf()
-  " Default fzf layout
-  " - down / up / left / right
-  " let g:fzf_layout = { 'down': '~40%' }
-  let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+" nvim-treesitter {{
+lua require('treesitter')
+" }}
 
-  " [Buffers] Jump to the existing window if possible
-  let g:fzf_buffers_jump = 1
-
-  " [[B]Commits] Customize the options used by 'git log':
-  let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-
-  " [Tags] Command to generate tags file
-  let g:fzf_tags_command = 'ctags -R'
-
-  " [Commands] --expect expression for directly executing the command
-  let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-  " Command for git grep
-  " - fzf#vim#grep(command, with_column, [options], [fullscreen])
-  command! -bang -nargs=* GGrep
-    \ call fzf#vim#grep(
-    \   'git grep --line-number '.shellescape(<q-args>), 0,
-    \   fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'}), <bang>0)
-    " \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
-
-  " Override Colors command. You can safely do this in your .vimrc as fzf.vim
-  " will not override existing commands.
-  command! -bang Colors
-    \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
-
-  " Augmenting Ag command using fzf#vim#with_preview function
-  "   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
-  "     * For syntax-highlighting, Ruby and any of the following tools are required:
-  "       - Bat: https://github.com/sharkdp/bat
-  "       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-  "       - CodeRay: http://coderay.rubychan.de/
-  "       - Rouge: https://github.com/jneen/rouge
-  "
-  "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-  "   :Ag! - Start fzf in fullscreen and display the preview window above
-  command! -bang -nargs=* Ag
-    \ call fzf#vim#ag(<q-args>,
-    \                 <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-    \                         : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-    \                 <bang>0)
-
-  " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-  command! -bang -nargs=* Rg
-    \ call fzf#vim#grep(
-    \   'rg -S --column --hidden --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-    \   <bang>0 ? fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'up:60%')
-    \           : fzf#vim#with_preview({'options': '--exact --reverse --delimiter : --nth 3..'},'right:50%:hidden', '?'),
-    \   <bang>0)
-
-  " Likewise, Files command with preview window
-  command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-  command! -bang -nargs=? -complete=dir GFiles
-    \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-  nnoremap <leader>sb :<C-u>Buffers<CR>
-  nnoremap <leader>sx :<C-u>Commands<CR>
-  nnoremap <leader>sf :<C-u>GFiles<CR>
-  nnoremap <leader>sF :<C-u>Files<CR>
-  nnoremap <leader>sc :<C-u>Commits<CR>
-  nnoremap <leader>sm :<C-u>Marks<CR>
-  nnoremap <leader>scb :<C-u>BCommits<CR>
-  nnoremap <leader>sg :<C-u>Rg<CR>
-  nnoremap <leader>sG :<C-u>GGrep<CR>
-  nnoremap <leader>sr :History<CR>
-  nnoremap <leader>sgs :<C-u>GFiles?<CR>
+" telescope.nvim {{
+function! s:init_telescope()
+  " bat (preview) * 
+  " ripgrep (finder) * 
+  " Treesitter (nvim-treesitter) (finder/preview)
+  " fd (sharkdp/fd) (finder)
+  " git (picker) * 
+  " neovim LSP (picker)
+  " devicons 
+  lua require('telescope_settings')
+  nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.git_files{}<CR>
+  nnoremap <Leader>sgc <cmd>lua require'telescope.builtin'.git_bcommits{}<CR>
+  nnoremap <Leader>sgC <cmd>lua require'telescope.builtin'.git_commits{}<CR>
+  nnoremap <Leader>sgs <cmd>lua require'telescope.builtin'.git_status{}<CR>
+  nnoremap <Leader>sgb <cmd>lua require'telescope.builtin'.git_branches{}<CR>
+  nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
+  nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
+  nnoremap <Leader>s <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>
+  nnoremap <Leader>ss <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
+  nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
+  nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{}<CR>
+  nnoremap <Leader>sc <cmd>lua require'telescope.builtin'.command_history{}<CR>
+  nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
+  nnoremap <Leader>sl <cmd>lua require'telescope.builtin'.loclist{}<CR>
+  nnoremap <Leader>sq <cmd>lua require'telescope.builtin'.quickfix{}<CR>
+  nnoremap <Leader>st <cmd>lua require'telescope.builtin'.treesitter{}<CR>
 endfunction
 
-if s:plug.is_installed('fzf.vim')
-  call s:init_fzf()
-endif
-
-
+call s:init_telescope()
 " }}
+
+
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
 nnoremap <leader>qq :Bdelete!<CR>
@@ -277,7 +114,7 @@ let g:quickrun_config['rust/cargo'] = {
 \ }
 " }}
 " vim-test {{
-let test#strategy = "vimterminal"
+let test#strategy = "neovim"
 let g:test#python#runner = 'pytest'
 let g:test#rust#cargotest#options = {
     \ 'nearest': '-- --nocapture'
@@ -309,34 +146,133 @@ let g:rainbow_active = 1
 " python-syntax {{
 let g:python_highlight_all = 1
 " }}
-function! s:setup_vim_lsp()
-    let g:lsp_settings_filetype_python = 'pyls-ms'
-    let g:lsp_diagnostics_enabled = 1
-    let g:lsp_signs_enabled = 1         " enable signs
-    let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-    let g:lsp_highlights_enabled = 1
-    let g:lsp_textprop_enabled = 1
-    let g:lsp_highlight_references_enabled = 1
-    let g:lsp_virtual_text_enabled = 0
-    highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
-    let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'eslint-language-server']
-    let g:lsp_settings_filetype_typescriptreact = ['typescript-language-server', 'eslint-language-server']
 
-    let g:lsp_signs_error = {'text': '✘'}
-    let g:lsp_signs_warning = {'text': '⚠'} " icons require GUI
-    let g:lsp_signs_hint = {'test': '•'} " icons require GUI
-    command! -nargs=0 OR call execute('LspCodeActionSync source.organizeImports')
-    nmap <leader>rn :LspRename<cr>
-    nmap <silent> gd :tab LspDefinition<cr>
-    nmap <silent> pd :LspPeekDefinition<cr>
-    nmap <silent> gy :tab LspTypeDefinition<cr>
-    nmap <silent> gi :tab LspImplementation<cr>
-    nmap <silent> gr :LspReferences<cr>
-    nmap <silent> gh :LspSignatureHelp<cr>
-    nnoremap <silent> K :LspHover<CR>
-    nmap <leader>qf  :LspCodeAction<cr>
-    nmap <leader>F  :LspDocumentFormat<cr>
-    nmap <leader>I  :OR<cr>
+function! s:set_nvim_lsp_diagnostic_color()
+    hi! LspDiagnosticsVirtualTextError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsVirtualTextWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsVirtualTextInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsVirtualTextHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsSignHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
+    hi! LspDiagnosticsUnderlineError guifg=#FF0000 guibg=NONE guisp=#FF0000 gui=underline cterm=underline
+    hi! LspDiagnosticsUnderlineWarning guifg=#FFDD00 guibg=NONE guisp=#FFDD00 gui=underline cterm=underline
+    hi! LspDiagnosticsUnderlineInformation guifg=#02DB1F guibg=NONE guisp=#02DB1F gui=underline cterm=underline
+    hi! LspDiagnosticsUnderlineHint guifg=#02DAF2 guibg=NONE guisp=#02DAF2 gui=underline cterm=underline
+endfunction
+
+
+function! s:setup_nvim_lsp()
+    lua require('lsp_settings')
+    call sign_define("LspDiagnosticsSignError", {"text" : "✘", "texthl" : "LspDiagnosticsSignError"})
+    call sign_define("LspDiagnosticsSignWarning", {"text" : "⚠", "texthl" : "LspDiagnosticsSignWarning"})
+    call sign_define("LspDiagnosticsSignInformation", {"text" : "כֿ", "texthl" : "LspDiagnosticsSignInformation"})
+    call sign_define("LspDiagnosticsSignHint", {"text" : "•", "texthl" : "LspDiagnosticsSignHint"})
+
+    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
+    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+    nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
+    nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
+    nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
+    nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+    nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+    nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+    nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+
+    autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
+    autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
+
+endfunction
+
+function! s:setup_nvim_compe()
+
+    let g:compe_enabled = v:true
+    let g:compe_min_length = 1
+    let g:compe_auto_preselect = v:true " or v:false
+    let g:compe_source_timeout = 200
+    let g:compe_incomplete_delay = 400
+    inoremap <expr><CR>  compe#confirm(lexima#expand('<LT>CR>', 'i'))
+    inoremap <expr><C-e> compe#close('<C-e>')
+
+    lua require'compe_nvim_lsp'.attach()
+    lua require'compe':register_lua_source('buffer', require'compe_buffer')
+    call compe#source#vim_bridge#register('path', compe_path#source#create())
+    call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())
+
+endfunction
+
+function! s:setup_complete_nvim()
+    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+    let g:completion_matching_strategy_list = ['exact']
+    let g:completion_trigger_keyword_length = 2
+    let g:completion_trigger_on_delete = 1
+    let g:completion_time_cycle = 2000
+    let g:completion_confirm_key = ""
+    imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                     \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
+    let g:completion_enable_snippet         = 'vim-vsnip'
+    let g:completion_sorting = "none" " length or alphabet, none
+    let g:completion_matching_ignore_case = 0
+    let g:completion_matching_smart_case = 1
+    let g:completion_enable_auto_hover = 0
+    let g:completion_enable_auto_signature = 0
+    let g:completion_max_items = 20
+    let g:completion_trigger_character = ['.', '::']
+    " let g:completion_chain_complete_list = {
+    "           \ 'default': {
+    "           \   'default': [
+    "           \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
+    "           \      {'mode': '<c-p>'},
+    "           \      {'mode': '<c-n>'},
+    "           \   ],
+    "           \ },
+    "           \ }
+    let g:completion_auto_change_source = 1
+    let g:completion_customize_lsp_label = {
+          \  'Function'      : "",
+          \  'Method'        : "",
+          \  'Variable'      : "",
+          \  'Constant'      : "",
+          \  'Struct'        : "פּ",
+          \  'Class'         : "",
+          \  'Interface'     : "禍",
+          \  'Text'          : "",
+          \  'Enum'          : "",
+          \  'EnumMember'    : "",
+          \  'Module'        : "",
+          \  'Color'         : "",
+          \  'Property'      : "襁",
+          \  'Field'         : "綠",
+          \  'Unit'          : "",
+          \  'File'          : "",
+          \  'Value'         : "",
+          \  'Event'         : "鬒",
+          \  'Folder'        : "",
+          \  'Keyword'       : "",
+          \  'Snippet'       : "",
+          \  'Operator'      : "洛",
+          \  'Reference'     : " ",
+          \  'TypeParameter' : "",
+          \  'Default'       : ""
+    \ }
+    imap <c-j> <Plug>(completion_next_source)
+    imap <c-k> <Plug>(completion_prev_source)
+
+endfunction
+
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
 endfunction
 
 function! s:setup_coc()
@@ -466,8 +402,8 @@ function! s:setup_coc()
     nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
     " Use `:Format` to format current buffer
-    command! -nargs=0 Format :call CocActionAsync('format')
-    nnoremap <silent> <space>F  :<C-u>Format<cr>
+    " command! -nargs=0 Format :call CocActionAsync('format')
+    " nnoremap <silent> <space>F  :<C-u>Format<cr>
     
     nnoremap <silent> <space>I  :<C-u>OR<cr>
     " coc-translator
@@ -482,46 +418,8 @@ function! s:setup_coc()
 
 endfunction
 
-function! s:setup_asyncomplete()
-    let g:asyncomplete_auto_popup = 1
-    let g:asyncomplete_popup_delay = 0
-    let g:asyncomplete_smart_completion = 1
-    let g:asyncomplete_remove_duplicates = 1
-    " buffer
-    call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-        \ 'name': 'buffer',
-        \ 'whitelist': ['*'],
-        \ 'priority': 1000,
-        \ 'completor': function('asyncomplete#sources#buffer#completor'),
-        \ 'config': {
-        \    'max_buffer_size': 500,
-        \  },
-        \ }))
-    " file
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-        \ 'name': 'file',
-        \ 'whitelist': ['*'],
-        \ 'priority': 1001,
-        \ 'config': {
-        \    'max_buffer_size': 500,
-        \  },
-        \ 'completor': function('asyncomplete#sources#file#completor')
-        \ }))
-    if s:plug.is_installed('asyncomplete_neovim_lsp')
-        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#lsp#get_source_options({}))
-    endif
-endfunction
-
-if s:plug.is_installed('coc.nvim')
-    call s:setup_coc()
-endif
-
-if s:plug.is_installed('vim-lsp')
-    call s:setup_vim_lsp()
-    if s:plug.is_installed('asyncomplete.vim')
-        call s:setup_asyncomplete()
-    endif
-endif
+call s:setup_nvim_lsp()
+call s:setup_nvim_compe()
 
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
@@ -544,71 +442,12 @@ let g:blamer_prefix = '  '
 let g:blamer_template = '<committer>, <committer-time> • <summary>'
 nnoremap <Leader>gbt :BlamerToggle<CR>
 " }}
-" itchyny/lightline.vim {{
-if s:plug.is_installed('lightline.vim')
 
-    let g:lightline = {}
-    let g:lightline_buffer_readonly_icon = ''
-    let g:lightline_buffer_modified_icon = '✭'
-    if s:plug.is_installed('lightline-bufferline')
-        set showtabline=2
-        let g:lightline#bufferline#enable_nerdfont = 1
-        let g:lightline#bufferline#show_number  = 2
-        let g:lightline#bufferline#shorten_path = 0
-        let g:lightline#bufferline#unnamed      = '[No Name]'
-        let g:lightline#bufferline#filename_modifier = ':t'
-        let g:lightline#bufferline#unicode_symbols = 1
-
-        let g:lightline.tabline = {
-            \   'left': [ [ 'buffers' ],
-            \             [ 'separator' ],
-            \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-            \   'right': [ [ 'close' ], ],
-            \ }
-        let g:lightline.component_expand = {
-          \  'buffers': 'lightline#bufferline#buffers',
-          \ }
-        let g:lightline.component_type = {
-            \   'buffers': 'tabsel',
-            \ }
-    endif
-        let g:lightline.component_function = {
-            \   'coc_status': 'coc#status',
-            \   'currentfunction': 'CocCurrentFunction',
-            \   'icon_filetype': 'Get_Icon_Filetype',
-            \   'icon_fileformat': 'Get_Icon_Fileformat',
-            \   'branch': 'GetBranchName',
-            \   'git_status': 'GetGitStatus',
-            \   'filename': 'LightlineFilename',
-            \ }
-
-    let g:lightline.component = {
-        \   'lineinfo': ' %3l:%-2v',
-        \   'percent': '%3p%%',
-        \   'percentwin': '%P',
-        \   'absolutepath': '%F',
-        \   'relativepath': '%f',
-        \   'line': '%l',
-        \ }
-    let g:lightline.separator = {'left': '', 'right': ''}
-    let g:lightline.subseparator = { 'left': '', 'right': '' }
-
-    if s:plug.is_installed('coc.nvim')
-        let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'], ['coc_status'] ],
-            \ }
-    else
-        let g:lightline.active = {
-            \   'left': [ ['mode', 'paste'], ['filename', 'icon_filetype'], ['currentfunction']  ],
-            \   'right': [ ['git_status', 'branch'], ['icon_fileformat', 'percent', 'line'] ],
-            \ }
-    end
-
-    let g:lightline.colorscheme = 'edge'
-    " Use auocmd to force lightline update.
-    autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-endif
+" gitsigns.nvim {{
+lua require('gitsigns').setup()
+" }}
+" galaxyline.nvim{{
+lua require('statusline')
 " }}
 
 function! GetGitStatus()
@@ -651,11 +490,21 @@ endfunction
 function! Get_Icon_Fileformat()
   return winwidth(0) > 70 ? (&fileformat . ' ' . nerdfont#find()) : ''
 endfunction
+" }}
 
-" scrooloose/nerdtree {{
-" let g:NERDTreeShowHidden = 1
-" nnoremap <leader>ft :NERDTreeToggle<CR>
-" nnoremap <leader>ff :NERDTreeFind<CR>
+" nvim-toggleterm.lua {{
+lua require('terminal_settings')
+" }}
+
+" format.nvim {{
+lua require('formatter_settings')
+let g:format_debug = v:true
+nnoremap <space>F  :<C-u>Format<cr>
+" }}
+
+" nvim-colorizer.lua{{
+set termguicolors
+lua require('colorizer').setup()
 " }}
 " quick-scope {{
 augroup qs_colors
@@ -667,77 +516,83 @@ let g:qs_lazy_highlight = 0
 let g:qs_max_chars=120
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " }}
-" fern.vim {{
-function! s:init_fern() abort
-    setlocal nonumber
-    setlocal norelativenumber
-    let b:indentLine_enabled = 0
-    " Disable netrw
-    let g:loaded_netrw             = 1
-    let g:loaded_netrwPlugin       = 1
-    let g:loaded_netrwSettings     = 1
-    let g:loaded_netrwFileHandlers = 1
 
-    " Define NERDTree like mappings
-    nmap <buffer> o <Plug>(fern-action-open:edit)
-    nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
-    nmap <buffer> t <Plug>(fern-action-open:tabedit)
-    nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
-    nmap <buffer> i <Plug>(fern-action-open:split)
-    nmap <buffer> gi <Plug>(fern-action-open:split)<C-w>p
-    nmap <buffer> s <Plug>(fern-action-open:vsplit)
-    nmap <buffer> gs <Plug>(fern-action-open:vsplit)<C-w>p
+function! s:init_nvim_tree() abort
+  let g:lua_tree_side = 'left' "left by default
+  let g:lua_tree_width = 30 "30 by default
+  let g:lua_tree_ignore = [ 'node_modules', '.cache', '.DS_Store' ] "empty by default
+  let g:lua_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+  let g:lua_tree_auto_close = 0 "0 by default, closes the tree when it's the last window
+  let g:lua_tree_follow = 0 "0 by default, this option allows the cursor to be updated when entering a buffer
+  let g:lua_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+  let g:lua_tree_hide_dotfiles = 0 "0 by default, this option hides files and folders starting with a dot `.`
+  let g:lua_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+  let g:lua_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+  let g:lua_tree_tab_open = 0 "0 by default, will open the tree when entering a new tab and the tree was previously open
+  let g:lua_tree_show_icons = {
+      \ 'git': 1,
+      \ 'folders': 1,
+      \ 'files': 1,
+      \}
+  "If 0, do not show the icons for one of 'git' 'folder' and 'files'
+  "1 by default, notice that if 'files' is 1, it will only display
+  "if nvim-web-devicons is installed and on your runtimepath
 
-    nmap <buffer> P gg
+  " You can edit keybindings be defining this variable
+  " You don't have to define all keys.
+  " NOTE: the 'edit' key will wrap/unwrap a folder and open a file
+  let g:lua_tree_bindings = {
+      \ 'edit':            ['<CR>', 'o'],
+      \ 'edit_vsplit':     's',
+      \ 'edit_split':      'x',
+      \ 'edit_tab':        't',
+      \ 'toggle_ignored':  'I',
+      \ 'toggle_dotfiles': 'H',
+      \ 'refresh':         'R',
+      \ 'preview':         '<Tab>',
+      \ 'cd':              '<C-]>',
+      \ 'create':          'n',
+      \ 'remove':          'd',
+      \ 'rename':          'r',
+      \ 'cut':             'x',
+      \ 'copy':            'c',
+      \ 'paste':           'p',
+      \ 'prev_git_item':   '[c',
+      \ 'next_git_item':   ']c',
+      \ }
 
-    nmap <buffer> C <Plug>(fern-action-enter)
-    nmap <buffer> u <Plug>(fern-action-leave)
-    nmap <buffer> r <Plug>(fern-action-reload)
-    nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
-    nmap <buffer> cd <Plug>(fern-action-cd)
-    nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
+  " Disable default mappings by plugin
+  " Bindings are enable by default, disabled on any non-zero value
+  " let lua_tree_disable_keybindings=1
 
-    nmap <buffer> I <Plug>(fern-action-hide-toggle)
+  " default will show icon by default if no icon is provided
+  " default shows no icon by default
+  let g:lua_tree_icons = {
+      \ 'default': '',
+      \ 'symlink': '',
+      \ 'git': {
+      \   'unstaged': "✗",
+      \   'staged': "✓",
+      \   'unmerged': "",
+      \   'renamed': "➜",
+      \   'untracked': "★"
+      \   },
+      \ 'folder': {
+      \   'default': "",
+      \   'open': ""
+      \   }
+      \ }
 
-    nmap <buffer> q :<C-u>quit<CR>
-    nmap <buffer><expr>
-      \ <Plug>(fern-my-expand-or-collapse)
-      \ fern#smart#leaf(
-      \   "\<Plug>(fern-action-collapse)",
-      \   "\<Plug>(fern-action-expand)",
-      \   "\<Plug>(fern-action-collapse)",
-      \ )
-    nmap <buffer><expr>
-      \ <Plug>(fern-my-expand-or-enter)
-      \ fern#smart#drawer(
-      \   "\<Plug>(fern-action-open-or-expand)",
-      \   "\<Plug>(fern-action-open-or-enter)",
-      \ )
-    nmap <buffer><expr>
-      \ <Plug>(fern-my-collapse-or-leave)
-      \ fern#smart#drawer(
-      \   "\<Plug>(fern-action-collapse)",
-      \   "\<Plug>(fern-action-leave)",
-      \ )
-    nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
-    nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
+  nnoremap <silent><leader>ft :LuaTreeToggle<CR>
+  nnoremap <silent><leader>fr :LuaTreeRefresh<CR>
+  nnoremap <silent><leader>ff :LuaTreeFindFile<CR>
+  " LuaTreeOpen and LuaTreeClose are also available if you need them
 
+  " a list of groups can be found at `:help lua_tree_highlight`
+  highlight LuaTreeFolderIcon guibg=blue
 endfunction
 
-if s:plug.is_installed('fern.vim')
-  augroup fern-custom
-      autocmd! *
-      autocmd FileType fern call glyph_palette#apply()
-      autocmd FileType fern call s:init_fern()
-  augroup END
-  let g:fern#drawer_keep = v:false
-  let g:fern#default_hidden = 1
-  let g:fern#keepalt_on_edit = 1
-  let g:fern#renderer = "nerdfont"
-  nmap <silent><leader>ft :Fern . -drawer -toggle<CR>
-  nmap <silent><leader>ff :Fern . -reveal=% -drawer -toggle<CR>
-end
-
+call s:init_nvim_tree()
 " }}
 " vim-rooter {{
 nnoremap <leader>cdr :Rooter<CR>
@@ -846,12 +701,7 @@ let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
 
-if s:plug.is_installed('vim-lsp')
-    let g:vista_default_executive = 'vim_lsp'
-elseif s:plug.is_installed('coc.nvim')
-    let g:vista_default_executive = 'coc'
-endif
-
+let g:vista_default_executive = 'nvim_lsp'
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
 " specifying the executive.
@@ -1144,7 +994,9 @@ if !has('gui_running')
   endif
 endif
 
-set termguicolors
+if (has("termguicolors"))
+  set termguicolors
+endif
 
 " completion settings
 " set complete&
@@ -1168,9 +1020,9 @@ if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
     let &t_ZR = "\e[23m"
   endif
 endif
-set t_Co=256
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+" set t_Co=256
+" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 
 set wrap
 set wildmenu
@@ -1233,8 +1085,12 @@ let g:miramare_disable_italic_comment = 1
 let g:miramare_enable_bold = 1
 " }}
 
+" oceanic-next{{
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
+" }}
 
-colorscheme edge
+colorscheme OceanicNext
 set shell=zsh
 set mouse=n
 
@@ -1275,7 +1131,7 @@ autocmd FileType lua setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-" set redrawtime=10000
+set redrawtime=10000
 
 
 "*****************************************************************************
@@ -1312,8 +1168,6 @@ set synmaxcol=200
 "*****************************************************************************
 " KeyMap
 "*****************************************************************************
-
-nnoremap <Leader>r :source ~/.vimrc<Enter>
 
 " echo current buffer path
 nnoremap <leader>ec :echo expand("%:p")<CR>
@@ -1353,6 +1207,9 @@ nnoremap H 10h
 vnoremap L 10l
 vnoremap H 10h
 
+" terminal
+" ESCでターミナルモードからノーマルモードへ
+tnoremap <C-W>N <C-\><C-N>
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
