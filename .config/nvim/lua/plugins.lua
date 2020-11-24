@@ -8,14 +8,14 @@ local packer = require('packer')
 local use = packer.use
 local util = require('packer.util')
 
-vim.g.use_builtin_lsp = true
-
 packer.startup {
   function()
     -- Packer can manage itself as an optional plugin
     use {'wbthomason/packer.nvim', opt = true}
 
-    use {'nvim-treesitter/nvim-treesitter'}
+    if (vim.g.use_treesitter) then
+      use {'nvim-treesitter/nvim-treesitter'}
+    end
 
     -- ColorScheme
     use {'altercation/vim-colors-solarized', opt = true}

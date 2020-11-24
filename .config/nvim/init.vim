@@ -1,7 +1,13 @@
 scriptencoding=utf-8
 
-let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
-" let g:polyglot_disabled = ['markdown','md', 'lua']
+let g:use_treesitter = v:false
+let g:use_builtin_lsp = v:true
+
+if (g:use_treesitter)
+  let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
+else
+  let g:polyglot_disabled = ['markdown','md', 'lua']
+endif
 
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
@@ -58,7 +64,9 @@ let mapleader = "\<Space>"
 let g:cursorhold_updatetime = 1000
 
 " nvim-treesitter {{
-lua require('treesitter')
+if (g:use_treesitter)
+  lua require('treesitter')
+endif
 " }}
 
 " telescope.nvim {{
