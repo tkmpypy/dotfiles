@@ -1,6 +1,6 @@
 scriptencoding=utf-8
 
-let g:use_treesitter = v:false
+let g:use_treesitter = v:true
 let g:use_builtin_lsp = v:false
 
 if (g:use_treesitter)
