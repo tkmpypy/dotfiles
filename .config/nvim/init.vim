@@ -1,7 +1,7 @@
 scriptencoding=utf-8
 
 let g:use_treesitter = v:false
-let g:use_builtin_lsp = v:true
+let g:use_builtin_lsp = v:false
 
 if (g:use_treesitter)
   let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
@@ -89,7 +89,7 @@ function! s:init_telescope()
   nnoremap <Leader>s <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>
   nnoremap <Leader>ss <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
   nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
-  nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{}<CR>
+  nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{ show_all_buffers = true }<CR>
   nnoremap <Leader>sc <cmd>lua require'telescope.builtin'.command_history{}<CR>
   nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
   nnoremap <Leader>sl <cmd>lua require'telescope.builtin'.loclist{}<CR>
@@ -426,9 +426,12 @@ function! s:setup_coc()
 
 endfunction
 
-call s:setup_nvim_lsp()
-call s:setup_nvim_compe()
-
+if g:use_builtin_lsp
+  call s:setup_nvim_lsp()
+  call s:setup_nvim_compe()
+else
+  call s:setup_coc()
+endif
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
 " }}
