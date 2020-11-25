@@ -64,7 +64,7 @@ packer.startup {
     use {'glepnir/galaxyline.nvim'}
     -- use {'akinsho/nvim-bufferline.lua'}
     use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
-    use {'yggdroot/indentline'}
+    use {'glepnir/indent-guides.nvim'}
     use {'mhinz/vim-startify'}
     use {'liuchengxu/vista.vim'}
 
@@ -90,7 +90,6 @@ packer.startup {
     use {'mbbill/undotree'}
     use {'osyo-manga/vim-over'}
     use {'tyru/operator-camelize.vim', requires = {{'kana/vim-operator-user'}}}
-    use {'t9md/vim-choosewin'}
     use {'pechorin/any-jump.vim'}
     use {'hrsh7th/vim-eft'}
 
@@ -117,21 +116,21 @@ packer.startup {
     if (vim.g.use_builtin_lsp) then
       -- use neovim built-in
       use {'neovim/nvim-lspconfig'}
-      use {
-        'hrsh7th/nvim-compe',
-        requires = {
-          {'hrsh7th/vim-vsnip-integ', opt = true},
-          {'hrsh7th/vim-vsnip', opt = true}
-        }
-      }
       -- use {
-      --   'nvim-lua/completion-nvim',
+      --   'hrsh7th/nvim-compe',
       --   requires = {
-      --     {'steelsojka/completion-buffers', opt = true},
       --     {'hrsh7th/vim-vsnip-integ', opt = true},
-      --     {'hrsh7th/vim-vsnip', opt = true},
+      --     {'hrsh7th/vim-vsnip', opt = true}
       --   }
       -- }
+      use {
+        'nvim-lua/completion-nvim',
+        requires = {
+          {'steelsojka/completion-buffers', opt = true},
+          {'hrsh7th/vim-vsnip-integ', opt = true},
+          {'hrsh7th/vim-vsnip', opt = true},
+        }
+      }
       use {'nvim-lua/lsp-status.nvim'}
       use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
       use {'tjdevries/lsp_extensions.nvim'}
@@ -139,7 +138,8 @@ packer.startup {
       use {'neoclide/coc.nvim', run = 'yarn install --frozen-lockfile'}
     end
 
-    use {'~/projects/pika.nvim'}
+    use {'~/private/pika.nvim'}
+    use {'~/private/chowcho.nvim'}
   end,
   config = {
     display = {

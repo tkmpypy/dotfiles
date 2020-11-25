@@ -31,6 +31,8 @@ let g:loaded_netrwPlugin       = 1
 let g:loaded_netrwSettings     = 1
 let g:loaded_netrwFileHandlers = 1
 
+let g:vimsyn_embed = 'l'
+
 filetype plugin indent on
 syntax on
 
@@ -229,8 +231,8 @@ function! s:setup_complete_nvim()
     let g:completion_sorting = "none" " length or alphabet, none
     let g:completion_matching_ignore_case = 0
     let g:completion_matching_smart_case = 1
-    let g:completion_enable_auto_hover = 0
-    let g:completion_enable_auto_signature = 0
+    let g:completion_enable_auto_hover = 1
+    let g:completion_enable_auto_signature = 1
     let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
     " let g:completion_chain_complete_list = {
@@ -428,22 +430,29 @@ endfunction
 
 if g:use_builtin_lsp
   call s:setup_nvim_lsp()
-  call s:setup_nvim_compe()
+  " call s:setup_nvim_compe()
+  call s:setup_complete_nvim()
 else
   call s:setup_coc()
 endif
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
 " }}
-" indentLine {{
-let g:indentLine_concealcursor = 'inc'
-let g:indentLine_conceallevel = 2
+" indent-guides.nvim {{
+lua << EOF
+require('indent_guides').options = {
+    indent_levels = 10,
+    indent_guide_size = 2,
+    indent_start_level = 1,
+    indent_space_guides = false,
+    indent_tab_guides = false,
+    indent_pretty_guides = false,
+    exclude_filetypes = {'help', 'packer', 'LuaTree'},
+}
+EOF
+
 " }}
 
-let g:git_icon = ' '
-function! GetBranchName()
-    return g:git_icon . gina#component#repo#branch()
-endfunction
 " blamer.nvim{{
 let g:blamer_enabled = 0
 let g:blamer_delay = 1000
@@ -455,52 +464,15 @@ nnoremap <Leader>gbt :BlamerToggle<CR>
 " }}
 
 " gitsigns.nvim {{
-lua require('gitsigns').setup()
+
+lua << EOF
+require('gitsigns').setup{
+  sign_priority = 1,
+}
+EOF
 " }}
 " galaxyline.nvim{{
 lua require('statusline')
-" }}
-
-function! GetGitStatus()
-    return gina#component#traffic#preset("fancy") == ' ' ? '↑0 ↓0' : gina#component#traffic#preset("fancy")
-endfunction
-
-function! LightlineModified()
-  if &filetype == 'help'
-    return ''
-  elseif &modified
-    return g:lightline_buffer_modified_icon
-  elseif &modifiable
-    return ''
-  else
-    return '-'
-  endif
-endfunction
-
-function! LightlineReadonly()
-  if &filetype == 'help'
-    return ''
-  elseif &readonly
-    return g:lightline_buffer_readonly_icon
-  else
-    return ''
-  endif
-endfunction
-
-function! LightlineFilename()
-  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-endfunction
-" }}
-
-function! Get_Icon_Filetype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . nerdfont#find() : 'no ft') : ''
-endfunction
-
-function! Get_Icon_Fileformat()
-  return winwidth(0) > 70 ? (&fileformat . ' ' . nerdfont#find()) : ''
-endfunction
 " }}
 
 " nvim-toggleterm.lua {{
@@ -1031,9 +1003,9 @@ if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
     let &t_ZR = "\e[23m"
   endif
 endif
-" set t_Co=256
-" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set t_Co=256
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 
 set wrap
 set wildmenu
@@ -1211,7 +1183,8 @@ nnoremap <Leader>wr :WinResizerStartResize<Enter>
 nnoremap j gj
 nnoremap k gk
 
-inoremap jj <ESC>
+inoremap <C-j> <ESC>
+
 
 nnoremap L 10l
 nnoremap H 10h
