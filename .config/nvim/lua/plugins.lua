@@ -64,7 +64,7 @@ packer.startup {
     use {'glepnir/galaxyline.nvim'}
     -- use {'akinsho/nvim-bufferline.lua'}
     use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
-    use {'glepnir/indent-guides.nvim'}
+    -- use {'glepnir/indent-guides.nvim'}
     use {'mhinz/vim-startify'}
     use {'liuchengxu/vista.vim'}
 

@@ -63,7 +63,7 @@ endif
 
 let mapleader = "\<Space>"
 
-let g:cursorhold_updatetime = 1000
+let g:cursorhold_updatetime = 100
 
 " nvim-treesitter {{
 if (g:use_treesitter)
@@ -221,9 +221,9 @@ endfunction
 function! s:setup_complete_nvim()
     " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
     let g:completion_matching_strategy_list = ['exact']
-    let g:completion_trigger_keyword_length = 2
+    let g:completion_trigger_keyword_length = 1
     let g:completion_trigger_on_delete = 1
-    let g:completion_time_cycle = 2000
+    let g:completion_time_cycle = 100
     let g:completion_confirm_key = ""
     imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                      \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
@@ -231,19 +231,21 @@ function! s:setup_complete_nvim()
     let g:completion_sorting = "none" " length or alphabet, none
     let g:completion_matching_ignore_case = 0
     let g:completion_matching_smart_case = 1
-    let g:completion_enable_auto_hover = 1
-    let g:completion_enable_auto_signature = 1
+    let g:completion_enable_auto_hover = 0
+    let g:completion_enable_auto_signature = 0
     let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
-    " let g:completion_chain_complete_list = {
-    "           \ 'default': {
-    "           \   'default': [
-    "           \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
-    "           \      {'mode': '<c-p>'},
-    "           \      {'mode': '<c-n>'},
-    "           \   ],
-    "           \ },
-    "           \ }
+    let g:completion_chain_complete_list = {
+              \ 'default': {
+              \   'default': [
+              \      {'complete_items': ['lsp', 'snippet']},
+              \      {'complete_items': ['buffer', 'buffers', 'path']},
+              \      {'complete_items': ['path']},
+              \      {'mode': '<c-p>'},
+              \      {'mode': '<c-n>'},
+              \   ],
+              \ },
+              \ }
     let g:completion_auto_change_source = 1
     let g:completion_customize_lsp_label = {
           \  'Function'      : "",
@@ -440,15 +442,16 @@ let g:vim_json_syntax_conceal = 0
 " }}
 " indent-guides.nvim {{
 lua << EOF
-require('indent_guides').options = {
-    indent_levels = 10,
-    indent_guide_size = 2,
-    indent_start_level = 1,
-    indent_space_guides = false,
-    indent_tab_guides = false,
-    indent_pretty_guides = false,
-    exclude_filetypes = {'help', 'packer', 'LuaTree'},
-}
+-- require('indent_guides').options = {
+--     indent_levels = 30,
+--     indent_guide_size = 0,
+--     indent_start_level = 1,
+--     indent_space_guides = true,
+--     indent_tab_guides = true,
+--     indent_pretty_guides = false,
+--     indent_soft_pattern = '\\s',
+--     exclude_filetypes = {'help', 'packer', 'LuaTree', 'startify'},
+-- }
 EOF
 
 " }}
@@ -1114,7 +1117,7 @@ autocmd FileType lua setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-set redrawtime=10000
+set redrawtime=1000
 
 
 "*****************************************************************************
@@ -1129,7 +1132,7 @@ set nowritebackup
 set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=1000
+set updatetime=100
 
 " don't give |ins-completion-menu| messages.
 set shortmess&
