@@ -7,16 +7,16 @@ end
 
 local vim = vim
 local lsp_status = require('lsp-status')
-local completion = require('completion')
+lsp_status.register_progress()
+-- local completion = require('completion')
 local nvim_lsp = require('lspconfig')
 
 local custom_attach = function(client)
   lsp_status.on_attach(client)
-  completion.on_attach(client)
+  -- completion.on_attach(client)
   vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
-lsp_status.register_progress()
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

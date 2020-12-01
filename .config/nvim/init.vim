@@ -1,7 +1,7 @@
 scriptencoding=utf-8
 
 let g:use_treesitter = v:true
-let g:use_builtin_lsp = v:false
+let g:use_builtin_lsp = v:true
 
 if (g:use_treesitter)
   let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
@@ -204,14 +204,17 @@ endfunction
 function! s:setup_nvim_compe()
 
     let g:compe_enabled = v:true
+    let g:compe_debug = v:false
     let g:compe_min_length = 1
-    let g:compe_auto_preselect = v:true " or v:false
+    let g:compe_auto_preselect = v:false " or v:false
+    let g:compe_throttle_time = 120
     let g:compe_source_timeout = 200
     let g:compe_incomplete_delay = 400
     inoremap <expr><CR>  compe#confirm(lexima#expand('<LT>CR>', 'i'))
     inoremap <expr><C-e> compe#close('<C-e>')
 
     lua require'compe_nvim_lsp'.attach()
+    " lua require'compe_nvim_lua'.attach()
     lua require'compe':register_lua_source('buffer', require'compe_buffer')
     call compe#source#vim_bridge#register('path', compe_path#source#create())
     call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())
@@ -432,8 +435,8 @@ endfunction
 
 if g:use_builtin_lsp
   call s:setup_nvim_lsp()
-  " call s:setup_nvim_compe()
-  call s:setup_complete_nvim()
+  call s:setup_nvim_compe()
+  " call s:setup_complete_nvim()
 else
   call s:setup_coc()
 endif

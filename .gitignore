@@ -56,3 +56,4 @@ bookmarks
 .emacs.d/persp-confs
 packer_compiled.vim
 packer_load.vim
+.config/gcloud/logs

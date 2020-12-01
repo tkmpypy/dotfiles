@@ -90,6 +90,10 @@ local checkwidth = function()
   return false
 end
 
+local lsp_status = function()
+  return require('lsp-status').status()
+end
+
 gls.left[7] = {
   DiffAdd = {
     provider = 'DiffAdd',
@@ -190,6 +194,16 @@ gls.short_line_right[1] = {
     highlight = {colors.fg,colors.purple}
   }
 }
+
+-- if (vim.g.use_builtin_lsp) then
+--   gls.left[14] = {
+--     LspStatus = {
+--       provider = lsp_status,
+--       condition = function() return #vim.lsp.buf_get_clients() > 0 end,
+--       highlight = {colors.green,colors.line_bg},
+--     }
+--   }
+-- end
 
 -- local gl = require('galaxyline')
 -- local gls = gl.section
