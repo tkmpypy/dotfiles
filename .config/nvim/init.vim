@@ -1203,3 +1203,6 @@ tnoremap <C-W>N <C-\><C-N>
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
+
+" My plugin mapping
+nnoremap <silent><Leader>ww :Chowcho<CR>

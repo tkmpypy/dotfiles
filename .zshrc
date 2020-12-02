@@ -69,12 +69,18 @@ zinit light-mode for \
 
 # Theme
 zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# starship
 # zinit ice from"gh-r" as"program" bpick"*apple-darwin*" atload='eval "$(starship init zsh)"'
 # zinit load starship/starship
 
 # Neovim
-zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
-zinit load neovim/neovim
+# zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
+# zinit load neovim/neovim
+
+# delta
+zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
+zinit load dandavison/delta
 
 
 # alias
