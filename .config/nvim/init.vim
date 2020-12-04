@@ -477,9 +477,6 @@ require('gitsigns').setup{
 }
 EOF
 " }}
-" galaxyline.nvim{{
-lua require('statusline')
-" }}
 
 " nvim-toggleterm.lua {{
 lua require('terminal_settings')

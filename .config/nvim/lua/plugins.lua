@@ -61,7 +61,12 @@ packer.startup {
     use {'norcalli/nvim-colorizer.lua'}
     use {'google/vim-searchindex'}
     use {'kyazdani42/nvim-web-devicons'}
-    use {'glepnir/galaxyline.nvim'}
+    use {
+      'glepnir/galaxyline.nvim',
+      branch = 'main',
+      config = function() return require('statusline') end,
+      requires = {'kyazdani42/nvim-web-devicons', opt = true}
+    }
     -- use {'akinsho/nvim-bufferline.lua'}
     use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
     -- use {'glepnir/indent-guides.nvim'}
@@ -92,6 +97,7 @@ packer.startup {
     use {'tyru/operator-camelize.vim', requires = {{'kana/vim-operator-user'}}}
     use {'pechorin/any-jump.vim'}
     use {'hrsh7th/vim-eft'}
+    use {'mtdl9/vim-log-highlighting'}
 
     -- finder
     use {
