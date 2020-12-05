@@ -1117,7 +1117,7 @@ autocmd FileType lua setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-set redrawtime=1000
+set redrawtime=10000
 
 
 "*****************************************************************************
