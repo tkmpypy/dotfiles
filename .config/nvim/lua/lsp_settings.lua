@@ -17,7 +17,6 @@ local custom_attach = function(client)
   vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
-
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
       -- Enable underline, use default values

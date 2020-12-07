@@ -202,22 +202,30 @@ function! s:setup_nvim_lsp()
 endfunction
 
 function! s:setup_nvim_compe()
+lua <<EOF
+  require'compe'.setup {
+    enabled = true;
+    debug = false;
+    min_length = 1;
+    auto_preselect = true;
+    throttle_time = 120;
+    source_timeout = 200;
+    incomplete_delay = 400;
+    allow_prefix_unmatch = true;
 
-    let g:compe_enabled = v:true
-    let g:compe_debug = v:false
-    let g:compe_min_length = 1
-    let g:compe_auto_preselect = v:false " or v:false
-    let g:compe_throttle_time = 120
-    let g:compe_source_timeout = 200
-    let g:compe_incomplete_delay = 400
-    inoremap <expr><CR>  compe#confirm(lexima#expand('<LT>CR>', 'i'))
-    inoremap <expr><C-e> compe#close('<C-e>')
+    source = {
+      path = true;
+      buffer = true;
+      vsnip = true;
+      nvim_lsp = true;
+      nvim_lua = true;
+    };
+  }
+EOF
 
-    lua require'compe_nvim_lsp'.attach()
-    " lua require'compe_nvim_lua'.attach()
-    lua require'compe':register_lua_source('buffer', require'compe_buffer')
-    call compe#source#vim_bridge#register('path', compe_path#source#create())
-    call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())
+  inoremap <silent><expr> <C-Space> compe#complete()
+  inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
+  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 
 endfunction
 
@@ -1074,6 +1082,19 @@ let g:miramare_enable_bold = 1
 " oceanic-next{{
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
+" }}
+
+" chowcho.nvim {{
+
+lua << EOF
+require('chowcho').setup {
+  text_color = '#FFFFFF',
+  bg_color = '#444FFF',
+  active_border_color = '#D2D',
+  exclude_filetypes = {'LuaTree', 'packer'},
+  border_style = 'default' -- 'default', 'fancy',
+}
+EOF
 " }}
 
 colorscheme OceanicNext
