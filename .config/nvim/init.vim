@@ -207,11 +207,11 @@ lua <<EOF
     enabled = true;
     debug = false;
     min_length = 1;
-    auto_preselect = true;
+    auto_preselect = false;
     throttle_time = 120;
     source_timeout = 200;
     incomplete_delay = 400;
-    allow_prefix_unmatch = true;
+    allow_prefix_unmatch = false;
 
     source = {
       path = true;
@@ -481,6 +481,13 @@ nnoremap <Leader>gbt :BlamerToggle<CR>
 
 lua << EOF
 require('gitsigns').setup{
+  signs = {
+    add          = {hl = 'DiffAdd'   , text = '┃'},
+    change       = {hl = 'DiffChange', text = '┇'},
+    delete       = {hl = 'DiffDelete', text = '‐'},
+    topdelete    = {hl = 'DiffDelete', text = '‾'},
+    changedelete = {hl = 'DiffChange', text = '╍'},
+  },
   sign_priority = 1,
 }
 EOF
