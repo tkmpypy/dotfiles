@@ -1,7 +1,6 @@
 scriptencoding=utf-8
 set termguicolors
-" colorscheme OceanicNext
-colorscheme edge
+colorscheme OceanicNext
 
 
 let g:use_treesitter = v:true
@@ -1095,10 +1094,9 @@ let g:oceanic_next_terminal_italic = 1
 lua << EOF
 require('chowcho').setup {
   text_color = '#FFFFFF',
-  bg_color = nil,
-  active_border_color = '#B400C8',
-  exclude_filetypes = {'LuaTree', 'packer'},
-  border_style = 'rounded' -- 'default', 'rounded',
+  bg_color = '#555555',
+  active_border_color = '#0A8BFF',
+  border_style = 'default' -- 'default', 'rounded',
 }
 EOF
 " }}

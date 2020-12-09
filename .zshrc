@@ -82,6 +82,10 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
 zinit load dandavison/delta
 
+# glow
+zinit ice from"gh-r" as"program" bpick"*darwin*" pick"glow*/glow"
+zinit load charmbracelet/glow
+
 
 # alias
 alias ls='gls --color=auto'
