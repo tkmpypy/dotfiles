@@ -12,6 +12,9 @@ lsp_status.register_progress()
 local nvim_lsp = require('lspconfig')
 
 local custom_attach = function(client)
+  if (client.config.flags) then
+    client.config.flags.allow_incremental_sync = true
+  end
   lsp_status.on_attach(client)
   -- completion.on_attach(client)
   vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")

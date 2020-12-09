@@ -11,11 +11,9 @@ local util = require('packer.util')
 packer.startup {
   function()
     -- Packer can manage itself as an optional plugin
-    use {'wbthomason/packer.nvim', opt = true}
+    use {'wbthomason/packer.nvim'}
 
-    if (vim.g.use_treesitter) then
-      use {'nvim-treesitter/nvim-treesitter'}
-    end
+    if (vim.g.use_treesitter) then use {'nvim-treesitter/nvim-treesitter'} end
 
     -- ColorScheme
     use {'altercation/vim-colors-solarized', opt = true}
@@ -30,7 +28,6 @@ packer.startup {
     use {'morhetz/gruvbox', opt = true}
     use {'kaicataldo/material.vim', opt = true}
     use {'edkolev/tmuxline.vim', opt = true}
-    use {'sainnhe/edge', opt = true}
     use {'sainnhe/gruvbox-material', opt = true}
     use {'arcticicestudio/nord-vim', opt = true}
     use {'whatyouhide/vim-gotham', opt = true}
@@ -43,6 +40,7 @@ packer.startup {
 
     -- supported treesitter colorscheme
     use {'mhartington/oceanic-next'}
+    use {'sainnhe/edge'}
 
     -- Languages
     use {'plasticboy/vim-markdown', ft = {'markdown'}}
@@ -65,7 +63,7 @@ packer.startup {
       'glepnir/galaxyline.nvim',
       branch = 'main',
       config = function() return require('statusline') end,
-      requires = {'kyazdani42/nvim-web-devicons', opt = true}
+      requires = {'kyazdani42/nvim-web-devicons'}
     }
     -- use {'akinsho/nvim-bufferline.lua'}
     use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
@@ -124,10 +122,7 @@ packer.startup {
       use {'neovim/nvim-lspconfig'}
       use {
         'hrsh7th/nvim-compe',
-        requires = {
-          {'hrsh7th/vim-vsnip-integ', opt = true},
-          {'hrsh7th/vim-vsnip', opt = true}
-        }
+        requires = {{'hrsh7th/vim-vsnip-integ'}, {'hrsh7th/vim-vsnip'}}
       }
       -- use {
       --   'nvim-lua/completion-nvim',
@@ -147,11 +142,7 @@ packer.startup {
     use {'~/private/pika.nvim'}
     use {'~/private/chowcho.nvim'}
   end,
-  config = {
-    display = {
-      open_fn = util.float
-    }
-  }
+  config = {display = {open_fn = util.float}}
 }
 
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]

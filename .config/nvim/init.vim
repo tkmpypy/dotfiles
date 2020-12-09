@@ -1,4 +1,8 @@
 scriptencoding=utf-8
+set termguicolors
+" colorscheme OceanicNext
+colorscheme edge
+
 
 let g:use_treesitter = v:true
 let g:use_builtin_lsp = v:true
@@ -478,19 +482,19 @@ nnoremap <Leader>gbt :BlamerToggle<CR>
 " }}
 
 " gitsigns.nvim {{
-
 lua << EOF
 require('gitsigns').setup{
   signs = {
-    add          = {hl = 'DiffAdd'   , text = '┃'},
-    change       = {hl = 'DiffChange', text = '┇'},
-    delete       = {hl = 'DiffDelete', text = '‐'},
-    topdelete    = {hl = 'DiffDelete', text = '‾'},
-    changedelete = {hl = 'DiffChange', text = '╍'},
+    add          = {hl = 'GitGutterAdd'   , text = '┃'},
+    change       = {hl = 'GitGutterChange', text = '┇'},
+    delete       = {hl = 'GitGutterDelete', text = '‐'},
+    topdelete    = {hl = 'GitGutterDelete', text = '‾'},
+    changedelete = {hl = 'GitGutterChange', text = '╍'},
   },
   sign_priority = 1,
 }
 EOF
+
 " }}
 
 " nvim-toggleterm.lua {{
@@ -504,7 +508,6 @@ nnoremap <space>F  :<C-u>Format<cr>
 " }}
 
 " nvim-colorizer.lua{{
-set termguicolors
 lua require('colorizer').setup()
 " }}
 " quick-scope {{
@@ -995,10 +998,6 @@ if !has('gui_running')
   endif
 endif
 
-if (has("termguicolors"))
-  set termguicolors
-endif
-
 " completion settings
 " set complete&
 "      \ complete+=k
@@ -1096,15 +1095,14 @@ let g:oceanic_next_terminal_italic = 1
 lua << EOF
 require('chowcho').setup {
   text_color = '#FFFFFF',
-  bg_color = '#444FFF',
-  active_border_color = '#D2D',
+  bg_color = nil,
+  active_border_color = '#B400C8',
   exclude_filetypes = {'LuaTree', 'packer'},
-  border_style = 'default' -- 'default', 'fancy',
+  border_style = 'rounded' -- 'default', 'rounded',
 }
 EOF
 " }}
 
-colorscheme OceanicNext
 set shell=zsh
 set mouse=n
 
