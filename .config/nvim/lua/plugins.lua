@@ -89,6 +89,7 @@ packer.startup {
     use {'simeji/winresizer'}
     use {'cohama/lexima.vim'}
     use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
+    use {'npxbr/glow.nvim', run = ':GlowInstall'}
     use {'glidenote/memolist.vim'}
     use {'mbbill/undotree'}
     use {'osyo-manga/vim-over'}
