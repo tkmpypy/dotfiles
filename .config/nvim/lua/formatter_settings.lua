@@ -20,6 +20,9 @@ require'format'.setup {
   typescriptreact = {
     {cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}
   },
+  json = {
+    {cmd = {"prettier -w"}}
+  },
   markdown = {
     {cmd = {"prettier -w"}}, {
       cmd = {"black"},

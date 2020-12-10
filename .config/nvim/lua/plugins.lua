@@ -142,6 +142,7 @@ packer.startup {
 
     use {'~/private/pika.nvim'}
     use {'~/private/chowcho.nvim'}
+    -- use {'tkmpypy/chowcho.nvim'}
   end,
   config = {display = {open_fn = util.float}}
 }
