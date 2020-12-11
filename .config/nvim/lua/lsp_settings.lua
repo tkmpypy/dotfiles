@@ -20,6 +20,9 @@ local custom_attach = function(client)
   vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
+local custom_capabilities = lsp_status.capabilities
+custom_capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
       -- Enable underline, use default values
@@ -45,12 +48,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 
 nvim_lsp.jsonls.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 
 nvim_lsp.yamlls.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
   -- settings = {
   --   yaml = {
   --     schemas = {
@@ -65,7 +68,7 @@ nvim_lsp.yamlls.setup({
 nvim_lsp.terraformls.setup({
   cmd = {"terraform-ls", "serve"},
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 
 nvim_lsp.pyls_ms.setup({
@@ -79,7 +82,7 @@ nvim_lsp.pyls_ms.setup({
   },
   handlers = lsp_status.extensions.pyls_ms.setup(),
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 
 local dart_sdk = vim.env.DART_SDK or ""
@@ -101,7 +104,7 @@ nvim_lsp.dartls.setup({
     suggestFromUnimportedLibraries = true
   },
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities,
+  capabilities = custom_capabilities,
   handlers = {
     ['dart/textDocument/publishClosingLabels'] = require(
         'lsp_extensions.dart.closing_labels').get_callback(
@@ -111,12 +114,12 @@ nvim_lsp.dartls.setup({
 
 nvim_lsp.vimls.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 
 nvim_lsp.rust_analyzer.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 -- nvim_lsp.rls.setup({
 --   on_attach = custom_attach,
@@ -125,17 +128,17 @@ nvim_lsp.rust_analyzer.setup({
 
 nvim_lsp.solargraph.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 
 nvim_lsp.gopls.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 
 nvim_lsp.sumneko_lua.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 
 local nlua_lsp_nvim = prequire('nlua.lsp.nvim')
@@ -153,11 +156,11 @@ end
 
 nvim_lsp.tsserver.setup({
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities
+  capabilities = custom_capabilities
 })
 nvim_lsp.diagnosticls.setup {
   on_attach = custom_attach,
-  capabilities = lsp_status.capabilities,
+  capabilities = custom_capabilities,
   filetypes = {
     'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'go',
     'rust', 'lua'

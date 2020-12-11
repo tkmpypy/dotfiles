@@ -1,13 +1,13 @@
 scriptencoding=utf-8
 set termguicolors
-colorscheme OceanicNext
-
+" colorscheme OceanicNext
+colorscheme edge
 
 let g:use_treesitter = v:true
 let g:use_builtin_lsp = v:true
 
 if (g:use_treesitter)
-  let g:polyglot_disabled = ['dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
+  let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
 else
   let g:polyglot_disabled = ['markdown','md', 'lua']
 endif
@@ -217,10 +217,10 @@ lua <<EOF
     allow_prefix_unmatch = false;
 
     source = {
-      path = true;
-      buffer = true;
-      vsnip = true;
-      nvim_lsp = true;
+      path = { priority = 10 };
+      buffer = { priority = 5 };
+      vsnip = { priority = 8 };
+      nvim_lsp = { priority = 7 };
       nvim_lua = true;
     };
   }
