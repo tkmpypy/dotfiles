@@ -210,7 +210,7 @@ lua <<EOF
     enabled = true;
     debug = false;
     min_length = 1;
-    auto_preselect = false;
+    auto_preselect = true;
     throttle_time = 120;
     source_timeout = 200;
     incomplete_delay = 400;
@@ -227,7 +227,7 @@ lua <<EOF
 EOF
 
   inoremap <silent><expr> <C-Space> compe#complete()
-  inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
+  inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT><CR>', 'i'))
   inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 
 endfunction
@@ -446,8 +446,8 @@ endfunction
 
 if g:use_builtin_lsp
   call s:setup_nvim_lsp()
-  call s:setup_nvim_compe()
-  " call s:setup_complete_nvim()
+  " call s:setup_nvim_compe()
+  call s:setup_complete_nvim()
 else
   call s:setup_coc()
 endif
