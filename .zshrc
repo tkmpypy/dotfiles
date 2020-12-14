@@ -75,8 +75,8 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # zinit load starship/starship
 
 # Neovim
-# zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim/bin/nvim" ver"nightly"
-# zinit load neovim/neovim
+zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
+zinit load neovim/neovim
 
 # delta
 zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"

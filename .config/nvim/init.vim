@@ -1,7 +1,7 @@
 scriptencoding=utf-8
 set termguicolors
-" colorscheme OceanicNext
-colorscheme edge
+colorscheme OceanicNext
+" colorscheme edge
 
 let g:use_treesitter = v:true
 let g:use_builtin_lsp = v:true
