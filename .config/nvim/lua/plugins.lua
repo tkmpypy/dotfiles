@@ -8,7 +8,7 @@ local packer = require('packer')
 local use = packer.use
 local util = require('packer.util')
 
-packer.startup {
+packer.startup({
   function()
     -- Packer can manage itself as an optional plugin
     use {'wbthomason/packer.nvim'}
@@ -130,7 +130,7 @@ packer.startup {
         requires = {
           {'steelsojka/completion-buffers', opt = true},
           {'hrsh7th/vim-vsnip-integ', opt = true},
-          {'hrsh7th/vim-vsnip', opt = true},
+          {'hrsh7th/vim-vsnip', opt = true}
         }
       }
       use {'nvim-lua/lsp-status.nvim'}
@@ -146,6 +146,6 @@ packer.startup {
     -- use {'tkmpypy/chowcho.nvim'}
   end,
   config = {display = {open_fn = util.float}}
-}
+})
 
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
