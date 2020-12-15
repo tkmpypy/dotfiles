@@ -6,37 +6,30 @@ local prequire = function(...)
 end
 
 local vim = vim
-local lsp_status = require('lsp-status')
---- - `indicator_errors`: Symbol to place next to the error count in `status`. Default: '',
---- - `indicator_warnings`: Symbol to place next to the warning count in `status`. Default: '',
---- - `indicator_info`: Symbol to place next to the info count in `status`. Default: '🛈',
---- - `indicator_hint`: Symbol to place next to the hint count in `status`. Default: '❗',
---- - `indicator_ok`: Symbol to show in `status` if there are no diagnostics. Default: '',
---- - `spinner_frames`: Animation frames for progress spinner in `status`. Default: { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
---- - `status_symbol`: Symbol to start the statusline segment in `status`. Default: ' 🇻'
-lsp_status.config({
-  indicator_errors = '✘',
-  indicator_warnings = '⚠',
-  indicator_info = 'כֿ',
-  indicator_hint = '•',
-  indicator_ok = '✓',
-  status_symbol = ' '
-})
-lsp_status.register_progress()
+-- local lsp_status = require('lsp-status')
+-- lsp_status.config({
+--   indicator_errors = '✘',
+--   indicator_warnings = '⚠',
+--   indicator_info = 'כֿ',
+--   indicator_hint = '•',
+--   indicator_ok = '✓',
+--   status_symbol = ' '
+-- })
+-- lsp_status.register_progress()
 
-local completion = require('completion')
+-- local completion = require('completion')
 local nvim_lsp = require('lspconfig')
 
 local custom_attach = function(client)
   if (client.config.flags) then
     client.config.flags.allow_incremental_sync = true
   end
-  lsp_status.on_attach(client)
-  completion.on_attach(client)
+  -- lsp_status.on_attach(client)
+  -- completion.on_attach(client)
   vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
-local custom_capabilities = lsp_status.capabilities
+local custom_capabilities = vim.lsp.protocol.make_client_capabilities()
 custom_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
@@ -96,7 +89,7 @@ nvim_lsp.pyls_ms.setup({
       }
     }
   },
-  handlers = lsp_status.extensions.pyls_ms.setup(),
+  -- handlers = lsp_status.extensions.pyls_ms.setup(),
   on_attach = custom_attach,
   capabilities = custom_capabilities
 })

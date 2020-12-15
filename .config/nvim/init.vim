@@ -210,7 +210,7 @@ lua <<EOF
     enabled = true;
     debug = false;
     min_length = 1;
-    auto_preselect = true;
+    auto_preselect = false;
     throttle_time = 120;
     source_timeout = 200;
     incomplete_delay = 400;
@@ -234,10 +234,10 @@ endfunction
 
 function! s:setup_complete_nvim()
     " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    let g:completion_matching_strategy_list = ['exact']
+    let g:completion_matching_strategy_list = ['all']
     let g:completion_trigger_keyword_length = 1
     let g:completion_trigger_on_delete = 1
-    let g:completion_time_cycle = 100
+    " let g:completion_time_cycle = 100
     let g:completion_confirm_key = ""
     imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                      \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
@@ -446,8 +446,8 @@ endfunction
 
 if g:use_builtin_lsp
   call s:setup_nvim_lsp()
-  " call s:setup_nvim_compe()
-  call s:setup_complete_nvim()
+  call s:setup_nvim_compe()
+  " call s:setup_complete_nvim()
 else
   call s:setup_coc()
 endif

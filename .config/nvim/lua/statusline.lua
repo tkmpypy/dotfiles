@@ -115,45 +115,51 @@ gls.left[9] = {
   }
 }
 gls.left[10] = {
+  Space = {
+    provider = function () return ' ' end,
+    highlight = {colors.bg,colors.line_bg}
+  }
+}
+gls.left[11] = {
   DiagnosticInfo = {
     provider = 'DiagnosticInfo',
     icon = '  ',
     highlight = {colors.green,colors.bg}
   }
 }
-gls.left[11] = {
+gls.left[12] = {
   Space = {
     provider = function () return ' ' end,
     highlight = {colors.bg,colors.line_bg}
   }
 }
-gls.left[12] = {
+gls.left[13] = {
   DiagnosticHint = {
     provider = 'DiagnosticHint',
     icon = ' ﱥ ',
     highlight = {colors.blue,colors.bg}
   }
 }
-gls.left[13] = {
+gls.left[14] = {
   Space = {
     provider = function () return ' ' end,
     highlight = {colors.bg,colors.line_bg}
   }
 }
-gls.left[14] = {
+gls.left[15] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
     icon = '  ',
     highlight = {colors.yellow,colors.bg}
   }
 }
-gls.left[15] = {
+gls.left[16] = {
   Space = {
     provider = function () return ' ' end,
     highlight = {colors.bg,colors.line_bg}
   }
 }
-gls.left[16] = {
+gls.left[17] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
     icon = '  ',
