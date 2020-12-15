@@ -90,10 +90,6 @@ local checkwidth = function()
   return false
 end
 
-local lsp_status = function()
-  return require('lsp-status').status()
-end
-
 gls.left[7] = {
   DiffAdd = {
     provider = 'DiffAdd',
@@ -119,32 +115,77 @@ gls.left[9] = {
   }
 }
 gls.left[10] = {
-  LeftEnd = {
-    provider = function() return '' end,
-    separator = '',
-    separator_highlight = {colors.bg,colors.line_bg},
-    highlight = {colors.line_bg,colors.line_bg}
+  DiagnosticInfo = {
+    provider = 'DiagnosticInfo',
+    icon = '  ',
+    highlight = {colors.green,colors.bg}
   }
 }
 gls.left[11] = {
-  DiagnosticError = {
-    provider = 'DiagnosticError',
-    icon = '  ',
-    highlight = {colors.red,colors.bg}
+  Space = {
+    provider = function () return ' ' end,
+    highlight = {colors.bg,colors.line_bg}
   }
 }
 gls.left[12] = {
-  Space = {
-    provider = function () return ' ' end
+  DiagnosticHint = {
+    provider = 'DiagnosticHint',
+    icon = ' ﱥ ',
+    highlight = {colors.blue,colors.bg}
   }
 }
 gls.left[13] = {
+  Space = {
+    provider = function () return ' ' end,
+    highlight = {colors.bg,colors.line_bg}
+  }
+}
+gls.left[14] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
     icon = '  ',
-    highlight = {colors.blue,colors.bg},
+    highlight = {colors.yellow,colors.bg}
   }
 }
+gls.left[15] = {
+  Space = {
+    provider = function () return ' ' end,
+    highlight = {colors.bg,colors.line_bg}
+  }
+}
+gls.left[16] = {
+  DiagnosticError = {
+    provider = 'DiagnosticError',
+    icon = '  ',
+    highlight = {colors.red,colors.bg},
+  }
+}
+
+-- local lsp_message = function()
+--   local lsp_status = require('lsp-status')
+--   local msg_tbl = lsp_status.messages()
+--   local status = lsp_status.status()
+--   print(vim.inspect(msg_tbl))
+--   print(vim.inspect(status))
+--   return status
+-- end
+-- 
+-- if (vim.g.use_builtin_lsp) then
+--   gls.left[14] = {
+--     Space = {
+--       provider = function () return ' ' end,
+--       highlight = {colors.fg,colors.line_bg},
+--     }
+--   }
+--   gls.left[15] = {
+--     LspStatus = {
+--       provider = function() return lsp_message() end,
+--       condition = function() return true end,
+--       highlight = {colors.fg,colors.line_bg},
+--     }
+--   }
+-- end
+
 gls.right[1]= {
   FileFormat = {
     provider = 'FileFormat',
@@ -179,7 +220,7 @@ gls.right[4] = {
 gls.short_line_left[1] = {
   BufferType = {
     provider = 'FileTypeName',
-    separator = '',
+    separator = ' ',
     separator_highlight = {colors.purple,colors.bg},
     highlight = {colors.fg,colors.purple}
   }
@@ -189,21 +230,12 @@ gls.short_line_left[1] = {
 gls.short_line_right[1] = {
   BufferIcon = {
     provider= 'BufferIcon',
-    separator = '',
+    separator = ' ',
     separator_highlight = {colors.purple,colors.bg},
     highlight = {colors.fg,colors.purple}
   }
 }
 
--- if (vim.g.use_builtin_lsp) then
---   gls.left[14] = {
---     LspStatus = {
---       provider = lsp_status,
---       condition = function() return #vim.lsp.buf_get_clients() > 0 end,
---       highlight = {colors.green,colors.line_bg},
---     }
---   }
--- end
 
 -- local gl = require('galaxyline')
 -- local gls = gl.section

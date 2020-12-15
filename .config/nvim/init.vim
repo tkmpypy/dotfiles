@@ -245,9 +245,9 @@ function! s:setup_complete_nvim()
     let g:completion_sorting = "none" " length or alphabet, none
     let g:completion_matching_ignore_case = 0
     let g:completion_matching_smart_case = 1
-    let g:completion_enable_auto_hover = 0
-    let g:completion_enable_auto_signature = 0
-    let g:completion_max_items = 20
+    let g:completion_enable_auto_hover = 1
+    let g:completion_enable_auto_signature = 1
+    " let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
     let g:completion_chain_complete_list = {
               \ 'default': {

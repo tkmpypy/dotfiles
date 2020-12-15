@@ -7,7 +7,23 @@ end
 
 local vim = vim
 local lsp_status = require('lsp-status')
+--- - `indicator_errors`: Symbol to place next to the error count in `status`. Default: '',
+--- - `indicator_warnings`: Symbol to place next to the warning count in `status`. Default: '',
+--- - `indicator_info`: Symbol to place next to the info count in `status`. Default: '🛈',
+--- - `indicator_hint`: Symbol to place next to the hint count in `status`. Default: '❗',
+--- - `indicator_ok`: Symbol to show in `status` if there are no diagnostics. Default: '',
+--- - `spinner_frames`: Animation frames for progress spinner in `status`. Default: { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' },
+--- - `status_symbol`: Symbol to start the statusline segment in `status`. Default: ' 🇻'
+lsp_status.config({
+  indicator_errors = '✘',
+  indicator_warnings = '⚠',
+  indicator_info = 'כֿ',
+  indicator_hint = '•',
+  indicator_ok = '✓',
+  status_symbol = ' '
+})
 lsp_status.register_progress()
+
 local completion = require('completion')
 local nvim_lsp = require('lspconfig')
 
