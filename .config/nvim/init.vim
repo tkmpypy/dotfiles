@@ -209,11 +209,11 @@ lua <<EOF
   require'compe'.setup {
     enabled = true;
     debug = false;
-    min_length = 1;
-    preselect = 'always';
-    throttle_time = 120;
-    source_timeout = 200;
-    incomplete_delay = 400;
+    min_length = 2;
+    preselect = 'enable'; -- enable, disable, always
+    -- throttle_time = 120;
+    -- source_timeout = 200;
+    -- incomplete_delay = 400;
     allow_prefix_unmatch = false;
 
     source = {
