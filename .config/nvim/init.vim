@@ -210,7 +210,7 @@ lua <<EOF
     enabled = true;
     debug = false;
     min_length = 1;
-    auto_preselect = false;
+    preselect = 'always';
     throttle_time = 120;
     source_timeout = 200;
     incomplete_delay = 400;
@@ -1137,6 +1137,7 @@ autocmd FileType typescriptreact setlocal ts=2 sw=2
 autocmd FileType javascript setlocal ts=2 sw=2
 autocmd FileType vim setlocal ts=2 sw=2
 autocmd FileType lua setlocal ts=2 sw=2
+autocmd FileType yaml setlocal ts=2 sw=2
 
 " No beep
 set visualbell
