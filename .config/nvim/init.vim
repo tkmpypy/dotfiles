@@ -234,14 +234,14 @@ endfunction
 
 function! s:setup_complete_nvim()
     " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    let g:completion_matching_strategy_list = ['all']
+    let g:completion_matching_strategy_list = ['exact']
     let g:completion_trigger_keyword_length = 1
     let g:completion_trigger_on_delete = 1
     " let g:completion_time_cycle = 100
     let g:completion_confirm_key = ""
     imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                      \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
-    let g:completion_enable_snippet         = 'vim-vsnip'
+    let g:completion_enable_snippet = 'vim-vsnip'
     let g:completion_sorting = "none" " length or alphabet, none
     let g:completion_matching_ignore_case = 0
     let g:completion_matching_smart_case = 1
@@ -252,9 +252,7 @@ function! s:setup_complete_nvim()
     let g:completion_chain_complete_list = {
               \ 'default': {
               \   'default': [
-              \      {'complete_items': ['lsp', 'snippet']},
-              \      {'complete_items': ['buffer', 'buffers', 'path']},
-              \      {'complete_items': ['path']},
+              \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
               \      {'mode': '<c-p>'},
               \      {'mode': '<c-n>'},
               \   ],
@@ -446,8 +444,8 @@ endfunction
 
 if g:use_builtin_lsp
   call s:setup_nvim_lsp()
-  call s:setup_nvim_compe()
-  " call s:setup_complete_nvim()
+  " call s:setup_nvim_compe()
+  call s:setup_complete_nvim()
 else
   call s:setup_coc()
 endif
@@ -1210,8 +1208,6 @@ nnoremap <Leader>wr :WinResizerStartResize<Enter>
 " remap arrow keys
 nnoremap j gj
 nnoremap k gk
-
-inoremap <C-j> <ESC>
 
 
 nnoremap L 10l

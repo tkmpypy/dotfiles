@@ -17,7 +17,7 @@ local vim = vim
 -- })
 -- lsp_status.register_progress()
 
--- local completion = require('completion')
+local completion = require('completion')
 local nvim_lsp = require('lspconfig')
 
 local custom_attach = function(client)
@@ -25,7 +25,7 @@ local custom_attach = function(client)
     client.config.flags.allow_incremental_sync = true
   end
   -- lsp_status.on_attach(client)
-  -- completion.on_attach(client)
+  completion.on_attach(client)
   vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
@@ -94,21 +94,11 @@ nvim_lsp.pyls_ms.setup({
   capabilities = custom_capabilities
 })
 
-local dart_sdk = vim.env.DART_SDK or ""
-local dartls_cmd = {
-  "dart", "./snapshots/analysis_server.dart.snapshot", "--lsp"
-}
-if dart_sdk ~= nil then
-  dartls_cmd = {
-    "dart", dart_sdk .. "/snapshots/analysis_server.dart.snapshot", "--lsp"
-  }
-end
 nvim_lsp.dartls.setup({
-  cmd = dartls_cmd,
   init_options = {
     closingLabels = true,
     flutterOutline = true,
-    onlyAnalyzeProjectsWithOpenFiles = false,
+    onlyAnalyzeProjectsWithOpenFiles = true,
     outline = true,
     suggestFromUnimportedLibraries = true
   },
@@ -193,14 +183,6 @@ nvim_lsp.diagnosticls.setup {
         },
         securities = {[2] = 'error', [1] = 'warning'}
       },
-      dartanalyzer = {
-        command = dart_sdk .. "/dartanalyzer",
-        args = {'%filepath'},
-        isStdout = true,
-        isStderr = false,
-        rootPatterns = {'.git', 'pubspec.yaml'},
-        debounce = 500
-      }
     },
     filetypes = {
       javascript = 'eslint',
