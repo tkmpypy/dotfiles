@@ -204,6 +204,30 @@ function! s:setup_nvim_lsp()
 
 endfunction
 
+function! s:setup_vsnip()
+  " NOTE: You can use other key to expand snippet.
+
+  " vsip
+  " Expand
+  imap <expr> <C-y>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-y>'
+  smap <expr> <C-y>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-y>'
+
+  " Expand or jump
+  imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+  smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+  " Jump forward or backward
+  imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+  smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+  imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+  smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+  " If you want to use snippet for multiple filetypes, you can `g:vsip_filetypes` for it.
+  let g:vsnip_filetypes = {}
+  let g:vsnip_filetypes.javascriptreact = ['javascript']
+  let g:vsnip_filetypes.typescriptreact = ['typescript']
+endfunction
+
 function! s:setup_nvim_compe()
 lua <<EOF
   require'compe'.setup {
@@ -250,14 +274,12 @@ function! s:setup_complete_nvim()
     " let g:completion_max_items = 20
     let g:completion_trigger_character = ['.', '::']
     let g:completion_chain_complete_list = {
-              \ 'default': {
-              \   'default': [
-              \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
-              \      {'mode': '<c-p>'},
-              \      {'mode': '<c-n>'},
-              \   ],
-              \ },
-              \ }
+            \ 'default': [
+            \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
+            \      {'mode': '<c-p>'},
+            \      {'mode': '<c-n>'},
+            \ ],
+            \ }
     let g:completion_auto_change_source = 1
     let g:completion_customize_lsp_label = {
           \  'Function'      : "",
@@ -446,6 +468,7 @@ if g:use_builtin_lsp
   call s:setup_nvim_lsp()
   " call s:setup_nvim_compe()
   call s:setup_complete_nvim()
+  call s:setup_vsnip()
 else
   call s:setup_coc()
 endif

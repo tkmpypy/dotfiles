@@ -128,9 +128,9 @@ packer.startup({
       use {
         'nvim-lua/completion-nvim',
         requires = {
-          {'steelsojka/completion-buffers', opt = true},
-          {'hrsh7th/vim-vsnip-integ', opt = true},
-          {'hrsh7th/vim-vsnip', opt = true}
+          {'steelsojka/completion-buffers'},
+          {'hrsh7th/vim-vsnip-integ'},
+          {'hrsh7th/vim-vsnip'}
         }
       }
       use {'nvim-lua/lsp-status.nvim'}
