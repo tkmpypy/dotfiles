@@ -257,8 +257,8 @@ EOF
 endfunction
 
 function! s:setup_complete_nvim()
-    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    let g:completion_matching_strategy_list = ['exact']
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+    " let g:completion_matching_strategy_list = ['exact']
     let g:completion_trigger_keyword_length = 1
     let g:completion_trigger_on_delete = 1
     " let g:completion_time_cycle = 100
@@ -1237,6 +1237,8 @@ nnoremap L 10l
 nnoremap H 10h
 vnoremap L 10l
 vnoremap H 10h
+
+inoremap <C-c> <ESC>
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ
