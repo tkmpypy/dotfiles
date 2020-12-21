@@ -41,6 +41,8 @@ packer.startup({
     -- supported treesitter colorscheme
     use {'mhartington/oceanic-next'}
     use {'sainnhe/edge'}
+    use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}}
+    use {'Th3Whit3Wolf/onebuddy', requires = {{'tjdevries/colorbuddy.vim'}}}
 
     -- Languages
     use {'plasticboy/vim-markdown', ft = {'markdown'}}
@@ -128,8 +130,7 @@ packer.startup({
       use {
         'nvim-lua/completion-nvim',
         requires = {
-          {'steelsojka/completion-buffers'},
-          {'hrsh7th/vim-vsnip-integ'},
+          {'steelsojka/completion-buffers'}, {'hrsh7th/vim-vsnip-integ'},
           {'hrsh7th/vim-vsnip'}
         }
       }

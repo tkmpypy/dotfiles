@@ -1,7 +1,7 @@
 scriptencoding=utf-8
 set termguicolors
-colorscheme OceanicNext
-" colorscheme edge
+" colorscheme onebuddy
+colorscheme edge
 
 let g:use_treesitter = v:true
 let g:use_builtin_lsp = v:true
@@ -94,7 +94,7 @@ function! s:init_telescope()
   nnoremap <Leader>s <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>
   nnoremap <Leader>ss <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
   nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
-  nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{ show_all_buffers = true }<CR>
+  nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{ show_all_buffers = true, generic_sorters = require('telescope.sorters').fuzzy_with_index_bias }<CR>
   nnoremap <Leader>sc <cmd>lua require'telescope.builtin'.command_history{}<CR>
   nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
   nnoremap <Leader>sl <cmd>lua require'telescope.builtin'.loclist{}<CR>
@@ -234,10 +234,10 @@ lua <<EOF
     enabled = true;
     debug = false;
     min_length = 2;
-    preselect = 'enable'; -- enable, disable, always
-    -- throttle_time = 120;
-    -- source_timeout = 200;
-    -- incomplete_delay = 400;
+    preselect = 'disable'; -- enable, disable, always
+    throttle_time = 120;
+    source_timeout = 200;
+    incomplete_delay = 400;
     allow_prefix_unmatch = false;
 
     source = {
@@ -257,8 +257,8 @@ EOF
 endfunction
 
 function! s:setup_complete_nvim()
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    " let g:completion_matching_strategy_list = ['exact']
+    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+    let g:completion_matching_strategy_list = ['exact']
     let g:completion_trigger_keyword_length = 1
     let g:completion_trigger_on_delete = 1
     " let g:completion_time_cycle = 100
