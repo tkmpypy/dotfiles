@@ -1,10 +1,12 @@
 scriptencoding=utf-8
 set termguicolors
-" colorscheme onebuddy
-colorscheme edge
 
 let g:use_treesitter = v:true
 let g:use_builtin_lsp = v:true
+lua require('plugins')
+
+" colorscheme onebuddy
+colorscheme edge
 
 if (g:use_treesitter)
   let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
@@ -47,22 +49,6 @@ endif
 augroup MyAutoCmd
   autocmd!
 augroup END
-
-if empty(glob('~/.local/share/nvim/site/pack/packer/opt/packer.nvim'))
-  echo 'start packer.nvim install'
-  silent !git clone https://github.com/wbthomason/packer.nvim
-    \ ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
-  echo 'packer.nvim installed'
-endif
-
-lua require('plugins')
-
-if executable('tmux')  && $TMUX !=# ''
-    let g:vimIsInTmux = 1
-else
-    let g:vimIsInTmux = 0
-endif
-
 
 let mapleader = "\<Space>"
 
@@ -746,26 +732,6 @@ let g:vista_default_executive = 'nvim_lsp'
 let g:vista_fzf_preview = ['right:50%']
 " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 1
-"{{{tmuxline.vim
-if g:vimIsInTmux == 1
-    let g:tmuxline_preset = {
-                \'a'    : '#S',
-                \'b'    : '%R',
-                \'c'    : [ '#{sysstat_mem} #[fg=blue]\ufa51#{upload_speed}' ],
-                \'win'  : [ '#I', '#W' ],
-                \'cwin' : [ '#I', '#W', '#F' ],
-                \'x'    : [ "#[fg=blue]#{download_speed} \uf6d9 #{sysstat_cpu}" ],
-                \'y'    : [ '%a' ],
-                \'z'    : '#H #{prefix_highlight}'
-                \}
-    let g:tmuxline_separators = {
-                \ 'left' : "\ue0bc",
-                \ 'left_alt': "\ue0bd",
-                \ 'right' : "\ue0ba",
-                \ 'right_alt' : "\ue0bd",
-                \ 'space' : ' '}
-endif
-"}}}
 nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
 " }}
@@ -984,6 +950,32 @@ nmap <leader>cp <Plug>CyclistPrev
 
 " Reset to default configuration
 call cyclist#activate_listchars('default')
+" }}
+" nvim-hlslens{{
+lua <<EOF
+require('hlslens').setup({
+    -- enable hlslens after searching
+    -- type: boolean
+    auto_enable = true,
+    -- if calm_down is true, stop hlslens when cursor is out of position range
+    -- type: boolean
+    calm_down = false,
+    -- hackable function for customizing the virtual text
+    -- type: function(lnum, loc, idx, r_idx, count, hls_ns)
+    override_line_lens = nil
+})
+EOF
+noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
+            \<Cmd>lua require('hlslens').start()<CR>
+noremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR>
+            \<Cmd>lua require('hlslens').start()<CR>
+noremap * *<Cmd>lua require('hlslens').start()<CR>
+noremap # #<Cmd>lua require('hlslens').start()<CR>
+noremap g* g*<Cmd>lua require('hlslens').start()<CR>
+noremap g# g#<Cmd>lua require('hlslens').start()<CR>
+
+" use : instead of <Cmd>
+nnoremap <silent> <leader>l :nohlsearch<CR>
 " }}
 " vimdocs {{
 let g:devdocs_filetype_map = {

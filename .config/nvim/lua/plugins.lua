@@ -1,17 +1,25 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
--- Only required if you have packer in your `opt` pack
-vim.cmd [[packadd packer.nvim]]
--- Only if your version of Neovim doesn't have https://github.com/neovim/neovim/pull/12632 merged
--- vim._update_package_paths()
+local execute = vim.api.nvim_command
+local fn = vim.fn
 
+local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+
+if fn.empty(fn.glob(install_path)) > 0 then
+	execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+end
+
+execute 'packadd packer.nvim'
 local packer = require('packer')
 local use = packer.use
 local util = require('packer.util')
 
-packer.startup({
-  function()
+packer.init({
+    ensure_dependencies   = true,
+    display = {open_fn = util.float}
+})
+
+
     -- Packer can manage itself as an optional plugin
-    use {'wbthomason/packer.nvim'}
+    use {'wbthomason/packer.nvim', opt = true}
 
     if (vim.g.use_treesitter) then use {'nvim-treesitter/nvim-treesitter'} end
 
@@ -27,7 +35,6 @@ packer.startup({
     use {'dracula/vim', opt = true}
     use {'morhetz/gruvbox', opt = true}
     use {'kaicataldo/material.vim', opt = true}
-    use {'edkolev/tmuxline.vim', opt = true}
     use {'sainnhe/gruvbox-material', opt = true}
     use {'arcticicestudio/nord-vim', opt = true}
     use {'whatyouhide/vim-gotham', opt = true}
@@ -56,6 +63,7 @@ packer.startup({
     use {'thinca/vim-quickrun'}
 
     -- UI
+    use {'kevinhwang91/nvim-hlslens'}
     use {'luochen1990/rainbow'}
     use {'tjdevries/cyclist.vim'}
     use {'norcalli/nvim-colorizer.lua'}
@@ -144,9 +152,5 @@ packer.startup({
     use {'~/private/pika.nvim'}
     use {'~/private/chowcho.nvim'}
     use {'~/private/fb.nvim'}
-    -- use {'tkmpypy/chowcho.nvim'}
-  end,
-  config = {display = {open_fn = util.float}}
-})
 
-vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
+packer.compile('~/.cache/nvim/plugin/packer_load.vim')
