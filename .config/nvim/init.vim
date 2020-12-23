@@ -219,9 +219,9 @@ lua <<EOF
   require'compe'.setup {
     enabled = true;
     debug = false;
-    min_length = 2;
-    preselect = 'disable'; -- enable, disable, always
-    throttle_time = 120;
+    min_length = 1;
+    preselect = 'enable'; -- enable, disable, always
+    throttle_time = 400;
     source_timeout = 200;
     incomplete_delay = 400;
     allow_prefix_unmatch = false;
@@ -244,10 +244,10 @@ endfunction
 
 function! s:setup_complete_nvim()
     " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    let g:completion_matching_strategy_list = ['exact']
+    let g:completion_matching_strategy_list = ['exact', 'substring']
     let g:completion_trigger_keyword_length = 1
     let g:completion_trigger_on_delete = 1
-    " let g:completion_time_cycle = 100
+    let g:completion_time_cycle = 100
     let g:completion_confirm_key = ""
     imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                      \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
@@ -477,6 +477,9 @@ EOF
 
 " }}
 
+" nvim-bufferline{{
+lua require('bufferline_settings')
+" }}
 " blamer.nvim{{
 let g:blamer_enabled = 0
 let g:blamer_delay = 1000

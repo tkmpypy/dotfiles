@@ -26,7 +26,7 @@ local custom_attach = function(client)
   end
   -- lsp_status.on_attach(client)
   completion.on_attach(client)
-  vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
+  -- vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
 local custom_capabilities = vim.lsp.protocol.make_client_capabilities()

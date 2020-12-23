@@ -72,8 +72,11 @@ use {
   config = function() return require('statusline') end,
   requires = {'kyazdani42/nvim-web-devicons'}
 }
--- use {'akinsho/nvim-bufferline.lua'}
-use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
+use {
+  'akinsho/nvim-bufferline.lua',
+  requires = {'kyazdani42/nvim-web-devicons'}
+}
+-- use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
 -- use {'glepnir/indent-guides.nvim'}
 use {'mhinz/vim-startify'}
 use {'liuchengxu/vista.vim'}
@@ -135,10 +138,12 @@ if (vim.g.use_builtin_lsp) then
   use {
     'nvim-lua/completion-nvim',
     requires = {
-      {'steelsojka/completion-buffers'}, {'hrsh7th/vim-vsnip-integ'},
+      {'hrsh7th/vim-vsnip-integ'},
       {'hrsh7th/vim-vsnip'}
     }
   }
+  use {'steelsojka/completion-buffers'}
+
   use {'nvim-lua/lsp-status.nvim'}
   use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
   use {'tjdevries/lsp_extensions.nvim'}
