@@ -72,10 +72,7 @@ use {
   config = function() return require('statusline') end,
   requires = {'kyazdani42/nvim-web-devicons'}
 }
-use {
-  'akinsho/nvim-bufferline.lua',
-  requires = {'kyazdani42/nvim-web-devicons'}
-}
+use {'akinsho/nvim-bufferline.lua', requires = {'kyazdani42/nvim-web-devicons'}}
 -- use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
 -- use {'glepnir/indent-guides.nvim'}
 use {'mhinz/vim-startify'}
@@ -128,7 +125,7 @@ use {'wakatime/vim-wakatime'}
 -- see https://github.com/neovim/neovim/issues/12587
 use {'antoinemadec/FixCursorHold.nvim'}
 
-if (vim.g.use_builtin_lsp) then
+if (vim.g.lsp_client_type == 'neovim') then
   -- use neovim built-in
   use {'neovim/nvim-lspconfig'}
   -- use {
@@ -137,22 +134,19 @@ if (vim.g.use_builtin_lsp) then
   -- }
   use {
     'nvim-lua/completion-nvim',
-    requires = {
-      {'hrsh7th/vim-vsnip-integ'},
-      {'hrsh7th/vim-vsnip'}
-    }
+    requires = {{'hrsh7th/vim-vsnip-integ'}, {'hrsh7th/vim-vsnip'}}
   }
-  use {'steelsojka/completion-buffers'}
+  use {'steelsojka/completion-buffers', after = 'completion-nvim'}
 
   use {'nvim-lua/lsp-status.nvim'}
   use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
   use {'tjdevries/lsp_extensions.nvim'}
-else
+elseif (vim.g.lsp_client_type == 'coc') then
   use {'neoclide/coc.nvim', run = 'yarn install --frozen-lockfile'}
 end
 
-use {'~/private/pika.nvim'}
-use {'~/private/chowcho.nvim'}
+-- use {'~/private/pika.nvim'}
+-- use {'~/private/chowcho.nvim'}
 use {'~/private/fb.nvim'}
 
 packer.compile('~/.cache/nvim/plugin/packer_load.vim')

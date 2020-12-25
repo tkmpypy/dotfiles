@@ -1,8 +1,10 @@
+" TODO: カレントバッファの相対パス・絶対パスのクリップボード登録
+
 scriptencoding=utf-8
 set termguicolors
 
 let g:use_treesitter = v:true
-let g:use_builtin_lsp = v:true
+let g:lsp_client_type ='coc' " neovim(builtin), coc
 lua require('plugins')
 
 " colorscheme onebuddy
@@ -331,6 +333,7 @@ function! s:setup_coc()
           \, 'coc-sql'
           \, 'coc-emoji'
           \, 'coc-gitignore'
+          \, 'https://github.com/Nash0x7E2/awesome-flutter-snippets'
           \ ]
     function! CocCurrentFunction()
         let funcName = get(b:, 'coc_current_function', '')
@@ -357,6 +360,16 @@ function! s:setup_coc()
 
     " Use K for show documentation in preview window
     nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    " Remap <C-f> and <C-b> for scroll float windows/popups.
+    if has('nvim-0.4.0') || has('patch-8.2.0750')
+      nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+      inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+      inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+      vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    endif
 
     function! s:show_documentation()
       if (index(['vim','help'], &filetype) >= 0)
@@ -450,12 +463,13 @@ function! s:setup_coc()
 
 endfunction
 
-if g:use_builtin_lsp
+
+if g:lsp_client_type == 'neovim'
   call s:setup_nvim_lsp()
   " call s:setup_nvim_compe()
   call s:setup_complete_nvim()
   call s:setup_vsnip()
-else
+elseif g:lsp_client_type == 'coc'
   call s:setup_coc()
 endif
 " vim-json {{
@@ -1106,14 +1120,13 @@ let g:oceanic_next_terminal_italic = 1
 " }}
 
 " chowcho.nvim {{
-
 lua << EOF
-require('chowcho').setup {
-  text_color = '#FFFFFF',
-  bg_color = nil,
-  active_border_color = '#0A8BFF',
-  border_style = 'rounded' -- 'default', 'rounded',
-}
+-- require('chowcho').setup {
+--   text_color = '#FFFFFF',
+--   bg_color = nil,
+--   active_border_color = '#0A8BFF',
+--   border_style = 'rounded' -- 'default', 'rounded',
+-- }
 EOF
 " }}
 
