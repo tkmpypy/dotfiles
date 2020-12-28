@@ -545,18 +545,18 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " }}
 
 function! s:init_nvim_tree() abort
-  let g:lua_tree_side = 'left' "left by default
-  let g:lua_tree_width = 30 "30 by default
-  let g:lua_tree_ignore = [ 'node_modules', '.cache', '.DS_Store' ] "empty by default
-  let g:lua_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-  let g:lua_tree_auto_close = 0 "0 by default, closes the tree when it's the last window
-  let g:lua_tree_follow = 0 "0 by default, this option allows the cursor to be updated when entering a buffer
-  let g:lua_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-  let g:lua_tree_hide_dotfiles = 0 "0 by default, this option hides files and folders starting with a dot `.`
-  let g:lua_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-  let g:lua_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
-  let g:lua_tree_tab_open = 0 "0 by default, will open the tree when entering a new tab and the tree was previously open
-  let g:lua_tree_show_icons = {
+  let g:nvim_tree_side = 'left' "left by default
+  let g:nvim_tree_width = 30 "30 by default
+  let g:nvim_tree_ignore = [ 'node_modules', '.cache', '.DS_Store' ] "empty by default
+  let g:nvim_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+  let g:nvim_tree_auto_close = 0 "0 by default, closes the tree when it's the last window
+  let g:nvim_tree_follow = 0 "0 by default, this option allows the cursor to be updated when entering a buffer
+  let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+  let g:nvim_tree_hide_dotfiles = 0 "0 by default, this option hides files and folders starting with a dot `.`
+  let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+  let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
+  let g:nvim_tree_tab_open = 0 "0 by default, will open the tree when entering a new tab and the tree was previously open
+  let g:nvim_tree_show_icons = {
       \ 'git': 1,
       \ 'folders': 1,
       \ 'files': 1,
@@ -568,7 +568,7 @@ function! s:init_nvim_tree() abort
   " You can edit keybindings be defining this variable
   " You don't have to define all keys.
   " NOTE: the 'edit' key will wrap/unwrap a folder and open a file
-  let g:lua_tree_bindings = {
+  let g:nvim_tree_bindings = {
       \ 'edit':            ['<CR>', 'o'],
       \ 'edit_vsplit':     's',
       \ 'edit_split':      'x',
@@ -594,7 +594,7 @@ function! s:init_nvim_tree() abort
 
   " default will show icon by default if no icon is provided
   " default shows no icon by default
-  let g:lua_tree_icons = {
+  let g:nvim_tree_icons = {
       \ 'default': '',
       \ 'symlink': '',
       \ 'git': {
@@ -610,13 +610,12 @@ function! s:init_nvim_tree() abort
       \   }
       \ }
 
-  nnoremap <silent><leader>ft :LuaTreeToggle<CR>
-  nnoremap <silent><leader>fr :LuaTreeRefresh<CR>
-  nnoremap <silent><leader>ff :LuaTreeFindFile<CR>
-  " LuaTreeOpen and LuaTreeClose are also available if you need them
+  nnoremap <silent><leader>ft :NvimTreeToggle<CR>
+  nnoremap <silent><leader>fr :NvimTreeRefresh<CR>
+  nnoremap <silent><leader>ff :NvimTreeFindFile<CR>
 
   " a list of groups can be found at `:help lua_tree_highlight`
-  highlight LuaTreeFolderIcon guibg=blue
+  highlight NvimTreeFolderIcon guibg=blue
 endfunction
 
 call s:init_nvim_tree()
