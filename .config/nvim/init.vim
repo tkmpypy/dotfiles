@@ -7,8 +7,8 @@ let g:use_treesitter = v:true
 let g:lsp_client_type ='coc' " neovim(builtin), coc
 lua require('plugins')
 
-" colorscheme onebuddy
-colorscheme edge
+colorscheme OceanicNext
+" colorscheme edge
 
 if (g:use_treesitter)
   let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
