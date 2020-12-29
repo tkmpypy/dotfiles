@@ -142,11 +142,12 @@ if (vim.g.lsp_client_type == 'neovim') then
   use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
   use {'tjdevries/lsp_extensions.nvim'}
 elseif (vim.g.lsp_client_type == 'coc') then
-  use {'neoclide/coc.nvim', run = 'yarn install --frozen-lockfile'}
+  use {'neoclide/coc.nvim', run = 'yarn install --frozen-lockfile', requires = {'rafcamlet/coc-nvim-lua'}}
 end
 
 -- use {'~/private/pika.nvim'}
 -- use {'~/private/chowcho.nvim'}
 use {'~/private/fb.nvim'}
+use {'~/private/complua.nvim'}
 
 packer.compile('~/.cache/nvim/plugin/packer_load.vim')
