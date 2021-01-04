@@ -1,6 +1,5 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
-
 local install_path = fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -82,7 +81,6 @@ use {'liuchengxu/vista.vim'}
 use {'kyazdani42/nvim-tree.lua'}
 
 -- Lua Utils
-use {'tjdevries/nlua.nvim'}
 use {'rafcamlet/nvim-luapad'}
 
 -- Utils

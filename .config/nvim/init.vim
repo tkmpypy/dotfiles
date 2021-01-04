@@ -3,8 +3,9 @@
 scriptencoding=utf-8
 set termguicolors
 
+
 let g:use_treesitter = v:true
-let g:lsp_client_type ='coc' " neovim(builtin), coc
+let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
 
 colorscheme OceanicNext
@@ -1126,6 +1127,23 @@ lua << EOF
 --   active_border_color = '#0A8BFF',
 --   border_style = 'rounded' -- 'default', 'rounded',
 -- }
+EOF
+" }}
+
+" complua.nvim {{
+lua << EOF
+require('complua').setup {
+  enable = true,
+  -- boolean or table
+  ignore_case = {
+    smart_case = true
+  },
+  sources = {
+    buffer = true,
+    filepath = true,
+    nvim_lsp = true
+  }
+}
 EOF
 " }}
 

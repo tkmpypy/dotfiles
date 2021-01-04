@@ -5,6 +5,8 @@ local prequire = function(...)
   return nil
 end
 
+local bin_dir = vim.fn.expand('~/.local/share/nvim/lsp')
+
 local vim = vim
 -- local lsp_status = require('lsp-status')
 -- lsp_status.config({
@@ -19,6 +21,7 @@ local vim = vim
 
 local completion = require('completion')
 local nvim_lsp = require('lspconfig')
+local lsp_configs = require('lspconfig/configs')
 
 local custom_attach = function(client)
   if (client.config.flags) then
@@ -135,23 +138,29 @@ nvim_lsp.gopls.setup({
   capabilities = custom_capabilities
 })
 
-nvim_lsp.sumneko_lua.setup({
+local lua_lsp_dir = bin_dir .. '/lua/lua-language-server'
+local lua_lsp_bin = lua_lsp_dir .. '/bin/macOS/lua-language-server'
+nvim_lsp.sumneko_lua.setup{
+  cmd = {lua_lsp_bin, '-E', lua_lsp_dir .. '/main.lua'},
   on_attach = custom_attach,
-  capabilities = custom_capabilities
-})
+  capabilities = custom_capabilities,
+  settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+        },
+      },
+    },
+  },
+}
 
-local nlua_lsp_nvim = prequire('nlua.lsp.nvim')
-if nlua_lsp_nvim then
-  nlua_lsp_nvim.setup(nvim_lsp, {
-    on_attach = custom_attach,
-
-    -- Include globals you want to tell the LSP are real :)
-    globals = {
-      -- Colorbuddy
-      "Color", "c", "Group", "g", "s"
-    }
-  })
-end
 
 nvim_lsp.tsserver.setup({
   on_attach = custom_attach,
