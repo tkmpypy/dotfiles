@@ -41,3 +41,6 @@ ninja -f ninja/macos.ninja
 cd ../..
 ./3rd/luamake/luamake rebuild
 # ./bin/macOS/lua-language-server -E ./main.lua
+
+# pyright
+npm install -g pyright

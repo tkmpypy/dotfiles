@@ -83,18 +83,32 @@ nvim_lsp.terraformls.setup({
   capabilities = custom_capabilities
 })
 
-nvim_lsp.pyls_ms.setup({
-  init_options = {
-    interpreter = {
-      properties = {
-        InterpreterPath = '/Users/takuma/.pyenv/versions/3.5.2/bin/python',
-        Version = '3.5.2'
-      }
-    }
-  },
-  -- handlers = lsp_status.extensions.pyls_ms.setup(),
+-- nvim_lsp.pyls_ms.setup({
+--   init_options = {
+--     interpreter = {
+--       properties = {
+--         InterpreterPath = '/Users/takuma/.pyenv/versions/3.5.2/bin/python',
+--         Version = '3.5.2'
+--       }
+--     }
+--   },
+--   -- handlers = lsp_status.extensions.pyls_ms.setup(),
+--   on_attach = custom_attach,
+--   capabilities = custom_capabilities
+-- })
+
+nvim_lsp.pyright.setup({
+  cmd = {"pyright-langserver", "--stdio"},
   on_attach = custom_attach,
-  capabilities = custom_capabilities
+  capabilities = custom_capabilities,
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true
+      },
+    }
+  }
 })
 
 nvim_lsp.dartls.setup({

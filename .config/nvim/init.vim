@@ -1134,6 +1134,7 @@ EOF
 lua << EOF
 require('complua').setup {
   enable = true,
+  wait_time = 200,
   -- boolean or table
   ignore_case = {
     smart_case = true

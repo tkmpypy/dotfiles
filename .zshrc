@@ -27,6 +27,7 @@ fi
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 export PATH="$HOME/.anyenv/envs/nodenv/bin:$PATH"
 export PATH="$HOME/.anyenv/envs/nodenv/versions/*/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
@@ -75,8 +76,8 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # zinit load starship/starship
 
 # Neovim
-zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
-zinit load neovim/neovim
+# zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
+# zinit load neovim/neovim
 
 # delta
 zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
@@ -136,6 +137,8 @@ setopt hist_reduce_blanks
 setopt no_flow_control
 
 setopt nonomatch
+
+set -s escape-time 0
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
