@@ -1134,13 +1134,16 @@ EOF
 lua << EOF
 require('complua').setup {
   enable = true,
-  wait_time = 200,
-  -- boolean or table
-  ignore_case = {
+  wait_time = 1000,
+  mapping = {
+    confirm = '<C-y>'
+  },
+  match = {
+    ignore_case = true,
     smart_case = true
   },
   sources = {
-    buffer = true,
+    buffer = false,
     filepath = true,
     nvim_lsp = true
   }
