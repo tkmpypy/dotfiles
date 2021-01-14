@@ -570,23 +570,7 @@ function! s:init_nvim_tree() abort
   " You don't have to define all keys.
   " NOTE: the 'edit' key will wrap/unwrap a folder and open a file
   let g:nvim_tree_bindings = {
-      \ 'edit':            ['<CR>', 'o'],
-      \ 'edit_vsplit':     's',
-      \ 'edit_split':      'x',
-      \ 'edit_tab':        't',
-      \ 'toggle_ignored':  'I',
-      \ 'toggle_dotfiles': 'H',
-      \ 'refresh':         'R',
-      \ 'preview':         '<Tab>',
-      \ 'cd':              '<C-]>',
       \ 'create':          'n',
-      \ 'remove':          'd',
-      \ 'rename':          'r',
-      \ 'cut':             'x',
-      \ 'copy':            'c',
-      \ 'paste':           'p',
-      \ 'prev_git_item':   '[c',
-      \ 'next_git_item':   ']c',
       \ }
 
   " Disable default mappings by plugin
