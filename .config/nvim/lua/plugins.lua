@@ -70,7 +70,7 @@ use {
   config = function() return require('statusline') end,
   requires = {'kyazdani42/nvim-web-devicons'}
 }
-use {'akinsho/nvim-bufferline.lua',ft = {'dart'}, requires = {'kyazdani42/nvim-web-devicons'}}
+use {'akinsho/nvim-bufferline.lua', requires = {'kyazdani42/nvim-web-devicons'}}
 -- use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
 -- use {'glepnir/indent-guides.nvim'}
 use {'mhinz/vim-startify'}
@@ -139,7 +139,7 @@ if (vim.g.lsp_client_type == 'neovim') then
   use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
   use {'tjdevries/lsp_extensions.nvim'}
 
-  use {"akinsho/flutter-tools.nvim", requires = {"neovim/nvim-lspconfig"}}
+  use {"akinsho/flutter-tools.nvim", requires = {"neovim/nvim-lspconfig"}, ft = {'dart'}}
 elseif (vim.g.lsp_client_type == 'coc') then
   use {'neoclide/coc.nvim', run = 'yarn install --frozen-lockfile', requires = {'rafcamlet/coc-nvim-lua'}}
 end
