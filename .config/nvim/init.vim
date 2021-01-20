@@ -995,10 +995,61 @@ nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 " }}
 
+" chowcho.nvim {{
+lua << EOF
+-- require('chowcho').setup {
+--   text_color = '#FFFFFF',
+--   bg_color = nil,
+--   active_border_color = '#0A8BFF',
+--   border_style = 'rounded' -- 'default', 'rounded',
+-- }
+EOF
+" }}
+
+" complua.nvim {{
+lua << EOF
+require('complua').setup {
+  enable = true,
+  mapping = {
+    confirm = '<C-y>'
+  },
+  match = {
+    ignore_case = true,
+    smart_case = true
+  },
+  sources = {
+    buffer = true,
+    filepath = true,
+    nvim_lsp = true
+  }
+}
+EOF
+" }}
+
+"*****************************************************************************
+" Utility Functions
+"*****************************************************************************
+function! s:register_path_relative()
+  let @* = expand('%')
+endfunction
+
+function! s:register_path_absolute()
+  let @* = expand('%:p')
+endfunction
+
+function! s:register_path_filename()
+  let @* = expand('%:t')
+endfunction
+
+nnoremap <silent><leader>p  :call <SID>register_path_relative()<CR>
+nnoremap <silent><leader>P  :call <SID>register_path_absolute()<CR>
+nnoremap <silent><leader>pf  :call <SID>register_path_filename()<CR>
 
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
+
+au TextYankPost * silent! lua vim.highlight.on_yank()
 
 " Use as many color as possible
 if !has('gui_running')
@@ -1101,37 +1152,6 @@ let g:miramare_enable_bold = 1
 " oceanic-next{{
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
-" }}
-
-" chowcho.nvim {{
-lua << EOF
--- require('chowcho').setup {
---   text_color = '#FFFFFF',
---   bg_color = nil,
---   active_border_color = '#0A8BFF',
---   border_style = 'rounded' -- 'default', 'rounded',
--- }
-EOF
-" }}
-
-" complua.nvim {{
-lua << EOF
-require('complua').setup {
-  enable = true,
-  mapping = {
-    confirm = '<C-y>'
-  },
-  match = {
-    ignore_case = true,
-    smart_case = true
-  },
-  sources = {
-    buffer = true,
-    filepath = true,
-    nvim_lsp = true
-  }
-}
-EOF
 " }}
 
 set shell=zsh
