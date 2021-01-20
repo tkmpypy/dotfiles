@@ -44,3 +44,5 @@ cd ../..
 
 # pyright
 npm install -g pyright
+
+# terraform-ls

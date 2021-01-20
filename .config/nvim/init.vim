@@ -12,9 +12,9 @@ colorscheme OceanicNext
 " colorscheme edge
 
 if (g:use_treesitter)
-  let g:polyglot_disabled = ['ftdetect', 'java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
+  let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
 else
-  let g:polyglot_disabled = ['ftdetect', 'markdown','md', 'lua']
+  let g:polyglot_disabled = ['markdown','md', 'lua']
 endif
 
 " Disable unnecessary default plugins
@@ -509,11 +509,11 @@ nnoremap <Leader>gbt :BlamerToggle<CR>
 lua << EOF
 require('gitsigns').setup{
   signs = {
-    add          = {hl = 'GitGutterAdd'   , text = '┃'},
-    change       = {hl = 'GitGutterChange', text = '┇'},
+    add          = {hl = 'GitGutterAdd'   , text = '|'},
+    change       = {hl = 'GitGutterChange', text = '┆'},
     delete       = {hl = 'GitGutterDelete', text = '‐'},
     topdelete    = {hl = 'GitGutterDelete', text = '‾'},
-    changedelete = {hl = 'GitGutterChange', text = '╍'},
+    changedelete = {hl = 'GitGutterChange', text = '╌'},
   },
   sign_priority = 1,
 }

@@ -78,7 +78,6 @@ nvim_lsp.yamlls.setup({
 })
 
 nvim_lsp.terraformls.setup({
-  cmd = {"terraform-ls", "serve"},
   on_attach = custom_attach,
   capabilities = custom_capabilities
 })
@@ -98,17 +97,8 @@ nvim_lsp.terraformls.setup({
 -- })
 
 nvim_lsp.pyright.setup({
-  cmd = {"pyright-langserver", "--stdio"},
   on_attach = custom_attach,
   capabilities = custom_capabilities,
-  settings = {
-    python = {
-      analysis = {
-        autoSearchPaths = true,
-        useLibraryCodeForTypes = true
-      },
-    }
-  }
 })
 
 nvim_lsp.dartls.setup({
