@@ -1045,6 +1045,13 @@ nnoremap <silent><leader>p  :call <SID>register_path_relative()<CR>
 nnoremap <silent><leader>P  :call <SID>register_path_absolute()<CR>
 nnoremap <silent><leader>pf  :call <SID>register_path_filename()<CR>
 
+command! Profile call s:command_profile()
+function! s:command_profile() abort
+  profile start ~/profile.txt
+  profile func *
+  profile file *
+endfunction
+
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
