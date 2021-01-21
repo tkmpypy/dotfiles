@@ -42,10 +42,10 @@ use {'drewtempelmeyer/palenight.vim', opt = true}
 use {'franbach/miramare', opt = true}
 
 -- supported treesitter colorscheme
-use {'mhartington/oceanic-next'}
-use {'sainnhe/edge'}
-use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}}
-use {'Th3Whit3Wolf/onebuddy', requires = {{'tjdevries/colorbuddy.vim'}}}
+use {'mhartington/oceanic-next', opt = true}
+use {'sainnhe/edge', opt = true}
+use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}, opt = true}
+use {'Th3Whit3Wolf/onebuddy', requires = {{'tjdevries/colorbuddy.vim'}}, opt = true}
 
 -- Languages
 use {'plasticboy/vim-markdown', ft = {'markdown'}}
@@ -62,7 +62,6 @@ use {'kevinhwang91/nvim-hlslens'}
 use {'luochen1990/rainbow'}
 use {'tjdevries/cyclist.vim'}
 use {'norcalli/nvim-colorizer.lua'}
-use {'google/vim-searchindex'}
 use {'kyazdani42/nvim-web-devicons'}
 use {
   'glepnir/galaxyline.nvim',
@@ -100,7 +99,7 @@ use {'osyo-manga/vim-over'}
 use {'tyru/operator-camelize.vim', requires = {{'kana/vim-operator-user'}}}
 use {'pechorin/any-jump.vim'}
 use {'hrsh7th/vim-eft'}
-use {'mtdl9/vim-log-highlighting'}
+use {'mtdl9/vim-log-highlighting', opt = true}
 
 -- finder
 use {
