@@ -571,6 +571,7 @@ function! s:init_nvim_tree() abort
   " NOTE: the 'edit' key will wrap/unwrap a folder and open a file
   let g:nvim_tree_bindings = {
       \ 'create':          'n',
+      \ 'dir_up':          'u',
       \ }
 
   " Disable default mappings by plugin
@@ -1012,6 +1013,10 @@ require('complua').setup {
   enable = true,
   mapping = {
     confirm = '<C-y>'
+  },
+  trigger = {
+    char = {'.', ':'},
+    min_length = 1
   },
   match = {
     ignore_case = true,
