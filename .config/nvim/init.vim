@@ -1061,7 +1061,7 @@ endfunction
 " Visual Settings
 "*****************************************************************************
 
-au TextYankPost * silent! lua vim.highlight.on_yank()
+au TextYankPost * silent! lua vim.highlight.on_yank {timeout = 300}
 
 " Use as many color as possible
 if !has('gui_running')
