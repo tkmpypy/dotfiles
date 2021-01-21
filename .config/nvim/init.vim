@@ -8,8 +8,8 @@ let g:use_treesitter = v:true
 let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
 
-colorscheme OceanicNext
-" colorscheme edge
+" colorscheme OceanicNext
+colorscheme edge
 
 if (g:use_treesitter)
   let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
@@ -998,12 +998,12 @@ let g:choosewin_overlay_enable = 1
 
 " chowcho.nvim {{
 lua << EOF
--- require('chowcho').setup {
---   text_color = '#FFFFFF',
---   bg_color = nil,
---   active_border_color = '#0A8BFF',
---   border_style = 'rounded' -- 'default', 'rounded',
--- }
+require('chowcho').setup {
+  text_color = '#FFFFFF',
+  bg_color = nil,
+  active_border_color = '#0A8BFF',
+  border_style = 'rounded' -- 'default', 'rounded',
+}
 EOF
 " }}
 

@@ -43,7 +43,7 @@ use {'franbach/miramare', opt = true}
 
 -- supported treesitter colorscheme
 use {'mhartington/oceanic-next', opt = true}
-use {'sainnhe/edge', opt = true}
+use {'sainnhe/edge'}
 use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}, opt = true}
 use {'Th3Whit3Wolf/onebuddy', requires = {{'tjdevries/colorbuddy.vim'}}, opt = true}
 
@@ -144,7 +144,7 @@ elseif (vim.g.lsp_client_type == 'coc') then
 end
 
 -- use {'~/private/pika.nvim'}
--- use {'~/private/chowcho.nvim'}
+use {'~/private/chowcho.nvim'}
 use {'~/private/fb.nvim'}
 use {'~/private/complua.nvim'}
 
