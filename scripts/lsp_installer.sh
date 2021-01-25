@@ -45,4 +45,5 @@ cd ../..
 # pyright
 npm install -g pyright
 
-# terraform-ls
+# yaml-language-server
+npm install -g yaml-language-server

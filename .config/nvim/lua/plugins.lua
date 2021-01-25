@@ -45,7 +45,6 @@ use {'franbach/miramare', opt = true}
 use {'mhartington/oceanic-next', opt = true}
 use {'sainnhe/edge'}
 use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}, opt = true}
-use {'Th3Whit3Wolf/onebuddy', requires = {{'tjdevries/colorbuddy.vim'}}, opt = true}
 
 -- Languages
 use {'plasticboy/vim-markdown', ft = {'markdown'}}

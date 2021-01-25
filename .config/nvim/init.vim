@@ -8,8 +8,8 @@ let g:use_treesitter = v:true
 let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
 
-" colorscheme OceanicNext
-colorscheme edge
+colorscheme OceanicNext
+" colorscheme edge
 
 if (g:use_treesitter)
   let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
@@ -1011,6 +1011,7 @@ EOF
 lua << EOF
 require('complua').setup {
   enable = true,
+  debug = true,
   mapping = {
     confirm = '<C-y>'
   },
@@ -1023,9 +1024,24 @@ require('complua').setup {
     smart_case = true
   },
   sources = {
-    buffer = true,
-    filepath = true,
-    nvim_lsp = true
+    buffer = {
+      priority = 5,
+      label = '[BUFFER]',
+      filetypes = {'go'},
+      additional_params = {
+        only_current = false
+      }
+    },
+    filepath = {
+      priority = 10,
+      filetypes = {},
+      label = '[PATH]',
+    },
+    nvim_lsp = {
+      priority = 15,
+      filetypes = {},
+      label = '[LSP]',
+    }
   }
 }
 EOF
