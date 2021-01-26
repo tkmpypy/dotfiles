@@ -172,21 +172,31 @@ function! s:setup_nvim_lsp()
     call sign_define("LspDiagnosticsSignInformation", {"text" : "כֿ", "texthl" : "LspDiagnosticsSignInformation"})
     call sign_define("LspDiagnosticsSignHint", {"text" : "•", "texthl" : "LspDiagnosticsSignHint"})
 
-    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-    nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-    nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
-    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-    nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-    nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
-    nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+    " builtin mapping
+    " nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
+    " nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+    " nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
+    " nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+    " nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
+    " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
+    " nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
+    " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
-    nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
+    " nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
     nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-    nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-    nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-    nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+    " nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+    " nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+    " nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+
+    " lspsaga mapping
+    " lsp provider to find the currsor word definition and reference
+    nnoremap <silent> gf <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+    nnoremap <leader>ac <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+    nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> pd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+    nnoremap <leader>dp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+    nnoremap <leader>dn <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }

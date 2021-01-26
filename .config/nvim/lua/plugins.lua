@@ -120,6 +120,9 @@ use {'wakatime/vim-wakatime'}
 -- see https://github.com/neovim/neovim/issues/12587
 use {'antoinemadec/FixCursorHold.nvim'}
 
+-- Snippet
+-- use {'hrsh7th/vim-vsnip', rerequires = {{'hrsh7th/vim-vsnip-integ'}}}
+
 if (vim.g.lsp_client_type == 'neovim') then
   -- use neovim built-in
   use {'neovim/nvim-lspconfig'}
@@ -136,6 +139,29 @@ if (vim.g.lsp_client_type == 'neovim') then
   use {'nvim-lua/lsp-status.nvim'}
   use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
   use {'tjdevries/lsp_extensions.nvim'}
+  use {'glepnir/lspsaga.nvim',
+    require= {{'nvim-lua/lsp-status.nvim'}},
+    config = function()
+      local saga = require('lspsaga')
+      saga.init_lsp_saga {
+        -- add your config value here
+        -- default value
+        -- use_saga_diagnostic_handler = 1 // disable the lspsaga diagnostic handler
+        -- use_saga_diagnostic_sign = 1 // disable the lspsaga diagnostic sign
+        -- error_sign = '',
+        -- warn_sign = '',
+        -- hint_sign = '',
+        -- infor_sign = '',
+        -- code_action_icon = ' ',
+        -- finder_definition_icon = '  ',
+        -- finder_reference_icon = '  ',
+        -- definition_preview_icon = '  '
+        -- 1: thin border | 2: rounded border | 3: thick border
+        border_style = 2
+        -- max_hover_width = 0 (automatically adjust to the width of current symbol)
+      }
+    end
+  }
 
   use {"akinsho/flutter-tools.nvim", requires = {"neovim/nvim-lspconfig"}, ft = {'dart'}}
 elseif (vim.g.lsp_client_type == 'coc') then
