@@ -173,13 +173,13 @@ function! s:setup_nvim_lsp()
     call sign_define("LspDiagnosticsSignHint", {"text" : "•", "texthl" : "LspDiagnosticsSignHint"})
 
     " builtin mapping
-    " nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-    " nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     " nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
     " nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-    " nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
-    " nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
     " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
     " nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
@@ -861,7 +861,7 @@ nmap <leader>p <Plug>MarkdownPreview
 " }}
 " memolist {{
 let g:memolist_path = "~/Dropbox/notes"
-let g:memolist_memo_suffix = "markdown"
+let g:memolist_memo_suffix = "md"
 let g:memolist_memo_date = "%Y-%m-%d %H:%M"
 let g:memolist_prompt_tags = 1
 let g:memolist_prompt_categories = 1
