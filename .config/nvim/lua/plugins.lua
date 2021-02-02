@@ -50,6 +50,11 @@ use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}, op
 use {'plasticboy/vim-markdown', ft = {'markdown'}}
 use {'sheerun/vim-polyglot'}
 use {'euclidianAce/BetterLua.vim', ft = {'lua'}}
+use {
+  'towolf/vim-helm', config = function() 
+    vim.cmd[[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]]
+  end 
+}
 
 -- runner
 use {'metakirby5/codi.vim'}
@@ -103,7 +108,7 @@ use {'mtdl9/vim-log-highlighting', opt = true}
 -- finder
 use {
   'nvim-telescope/telescope.nvim',
-  requires = {{'nvim-lua/plenary.nvim'}, {'nvim-lua/popup.nvim'}}
+  requires = {{'nvim-lua/plenary.nvim'}, {'nvim-lua/popup.nvim'}},
 }
 
 -- Git
@@ -132,7 +137,8 @@ if (vim.g.lsp_client_type == 'neovim') then
   -- }
   use {
     'nvim-lua/completion-nvim',
-    requires = {{'hrsh7th/vim-vsnip-integ'}, {'hrsh7th/vim-vsnip'}}
+    disable = true,
+    -- requires = {{'hrsh7th/vim-vsnip-integ'}, {'hrsh7th/vim-vsnip'}},
   }
   use {'steelsojka/completion-buffers', after = 'completion-nvim'}
 
@@ -146,8 +152,8 @@ if (vim.g.lsp_client_type == 'neovim') then
       saga.init_lsp_saga {
         -- add your config value here
         -- default value
-        -- use_saga_diagnostic_handler = 1 // disable the lspsaga diagnostic handler
-        -- use_saga_diagnostic_sign = 1 // disable the lspsaga diagnostic sign
+        -- use_saga_diagnostic_handler = false // disable the lspsaga diagnostic handler
+        use_saga_diagnostic_sign = false,
         -- error_sign = '',
         -- warn_sign = '',
         -- hint_sign = '',
@@ -171,6 +177,6 @@ end
 -- use {'~/private/pika.nvim'}
 use {'~/private/chowcho.nvim'}
 use {'~/private/fb.nvim'}
-use {'~/private/complua.nvim'}
+use {'~/private/complua.nvim', requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}}
 
 packer.compile('~/.cache/nvim/plugin/packer_load.vim')

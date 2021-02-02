@@ -3,10 +3,10 @@
 scriptencoding=utf-8
 set termguicolors
 
-
 let g:use_treesitter = v:true
 let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
+autocmd BufWritePost plugins.lua PackerCompile
 
 colorscheme OceanicNext
 " colorscheme edge
@@ -181,22 +181,26 @@ function! s:setup_nvim_lsp()
     " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
     " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-    nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
+    " nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
     " nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
-    nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+    " nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
     " nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
     " nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
     " nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 
     " lspsaga mapping
     " lsp provider to find the currsor word definition and reference
-    nnoremap <silent> gf <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
-    nnoremap <leader>ac <cmd>lua require('lspsaga.codeaction').code_action()<CR>
-    nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-    nnoremap <silent> pd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
-    nnoremap <leader>dp <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
-    nnoremap <leader>dn <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+    nnoremap <silent> gf :LspSagaFinder<CR>
+    nnoremap <silent><leader>ac :LspSagaCodeAction<CR>
+    vnoremap <silent><leader>ac :'<,'>LspSagaRangeCodeAction<CR>
+    nnoremap <space>rn :LspSagaRename<CR>
+    nnoremap <silent>K :LspSagaHoverDoc<CR>
+    nnoremap <silent> H <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+    nnoremap <silent> pd :LspSagaDefPreview<CR>
+    nnoremap <silent> <leader>dp :LspSagaDiagJumpPrev<CR>
+    nnoremap <silent> <leader>dn :LspSagaDiagJumpNext<CR>
+    nnoremap <silent> <leader>dc :LspSagaShowLineDiags<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
@@ -478,7 +482,7 @@ endfunction
 if g:lsp_client_type == 'neovim'
   call s:setup_nvim_lsp()
   " call s:setup_nvim_compe()
-  call s:setup_complete_nvim()
+  " call s:setup_complete_nvim()
   call s:setup_vsnip()
 elseif g:lsp_client_type == 'coc'
   call s:setup_coc()
@@ -1037,16 +1041,12 @@ require('complua').setup {
     buffer = {
       priority = 5,
       label = '[BUFFER]',
-      filetypes = {'go'},
+      -- filetypes = {'go'},
       additional_params = {
         only_current = false
       }
     },
-    filepath = {
-      priority = 10,
-      filetypes = {},
-      label = '[PATH]',
-    },
+    filepath = false,
     nvim_lsp = {
       priority = 15,
       filetypes = {},
