@@ -191,16 +191,18 @@ function! s:setup_nvim_lsp()
 
     " lspsaga mapping
     " lsp provider to find the currsor word definition and reference
-    nnoremap <silent> gf :LspSagaFinder<CR>
-    nnoremap <silent><leader>ac :LspSagaCodeAction<CR>
-    vnoremap <silent><leader>ac :'<,'>LspSagaRangeCodeAction<CR>
-    nnoremap <space>rn :LspSagaRename<CR>
-    nnoremap <silent>K :LspSagaHoverDoc<CR>
-    nnoremap <silent> H <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
-    nnoremap <silent> pd :LspSagaDefPreview<CR>
-    nnoremap <silent> <leader>dp :LspSagaDiagJumpPrev<CR>
-    nnoremap <silent> <leader>dn :LspSagaDiagJumpNext<CR>
-    nnoremap <silent> <leader>dc :LspSagaShowLineDiags<CR>
+    nnoremap <silent> gf :Lspsaga lsp_finder<CR>
+    nnoremap <silent><leader>ac :Lspsaga code_action<CR>
+    vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
+    nnoremap <space>rn :Lspsaga rename<CR>
+    nnoremap <silent>K :Lspsaga hover_doc<CR>
+    nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
+    nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
+    nnoremap <silent> H :Lspsaga signature_help<CR>
+    nnoremap <silent> pd :Lspsaga preview_definition<CR>
+    nnoremap <silent> <leader>dp :Lspsaga lsp_jump_diagnostic_prev<CR>
+    nnoremap <silent> <leader>dn :Lspsaga lsp_jump_diagnostic_next<CR>
+    nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
@@ -1026,6 +1028,7 @@ lua << EOF
 require('complua').setup {
   enable = true,
   debug = true,
+  wait_time = 20,
   mapping = {
     confirm = '<C-y>'
   },
