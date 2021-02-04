@@ -118,6 +118,11 @@ nvim_lsp.dartls.setup({
   }
 })
 
+nvim_lsp.bashls.setup({
+  on_attach = custom_attach,
+  capabilities = custom_capabilities
+})
+
 nvim_lsp.vimls.setup({
   on_attach = custom_attach,
   capabilities = custom_capabilities

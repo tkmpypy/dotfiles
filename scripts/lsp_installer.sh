@@ -47,3 +47,6 @@ npm install -g pyright
 
 # yaml-language-server
 npm install -g yaml-language-server
+
+# bash-language-server
+npm i -g bash-language-server
