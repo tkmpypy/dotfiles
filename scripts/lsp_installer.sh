@@ -49,4 +49,7 @@ npm install -g pyright
 npm install -g yaml-language-server
 
 # bash-language-server
-npm i -g bash-language-server
+npm install -g bash-language-server
+
+# Docker
+npm install -g dockerfile-language-server-nodejs

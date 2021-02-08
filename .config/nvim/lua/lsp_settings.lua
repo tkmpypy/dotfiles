@@ -123,6 +123,11 @@ nvim_lsp.bashls.setup({
   capabilities = custom_capabilities
 })
 
+nvim_lsp.dockerls.setup({
+  on_attach = custom_attach,
+  capabilities = custom_capabilities
+})
+
 nvim_lsp.vimls.setup({
   on_attach = custom_attach,
   capabilities = custom_capabilities
