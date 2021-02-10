@@ -51,9 +51,9 @@ use {'plasticboy/vim-markdown', ft = {'markdown'}}
 use {'sheerun/vim-polyglot'}
 use {'euclidianAce/BetterLua.vim', ft = {'lua'}}
 use {
-  'towolf/vim-helm', config = function() 
+  'towolf/vim-helm', config = function()
     vim.cmd[[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]]
-  end 
+  end
 }
 
 -- runner
@@ -103,12 +103,21 @@ use {'osyo-manga/vim-over'}
 use {'tyru/operator-camelize.vim', requires = {{'kana/vim-operator-user'}}}
 use {'pechorin/any-jump.vim'}
 use {'hrsh7th/vim-eft'}
+use {
+  'phaazon/hop.nvim',
+  config = function()
+    vim.api.nvim_set_keymap('n', '<leader>n', "<cmd>lua require'hop'.jump_words()<cr>", {}) end
+}
 use {'mtdl9/vim-log-highlighting', opt = true}
 
 -- finder
 use {
   'nvim-telescope/telescope.nvim',
-  requires = {{'nvim-lua/plenary.nvim'}, {'nvim-lua/popup.nvim'}},
+  requires = {
+    {'nvim-lua/plenary.nvim'},
+    {'nvim-lua/popup.nvim'},
+    {'tkmpypy/telescope-jumps.nvim'}
+  },
 }
 
 -- Git

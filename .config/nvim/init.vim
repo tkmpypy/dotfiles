@@ -1,7 +1,7 @@
-" TODO: カレントバッファの相対パス・絶対パスのクリップボード登録
-
 scriptencoding=utf-8
 set termguicolors
+
+let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
 let g:lsp_client_type ='neovim' " neovim(builtin), coc
@@ -53,7 +53,6 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
-let mapleader = "\<Space>"
 
 let g:cursorhold_updatetime = 100
 
@@ -88,6 +87,7 @@ function! s:init_telescope()
   nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
   nnoremap <Leader>sl <cmd>lua require'telescope.builtin'.loclist{}<CR>
   nnoremap <Leader>sq <cmd>lua require'telescope.builtin'.quickfix{}<CR>
+  nnoremap <Leader>sj <cmd>lua require'telescope'.extensions.jumps.jumps{}<CR>
   nnoremap <Leader>st <cmd>lua require'telescope.builtin'.treesitter{}<CR>
 endfunction
 
@@ -1027,7 +1027,7 @@ EOF
 lua << EOF
 require('complua').setup {
   enable = true,
-  debug = true,
+  debug = false,
   wait_time = 20,
   mapping = {
     confirm = '<C-y>'
@@ -1049,7 +1049,7 @@ require('complua').setup {
         only_current = false
       }
     },
-    filepath = false,
+    filepath = true,
     nvim_lsp = {
       priority = 15,
       filetypes = {},

@@ -1,4 +1,6 @@
-require('telescope').setup{
+local telescope = require('telescope')
+telescope.load_extension('jumps')
+telescope.setup{
   defaults = {
     shortlen_path = true,
     winblend = 10,
