@@ -199,7 +199,7 @@ elseif (vim.g.lsp_client_type == 'coc') then
 end
 
 use {
-  '~/private/scrapaper.nvim',
+  'tkmpypy/scrapaper.nvim',
   config = function()
     require('scrapaper').setup {filepath = '~/Dropbox/scrap.md', h_level = 2}
   end
