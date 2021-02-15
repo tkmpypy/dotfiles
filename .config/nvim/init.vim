@@ -1012,17 +1012,6 @@ nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 " }}
 
-" chowcho.nvim {{
-lua << EOF
-require('chowcho').setup {
-  text_color = '#FFFFFF',
-  bg_color = nil,
-  active_border_color = '#0A8BFF',
-  border_style = 'rounded' -- 'default', 'rounded',
-}
-EOF
-" }}
-
 " complua.nvim {{
 lua << EOF
 require('complua').setup {
@@ -1320,5 +1309,3 @@ tnoremap <C-W>N <C-\><C-N>
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
 
-" My plugin mapping
-nnoremap <silent><Leader>ww :Chowcho<CR>

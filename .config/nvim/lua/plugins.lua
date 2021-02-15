@@ -183,8 +183,6 @@ elseif (vim.g.lsp_client_type == 'coc') then
   use {'neoclide/coc.nvim', run = 'yarn install --frozen-lockfile', requires = {'rafcamlet/coc-nvim-lua'}}
 end
 
-use {'~/private/chowcho.nvim'}
-use {'~/private/fb.nvim'}
 use {'~/private/complua.nvim', requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}}
 
 packer.compile('~/.cache/nvim/plugin/packer_load.vim')
