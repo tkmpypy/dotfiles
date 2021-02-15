@@ -85,22 +85,34 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
 # zinit load neovim/neovim
 
-# delta
-zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
-zinit load dandavison/delta
+if [ "$(uname)" == 'Darwin' ]; then
+    # delta
+    zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
+    zinit load dandavison/delta
 
-# bat
-zinit ice from"gh-r" as"program" bpick"*darwin*" pick"bat*/bat"
-zinit load sharkdp/bat
+    # bat
+    zinit ice from"gh-r" as"program" bpick"*darwin*" pick"bat*/bat"
+    zinit load sharkdp/bat
 
-# glow
-zinit ice from"gh-r" as"program" bpick"*darwin*" pick"glow*/glow"
-zinit load charmbracelet/glow
+    # glow
+    zinit ice from"gh-r" as"program" bpick"*darwin*" pick"glow*/glow"
+    zinit load charmbracelet/glow
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+    # delta
+    zinit ice from"gh-r" as"program" bpick"*x86_64-unknown-linux*" pick"delta*/delta"
+    zinit load dandavison/delta
+
+    # bat
+    zinit ice from"gh-r" as"program" bpick"*x86_64-unknown-linux*" pick"bat*/bat"
+    zinit load sharkdp/bat
+
+    # glow
+    zinit ice from"gh-r" as"program" bpick"*linux_x86_64*" pick"glow*/glow"
+    zinit load charmbracelet/glow
+fi
 
 
-# alias
-alias ls='gls --color=auto'
-alias ll='gls --color=auto -la'
+
 
 # 文字コードの指定
 export LANG=ja_JP.UTF-8
