@@ -85,7 +85,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
 # zinit load neovim/neovim
 
-[ -f ~/.zshrc_`uname` ] && source ~/.zshrc_`uname`
+[ -f ~/.zshrc.`uname` ] && source ~/.zshrc.`uname`
 
 # alias
 alias ll='ls -la'

@@ -1038,7 +1038,7 @@ require('complua').setup {
         only_current = false
       }
     },
-    filepath = true,
+    filepath = false,
     nvim_lsp = {
       priority = 15,
       filetypes = {},
