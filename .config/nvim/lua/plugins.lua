@@ -44,15 +44,20 @@ use {'franbach/miramare', opt = true}
 -- supported treesitter colorscheme
 use {'mhartington/oceanic-next', opt = true}
 use {'sainnhe/edge'}
-use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}, opt = true}
+use {
+  'glepnir/zephyr-nvim',
+  requires = {{'nvim-treesitter/nvim-treesitter'}},
+  opt = true
+}
 
 -- Languages
 use {'plasticboy/vim-markdown', ft = {'markdown'}}
 use {'sheerun/vim-polyglot'}
 use {'euclidianAce/BetterLua.vim', ft = {'lua'}}
 use {
-  'towolf/vim-helm', config = function()
-    vim.cmd[[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]]
+  'towolf/vim-helm',
+  config = function()
+    vim.cmd [[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]]
   end
 }
 
@@ -106,7 +111,9 @@ use {'hrsh7th/vim-eft'}
 use {
   'phaazon/hop.nvim',
   config = function()
-    vim.api.nvim_set_keymap('n', '<leader>n', "<cmd>lua require'hop'.jump_words()<cr>", {}) end
+    vim.api.nvim_set_keymap('n', '<leader>n',
+                            "<cmd>lua require'hop'.jump_words()<cr>", {})
+  end
 }
 use {'mtdl9/vim-log-highlighting', opt = true}
 
@@ -114,10 +121,9 @@ use {'mtdl9/vim-log-highlighting', opt = true}
 use {
   'nvim-telescope/telescope.nvim',
   requires = {
-    {'nvim-lua/plenary.nvim'},
-    {'nvim-lua/popup.nvim'},
+    {'nvim-lua/plenary.nvim'}, {'nvim-lua/popup.nvim'},
     {'tkmpypy/telescope-jumps.nvim'}
-  },
+  }
 }
 
 -- Git
@@ -146,7 +152,7 @@ if (vim.g.lsp_client_type == 'neovim') then
   -- }
   use {
     'nvim-lua/completion-nvim',
-    disable = true,
+    disable = true
     -- requires = {{'hrsh7th/vim-vsnip-integ'}, {'hrsh7th/vim-vsnip'}},
   }
   use {'steelsojka/completion-buffers', after = 'completion-nvim'}
@@ -154,8 +160,9 @@ if (vim.g.lsp_client_type == 'neovim') then
   use {'nvim-lua/lsp-status.nvim'}
   use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
   use {'tjdevries/lsp_extensions.nvim'}
-  use {'glepnir/lspsaga.nvim',
-    require= {{'nvim-lua/lsp-status.nvim'}},
+  use {
+    'glepnir/lspsaga.nvim',
+    require = {{'nvim-lua/lsp-status.nvim'}},
     config = function()
       local saga = require('lspsaga')
       saga.init_lsp_saga {
@@ -178,11 +185,28 @@ if (vim.g.lsp_client_type == 'neovim') then
     end
   }
 
-  use {"akinsho/flutter-tools.nvim", requires = {"neovim/nvim-lspconfig"}, ft = {'dart'}}
+  use {
+    "akinsho/flutter-tools.nvim",
+    requires = {"neovim/nvim-lspconfig"},
+    ft = {'dart'}
+  }
 elseif (vim.g.lsp_client_type == 'coc') then
-  use {'neoclide/coc.nvim', run = 'yarn install --frozen-lockfile', requires = {'rafcamlet/coc-nvim-lua'}}
+  use {
+    'neoclide/coc.nvim',
+    run = 'yarn install --frozen-lockfile',
+    requires = {'rafcamlet/coc-nvim-lua'}
+  }
 end
 
-use {'~/private/complua.nvim', requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}}
+use {
+  '~/private/scrapaper.nvim',
+  config = function()
+    require('scrapaper').setup {filepath = '~/Dropbox/scrap.md', h_level = 2}
+  end
+}
+use {
+  '~/private/complua.nvim',
+  requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}
+}
 
 packer.compile('~/.cache/nvim/plugin/packer_load.vim')

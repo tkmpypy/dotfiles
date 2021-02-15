@@ -955,10 +955,15 @@ call cyclist#add_listchar_option_set('busy', {
         \ 'conceal': '┊',
         \ 'nbsp': '☠',
         \ })
+call cyclist#add_listchar_option_set('default', {
+        \ 'tab': '» ',
+        \ 'trail': '░',
+        \ 'nbsp': '␣',
+        \ })
 
-call cyclist#set_trail('default', '░')
-call cyclist#set_tab('default', '» ')
-call cyclist#set_nbsp('default', '␣')
+" call cyclist#set_trail('default', '░')
+" call cyclist#set_tab('default', '» ')
+" call cyclist#set_nbsp('default', '␣')
 " Cycle to the next configuration
 nmap <leader>cn <Plug>CyclistNext
 nmap <leader>cp <Plug>CyclistPrev
@@ -1010,6 +1015,11 @@ map <leader>C <plug>(operator-decamelize)
 " t9md/vim-choosewin {{
 nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
+" }}
+
+" scrapaper.nvim {{
+nnoremap <leader>z :Scrapaper<CR>
+nnoremap <leader>Z :ScrapaperWithTitle
 " }}
 
 " complua.nvim {{
