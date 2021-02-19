@@ -180,7 +180,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
-    " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     " nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
     " nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
@@ -1020,6 +1020,12 @@ let g:choosewin_overlay_enable = 1
 " scrapaper.nvim {{
 nnoremap <leader>z :Scrapaper<CR>
 nnoremap <leader>Z :ScrapaperWithTitle
+" }}
+
+" chowcho.nvim {{
+
+nnoremap <leader>ww :Chowcho<CR>
+
 " }}
 
 " complua.nvim {{
