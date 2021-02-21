@@ -1,15 +1,11 @@
+#!/bin/bash
+
 DSTDIR=~/.local/share/nvim/lsp
 
 function make_dir() {
     if [ ! -d $1 ]; then
       # 存在しない場合は作成（本処理へ)
       mkdir $1
-    else
-      # 存在して空でない場合は警告を出して終了
-      if [ -n "$(ls -A $1)" ]; then
-        echo "出力先にファイルが存在します。削除してください。=> $DSTDIR"
-        exit 1
-      fi
     fi
 }
 
@@ -35,9 +31,12 @@ git clone https://github.com/sumneko/lua-language-server
 cd lua-language-server
 git submodule update --init --recursive
 
-# for Mac
 cd 3rd/luamake
-ninja -f ninja/macos.ninja
+if [ "$(uname)" == 'Darwin' ]; then
+  ninja -f ninja/macos.ninja
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+  ninja -f ninja/linux.ninja
+fi
 cd ../..
 ./3rd/luamake/luamake rebuild
 # ./bin/macOS/lua-language-server -E ./main.lua

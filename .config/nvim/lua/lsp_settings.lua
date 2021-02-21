@@ -153,9 +153,14 @@ nvim_lsp.gopls.setup({
 })
 
 local lua_lsp_dir = bin_dir .. '/lua/lua-language-server'
-local lua_lsp_bin = lua_lsp_dir .. '/bin/macOS/lua-language-server'
+local lua_lsp_exec_path = nil
+if vim.fn.has('mac') == 1 then
+  lua_lsp_exec_path = lua_lsp_dir .. '/bin/macOS/lua-language-server'
+elseif vim.fn.has('unix') == 1 then
+  lua_lsp_exec_path = lua_lsp_dir .. '/bin/Linux/lua-language-server'
+end
 nvim_lsp.sumneko_lua.setup{
-  cmd = {lua_lsp_bin, '-E', lua_lsp_dir .. '/main.lua'},
+  cmd = {lua_lsp_exec_path, '-E', lua_lsp_dir .. '/main.lua'},
   on_attach = custom_attach,
   capabilities = custom_capabilities,
   settings = {
