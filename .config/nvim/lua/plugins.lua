@@ -192,7 +192,16 @@ elseif (vim.g.lsp_client_type == 'coc') then
   }
 end
 
-use { '~/private/chowcho.nvim', config = function() require('chowcho').setup{ border_style='rounded', icon_enabled = true } end }
+use {
+  '~/private/chowcho.nvim',
+  config = function()
+    require('chowcho').setup{
+      border_style='rounded',
+      icon_enabled = true
+    }
+  end
+}
+
 use {
   'tkmpypy/scrapaper.nvim',
   config = function()
