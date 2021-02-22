@@ -94,6 +94,10 @@ endfunction
 call s:init_telescope()
 " }}
 
+" lexima {{
+let g:lexima_no_default_rules = v:true
+call lexima#set_default_rules()
+" }}
 
 " vim-bbye {{
 nnoremap <leader>q :Bdelete<CR>
@@ -240,10 +244,10 @@ lua <<EOF
     debug = false;
     min_length = 1;
     preselect = 'enable'; -- enable, disable, always
-    throttle_time = 400;
+    throttle_time = 80;
     source_timeout = 200;
     incomplete_delay = 400;
-    allow_prefix_unmatch = false;
+    documentation = true;
 
     source = {
       path = { priority = 10 };
@@ -251,13 +255,21 @@ lua <<EOF
       vsnip = { priority = 8 };
       nvim_lsp = { priority = 7 };
       nvim_lua = true;
+      spell = true;
+      tags = false;
+      snippets_nvim = false;
+      treesitter = false;
+      calc = true;
     };
   }
 EOF
 
   inoremap <silent><expr> <C-Space> compe#complete()
-  inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT><CR>', 'i'))
+  " inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+  inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
   inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 endfunction
 
@@ -483,7 +495,7 @@ endfunction
 
 if g:lsp_client_type == 'neovim'
   call s:setup_nvim_lsp()
-  " call s:setup_nvim_compe()
+  call s:setup_nvim_compe()
   " call s:setup_complete_nvim()
   call s:setup_vsnip()
 elseif g:lsp_client_type == 'coc'
@@ -1028,42 +1040,6 @@ nnoremap <leader>ww :Chowcho<CR>
 
 " }}
 
-" complua.nvim {{
-lua << EOF
-require('complua').setup {
-  enable = true,
-  debug = false,
-  wait_time = 20,
-  mapping = {
-    confirm = '<C-y>'
-  },
-  trigger = {
-    char = {'.', ':'},
-    min_length = 1
-  },
-  match = {
-    ignore_case = true,
-    smart_case = true
-  },
-  sources = {
-    buffer = {
-      priority = 5,
-      label = '[BUFFER]',
-      -- filetypes = {'go'},
-      additional_params = {
-        only_current = false
-      }
-    },
-    filepath = false,
-    nvim_lsp = {
-      priority = 15,
-      filetypes = {},
-      label = '[LSP]',
-    }
-  }
-}
-EOF
-" }}
 
 "*****************************************************************************
 " Utility Functions

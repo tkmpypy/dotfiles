@@ -146,16 +146,10 @@ use {'antoinemadec/FixCursorHold.nvim'}
 if (vim.g.lsp_client_type == 'neovim') then
   -- use neovim built-in
   use {'neovim/nvim-lspconfig'}
-  -- use {
-  --   'hrsh7th/nvim-compe',
-  --   requires = {{'hrsh7th/vim-vsnip-integ'}, {'hrsh7th/vim-vsnip'}}
-  -- }
   use {
-    'nvim-lua/completion-nvim',
-    disable = true
-    -- requires = {{'hrsh7th/vim-vsnip-integ'}, {'hrsh7th/vim-vsnip'}},
+    'hrsh7th/nvim-compe',
+    requires = {{'hrsh7th/vim-vsnip'}}
   }
-  use {'steelsojka/completion-buffers', after = 'completion-nvim'}
 
   use {'nvim-lua/lsp-status.nvim'}
   use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
@@ -205,9 +199,43 @@ use {
     require('scrapaper').setup {filepath = '~/Dropbox/scrap.md', h_level = 2}
   end
 }
-use {
-  '~/private/complua.nvim',
-  requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}
-}
+-- use {
+--   '~/private/complua.nvim',
+--   config = function()
+--     require('complua').setup {
+--       enable = true,
+--       debug = false,
+--       wait_time = 20,
+--       mapping = {
+--         confirm = '<C-y>'
+--       },
+--       trigger = {
+--         char = {'.', ':'},
+--         min_length = 1
+--       },
+--       match = {
+--         ignore_case = true,
+--         smart_case = true
+--       },
+--       sources = {
+--         buffer = {
+--           priority = 5,
+--           label = '[BUFFER]',
+--           -- filetypes = {'go'},
+--           additional_params = {
+--             only_current = false
+--           }
+--         },
+--         filepath = false,
+--         nvim_lsp = {
+--           priority = 15,
+--           filetypes = {},
+--           label = '[LSP]',
+--         }
+--       }
+--     }
+--   end,
+--   requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}
+-- }
 
 packer.compile('~/.cache/nvim/plugin/packer_load.vim')
