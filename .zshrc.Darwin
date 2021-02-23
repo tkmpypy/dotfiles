@@ -1,3 +1,7 @@
+# rg
+zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" pick"ripgrep*/rg"
+zinit load BurntSushi/ripgrep
+
 # delta
 zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
 zinit load dandavison/delta
@@ -10,3 +14,6 @@ zinit load sharkdp/bat
 zinit ice from"gh-r" as"program" bpick"*darwin*" pick"glow*/glow"
 zinit load charmbracelet/glow
 
+# lazygit
+zinit ice from"gh-r" as"program" bpick"*Darwin_x86_64*" pick"lazygit*/lazygit"
+zinit load jesseduffield/lazygit
