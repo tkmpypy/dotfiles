@@ -67,7 +67,6 @@ use {'vim-test/vim-test'}
 use {'thinca/vim-quickrun'}
 
 -- UI
-use {'kevinhwang91/nvim-hlslens'}
 use {'luochen1990/rainbow'}
 use {'tjdevries/cyclist.vim'}
 use {'norcalli/nvim-colorizer.lua'}

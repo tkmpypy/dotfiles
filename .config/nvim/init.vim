@@ -590,17 +590,12 @@ function! s:init_nvim_tree() abort
       \ 'folders': 1,
       \ 'files': 1,
       \}
-  "If 0, do not show the icons for one of 'git' 'folder' and 'files'
-  "1 by default, notice that if 'files' is 1, it will only display
-  "if nvim-web-devicons is installed and on your runtimepath
-
-  " You can edit keybindings be defining this variable
-  " You don't have to define all keys.
-  " NOTE: the 'edit' key will wrap/unwrap a folder and open a file
-  let g:nvim_tree_bindings = {
-      \ 'create':          'n',
-      \ 'dir_up':          'u',
-      \ }
+lua <<EOF
+  vim.g.nvim_tree_bindings = {
+    ["n"] = ":lua require'nvim-tree'.on_keypress('create')<CR>",
+    ["u"] = ":lua require'nvim-tree'.on_keypress('die_up')<CR>",
+  }
+EOF
 
   " Disable default mappings by plugin
   " Bindings are enable by default, disabled on any non-zero value
@@ -985,32 +980,6 @@ nmap <leader>cp <Plug>CyclistPrev
 
 " Reset to default configuration
 call cyclist#activate_listchars('default')
-" }}
-" nvim-hlslens{{
-lua <<EOF
-require('hlslens').setup({
-    -- enable hlslens after searching
-    -- type: boolean
-    auto_enable = true,
-    -- if calm_down is true, stop hlslens when cursor is out of position range
-    -- type: boolean
-    calm_down = false,
-    -- hackable function for customizing the virtual text
-    -- type: function(lnum, loc, idx, r_idx, count, hls_ns)
-    override_line_lens = nil
-})
-EOF
-noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
-            \<Cmd>lua require('hlslens').start()<CR>
-noremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR>
-            \<Cmd>lua require('hlslens').start()<CR>
-noremap * *<Cmd>lua require('hlslens').start()<CR>
-noremap # #<Cmd>lua require('hlslens').start()<CR>
-noremap g* g*<Cmd>lua require('hlslens').start()<CR>
-noremap g# g#<Cmd>lua require('hlslens').start()<CR>
-
-" use : instead of <Cmd>
-nnoremap <silent> <leader>l :nohlsearch<CR>
 " }}
 " vimdocs {{
 let g:devdocs_filetype_map = {
