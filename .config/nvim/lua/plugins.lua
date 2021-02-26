@@ -212,7 +212,7 @@ use {
 --   config = function()
 --     require('complua').setup {
 --       enable = true,
---       debug = false,
+--       debug = true,
 --       wait_time = 20,
 --       mapping = {
 --         confirm = '<C-y>'
