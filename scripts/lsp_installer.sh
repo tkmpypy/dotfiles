@@ -13,7 +13,11 @@ make_dir $DSTDIR
 
 # rust-analyzer
 rm -f ~/.local/bin/rust-analyzer
-curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.local/bin/rust-analyzer
+if [ "$(uname)" == 'Darwin' ]; then
+  curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.local/bin/rust-analyzer
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+  curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o ~/.local/bin/rust-analyzer
+fi
 chmod +x ~/.local/bin/rust-analyzer
 
 # vim-language-server
