@@ -110,8 +110,7 @@ use {'hrsh7th/vim-eft'}
 use {
   'phaazon/hop.nvim',
   config = function()
-    vim.api.nvim_set_keymap('n', '<leader>n',
-                            "<cmd>lua require'hop'.jump_words()<cr>", {})
+    vim.api.nvim_set_keymap('n', ',', ":HopWord<cr>", {})
   end
 }
 use {'mtdl9/vim-log-highlighting', opt = true}
