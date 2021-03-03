@@ -96,7 +96,7 @@ gls.left[2] = {
         t = nord_colors.red
       }
       vim.cmd("hi GalaxyViMode guifg=" .. mode_color[vim.fn.mode()])
-      return "    "
+      return "  "
     end,
     highlight = {nord_colors.red, nord_colors.line_bg, "bold"}
   }
@@ -177,7 +177,7 @@ gls.right[6] = {
 gls.right[7] = {
   LineInfo = {
     provider = "LineColumn",
-    separator = "",
+    separator = " ",
     separator_highlight = {nord_colors.blue, nord_colors.line_bg},
     highlight = {nord_colors.gray, nord_colors.line_bg}
   }
