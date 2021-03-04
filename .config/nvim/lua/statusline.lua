@@ -125,7 +125,9 @@ gls.right[1] = {
   GetLspClient = {
     provider = "GetLspClient",
     condition = checkwidth,
-    highlight = {nord_colors.darkblue, nord_colors.line_bg, "bold"}
+    icon = " ",
+    -- icon = " ",
+    highlight = {nord_colors.cyan, nord_colors.line_bg, "bold"}
   }
 }
 gls.right[2] = {
