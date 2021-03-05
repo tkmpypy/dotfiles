@@ -128,7 +128,6 @@ use {
 use {'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}}
 use {'lambdalisue/gina.vim'}
 use {'rhysd/git-messenger.vim'}
-use {'gotchane/vim-git-commit-prefix'}
 use {'APZelos/blamer.nvim'}
 
 -- service
