@@ -93,7 +93,11 @@ use {'moll/vim-bbye'}
 use {
   'b3nj5m1n/kommentary',
   config = function()
-    require('kommentary.config').use_extended_mappings()
+    local config = require('kommentary.config')
+    config.use_extended_mappings()
+    config.configure_language("default", {
+        ignore_whitespace = true,
+    })
   end
 }
 use {'godlygeek/tabular'}

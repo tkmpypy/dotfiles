@@ -1,5 +1,4 @@
 local gl = require('galaxyline')
-local lspclient = require('galaxyline.provider_lsp')
 local gls = gl.section
 gl.short_line_list = {'LuaTree','vista','dbui'}
 
@@ -110,10 +109,10 @@ gls.left[3] = {
 }
 gls.left[4] = {
   FileName = {
-    -- provider = "FileName",
-    provider = function()
+    provider = "FileName",
+    --[[ provider = function()
       return vim.fn.expand("%:F")
-    end,
+    end, ]]
     condition = buffer_not_empty,
     separator = " ",
     separator_highlight = {nord_colors.purple, nord_colors.bg},
