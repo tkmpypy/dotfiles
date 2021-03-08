@@ -52,7 +52,6 @@ use {
 
 -- Languages
 use {'plasticboy/vim-markdown', ft = {'markdown'}}
-use {'sheerun/vim-polyglot'}
 use {'euclidianAce/BetterLua.vim', ft = {'lua'}}
 use {
   'towolf/vim-helm',
@@ -78,8 +77,6 @@ use {
   requires = {'kyazdani42/nvim-web-devicons'}
 }
 use {'akinsho/nvim-bufferline.lua', requires = {'kyazdani42/nvim-web-devicons'}}
--- use {'romgrk/barbar.nvim', requires = {{'romgrk/lib.kom'}}}
--- use {'glepnir/indent-guides.nvim'}
 use {'mhinz/vim-startify'}
 use {'liuchengxu/vista.vim'}
 
@@ -92,7 +89,13 @@ use {'rafcamlet/nvim-luapad'}
 -- Utils
 use {'akinsho/nvim-toggleterm.lua'}
 use {'moll/vim-bbye'}
-use {'tyru/caw.vim'}
+-- use {'tyru/caw.vim'}
+use {
+  'b3nj5m1n/kommentary',
+  config = function()
+    require('kommentary.config').use_extended_mappings()
+  end
+}
 use {'godlygeek/tabular'}
 use {'lukas-reineke/format.nvim'}
 use {'airblade/vim-rooter'}

@@ -11,13 +11,6 @@ autocmd BufWritePost plugins.lua PackerCompile
 colorscheme OceanicNext
 " colorscheme edge
 
-if (g:use_treesitter)
-  " let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'rust', 'html', 'toml', 'json', 'yaml']
-  let g:polyglot_disabled = ['java', 'dart', 'markdown', 'python', 'lua', 'go', 'ruby', 'html', 'toml', 'json', 'yaml']
-else
-  let g:polyglot_disabled = ['markdown','md', 'lua']
-endif
-
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
 " let g:loaded_tar               = 1
