@@ -198,8 +198,8 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
     nnoremap <silent> H :Lspsaga signature_help<CR>
     nnoremap <silent> pd :Lspsaga preview_definition<CR>
-    nnoremap <silent> <leader>dp :Lspsaga lsp_jump_diagnostic_prev<CR>
-    nnoremap <silent> <leader>dn :Lspsaga lsp_jump_diagnostic_next<CR>
+    nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
+    nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
     nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
