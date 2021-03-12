@@ -121,6 +121,7 @@ use {
   end
 }
 use {'mtdl9/vim-log-highlighting', opt = true}
+use {'tversteeg/registers.nvim'}
 
 -- finder
 use {
@@ -155,7 +156,7 @@ if (vim.g.lsp_client_type == 'neovim') then
   use {'tjdevries/lsp_extensions.nvim'}
   use {
     'glepnir/lspsaga.nvim',
-    disable = true,
+    -- disable = true,
     require = {{'nvim-lua/lsp-status.nvim'}},
     config = function()
       local saga = require('lspsaga')
@@ -246,5 +247,3 @@ use {
 --   end,
 --   requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}
 -- }
-
-packer.compile('~/.cache/nvim/plugin/packer_load.vim')

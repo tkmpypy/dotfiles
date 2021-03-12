@@ -172,37 +172,37 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     " nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
-    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+    " nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
     nnoremap <silent> gr    <cmd>:Telescope lsp_references<CR>
     " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-    nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
-    nnoremap <leader>ac    <cmd>Telescope lsp_code_actions<CR>
+    " nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
+    " nnoremap <leader>ac    <cmd>Telescope lsp_code_actions<CR>
     " nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 
-    nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-    nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-    nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-    nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+    " nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+    " nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+    " nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+    " nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
     nnoremap <leader>da <cmd>:Telescope lsp_workspace_diagnostics<CR>
 
     " lspsaga mapping
     " lsp provider to find the currsor word definition and reference
-    " nnoremap <silent> gf :Lspsaga lsp_finder<CR>
-    " nnoremap <silent><leader>ac :Lspsaga code_action<CR>
-    " vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
-    " nnoremap <space>rn :Lspsaga rename<CR>
-    " nnoremap <silent>K :Lspsaga hover_doc<CR>
-    " nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
-    " nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
-    " nnoremap <silent> H :Lspsaga signature_help<CR>
-    " nnoremap <silent> pd :Lspsaga preview_definition<CR>
-    " nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
-    " nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
-    " nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
+    nnoremap <silent> gf :Lspsaga lsp_finder<CR>
+    nnoremap <silent><leader>ac :Lspsaga code_action<CR>
+    vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
+    nnoremap <space>rn :Lspsaga rename<CR>
+    nnoremap <silent>K :Lspsaga hover_doc<CR>
+    nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
+    nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
+    nnoremap <silent> H :Lspsaga signature_help<CR>
+    nnoremap <silent> pd :Lspsaga preview_definition<CR>
+    nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
+    nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
+    nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
@@ -240,9 +240,9 @@ lua <<EOF
     debug = false;
     min_length = 1;
     preselect = 'enable'; -- enable, disable, always
-    throttle_time = 80;
+    throttle_time = 20;
     source_timeout = 200;
-    incomplete_delay = 400;
+    incomplete_delay = 50;
     documentation = true;
 
     source = {
