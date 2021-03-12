@@ -21,6 +21,6 @@ require'nvim-treesitter.configs'.setup {
     },
     ensure_installed = {
         "java", "dart", "go", "rust", "ruby", "python", "lua", "yaml",
-        "toml", "json", "typescript", "javascript"
+        "toml", "json", "typescript", "javascript", "tsx", "html"
     }
 }

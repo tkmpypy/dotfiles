@@ -140,10 +140,6 @@ use {'APZelos/blamer.nvim'}
 -- service
 use {'wakatime/vim-wakatime'}
 
--- Fix
--- see https://github.com/neovim/neovim/issues/12587
-use {'antoinemadec/FixCursorHold.nvim'}
-
 -- Snippet
 -- use {'hrsh7th/vim-vsnip', rerequires = {{'hrsh7th/vim-vsnip-integ'}}}
 
@@ -156,10 +152,10 @@ if (vim.g.lsp_client_type == 'neovim') then
   }
 
   use {'nvim-lua/lsp-status.nvim'}
-  use {'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}}}
   use {'tjdevries/lsp_extensions.nvim'}
   use {
     'glepnir/lspsaga.nvim',
+    disable = true,
     require = {{'nvim-lua/lsp-status.nvim'}},
     config = function()
       local saga = require('lspsaga')

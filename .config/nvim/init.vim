@@ -48,8 +48,6 @@ augroup MyAutoCmd
 augroup END
 
 
-let g:cursorhold_updatetime = 100
-
 " nvim-treesitter {{
 if (g:use_treesitter)
   lua require('treesitter')
@@ -174,33 +172,37 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     " nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
-    " nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
-    nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-    " nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
+    nnoremap <silent> gr    <cmd>:Telescope lsp_references<CR>
+    " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+    nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
+    nnoremap <leader>ac    <cmd>Telescope lsp_code_actions<CR>
     " nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
-    " nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-    " nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-    " nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-    " nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+
+    nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+    nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+    nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+    nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+    nnoremap <leader>da <cmd>:Telescope lsp_workspace_diagnostics<CR>
 
     " lspsaga mapping
     " lsp provider to find the currsor word definition and reference
-    nnoremap <silent> gf :Lspsaga lsp_finder<CR>
-    nnoremap <silent><leader>ac :Lspsaga code_action<CR>
-    vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
-    nnoremap <space>rn :Lspsaga rename<CR>
-    nnoremap <silent>K :Lspsaga hover_doc<CR>
-    nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
-    nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
-    nnoremap <silent> H :Lspsaga signature_help<CR>
-    nnoremap <silent> pd :Lspsaga preview_definition<CR>
-    nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
-    nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
-    nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
+    " nnoremap <silent> gf :Lspsaga lsp_finder<CR>
+    " nnoremap <silent><leader>ac :Lspsaga code_action<CR>
+    " vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
+    " nnoremap <space>rn :Lspsaga rename<CR>
+    " nnoremap <silent>K :Lspsaga hover_doc<CR>
+    " nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
+    " nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
+    " nnoremap <silent> H :Lspsaga signature_help<CR>
+    " nnoremap <silent> pd :Lspsaga preview_definition<CR>
+    " nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
+    " nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
+    " nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
 
     autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
@@ -264,63 +266,6 @@ EOF
   inoremap <silent><expr> <C-e>     compe#close('<C-e>')
   inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
   inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-endfunction
-
-function! s:setup_complete_nvim()
-    " let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    let g:completion_matching_strategy_list = ['exact', 'substring']
-    let g:completion_trigger_keyword_length = 1
-    let g:completion_trigger_on_delete = 1
-    let g:completion_time_cycle = 100
-    let g:completion_confirm_key = ""
-    imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-                     \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
-    let g:completion_enable_snippet = 'vim-vsnip'
-    let g:completion_sorting = "none" " length or alphabet, none
-    let g:completion_matching_ignore_case = 0
-    let g:completion_matching_smart_case = 1
-    let g:completion_enable_auto_hover = 1
-    let g:completion_enable_auto_signature = 1
-    " let g:completion_max_items = 20
-    let g:completion_trigger_character = ['.', '::']
-    let g:completion_chain_complete_list = {
-            \ 'default': [
-            \      {'complete_items': ['lsp', 'snippet', 'buffer', 'buffers', 'path']},
-            \      {'mode': '<c-p>'},
-            \      {'mode': '<c-n>'},
-            \ ],
-            \ }
-    let g:completion_auto_change_source = 1
-    let g:completion_customize_lsp_label = {
-          \  'Function'      : "",
-          \  'Method'        : "",
-          \  'Variable'      : "",
-          \  'Constant'      : "",
-          \  'Struct'        : "פּ",
-          \  'Class'         : "",
-          \  'Interface'     : "禍",
-          \  'Text'          : "",
-          \  'Enum'          : "",
-          \  'EnumMember'    : "",
-          \  'Module'        : "",
-          \  'Color'         : "",
-          \  'Property'      : "襁",
-          \  'Field'         : "綠",
-          \  'Unit'          : "",
-          \  'File'          : "",
-          \  'Value'         : "",
-          \  'Event'         : "鬒",
-          \  'Folder'        : "",
-          \  'Keyword'       : "",
-          \  'Snippet'       : "",
-          \  'Operator'      : "洛",
-          \  'Reference'     : " ",
-          \  'TypeParameter' : "",
-          \  'Default'       : ""
-    \ }
-    imap <c-j> <Plug>(completion_next_source)
-    imap <c-k> <Plug>(completion_prev_source)
 
 endfunction
 
@@ -490,28 +435,12 @@ endfunction
 if g:lsp_client_type == 'neovim'
   call s:setup_nvim_lsp()
   call s:setup_nvim_compe()
-  " call s:setup_complete_nvim()
   call s:setup_vsnip()
 elseif g:lsp_client_type == 'coc'
   call s:setup_coc()
 endif
 " vim-json {{
 let g:vim_json_syntax_conceal = 0
-" }}
-" indent-guides.nvim {{
-lua << EOF
--- require('indent_guides').options = {
---     indent_levels = 30,
---     indent_guide_size = 0,
---     indent_start_level = 1,
---     indent_space_guides = true,
---     indent_tab_guides = true,
---     indent_pretty_guides = false,
---     indent_soft_pattern = '\\s',
---     exclude_filetypes = {'help', 'packer', 'LuaTree', 'startify'},
--- }
-EOF
-
 " }}
 
 " nvim-bufferline{{
@@ -981,7 +910,6 @@ let g:devdocs_filetype_map = {
     \   'typescriptreact': 'react',
     \ }
 nnoremap <Leader>d :DevDocsUnderCursor<CR>
-nnoremap <Leader>da :DevDocsAll
 " }}
 " tyru/operator-camelize.vim {{
 map <leader>c <plug>(operator-camelize)

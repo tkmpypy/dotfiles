@@ -23,7 +23,7 @@ local vim = vim
 local nvim_lsp = require('lspconfig')
 local lsp_configs = require('lspconfig/configs')
 
-local custom_attach = function(client)
+local custom_init = function(client)
   if (client.config.flags) then
     client.config.flags.allow_incremental_sync = true
   end
@@ -59,12 +59,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 )
 
 nvim_lsp.jsonls.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 
 nvim_lsp.yamlls.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
   -- settings = {
   --   yaml = {
@@ -78,7 +78,7 @@ nvim_lsp.yamlls.setup({
 })
 
 nvim_lsp.terraformls.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 
@@ -92,12 +92,12 @@ nvim_lsp.terraformls.setup({
 --     }
 --   },
 --   -- handlers = lsp_status.extensions.pyls_ms.setup(),
---   on_attach = custom_attach,
+--   on_init = custom_init,
 --   capabilities = custom_capabilities
 -- })
 
 nvim_lsp.pyright.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities,
 })
 
@@ -109,7 +109,7 @@ nvim_lsp.dartls.setup({
     outline = true,
     suggestFromUnimportedLibraries = true
   },
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities,
   handlers = {
     ['dart/textDocument/publishClosingLabels'] = require(
@@ -119,36 +119,36 @@ nvim_lsp.dartls.setup({
 })
 
 nvim_lsp.bashls.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 
 nvim_lsp.dockerls.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 
 nvim_lsp.vimls.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 
 nvim_lsp.rust_analyzer.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 -- nvim_lsp.rls.setup({
---   on_attach = custom_attach,
+--   on_init = custom_init,
 --   capabilities = lsp_status.capabilities
 -- })
 
 nvim_lsp.solargraph.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 
 nvim_lsp.gopls.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 
@@ -161,7 +161,7 @@ elseif vim.fn.has('unix') == 1 then
 end
 nvim_lsp.sumneko_lua.setup{
   cmd = {lua_lsp_exec_path, '-E', lua_lsp_dir .. '/main.lua'},
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities,
   settings = {
     Lua = {
@@ -182,11 +182,11 @@ nvim_lsp.sumneko_lua.setup{
 
 
 nvim_lsp.tsserver.setup({
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities
 })
 nvim_lsp.diagnosticls.setup {
-  on_attach = custom_attach,
+  on_init = custom_init,
   capabilities = custom_capabilities,
   filetypes = {
     'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'go',
@@ -257,29 +257,4 @@ nvim_lsp.diagnosticls.setup {
     -- }
   }
 }
-
-local lsp_util_codeaction = prequire('lsputil.codeAction')
-if lsp_util_codeaction then
-  vim.lsp.handlers['textDocument/codeAction'] =
-      lsp_util_codeaction.code_action_handler
-end
-local lsp_util_locations = prequire('lsputil.locations')
-if lsp_util_locations then
-  vim.lsp.handlers['textDocument/references'] =
-      lsp_util_locations.references_handler
-  vim.lsp.handlers['textDocument/definition'] =
-      lsp_util_locations.definition_handler
-  vim.lsp.handlers['textDocument/declaration'] =
-      lsp_util_locations.declaration_handler
-  vim.lsp.handlers['textDocument/typeDefinition'] =
-      lsp_util_locations.typeDefinition_handler
-  vim.lsp.handlers['textDocument/implementation'] =
-      lsp_util_locations.implementation_handler
-end
-local lsp_util_symbols = prequire('lsputil.symbols')
-if lsp_util_symbols then
-  vim.lsp.handlers['textDocument/documentSymbol'] =
-      lsp_util_symbols.document_handler
-  vim.lsp.handlers['workspace/symbol'] = lsp_util_symbols.workspace_handler
-end
 
