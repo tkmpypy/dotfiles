@@ -28,7 +28,7 @@ use {'KeitaNakamura/neodark.vim', opt = true}
 use {'joshdick/onedark.vim', opt = true}
 use {'sonph/onehalf', opt = true}
 use {'cocopon/iceberg.vim', opt = true}
-use {'dracula/vim', opt = true}
+use {'dracula/vim', opt = true, as = 'dracula'}
 use {'morhetz/gruvbox', opt = true}
 use {'kaicataldo/material.vim', opt = true}
 use {'sainnhe/gruvbox-material', opt = true}
@@ -38,8 +38,9 @@ use {'yuttie/hydrangea-vim', opt = true}
 use {'NLKNguyen/papercolor-theme', opt = true}
 use {'junegunn/seoul256.vim', opt = true}
 use {'ghifarit53/tokyonight-vim', opt = true}
-use {'drewtempelmeyer/palenight.vim', opt = true}
+use {'drewtempelmeyer/palenight.vim'}
 use {'franbach/miramare', opt = true}
+use {'embark-theme/vim', opt = true, as = 'embark'}
 
 -- supported treesitter colorscheme
 use {'mhartington/oceanic-next', opt = true}
@@ -49,6 +50,7 @@ use {
   requires = {{'nvim-treesitter/nvim-treesitter'}},
   opt = true
 }
+use {'savq/melange', opt = true}
 
 -- Languages
 use {'plasticboy/vim-markdown', ft = {'markdown'}}

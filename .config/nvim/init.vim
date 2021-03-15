@@ -8,8 +8,11 @@ let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
 autocmd BufWritePost plugins.lua PackerCompile
 
-colorscheme OceanicNext
+set background=dark
+" colorscheme OceanicNext
 " colorscheme edge
+colorscheme palenight
+" colorscheme embark
 
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
@@ -1029,7 +1032,6 @@ if &listchars ==# 'eol:$'
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 
-set background=dark
 let g:material_theme_style='default'
 let g:material_terminal_italics = 1
 let g:edge_style = 'neon'
@@ -1065,6 +1067,10 @@ let g:miramare_enable_bold = 1
 " oceanic-next{{
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
+" }}
+
+" embark{{
+let g:embark_terminal_italics = 1
 " }}
 
 set shell=zsh
