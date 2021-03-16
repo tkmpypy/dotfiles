@@ -548,9 +548,6 @@ EOF
   nnoremap <silent><leader>ft :NvimTreeToggle<CR>
   nnoremap <silent><leader>fr :NvimTreeRefresh<CR>
   nnoremap <silent><leader>ff :NvimTreeFindFile<CR>
-
-  " a list of groups can be found at `:help lua_tree_highlight`
-  highlight NvimTreeFolderIcon guibg=blue
 endfunction
 
 call s:init_nvim_tree()
