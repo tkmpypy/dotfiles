@@ -13,6 +13,9 @@ set background=dark
 " colorscheme edge
 colorscheme palenight
 " colorscheme embark
+" colorscheme tokyonight
+" colorscheme zephyr
+" colorscheme material
 
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
@@ -1031,9 +1034,9 @@ endif
 
 let g:material_theme_style='default'
 let g:material_terminal_italics = 1
-let g:edge_style = 'neon'
+let g:edge_style = 'aura'
 let g:edge_enable_italic = 1
-let g:edge_disable_italic_comment = 1
+let g:edge_disable_italic_comment = 0
 let g:edge_current_word = 'bold'
 let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_enable_italic = 1

@@ -45,11 +45,7 @@ use {'embark-theme/vim', opt = true, as = 'embark'}
 -- supported treesitter colorscheme
 use {'mhartington/oceanic-next', opt = true}
 use {'sainnhe/edge'}
-use {
-  'glepnir/zephyr-nvim',
-  requires = {{'nvim-treesitter/nvim-treesitter'}},
-  opt = true
-}
+use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}}
 use {'savq/melange', opt = true}
 
 -- Languages
@@ -97,9 +93,7 @@ use {
   config = function()
     local config = require('kommentary.config')
     config.use_extended_mappings()
-    config.configure_language("default", {
-        ignore_whitespace = true,
-    })
+    config.configure_language("default", {ignore_whitespace = true})
   end
 }
 use {'godlygeek/tabular'}
@@ -118,9 +112,7 @@ use {'pechorin/any-jump.vim'}
 use {'hrsh7th/vim-eft'}
 use {
   'phaazon/hop.nvim',
-  config = function()
-    vim.api.nvim_set_keymap('n', ',', ":HopWord<cr>", {})
-  end
+  config = function() vim.api.nvim_set_keymap('n', ',', ":HopWord<cr>", {}) end
 }
 use {'mtdl9/vim-log-highlighting', opt = true}
 use {'tversteeg/registers.nvim'}
@@ -149,9 +141,36 @@ use {'wakatime/vim-wakatime'}
 if (vim.g.lsp_client_type == 'neovim') then
   -- use neovim built-in
   use {'neovim/nvim-lspconfig'}
+  use {'hrsh7th/nvim-compe', requires = {{'hrsh7th/vim-vsnip'}}}
   use {
-    'hrsh7th/nvim-compe',
-    requires = {{'hrsh7th/vim-vsnip'}}
+    'onsails/lspkind-nvim',
+    config = function()
+      require('lspkind').init({
+        with_text = true,
+        symbol_map = {
+          Text = '',
+          Method = 'ƒ',
+          Function = '',
+          Constructor = '',
+          Variable = '',
+          Class = '',
+          Interface = 'ﰮ',
+          Module = '',
+          Property = '',
+          Unit = '',
+          Value = '',
+          Enum = '了',
+          Keyword = '',
+          Snippet = '﬌',
+          Color = '',
+          File = '',
+          Folder = '',
+          EnumMember = '',
+          Constant = '',
+          Struct = ''
+        },
+      })
+    end
   }
 
   use {'nvim-lua/lsp-status.nvim'}
@@ -198,10 +217,7 @@ end
 use {
   '~/private/chowcho.nvim',
   config = function()
-    require('chowcho').setup{
-      border_style='rounded',
-      icon_enabled = true
-    }
+    require('chowcho').setup {border_style = 'rounded', icon_enabled = true}
   end
 }
 
