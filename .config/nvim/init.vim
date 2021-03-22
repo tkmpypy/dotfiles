@@ -868,6 +868,22 @@ let g:eft_highlight = {
     \   }
     \ }
 " }}
+
+" wilder.nvim {{
+call wilder#enable_cmdline_enter()
+set wildcharm=<Tab>
+cmap <expr> <Tab> wilder#in_context() ? wilder#next() : "\<Tab>"
+cmap <expr> <S-Tab> wilder#in_context() ? wilder#previous() : "\<S-Tab>"
+call wilder#set_option('renderer', wilder#popupmenu_renderer({
+      \ 'highlighter': wilder#basic_highlighter(),
+      \ 'left': [
+      \   wilder#popupmenu_devicons(),
+      \ ],
+      \ }))
+
+" only / and ? are enabled by default
+call wilder#set_option('modes', ['/', '?', ':'])
+" }}
 " cyclist {{
 call cyclist#add_listchar_option_set('limited', {
         \ 'eol': '↲',

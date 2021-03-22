@@ -116,6 +116,7 @@ use {
 }
 use {'mtdl9/vim-log-highlighting', opt = true}
 use {'tversteeg/registers.nvim'}
+use {'gelguy/wilder.nvim'}
 
 -- finder
 use {
