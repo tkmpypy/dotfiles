@@ -71,7 +71,6 @@ function! s:init_telescope()
   " git (picker) * 
   " neovim LSP (picker)
   " devicons 
-  lua require('telescope_settings')
   nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.git_files{}<CR>
   nnoremap <Leader>sgc <cmd>lua require'telescope.builtin'.git_bcommits{}<CR>
   nnoremap <Leader>sgC <cmd>lua require'telescope.builtin'.git_commits{}<CR>
@@ -451,9 +450,6 @@ endif
 let g:vim_json_syntax_conceal = 0
 " }}
 
-" nvim-bufferline{{
-lua require('bufferline_settings')
-" }}
 " blamer.nvim{{
 let g:blamer_enabled = 0
 let g:blamer_delay = 1000
@@ -478,10 +474,6 @@ require('gitsigns').setup{
 }
 EOF
 
-" }}
-
-" nvim-toggleterm.lua {{
-lua require('terminal_settings')
 " }}
 
 " format.nvim {{

@@ -75,7 +75,33 @@ use {
   config = function() return require('statusline') end,
   requires = {'kyazdani42/nvim-web-devicons'}
 }
-use {'akinsho/nvim-bufferline.lua', requires = {'kyazdani42/nvim-web-devicons'}}
+use {'akinsho/nvim-bufferline.lua',
+  requires = {'kyazdani42/nvim-web-devicons'},
+  config = function ()
+    require'bufferline'.setup{
+      options = {
+        view = "multiwindow", -- "multiwindow" | "default"
+        numbers = "ordinal", -- "none" | "ordinal" | "buffer_id"
+        number_style = "superscript",
+        mappings = true,
+        buffer_close_icon= '',
+        modified_icon = '●',
+        close_icon = '',
+        left_trunc_marker = '',
+        right_trunc_marker = '',
+        max_name_length = 18,
+        tab_size = 18,
+        show_buffer_close_icons = true,
+        -- can also be a table containing 2 custom separators
+        -- [focused and unfocused]. eg: { '|', '|' }
+        separator_style = "slant", -- "slant" | "thick" | "thin" | { 'any', 'any' }
+        enforce_regular_tabs = false,
+        always_show_bufferline = true,
+        sort_by = 'extension'
+      }
+    }
+  end
+}
 use {'mhinz/vim-startify'}
 use {'liuchengxu/vista.vim'}
 
@@ -86,7 +112,15 @@ use {'kyazdani42/nvim-tree.lua'}
 use {'rafcamlet/nvim-luapad'}
 
 -- Utils
-use {'akinsho/nvim-toggleterm.lua'}
+use {'akinsho/nvim-toggleterm.lua', config = function ()
+  require"toggleterm".setup{
+    size = 20,
+    open_mapping = [[<c-\>]],
+    shade_filetypes = {},
+    shade_terminals = true,
+    direction = 'horizontal'
+  }
+end}
 use {'moll/vim-bbye'}
 -- use {'tyru/caw.vim'}
 use {
@@ -125,7 +159,29 @@ use {
   requires = {
     {'nvim-lua/plenary.nvim'}, {'nvim-lua/popup.nvim'},
     {'tkmpypy/telescope-jumps.nvim'}
-  }
+  },
+  config = function ()
+    local telescope = require('telescope')
+    telescope.load_extension('jumps')
+    telescope.setup{
+      defaults = {
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          '--hidden'
+        },
+        shortlen_path = true,
+        winblend = 10,
+        scroll_strategy = 'cycle',
+        color_devicon = true,
+      }
+    }
+  end
 }
 
 -- Git
