@@ -31,7 +31,7 @@ use {'cocopon/iceberg.vim', opt = true}
 use {'dracula/vim', opt = true, as = 'dracula'}
 use {'morhetz/gruvbox', opt = true}
 use {'kaicataldo/material.vim', opt = true}
-use {'sainnhe/gruvbox-material', opt = true}
+use {'sainnhe/gruvbox-material'}
 use {'arcticicestudio/nord-vim', opt = true}
 use {'whatyouhide/vim-gotham', opt = true}
 use {'yuttie/hydrangea-vim', opt = true}
@@ -57,6 +57,7 @@ use {
     vim.cmd [[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]]
   end
 }
+use {'aklt/plantuml-syntax', ft = {'plantuml'}}
 
 -- runner
 use {'metakirby5/codi.vim'}

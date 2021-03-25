@@ -25,7 +25,7 @@ local lsp_configs = require('lspconfig/configs')
 
 local custom_init = function(client)
   if (client.config.flags) then
-    client.config.flags.allow_incremental_sync = true
+    client.config.flags.allow_incremental_sync = false
   end
   -- lsp_status.on_attach(client)
   -- completion.on_attach(client)

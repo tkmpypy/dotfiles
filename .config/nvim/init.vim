@@ -12,10 +12,12 @@ set background=dark
 " colorscheme OceanicNext
 " colorscheme edge
 colorscheme palenight
+" colorscheme miramare
 " colorscheme embark
 " colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme material
+" colorscheme gruvbox-material
 
 " Disable unnecessary default plugins
 " let g:loaded_gzip              = 1
