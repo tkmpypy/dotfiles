@@ -199,6 +199,8 @@ use {'wakatime/vim-wakatime'}
 if (vim.g.lsp_client_type == 'neovim') then
   -- use neovim built-in
   use {'neovim/nvim-lspconfig'}
+  -- TODO
+  use {'kabouzeid/nvim-lspinstall'}
   use {'hrsh7th/nvim-compe', requires = {{'hrsh7th/vim-vsnip'}}}
   use {
     'onsails/lspkind-nvim',

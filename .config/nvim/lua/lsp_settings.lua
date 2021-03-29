@@ -5,166 +5,36 @@ local prequire = function(...)
   return nil
 end
 
-local bin_dir = vim.fn.expand('~/.local/share/nvim/lsp')
-
 local vim = vim
--- local lsp_status = require('lsp-status')
--- lsp_status.config({
---   indicator_errors = '✘',
---   indicator_warnings = '⚠',
---   indicator_info = 'כֿ',
---   indicator_hint = '•',
---   indicator_ok = '✓',
---   status_symbol = ' '
--- })
--- lsp_status.register_progress()
-
--- local completion = require('completion')
-local nvim_lsp = require('lspconfig')
-local lsp_configs = require('lspconfig/configs')
 
 local custom_init = function(client)
   if (client.config.flags) then
     client.config.flags.allow_incremental_sync = false
   end
-  -- lsp_status.on_attach(client)
-  -- completion.on_attach(client)
-  -- vim.cmd("setlocal omnifunc=v:lua.vim.lsp.omnifunc")
 end
 
-local custom_capabilities = vim.lsp.protocol.make_client_capabilities()
-custom_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-      -- Enable underline, use default values
-      underline = true,
-      -- Enable virtual text, override spacing to 4
-      virtual_text = {spacing = 2, prefix = '»'},
-      -- Use a function to dynamically turn signs off
-      -- and on, using buffer local variables
-      -- signs = function(bufnr, client_id)
-      --   local ok, result = pcall(vim.api.nvim_buf_get_var, bufnr, 'show_signs')
-      --   -- No buffer local variable set, so just enable by default
-      --   if not ok then
-      --     return true
-      --   end
-      -- 
-      --   return result
-      -- end,
-      signs = {priority = 20},
-      -- Disable a feature
-      update_in_insert = false
-    }
-)
-
-nvim_lsp.jsonls.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-
-nvim_lsp.yamlls.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-  -- settings = {
-  --   yaml = {
-  --     schemas = {
-  --       ['http://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
-  --       ['http://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
-  --       kubernetes = "/*.y*ml",
-  --     }
-  --   }
-  -- }
-})
-
-nvim_lsp.terraformls.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-
--- nvim_lsp.pyls_ms.setup({
---   init_options = {
---     interpreter = {
---       properties = {
---         InterpreterPath = '/Users/takuma/.pyenv/versions/3.5.2/bin/python',
---         Version = '3.5.2'
---       }
---     }
---   },
---   -- handlers = lsp_status.extensions.pyls_ms.setup(),
---   on_init = custom_init,
---   capabilities = custom_capabilities
--- })
-
-nvim_lsp.pyright.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities,
-})
-
-nvim_lsp.dartls.setup({
-  init_options = {
-    closingLabels = true,
-    flutterOutline = true,
-    onlyAnalyzeProjectsWithOpenFiles = true,
-    outline = true,
-    suggestFromUnimportedLibraries = true
-  },
-  on_init = custom_init,
-  capabilities = custom_capabilities,
-  handlers = {
-    ['dart/textDocument/publishClosingLabels'] = require(
-        'lsp_extensions.dart.closing_labels').get_callback(
-        {highlight = "Special", prefix = " >> "})
-  }
-})
-
-nvim_lsp.bashls.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-
-nvim_lsp.dockerls.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-
-nvim_lsp.vimls.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-
-nvim_lsp.rust_analyzer.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
--- nvim_lsp.rls.setup({
---   on_init = custom_init,
---   capabilities = lsp_status.capabilities
--- })
-
-nvim_lsp.solargraph.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-
-nvim_lsp.gopls.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-
-local lua_lsp_dir = bin_dir .. '/lua/lua-language-server'
-local lua_lsp_exec_path = nil
-if vim.fn.has('mac') == 1 then
-  lua_lsp_exec_path = lua_lsp_dir .. '/bin/macOS/lua-language-server'
-elseif vim.fn.has('unix') == 1 then
-  lua_lsp_exec_path = lua_lsp_dir .. '/bin/Linux/lua-language-server'
+local custom_attach = function (client, bufnr)
+  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec([[
+    augroup lsp_document_highlight
+    autocmd! * <buffer>
+    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    augroup END
+    ]], false)
+  end
 end
-nvim_lsp.sumneko_lua.setup{
-  cmd = {lua_lsp_exec_path, '-E', lua_lsp_dir .. '/main.lua'},
-  on_init = custom_init,
-  capabilities = custom_capabilities,
+
+-- Configure lua language server for neovim development
+local lua_config = {
   settings = {
     Lua = {
+      runtime = {
+        -- LuaJIT in the case of Neovim
+        version = 'LuaJIT',
+        path = vim.split(package.path, ';'),
+      },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
         globals = {'vim'},
@@ -176,18 +46,27 @@ nvim_lsp.sumneko_lua.setup{
           [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
         },
       },
-    },
-  },
+    }
+  }
 }
 
 
-nvim_lsp.tsserver.setup({
-  on_init = custom_init,
-  capabilities = custom_capabilities
-})
-nvim_lsp.diagnosticls.setup {
-  on_init = custom_init,
-  capabilities = custom_capabilities,
+local dart_config = {
+  init_options = {
+    closingLabels = true,
+    flutterOutline = true,
+    onlyAnalyzeProjectsWithOpenFiles = true,
+    outline = true,
+    suggestFromUnimportedLibraries = true
+  },
+  handlers = {
+    ['dart/textDocument/publishClosingLabels'] = require(
+        'lsp_extensions.dart.closing_labels').get_callback(
+        {highlight = "Special", prefix = " >> "})
+  }
+}
+
+local diagnosticls_config = {
   filetypes = {
     'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'go',
     'rust', 'lua'
@@ -257,4 +136,82 @@ nvim_lsp.diagnosticls.setup {
     -- }
   }
 }
+
+-- config that activates keymaps and enables snippet support
+local make_config = function()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  return {
+    -- enable snippet support
+    capabilities = capabilities,
+    -- map buffer local keybindings when the language server attaches
+    on_attach = custom_attach,
+    on_init = custom_init
+  }
+end
+
+-- lsp-install
+local function setup_servers()
+  require'lspinstall'.setup()
+
+  -- get all installed servers
+  local servers = require'lspinstall'.installed_servers()
+  -- ... and add manually installed servers
+  -- table.insert(servers, "clangd")
+  -- table.insert(servers, "sourcekit")
+  table.insert(servers, "dartls")
+
+  for _, server in pairs(servers) do
+    local config = make_config()
+
+    -- language specific config
+    if server == "lua" then
+      config.settings = lua_config.settings
+    end
+
+    if server == "dartls" then
+      config.init_options = dart_config.init_options
+      config.handlers = dart_config.handlers
+    end
+
+    if server == "diagnosticls" then
+      config.init_options = diagnosticls_config.init_options
+      config.filetypes = diagnosticls_config.filetypes
+    end
+
+    require'lspconfig'[server].setup(config)
+  end
+end
+
+setup_servers()
+
+-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+require'lspinstall'.post_install_hook = function ()
+  setup_servers() -- reload installed servers
+  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+end
+
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      -- Enable underline, use default values
+      underline = true,
+      -- Enable virtual text, override spacing to 4
+      virtual_text = {spacing = 2, prefix = '»'},
+      -- Use a function to dynamically turn signs off
+      -- and on, using buffer local variables
+      -- signs = function(bufnr, client_id)
+      --   local ok, result = pcall(vim.api.nvim_buf_get_var, bufnr, 'show_signs')
+      --   -- No buffer local variable set, so just enable by default
+      --   if not ok then
+      --     return true
+      --   end
+      -- 
+      --   return result
+      -- end,
+      signs = {priority = 20},
+      -- Disable a feature
+      update_in_insert = false
+    }
+)
 
