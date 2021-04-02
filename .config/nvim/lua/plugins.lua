@@ -112,6 +112,7 @@ use {'kyazdani42/nvim-tree.lua'}
 use {'rafcamlet/nvim-luapad'}
 
 -- Utils
+use {'itchyny/vim-winfix'}
 use {'akinsho/nvim-toggleterm.lua', config = function ()
   require"toggleterm".setup{
     size = 20,
@@ -138,7 +139,7 @@ use {'machakann/vim-sandwich'}
 use {'simeji/winresizer'}
 use {'cohama/lexima.vim'}
 use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
-use {'npxbr/glow.nvim', run = ':GlowInstall'}
+use {'npxbr/glow.nvim'}
 use {'glidenote/memolist.vim'}
 use {'mbbill/undotree'}
 use {'osyo-manga/vim-over'}
