@@ -211,7 +211,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
     nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
 
-    autocmd ColorScheme * call s:set_nvim_lsp_diagnostic_color()
+    " call s:set_nvim_lsp_diagnostic_color()
     autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
 
 endfunction
