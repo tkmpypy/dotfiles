@@ -4,14 +4,14 @@ set termguicolors
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type ='neovim' " neovim(builtin), coc
+let g:lsp_client_type ='coc' " neovim(builtin), coc
 lua require('plugins')
 autocmd BufWritePost plugins.lua PackerCompile
 
 set background=dark
 " colorscheme OceanicNext
-" colorscheme edge
-colorscheme palenight
+colorscheme edge
+" colorscheme palenight
 " colorscheme miramare
 " colorscheme embark
 " colorscheme tokyonight
@@ -179,7 +179,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     " nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
-    " nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
@@ -202,9 +202,9 @@ function! s:setup_nvim_lsp()
     nnoremap <silent><leader>ac :Lspsaga code_action<CR>
     vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
     nnoremap <space>rn :Lspsaga rename<CR>
-    nnoremap <silent>K :Lspsaga hover_doc<CR>
-    nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
-    nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
+    " nnoremap <silent>K :Lspsaga hover_doc<CR>
+    " nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
+    " nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
     nnoremap <silent> H :Lspsaga signature_help<CR>
     nnoremap <silent> pd :Lspsaga preview_definition<CR>
     nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
@@ -297,7 +297,7 @@ function! s:setup_coc()
           \, 'coc-eslint'
           \, 'coc-prettier'
           \, 'coc-markdownlint'
-          \, 'coc-python'
+          \, 'coc-pyright'
           \, 'coc-rust-analyzer'
           \, 'coc-snippets'
           \, 'coc-vimlsp'
@@ -308,7 +308,6 @@ function! s:setup_coc()
           \, 'coc-sql'
           \, 'coc-emoji'
           \, 'coc-gitignore'
-          \, 'https://github.com/Nash0x7E2/awesome-flutter-snippets'
           \ ]
     function! CocCurrentFunction()
         let funcName = get(b:, 'coc_current_function', '')
@@ -324,8 +323,8 @@ function! s:setup_coc()
     " " OR this mapping also breaks it in same manor
     " Make <cr> select the first completion item and confirm completion when no item have selected
     " " Use `[c` and `]c` to navigate diagnostics
-    nmap <silent> [c <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]c <Plug>(coc-diagnostic-next)
+    nnoremap <leader>dp [c <Plug>(coc-diagnostic-prev)
+    nnoremap <leader>dn ]c <Plug>(coc-diagnostic-next)
 
     " Remap keys for gotos
     nmap <silent> gd <Plug>(coc-definition)
@@ -349,8 +348,10 @@ function! s:setup_coc()
     function! s:show_documentation()
       if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
-      else
+      elseif (coc#rpc#ready())
         call CocActionAsync('doHover')
+      else
+        execute '!' . &keywordprg . " " . expand('<cword>')
       endif
     endfunction
 
@@ -361,8 +362,8 @@ function! s:setup_coc()
     nmap <leader>rn <Plug>(coc-rename)
 
     " Remap for format selected region
-    xmap <leader>f  <Plug>(coc-format-selected)
-    nmap <leader>f  <Plug>(coc-format-selected)
+    " xmap <leader>f  <Plug>(coc-format-selected)
+    " nmap <leader>f  <Plug>(coc-format-selected)
 
     augroup mygroup
       autocmd!
@@ -917,13 +918,6 @@ nmap <leader>cp <Plug>CyclistPrev
 " Reset to default configuration
 call cyclist#activate_listchars('default')
 " }}
-" vimdocs {{
-let g:devdocs_filetype_map = {
-    \   'typescript.jsx': 'react',
-    \   'typescriptreact': 'react',
-    \ }
-nnoremap <Leader>d :DevDocsUnderCursor<CR>
-" }}
 " tyru/operator-camelize.vim {{
 map <leader>c <plug>(operator-camelize)
 map <leader>C <plug>(operator-decamelize)
@@ -1139,7 +1133,7 @@ set nowritebackup
 set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=100
+set updatetime=300
 
 " don't give |ins-completion-menu| messages.
 set shortmess&

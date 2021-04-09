@@ -120,45 +120,45 @@ gls.left[4] = {
   }
 }
 
+local lsp_client_provider = nil
+if (vim.g.lsp_client_type == 'coc') then
+  lsp_client_provider = function ()
+    -- return vim.fn['coc#status']()
+    return vim.g.coc_status
+  end
+else
+  lsp_client_provider = "GetLspClient"
+end
 gls.right[1] = {
   GetLspClient = {
-    provider = "GetLspClient",
+    provider = lsp_client_provider,
     condition = checkwidth,
-    icon = " ",
+    separator = " ",
     -- icon = " ",
     highlight = {nord_colors.cyan, nord_colors.line_bg, "bold"}
   }
 }
 gls.right[2] = {
-  GitIcon = {
-    provider = function()
-      return " "
-    end,
-    condition = require("galaxyline.provider_vcs").check_git_workspace,
-    separator = " ",
-    separator_highlight = {nord_colors.purple, nord_colors.bg},
-    highlight = {nord_colors.orange, nord_colors.line_bg}
-  }
-}
-gls.right[3] = {
   GitBranch = {
     provider = "GitBranch",
     condition = require("galaxyline.provider_vcs").check_git_workspace,
-    separator = "",
+    separator = " ",
+    icon = " ",
     separator_highlight = {nord_colors.purple, nord_colors.bg},
     highlight = {nord_colors.orange, nord_colors.line_bg, "bold"}
   }
 }
 
-gls.right[4] = {
+gls.right[3] = {
   DiffAdd = {
     provider = "DiffAdd",
     condition = checkwidth,
+    separator = " ",
     icon = " ",
     highlight = {nord_colors.green, nord_colors.line_bg}
   }
 }
-gls.right[5] = {
+gls.right[4] = {
   DiffModified = {
     provider = "DiffModified",
     condition = checkwidth,
@@ -166,7 +166,7 @@ gls.right[5] = {
     highlight = {nord_colors.yellow, nord_colors.line_bg}
   }
 }
-gls.right[6] = {
+gls.right[5] = {
   DiffRemove = {
     provider = "DiffRemove",
     condition = checkwidth,
@@ -175,7 +175,7 @@ gls.right[6] = {
   }
 }
 
-gls.right[7] = {
+gls.right[6] = {
   LineInfo = {
     provider = "LineColumn",
     separator = " ",
@@ -193,7 +193,7 @@ gls.right[7] = {
 --   }
 -- }
 
-gls.right[8] = {
+gls.right[7] = {
   DiagnosticError = {
     provider = "DiagnosticError",
     separator = " ",
@@ -202,19 +202,19 @@ gls.right[8] = {
     separator_highlight = {nord_colors.bg, nord_colors.bg}
   }
 }
-gls.right[9] = {
+gls.right[8] = {
   DiagnosticWarn = {
     provider = "DiagnosticWarn",
-    -- separator = " ",
+    separator = " ",
     icon = " ",
     highlight = {nord_colors.yellow, nord_colors.line_bg},
     separator_highlight = {nord_colors.bg, nord_colors.bg}
   }
 }
 
-gls.right[10] = {
+gls.right[9] = {
   DiagnosticInfo = {
-    -- separator = " ",
+    separator = " ",
     provider = "DiagnosticInfo",
     icon = " ",
     highlight = {nord_colors.green, nord_colors.line_bg},
@@ -222,10 +222,10 @@ gls.right[10] = {
   }
 }
 
-gls.right[11] = {
+gls.right[10] = {
   DiagnosticHint = {
     provider = "DiagnosticHint",
-    -- separator = " ",
+    separator = " ",
     icon = " ",
     highlight = {nord_colors.blue, nord_colors.line_bg},
     separator_highlight = {nord_colors.bg, nord_colors.bg}

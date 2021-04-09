@@ -270,6 +270,7 @@ if (vim.g.lsp_client_type == 'neovim') then
 elseif (vim.g.lsp_client_type == 'coc') then
   use {
     'neoclide/coc.nvim',
+    branch = 'master',
     run = 'yarn install --frozen-lockfile',
     requires = {'rafcamlet/coc-nvim-lua'}
   }
