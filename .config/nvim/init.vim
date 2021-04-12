@@ -201,7 +201,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gf :Lspsaga lsp_finder<CR>
     nnoremap <silent><leader>ac :Lspsaga code_action<CR>
     vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
-    nnoremap <space>rn :Lspsaga rename<CR>
+    nnoremap <leader>rn :Lspsaga rename<CR>
     " nnoremap <silent>K :Lspsaga hover_doc<CR>
     " nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
     " nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
@@ -323,8 +323,8 @@ function! s:setup_coc()
     " " OR this mapping also breaks it in same manor
     " Make <cr> select the first completion item and confirm completion when no item have selected
     " " Use `[c` and `]c` to navigate diagnostics
-    nnoremap <leader>dp [c <Plug>(coc-diagnostic-prev)
-    nnoremap <leader>dn ]c <Plug>(coc-diagnostic-next)
+    nnoremap <leader>dp <Plug>(coc-diagnostic-prev)
+    nnoremap <leader>dn <Plug>(coc-diagnostic-next)
 
     " Remap keys for gotos
     nmap <silent> gd <Plug>(coc-definition)
@@ -404,29 +404,29 @@ function! s:setup_coc()
 
     " Using CocList
     " Show all diagnostics
-    nnoremap <silent> <space>d  :<C-u>CocList diagnostics<cr>
+    nnoremap <silent> <leader>d  :<C-u>CocList diagnostics<cr>
     " " Manage extensions
-    nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+    nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
     " Show commands
-    nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+    nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
     " Find symbol of current document
-    nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+    nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
     " Search workspace symbols
-    nnoremap <silent> <space>S  :<C-u>CocList -I symbols<cr>
+    nnoremap <silent> <leader>S  :<C-u>CocList -I symbols<cr>
     " Do default action for next item.
-    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+    nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
     " Do default action for previous item.
-    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+    nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
     " Resume latest coc list
-    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+    nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
     " coc-yank
-    nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+    nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 
     " Use `:Format` to format current buffer
     " command! -nargs=0 Format :call CocActionAsync('format')
-    " nnoremap <silent> <space>F  :<C-u>Format<cr>
+    " nnoremap <silent> <leader>F  :<C-u>Format<cr>
     
-    nnoremap <silent> <space>I  :<C-u>OR<cr>
+    nnoremap <silent> <leader>I  :<C-u>OR<cr>
     " coc-translator
     " popup
     nmap <Leader>tr <Plug>(coc-translator-p)
@@ -480,7 +480,7 @@ EOF
 " format.nvim {{
 lua require('formatter_settings')
 let g:format_debug = v:true
-nnoremap <space>F  :<C-u>Format<cr>
+nnoremap <leader>F  :<C-u>Format<cr>
 " }}
 
 " nvim-colorizer.lua{{
