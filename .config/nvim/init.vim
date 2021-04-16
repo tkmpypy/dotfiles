@@ -4,7 +4,7 @@ set termguicolors
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type ='coc' " neovim(builtin), coc
+let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
 autocmd BufWritePost plugins.lua PackerCompile
 
@@ -465,11 +465,11 @@ nnoremap <Leader>gbt :BlamerToggle<CR>
 lua << EOF
 require('gitsigns').setup{
   signs = {
-    add          = {hl = 'GitGutterAdd'   , text = '|'},
-    change       = {hl = 'GitGutterChange', text = '┆'},
-    delete       = {hl = 'GitGutterDelete', text = '‐'},
-    topdelete    = {hl = 'GitGutterDelete', text = '‾'},
-    changedelete = {hl = 'GitGutterChange', text = '╌'},
+    add          = {hl = 'GitGutterAdd'   , text = '┃'},
+    change       = {hl = 'GitGutterChange', text = '┃'},
+    delete       = {hl = 'GitGutterDelete', text = '┃'},
+    topdelete    = {hl = 'GitGutterDelete', text = '┃'},
+    changedelete = {hl = 'GitGutterChange', text = '┃'},
   },
   sign_priority = 1,
 }
@@ -865,19 +865,19 @@ let g:eft_highlight = {
 " }}
 
 " wilder.nvim {{
-call wilder#enable_cmdline_enter()
-set wildcharm=<Tab>
-cmap <expr> <Tab> wilder#in_context() ? wilder#next() : "\<Tab>"
-cmap <expr> <S-Tab> wilder#in_context() ? wilder#previous() : "\<S-Tab>"
-call wilder#set_option('renderer', wilder#popupmenu_renderer({
-      \ 'highlighter': wilder#basic_highlighter(),
-      \ 'left': [
-      \   wilder#popupmenu_devicons(),
-      \ ],
-      \ }))
+" call wilder#enable_cmdline_enter()
+" set wildcharm=<Tab>
+" cmap <expr> <Tab> wilder#in_context() ? wilder#next() : "\<Tab>"
+" cmap <expr> <S-Tab> wilder#in_context() ? wilder#previous() : "\<S-Tab>"
+" call wilder#set_option('renderer', wilder#popupmenu_renderer({
+"       \ 'highlighter': wilder#basic_highlighter(),
+"       \ 'left': [
+"       \   wilder#popupmenu_devicons(),
+"       \ ],
+"       \ }))
 
 " only / and ? are enabled by default
-call wilder#set_option('modes', ['/', '?', ':'])
+" call wilder#set_option('modes', ['/', '?', ':'])
 " }}
 " cyclist {{
 call cyclist#add_listchar_option_set('limited', {

@@ -152,7 +152,7 @@ use {
 }
 use {'mtdl9/vim-log-highlighting', opt = true}
 use {'tversteeg/registers.nvim'}
-use {'gelguy/wilder.nvim'}
+-- use {'gelguy/wilder.nvim', run = ':UpdateRemotePlugins'}
 
 -- finder
 use {
@@ -279,7 +279,7 @@ end
 use {
   '~/private/chowcho.nvim',
   config = function()
-    require('chowcho').setup {border_style = 'rounded', icon_enabled = true}
+    require('chowcho').setup {border_style = 'double', icon_enabled = true}
   end
 }
 
@@ -289,41 +289,3 @@ use {
     require('scrapaper').setup {filepath = '~/Dropbox/scrap.md', h_level = 2}
   end
 }
--- use {
---   '~/private/complua.nvim',
---   config = function()
---     require('complua').setup {
---       enable = true,
---       debug = true,
---       wait_time = 20,
---       mapping = {
---         confirm = '<C-y>'
---       },
---       trigger = {
---         char = {'.', ':'},
---         min_length = 1
---       },
---       match = {
---         ignore_case = true,
---         smart_case = true
---       },
---       sources = {
---         buffer = {
---           priority = 5,
---           label = '[BUFFER]',
---           -- filetypes = {'go'},
---           additional_params = {
---             only_current = false
---           }
---         },
---         filepath = false,
---         nvim_lsp = {
---           priority = 15,
---           filetypes = {},
---           label = '[LSP]',
---         }
---       }
---     }
---   end,
---   requires = {{'hrsh7th/vim-vsnip'}, {'hrsh7th/vim-vsnip-integ'}}
--- }
