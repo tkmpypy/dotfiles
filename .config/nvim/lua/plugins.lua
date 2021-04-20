@@ -37,7 +37,6 @@ use {'whatyouhide/vim-gotham', opt = true}
 use {'yuttie/hydrangea-vim', opt = true}
 use {'NLKNguyen/papercolor-theme', opt = true}
 use {'junegunn/seoul256.vim', opt = true}
-use {'ghifarit53/tokyonight-vim', opt = true}
 use {'drewtempelmeyer/palenight.vim'}
 use {'franbach/miramare', opt = true}
 use {'embark-theme/vim', opt = true, as = 'embark'}
@@ -47,6 +46,7 @@ use {'mhartington/oceanic-next', opt = true}
 use {'sainnhe/edge'}
 use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}}
 use {'savq/melange', opt = true}
+use {'folke/tokyonight.nvim'}
 
 -- Languages
 use {'plasticboy/vim-markdown', ft = {'markdown'}}
@@ -65,7 +65,25 @@ use {'vim-test/vim-test'}
 use {'thinca/vim-quickrun'}
 
 -- UI
-use {'luochen1990/rainbow'}
+use {'p00f/nvim-ts-rainbow', config = function ()
+  require'nvim-treesitter.configs'.setup {
+  rainbow = {
+    enable = true,
+    extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+  }
+}
+end}
+use {'sunjon/shade.nvim', config = function ()
+  require'shade'.setup({
+    overlay_opacity = 50,
+    opacity_step = 1,
+    keys = {
+      brightness_up    = '<C-Up>',
+      brightness_down  = '<C-Down>',
+    }
+  })
+end}
+
 use {'tjdevries/cyclist.vim'}
 use {'norcalli/nvim-colorizer.lua'}
 use {'kyazdani42/nvim-web-devicons'}
@@ -190,9 +208,6 @@ use {'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}}
 use {'lambdalisue/gina.vim'}
 use {'rhysd/git-messenger.vim'}
 use {'APZelos/blamer.nvim'}
-
--- service
-use {'wakatime/vim-wakatime'}
 
 -- Snippet
 -- use {'hrsh7th/vim-vsnip', rerequires = {{'hrsh7th/vim-vsnip-integ'}}}

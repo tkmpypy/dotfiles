@@ -10,11 +10,11 @@ autocmd BufWritePost plugins.lua PackerCompile
 
 set background=dark
 " colorscheme OceanicNext
-colorscheme edge
+" colorscheme edge
 " colorscheme palenight
 " colorscheme miramare
 " colorscheme embark
-" colorscheme tokyonight
+colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme material
 " colorscheme gruvbox-material
@@ -1046,10 +1046,13 @@ let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_disable_italic_comment = 1
 let g:seoul256_background = 237
-" ghifarit53/tokyonight.vim {{
+" tokyonight.nvim {{
 let g:tokyonight_style = 'storm' " available: night, storm
-let g:tokyonight_enable_italic = 1
-let g:tokyonight_disable_italic_comment = 0
+let g:tokyonight_italic_comment = 1
+let g:tokyonight_italic_keywords = 1
+let g:tokyonight_italic_functions = 1
+let g:tokyonight_transparent = 0
+let g:tokyonight_hide_inactive_statusline = 1
 " }}
 " joshdick/onedark.vim {{
 let g:onedark_termcolors=256

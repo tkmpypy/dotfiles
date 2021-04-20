@@ -66,6 +66,28 @@ local dart_config = {
   }
 }
 
+local gopls_config = {
+  init_options = {
+    gofumpt = true,
+    usePlaceholders = true,
+    semanticTokens = true,
+    staticcheck = true,
+    experimentalPostfixCompletions = true,
+    hoverKind = 'Structured',
+    analyses = {
+      nilness = true,
+      shadow = true,
+      unusedparams = true,
+      unusedwrite = true,
+      fieldalignment = true
+    },
+    codelenses = {
+      gc_details = true,
+      tidy = true
+    }
+  }
+}
+
 local diagnosticls_config = {
   filetypes = {
     'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'go',
@@ -172,6 +194,10 @@ local function setup_servers()
     if server == "dartls" then
       config.init_options = dart_config.init_options
       config.handlers = dart_config.handlers
+    end
+    
+    if server == "gopls" then
+      config.init_options = gopls_config.init_options
     end
 
     if server == "diagnosticls" then
