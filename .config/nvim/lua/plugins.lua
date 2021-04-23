@@ -25,7 +25,6 @@ use {'Rigellute/rigel', opt = true}
 use {'w0ng/vim-hybrid', opt = true}
 use {'flrnprz/plastic.vim', opt = true}
 use {'KeitaNakamura/neodark.vim', opt = true}
-use {'joshdick/onedark.vim', opt = true}
 use {'sonph/onehalf', opt = true}
 use {'cocopon/iceberg.vim', opt = true}
 use {'dracula/vim', opt = true, as = 'dracula'}
@@ -47,6 +46,9 @@ use {'sainnhe/edge'}
 use {'glepnir/zephyr-nvim', requires = {{'nvim-treesitter/nvim-treesitter'}}}
 use {'savq/melange', opt = true}
 use {'folke/tokyonight.nvim'}
+use {'Th3Whit3Wolf/space-nvim', config = function ()
+  vim.g.space_nvim_transparent_bg = true
+end}
 
 -- Languages
 use {'plasticboy/vim-markdown', ft = {'markdown'}}
@@ -215,7 +217,6 @@ use {'APZelos/blamer.nvim'}
 if (vim.g.lsp_client_type == 'neovim') then
   -- use neovim built-in
   use {'neovim/nvim-lspconfig'}
-  -- TODO
   use {'kabouzeid/nvim-lspinstall'}
   use {'hrsh7th/nvim-compe', requires = {{'hrsh7th/vim-vsnip'}}}
   use {
@@ -276,6 +277,51 @@ if (vim.g.lsp_client_type == 'neovim') then
       }
     end
   }
+  use {
+    "folke/lsp-trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+        height = 10, -- height of the trouble list
+        icons = true, -- use dev-icons for filenames
+        mode = "workspace", -- "workspace" or "document"
+        fold_open = "", -- icon used for open folds
+        fold_closed = "", -- icon used for closed folds
+        action_keys = { -- key mappings for actions in the trouble list
+            close = "q", -- close the list
+            refresh = "r", -- manually refresh
+            jump = "<cr>", -- jump to the diagnostic or open / close folds
+            toggle_mode = "m", -- toggle between "workspace" and "document" mode
+            toggle_preview = "P", -- toggle auto_preview
+            preview = "p", -- preview the diagnostic location
+            close_folds = "zM", -- close all folds
+            cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
+            open_folds = "zR", -- open all folds
+            previous = "k", -- preview item
+            next = "j" -- next item
+        },
+        indent_lines = true, -- add an indent guide below the fold icons
+        auto_open = false, -- automatically open the list when you have diagnostics
+        auto_close = false, -- automatically close the list when you have no diagnostics
+        auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back
+        signs = {
+            -- icons / text used for a diagnostic
+            error = "",
+            warning = "",
+            hint = "",
+            information = ""
+        },
+        use_lsp_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
+      }
+
+      vim.api.nvim_set_keymap("n", "<leader>sd", "<cmd>LspTroubleToggle<cr>",
+        {silent = true, noremap = true}
+      )
+    end
+  }
 
   use {
     "akinsho/flutter-tools.nvim",
@@ -294,7 +340,7 @@ end
 use {
   '~/private/chowcho.nvim',
   config = function()
-    require('chowcho').setup {border_style = 'double', icon_enabled = true}
+    require('chowcho').setup {border_style = 'rounded', icon_enabled = true}
   end
 }
 
