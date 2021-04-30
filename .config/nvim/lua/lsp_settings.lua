@@ -195,7 +195,7 @@ local function setup_servers()
       config.init_options = dart_config.init_options
       config.handlers = dart_config.handlers
     end
-    
+
     if server == "gopls" then
       config.init_options = gopls_config.init_options
     end

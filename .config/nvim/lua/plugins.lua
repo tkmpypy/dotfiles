@@ -75,15 +75,18 @@ use {'p00f/nvim-ts-rainbow', config = function ()
   }
 }
 end}
-use {'sunjon/shade.nvim', config = function ()
-  require'shade'.setup({
-    overlay_opacity = 50,
-    opacity_step = 1,
-    keys = {
-      brightness_up    = '<C-Up>',
-      brightness_down  = '<C-Down>',
-    }
-  })
+use {
+  'sunjon/shade.nvim',
+  disable=true,
+  config = function ()
+    require'shade'.setup({
+      overlay_opacity = 50,
+      opacity_step = 1,
+      keys = {
+        brightness_up    = '<C-Up>',
+        brightness_down  = '<C-Down>',
+      }
+    })
 end}
 
 use {'tjdevries/cyclist.vim'}
@@ -173,6 +176,7 @@ use {
 use {'mtdl9/vim-log-highlighting', opt = true}
 use {'tversteeg/registers.nvim'}
 -- use {'gelguy/wilder.nvim', run = ':UpdateRemotePlugins'}
+use {'bfredl/nvim-miniyank'}
 
 -- finder
 use {
@@ -255,25 +259,45 @@ if (vim.g.lsp_client_type == 'neovim') then
   use {
     'glepnir/lspsaga.nvim',
     -- disable = true,
-    require = {{'nvim-lua/lsp-status.nvim'}},
+    require = {{'neovim/nvim-lspconfig'}},
     config = function()
       local saga = require('lspsaga')
       saga.init_lsp_saga {
         -- add your config value here
         -- default value
-        -- use_saga_diagnostic_handler = false // disable the lspsaga diagnostic handler
-        use_saga_diagnostic_sign = false,
+        use_saga_diagnostic_sign = false
         -- error_sign = '',
         -- warn_sign = '',
         -- hint_sign = '',
         -- infor_sign = '',
+        -- dianostic_header_icon = '   ',
         -- code_action_icon = ' ',
+        -- code_action_prompt = {
+        --   enable = true,
+        --   sign = true,
+        --   sign_priority = 20,
+        --   virtual_text = true,
+        -- },
         -- finder_definition_icon = '  ',
         -- finder_reference_icon = '  ',
+        -- max_preview_lines = 10, -- preview lines of lsp_finder and definition preview
+        -- finder_action_keys = {
+        --   open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
+        -- },
+        -- code_action_keys = {
+        --   quit = 'q',exec = '<CR>'
+        -- },
+        -- rename_action_keys = {
+        --   quit = '<C-c>',exec = '<CR>'  -- quit can be a table
+        -- },
         -- definition_preview_icon = '  '
-        -- 1: thin border | 2: rounded border | 3: thick border
-        border_style = 2
-        -- max_hover_width = 0 (automatically adjust to the width of current symbol)
+        -- "single" "double" "round" "plus"
+        -- border_style = "single"
+        -- rename_prompt_prefix = '➤',
+        -- if you don't use nvim-lspconfig you must pass your server name and
+        -- the related filetypes into this table
+        -- like server_filetype_map = {metals = {'sbt', 'scala'}}
+        -- server_filetype_map = {}
       }
     end
   }
@@ -287,7 +311,7 @@ if (vim.g.lsp_client_type == 'neovim') then
         -- refer to the configuration section below
         height = 10, -- height of the trouble list
         icons = true, -- use dev-icons for filenames
-        mode = "workspace", -- "workspace" or "document"
+        mode = "document", -- "workspace" or "document"
         fold_open = "", -- icon used for open folds
         fold_closed = "", -- icon used for closed folds
         action_keys = { -- key mappings for actions in the trouble list
@@ -317,7 +341,10 @@ if (vim.g.lsp_client_type == 'neovim') then
         use_lsp_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
       }
 
-      vim.api.nvim_set_keymap("n", "<leader>sd", "<cmd>LspTroubleToggle<cr>",
+      vim.api.nvim_set_keymap("n", "<leader>sd", "<cmd>LspTroubleDocumentToggle<cr>",
+        {silent = true, noremap = true}
+      )
+      vim.api.nvim_set_keymap("n", "<leader>sD", "<cmd>LspTroubleWorkspaceToggle<cr>",
         {silent = true, noremap = true}
       )
     end

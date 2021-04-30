@@ -16,9 +16,9 @@ set background=dark
 " colorscheme embark
 " colorscheme gruvbox-material
 
-colorscheme OceanicNext
+" colorscheme OceanicNext
 " colorscheme edge
-" colorscheme tokyonight
+colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
 
@@ -101,6 +101,9 @@ let g:quickrun_config['rust/cargo'] = {
 " vim-test {{
 let test#strategy = "neovim"
 let g:test#python#runner = 'pytest'
+let g:test#python#pytest#options = {
+    \ 'nearest': '-v --capture=no'
+\ }
 let g:test#rust#cargotest#options = {
     \ 'nearest': '-- --nocapture'
 \ }
@@ -159,7 +162,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     " nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
-    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+    " nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     " nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
@@ -182,7 +185,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent><leader>ac :Lspsaga code_action<CR>
     vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
     nnoremap <leader>rn :Lspsaga rename<CR>
-    " nnoremap <silent>K :Lspsaga hover_doc<CR>
+    nnoremap <silent>K :Lspsaga hover_doc<CR>
     " nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
     " nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
     nnoremap <silent> H :Lspsaga signature_help<CR>
@@ -858,6 +861,10 @@ let g:eft_highlight = {
 
 " only / and ? are enabled by default
 " call wilder#set_option('modes', ['/', '?', ':'])
+" }}
+" bfredl/nvim-miniyank {{
+map p <Plug>(miniyank-autoput)
+map P <Plug>(miniyank-autoPut)
 " }}
 " cyclist {{
 call cyclist#add_listchar_option_set('limited', {
