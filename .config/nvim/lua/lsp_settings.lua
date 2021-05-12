@@ -58,11 +58,6 @@ local dart_config = {
     onlyAnalyzeProjectsWithOpenFiles = true,
     outline = true,
     suggestFromUnimportedLibraries = true
-  },
-  handlers = {
-    ['dart/textDocument/publishClosingLabels'] = require(
-        'lsp_extensions.dart.closing_labels').get_callback(
-        {highlight = "Special", prefix = " >> "})
   }
 }
 

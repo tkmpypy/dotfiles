@@ -4,7 +4,7 @@ set termguicolors
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type ='neovim' " neovim(builtin), coc
+let g:lsp_client_type ='coc' " neovim(builtin), coc
 lua require('plugins')
 autocmd BufWritePost plugins.lua PackerCompile
 
@@ -17,8 +17,8 @@ set background=dark
 " colorscheme gruvbox-material
 
 " colorscheme OceanicNext
-" colorscheme edge
-colorscheme tokyonight
+colorscheme edge
+" colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
 
@@ -41,6 +41,26 @@ if (g:use_treesitter)
   lua require('treesitter')
 endif
 " }}
+
+" my utils {{
+
+" selected search when visual mode 
+
+function! VisualSearch()
+  let reg = '"'
+  let [save_reg, save_type] = [getreg(reg), getregtype(reg)]
+  normal! gv""y
+  let text = @"
+  call setreg(reg, save_reg, save_type)
+
+  let @/ = text
+  call histadd('/', text)
+
+endfunction
+
+vnoremap <silent> * :<C-u>call VisualSearch()<CR>
+" }}
+
 
 " telescope.nvim {{
 function! s:init_telescope()
@@ -193,9 +213,6 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
     nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
     nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
-
-    " call s:set_nvim_lsp_diagnostic_color()
-    autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua require'lsp_extensions'.inlay_hints{ prefix = ' » ', highlight = "NonText" }
 
 endfunction
 
@@ -1108,7 +1125,7 @@ autocmd FileType yaml setlocal ts=2 sw=2
 " No beep
 set visualbell
 set noerrorbells
-set redrawtime=10000
+" set redrawtime=10000
 
 
 "*****************************************************************************

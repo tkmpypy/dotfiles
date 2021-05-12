@@ -89,6 +89,15 @@ use {
     })
 end}
 
+use {
+  'folke/which-key.nvim',
+  disable=true,
+  config = function ()
+    require('which_key.lua')
+  end,
+}
+
+
 use {'tjdevries/cyclist.vim'}
 use {'norcalli/nvim-colorizer.lua'}
 use {'kyazdani42/nvim-web-devicons'}
@@ -155,6 +164,7 @@ use {
     config.configure_language("default", {ignore_whitespace = true})
   end
 }
+
 use {'godlygeek/tabular'}
 use {'lukas-reineke/format.nvim'}
 use {'airblade/vim-rooter'}
@@ -216,12 +226,12 @@ use {'rhysd/git-messenger.vim'}
 use {'APZelos/blamer.nvim'}
 
 -- Snippet
--- use {'hrsh7th/vim-vsnip', rerequires = {{'hrsh7th/vim-vsnip-integ'}}}
-
 if (vim.g.lsp_client_type == 'neovim') then
   -- use neovim built-in
   use {'neovim/nvim-lspconfig'}
   use {'kabouzeid/nvim-lspinstall'}
+  use {'nvim-lua/lsp-status.nvim', disable=true}
+  use {'tjdevries/lsp_extensions.nvim', disable=true}
   use {'hrsh7th/nvim-compe', requires = {{'hrsh7th/vim-vsnip'}}}
   use {
     'onsails/lspkind-nvim',
@@ -254,11 +264,8 @@ if (vim.g.lsp_client_type == 'neovim') then
     end
   }
 
-  use {'nvim-lua/lsp-status.nvim'}
-  use {'tjdevries/lsp_extensions.nvim'}
   use {
     'glepnir/lspsaga.nvim',
-    -- disable = true,
     require = {{'neovim/nvim-lspconfig'}},
     config = function()
       local saga = require('lspsaga')
@@ -375,5 +382,14 @@ use {
   'tkmpypy/scrapaper.nvim',
   config = function()
     require('scrapaper').setup {filepath = '~/Dropbox/scrap.md', h_level = 2}
+  end
+}
+
+use {
+  '~/private/akari.nvim',
+  config = function ()
+    require('akari').setup({
+      debug = false
+    })
   end
 }
