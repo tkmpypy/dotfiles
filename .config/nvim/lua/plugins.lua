@@ -189,6 +189,11 @@ use {'tversteeg/registers.nvim'}
 use {'bfredl/nvim-miniyank'}
 
 -- finder
+
+if (vim.g.lsp_client_type == 'coc') then
+  use {'fannheyward/telescope-coc.nvim'}
+end
+
 use {
   'nvim-telescope/telescope.nvim',
   requires = {
@@ -198,6 +203,9 @@ use {
   config = function ()
     local telescope = require('telescope')
     telescope.load_extension('jumps')
+    if (vim.g.lsp_client_type == 'coc') then
+      telescope.load_extension('coc')
+    end
     telescope.setup{
       defaults = {
         vimgrep_arguments = {

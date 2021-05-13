@@ -77,9 +77,7 @@ function! s:init_telescope()
   nnoremap <Leader>sgs <cmd>lua require'telescope.builtin'.git_status{}<CR>
   nnoremap <Leader>sgb <cmd>lua require'telescope.builtin'.git_branches{}<CR>
   nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
-  nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
   nnoremap <Leader>s <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>
-  nnoremap <Leader>ss <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
   nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
   nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{ show_all_buffers = true, generic_sorters = require('telescope.sorters').fuzzy_with_index_bias }<CR>
   nnoremap <Leader>sc <cmd>lua require'telescope.builtin'.command_history{}<CR>
@@ -88,6 +86,20 @@ function! s:init_telescope()
   nnoremap <Leader>sq <cmd>lua require'telescope.builtin'.quickfix{}<CR>
   nnoremap <Leader>sj <cmd>lua require'telescope'.extensions.jumps.jumps{}<CR>
   nnoremap <Leader>st <cmd>lua require'telescope.builtin'.treesitter{}<CR>
+
+  if g:lsp_client_type == 'neovim'
+    nnoremap <Leader>sdw <cmd>:Telescope lsp_workspace_diagnostics<CR>
+    nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
+    nnoremap <Leader>ssw <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
+  elseif g:lsp_client_type == 'coc'
+    nnoremap <Leader>sdd <cmd>:Telescope coc diagnostics<CR>
+    nnoremap <Leader>sdw <cmd>:Telescope coc workspace_diagnostics<CR>
+    nnoremap <Leader>sgr <cmd>:Telescope coc references<CR>
+    nnoremap <Leader>sca <cmd>:Telescope coc code_actions<CR>
+    nnoremap <Leader>ssw <cmd>:Telescope coc workspace_symbols<CR>
+    nnoremap <Leader>ssd <cmd>:Telescope coc document_symbols<CR>
+  endif
+
 endfunction
 
 call s:init_telescope()
@@ -197,7 +209,6 @@ function! s:setup_nvim_lsp()
     " nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
     " nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
     " nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
-    nnoremap <leader>da <cmd>:Telescope lsp_workspace_diagnostics<CR>
 
     " lspsaga mapping
     " lsp provider to find the currsor word definition and reference
@@ -323,8 +334,8 @@ function! s:setup_coc()
     " " OR this mapping also breaks it in same manor
     " Make <cr> select the first completion item and confirm completion when no item have selected
     " " Use `[c` and `]c` to navigate diagnostics
-    nnoremap <leader>dp <Plug>(coc-diagnostic-prev)
-    nnoremap <leader>dn <Plug>(coc-diagnostic-next)
+    nmap <silent> <leader>dp <Plug>(coc-diagnostic-prev)
+    nmap <silent> <leader>dn <Plug>(coc-diagnostic-next)
 
     " Remap keys for gotos
     nmap <silent> gd <Plug>(coc-definition)
@@ -343,6 +354,13 @@ function! s:setup_coc()
       inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
       vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
       vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    endif
+
+    " Use <c-space> to trigger completion.
+    if has('nvim')
+      inoremap <silent><expr> <c-space> coc#refresh()
+    else
+      inoremap <silent><expr> <c-@> coc#refresh()
     endif
 
     function! s:show_documentation()
@@ -425,7 +443,7 @@ function! s:setup_coc()
     " Use `:Format` to format current buffer
     " command! -nargs=0 Format :call CocActionAsync('format')
     " nnoremap <silent> <leader>F  :<C-u>Format<cr>
-    
+
     nnoremap <silent> <leader>I  :<C-u>OR<cr>
     " coc-translator
     " popup
@@ -1147,8 +1165,15 @@ set shortmess&
     \ shortmess+=c
     \ shortmess-=S
 
-" always show signcolumns
-set signcolumn=yes
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 set incsearch                                    " サーチ：インクリメンタルサーチ（検索中に文字を打つと自動で検索していく）
 set ignorecase                                   " サーチ：大文字小文字を区別しない
 set smartcase                                    " サーチ：大文字で検索されたら対象を大文字限定にする
