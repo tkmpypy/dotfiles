@@ -25,6 +25,10 @@
   "yaml.validate": false,
   "yaml.completion": true,
   "yaml.format.enable": true,
+  "Lua.workspace.library": {
+      "/usr/local/share/nvim/runtime/lua": true,
+      "/usr/local/share/nvim/runtime/lua/vim/lsp": true
+  },
   "markdownlint.config": {
     "no-duplicate-header": false,
     "no-duplicate-heading": false,

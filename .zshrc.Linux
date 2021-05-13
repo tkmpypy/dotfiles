@@ -17,3 +17,7 @@ zinit load charmbracelet/glow
 # lazygit
 zinit ice from"gh-r" as"program" bpick"*Linux_x86_64*" pick"lazygit*/lazygit"
 zinit load jesseduffield/lazygit
+
+# navi
+zinit ice from"gh-r" as"program" bpick"*unknown-linux*" pick"navi"
+zinit load denisidoro/navi
