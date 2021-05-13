@@ -675,7 +675,12 @@ let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
 
-let g:vista_default_executive = 'nvim_lsp'
+
+if g:lsp_client_type == 'neovim'
+  let g:vista_default_executive = 'nvim_lsp'
+elseif g:lsp_client_type == 'coc'
+  let g:vista_default_executive = 'coc'
+endif
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
 " specifying the executive.
