@@ -4,6 +4,7 @@
   "coc.preferences.enableMarkdown": true,
   "coc.preferences.snippets.enable": true,
   "coc.preferences.colorSupport": true,
+  "coc.preferences.extensionUpdateCheck": "daily",
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
   "html.format.enable": false,
   "python.formatting.provider": "autopep8",

@@ -71,26 +71,26 @@ function! s:init_telescope()
   " git (picker) * 
   " neovim LSP (picker)
   " devicons 
-  nnoremap <Leader>sf <cmd>lua require'telescope.builtin'.git_files{}<CR>
-  nnoremap <Leader>sgc <cmd>lua require'telescope.builtin'.git_bcommits{}<CR>
-  nnoremap <Leader>sgC <cmd>lua require'telescope.builtin'.git_commits{}<CR>
-  nnoremap <Leader>sgs <cmd>lua require'telescope.builtin'.git_status{}<CR>
-  nnoremap <Leader>sgb <cmd>lua require'telescope.builtin'.git_branches{}<CR>
-  nnoremap <Leader>sF <cmd>lua require'telescope.builtin'.find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
-  nnoremap <Leader>s <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>
-  nnoremap <Leader>sg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
-  nnoremap <Leader>sb <cmd>lua require'telescope.builtin'.buffers{ show_all_buffers = true, generic_sorters = require('telescope.sorters').fuzzy_with_index_bias }<CR>
-  nnoremap <Leader>sc <cmd>lua require'telescope.builtin'.command_history{}<CR>
-  nnoremap <Leader>sr <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
-  nnoremap <Leader>sl <cmd>lua require'telescope.builtin'.loclist{}<CR>
-  nnoremap <Leader>sq <cmd>lua require'telescope.builtin'.quickfix{}<CR>
-  nnoremap <Leader>sj <cmd>lua require'telescope'.extensions.jumps.jumps{}<CR>
-  nnoremap <Leader>st <cmd>lua require'telescope.builtin'.treesitter{}<CR>
+  nnoremap <Leader>sf <cmd>lua require('telescope.builtin').git_files{}<CR>
+  nnoremap <Leader>sgc <cmd>lua require('telescope.builtin').git_bcommits{}<CR>
+  nnoremap <Leader>sgC <cmd>lua require('telescope.builtin').git_commits{}<CR>
+  nnoremap <Leader>sgs <cmd>lua require('telescope.builtin').git_status{}<CR>
+  nnoremap <Leader>sgb <cmd>lua require('telescope.builtin').git_branches{}<CR>
+  nnoremap <Leader>sF <cmd>lua require('telescope.builtin').find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
+  nnoremap <Leader>s <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find{}<CR>
+  nnoremap <Leader>sg <cmd>lua require('telescope.builtin').live_grep{}<CR>
+  nnoremap <Leader>sb <cmd>lua require('telescope.builtin').buffers{ show_all_buffers = true, generic_sorters = require('telescope.sorters').fuzzy_with_index_bias }<CR>
+  nnoremap <Leader>sc <cmd>lua require('telescope.builtin').command_history{}<CR>
+  nnoremap <Leader>sr <cmd>lua require('telescope.builtin').oldfiles{}<CR>
+  nnoremap <Leader>sl <cmd>lua require('telescope.builtin').loclist{}<CR>
+  nnoremap <Leader>sq <cmd>lua require('telescope.builtin').quickfix{}<CR>
+  nnoremap <Leader>sj <cmd>lua require('telescope').extensions.jumps.jumps{}<CR>
+  nnoremap <Leader>st <cmd>lua require('telescope.builtin').treesitter{}<CR>
 
   if g:lsp_client_type == 'neovim'
     nnoremap <Leader>sdw <cmd>:Telescope lsp_workspace_diagnostics<CR>
-    nnoremap <Leader>sgr <cmd>lua require'telescope.builtin'.lsp_references{}<CR>
-    nnoremap <Leader>ssw <cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
+    nnoremap <Leader>sgr <cmd>lua require('telescope.builtin').lsp_references{}<CR>
+    nnoremap <Leader>ssw <cmd>lua require('telescope.builtin').lsp_workspace_symbols{}<CR>
   elseif g:lsp_client_type == 'coc'
     nnoremap <Leader>sdd <cmd>:Telescope coc diagnostics<CR>
     nnoremap <Leader>sdw <cmd>:Telescope coc workspace_diagnostics<CR>
@@ -320,7 +320,6 @@ function! s:setup_coc()
           \, 'coc-emoji'
           \, 'coc-gitignore'
           \, 'coc-docker'
-          \, 'coc-spell-checker'
           \ ]
     function! CocCurrentFunction()
         let funcName = get(b:, 'coc_current_function', '')
