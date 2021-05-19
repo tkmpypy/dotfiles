@@ -23,8 +23,6 @@ local nord_colors = {
   bg = "NONE",
   -- bg = "#2E3440",
   fg = "#81A1C1",
-  line_bg = "NONE",
-  -- line_bg = "#2E3440",
   fg_green = "#8FBCBB",
   yellow = "#EBCB8B",
   cyan = "#A3BE8C",
@@ -65,7 +63,7 @@ gls.left[1] = {
     provider = function()
       return "  "
     end,
-    highlight = {nord_colors.blue, nord_colors.line_bg}
+    highlight = {nord_colors.blue, nord_colors.bg}
   }
 }
 gls.left[2] = {
@@ -97,14 +95,14 @@ gls.left[2] = {
       vim.cmd("hi GalaxyViMode guifg=" .. mode_color[vim.fn.mode()])
       return "  "
     end,
-    highlight = {nord_colors.red, nord_colors.line_bg, "bold"}
+    highlight = {nord_colors.red, nord_colors.bg, "bold"}
   }
 }
 gls.left[3] = {
   FileIcon = {
     provider = "FileIcon",
     condition = buffer_not_empty,
-    highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, nord_colors.line_bg}
+    highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, nord_colors.bg}
   }
 }
 gls.left[4] = {
@@ -115,8 +113,8 @@ gls.left[4] = {
     end, ]]
     condition = buffer_not_empty,
     separator = " ",
-    separator_highlight = {nord_colors.purple, nord_colors.bg},
-    highlight = {nord_colors.purple, nord_colors.line_bg, "bold"}
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
+    highlight = {nord_colors.purple, nord_colors.bg, "bold"}
   }
 }
 
@@ -135,7 +133,8 @@ gls.right[1] = {
     condition = checkwidth,
     separator = " ",
     -- icon = " ",
-    highlight = {nord_colors.cyan, nord_colors.line_bg, "bold"}
+    highlight = {nord_colors.cyan, nord_colors.bg, "bold"},
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
   }
 }
 gls.right[2] = {
@@ -144,8 +143,8 @@ gls.right[2] = {
     condition = require("galaxyline.provider_vcs").check_git_workspace,
     separator = " ",
     icon = " ",
-    separator_highlight = {nord_colors.purple, nord_colors.bg},
-    highlight = {nord_colors.orange, nord_colors.line_bg, "bold"}
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
+    highlight = {nord_colors.orange, nord_colors.bg, "bold"}
   }
 }
 
@@ -155,7 +154,8 @@ gls.right[3] = {
     condition = checkwidth,
     separator = " ",
     icon = " ",
-    highlight = {nord_colors.green, nord_colors.line_bg}
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
+    highlight = {nord_colors.green, nord_colors.bg}
   }
 }
 gls.right[4] = {
@@ -163,7 +163,7 @@ gls.right[4] = {
     provider = "DiffModified",
     condition = checkwidth,
     icon = " ",
-    highlight = {nord_colors.yellow, nord_colors.line_bg}
+    highlight = {nord_colors.yellow, nord_colors.bg}
   }
 }
 gls.right[5] = {
@@ -171,7 +171,7 @@ gls.right[5] = {
     provider = "DiffRemove",
     condition = checkwidth,
     icon = " ",
-    highlight = {nord_colors.red, nord_colors.line_bg}
+    highlight = {nord_colors.red, nord_colors.bg}
   }
 }
 
@@ -179,8 +179,8 @@ gls.right[6] = {
   LineInfo = {
     provider = "LineColumn",
     separator = " ",
-    separator_highlight = {nord_colors.blue, nord_colors.line_bg},
-    highlight = {nord_colors.gray, nord_colors.line_bg}
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
+    highlight = {nord_colors.gray, nord_colors.bg}
   }
 }
 -- section.right[7] = {
@@ -188,8 +188,8 @@ gls.right[6] = {
 --     provider = "FileSize",
 --     separator = " ",
 --     condition = buffer_not_empty,
---     separator_highlight = {nord_colors.blue, nord_colors.line_bg},
---     highlight = {nord_colors.fg, nord_colors.line_bg}
+--     separator_highlight = {nord_colors.blue, nord_colors.bg},
+--     highlight = {nord_colors.fg, nord_colors.bg}
 --   }
 -- }
 
@@ -198,8 +198,8 @@ gls.right[7] = {
     provider = "DiagnosticError",
     separator = " ",
     icon = " ",
-    highlight = {nord_colors.red, nord_colors.line_bg},
-    separator_highlight = {nord_colors.bg, nord_colors.bg}
+    highlight = {nord_colors.red, nord_colors.bg},
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
   }
 }
 gls.right[8] = {
@@ -207,8 +207,8 @@ gls.right[8] = {
     provider = "DiagnosticWarn",
     separator = " ",
     icon = " ",
-    highlight = {nord_colors.yellow, nord_colors.line_bg},
-    separator_highlight = {nord_colors.bg, nord_colors.bg}
+    highlight = {nord_colors.yellow, nord_colors.bg},
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
   }
 }
 
@@ -217,7 +217,7 @@ gls.right[9] = {
     separator = " ",
     provider = "DiagnosticInfo",
     icon = " ",
-    highlight = {nord_colors.green, nord_colors.line_bg},
+    highlight = {nord_colors.green, nord_colors.bg},
     separator_highlight = {nord_colors.bg, nord_colors.bg}
   }
 }
@@ -227,8 +227,8 @@ gls.right[10] = {
     provider = "DiagnosticHint",
     separator = " ",
     icon = " ",
-    highlight = {nord_colors.blue, nord_colors.line_bg},
-    separator_highlight = {nord_colors.bg, nord_colors.bg}
+    highlight = {nord_colors.blue, nord_colors.bg},
+    separator_highlight = {nord_colors.bg, nord_colors.bg},
   }
 }
 

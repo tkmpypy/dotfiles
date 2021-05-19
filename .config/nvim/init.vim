@@ -716,14 +716,15 @@ call gina#custom#mapping#nmap(
 	      \ ':<C-u>Gina diff --opener=preview<CR>',
 	      \ {'noremap': 1, 'silent': 1},
 	      \)
-nnoremap <silent> <leader>gs :<C-u>Gina status --opener=split<CR>
-nnoremap <silent> <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
-nnoremap <silent> <leader>gD :<C-u>Gina compare --opener=tabedit<CR>
-nnoremap <silent> <leader>gd :<C-u>Gina diff --opener=tabedit<CR>
-nnoremap <silent> <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
-nnoremap <silent> <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
-vnoremap <silent> <leader>gl :<C-u>:'<,'>Gina browse --exact --yank :<CR>
-nnoremap <silent> <leader>gl :<C-u>:Gina browse --exact --yank :<CR>
+nnoremap <leader>gs :<C-u>Gina status --opener=split<CR>
+nnoremap <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
+nnoremap <leader>gD :<C-u>Gina compare --opener=tabedit<CR>
+nnoremap <leader>gd :<C-u>Gina diff --opener=tabedit<CR>
+nnoremap <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
+nnoremap <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
+vnoremap <leader>gln :<C-u>:'<,'>Gina browse --exact --yank :<CR>
+nnoremap <leader>gln :<C-u>:Gina browse --exact --yank :<CR>
+nnoremap <leader>gm :<C-u>:Gina chaperon<CR>
 nnoremap <leader>gp :<C-u>Gina push<CR>
 
 " }}
