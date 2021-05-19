@@ -722,6 +722,8 @@ nnoremap <silent> <leader>gD :<C-u>Gina compare --opener=tabedit<CR>
 nnoremap <silent> <leader>gd :<C-u>Gina diff --opener=tabedit<CR>
 nnoremap <silent> <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
 nnoremap <silent> <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
+vnoremap <silent> <leader>gl :<C-u>:'<,'>Gina browse --exact --yank :<CR>
+nnoremap <silent> <leader>gl :<C-u>:Gina browse --exact --yank :<CR>
 nnoremap <leader>gp :<C-u>Gina push<CR>
 
 " }}
