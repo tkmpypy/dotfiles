@@ -320,6 +320,7 @@ function! s:setup_coc()
           \, 'coc-emoji'
           \, 'coc-gitignore'
           \, 'coc-docker'
+          \, 'coc-spell-checker'
           \ ]
     function! CocCurrentFunction()
         let funcName = get(b:, 'coc_current_function', '')
