@@ -23,7 +23,6 @@
   "diagnostic.virtualTextCurrentLineOnly": false,
   "diagnostic.virtualTextPrefix": "◆ ",
   "codeLens.enable": true,
-  "python.jediEnabled": false,
   "yaml.validate": false,
   "yaml.completion": true,
   "yaml.format.enable": true,
