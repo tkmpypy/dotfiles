@@ -317,6 +317,7 @@ function! s:setup_coc()
           \, 'coc-go'
           \, 'coc-lua'
           \, 'coc-sql'
+          \, 'coc-sh'
           \, 'coc-emoji'
           \, 'coc-gitignore'
           \, 'coc-docker'
