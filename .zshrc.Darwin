@@ -21,3 +21,7 @@ zinit load jesseduffield/lazygit
 # navi
 zinit ice from"gh-r" as"program" bpick"*darwin*" pick"navi"
 zinit load denisidoro/navi
+
+# gh
+zinit ice from"gh-r" as"program" bpick"*macOS_amd64.tar.gz" pick"gh*/bin/gh"
+zinit load cli/cli
