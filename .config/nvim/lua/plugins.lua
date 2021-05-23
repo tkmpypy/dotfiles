@@ -558,6 +558,7 @@ use {
 }
 
 use {
+  disable = true,
   '~/private/akari.nvim',
   config = function() require('akari').setup({debug = false}) end
 }
