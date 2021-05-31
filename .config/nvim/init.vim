@@ -17,10 +17,11 @@ set background=dark
 " colorscheme gruvbox-material
 
 " colorscheme OceanicNext
-colorscheme edge
+" colorscheme edge
 " colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
+colorscheme gruvbox-flat
 
 
 filetype plugin indent on
@@ -31,7 +32,7 @@ if !&compatible
 endif
 
 " reset augroup
-augroup MyAutoCmd
+augroup vimrc
   autocmd!
 augroup END
 
@@ -57,8 +58,26 @@ function! VisualSearch()
   call histadd('/', text)
 
 endfunction
-
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
+
+function! GoGenerationNew()
+    " check filetype
+    if &filetype == 'go'
+      let l:line = getline(".")
+      # TODO: check syntax for structure
+
+      let l:word = expand("<cword>")
+      let l:template =<< EOF
+func New{name}() *{name} {
+    return &{name}{}
+}
+EOF
+      let l:newfunc = substitute(l:template, "{name}", l:word, "g")
+    endif
+endfunction
+
+command! -nargs=0 GoGenNew :call GoGenerationNew()
+
 " }}
 
 
@@ -1053,7 +1072,8 @@ set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
 set noruler
-set cursorline
+set nocursorline
+set nocursorcolumn
 set hlsearch
 set backspace=indent,eol,start
 
