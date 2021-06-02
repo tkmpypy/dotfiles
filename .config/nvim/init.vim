@@ -60,24 +60,7 @@ function! VisualSearch()
 endfunction
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
 
-function! GoGenerationNew()
-    " check filetype
-    if &filetype == 'go'
-      let l:line = getline(".")
-      # TODO: check syntax for structure
-
-      let l:word = expand("<cword>")
-      let l:template =<< EOF
-func New{name}() *{name} {
-    return &{name}{}
-}
-EOF
-      let l:newfunc = substitute(l:template, "{name}", l:word, "g")
-    endif
-endfunction
-
-command! -nargs=0 GoGenNew :call GoGenerationNew()
-
+" nnoremap <Leader>H <cmd>lua require('_tools').go_generaion_new()<CR>
 " }}
 
 
@@ -157,6 +140,9 @@ let g:test#python#pytest#options = {
 \ }
 let g:test#rust#cargotest#options = {
     \ 'nearest': '-- --nocapture'
+\ }
+let g:test#go#gotest#options = {
+    \ 'nearest': '-v'
 \ }
 nmap <leader>trn :TestNearest<CR>
 nmap <leader>trf :TestFile<CR>
@@ -318,6 +304,7 @@ function! s:setup_coc()
   " setting
     let g:coc_global_extensions = [
           \  'coc-lists'
+          \, 'coc-diagnostic'
           \, 'coc-json'
           \, 'coc-yaml'
           \, 'coc-marketplace'
@@ -326,7 +313,6 @@ function! s:setup_coc()
           \, 'coc-tsserver'
           \, 'coc-eslint'
           \, 'coc-prettier'
-          \, 'coc-markdownlint'
           \, 'coc-pyright'
           \, 'coc-rust-analyzer'
           \, 'coc-snippets'
