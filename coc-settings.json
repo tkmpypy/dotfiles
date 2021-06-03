@@ -39,6 +39,7 @@
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
   "html.format.enable": false,
   "python.formatting.provider": "autopep8",
+  "python.jediEnabled": false,
   "eslint.autoFixOnSave": true,
   "flutter.lsp.initialization.closingLabels": true,
   "flutter.lsp.initialization.suggestFromUnimportedLibraries": true,
