@@ -352,7 +352,7 @@ function! s:setup_coc()
           \, 'coc-eslint'
           \, 'coc-prettier'
           \, 'coc-markdownlint'
-          \, 'coc-python'
+          \, 'coc-pyright'
           \, 'coc-rust-analyzer'
           \, 'coc-snippets'
           \, 'coc-vimlsp'
