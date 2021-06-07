@@ -12,6 +12,7 @@
   "diagnostic.virtualTextPrefix": "◆ ",
   "codeLens.enable": true,
   "suggest.snippetsSupport": true,
+  "snippets.enableStatusItem": false,
   "coc.preferences.colorSupport": true,
   "coc.preferences.extensionUpdateCheck": "daily",
   "diagnostic-languageserver.filetypes": {
@@ -62,41 +63,12 @@
     "*.dll",
     "**/*.dll"
   ],
+  "cSpell.showStatus": false,
   "markdownlint.config": {
     "no-duplicate-header": false,
     "no-duplicate-heading": false,
     "ul-indent": {
       "indent": 2
     }
-  },
-  "cSpell.userWords": [
-    "GOPATH",
-    "GOPRIVATE",
-    "Keiyo",
-    "Kyuden",
-    "OIDC",
-    "Saimata",
-    "autopep",
-    "daemonset",
-    "funcobj",
-    "goreleaser",
-    "gruvbox",
-    "istio",
-    "kube",
-    "kubectl",
-    "kubernetes",
-    "markdownlint",
-    "nvim",
-    "pyright",
-    "require'nvim",
-    "saitama",
-    "startify",
-    "tkmpypy",
-    "unibo",
-    "unibos",
-    "unimported",
-    "unirobot",
-    "unstaged",
-    "untracked"
-  ]
+  }
 }
