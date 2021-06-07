@@ -73,6 +73,12 @@ packer.startup({function (use)
     end
   }
   use {'aklt/plantuml-syntax', ft = {'plantuml'}}
+  use {
+    'leafgarland/typescript-vim',
+    config = function ()
+      vim.g.typescript_indent_disable = true
+    end
+  }
 
   -- runner
   use {'metakirby5/codi.vim'}
