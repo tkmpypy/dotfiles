@@ -60,7 +60,6 @@ function! VisualSearch()
 endfunction
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
 
-" nnoremap <Leader>H <cmd>lua require('_tools').go_generaion_new()<CR>
 " }}
 
 
@@ -136,7 +135,8 @@ let g:quickrun_config['rust/cargo'] = {
 let test#strategy = "neovim"
 let g:test#python#runner = 'pytest'
 let g:test#python#pytest#options = {
-    \ 'nearest': '-v --capture=no'
+    \ 'nearest': '-vv --capture=no',
+    \ 'file': '-vv --capture=no'
 \ }
 let g:test#rust#cargotest#options = {
     \ 'nearest': '-- --nocapture'
@@ -327,6 +327,7 @@ function! s:setup_coc()
           \, 'coc-gitignore'
           \, 'coc-docker'
           \, 'coc-spell-checker'
+          \, 'https://github.com/cstrap/python-snippets'
           \ ]
     function! CocCurrentFunction()
         let funcName = get(b:, 'coc_current_function', '')
@@ -462,6 +463,24 @@ function! s:setup_coc()
     " format on enter, <cr> could be remapped by other vim plugin
     inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                                   \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+    " Use <C-l> for trigger snippet expand.
+    imap <C-l> <Plug>(coc-snippets-expand)
+
+    " Use <C-j> for select text for visual placeholder of snippet.
+    vmap <C-j> <Plug>(coc-snippets-select)
+
+    " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+    let g:coc_snippet_next = '<c-j>'
+
+    " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+    let g:coc_snippet_prev = '<c-k>'
+
+    " Use <C-j> for both expand and jump (make expand higher priority.)
+    imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+    " Use <leader>x for convert visual selected code to snippet
+    xmap <leader>x  <Plug>(coc-convert-snippet)
 
 endfunction
 
@@ -1051,7 +1070,7 @@ set wildmenu
 set wildmode=full
 set ttyfast
 " set lazyredraw
-
+set virtualedit=all
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number norelativenumber
 set laststatus=2 " ステータスラインを常に表示
@@ -1156,6 +1175,7 @@ autocmd FileType javascript setlocal ts=2 sw=2
 autocmd FileType vim setlocal ts=2 sw=2
 autocmd FileType lua setlocal ts=2 sw=2
 autocmd FileType yaml setlocal ts=2 sw=2
+autocmd FileType python setlocal ts=4 sw=4
 
 " No beep
 set visualbell
