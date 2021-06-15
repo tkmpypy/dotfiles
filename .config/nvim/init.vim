@@ -1070,7 +1070,7 @@ set wildmenu
 set wildmode=full
 set ttyfast
 " set lazyredraw
-set virtualedit=all
+" set virtualedit=all
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number norelativenumber
 set laststatus=2 " ステータスラインを常に表示
