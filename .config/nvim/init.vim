@@ -6,7 +6,10 @@ let mapleader = "\<Space>"
 let g:use_treesitter = v:true
 let g:lsp_client_type ='coc' " neovim(builtin), coc
 lua require('plugins')
-autocmd BufWritePost plugins.lua PackerCompile
+augroup my_packer
+  autocmd!
+  autocmd BufWritePost plugins.lua :PackerCompile<CR>
+augroup end
 
 set background=dark
 " colorscheme palenight
@@ -22,6 +25,7 @@ set background=dark
 " colorscheme zephyr
 " colorscheme space-nvim
 colorscheme gruvbox-flat
+" colorscheme doom-one
 
 
 filetype plugin indent on
@@ -59,9 +63,7 @@ function! VisualSearch()
 
 endfunction
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
-
 " }}
-
 
 " telescope.nvim {{
 function! s:init_telescope()
@@ -547,6 +549,7 @@ function! s:init_nvim_tree() abort
   let g:nvim_tree_width = 30 "30 by default
   let g:nvim_tree_ignore = [ 'node_modules', '.cache', '.DS_Store' ] "empty by default
   let g:nvim_tree_auto_open = 0 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+
   let g:nvim_tree_auto_close = 0 "0 by default, closes the tree when it's the last window
   let g:nvim_tree_follow = 0 "0 by default, this option allows the cursor to be updated when entering a buffer
   let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open

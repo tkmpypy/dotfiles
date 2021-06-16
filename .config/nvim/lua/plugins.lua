@@ -15,7 +15,7 @@ local util = require('packer.util')
 packer.startup({
   function(use)
     -- Packer can manage itself as an optional plugin
-    use {'wbthomason/packer.nvim', opt = true}
+    use {'wbthomason/packer.nvim'}
 
     if (vim.g.use_treesitter) then use {'nvim-treesitter/nvim-treesitter'} end
 
@@ -66,6 +66,15 @@ packer.startup({
         vim.g.gruvbox_dark_float = true
         vim.g.gruvbox_sidebars = {"qf", "vista_kind", "terminal", "packer"}
         vim.g.gruvbox_hide_inactive_statusline = true
+      end
+    }
+    use {
+      'NTBBloodbath/doom-one.nvim',
+      config = function ()
+        vim.g.doom_one_enable_treesitter = true
+        vim.g.doom_one_terminal_colors = false
+        vim.g.doom_one_transparent_background = false
+        vim.g.doom_one_cursor_coloring = true
       end
     }
 
@@ -262,8 +271,8 @@ packer.startup({
           pickers = {
             buffers = {
               sort_lastused = true,
-              theme = "get_dropdown",
-              previewer = false,
+              theme = "dropdown",
+              -- previewer = true,
               mappings = {
                 i = {["<c-d>"] = require("telescope.actions").delete_buffer},
                 n = {["<c-d>"] = require("telescope.actions").delete_buffer}
