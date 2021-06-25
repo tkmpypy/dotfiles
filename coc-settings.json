@@ -2,6 +2,9 @@
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "coc.preferences.enableFloatHighlight": true,
   "coc.preferences.enableMarkdown": true,
+  "coc.preferences.colorSupport": true,
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "diagnostic-languageserver.debug": false,
   "diagnostic.refreshOnInsertMode": false,
   "diagnostic.infoSign": "כֿ",
   "diagnostic.hintSign": "•",
@@ -13,8 +16,7 @@
   "codeLens.enable": true,
   "suggest.snippetsSupport": true,
   "snippets.enableStatusItem": false,
-  "coc.preferences.colorSupport": true,
-  "coc.preferences.extensionUpdateCheck": "daily",
+  "diagnostic-languageserver.enable": true,
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
     "markdown": "markdownlint",
@@ -24,7 +26,7 @@
     "golangci-lint": {
         "command": "golangci-lint",
         "rootPatterns": [ ".git", "go.mod" ],
-        "debounce": 100,
+        "debounce": 1000,
         "args": [ "run", "--out-format", "json", "--fast" ],
         "sourceName": "golangci-lint",
         "parseJson": {

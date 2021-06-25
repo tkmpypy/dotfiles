@@ -979,8 +979,8 @@ nmap <leader>cp <Plug>CyclistPrev
 call cyclist#activate_listchars('default')
 " }}
 " tyru/operator-camelize.vim {{
-map <leader>c <plug>(operator-camelize)
-map <leader>C <plug>(operator-decamelize)
+map <leader>c <plug>(operator-camelize)<CR>
+map <leader>C <plug>(operator-decamelize)<CR>
 " }}
 " t9md/vim-choosewin {{
 nmap <leader>w <Plug>(choosewin)

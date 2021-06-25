@@ -82,6 +82,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # alias
 alias ll='ls -la'
+alias g='git'
 
 
 # 文字コードの指定
