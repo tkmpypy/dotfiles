@@ -70,7 +70,7 @@ packer.startup({
     }
     use {
       'NTBBloodbath/doom-one.nvim',
-      config = function ()
+      config = function()
         vim.g.doom_one_enable_treesitter = true
         vim.g.doom_one_terminal_colors = false
         vim.g.doom_one_transparent_background = false
@@ -169,7 +169,67 @@ packer.startup({
     use {'liuchengxu/vista.vim'}
 
     -- tree
-    use {'kyazdani42/nvim-tree.lua'}
+    use {
+      'kyazdani42/nvim-tree.lua',
+      config = function()
+        local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+        vim.g.nvim_tree_side = 'left' -- left by default
+        vim.g.nvim_tree_width = 30 -- 30 by default
+        vim.g.nvim_tree_ignore = {'node_modules', '.cache', '.DS_Store'} -- empty by default
+        vim.g.nvim_tree_auto_open = 0 -- 0 by default, opens the tree when typing `vim $DIR` or `vim`
+
+        vim.g.nvim_tree_auto_close = 0 -- 0 by default, closes the tree when it's the last window
+        vim.g.nvim_tree_follow = 0 -- 0 by default, this option allows the cursor to be updated when entering a buffer
+        vim.g.nvim_tree_indent_markers = 1 -- 0 by default, this option shows indent markers when folders are open
+        vim.g.nvim_tree_hide_dotfiles = 0 -- 0 by default, this option hides files and folders starting with a dot `.`
+        vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
+        vim.g.nvim_tree_root_folder_modifier = ':~' -- This is the default. See :help filename-modifiers for more options
+        vim.g.nvim_tree_tab_open = 0 -- 0 by default, will open the tree when entering a new tab and the tree was previously open
+        vim.g.nvim_tree_show_icons = {
+          git = 1,
+          folders = 1,
+          files = 1,
+          folder_arrows = 1
+        }
+        vim.g.nvim_tree_disable_default_keybindings = 0
+        vim.g.nvim_tree_bindings = {
+          {key = "n", mode = "n", cb = tree_cb("create")},
+          {key = "u", mode = "n", cb = tree_cb("dir_up")},
+          {key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit")},
+          {key = {"<2-RightMouse>", "<C-}>"}, cb = tree_cb("cd")},
+          {key = "<C-v>", cb = tree_cb("vsplit")},
+          {key = "<C-x>", cb = tree_cb("split")},
+          {key = "<C-t>", cb = tree_cb("tabnew")},
+          {key = "<", cb = tree_cb("prev_sibling")},
+          {key = ">", cb = tree_cb("next_sibling")},
+          {key = "P", cb = tree_cb("parent_node")},
+          {key = "<BS>", cb = tree_cb("close_node")},
+          {key = "<S-CR>", cb = tree_cb("close_node")},
+          {key = "<Tab>", cb = tree_cb("preview")},
+          {key = "K", cb = tree_cb("first_sibling")},
+          {key = "J", cb = tree_cb("last_sibling")},
+          {key = "I", cb = tree_cb("toggle_ignored")},
+          {key = "H", cb = tree_cb("toggle_dotfiles")},
+          {key = "R", cb = tree_cb("refresh")},
+          {key = "d", cb = tree_cb("remove")},
+          {key = "r", cb = tree_cb("rename")},
+          {key = "<C->", cb = tree_cb("full_rename")},
+          {key = "x", cb = tree_cb("cut")}, {key = "c", cb = tree_cb("copy")},
+          {key = "p", cb = tree_cb("paste")},
+          {key = "y", cb = tree_cb("copy_name")},
+          {key = "Y", cb = tree_cb("copy_path")},
+          {key = "gy", cb = tree_cb("copy_absolute_path")},
+          {key = "[c", cb = tree_cb("prev_git_item")},
+          {key = "}c", cb = tree_cb("next_git_item")},
+          {key = "-", cb = tree_cb("dir_up")},
+          {key = "q", cb = tree_cb("close")},
+          {key = "g?", cb = tree_cb("toggle_help")}
+        }
+        vim.api.nvim_set_keymap('n', '<Leader>ft', ":NvimTreeToggle<CR>", {})
+        vim.api.nvim_set_keymap('n', '<Leader>fr', ":NvimTreeRefresh<CR>", {})
+        vim.api.nvim_set_keymap('n', '<Leader>ff', ":NvimTreeFindFile<CR>", {})
+      end
+    }
 
     -- Lua Utils
     use {'rafcamlet/nvim-luapad'}
@@ -198,7 +258,7 @@ packer.startup({
         config.configure_language("default", {
           ignore_whitespace = true,
           use_consistent_indentation = true,
-          prefer_single_line_comments = false,
+          prefer_single_line_comments = true,
           hook_function = function()
             require('ts_context_commentstring.internal').update_commentstring()
           end
@@ -238,10 +298,89 @@ packer.startup({
     use {'tversteeg/registers.nvim'}
     -- use {'gelguy/wilder.nvim', run = ':UpdateRemotePlugins'}
     use {'bfredl/nvim-miniyank'}
+    use {
+      'kristijanhusak/orgmode.nvim',
+      config = function()
+        require('orgmode').setup({
+          org_agenda_files = {'~/Dropbox/org/*'},
+          org_default_notes_file = '~/Dropbox/org/notes.org',
+          org_todo_keywords = {'TODO', '|', 'DONE', '|', 'HOLD'},
+          org_agenda_templates = {
+            t = {description = 'Task', template = '* TODO %?\n  %u'},
+            n = {description = 'Note', template = '* NOTE %?\n  %u'}
+          },
+          org_deadline_warning_days = 14,
+          org_agenda_span = 'week', -- day/week/month/year/number of days
+          org_agenda_start_on_weekday = 1,
+          org_agenda_start_day = nil, -- start from today + this modifier
+          org_priority_highest = 'A',
+          org_priority_default = 'B',
+          org_priority_lowest = 'C',
+          -- org_archive_location = '%s_archive::',
+          org_use_tag_inheritance = true,
+          -- org_tags_exclude_from_inheritance = {},
+          mappings = {
+            disable_all = false,
+            global = {org_agenda = '<Leader>oa', org_capture = '<Leader>oc'},
+            agenda = {
+              org_agenda_later = 'f',
+              org_agenda_earlier = 'b',
+              org_agenda_goto_today = '.',
+              org_agenda_day_view = 'vd',
+              org_agenda_week_view = 'vw',
+              org_agenda_month_view = 'vm',
+              org_agenda_year_view = 'vy',
+              org_agenda_quit = 'q',
+              org_agenda_switch_to = '<CR>',
+              org_agenda_goto = {'<TAB>'},
+              org_agenda_goto_date = 'J',
+              org_agenda_redo = 'r',
+              org_agenda_show_help = '?'
+            },
+            capture = {
+              org_capture_finalize = '<C-c>',
+              org_capture_refile = '<Leader>or',
+              org_capture_kill = '<Leader>ok',
+              org_capture_show_help = '?'
+            },
+            org = {
+              org_refile = '<Leader>or',
+              org_increase_date = '<C-a>',
+              org_decrease_date = '<C-x>',
+              org_change_date = 'cid',
+              org_todo = 'cit',
+              org_todo_prev = 'ciT',
+              org_toggle_checkbox = '<C-Space>',
+              org_open_at_point = '<Leader>oo',
+              org_cycle = '<TAB>',
+              org_global_cycle = '<S-TAB>',
+              org_archive_subtree = '<Leader>o$',
+              org_set_tags_command = '<Leader>ot',
+              org_toggle_archive_tag = '<Leader>oA',
+              org_do_promote = '<<',
+              org_do_demote = '>>',
+              org_promote_subtree = '<s',
+              org_demote_subtree = '>s',
+              org_meta_return = '<Leader><CR>', -- Add headling, item or row
+              org_insert_heading_respect_content = '<Leader>oih', -- Add new headling after current heading block with same level
+              org_insert_todo_heading = '<Leader>oiT', -- Add new todo headling right after current heading with same level
+              org_insert_todo_heading_respect_content = '<Leader>oit', -- Add new todo headling after current heading block on same level
+              org_move_subtree_up = '<Leader>oK',
+              org_move_subtree_down = '<Leader>oJ',
+              org_show_help = '?'
+            }
+          }
+        })
+        vim.api.nvim_set_keymap("n", "<Leader>oo",
+                                "<cmd>:e ~/Dropbox/org/notes.org<cr>",
+                                {silent = true, noremap = true})
+      end
+    }
 
     -- finder
 
     if (vim.g.lsp_client_type == 'coc') then
+
       use {'fannheyward/telescope-coc.nvim'}
     end
 
@@ -266,7 +405,7 @@ packer.startup({
             shortlen_path = true,
             winblend = 10,
             scroll_strategy = 'cycle',
-            color_devicon = true,
+            color_devicon = true
           },
           pickers = {
             buffers = {
@@ -467,7 +606,13 @@ packer.startup({
       use {'kabouzeid/nvim-lspinstall'}
       use {'nvim-lua/lsp-status.nvim', disable = true}
       use {'tjdevries/lsp_extensions.nvim', disable = true}
-      use {'hrsh7th/nvim-compe', requires = {{'hrsh7th/vim-vsnip'}}}
+      use {
+        'hrsh7th/nvim-compe',
+        requires = {{'hrsh7th/vim-vsnip'}},
+        config = function()
+          require'compe'.setup({source = {orgmode = true}})
+        end
+      }
       use {
         'onsails/lspkind-nvim',
         config = function()
