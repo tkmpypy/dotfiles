@@ -9,11 +9,11 @@ local vim = vim
 
 local custom_init = function(client)
   if (client.config.flags) then
-    client.config.flags.allow_incremental_sync = false
+    client.config.flags.allow_incremental_sync = true
   end
 end
 
-local custom_attach = function (client, bufnr)
+local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
@@ -33,23 +33,22 @@ local lua_config = {
       runtime = {
         -- LuaJIT in the case of Neovim
         version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
+        path = vim.split(package.path, ';')
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = {'vim'}
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
         library = {
           [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
-      },
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
+        }
+      }
     }
   }
 }
-
 
 local dart_config = {
   init_options = {
@@ -76,10 +75,7 @@ local gopls_config = {
       unusedwrite = true,
       fieldalignment = true
     },
-    codelenses = {
-      gc_details = true,
-      tidy = true
-    }
+    codelenses = {gc_details = true, tidy = true}
   }
 }
 
@@ -107,13 +103,28 @@ local diagnosticls_config = {
         },
         securities = {[2] = 'error', [1] = 'warning'}
       },
+      golangci = {
+        command = 'golangci-lint',
+        rootPatterns = {'go.mod', '.golangci.yml', '.golangci.yaml'},
+        debounce = 500,
+        args = {'run', '--out-format', 'json', '--fast'},
+        parseJson = {
+          sourceName = "Pos.Filename",
+          sourceNameFilter = true,
+          errorsRoot = "Issues",
+          line = "Pos.Line",
+          column = "Pos.Column",
+          message = "${Text} [${FromLinter}]"
+        }
+      }
     },
     filetypes = {
       javascript = 'eslint',
       javascriptreact = 'eslint',
       typescript = 'eslint',
       typescriptreact = 'eslint',
-      dart = 'dartanalyzer'
+      dart = 'dartanalyzer',
+      go = {'golangci'}
     }
     -- formatters = {
     --     dartfmt = {
@@ -182,18 +193,14 @@ local function setup_servers()
     local config = make_config()
 
     -- language specific config
-    if server == "lua" then
-      config.settings = lua_config.settings
-    end
+    if server == "lua" then config.settings = lua_config.settings end
 
     if server == "dartls" then
       config.init_options = dart_config.init_options
       config.handlers = dart_config.handlers
     end
 
-    if server == "gopls" then
-      config.init_options = gopls_config.init_options
-    end
+    if server == "gopls" then config.init_options = gopls_config.init_options end
 
     if server == "diagnosticls" then
       config.init_options = diagnosticls_config.init_options
@@ -207,11 +214,10 @@ end
 setup_servers()
 
 -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
+require'lspinstall'.post_install_hook = function()
   setup_servers() -- reload installed servers
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
-
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -232,7 +238,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
       -- end,
       signs = {priority = 20},
       -- Disable a feature
-      update_in_insert = false
-    }
-)
+      update_in_insert = true
+    })
 

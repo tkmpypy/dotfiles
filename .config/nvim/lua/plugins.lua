@@ -304,7 +304,7 @@ packer.startup({
         require('orgmode').setup({
           org_agenda_files = {'~/Dropbox/org/*'},
           org_default_notes_file = '~/Dropbox/org/notes.org',
-          org_todo_keywords = {'TODO', '|', 'DONE', '|', 'HOLD'},
+          org_todo_keywords = {'TODO', 'DOING', 'HOLD', '|', 'DONE'},
           org_agenda_templates = {
             t = {description = 'Task', template = '* TODO %?\n  %u'},
             n = {description = 'Note', template = '* NOTE %?\n  %u'}
@@ -345,8 +345,8 @@ packer.startup({
             },
             org = {
               org_refile = '<Leader>or',
-              org_increase_date = '<C-a>',
-              org_decrease_date = '<C-x>',
+              org_increase_date = '<Leader>da',
+              org_decrease_date = '<Leader>dx',
               org_change_date = 'cid',
               org_todo = 'cit',
               org_todo_prev = 'ciT',
@@ -371,7 +371,7 @@ packer.startup({
             }
           }
         })
-        vim.api.nvim_set_keymap("n", "<Leader>oo",
+        vim.api.nvim_set_keymap("n", "<Leader>z",
                                 "<cmd>:e ~/Dropbox/org/notes.org<cr>",
                                 {silent = true, noremap = true})
       end
@@ -606,18 +606,59 @@ packer.startup({
       use {'kabouzeid/nvim-lspinstall'}
       use {'nvim-lua/lsp-status.nvim', disable = true}
       use {'tjdevries/lsp_extensions.nvim', disable = true}
+      use {'hrsh7th/vim-vsnip'}
+      use {'hrsh7th/vim-vsnip-integ', requires = {{'hrsh7th/vim-vsnip'}}}
       use {
         'hrsh7th/nvim-compe',
         requires = {{'hrsh7th/vim-vsnip'}},
         config = function()
-          require'compe'.setup({source = {orgmode = true}})
+          require'compe'.setup {
+            enabled = true,
+            autocomplete = true,
+            debug = false,
+            min_length = 1,
+            preselect = 'enable',
+            throttle_time = 80,
+            source_timeout = 200,
+            resolve_timeout = 800,
+            incomplete_delay = 400,
+            max_abbr_width = 100,
+            max_kind_width = 100,
+            max_menu_width = 100,
+            documentation = {
+              border = {'', '', '', ' ', '', '', '', ' '}, -- the border option is the same as `|help nvim_open_win|`
+              winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+              max_width = 120,
+              min_width = 60,
+              max_height = math.floor(vim.o.lines * 0.3),
+              min_height = 1
+            },
+            source = {
+              orgmode = true,
+              path = {
+                priority = 11
+              },
+              buffer = {
+                priority = 10
+              },
+              nvim_lsp = {
+                priority = 15
+              },
+              nvim_lua = {
+                priority = 90
+              },
+              vsnip = {
+                priority = 16
+              }
+            }
+          }
         end
       }
       use {
         'onsails/lspkind-nvim',
         config = function()
           require('lspkind').init({
-            with_text = true,
+            with_text = false,
             symbol_map = {
               Text = '',
               Method = 'ƒ',
@@ -755,16 +796,6 @@ packer.startup({
       '~/private/chowcho.nvim',
       config = function()
         require('chowcho').setup {border_style = 'rounded', icon_enabled = true}
-      end
-    }
-
-    use {
-      'tkmpypy/scrapaper.nvim',
-      config = function()
-        require('scrapaper').setup {
-          filepath = '~/Dropbox/scrap.md',
-          h_level = 2
-        }
       end
     }
 

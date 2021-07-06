@@ -4,7 +4,7 @@ set termguicolors
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type ='coc' " neovim(builtin), coc
+let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
 augroup my_packer
   autocmd!
@@ -259,32 +259,6 @@ function! s:setup_vsnip()
 endfunction
 
 function! s:setup_nvim_compe()
-lua <<EOF
-  require'compe'.setup {
-    enabled = true;
-    debug = false;
-    min_length = 1;
-    preselect = 'enable'; -- enable, disable, always
-    throttle_time = 20;
-    source_timeout = 200;
-    incomplete_delay = 50;
-    documentation = true;
-
-    source = {
-      path = { priority = 10 };
-      buffer = { priority = 5 };
-      vsnip = { priority = 8 };
-      nvim_lsp = { priority = 7 };
-      nvim_lua = true;
-      spell = true;
-      tags = false;
-      snippets_nvim = false;
-      treesitter = false;
-      calc = true;
-    };
-  }
-EOF
-
   inoremap <silent><expr> <C-Space> compe#complete()
   " inoremap <silent><expr> <CR>      compe#confirm('<CR>')
   inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
@@ -934,10 +908,6 @@ nmap <leader>w <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 " }}
 
-" scrapaper.nvim {{
-nnoremap <leader>z :Scrapaper<CR>
-nnoremap <leader>Z :ScrapaperWithTitle
-" }}
 
 " chowcho.nvim {{
 
