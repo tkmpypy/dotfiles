@@ -105,7 +105,8 @@ local diagnosticls_config = {
       },
       golangci = {
         command = 'golangci-lint',
-        rootPatterns = {'go.mod', '.golangci.yml', '.golangci.yaml'},
+        sourceName = "golangci-lint",
+        rootPatterns = {'.git', 'go.mod'},
         debounce = 500,
         args = {'run', '--out-format', 'json', '--fast'},
         parseJson = {
@@ -124,7 +125,7 @@ local diagnosticls_config = {
       typescript = 'eslint',
       typescriptreact = 'eslint',
       dart = 'dartanalyzer',
-      go = {'golangci'}
+      go = 'golangci'
     }
     -- formatters = {
     --     dartfmt = {
