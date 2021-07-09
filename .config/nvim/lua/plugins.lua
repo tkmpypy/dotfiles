@@ -282,20 +282,21 @@ packer.startup({
     -- use {'cohama/lexima.vim'}
     use {
       'windwp/nvim-autopairs',
-      config = function ()
+      config = function()
         require('nvim-autopairs').setup({
-          disable_filetype = { "TelescopePrompt" },
-          ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]],"%s+", ""),
+          disable_filetype = {"TelescopePrompt"},
+          ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], "%s+", ""),
           enable_moveright = true,
-          enable_afterquote = true,  -- add bracket pairs after quote
-          enable_check_bracket_line = true,  --- check bracket in same line
-          check_ts = false,
+          enable_afterquote = true, -- add bracket pairs after quote
+          enable_check_bracket_line = true, --- check bracket in same line
+          check_ts = false
         })
         if (vim.g.lsp_client_type == 'neovim') then
-          require("nvim-autopairs.completion.compe").setup({
-            map_cr = true, --  map <CR> on insert mode
-            map_complete = true -- it will auto insert `(` after select function or method item
-          })
+          require("nvim-autopairs.completion.compe").setup(
+              {
+                map_cr = true, --  map <CR> on insert mode
+                map_complete = true -- it will auto insert `(` after select function or method item
+              })
         end
       end
     }
@@ -322,11 +323,24 @@ packer.startup({
       config = function()
         require('orgmode').setup({
           org_agenda_files = {'~/Dropbox/org/*'},
-          org_default_notes_file = '~/Dropbox/org/notes.org',
+          org_default_notes_file = '~/Dropbox/org/note.org',
           org_todo_keywords = {'TODO', 'DOING', 'HOLD', '|', 'DONE'},
           org_agenda_templates = {
-            t = {description = 'Task', template = '* TODO %?\n  %u'},
-            n = {description = 'Note', template = '* NOTE %?\n  %u'}
+            t = {
+              description = 'Task',
+              template = '* TODO %?\n  %u',
+              target = '~/Dropbox/org/todo.org'
+            },
+            n = {
+              description = 'Note',
+              template = '* NOTE %?\n  %u',
+              target = '~/Dropbox/org/note.org'
+            },
+            j = {
+              description = 'Journal',
+              template = '\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?',
+              target = '~/Dropbox/org/journal.org'
+            }
           },
           org_deadline_warning_days = 14,
           org_agenda_span = 'week', -- day/week/month/year/number of days
@@ -338,6 +352,9 @@ packer.startup({
           -- org_archive_location = '%s_archive::',
           org_use_tag_inheritance = true,
           -- org_tags_exclude_from_inheritance = {},
+          org_hide_leading_stars = false,
+          org_hide_emphasis_markers = false,
+          org_log_done = 'time',
           mappings = {
             disable_all = false,
             global = {org_agenda = '<Leader>oa', org_capture = '<Leader>oc'},
@@ -369,12 +386,12 @@ packer.startup({
               org_change_date = 'cid',
               org_todo = 'cit',
               org_todo_prev = 'ciT',
-              org_toggle_checkbox = '<C-Space>',
+              org_toggle_checkbox = '<Leader>oT',
               org_open_at_point = '<Leader>oo',
               org_cycle = '<TAB>',
               org_global_cycle = '<S-TAB>',
               org_archive_subtree = '<Leader>o$',
-              org_set_tags_command = '<Leader>ot',
+              org_set_tags_command = '<Leader>t',
               org_toggle_archive_tag = '<Leader>oA',
               org_do_promote = '<<',
               org_do_demote = '>>',
@@ -390,8 +407,14 @@ packer.startup({
             }
           }
         })
-        vim.api.nvim_set_keymap("n", "<Leader>z",
-                                "<cmd>:e ~/Dropbox/org/notes.org<cr>",
+        vim.api.nvim_set_keymap("n", "<Leader>on",
+                                "<cmd>:e ~/Dropbox/org/note.org<cr>",
+                                {silent = true, noremap = true})
+        vim.api.nvim_set_keymap("n", "<Leader>ot",
+                                "<cmd>:e ~/Dropbox/org/todo.org<cr>",
+                                {silent = true, noremap = true})
+        vim.api.nvim_set_keymap("n", "<Leader>oj",
+                                "<cmd>:e ~/Dropbox/org/journal.org<cr>",
                                 {silent = true, noremap = true})
       end
     }
@@ -654,21 +677,11 @@ packer.startup({
             },
             source = {
               orgmode = true,
-              path = {
-                priority = 11
-              },
-              buffer = {
-                priority = 10
-              },
-              nvim_lsp = {
-                priority = 15
-              },
-              nvim_lua = {
-                priority = 90
-              },
-              vsnip = {
-                priority = 14
-              }
+              path = {priority = 11},
+              buffer = {priority = 10},
+              nvim_lsp = {priority = 15},
+              nvim_lua = {priority = 90},
+              vsnip = {priority = 14}
             }
           }
         end
