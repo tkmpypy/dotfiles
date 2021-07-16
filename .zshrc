@@ -32,6 +32,8 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 export NVIM_LOG_FILE="$XDG_CACHE_HOME/nvim/.nvim.log"
 
+typeset -U PATH
+
 # A glance at the new for-syntax – load all of the above
 # plugins with a single command. For more information see:
 # https://zdharma.org/zinit/wiki/For-Syntax/

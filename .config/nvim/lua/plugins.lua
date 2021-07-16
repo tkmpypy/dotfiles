@@ -418,6 +418,23 @@ packer.startup({
                                 {silent = true, noremap = true})
       end
     }
+    use {
+      'akinsho/org-bullets.nvim',
+      requires = {
+        {'kristijanhusak/orgmode.nvim'},
+      },
+      config = function()
+        require("org-bullets").setup {
+          symbols = { "◉", "○", "✸", "✿" }
+        }
+        vim.cmd [[
+          syntax match OrgHeadlineStar1 /^\*\ze\s/me=e-1 conceal cchar=◉ containedin=OrgHeadlineLevel1 contained
+          syntax match OrgHeadlineStar2 /^\*\{2}\ze\s/me=e-1 conceal cchar=○ containedin=OrgHeadlineLevel2 contained
+          syntax match OrgHeadlineStar3 /^\*\{3}\ze\s/me=e-1 conceal cchar=✸ containedin=OrgHeadlineLevel3 contained
+          syntax match OrgHeadlineStar4 /^\*{4}\ze\s/me=e-1 conceal cchar=✿ containedin=OrgHeadlineLevel4 contained
+        ]]
+      end
+    }
 
     -- finder
 
@@ -659,7 +676,7 @@ packer.startup({
             autocomplete = true,
             debug = false,
             min_length = 1,
-            preselect = 'enable',
+            -- preselect = 'enable',
             throttle_time = 80,
             source_timeout = 200,
             resolve_timeout = 800,
@@ -829,12 +846,6 @@ packer.startup({
       config = function()
         require('chowcho').setup {border_style = 'rounded', icon_enabled = true}
       end
-    }
-
-    use {
-      disable = true,
-      '~/private/akari.nvim',
-      config = function() require('akari').setup({debug = false}) end
     }
   end,
   config = {display = {open_fn = util.float}}

@@ -220,10 +220,10 @@ function! s:setup_nvim_lsp()
     vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
     nnoremap <leader>rn :Lspsaga rename<CR>
     nnoremap <silent>K :Lspsaga hover_doc<CR>
-    " nnoremap <silent> <C-f> <cmd>lua require('lspsaga.hover').smart_scroll_hover(1)<CR>
-    " nnoremap <silent> <C-b> <cmd>lua require('lspsaga.hover').smart_scroll_hover(-1)<CR>
+    nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+    nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
     nnoremap <silent> H :Lspsaga signature_help<CR>
-    nnoremap <silent> pd :Lspsaga preview_definition<CR>
+    nnoremap <silent> gdp :Lspsaga preview_definition<CR>
     nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
     nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
     nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
@@ -898,11 +898,6 @@ call cyclist#activate_listchars('default')
 map <leader>c <plug>(operator-camelize)<CR>
 map <leader>C <plug>(operator-decamelize)<CR>
 " }}
-" t9md/vim-choosewin {{
-nmap <leader>w <Plug>(choosewin)
-let g:choosewin_overlay_enable = 1
-" }}
-
 
 " chowcho.nvim {{
 
@@ -966,7 +961,6 @@ set complete&
     \ complete-=t
 set completeopt&
       \ completeopt+=menuone
-      \ completeopt+=noinsert
       \ completeopt+=noselect
       \ completeopt-=preview
 
@@ -984,7 +978,7 @@ set wrap
 set wildmenu
 set wildmode=full
 set ttyfast
-" set lazyredraw
+set lazyredraw
 " set virtualedit=all
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number norelativenumber
@@ -1171,11 +1165,6 @@ nnoremap <Leader>wr :WinResizerStartResize<Enter>
 nnoremap j gj
 nnoremap k gk
 
-
-nnoremap L 10l
-nnoremap H 10h
-vnoremap L 10l
-vnoremap H 10h
 
 inoremap <C-c> <ESC>
 

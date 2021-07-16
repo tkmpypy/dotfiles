@@ -4,7 +4,6 @@
   "coc.preferences.enableMarkdown": true,
   "coc.preferences.colorSupport": true,
   "coc.preferences.extensionUpdateCheck": "daily",
-  "diagnostic-languageserver.debug": false,
   "diagnostic.refreshOnInsertMode": false,
   "diagnostic.infoSign": "כֿ",
   "diagnostic.hintSign": "•",
@@ -15,7 +14,14 @@
   "diagnostic.virtualTextPrefix": "◆ ",
   "codeLens.enable": true,
   "suggest.snippetsSupport": true,
+  "suggest.enablePreview": true,
+  "suggest.detailField": "preview",
+  "suggest.triggerCompletionWait": 50,
+  "suggest.enablePreselect": false,
+  "suggest.maxCompleteItemCount": 50,
+  "suggest.acceptSuggestionOnCommitCharacter": false,
   "snippets.enableStatusItem": false,
+  "diagnostic-languageserver.debug": false,
   "diagnostic-languageserver.enable": true,
   "diagnostic-languageserver.filetypes": {
     "vim": "vint",
@@ -24,19 +30,19 @@
   },
   "diagnostic-languageserver.linters": {
     "golangci-lint": {
-        "command": "golangci-lint",
-        "rootPatterns": [ ".git", "go.mod" ],
-        "debounce": 1000,
-        "args": [ "run", "--out-format", "json", "--fast" ],
-        "sourceName": "golangci-lint",
-        "parseJson": {
-          "sourceName": "Pos.Filename",
-          "sourceNameFilter": true,
-          "errorsRoot": "Issues",
-          "line": "Pos.Line",
-          "column": "Pos.Column",
-          "message": "${Text} [${FromLinter}]"
-        }
+      "command": "golangci-lint",
+      "rootPatterns": [".git", "go.mod"],
+      "debounce": 1000,
+      "args": ["run", "--out-format", "json", "--fast"],
+      "sourceName": "golangci-lint",
+      "parseJson": {
+        "sourceName": "Pos.Filename",
+        "sourceNameFilter": true,
+        "errorsRoot": "Issues",
+        "line": "Pos.Line",
+        "column": "Pos.Column",
+        "message": "${Text} [${FromLinter}]"
+      }
     }
   },
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
@@ -51,6 +57,8 @@
   "yaml.validate": false,
   "yaml.completion": true,
   "yaml.format.enable": true,
+  "go.goplsUseDaemon": true,
+  "go.checkForUpdates": "ask",
   "Lua.workspace.library": {
     "/usr/local/share/nvim/runtime/lua": true,
     "/usr/local/share/nvim/runtime/lua/vim/lsp": true

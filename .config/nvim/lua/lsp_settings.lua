@@ -26,6 +26,10 @@ local custom_attach = function(client, bufnr)
   end
 end
 
+local custom_flags = {
+  debounce_text_changes = 1000
+}
+
 -- Configure lua language server for neovim development
 local lua_config = {
   settings = {
@@ -89,7 +93,7 @@ local diagnosticls_config = {
       eslint = {
         command = './node_modules/.bin/eslint',
         rootPatterns = {'.git'},
-        debounce = 2000,
+        debounce = 500,
         args = {'--stdin', '--stdin-filename', '%filepath', '--format', 'json'},
         sourceName = 'eslint',
         parseJson = {
@@ -107,7 +111,7 @@ local diagnosticls_config = {
         command = 'golangci-lint',
         sourceName = "golangci-lint",
         rootPatterns = {'.git', 'go.mod'},
-        debounce = 2000,
+        debounce = 500,
         args = {'run', '--out-format', 'json', '--fast'},
         parseJson = {
           sourceName = "Pos.Filename",
@@ -175,7 +179,8 @@ local make_config = function()
     capabilities = capabilities,
     -- map buffer local keybindings when the language server attaches
     on_attach = custom_attach,
-    on_init = custom_init
+    on_init = custom_init,
+    flags = custom_flags,
   }
 end
 
@@ -206,6 +211,7 @@ local function setup_servers()
     if server == "diagnosticls" then
       config.init_options = diagnosticls_config.init_options
       config.filetypes = diagnosticls_config.filetypes
+      config.flags.debounce_text_changes = 1000
     end
 
     require'lspconfig'[server].setup(config)
@@ -234,7 +240,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
       --   if not ok then
       --     return true
       --   end
-      -- 
+      --
       --   return result
       -- end,
       signs = {priority = 20},
