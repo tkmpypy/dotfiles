@@ -736,6 +736,7 @@ packer.startup({
 
       use {
         'glepnir/lspsaga.nvim',
+        disable = true,
         require = {{'neovim/nvim-lspconfig'}},
         config = function()
           local saga = require('lspsaga')
