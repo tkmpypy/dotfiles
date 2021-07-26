@@ -4,7 +4,7 @@ set termguicolors
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type ='neovim' " neovim(builtin), coc
+let g:lsp_client_type ='coc' " neovim(builtin), coc
 lua require('plugins')
 augroup my_packer
   autocmd!
