@@ -80,7 +80,7 @@
     "no-duplicate-header": false,
     "no-duplicate-heading": false,
     "ul-indent": {
-      "indent": 2
+      "indent": 4
     }
   }
 }

@@ -975,8 +975,8 @@ let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 set wrap
 set wildmenu
 set wildmode=full
-set ttyfast
-set lazyredraw
+" set ttyfast
+" set lazyredraw
 " set virtualedit=all
 set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number norelativenumber
@@ -1102,7 +1102,7 @@ set nowritebackup
 set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
+set updatetime=4000
 
 " don't give |ins-completion-menu| messages.
 set shortmess&
