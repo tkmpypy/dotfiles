@@ -440,7 +440,9 @@ packer.startup({
 
     if (vim.g.lsp_client_type == 'coc') then
 
-      use {'fannheyward/telescope-coc.nvim'}
+      use {
+        'fannheyward/telescope-coc.nvim',
+      }
     end
 
     use {

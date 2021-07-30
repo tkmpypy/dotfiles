@@ -17,9 +17,9 @@
   "suggest.snippetsSupport": true,
   "suggest.enablePreview": true,
   "suggest.detailField": "preview",
-  "suggest.triggerCompletionWait": 500,
+  "suggest.triggerCompletionWait": 30,
   "suggest.minTriggerInputLength": 1,
-  "suggest.enablePreselect": false,
+  "suggest.enablePreselect": true,
   "suggest.maxCompleteItemCount": 50,
   "suggest.acceptSuggestionOnCommitCharacter": false,
   "snippets.enableStatusItem": false,
@@ -76,6 +76,7 @@
     "**/*.dll"
   ],
   "cSpell.showStatus": false,
+  "cSpell.spellCheckDelayMs": 1000,
   "markdownlint.config": {
     "no-duplicate-header": false,
     "no-duplicate-heading": false,

@@ -91,12 +91,13 @@ function! s:init_telescope()
   nnoremap <Leader>st <cmd>lua require('telescope.builtin').treesitter{}<CR>
 
   if g:lsp_client_type == 'neovim'
-    nnoremap <Leader>sgr <cmd>lua require('telescope.builtin').lsp_references{}<CR>
-    nnoremap <Leader>ssw <cmd>lua require('telescope.builtin').lsp_workspace_symbols{}<CR>
+    nnoremap <silent>gr    <cmd>Telescope lsp_references<CR>
   elseif g:lsp_client_type == 'coc'
-    nnoremap <Leader>sdd <cmd>:Telescope coc diagnostics<CR>
-    nnoremap <Leader>sdw <cmd>:Telescope coc workspace_diagnostics<CR>
-    nnoremap <Leader>sgr <cmd>:Telescope coc references<CR>
+    nnoremap <Leader>sd <cmd>:Telescope coc diagnostics<CR>
+    nnoremap <Leader>sD <cmd>:Telescope coc workspace_diagnostics<CR>
+    nnoremap <silent>gr <cmd>:Telescope coc references<CR>
+    nnoremap <silent>gy <cmd>:Telescope coc type_definitions<CR>
+    nnoremap <silent>gi <cmd>:Telescope coc implementations<CR>
     nnoremap <Leader>sca <cmd>:Telescope coc code_actions<CR>
     nnoremap <Leader>ssw <cmd>:Telescope coc workspace_symbols<CR>
     nnoremap <Leader>ssd <cmd>:Telescope coc document_symbols<CR>
@@ -197,7 +198,6 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
-    nnoremap <silent> gr    <cmd>Telescope lsp_references<CR>
     " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 
@@ -317,9 +317,9 @@ function! s:setup_coc()
 
     " Remap keys for gotos
     nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
+    " nmap <silent> gy <Plug>(coc-type-definition)
+    " nmap <silent> gi <Plug>(coc-implementation)
+    " nmap <silent> gr <Plug>(coc-references)
 
     " Use K for show documentation in preview window
     nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -400,23 +400,23 @@ function! s:setup_coc()
 
     " Using CocList
     " Show all diagnostics
-    nnoremap <silent> <leader>d  :<C-u>CocList diagnostics<cr>
+    " nnoremap <silent> <leader>d  :<C-u>CocList diagnostics<cr>
     " " Manage extensions
-    nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
+    " nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
     " Show commands
-    nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
+    " nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
     " Find symbol of current document
     " nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
     " Search workspace symbols
-    nnoremap <silent> <leader>S  :<C-u>CocList -I symbols<cr>
+    " nnoremap <silent> <leader>S  :<C-u>CocList -I symbols<cr>
     " Do default action for next item.
-    nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
+    " nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
     " Do default action for previous item.
-    nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
+    " nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
     " Resume latest coc list
-    nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
+    " nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
     " coc-yank
-    nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
+    " nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 
     " Use `:Format` to format current buffer
     " command! -nargs=0 Format :call CocActionAsync('format')
@@ -975,10 +975,9 @@ let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 set wrap
 set wildmenu
 set wildmode=full
-" set ttyfast
-" set lazyredraw
+set ttyfast
+set lazyredraw
 " set virtualedit=all
-set guifont=FuraCode\ Nerd\ Font\ Mono:h16
 set number norelativenumber
 set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
