@@ -157,7 +157,7 @@ packer.startup({
             show_buffer_close_icons = true,
             -- can also be a table containing 2 custom separators
             -- [focused and unfocused]. eg: { '|', '|' }
-            separator_style = "slant", -- "slant" | "thick" | "thin" | { 'any', 'any' }
+            separator_style = "thin", -- "slant" | "thick" | "thin" | { 'any', 'any' }
             enforce_regular_tabs = false,
             always_show_bufferline = true,
             sort_by = 'extension'
@@ -248,7 +248,73 @@ packer.startup({
         }
       end
     }
-    use {'moll/vim-bbye'}
+    use {
+      'kazhala/close-buffers.nvim',
+      requires = {'akinsho/nvim-bufferline.lua'},
+      config = function ()
+        require('close_buffers').setup({
+          preserve_window_layout = { 'this' },
+          -- next_buffer_cmd = function(windows)
+          --   require('bufferline').cycle(1)
+          --   local bufnr = vim.api.nvim_get_current_buf()
+
+          --   for _, window in ipairs(windows) do
+          --     vim.api.nvim_win_set_buf(window, bufnr)
+          --   end
+          -- end,
+        })
+
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bdd',
+          '<cmd>:BDelete this<CR>',
+          { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bdD',
+          '<cmd>:BDelete! this<CR>',
+          { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bda',
+          '<cmd>:BDelete all<CR>',
+          { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bdA',
+          '<cmd>:BDelete! all<CR>',
+          { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bdo',
+          '<cmd>:BDelete other<CR>',
+          { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bdO',
+          '<cmd>:BDelete! other<CR>',
+          { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bdh',
+          '<cmd>:BDelete hidden<CR>',
+          { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap(
+          'n',
+          '<leader>bdH',
+          '<cmd>:BDelete! hidden<CR>',
+          { noremap = true, silent = true }
+        )
+      end
+    }
+    -- use {'moll/vim-bbye'}
     -- use {'tyru/caw.vim'}
     use {
       'b3nj5m1n/kommentary',
@@ -679,7 +745,7 @@ packer.startup({
             debug = false,
             min_length = 1,
             -- preselect = 'enable',
-            throttle_time = 80,
+            throttle_time = 100,
             source_timeout = 200,
             resolve_timeout = 800,
             incomplete_delay = 400,

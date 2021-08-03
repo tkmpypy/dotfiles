@@ -9,7 +9,7 @@ local vim = vim
 
 local custom_init = function(client)
   if (client.config.flags) then
-    client.config.flags.allow_incremental_sync = true
+    client.config.flags.allow_incremental_sync = false
   end
 end
 
@@ -25,10 +25,6 @@ local custom_attach = function(client, bufnr)
     ]], false)
   end
 end
-
-local custom_flags = {
-  debounce_text_changes = 1000
-}
 
 -- Configure lua language server for neovim development
 local lua_config = {
@@ -180,7 +176,6 @@ local make_config = function()
     -- map buffer local keybindings when the language server attaches
     on_attach = custom_attach,
     on_init = custom_init,
-    flags = custom_flags,
   }
 end
 
@@ -211,7 +206,7 @@ local function setup_servers()
     if server == "diagnosticls" then
       config.init_options = diagnosticls_config.init_options
       config.filetypes = diagnosticls_config.filetypes
-      config.flags.debounce_text_changes = 1000
+      -- config.flags.debounce_text_changes = 1000
     end
 
     require'lspconfig'[server].setup(config)
@@ -245,6 +240,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
       -- end,
       signs = {priority = 20},
       -- Disable a feature
-      update_in_insert = true
+      update_in_insert = false
     })
 

@@ -20,12 +20,12 @@ set background=dark
 " colorscheme gruvbox-material
 
 " colorscheme OceanicNext
-colorscheme edge
+" colorscheme edge
 " colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
 " colorscheme gruvbox-flat
-" colorscheme doom-one
+colorscheme doom-one
 
 
 filetype plugin indent on
@@ -109,10 +109,6 @@ call s:init_telescope()
 " }}
 
 
-" vim-bbye {{
-nnoremap <leader>q :Bdelete<CR>
-nnoremap <leader>qq :Bdelete!<CR>
-" }}
 " vim-quickrun {{
 nnoremap <leader>rb :QuickRun<CR>
 let g:quickrun_config = {}
@@ -1143,7 +1139,7 @@ nnoremap <Leader>wml <C-w>L
 " change buffer
 nnoremap <Leader>bn :bnext<Enter>
 nnoremap <Leader>bp :bprevious<Enter>
-nnoremap <Leader>bd :bdelete<Enter>
+" nnoremap <Leader>bd :bdelete<Enter>
 nnoremap <Leader>bra :bufdo e!<Enter>
 
 " change tab
