@@ -12,7 +12,7 @@ require'nvim-treesitter.configs'.setup {
         }
     },
     indent = {
-        enable = false,
+        enable = true,
     },
     refactor = {
         highlight_defintions = {enable = true},

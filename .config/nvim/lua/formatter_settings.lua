@@ -51,7 +51,7 @@ require'format'.setup {
     {
       cmd = {
         function(file)
-          return string.format("autopep8 --in-place --aggressive %s", file)
+          return string.format("~/.pyenv/shims/autopep8 --in-place --aggressive %s", file)
         end
       }
     }
