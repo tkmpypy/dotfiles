@@ -57,6 +57,8 @@
   "python.linting.flake8Enabled": true,
   "pyright.completion.snippetSupport": true,
   "eslint.autoFixOnSave": true,
+  "tsserver.enableJavascript": true,
+  "javascript.suggestionActions.enabled": false,
   "flutter.lsp.initialization.closingLabels": true,
   "flutter.lsp.initialization.suggestFromUnimportedLibraries": true,
   "flutter.provider.hot-reload": true,

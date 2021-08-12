@@ -1,59 +1,73 @@
-require'format'.setup {
-  ["*"] = {
-    {cmd = {"sed -i 's/[ \t]*$//'"}} -- remove trailing whitespace
-  },
-  lua = {
-    {
-      cmd = {
-        function(file)
-          return string.format("lua-format --indent-width=2 -i %s", file)
-        end
-      }
-    }
-  },
-  go = {{cmd = {"gofmt -w", "goimports -w"}, tempfile_postfix = ".tmp"}},
-  javascript = {{cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}},
-  javascriptreact = {
-    {cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}
-  },
-  typescript = {{cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}},
-  typescriptreact = {
-    {cmd = {"prettier -w", "./node_modules/.bin/eslint --fix"}}
-  },
-  json = {
-    {cmd = {"prettier -w"}}
-  },
-  markdown = {
-    {cmd = {"prettier -w"}}, {
-      cmd = {"black"},
-      start_pattern = "^```python$",
-      end_pattern = "^```$",
-      target = "current"
-    }
-  },
-  rust = {
-    {
-      cmd = {
-        function(file)
-          return string.format("rustfmt --edition 2018 %s", file)
-        end
-      }
-    }
-  },
-  dart = {
-    {
-      cmd = {
-        function(file) return string.format("dartfmt --fix -w %s", file) end
-      }
-    }
-  },
-  python = {
-    {
-      cmd = {
-        function(file)
-          return string.format("~/.pyenv/shims/autopep8 --in-place --aggressive %s", file)
-        end
-      }
+local prettier = function()
+  return {exe = 'prettier', args = {'-w'}, stdin = true}
+end
+
+local eslint = function()
+  return {exe = './node_modules/.bin/eslint', args = {'--fix'}, stdin = true}
+end
+
+require('formatter').setup({
+  logging = true,
+  filetype = {
+    go = {
+      function()
+        return {
+          exe = 'gofmt',
+          args = {'-w'},
+          stdin = true,
+          tempfile_postfix = ".tmp"
+        }
+      end, function()
+        return {
+          exe = 'goimports',
+          stdin = true,
+          args = {'-w'},
+          tempfile_postfix = ".tmp"
+        }
+      end
+    },
+    lua = {
+      function()
+        return {
+          exe = 'lua-format',
+          stdin = false,
+          args = {'--indent-width=2', '-i', vim.api.nvim_buf_get_name(0)}
+        }
+      end
+    },
+    javascript = {prettier, eslint},
+    javascriptreact = {prettier, eslint},
+    typescript = {prettier, eslint},
+    typescriptreact = {prettier, eslint},
+    json = {prettier},
+    markdown = {prettier},
+    rust = {
+      function()
+        return {
+          exe = 'rustfmt',
+          stdin = true,
+          args = {'--edition', '2018', vim.api.nvim_buf_get_name(0)}
+        }
+      end
+    },
+    python = {
+      function()
+        return {
+          exe = vim.fn.expand('$HOME/.pyenv/shims/autopep8'),
+          stdin = true,
+          args = {'--aggressive', '--experimental', '-'}
+        }
+      end
+    },
+    dart = {
+      function()
+        return {
+          exe = 'dartfmt',
+          stdin = true,
+          args = {'--fix', '-w', vim.api.nvim_buf_get_name(0)}
+        }
+      end
     }
   }
-}
+})
+

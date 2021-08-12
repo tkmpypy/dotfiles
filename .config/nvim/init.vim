@@ -4,7 +4,7 @@ set termguicolors
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type ='coc' " neovim(builtin), coc
+let g:lsp_client_type ='neovim' " neovim(builtin), coc
 lua require('plugins')
 augroup my_packer
   autocmd!
@@ -127,6 +127,7 @@ let g:quickrun_config['rust/cargo'] = {
 " }}
 " vim-test {{
 let test#strategy = "neovim"
+let g:test#javascript#runner = 'jest'
 let g:test#python#runner = 'pytest'
 let g:test#python#pytest#options = {
     \ 'nearest': '-vv --capture=no',
@@ -246,15 +247,6 @@ function! s:setup_vsnip()
   let g:vsnip_filetypes = {}
   let g:vsnip_filetypes.javascriptreact = ['javascript']
   let g:vsnip_filetypes.typescriptreact = ['typescript']
-endfunction
-
-function! s:setup_nvim_compe()
-  inoremap <silent><expr> <C-Space> compe#complete()
-  inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
 endfunction
 
 function! LspStatus() abort
@@ -452,7 +444,6 @@ endfunction
 
 if g:lsp_client_type == 'neovim'
   call s:setup_nvim_lsp()
-  call s:setup_nvim_compe()
   call s:setup_vsnip()
 elseif g:lsp_client_type == 'coc'
   call s:setup_coc()
@@ -487,11 +478,6 @@ EOF
 
 " }}
 
-" format.nvim {{
-lua require('formatter_settings')
-let g:format_debug = v:true
-nnoremap <leader>F  :<C-u>Format<cr>
-" }}
 
 " nvim-colorizer.lua{{
 lua require('colorizer').setup()

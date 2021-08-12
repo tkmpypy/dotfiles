@@ -251,9 +251,9 @@ packer.startup({
     use {
       'kazhala/close-buffers.nvim',
       requires = {'akinsho/nvim-bufferline.lua'},
-      config = function ()
+      config = function()
         require('close_buffers').setup({
-          preserve_window_layout = { 'this' },
+          preserve_window_layout = {'this'}
           -- next_buffer_cmd = function(windows)
           --   require('bufferline').cycle(1)
           --   local bufnr = vim.api.nvim_get_current_buf()
@@ -264,54 +264,22 @@ packer.startup({
           -- end,
         })
 
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bdd',
-          '<cmd>:BDelete this<CR>',
-          { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bdD',
-          '<cmd>:BDelete! this<CR>',
-          { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bda',
-          '<cmd>:BDelete all<CR>',
-          { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bdA',
-          '<cmd>:BDelete! all<CR>',
-          { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bdo',
-          '<cmd>:BDelete other<CR>',
-          { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bdO',
-          '<cmd>:BDelete! other<CR>',
-          { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bdh',
-          '<cmd>:BDelete hidden<CR>',
-          { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap(
-          'n',
-          '<leader>bdH',
-          '<cmd>:BDelete! hidden<CR>',
-          { noremap = true, silent = true }
-        )
+        vim.api.nvim_set_keymap('n', '<leader>bdd', '<cmd>:BDelete this<CR>',
+                                {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<leader>bdD', '<cmd>:BDelete! this<CR>',
+                                {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<leader>bda', '<cmd>:BDelete all<CR>',
+                                {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<leader>bdA', '<cmd>:BDelete! all<CR>',
+                                {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<leader>bdo', '<cmd>:BDelete other<CR>',
+                                {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<leader>bdO', '<cmd>:BDelete! other<CR>',
+                                {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<leader>bdh', '<cmd>:BDelete hidden<CR>',
+                                {noremap = true, silent = true})
+        vim.api.nvim_set_keymap('n', '<leader>bdH', '<cmd>:BDelete! hidden<CR>',
+                                {noremap = true, silent = true})
       end
     }
     -- use {'moll/vim-bbye'}
@@ -341,7 +309,10 @@ packer.startup({
     }
 
     use {'godlygeek/tabular'}
-    use {'lukas-reineke/format.nvim'}
+    use {'mhartington/formatter.nvim', config = function ()
+      require('formatter_settings')
+      vim.api.nvim_set_keymap('n', '<Leader>F', ":Format<cr>", {})
+    end}
     use {'airblade/vim-rooter'}
     use {'machakann/vim-sandwich'}
     use {'simeji/winresizer'}
@@ -357,13 +328,13 @@ packer.startup({
           enable_check_bracket_line = true, --- check bracket in same line
           check_ts = false
         })
-        if (vim.g.lsp_client_type == 'neovim') then
-          require("nvim-autopairs.completion.compe").setup(
-              {
-                map_cr = true, --  map <CR> on insert mode
-                map_complete = true -- it will auto insert `(` after select function or method item
-              })
-        end
+        -- if (vim.g.lsp_client_type == 'neovim') then
+        --   require("nvim-autopairs.completion.compe").setup(
+        --       {
+        --         map_cr = true, --  map <CR> on insert mode
+        --         map_complete = true -- it will auto insert `(` after select function or method item
+        --       })
+        -- end
       end
     }
     use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
@@ -486,13 +457,9 @@ packer.startup({
     }
     use {
       'akinsho/org-bullets.nvim',
-      requires = {
-        {'kristijanhusak/orgmode.nvim'},
-      },
+      requires = {{'kristijanhusak/orgmode.nvim'}},
       config = function()
-        require("org-bullets").setup {
-          symbols = { "◉", "○", "✸", "✿" }
-        }
+        require("org-bullets").setup {symbols = {"◉", "○", "✸", "✿"}}
         vim.cmd [[
           syntax match OrgHeadlineStar1 /^\*\ze\s/me=e-1 conceal cchar=◉ containedin=OrgHeadlineLevel1 contained
           syntax match OrgHeadlineStar2 /^\*\{2}\ze\s/me=e-1 conceal cchar=○ containedin=OrgHeadlineLevel2 contained
@@ -506,9 +473,7 @@ packer.startup({
 
     if (vim.g.lsp_client_type == 'coc') then
 
-      use {
-        'fannheyward/telescope-coc.nvim',
-      }
+      use {'fannheyward/telescope-coc.nvim'}
     end
 
     use {
@@ -735,38 +700,66 @@ packer.startup({
       use {'tjdevries/lsp_extensions.nvim', disable = true}
       use {'hrsh7th/vim-vsnip'}
       use {'hrsh7th/vim-vsnip-integ', requires = {{'hrsh7th/vim-vsnip'}}}
+      use {'hrsh7th/cmp-vsnip'}
+      use {'hrsh7th/cmp-buffer'}
+      use {'hrsh7th/cmp-path'}
       use {
-        'hrsh7th/nvim-compe',
-        requires = {{'hrsh7th/vim-vsnip'}},
+        'hrsh7th/cmp-nvim-lsp',
+        config = function() require('cmp_nvim_lsp').setup {} end
+      }
+      use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+          {'hrsh7th/vim-vsnip'}, {'hrsh7th/cmp-vsnip'}, {'hrsh7th/cmp-buffer'},
+          {'hrsh7th/cmp-path'}, {'hrsh7th/cmp-nvim-lsp'}
+        },
         config = function()
-          require'compe'.setup {
-            enabled = true,
-            autocomplete = true,
-            debug = false,
-            min_length = 1,
-            -- preselect = 'enable',
-            throttle_time = 100,
-            source_timeout = 200,
-            resolve_timeout = 800,
-            incomplete_delay = 400,
-            max_abbr_width = 100,
-            max_kind_width = 100,
-            max_menu_width = 100,
-            documentation = {
-              border = {'', '', '', ' ', '', '', '', ' '}, -- the border option is the same as `|help nvim_open_win|`
-              winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-              max_width = 120,
-              min_width = 60,
-              max_height = math.floor(vim.o.lines * 0.3),
-              min_height = 1
+          local cmp = require('cmp')
+          local types = require('cmp.types')
+          local compare = require('cmp.config.compare')
+          cmp.setup {
+            completion = {
+              autocomplete = {
+                types.cmp.TriggerEvent.InsertEnter,
+                types.cmp.TriggerEvent.TextChanged
+              },
+              completeopt = 'menu,menuone,noselect',
+              keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
+              keyword_length = 1
             },
-            source = {
-              orgmode = true,
-              path = {priority = 11},
-              buffer = {priority = 10},
-              nvim_lsp = {priority = 15},
-              nvim_lua = {priority = 90},
-              vsnip = {priority = 14}
+            sorting = {
+              priority_weight = 2,
+              comparators = {
+                compare.offset, compare.exact, compare.score, compare.kind,
+                compare.sort_text, compare.length, compare.order
+              }
+            },
+            -- You should change this example to your chosen snippet engine.
+            snippet = {
+              expand = function(args)
+                -- You must install `vim-vsnip` if you set up as same as the following.
+                vim.fn['vsnip#anonymous'](args.body)
+              end
+            },
+
+            -- You must set mapping.
+            mapping = {
+              ['<C-p>'] = cmp.mapping.item.prev(),
+              ['<C-n>'] = cmp.mapping.item.next(),
+              ['<C-d>'] = cmp.mapping.scroll.up(),
+              ['<C-b>'] = cmp.mapping.scroll.down(),
+              ['<C-Space>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.close(),
+              ['<CR>'] = cmp.mapping.confirm(
+                  {behavior = cmp.ConfirmBehavior.Replace, select = true})
+            },
+
+            -- You should specify your *installed* sources.
+            sources = {
+              {name = 'nvim_lsp'},
+              {name = 'vsnip'},
+              {name = 'path'},
+              {name = 'buffer'}
             }
           }
         end

@@ -82,10 +82,31 @@ local gopls_config = {
 local diagnosticls_config = {
   filetypes = {
     'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'go',
-    'rust', 'lua'
+    'rust', 'lua', 'python'
   },
   init_options = {
     linters = {
+      flake8 = {
+        command = vim.fn.expand('$HOME/.pyenv/shims/flake8'),
+        rootPatterns = {".git"},
+        debounce = 100,
+        args = {'--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s', '-'},
+        sourceName = 'flake8',
+        offsetLint = 0,
+        offsetColumn = 0,
+        formatLines = 1,
+        formatPattern = {
+          '(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$',
+          {line = 1, column = 2, security = 3, message = {'[flake8]', 4}}
+        },
+        securities = {
+          W = 'warning',
+          E = 'error',
+          F = 'error',
+          C = 'error',
+          N = 'error'
+        }
+      },
       eslint = {
         command = './node_modules/.bin/eslint',
         rootPatterns = {'.git'},
@@ -125,57 +146,35 @@ local diagnosticls_config = {
       typescript = 'eslint',
       typescriptreact = 'eslint',
       dart = 'dartanalyzer',
-      go = 'golangci'
+      go = 'golangci',
+      python = 'flake8'
     }
-    -- formatters = {
-    --     dartfmt = {
-    --         command = dart_sdk.."/dartfmt",
-    --         args = {"--fix"},
-    --         isStdout = true,
-    --         isStderr = false,
-    --     },
-    --     prettier = {
-    --         command = "./node_modules/.bin/prettier",
-    --         args = {
-    --             "--stdin-filepath", "%filepath", '--single-quote',
-    --             '--print-width 120'
-    --         }
-    --     },
-    --     eslint_fix = {
-    --         command = "./node_modules/.bin/prettier",
-    --         args = {
-    --             "--fix", "--stdin-filepath", "%filepath", '--single-quote',
-    --             '--print-width 120'
-    --         }
-    --     },
-    --     rustfmt = {command = "rustfmt", args = {"%filepath"}},
-    --     gofmt = {command = "gofmt", args = {"%filepath"}},
-    --     goimports = {command = "goimports", args = {"%filepath"}},
-    --     luaformatter = {command = "lua-format", args = {"-i"}}
-    -- },
-    -- formatFiletypes = {
-    --     javascript = {"prettier", "eslint_fix"},
-    --     javascriptreact = {"prettier", "eslint_fix"},
-    --     typescript = {"prettier", "eslint_fix"},
-    --     typescriptreact = {"prettier", "eslint_fix"},
-    --     rust = "rustfmt",
-    --     go = {"gofmt", "goimports"},
-    --     lua = {"luaformatter"},
-    --     dart = {"dartfmt"}
-    -- }
   }
 }
 
 -- config that activates keymaps and enables snippet support
 local make_config = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.documentationFormat =
+      {'markdown'}
   capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities.textDocument.completion.completionItem.preselectSupport = true
+  capabilities.textDocument.completion.completionItem.insertReplaceSupport =
+      true
+  capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+  capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+  capabilities.textDocument.completion.completionItem.commitCharactersSupport =
+      true
+  capabilities.textDocument.completion.completionItem.tagSupport =
+      {valueSet = {1}}
+  capabilities.textDocument.completion.completionItem.resolveSupport =
+      {properties = {'documentation', 'detail', 'additionalTextEdits'}}
   return {
     -- enable snippet support
     capabilities = capabilities,
     -- map buffer local keybindings when the language server attaches
     on_attach = custom_attach,
-    on_init = custom_init,
+    on_init = custom_init
   }
 end
 
