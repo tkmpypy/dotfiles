@@ -309,10 +309,13 @@ packer.startup({
     }
 
     use {'godlygeek/tabular'}
-    use {'mhartington/formatter.nvim', config = function ()
-      require('formatter_settings')
-      vim.api.nvim_set_keymap('n', '<Leader>F', ":Format<cr>", {})
-    end}
+    use {
+      'mhartington/formatter.nvim',
+      config = function()
+        require('formatter_settings')
+        vim.api.nvim_set_keymap('n', '<Leader>F', ":Format<cr>", {})
+      end
+    }
     use {'airblade/vim-rooter'}
     use {'machakann/vim-sandwich'}
     use {'simeji/winresizer'}
@@ -328,13 +331,18 @@ packer.startup({
           enable_check_bracket_line = true, --- check bracket in same line
           check_ts = false
         })
-        -- if (vim.g.lsp_client_type == 'neovim') then
-        --   require("nvim-autopairs.completion.compe").setup(
-        --       {
-        --         map_cr = true, --  map <CR> on insert mode
-        --         map_complete = true -- it will auto insert `(` after select function or method item
-        --       })
-        -- end
+        if (vim.g.lsp_client_type == 'neovim') then
+          require("nvim-autopairs.completion.cmp").setup(
+              {
+                map_cr = true, --  map <CR> on insert mode
+                map_complete = true -- it will auto insert `(` after select function or method item
+              })
+          --   require("nvim-autopairs.completion.compe").setup(
+          --       {
+          --         map_cr = true, --  map <CR> on insert mode
+          --         map_complete = true -- it will auto insert `(` after select function or method item
+          --       })
+        end
       end
     }
     use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install'}
@@ -744,10 +752,10 @@ packer.startup({
 
             -- You must set mapping.
             mapping = {
-              ['<C-p>'] = cmp.mapping.item.prev(),
-              ['<C-n>'] = cmp.mapping.item.next(),
-              ['<C-d>'] = cmp.mapping.scroll.up(),
-              ['<C-b>'] = cmp.mapping.scroll.down(),
+              ['<C-p>'] = cmp.mapping.prev_item(),
+              ['<C-n>'] = cmp.mapping.next_item(),
+              ['<C-d>'] = cmp.mapping.scroll(-4),
+              ['<C-b>'] = cmp.mapping.scroll(4),
               ['<C-Space>'] = cmp.mapping.complete(),
               ['<C-e>'] = cmp.mapping.close(),
               ['<CR>'] = cmp.mapping.confirm(
@@ -756,9 +764,7 @@ packer.startup({
 
             -- You should specify your *installed* sources.
             sources = {
-              {name = 'nvim_lsp'},
-              {name = 'vsnip'},
-              {name = 'path'},
+              {name = 'nvim_lsp'}, {name = 'vsnip'}, {name = 'path'},
               {name = 'buffer'}
             }
           }
