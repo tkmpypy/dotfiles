@@ -2,9 +2,9 @@ local prettier = function()
   return {
     exe = 'prettier',
     args = {
-      '-w',
       '--stdin-filepath',
-      vim.api.nvim_buf_get_name(0)
+      vim.api.nvim_buf_get_name(0),
+      '--single-quote'
     },
     stdin = true
   }

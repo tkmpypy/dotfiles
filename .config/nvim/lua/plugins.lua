@@ -719,7 +719,7 @@ packer.startup({
         'hrsh7th/nvim-cmp',
         requires = {
           {'hrsh7th/vim-vsnip'}, {'hrsh7th/cmp-vsnip'}, {'hrsh7th/cmp-buffer'},
-          {'hrsh7th/cmp-path'}, {'hrsh7th/cmp-nvim-lsp'}
+          {'hrsh7th/cmp-path'}, {'hrsh7th/cmp-nvim-lsp'}, {'onsails/lspkind-nvim'}
         },
         config = function()
           local cmp = require('cmp')
@@ -766,6 +766,13 @@ packer.startup({
             sources = {
               {name = 'nvim_lsp'}, {name = 'vsnip'}, {name = 'path'},
               {name = 'buffer'}
+            },
+            formatting = {
+              format = function(entry, vim_item)
+                local lspkind = require('lspkind')
+                vim_item.kind = lspkind.presets.default[vim_item.kind]
+                return vim_item
+              end
             }
           }
         end
@@ -775,28 +782,6 @@ packer.startup({
         config = function()
           require('lspkind').init({
             with_text = false,
-            symbol_map = {
-              Text = '',
-              Method = 'ƒ',
-              Function = '',
-              Constructor = '',
-              Variable = '',
-              Class = '',
-              Interface = 'ﰮ',
-              Module = '',
-              Property = '',
-              Unit = '',
-              Value = '',
-              Enum = '了',
-              Keyword = '',
-              Snippet = '﬌',
-              Color = '',
-              File = '',
-              Folder = '',
-              EnumMember = '',
-              Constant = '',
-              Struct = ''
-            }
           })
         end
       }
