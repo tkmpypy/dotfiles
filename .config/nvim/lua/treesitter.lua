@@ -12,7 +12,7 @@ require'nvim-treesitter.configs'.setup {
         }
     },
     indent = {
-        enable = true,
+        enable = false,
     },
     refactor = {
         highlight_defintions = {enable = true},
@@ -21,6 +21,6 @@ require'nvim-treesitter.configs'.setup {
     },
     ensure_installed = {
         "java", "dart", "go", "rust", "ruby", "python", "lua", "yaml",
-        "toml", "json", "typescript", "javascript", "tsx", "html"
-    }
+        "toml", "json", "typescript", "javascript", "tsx", "html", "vim"
+    },
 }

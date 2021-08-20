@@ -8,7 +8,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
   })
 end
 
-execute 'packadd packer.nvim'
 local packer = require('packer')
 local util = require('packer.util')
 
@@ -299,15 +298,11 @@ packer.startup({
         })
       end
     }
-    use {
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      config = function()
+    use {'JoosepAlviste/nvim-ts-context-commentstring', config = function ()
         require'nvim-treesitter.configs'.setup {
           context_commentstring = {enable = true, enable_autocmd = false}
         }
-      end
-    }
-
+    end}
     use {'godlygeek/tabular'}
     use {
       'mhartington/formatter.nvim',
@@ -337,11 +332,6 @@ packer.startup({
                 map_cr = true, --  map <CR> on insert mode
                 map_complete = true -- it will auto insert `(` after select function or method item
               })
-          --   require("nvim-autopairs.completion.compe").setup(
-          --       {
-          --         map_cr = true, --  map <CR> on insert mode
-          --         map_complete = true -- it will auto insert `(` after select function or method item
-          --       })
         end
       end
     }
@@ -708,18 +698,23 @@ packer.startup({
       use {'tjdevries/lsp_extensions.nvim', disable = true}
       use {'hrsh7th/vim-vsnip'}
       use {'hrsh7th/vim-vsnip-integ', requires = {{'hrsh7th/vim-vsnip'}}}
-      use {'hrsh7th/cmp-vsnip'}
-      use {'hrsh7th/cmp-buffer'}
-      use {'hrsh7th/cmp-path'}
+      use {'hrsh7th/cmp-vsnip', requires = {'hrsh7th/nvim-cmp'}}
+      use {'hrsh7th/cmp-buffer', requires = {'hrsh7th/nvim-cmp'}}
+      use {'hrsh7th/cmp-path', requires = {'hrsh7th/nvim-cmp'}}
       use {
         'hrsh7th/cmp-nvim-lsp',
+        requires = {'hrsh7th/nvim-cmp'},
         config = function() require('cmp_nvim_lsp').setup {} end
       }
       use {
         'hrsh7th/nvim-cmp',
         requires = {
-          {'hrsh7th/vim-vsnip'}, {'hrsh7th/cmp-vsnip'}, {'hrsh7th/cmp-buffer'},
-          {'hrsh7th/cmp-path'}, {'hrsh7th/cmp-nvim-lsp'}, {'onsails/lspkind-nvim'}
+          {'onsails/lspkind-nvim'},
+          {'hrsh7th/vim-vsnip'},
+          {'hrsh7th/cmp-vsnip'},
+          {'hrsh7th/cmp-buffer'},
+          {'hrsh7th/cmp-path'},
+          {'hrsh7th/cmp-nvim-lsp'},
         },
         config = function()
           local cmp = require('cmp')
@@ -728,7 +723,6 @@ packer.startup({
           cmp.setup {
             completion = {
               autocomplete = {
-                types.cmp.TriggerEvent.InsertEnter,
                 types.cmp.TriggerEvent.TextChanged
               },
               completeopt = 'menu,menuone,noselect',

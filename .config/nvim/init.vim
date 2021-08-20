@@ -40,6 +40,10 @@ augroup vimrc
   autocmd!
 augroup END
 
+" load my scripts {{
+lua require('scripts/gen_gitignore').setup()
+" }}
+
 
 " nvim-treesitter {{
 if (g:use_treesitter)
