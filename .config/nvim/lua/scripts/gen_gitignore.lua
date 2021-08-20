@@ -20,8 +20,11 @@ function _G.gigi.get_template_list(arg, _, _)
   if vim.tbl_isempty(cache.list) then
     local cmd = create_cmd('list')
     local r = vim.fn.system(cmd)
-    r = r:gsub('\n', '')
-    cache.list = util.str.split(r, ',', 0)
+    local lines = vim.split(r, '\n')
+    for _, line in ipairs(lines) do
+      local langs = vim.split(line, ',')
+      vim.list_extend(cache.list, langs)
+    end
   end
 
   local l = vim.tbl_filter(function(v) return util.str.starts_with(v, arg) end,
@@ -30,10 +33,12 @@ function _G.gigi.get_template_list(arg, _, _)
 end
 
 function _G.gigi.generate_gitignore(args)
-  local cmd = create_cmd(args)
-  local r = vim.fn.system(cmd)
-  r = util.str.split(r, '\n', 0)
-  vim.api.nvim_put(r, "l", "", true)
+  if vim.api.nvim_buf_get_option(0, 'modifiable') then
+    local cmd = create_cmd(args)
+    local r = vim.fn.system(cmd)
+    r = vim.split(r, '\n')
+    vim.api.nvim_put(r, "l", "", true)
+  end
 end
 
 M.setup = function() regist_command() end
