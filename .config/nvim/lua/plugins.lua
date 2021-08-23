@@ -98,6 +98,21 @@ packer.startup({
     use {'thinca/vim-quickrun'}
 
     -- UI
+    use({
+      'mvllow/modes.nvim',
+      disable = true,
+      config = function()
+        require('modes').setup({
+          colors = {
+            copy = "#f5c359",
+            delete = "#c75c6a",
+            insert = "#78ccc5",
+            visual = "#9745be"
+          },
+          line_opacity = 0.1
+        })
+      end
+    })
     use {
       'p00f/nvim-ts-rainbow',
       config = function()
@@ -137,7 +152,7 @@ packer.startup({
       requires = {'kyazdani42/nvim-web-devicons'}
     }
     use {
-      'akinsho/nvim-bufferline.lua',
+      'akinsho/bufferline.nvim',
       requires = {'kyazdani42/nvim-web-devicons'},
       config = function()
         require'bufferline'.setup {
@@ -145,7 +160,6 @@ packer.startup({
             view = "multiwindow", -- "multiwindow" | "default"
             numbers = "ordinal", -- "none" | "ordinal" | "buffer_id"
             number_style = "superscript",
-            mappings = true,
             buffer_close_icon = '',
             modified_icon = '●',
             close_icon = '',
@@ -234,6 +248,7 @@ packer.startup({
     use {'rafcamlet/nvim-luapad'}
 
     -- Utils
+    use {'rcarriga/nvim-notify'}
     use {'itchyny/vim-winfix'}
     use {
       'akinsho/nvim-toggleterm.lua',
@@ -249,7 +264,7 @@ packer.startup({
     }
     use {
       'kazhala/close-buffers.nvim',
-      requires = {'akinsho/nvim-bufferline.lua'},
+      requires = {'akinsho/bufferline.nvim'},
       config = function()
         require('close_buffers').setup({
           preserve_window_layout = {'this'}
@@ -298,11 +313,14 @@ packer.startup({
         })
       end
     }
-    use {'JoosepAlviste/nvim-ts-context-commentstring', config = function ()
+    use {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      config = function()
         require'nvim-treesitter.configs'.setup {
           context_commentstring = {enable = true, enable_autocmd = false}
         }
-    end}
+      end
+    }
     use {'godlygeek/tabular'}
     use {
       'mhartington/formatter.nvim',
@@ -709,12 +727,9 @@ packer.startup({
       use {
         'hrsh7th/nvim-cmp',
         requires = {
-          {'onsails/lspkind-nvim'},
-          {'hrsh7th/vim-vsnip'},
-          {'hrsh7th/cmp-vsnip'},
-          {'hrsh7th/cmp-buffer'},
-          {'hrsh7th/cmp-path'},
-          {'hrsh7th/cmp-nvim-lsp'},
+          {'onsails/lspkind-nvim'}, {'hrsh7th/vim-vsnip'},
+          {'hrsh7th/cmp-vsnip'}, {'hrsh7th/cmp-buffer'}, {'hrsh7th/cmp-path'},
+          {'hrsh7th/cmp-nvim-lsp'}
         },
         config = function()
           local cmp = require('cmp')
@@ -722,9 +737,7 @@ packer.startup({
           local compare = require('cmp.config.compare')
           cmp.setup {
             completion = {
-              autocomplete = {
-                types.cmp.TriggerEvent.TextChanged
-              },
+              autocomplete = {types.cmp.TriggerEvent.TextChanged},
               completeopt = 'menu,menuone,noselect',
               keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
               keyword_length = 1
@@ -773,11 +786,7 @@ packer.startup({
       }
       use {
         'onsails/lspkind-nvim',
-        config = function()
-          require('lspkind').init({
-            with_text = false,
-          })
-        end
+        config = function() require('lspkind').init({with_text = false}) end
       }
 
       use {
