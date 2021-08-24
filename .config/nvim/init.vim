@@ -1068,6 +1068,7 @@ autocmd FileType vim setlocal ts=2 sw=2
 autocmd FileType lua setlocal ts=2 sw=2
 autocmd FileType yaml setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=4 sw=4
+autocmd FileType proto setlocal ts=2 sw=2
 
 " No beep
 set visualbell

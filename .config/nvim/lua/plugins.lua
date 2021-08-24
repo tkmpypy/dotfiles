@@ -79,6 +79,7 @@ packer.startup({
 
     -- Languages
     use {'plasticboy/vim-markdown', ft = {'markdown'}}
+    use {'uarun/vim-protobuf', ft = {'proto'}}
     use {'euclidianAce/BetterLua.vim', ft = {'lua'}}
     use {
       'towolf/vim-helm',
