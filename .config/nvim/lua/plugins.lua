@@ -720,6 +720,7 @@ packer.startup({
       use {'hrsh7th/cmp-vsnip', requires = {'hrsh7th/nvim-cmp'}}
       use {'hrsh7th/cmp-buffer', requires = {'hrsh7th/nvim-cmp'}}
       use {'hrsh7th/cmp-path', requires = {'hrsh7th/nvim-cmp'}}
+      use {'hrsh7th/cmp-nvim-lua', requires = {'hrsh7th/nvim-cmp'}}
       use {
         'hrsh7th/cmp-nvim-lsp',
         requires = {'hrsh7th/nvim-cmp'},
@@ -730,7 +731,7 @@ packer.startup({
         requires = {
           {'onsails/lspkind-nvim'}, {'hrsh7th/vim-vsnip'},
           {'hrsh7th/cmp-vsnip'}, {'hrsh7th/cmp-buffer'}, {'hrsh7th/cmp-path'},
-          {'hrsh7th/cmp-nvim-lsp'}
+          {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-nvim-lua'},
         },
         config = function()
           local cmp = require('cmp')
@@ -760,20 +761,28 @@ packer.startup({
 
             -- You must set mapping.
             mapping = {
-              ['<C-p>'] = cmp.mapping.prev_item(),
-              ['<C-n>'] = cmp.mapping.next_item(),
-              ['<C-d>'] = cmp.mapping.scroll(-4),
-              ['<C-b>'] = cmp.mapping.scroll(4),
+              ['<C-p>'] = cmp.mapping.select_prev_item(),
+              ['<C-n>'] = cmp.mapping.select_next_item(),
+              ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-b>'] = cmp.mapping.scroll_docs(4),
               ['<C-Space>'] = cmp.mapping.complete(),
               ['<C-e>'] = cmp.mapping.close(),
               ['<CR>'] = cmp.mapping.confirm(
-                  {behavior = cmp.ConfirmBehavior.Replace, select = true})
+                  {behavior = cmp.ConfirmBehavior.Insert, select = true})
             },
 
             -- You should specify your *installed* sources.
             sources = {
               {name = 'nvim_lsp'}, {name = 'vsnip'}, {name = 'path'},
-              {name = 'buffer'}
+              {name = 'nvim_lua'},
+              {
+                name = 'buffer',
+                opts = {
+                  get_bufnrs = function()
+                    return vim.api.nvim_list_bufs()
+                  end
+                }
+              }
             },
             formatting = {
               format = function(entry, vim_item)
