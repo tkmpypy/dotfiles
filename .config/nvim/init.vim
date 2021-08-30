@@ -839,49 +839,6 @@ let g:eft_highlight = {
 map p <Plug>(miniyank-autoput)
 map P <Plug>(miniyank-autoPut)
 " }}
-" cyclist {{
-call cyclist#add_listchar_option_set('limited', {
-        \ 'eol': '↲',
-        \ 'tab': '» ',
-        \ 'trail': '·',
-        \ 'extends': '<',
-        \ 'precedes': '>',
-        \ 'conceal': '┊',
-        \ 'nbsp': '␣',
-        \ })
-call cyclist#add_listchar_option_set('busy', {
-        \ 'eol': '↲',
-        \ 'tab': '»·',
-        \ 'space': '␣',
-        \ 'trail': '-',
-        \ 'extends': '☛',
-        \ 'precedes': '☚',
-        \ 'conceal': '┊',
-        \ 'nbsp': '☠',
-        \ })
-call cyclist#add_listchar_option_set('default', {
-        \ 'tab': '» ',
-        \ 'trail': '░',
-        \ 'nbsp': '␣',
-        \ })
-
-" call cyclist#set_trail('default', '░')
-" call cyclist#set_tab('default', '» ')
-" call cyclist#set_nbsp('default', '␣')
-" Cycle to the next configuration
-nmap <leader>cn <Plug>CyclistNext
-nmap <leader>cp <Plug>CyclistPrev
-
-" Set a specific configuration
-" call cyclist#activate_listchars('limited')
-
-" Reset to default configuration
-call cyclist#activate_listchars('default')
-" }}
-" tyru/operator-camelize.vim {{
-map <leader>c <plug>(operator-camelize)<CR>
-map <leader>C <plug>(operator-decamelize)<CR>
-" }}
 
 " chowcho.nvim {{
 
@@ -958,6 +915,7 @@ set t_Co=256
 let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 
+
 set wrap
 set wildmenu
 set wildmode=full
@@ -982,9 +940,8 @@ if !&sidescrolloff
 endif
 set display+=lastline
 
-if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
+set list
+set listchars=tab:»\ ,trail:░,eol:↲,extends:☛,precedes:☚,nbsp:␣,conceal:┊
 
 let g:material_theme_style='default'
 let g:material_terminal_italics = 1

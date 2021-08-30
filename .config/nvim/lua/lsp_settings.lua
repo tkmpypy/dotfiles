@@ -13,6 +13,12 @@ local custom_init = function(client)
   end
 end
 
+local custom_flags = function()
+  return {
+    debounce_text_changes = 300,
+  }
+end
+
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
@@ -110,7 +116,7 @@ local diagnosticls_config = {
       eslint = {
         command = './node_modules/.bin/eslint',
         rootPatterns = {'.git'},
-        debounce = 500,
+        debounce = 300,
         args = {'--stdin', '--stdin-filename', '%filepath', '--format', 'json'},
         sourceName = 'eslint',
         parseJson = {
@@ -128,7 +134,7 @@ local diagnosticls_config = {
         command = 'golangci-lint',
         sourceName = "golangci-lint",
         rootPatterns = {'.git', 'go.mod'},
-        debounce = 500,
+        debounce = 300,
         args = {'run', '--out-format', 'json', '--fast'},
         parseJson = {
           sourceName = "Pos.Filename",
@@ -172,7 +178,8 @@ local make_config = function()
     capabilities = capabilities,
     -- map buffer local keybindings when the language server attaches
     on_attach = custom_attach,
-    on_init = custom_init
+    on_init = custom_init,
+    flags = custom_flags(),
   }
 end
 
@@ -237,6 +244,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
       -- end,
       signs = {priority = 20},
       -- Disable a feature
-      update_in_insert = false
+      update_in_insert = true
     })
 

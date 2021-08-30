@@ -1,4 +1,3 @@
-local execute = vim.api.nvim_command
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
@@ -99,7 +98,32 @@ packer.startup({
     use {'thinca/vim-quickrun'}
 
     -- UI
-    use({
+    use {
+      'lukas-reineke/indent-blankline.nvim',
+      config = function()
+        -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 blend=nocombine]]
+        -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B blend=nocombine]]
+        -- vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 blend=nocombine]]
+        -- vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 blend=nocombine]]
+        -- vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF blend=nocombine]]
+        -- vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD blend=nocombine]]
+        -- vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1f1f1f blend=nocombine]]
+        -- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a blend=nocombine]]
+        require("indent_blankline").setup {
+          -- char = "",
+          buftype_exclude = {"terminal", "help"},
+          filetype_exclude = {"startify"},
+          show_end_of_line = false,
+          -- space_char_blankline = " ",
+          show_trailing_blankline_indent = false,
+          -- char_highlight_list = {
+          --   "IndentBlanklineIndent1", "IndentBlanklineIndent2"
+          -- },
+          show_current_context = false,
+        }
+      end
+    }
+    use {
       'mvllow/modes.nvim',
       disable = true,
       config = function()
@@ -113,7 +137,7 @@ packer.startup({
           line_opacity = 0.1
         })
       end
-    })
+    }
     use {
       'p00f/nvim-ts-rainbow',
       config = function()
@@ -143,7 +167,6 @@ packer.startup({
       config = function() require('which_key.lua') end
     }
 
-    use {'tjdevries/cyclist.vim'}
     use {'norcalli/nvim-colorizer.lua'}
     use {'kyazdani42/nvim-web-devicons'}
     use {
@@ -160,7 +183,6 @@ packer.startup({
           options = {
             view = "multiwindow", -- "multiwindow" | "default"
             numbers = "ordinal", -- "none" | "ordinal" | "buffer_id"
-            number_style = "superscript",
             buffer_close_icon = '',
             modified_icon = '●',
             close_icon = '',
@@ -715,6 +737,52 @@ packer.startup({
       use {'kabouzeid/nvim-lspinstall'}
       use {'nvim-lua/lsp-status.nvim', disable = true}
       use {'tjdevries/lsp_extensions.nvim', disable = true}
+      use {
+        'mfussenegger/nvim-lint',
+        disable = true,
+        config = function()
+          local lint = require('lint')
+          lint.linters.eslint.cmd = './node_modules/.bin/eslint'
+          lint.linters_by_ft = {
+            markdown = {'vale'},
+            python = {'flake8'},
+            typescript = {'eslint'},
+            typescriptreact = {'eslint'},
+            javascript = {'eslint'},
+            javascriptreact = {'eslint'},
+            go = {'golangcilint'}
+          }
+
+          vim.cmd [[
+            augroup linter
+              autocmd!
+              autocmd BufEnter,BufWritePost * lua require('lint').try_lint()
+            augroup end
+          ]]
+        end
+      }
+      use({
+        "jose-elias-alvarez/null-ls.nvim",
+        disable = true,
+        requires = {{"neovim/nvim-lspconfig"}, {"nvim-lua/plenary.nvim"}},
+        config = function()
+          local null_ls = require('null-ls')
+          require("null-ls").config({
+            sources = {
+              null_ls.builtins.diagnostics.markdownlint,
+              null_ls.builtins.diagnostics.eslint.with(
+                  {command = './node_modules/.bin/eslint'}),
+              null_ls.builtins.diagnostics.flake8
+            },
+            diagnostics_format = "#{m}",
+            debounce = 250,
+            default_timeout = 5000,
+            debug = true
+          })
+
+          require("lspconfig")["null-ls"].setup({})
+        end
+      })
       use {'hrsh7th/vim-vsnip'}
       use {'hrsh7th/vim-vsnip-integ', requires = {{'hrsh7th/vim-vsnip'}}}
       use {'hrsh7th/cmp-vsnip', requires = {'hrsh7th/nvim-cmp'}}
@@ -731,7 +799,7 @@ packer.startup({
         requires = {
           {'onsails/lspkind-nvim'}, {'hrsh7th/vim-vsnip'},
           {'hrsh7th/cmp-vsnip'}, {'hrsh7th/cmp-buffer'}, {'hrsh7th/cmp-path'},
-          {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-nvim-lua'},
+          {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-nvim-lua'}
         },
         config = function()
           local cmp = require('cmp')
@@ -774,8 +842,7 @@ packer.startup({
             -- You should specify your *installed* sources.
             sources = {
               {name = 'nvim_lsp'}, {name = 'vsnip'}, {name = 'path'},
-              {name = 'nvim_lua'},
-              {
+              {name = 'orgmode'}, {name = 'nvim_lua'}, {
                 name = 'buffer',
                 opts = {
                   get_bufnrs = function()
@@ -786,8 +853,19 @@ packer.startup({
             },
             formatting = {
               format = function(entry, vim_item)
-                local lspkind = require('lspkind')
-                vim_item.kind = lspkind.presets.default[vim_item.kind]
+                -- fancy icons and a name of kind
+                vim_item.kind =
+                    require("lspkind").presets.default[vim_item.kind] .. " " ..
+                        vim_item.kind
+                -- set a name for each source
+                vim_item.menu = ({
+                  buffer = "[BUF]",
+                  path = "[PATH]",
+                  nvim_lsp = "[LSP]",
+                  nvim_lua = "[Lua]",
+                  orgmode = "[ORG]",
+                  vsnip = "[SNIP]"
+                })[entry.source.name]
                 return vim_item
               end
             }
