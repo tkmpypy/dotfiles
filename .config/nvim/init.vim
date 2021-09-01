@@ -21,11 +21,11 @@ set background=dark
 
 " colorscheme OceanicNext
 " colorscheme edge
-" colorscheme tokyonight
+colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
 " colorscheme gruvbox-flat
-colorscheme doom-one
+" colorscheme doom-one
 
 
 filetype plugin indent on
