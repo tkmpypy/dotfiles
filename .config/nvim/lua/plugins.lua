@@ -91,6 +91,7 @@ packer.startup({
 
 		-- Languages
 		use({ "plasticboy/vim-markdown", ft = { "markdown" } })
+		use({ "hashivim/vim-terraform" })
 		use({ "uarun/vim-protobuf", ft = { "proto" } })
 		use({ "euclidianAce/BetterLua.vim", ft = { "lua" } })
 		use({

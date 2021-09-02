@@ -13,6 +13,15 @@ end
 require("formatter").setup({
 	logging = true,
 	filetype = {
+    terraform = {
+			function()
+				return {
+					exe = "terraform",
+          args = {"fmt", "-"},
+					stdin = true,
+				}
+			end,
+    },
 		go = {
 			function()
 				return {
