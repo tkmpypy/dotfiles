@@ -90,7 +90,16 @@ packer.startup({
 		})
 
 		-- Languages
-		use({ "plasticboy/vim-markdown", ft = { "markdown" } })
+		use({
+			"plasticboy/vim-markdown",
+			ft = { "markdown" },
+			config = function()
+				vim.g.vim_markdown_folding_disabled = 0
+				vim.g.vim_markdown_conceal = 0
+				vim.g.vim_markdown_folding_level = 6
+				vim.g.vim_markdown_folding_style_pythonic = 1
+			end,
+		})
 		use({ "hashivim/vim-terraform" })
 		use({ "uarun/vim-protobuf", ft = { "proto" } })
 		use({ "euclidianAce/BetterLua.vim", ft = { "lua" } })
@@ -824,7 +833,7 @@ packer.startup({
 			use({ "neovim/nvim-lspconfig" })
 			use({ "kabouzeid/nvim-lspinstall", disable = true })
 			use({
-				"~/private/nvim-lsp-installer",
+				"williamboman/nvim-lsp-installer",
 				requires = { { "neovim/nvim-lspconfig" } },
 			})
 			use({ "nvim-lua/lsp-status.nvim", disable = true })

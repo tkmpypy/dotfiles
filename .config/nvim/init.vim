@@ -21,10 +21,10 @@ set background=dark
 
 " colorscheme OceanicNext
 " colorscheme edge
-colorscheme tokyonight
+" colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
-" colorscheme gruvbox-flat
+colorscheme gruvbox-flat
 " colorscheme doom-one
 
 
@@ -53,7 +53,7 @@ endif
 
 " my utils {{
 
-" selected search when visual mode 
+" selected search when visual mode
 
 function! VisualSearch()
   let reg = '"'
@@ -71,13 +71,13 @@ vnoremap <silent> * :<C-u>call VisualSearch()<CR>
 
 " telescope.nvim {{
 function! s:init_telescope()
-  " bat (preview) * 
-  " ripgrep (finder) * 
+  " bat (preview) *
+  " ripgrep (finder) *
   " Treesitter (nvim-treesitter) (finder/preview)
   " fd (sharkdp/fd) (finder)
-  " git (picker) * 
+  " git (picker) *
   " neovim LSP (picker)
-  " devicons 
+  " devicons
   nnoremap <Leader>sf <cmd>lua require('telescope.builtin').git_files{}<CR>
   nnoremap <Leader>sgc <cmd>lua require('telescope.builtin').git_bcommits{}<CR>
   nnoremap <Leader>sgC <cmd>lua require('telescope.builtin').git_commits{}<CR>
@@ -578,7 +578,7 @@ let NERDTreeHijackNetrw = 0
 "     setlocal norelativenumber
 "     let b:indentLine_enabled = 0
 " endfunction
-" 
+"
 " let g:dashboard_default_executive ='fzf'
 " let g:dashboard_custom_shortcut={
 "      \ 'last_session'       : 'SPC s l',
@@ -590,7 +590,7 @@ let NERDTreeHijackNetrw = 0
 "      \ }
 " nmap <Leader>ss :<C-u>SessionSave<CR>
 " nmap <Leader>sl :<C-u>SessionLoad<CR>
-" 
+"
 " augroup dashboard-custom
 "     autocmd FileType dashboard IndentLinesDisable
 " augroup END

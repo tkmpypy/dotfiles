@@ -7,21 +7,25 @@ local prettier = function()
 end
 
 local eslint = function()
-	return { exe = "./node_modules/.bin/eslint", args = { "--fix" }, stdin = true }
+	return {
+		exe = "./node_modules/.bin/eslint",
+		args = { "--fix", "--no-ignore", "--no-color", "--stdin-filename", vim.api.nvim_buf_get_name(0) },
+		stdin = false,
+	}
 end
 
 require("formatter").setup({
 	logging = true,
 	filetype = {
-    terraform = {
+		terraform = {
 			function()
 				return {
 					exe = "terraform",
-          args = {"fmt", "-"},
+					args = { "fmt", "-" },
 					stdin = true,
 				}
 			end,
-    },
+		},
 		go = {
 			function()
 				return {
@@ -47,10 +51,10 @@ require("formatter").setup({
 				}
 			end,
 		},
-		javascript = { prettier, eslint },
-		javascriptreact = { prettier, eslint },
-		typescript = { prettier, eslint },
-		typescriptreact = { prettier, eslint },
+		javascript = { eslint },
+		javascriptreact = { eslint },
+		typescript = { eslint },
+		typescriptreact = { eslint },
 		json = { prettier },
 		markdown = { prettier },
 		rust = {
