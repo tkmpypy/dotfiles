@@ -4,7 +4,9 @@ set termguicolors
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type ='neovim' " neovim(builtin), coc
+let g:lsp_client_type = 'neovim' " neovim(builtin), coc
+let g:fuzzy_finder_type = 'fzf' " telescope, fzf
+
 lua require('plugins')
 augroup my_packer
   autocmd!
@@ -109,7 +111,9 @@ function! s:init_telescope()
 
 endfunction
 
-call s:init_telescope()
+if g:fuzzy_finder_type == 'telescope'
+  call s:init_telescope()
+endif
 " }}
 
 
