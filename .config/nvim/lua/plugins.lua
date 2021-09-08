@@ -100,8 +100,8 @@ packer.startup({
 						comments = "italic", -- Style that is applied to comments: see `highlight-args` for options
 						functions = "italic,bold", -- Style that is applied to functions: see `highlight-args` for options
 						keywords = "bold", -- Style that is applied to keywords: see `highlight-args` for options
-						strings = "NONE", -- Style that is applied to strings: see `highlight-args` for options
-						variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
+						-- strings = "NONE", -- Style that is applied to strings: see `highlight-args` for options
+						-- variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
 					},
 					inverse = {
 						match_paren = true, -- Enable/Disable inverse highlighting for match parens
@@ -162,6 +162,7 @@ packer.startup({
 				-- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a blend=nocombine]]
 				require("indent_blankline").setup({
 					-- char = "",
+					enabled = false,
 					buftype_exclude = { "terminal", "help" },
 					filetype_exclude = { "startify" },
 					show_end_of_line = false,
@@ -765,7 +766,7 @@ packer.startup({
 							preview_horizontal = "right:60%", -- right|left:size
 							preview_layout = "flex", -- horizontal|vertical|flex
 							flip_columns = 120, -- #cols to switch to horizontal on flex
-							default_previewer   = "bat",       -- override the default previewer?
+							default_previewer = "bat", -- override the default previewer?
 							-- by default uses the builtin previewer
 							previewers = {
 								cmd = {
@@ -989,34 +990,18 @@ packer.startup({
 								["lua"] = "blue",
 							},
 						})
+						-- Buffer
 						vim.api.nvim_set_keymap(
 							"n",
-							"<leader>sgf",
+							"<leader>sb",
+							"<cmd>lua require('fzf-lua').buffers()<CR>",
+							{ noremap = true, silent = true }
+						)
+						-- File
+						vim.api.nvim_set_keymap(
+							"n",
+							"<leader>sfg",
 							"<cmd>lua require('fzf-lua').git_files()<CR>",
-							{ noremap = true, silent = true }
-						)
-						vim.api.nvim_set_keymap(
-							"n",
-							"<leader>sgc",
-							"<cmd>lua require('fzf-lua').git_bcommits()<CR>",
-							{ noremap = true, silent = true }
-						)
-						vim.api.nvim_set_keymap(
-							"n",
-							"<leader>sgC",
-							"<cmd>lua require('fzf-lua').git_commits()<CR>",
-							{ noremap = true, silent = true }
-						)
-						vim.api.nvim_set_keymap(
-							"n",
-							"<leader>sgs",
-							"<cmd>lua require('fzf-lua').git_status()<CR>",
-							{ noremap = true, silent = true }
-						)
-						vim.api.nvim_set_keymap(
-							"n",
-							"<leader>sgb",
-							"<cmd>lua require('fzf-lua').git_branches()<CR>",
 							{ noremap = true, silent = true }
 						)
 						vim.api.nvim_set_keymap(
@@ -1031,12 +1016,32 @@ packer.startup({
 							"<cmd>lua require('fzf-lua').files_resume()<CR>",
 							{ noremap = true, silent = true }
 						)
+						-- Git
 						vim.api.nvim_set_keymap(
 							"n",
-							"<leader>ss",
-							"<cmd>lua require('fzf-lua').blines()<CR>",
+							"<leader>svc",
+							"<cmd>lua require('fzf-lua').git_bcommits()<CR>",
 							{ noremap = true, silent = true }
 						)
+						vim.api.nvim_set_keymap(
+							"n",
+							"<leader>svC",
+							"<cmd>lua require('fzf-lua').git_commits()<CR>",
+							{ noremap = true, silent = true }
+						)
+						vim.api.nvim_set_keymap(
+							"n",
+							"<leader>svs",
+							"<cmd>lua require('fzf-lua').git_status()<CR>",
+							{ noremap = true, silent = true }
+						)
+						vim.api.nvim_set_keymap(
+							"n",
+							"<leader>svb",
+							"<cmd>lua require('fzf-lua').git_branches()<CR>",
+							{ noremap = true, silent = true }
+						)
+						-- Grep
 						vim.api.nvim_set_keymap(
 							"n",
 							"<leader>sgg",
@@ -1057,10 +1062,17 @@ packer.startup({
 						)
 						vim.api.nvim_set_keymap(
 							"n",
-							"<leader>sb",
-							"<cmd>lua require('fzf-lua').buffers()<CR>",
+							"<leader>sgl",
+							"<cmd>lua require('fzf-lua').blines()<CR>",
 							{ noremap = true, silent = true }
 						)
+						vim.api.nvim_set_keymap(
+							"n",
+							"<leader>sgc",
+							"<cmd>lua require('fzf-lua').grep_curbuf()<CR>",
+							{ noremap = true, silent = true }
+						)
+						-- Misc
 						vim.api.nvim_set_keymap(
 							"n",
 							"<leader>sc",
@@ -1085,21 +1097,28 @@ packer.startup({
 							"<cmd>lua require('fzf-lua').quickfix()<CR>",
 							{ noremap = true, silent = true }
 						)
-            if vim.g.lsp_client_type == 'neovim' then
-              vim.api.nvim_set_keymap(
-                "n",
-                "<leader>gr",
-                "<cmd>lua require('fzf-lua').lsp_references()<CR>",
-                { noremap = true, silent = true }
-              )
-            end
+						if vim.g.lsp_client_type == "neovim" then
+							vim.api.nvim_set_keymap(
+								"n",
+								"<leader>gr",
+								"<cmd>lua require('fzf-lua').lsp_references()<CR>",
+								{ noremap = true, silent = true }
+							)
+						end
 					end,
 				})
 			end
 		end
 
 		-- Git
-		use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
+		use({
+			"lewis6991/gitsigns.nvim",
+			requires = { "nvim-lua/plenary.nvim" },
+      disable = true,
+			config = function()
+				require("gitsigns").setup()
+			end,
+		})
 		use({ "lambdalisue/gina.vim" })
 		use({ "rhysd/git-messenger.vim" })
 		use({ "APZelos/blamer.nvim" })

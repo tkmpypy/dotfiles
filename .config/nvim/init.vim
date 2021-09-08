@@ -7,12 +7,6 @@ let g:use_treesitter = v:true
 let g:lsp_client_type = 'neovim' " neovim(builtin), coc
 let g:fuzzy_finder_type = 'fzf' " telescope, fzf
 
-lua require('plugins')
-augroup my_packer
-  autocmd!
-  autocmd BufWritePost plugins.lua :PackerCompile<CR>
-augroup end
-
 set background=dark
 " colorscheme palenight
 " colorscheme miramare
@@ -22,11 +16,11 @@ set background=dark
 " colorscheme gruvbox-material
 
 " colorscheme OceanicNext
-" colorscheme edge
+colorscheme edge
 " colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
-colorscheme gruvbox-flat
+" colorscheme gruvbox-flat
 " colorscheme doom-one
 
 
@@ -41,6 +35,12 @@ endif
 augroup vimrc
   autocmd!
 augroup END
+
+lua require('plugins')
+augroup my_packer
+  autocmd!
+  autocmd BufWritePost plugins.lua :PackerCompile<CR>
+augroup end
 
 " load my scripts {{
 lua require('scripts/gen_gitignore').setup()
@@ -80,14 +80,14 @@ function! s:init_telescope()
   " git (picker) *
   " neovim LSP (picker)
   " devicons
-  nnoremap <Leader>sf <cmd>lua require('telescope.builtin').git_files{}<CR>
-  nnoremap <Leader>sgc <cmd>lua require('telescope.builtin').git_bcommits{}<CR>
-  nnoremap <Leader>sgC <cmd>lua require('telescope.builtin').git_commits{}<CR>
-  nnoremap <Leader>sgs <cmd>lua require('telescope.builtin').git_status{}<CR>
+  nnoremap <Leader>sfg <cmd>lua require('telescope.builtin').git_files{}<CR>
+  nnoremap <Leader>svc <cmd>lua require('telescope.builtin').git_bcommits{}<CR>
+  nnoremap <Leader>svC <cmd>lua require('telescope.builtin').git_commits{}<CR>
+  nnoremap <Leader>svs <cmd>lua require('telescope.builtin').git_status{}<CR>
   nnoremap <Leader>sgb <cmd>lua require('telescope.builtin').git_branches{}<CR>
-  nnoremap <Leader>sF <cmd>lua require('telescope.builtin').find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
-  nnoremap <Leader>s <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find{}<CR>
-  nnoremap <Leader>sg <cmd>lua require('telescope.builtin').live_grep{}<CR>
+  nnoremap <Leader>sff <cmd>lua require('telescope.builtin').find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
+  nnoremap <Leader>sgc <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find{}<CR>
+  nnoremap <Leader>sgg <cmd>lua require('telescope.builtin').live_grep{}<CR>
   nnoremap <Leader>sb <cmd>lua require('telescope.builtin').buffers{ show_all_buffers = true, generic_sorters = require('telescope.sorters').fuzzy_with_index_bias }<CR>
   nnoremap <Leader>sc <cmd>lua require('telescope.builtin').command_history{}<CR>
   nnoremap <Leader>sr <cmd>lua require('telescope.builtin').oldfiles{}<CR>
@@ -206,7 +206,7 @@ function! s:setup_nvim_lsp()
     " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 
-    nnoremap <silent> pd    <cmd>lua vim.lsp.buf.peek_definition()<CR>
+    nnoremap <silent> gp    <cmd>lua vim.lsp.buf.peek_definition()<CR>
     nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
@@ -469,23 +469,6 @@ let g:blamer_prefix = '  '
 let g:blamer_template = '<committer>, <committer-time> • <summary>'
 nnoremap <Leader>gbt :BlamerToggle<CR>
 " }}
-
-" gitsigns.nvim {{
-lua << EOF
-require('gitsigns').setup{
-  signs = {
-    add          = {hl = 'GitGutterAdd'   , text = '┃'},
-    change       = {hl = 'GitGutterChange', text = '┃'},
-    delete       = {hl = 'GitGutterDelete', text = '┃'},
-    topdelete    = {hl = 'GitGutterDelete', text = '┃'},
-    changedelete = {hl = 'GitGutterChange', text = '┃'},
-  },
-  sign_priority = 1,
-}
-EOF
-
-" }}
-
 
 " nvim-colorizer.lua{{
 lua require('colorizer').setup()
