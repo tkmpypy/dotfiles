@@ -746,7 +746,7 @@ packer.startup({
 							},
 							-- fzf_bin             = 'sk',        -- use skim instead of fzf?
 							fzf_layout = "default", -- fzf '--layout='
-							fzf_args = "", -- adv: fzf extra args, empty unless adv
+							fzf_args = "--cycle", -- adv: fzf extra args, empty unless adv
 							fzf_binds = { -- fzf '--bind=' options
 								"f2:toggle-preview",
 								"f3:toggle-preview-wrap",
@@ -1100,7 +1100,7 @@ packer.startup({
 						if vim.g.lsp_client_type == "neovim" then
 							vim.api.nvim_set_keymap(
 								"n",
-								"<leader>gr",
+								"gr",
 								"<cmd>lua require('fzf-lua').lsp_references()<CR>",
 								{ noremap = true, silent = true }
 							)
@@ -1114,7 +1114,7 @@ packer.startup({
 		use({
 			"lewis6991/gitsigns.nvim",
 			requires = { "nvim-lua/plenary.nvim" },
-      disable = true,
+			disable = true,
 			config = function()
 				require("gitsigns").setup()
 			end,

@@ -7,23 +7,6 @@ let g:use_treesitter = v:true
 let g:lsp_client_type = 'neovim' " neovim(builtin), coc
 let g:fuzzy_finder_type = 'fzf' " telescope, fzf
 
-set background=dark
-" colorscheme palenight
-" colorscheme miramare
-" colorscheme melange
-" colorscheme material
-" colorscheme embark
-" colorscheme gruvbox-material
-
-" colorscheme OceanicNext
-colorscheme edge
-" colorscheme tokyonight
-" colorscheme zephyr
-" colorscheme space-nvim
-" colorscheme gruvbox-flat
-" colorscheme doom-one
-
-
 filetype plugin indent on
 syntax on
 
@@ -36,11 +19,29 @@ augroup vimrc
   autocmd!
 augroup END
 
+set background=dark
+
 lua require('plugins')
 augroup my_packer
   autocmd!
   autocmd BufWritePost plugins.lua :PackerCompile<CR>
 augroup end
+
+" colorscheme palenight
+" colorscheme miramare
+" colorscheme melange
+" colorscheme material
+" colorscheme embark
+
+" colorscheme OceanicNext
+colorscheme edge
+" colorscheme tokyonight
+" colorscheme zephyr
+" colorscheme space-nvim
+" colorscheme gruvbox-flat
+" colorscheme doom-one
+" colorscheme nightfox
+
 
 " load my scripts {{
 lua require('scripts/gen_gitignore').setup()
