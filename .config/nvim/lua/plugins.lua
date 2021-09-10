@@ -372,14 +372,14 @@ packer.startup({
 			config = function()
 				require("close_buffers").setup({
 					preserve_window_layout = { "this" },
-					-- next_buffer_cmd = function(windows)
-					--   require('bufferline').cycle(1)
-					--   local bufnr = vim.api.nvim_get_current_buf()
+					next_buffer_cmd = function(windows)
+					  -- require('bufferline').cycle(1)
+					  local bufnr = vim.api.nvim_get_current_buf()
 
-					--   for _, window in ipairs(windows) do
-					--     vim.api.nvim_win_set_buf(window, bufnr)
-					--   end
-					-- end,
+					  for _, window in ipairs(windows) do
+					    vim.api.nvim_win_set_buf(window, bufnr)
+					  end
+					end,
 				})
 
 				vim.api.nvim_set_keymap("n", "<leader>bdd", "<cmd>:BDelete this<CR>", { noremap = true, silent = true })

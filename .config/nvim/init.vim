@@ -34,11 +34,11 @@ augroup end
 " colorscheme embark
 
 " colorscheme OceanicNext
-colorscheme edge
+" colorscheme edge
 " colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
-" colorscheme gruvbox-flat
+colorscheme gruvbox-flat
 " colorscheme doom-one
 " colorscheme nightfox
 
