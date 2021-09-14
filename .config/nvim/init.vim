@@ -34,11 +34,11 @@ augroup end
 " colorscheme embark
 
 " colorscheme OceanicNext
-" colorscheme edge
+colorscheme edge
 " colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
-colorscheme gruvbox-flat
+" colorscheme gruvbox-flat
 " colorscheme doom-one
 " colorscheme nightfox
 
@@ -621,29 +621,6 @@ let g:vista_fzf_preview = ['right:50%']
 let g:vista#renderer#enable_icon = 1
 nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
-" }}
-" gina.vim {{
-call gina#custom#mapping#nmap(
-	      \ 'status', 'dd',
-	      \ ':<C-u>Gina diff --opener=vsplit<CR>',
-	      \ {'noremap': 1, 'silent': 1},
-	      \)
-call gina#custom#mapping#nmap(
-	      \ 'status', 'dp',
-	      \ ':<C-u>Gina diff --opener=preview<CR>',
-	      \ {'noremap': 1, 'silent': 1},
-	      \)
-nnoremap <leader>gs :<C-u>Gina status --opener=split<CR>
-nnoremap <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
-nnoremap <leader>gD :<C-u>Gina compare --opener=tabedit<CR>
-nnoremap <leader>gd :<C-u>Gina diff --opener=tabedit<CR>
-nnoremap <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
-nnoremap <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
-vnoremap <leader>gln :<C-u>:'<,'>Gina browse --exact --yank :<CR>
-nnoremap <leader>gln :<C-u>:Gina browse --exact --yank :<CR>
-nnoremap <leader>gm :<C-u>:Gina chaperon<CR>
-nnoremap <leader>gp :<C-u>Gina push<CR>
-
 " }}
 " git-messanger {{
 let g:git_messenger_always_into_popup = v:true

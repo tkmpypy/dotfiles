@@ -164,7 +164,7 @@ packer.startup({
 					-- char = "",
 					enabled = false,
 					buftype_exclude = { "terminal", "help" },
-					filetype_exclude = { "startify" },
+					filetype_exclude = { "startify", "alpha" },
 					show_end_of_line = false,
 					-- space_char_blankline = " ",
 					show_trailing_blankline_indent = false,
@@ -257,7 +257,39 @@ packer.startup({
 				})
 			end,
 		})
-		use({ "mhinz/vim-startify" })
+		use({
+			"goolord/alpha-nvim",
+			requires = { "kyazdani42/nvim-web-devicons" },
+			config = function()
+				local alpha = require("alpha")
+				local theme = require("alpha.themes.startify")
+
+				-- Set header
+				local header = {
+					type = "text",
+					val = {
+						[[                                                     ]],
+						[[  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+						[[  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+						[[  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+						[[  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+						[[  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+						[[  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+						[[                                                     ]],
+					},
+					opts = {
+						position = "center",
+						hl = "Type",
+					},
+				}
+				theme.section.header.val = header.val
+				theme.section.header.opts = header.opts
+				alpha.setup(theme.opts)
+				vim.cmd([[
+            autocmd FileType alpha setlocal nofoldenable
+        ]])
+			end,
+		})
 		use({ "liuchengxu/vista.vim" })
 
 		-- tree
@@ -373,12 +405,12 @@ packer.startup({
 				require("close_buffers").setup({
 					preserve_window_layout = { "this" },
 					next_buffer_cmd = function(windows)
-					  -- require('bufferline').cycle(1)
-					  local bufnr = vim.api.nvim_get_current_buf()
+						require("bufferline").cycle(1)
+						-- local bufnr = vim.api.nvim_get_current_buf()
 
-					  for _, window in ipairs(windows) do
-					    vim.api.nvim_win_set_buf(window, bufnr)
-					  end
+						-- for _, window in ipairs(windows) do
+						-- 	vim.api.nvim_win_set_buf(window, bufnr)
+						-- end
 					end,
 				})
 
@@ -1119,7 +1151,93 @@ packer.startup({
 				require("gitsigns").setup()
 			end,
 		})
-		use({ "lambdalisue/gina.vim" })
+		use({
+			"lambdalisue/gina.vim",
+			config = function()
+				vim.fn["gina#custom#mapping#nmap"](
+					"status",
+					"dd",
+					":<C-u>Gina diff --opener=vsplit<CR>",
+					{ noremap = 1, silent = 1 }
+				)
+				vim.fn["gina#custom#mapping#nmap"](
+					"status",
+					"dp",
+					":<C-u>Gina diff --opener=preview<CR>",
+					{ noremap = 1, silent = 1 }
+				)
+				vim.cmd([[
+        nnoremap <leader>gs :<C-u>Gina status --opener=split<CR>
+        nnoremap <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
+        nnoremap <leader>gD :<C-u>Gina compare --opener=tabedit<CR>
+        nnoremap <leader>gd :<C-u>Gina diff --opener=tabedit<CR>
+        nnoremap <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
+        nnoremap <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
+        vnoremap <leader>gln :<C-u>:'<,'>Gina browse --exact --yank :<CR>
+        nnoremap <leader>gln :<C-u>:Gina browse --exact --yank :<CR>
+        nnoremap <leader>gm :<C-u>:Gina chaperon<CR>
+        nnoremap <leader>gp :<C-u>Gina push<CR>
+      ]])
+			end,
+		})
+		use({
+			"TimUntersberger/neogit",
+			requires = { "nvim-lua/plenary.nvim" },
+			disable = true,
+			config = function()
+				local neogit = require("neogit")
+				neogit.setup({
+					disable_signs = false,
+					disable_context_highlighting = false,
+					disable_commit_confirmation = false,
+					auto_refresh = true,
+					disable_builtin_notifications = false,
+					commit_popup = {
+						kind = "split",
+					},
+					-- customize displayed signs
+					signs = {
+						-- { CLOSED, OPENED }
+						section = { ">", "v" },
+						item = { ">", "v" },
+						hunk = { "", "" },
+					},
+					integrations = {
+						-- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
+						-- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
+						--
+						-- Requires you to have `sindrets/diffview.nvim` installed.
+						-- use {
+						--   'TimUntersberger/neogit',
+						--   requires = {
+						--     'nvim-lua/plenary.nvim',
+						--     'sindrets/diffview.nvim'
+						--   }
+						-- }
+						--
+						diffview = false,
+					},
+					-- override/add mappings
+					mappings = {
+						-- modify status buffer mappings
+						status = {
+							-- Adds a mapping with "B" as key that does the "BranchPopup" command
+							["B"] = "BranchPopup",
+							-- Removes the default mapping of "s"
+							["s"] = "",
+						},
+					},
+				})
+
+				vim.api.nvim_set_keymap(
+					"n",
+					"<leader>gs",
+					"<cmd>Neogit kind=split<cr>",
+					{ silent = true, noremap = true }
+				)
+				vim.api.nvim_set_keymap("n", "<leader>gc", "<cmd>Neogit commit<cr>", { silent = true, noremap = true })
+			end,
+		})
 		use({ "rhysd/git-messenger.vim" })
 		use({ "APZelos/blamer.nvim" })
 		use({
