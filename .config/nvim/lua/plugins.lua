@@ -666,15 +666,11 @@ packer.startup({
 				"nvim-telescope/telescope.nvim",
 				requires = {
 					{ "nvim-lua/plenary.nvim" },
-					{ "nvim-lua/popup.nvim" },
+          { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 					{ "tkmpypy/telescope-jumps.nvim" },
 				},
 				config = function()
 					local telescope = require("telescope")
-					telescope.load_extension("jumps")
-					if vim.g.lsp_client_type == "coc" then
-						telescope.load_extension("coc")
-					end
 					telescope.setup({
 						defaults = {
 							vimgrep_arguments = {
@@ -687,7 +683,7 @@ packer.startup({
 								"--smart-case",
 								"--hidden",
 							},
-							shortlen_path = true,
+							path_display = {"smart"},
 							winblend = 10,
 							scroll_strategy = "cycle",
 							color_devicon = true,
@@ -703,7 +699,21 @@ packer.startup({
 								},
 							},
 						},
+						extensions = {
+							fzf = {
+								fuzzy = true, -- false will only do exact matching
+								override_generic_sorter = true, -- override the generic sorter
+								override_file_sorter = true, -- override the file sorter
+								case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+								-- the default case_mode is "smart_case"
+							},
+						},
 					})
+          telescope.load_extension('fzf')
+					telescope.load_extension("jumps")
+					if vim.g.lsp_client_type == "coc" then
+						telescope.load_extension("coc")
+					end
 				end,
 			})
 			use({
@@ -1182,60 +1192,71 @@ packer.startup({
 		})
 		use({
 			"TimUntersberger/neogit",
-			requires = { "nvim-lua/plenary.nvim" },
 			disable = true,
+			requires = { { "nvim-lua/plenary.nvim" }, { "sindrets/diffview.nvim" } },
 			config = function()
-				local neogit = require("neogit")
-				neogit.setup({
-					disable_signs = false,
-					disable_context_highlighting = false,
-					disable_commit_confirmation = false,
-					auto_refresh = true,
-					disable_builtin_notifications = false,
-					commit_popup = {
-						kind = "split",
-					},
-					-- customize displayed signs
-					signs = {
-						-- { CLOSED, OPENED }
-						section = { ">", "v" },
-						item = { ">", "v" },
-						hunk = { "", "" },
-					},
-					integrations = {
-						-- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
-						-- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
-						--
-						-- Requires you to have `sindrets/diffview.nvim` installed.
-						-- use {
-						--   'TimUntersberger/neogit',
-						--   requires = {
-						--     'nvim-lua/plenary.nvim',
-						--     'sindrets/diffview.nvim'
-						--   }
-						-- }
-						--
-						diffview = false,
-					},
-					-- override/add mappings
-					mappings = {
-						-- modify status buffer mappings
-						status = {
-							-- Adds a mapping with "B" as key that does the "BranchPopup" command
-							["B"] = "BranchPopup",
-							-- Removes the default mapping of "s"
-							["s"] = "",
+				-- NOTE:
+				-- Extremely temporary hack to get nvim to not crash on startup.
+				-- Will debug this problem and report upstream. Seems to be related to
+				-- plenary loading its luv or async module incorrectly on startup.
+				vim.defer_fn(function()
+					local neogit = require("neogit")
+					neogit.setup({
+						disable_signs = false,
+						disable_context_highlighting = false,
+						disable_commit_confirmation = false,
+						auto_refresh = true,
+						disable_builtin_notifications = false,
+						commit_popup = {
+							kind = "split",
 						},
-					},
-				})
+						-- customize displayed signs
+						signs = {
+							-- { CLOSED, OPENED }
+							section = { ">", "v" },
+							item = { ">", "v" },
+							hunk = { "", "" },
+						},
+						integrations = {
+							-- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
+							-- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
+							--
+							-- Requires you to have `sindrets/diffview.nvim` installed.
+							-- use {
+							--   'TimUntersberger/neogit',
+							--   requires = {
+							--     'nvim-lua/plenary.nvim',
+							--     'sindrets/diffview.nvim'
+							--   }
+							-- }
+							--
+							diffview = true,
+						},
+						-- override/add mappings
+						mappings = {
+							-- modify status buffer mappings
+							status = {
+								-- Adds a mapping with "B" as key that does the "BranchPopup" command
+								["B"] = "BranchPopup",
+								-- Removes the default mapping of "s"
+								["s"] = "",
+							},
+						},
+					})
 
-				vim.api.nvim_set_keymap(
-					"n",
-					"<leader>gs",
-					"<cmd>Neogit kind=split<cr>",
-					{ silent = true, noremap = true }
-				)
-				vim.api.nvim_set_keymap("n", "<leader>gc", "<cmd>Neogit commit<cr>", { silent = true, noremap = true })
+					vim.api.nvim_set_keymap(
+						"n",
+						"<leader>gs",
+						"<cmd>Neogit kind=split<cr>",
+						{ silent = true, noremap = true }
+					)
+					vim.api.nvim_set_keymap(
+						"n",
+						"<leader>gc",
+						"<cmd>Neogit commit<cr>",
+						{ silent = true, noremap = true }
+					)
+				end, 10)
 			end,
 		})
 		use({ "rhysd/git-messenger.vim" })
