@@ -2,24 +2,6 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Env
-if [[ -z "$XDG_CONFIG_HOME" ]]
-then
-    export XDG_CONFIG_HOME="$HOME/.config/"
-fi
-if [[ -z "$XDG_CACHE_HOME" ]]
-then
-    export XDG_CACHE_HOME="$HOME/.cache/"
-fi
-# export TERM="xterm-256color-italic"
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:/usr/local/bin"
-# should isntall from bellow command
-# curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.anyenv/bin:$PATH"
 if command -v anyenv 1>/dev/null 2>&1; then
   eval "$(anyenv init -)"
 fi
@@ -28,12 +10,6 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-export PATH="$HOME/.anyenv/envs/nodenv/bin:$PATH"
-export PATH="$HOME/.anyenv/envs/nodenv/versions/*/bin:$PATH"
-export PATH="$GOPATH/bin:$PATH"
-export PATH="$PATH":"$HOME/.pub-cache/bin"
-
-export NVIM_LOG_FILE="$XDG_CACHE_HOME/nvim/.nvim.log"
 
 typeset -U PATH
 
