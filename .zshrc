@@ -14,6 +14,8 @@ fi
 # export TERM="xterm-256color-italic"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
+# should isntall from bellow command
+# curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -22,6 +24,7 @@ if command -v anyenv 1>/dev/null 2>&1; then
   eval "$(anyenv init -)"
 fi
 if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
 fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
@@ -68,17 +71,6 @@ zinit light-mode for \
     zinit-zsh/z-a-bin-gem-node
 
 ### End of Zinit's installer chunk
-
-# Theme
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# starship
-# zinit ice from"gh-r" as"program" bpick"*apple-darwin*" atload='eval "$(starship init zsh)"'
-# zinit load starship/starship
-
-# Neovim
-# zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
-# zinit load neovim/neovim
 
 [ -f ~/.zshrc.`uname` ] && source ~/.zshrc.`uname`
 
@@ -153,5 +145,3 @@ if [ -f $HOME/google-cloud-sdk/completion.zsh.inc ]; then . $HOME/google-cloud-s
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

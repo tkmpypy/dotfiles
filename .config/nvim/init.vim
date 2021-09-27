@@ -176,29 +176,8 @@ let g:rainbow_active = 1
 let g:python_highlight_all = 1
 " }}
 
-function! s:set_nvim_lsp_diagnostic_color()
-    hi! LspDiagnosticsVirtualTextError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsVirtualTextWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsVirtualTextInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsVirtualTextHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsSignError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsSignWarning guifg=#FFDD00 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsSignInformation guifg=#02DB1F guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsSignHint guifg=#02DAF2 guibg=NONE guisp=NONE gui=NONE cterm=bold
-    hi! LspDiagnosticsUnderlineError guifg=#FF0000 guibg=NONE guisp=#FF0000 gui=underline cterm=underline
-    hi! LspDiagnosticsUnderlineWarning guifg=#FFDD00 guibg=NONE guisp=#FFDD00 gui=underline cterm=underline
-    hi! LspDiagnosticsUnderlineInformation guifg=#02DB1F guibg=NONE guisp=#02DB1F gui=underline cterm=underline
-    hi! LspDiagnosticsUnderlineHint guifg=#02DAF2 guibg=NONE guisp=#02DAF2 gui=underline cterm=underline
-endfunction
-
-
 function! s:setup_nvim_lsp()
     lua require('lsp_settings')
-    call sign_define("LspDiagnosticsSignError", {"text" : "✘", "texthl" : "LspDiagnosticsSignError"})
-    call sign_define("LspDiagnosticsSignWarning", {"text" : "⚠", "texthl" : "LspDiagnosticsSignWarning"})
-    call sign_define("LspDiagnosticsSignInformation", {"text" : "כֿ", "texthl" : "LspDiagnosticsSignInformation"})
-    call sign_define("LspDiagnosticsSignHint", {"text" : "•", "texthl" : "LspDiagnosticsSignHint"})
-
     " builtin mapping
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>

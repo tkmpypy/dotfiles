@@ -1,3 +1,14 @@
+# Theme
+# zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# starship
+zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" atload='eval "$(starship init zsh)"'
+zinit load starship/starship
+
+# Neovim
+# zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
+# zinit load neovim/neovim
+
 # rg
 zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" pick"ripgrep*/rg"
 zinit load BurntSushi/ripgrep

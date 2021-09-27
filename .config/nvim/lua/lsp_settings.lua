@@ -8,7 +8,22 @@ local prequire = function(...)
 end
 
 local vim = vim
-local util = require 'lspconfig'.util
+local util = require("lspconfig").util
+
+local set_diagnostic_sign = function()
+	local signs = { "", "", "", "" }
+	local diagnostic_types = { "Error", "Warn", "Info", "Hint" } -- or Warning, Information (which also don't seem to work) ...
+	for i = 1, #diagnostic_types do
+		local diagnostic_type = string.format("DiagnosticSign%s", diagnostic_types[i])
+		local opts = {
+			text = signs[i],
+			texthl = string.format("DiagnosticSign%s", diagnostic_types[i]),
+			linehl = "",
+			numhl = "",
+		}
+		vim.fn.sign_define(diagnostic_type, opts)
+	end
+end
 
 local custom_init = function(client)
 	if client.config.flags then
@@ -88,10 +103,26 @@ local gopls_config = {
 	},
 }
 
+local pyright_config = {
+	root_dir = function(fname)
+		local root_files = {
+			".git",
+			".env",
+			"venv",
+			".venv",
+			"setup.cfg",
+			"setup.py",
+			"pyproject.toml",
+			"pyrightconfig.json",
+		}
+		return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
+	end,
+}
+
 local diagnosticls_config = {
-  root_dir = function (fname)
-    return util.root_pattern '.git'(fname) or util.path.dirname(fname)
-  end,
+	root_dir = function(fname)
+		return util.root_pattern(".git")(fname) or util.path.dirname(fname)
+	end,
 	filetypes = {
 		"javascript",
 		"javascriptreact",
@@ -101,7 +132,7 @@ local diagnosticls_config = {
 		"rust",
 		"lua",
 		"python",
-    "proto",
+		"proto",
 	},
 	init_options = {
 		linters = {
@@ -158,7 +189,7 @@ local diagnosticls_config = {
 					message = "${Text} [${FromLinter}]",
 				},
 			},
-      buf = {
+			buf = {
 				command = "buf",
 				sourceName = "buf",
 				args = { "lint", "--path", vim.api.nvim_buf_get_name(0), "--error-format=text" },
@@ -170,7 +201,7 @@ local diagnosticls_config = {
 					"([a-zA-Z|\\/|\\.]*):(\\d+):(\\d+):(.*)*$",
 					{ sourceName = 1, line = 2, column = 3, message = 4 },
 				},
-      },
+			},
 		},
 		filetypes = {
 			javascript = "eslint",
@@ -223,10 +254,12 @@ local function setup_servers_use_nvim_lsp_installer()
 			config.settings = lua_config.settings
 		elseif server.name == "gopls" then
 			config.init_options = gopls_config.init_options
+		elseif server.name == "pyright" then
+			config.root_dir = pyright_config.root_dir
 		elseif server.name == "diagnosticls" then
 			config.init_options = diagnosticls_config.init_options
 			config.filetypes = diagnosticls_config.filetypes
-      config.root_dir = diagnosticls_config.root_dir
+			config.root_dir = diagnosticls_config.root_dir
 		end
 
 		-- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
@@ -237,6 +270,7 @@ local function setup_servers_use_nvim_lsp_installer()
 end
 
 setup_servers_use_nvim_lsp_installer()
+set_diagnostic_sign()
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	-- Enable underline, use default values
