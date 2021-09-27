@@ -26,6 +26,13 @@ Temporary Items
 .apdisk
 
 setup/nvim*
+.config/anyenv
+.config/gcloud
+.config/gh
+.config/helm
+.config/blg
+.config/iterm2
+.config/dlv
 .config/.mono
 .config/composer
 .config/configstore
@@ -40,6 +47,12 @@ setup/nvim*
 .config/fish/conf.d
 .config/fish/fishfile
 .config/fish/functions
+.config/vue
+.config/omf
+.config/lazygit
+.config/nvim/dev-init.vim
+.config/nvim/coc-settings.json
+.config/nvim/plugin
 fishd.c4b301c57d0b
 .config/coc
 projectile-bookmarks.eld
