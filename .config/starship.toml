@@ -16,7 +16,6 @@ $character"""
 right_format = """
 $shlvl\
 $singularity\
-$kubernetes\
 $vcsh\
 $hg_branch\
 $docker_context\
@@ -56,6 +55,7 @@ $nix_shell\
 $conda\
 $memory_usage\
 $aws\
+$kubernetes\
 $gcloud\
 $openstack\
 $env_var\
@@ -84,3 +84,7 @@ style = "bold yellow"
 disabled = false
 [kubernetes.context_aliases]
 "gke_.*_(?P<cluster>[\\w-]+)" = "gke-$cluster"
+
+[python]
+pyenv_version_name=true
+detect_files=[".python-version", "Pipfile", "__init__.py", "pyproject.toml", "requirements.txt", "setup.py", "tox.ini", "pyrightconfig.json"]
