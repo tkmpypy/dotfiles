@@ -443,58 +443,20 @@ packer.startup({
 				})
 			end,
 		})
-		use({
-			"kazhala/close-buffers.nvim",
-			requires = { "akinsho/bufferline.nvim" },
-			config = function()
-				require("close_buffers").setup({
-					preserve_window_layout = { "this" },
-					next_buffer_cmd = function(windows)
-						require("bufferline").cycle(1)
-						-- local bufnr = vim.api.nvim_get_current_buf()
-
-						-- for _, window in ipairs(windows) do
-						-- 	vim.api.nvim_win_set_buf(window, bufnr)
-						-- end
-					end,
-				})
-
-				vim.api.nvim_set_keymap("n", "<leader>bdd", "<cmd>:BDelete this<CR>", { noremap = true, silent = true })
+		use {'moll/vim-bbye', config = function ()
 				vim.api.nvim_set_keymap(
 					"n",
-					"<leader>bdD",
-					"<cmd>:BDelete! this<CR>",
-					{ noremap = true, silent = true }
-				)
-				vim.api.nvim_set_keymap("n", "<leader>bda", "<cmd>:BDelete all<CR>", { noremap = true, silent = true })
-				vim.api.nvim_set_keymap("n", "<leader>bdA", "<cmd>:BDelete! all<CR>", { noremap = true, silent = true })
-				vim.api.nvim_set_keymap(
-					"n",
-					"<leader>bdo",
-					"<cmd>:BDelete other<CR>",
+					"<leader>q",
+					"<cmd>:Bdelete<CR>",
 					{ noremap = true, silent = true }
 				)
 				vim.api.nvim_set_keymap(
 					"n",
-					"<leader>bdO",
-					"<cmd>:BDelete! other<CR>",
+					"<leader>Q",
+					"<cmd>:Bdelete!<CR>",
 					{ noremap = true, silent = true }
 				)
-				vim.api.nvim_set_keymap(
-					"n",
-					"<leader>bdh",
-					"<cmd>:BDelete hidden<CR>",
-					{ noremap = true, silent = true }
-				)
-				vim.api.nvim_set_keymap(
-					"n",
-					"<leader>bdH",
-					"<cmd>:BDelete! hidden<CR>",
-					{ noremap = true, silent = true }
-				)
-			end,
-		})
-		-- use {'moll/vim-bbye'}
+		end}
 		-- use {'tyru/caw.vim'}
 		use({
 			"b3nj5m1n/kommentary",

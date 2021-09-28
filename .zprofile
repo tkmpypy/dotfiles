@@ -20,3 +20,4 @@ export PATH="$HOME/.anyenv/envs/nodenv/versions/*/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
+export NVIM_LOG_FILE="$XDG_CACHE_HOME/nvim/.nvim.log"

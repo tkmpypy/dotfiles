@@ -110,8 +110,6 @@ local pyright_config = {
 			".env",
 			"venv",
 			".venv",
-			"setup.cfg",
-			"setup.py",
 			"pyproject.toml",
 			"pyrightconfig.json",
 		}

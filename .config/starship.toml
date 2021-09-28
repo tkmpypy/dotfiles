@@ -1,22 +1,22 @@
 add_newline = true
 scan_timeout = 10
 
-# A minimal left prompt
-format = """
+format="""
+$username\
+$hostname\
 $directory\
 $git_branch\
 $git_commit\
 $git_state\
 $git_metrics\
-$git_status
+$git_status\
+$line_break\
 $character"""
 
-# move the rest of the prompt to the right
 right_format = """
-$username\
-$hostname\
 $shlvl\
 $singularity\
+$kubernetes\
 $vcsh\
 $hg_branch\
 $docker_context\
@@ -57,32 +57,30 @@ $conda\
 $memory_usage\
 $aws\
 $gcloud\
-$kubernetes\
 $openstack\
 $env_var\
 $crystal\
 $custom\
 $cmd_duration\
-$line_break\
 $jobs\
 $battery\
 $time\
 $status\
 $shell"""
 
-[aws]
-disabled = true
+[directory]
+truncate_to_repo = false
+truncation_length = 3
 
-[kubernetes]
-format = 'on [⛵ $context \($namespace\)](dimmed green) '
-disabled = true
-[kubernetes.context_aliases]
-"gke_.*_(?P<cluster>[\\w-]+)" = "gke-$cluster"
+[aws]
+disabled=true
 
 [gcloud]
-disabled = true
-format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
-style = "bold blue"
+disabled=false
+format = '[$symbol\($project\)]($style) '
+style = "bold yellow"
 
-[python]
-pyenv_version_name = true
+[kubernetes]
+disabled = false
+[kubernetes.context_aliases]
+"gke_.*_(?P<cluster>[\\w-]+)" = "gke-$cluster"

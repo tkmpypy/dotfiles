@@ -69,7 +69,7 @@ require("formatter").setup({
 		python = {
 			function()
 				return {
-					exe = vim.fn.expand("$HOME/.pyenv/shims/autopep8"),
+					exe = vim.fn.expand("$HOME/.anyenv/envs/pyenv/shims/autopep8"),
 					stdin = true,
 					args = { "--aggressive", "--experimental", "-" },
 				}
@@ -81,6 +81,15 @@ require("formatter").setup({
 					exe = "dartfmt",
 					stdin = true,
 					args = { "--fix", "-w", vim.api.nvim_buf_get_name(0) },
+				}
+			end,
+		},
+		sh = {
+			function()
+				return {
+					exe = "shfmt",
+					stdin = false,
+					args = { "-w", vim.api.nvim_buf_get_name(0) },
 				}
 			end,
 		},
