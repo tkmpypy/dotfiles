@@ -21,7 +21,7 @@ function link_file() {
 
 
 exec_cmd "mkdir -p $XDG_CONFIG_HOME"
-exec_cmd "mkdir -p $HOME/.tmux/tmuxline"
+exec_cmd "mkdir -p $HOME/.tmux"
 
 DOT_FILES=(.zshrc .zprofile .zshrc.$(uname) .vimrc .tmux.conf .tmux/tmuxline .emacs.d .ideavimrc)
 for file in ${DOT_FILES[@]}; do

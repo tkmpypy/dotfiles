@@ -693,18 +693,6 @@ nmap <leader>p <Plug>MarkdownPreview
 " nmap <M-s> <Plug>MarkdownPreviewStop
 " nmap <C-p> <Plug>MarkdownPreviewToggle
 " }}
-" memolist {{
-let g:memolist_path = "~/Dropbox/notes"
-let g:memolist_memo_suffix = "md"
-let g:memolist_memo_date = "%Y-%m-%d %H:%M"
-let g:memolist_prompt_tags = 1
-let g:memolist_prompt_categories = 1
-let g:memolist_fzf = 1
-
-nnoremap <Leader>mn  :MemoNew<CR>
-nnoremap <Leader>ml  :MemoList<CR>
-nnoremap <Leader>mg  :MemoGrep<CR>
-" }}
 " undotree{{
 if has("persistent_undo")
     set undodir="~/Dropbox/undodir"

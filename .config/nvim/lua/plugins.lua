@@ -523,7 +523,17 @@ packer.startup({
 		})
 		use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
 		use({ "npxbr/glow.nvim" })
-		use({ "glidenote/memolist.vim" })
+    use { "alok/notational-fzf-vim",
+      requires = {{ "junegunn/fzf", run = "./install --bin" }} ,
+      config = function ()
+        local p = '~/Dropbox/notes'
+        vim.g.nv_main_directory = p
+        vim.g.nv_search_paths = {p}
+        vim.g.nv_default_extension = ".md"
+        vim.g.nv_create_note_key = 'ctrl-x'
+				vim.api.nvim_set_keymap("n", "<leader>M", ":NV<cr>", {})
+      end
+    }
 		use({ "mbbill/undotree" })
 		use({ "osyo-manga/vim-over" })
 		use({ "tyru/operator-camelize.vim", requires = { { "kana/vim-operator-user" } } })
@@ -1163,7 +1173,6 @@ packer.startup({
 		use({
 			"lewis6991/gitsigns.nvim",
 			requires = { "nvim-lua/plenary.nvim" },
-			disable = true,
 			config = function()
 				require("gitsigns").setup()
 			end,
