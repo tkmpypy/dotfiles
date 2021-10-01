@@ -432,11 +432,11 @@ packer.startup({
 		})
 		use({ "itchyny/vim-winfix" })
 		use({
-			"akinsho/nvim-toggleterm.lua",
+			"akinsho/toggleterm.nvim",
 			config = function()
 				require("toggleterm").setup({
 					size = 20,
-					open_mapping = [[<c-\>]],
+					open_mapping = [[<c-t>]],
 					shade_filetypes = {},
 					shade_terminals = true,
 					direction = "horizontal",
@@ -781,11 +781,10 @@ packer.startup({
 			})
 		else
 			if vim.g.fuzzy_finder_type == "fzf" then
-				use({ "junegunn/fzf", run = "./install --bin" })
 				use({
 					"ibhagwan/fzf-lua",
 					requires = {
-						"junegunn/fzf",
+            { "junegunn/fzf", run = "./install --bin" },
 						"vijaymarupudi/nvim-fzf",
 						"kyazdani42/nvim-web-devicons",
 					},

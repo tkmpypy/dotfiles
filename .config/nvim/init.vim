@@ -45,6 +45,19 @@ colorscheme tokyonight
 
 " load my scripts {{
 lua require('scripts/gen_gitignore').setup()
+
+lua << EOF
+require('scripts/note_talking').setup({
+  base_dir="~/Dropbox/notes",
+  func_find=function(base_dir)
+    require('fzf-lua').files({ cwd = base_dir })
+  end,
+  input = {
+    prefix_len = 7,
+    offset = 2
+  }
+})
+EOF
 " }}
 
 
@@ -70,6 +83,8 @@ function! VisualSearch()
 
 endfunction
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
+
+nnoremap <silent> <leader>nt <cmd>e ~/Dropbox/todo/todo.txt<CR>
 " }}
 
 " telescope.nvim {{
