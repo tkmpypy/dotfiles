@@ -524,6 +524,7 @@ packer.startup({
 		use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
 		use({ "npxbr/glow.nvim" })
     use { "alok/notational-fzf-vim",
+      disable = true,
       requires = {{ "junegunn/fzf", run = "./install --bin" }} ,
       config = function ()
         local p = '~/Dropbox/notes'
@@ -784,7 +785,6 @@ packer.startup({
 				use({
 					"ibhagwan/fzf-lua",
 					requires = {
-            { "junegunn/fzf", run = "./install --bin" },
 						"vijaymarupudi/nvim-fzf",
 						"kyazdani42/nvim-web-devicons",
 					},
@@ -1695,7 +1695,7 @@ packer.startup({
 		end
 
 		use({
-			"~/private/chowcho.nvim",
+			"tkmpypy/chowcho.nvim",
 			config = function()
 				require("chowcho").setup({ border_style = "rounded", icon_enabled = true })
 			end,

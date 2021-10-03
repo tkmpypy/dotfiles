@@ -47,7 +47,8 @@ zinit light-mode for \
     zinit-zsh/z-a-bin-gem-node
 
 ### End of Zinit's installer chunk
-
+zinit ice from"gh-r" as"program"
+zinit light junegunn/fzf
 [ -f ~/.zshrc.`uname` ] && source ~/.zshrc.`uname`
 
 # alias

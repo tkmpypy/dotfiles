@@ -5,6 +5,7 @@
 *.DS_Store
 .AppleDouble
 .LSOverride
+*Brewfile.lock*
 
 # Icon must end with two \r
 Icon
