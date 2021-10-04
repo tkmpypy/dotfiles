@@ -93,23 +93,25 @@ packer.startup({
 			config = function()
 				local nightfox = require("nightfox")
 				nightfox.setup({
-					fox = "nordfox", -- Which fox style should be applied
-					transparent = false, -- Disable setting the background color
-					terminal_colors = true, -- Configure the colors used when opening :terminal
+					fox = "nordfox", -- change the colorscheme to use nordfox
 					styles = {
-						comments = "italic", -- Style that is applied to comments: see `highlight-args` for options
-						functions = "italic,bold", -- Style that is applied to functions: see `highlight-args` for options
-						keywords = "bold", -- Style that is applied to keywords: see `highlight-args` for options
-						-- strings = "NONE", -- Style that is applied to strings: see `highlight-args` for options
-						-- variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
+						comments = "italic", -- change style of comments to be italic
+						keywords = "bold", -- change style of keywords to be bold
+						functions = "italic,bold", -- styles can be a comma separated list
 					},
 					inverse = {
-						match_paren = true, -- Enable/Disable inverse highlighting for match parens
-						visual = true, -- Enable/Disable inverse highlighting for visual selection
-						search = true, -- Enable/Disable inverse highlights for search highlights
+						match_paren = true, -- inverse the highlighting of match_parens
+            visual = false,
+            search = false
+					},
+					hlgroups = {
+						TSPunctDelimiter = { fg = "${red}" }, -- Override a highlight group with the color red
+						LspCodeLens = { bg = "#000000", style = "italic" },
 					},
 				})
-				-- nightfox.load()
+
+				-- Load the configuration set above and apply the colorscheme
+				nightfox.load()
 			end,
 		})
 
@@ -443,20 +445,13 @@ packer.startup({
 				})
 			end,
 		})
-		use {'moll/vim-bbye', config = function ()
-				vim.api.nvim_set_keymap(
-					"n",
-					"<leader>q",
-					"<cmd>:Bdelete<CR>",
-					{ noremap = true, silent = true }
-				)
-				vim.api.nvim_set_keymap(
-					"n",
-					"<leader>Q",
-					"<cmd>:Bdelete!<CR>",
-					{ noremap = true, silent = true }
-				)
-		end}
+		use({
+			"moll/vim-bbye",
+			config = function()
+				vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>:Bdelete<CR>", { noremap = true, silent = true })
+				vim.api.nvim_set_keymap("n", "<leader>Q", "<cmd>:Bdelete!<CR>", { noremap = true, silent = true })
+			end,
+		})
 		-- use {'tyru/caw.vim'}
 		use({
 			"b3nj5m1n/kommentary",
@@ -523,18 +518,6 @@ packer.startup({
 		})
 		use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
 		use({ "npxbr/glow.nvim" })
-    use { "alok/notational-fzf-vim",
-      disable = true,
-      requires = {{ "junegunn/fzf", run = "./install --bin" }} ,
-      config = function ()
-        local p = '~/Dropbox/notes'
-        vim.g.nv_main_directory = p
-        vim.g.nv_search_paths = {p}
-        vim.g.nv_default_extension = ".md"
-        vim.g.nv_create_note_key = 'ctrl-x'
-				vim.api.nvim_set_keymap("n", "<leader>M", ":NV<cr>", {})
-      end
-    }
 		use({ "mbbill/undotree" })
 		use({ "osyo-manga/vim-over" })
 		use({ "tyru/operator-camelize.vim", requires = { { "kana/vim-operator-user" } } })
@@ -805,17 +788,31 @@ packer.startup({
 							-- fzf_bin             = 'sk',        -- use skim instead of fzf?
 							fzf_layout = "default", -- fzf '--layout='
 							fzf_args = "--cycle", -- adv: fzf extra args, empty unless adv
-							fzf_binds = { -- fzf '--bind=' options
-								"f2:toggle-preview",
-								"f3:toggle-preview-wrap",
-								"shift-down:preview-page-down",
-								"shift-up:preview-page-up",
-								"ctrl-d:half-page-down",
-								"ctrl-u:half-page-up",
-								"ctrl-f:page-down",
-								"ctrl-b:page-up",
-								"ctrl-a:toggle-all",
-								"ctrl-l:clear-query",
+							keymap = {
+								builtin = {
+									-- neovim `:tmap` mappings for the fzf win
+									["<F2>"] = "toggle-fullscreen",
+									-- Only valid with the 'builtin' previewer
+									["<F3>"] = "toggle-preview-wrap",
+									["<F4>"] = "toggle-preview",
+									["<S-down>"] = "preview-page-down",
+									["<S-up>"] = "preview-page-up",
+									["<S-left>"] = "preview-page-reset",
+								},
+								fzf = {
+									-- fzf '--bind=' options
+									["ctrl-u"] = "unix-line-discard",
+									["ctrl-f"] = "half-page-down",
+									["ctrl-b"] = "half-page-up",
+									["ctrl-a"] = "beginning-of-line",
+									["ctrl-e"] = "end-of-line",
+									["alt-a"] = "toggle-all",
+									-- Only valid with fzf previewers (bat/cat/git/etc)
+									["f3"] = "toggle-preview-wrap",
+									["f4"] = "toggle-preview",
+									["shift-down"] = "preview-page-down",
+									["shift-up"] = "preview-page-up",
+								},
 							},
 							preview_border = "border", -- border|noborder
 							preview_wrap = "nowrap", -- wrap|nowrap
@@ -855,7 +852,6 @@ packer.startup({
 									title = true, -- preview title?
 									scrollbar = true, -- scrollbar?
 									scrollchar = "█", -- scrollbar character
-									wrap = false, -- wrap lines?
 									syntax = true, -- preview syntax highlight?
 									syntax_limit_l = 0, -- syntax limit (lines), 0=nolimit
 									syntax_limit_b = 1024 * 1024, -- syntax limit (bytes), 0=nolimit
@@ -863,14 +859,6 @@ packer.startup({
 									hl_cursor = "Cursor", -- cursor highlight
 									hl_cursorline = "CursorLine", -- cursor line highlight
 									hl_range = "IncSearch", -- ranger highlight (not yet in use)
-									keymap = {
-										toggle_full = "<F2>", -- toggle full screen
-										toggle_wrap = "<F3>", -- toggle line wrap
-										toggle_hide = "<F4>", -- toggle on/off (not yet in use)
-										page_up = "<S-up>", -- preview scroll up
-										page_down = "<S-down>", -- preview scroll down
-										page_reset = "<S-left>", -- reset scroll to orig pos
-									},
 								},
 							},
 							-- provider setup
@@ -980,7 +968,7 @@ packer.startup({
 									["ctrl-s"] = actions.buf_split,
 									["ctrl-v"] = actions.buf_vsplit,
 									["ctrl-t"] = actions.buf_tabedit,
-									["ctrl-x"] = actions.buf_del,
+									["ctrl-d"] = actions.buf_del,
 								},
 							},
 							blines = {
@@ -1529,10 +1517,10 @@ packer.startup({
 							["<C-b>"] = cmp.mapping.scroll_docs(4),
 							["<C-Space>"] = cmp.mapping.complete(),
 							["<C-e>"] = cmp.mapping.close(),
-              ["<C-c>"] = function()
-                local key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
-                vim.api.nvim_feedkeys(key, 'i', false)
-              end,
+							["<C-c>"] = function()
+								local key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+								vim.api.nvim_feedkeys(key, "i", false)
+							end,
 							["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
 						},
 

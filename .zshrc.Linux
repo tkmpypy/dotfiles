@@ -5,6 +5,10 @@
 zinit ice from"gh-r" as"program" bpick"*x86_64-unknown-linux*" atload='eval "$(starship init zsh)"'
 zinit load starship/starship
 
+# fzf
+zinit ice from"gh-r" as"program" bpick"*linux_amd*"
+zinit load junegunn/fzf
+
 # Neovim
 # zinit ice from"gh-r" as"program" bpick"*linux*" pick"nvim-linux64/bin/nvim" ver"nightly"
 # zinit load neovim/neovim

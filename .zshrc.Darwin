@@ -5,6 +5,10 @@
 zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" atload='eval "$(starship init zsh)"'
 zinit load starship/starship
 
+# fzf
+zinit ice from"gh-r" as"program" bpick"*darwin_amd*"
+zinit load junegunn/fzf
+
 # Neovim
 # zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
 # zinit load neovim/neovim

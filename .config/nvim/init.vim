@@ -35,12 +35,13 @@ augroup end
 
 " colorscheme OceanicNext
 " colorscheme edge
-colorscheme tokyonight
+" colorscheme tokyonight
 " colorscheme zephyr
 " colorscheme space-nvim
 " colorscheme gruvbox-flat
 " colorscheme doom-one
 " colorscheme nightfox
+colorscheme nordfox
 
 
 " load my scripts {{
@@ -48,15 +49,26 @@ lua require('scripts/gen_gitignore').setup()
 
 lua << EOF
 require('scripts/note_talking').setup({
-  base_dir="~/Dropbox/notes",
-  func_find=function(base_dir)
-    require('fzf-lua').files({ cwd = base_dir })
+  notes_dir="~/Dropbox/notes",
+  -- find_cmd="FzfLua live_grep cwd=~/Dropbox/notes",
+  find_cmd=function(notes_dir)
+    local p = vim.fn.expand(notes_dir)
+    return "lua require('fzf-lua').live_grep({cwd = '"..p.."'})"
   end,
-  input = {
-    prefix_len = 7,
-    offset = 2
-  }
 })
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>ml",
+  "<cmd>OboeList<CR>",
+  { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>mn",
+  "<cmd>OboeNew<CR>",
+  { noremap = true, silent = true }
+)
 EOF
 " }}
 
