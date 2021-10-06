@@ -938,7 +938,7 @@ packer.startup({
 								input_prompt = "Grep For❯ ",
 								-- cmd               = "rg --vimgrep",
 								rg_opts = "--hidden --column --line-number --no-heading "
-									.. "--color=always --smart-case -g '!{.git,node_modules}/*'",
+									.. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
 								git_icons = true, -- show git icons?
 								file_icons = true, -- show file icons?
 								color_icons = true, -- colorize file|git icons
