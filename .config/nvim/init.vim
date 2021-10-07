@@ -34,6 +34,7 @@ augroup end
 " colorscheme embark
 
 " colorscheme OceanicNext
+colorscheme everforest
 " colorscheme edge
 " colorscheme tokyonight
 " colorscheme zephyr

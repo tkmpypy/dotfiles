@@ -39,6 +39,21 @@ packer.startup({
 		use({ "mhartington/oceanic-next", opt = true })
 		use({ "sainnhe/edge" })
 		use({
+			"sainnhe/everforest",
+			config = function()
+				-- Set contrast.
+				--   This configuration option should be placed before `colorscheme everforest`.
+				--   Available values: 'hard', 'medium'(default), 'soft'
+				vim.g.everforest_background = "soft"
+				vim.g.everforest_enable_italic = 1
+				vim.g.everforest_disable_italic_comment = 0
+				vim.g.everforest_transparent_background = 1
+				vim.g.everforest_ui_contrast = "low" -- high or low
+				vim.g.everforest_diagnostic_text_highlight = 1
+				vim.g.everforest_diagnostic_line_highlight = 1
+			end,
+		})
+		use({
 			"glepnir/zephyr-nvim",
 			requires = { { "nvim-treesitter/nvim-treesitter" } },
 		})
@@ -120,7 +135,7 @@ packer.startup({
 						search = false,
 					},
 				})
-				nightfox.load()
+				-- nightfox.load()
 			end,
 		})
 
@@ -234,6 +249,7 @@ packer.startup({
 
 		use({ "norcalli/nvim-colorizer.lua" })
 		use({ "kyazdani42/nvim-web-devicons" })
+		-- TODO: migrate to lualine.nvim or feline.nvim
 		use({
 			"glepnir/galaxyline.nvim",
 			branch = "main",
@@ -1226,18 +1242,6 @@ packer.startup({
 						hunk = { "", "" },
 					},
 					integrations = {
-						-- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
-						-- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
-						--
-						-- Requires you to have `sindrets/diffview.nvim` installed.
-						-- use {
-						--   'TimUntersberger/neogit',
-						--   requires = {
-						--     'nvim-lua/plenary.nvim',
-						--     'sindrets/diffview.nvim'
-						--   }
-						-- }
-						--
 						diffview = true,
 					},
 					-- override/add mappings
@@ -1282,7 +1286,6 @@ packer.startup({
 					"<cmd>Neogit kind=split<cr>",
 					{ silent = true, noremap = true }
 				)
-				vim.api.nvim_set_keymap("n", "<leader>gc", "<cmd>Neogit commit<cr>", { silent = true, noremap = true })
 			end,
 		})
 		use({ "rhysd/git-messenger.vim" })
