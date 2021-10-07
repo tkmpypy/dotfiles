@@ -29,22 +29,8 @@ packer.startup({
 		end
 
 		-- ColorScheme
-		use({ "altercation/vim-colors-solarized", opt = true })
 		use({ "Rigellute/rigel", opt = true })
-		use({ "w0ng/vim-hybrid", opt = true })
-		use({ "flrnprz/plastic.vim", opt = true })
-		use({ "KeitaNakamura/neodark.vim", opt = true })
-		use({ "sonph/onehalf", opt = true })
-		use({ "cocopon/iceberg.vim", opt = true })
-		use({ "dracula/vim", opt = true, as = "dracula" })
-		use({ "morhetz/gruvbox", opt = true })
-		use({ "kaicataldo/material.vim", opt = true })
-		use({ "sainnhe/gruvbox-material" })
 		use({ "arcticicestudio/nord-vim", opt = true })
-		use({ "whatyouhide/vim-gotham", opt = true })
-		use({ "yuttie/hydrangea-vim", opt = true })
-		use({ "NLKNguyen/papercolor-theme", opt = true })
-		use({ "junegunn/seoul256.vim", opt = true })
 		use({ "drewtempelmeyer/palenight.vim" })
 		use({ "franbach/miramare", opt = true })
 		use({ "embark-theme/vim", opt = true, as = "embark" })
@@ -57,7 +43,13 @@ packer.startup({
 			requires = { { "nvim-treesitter/nvim-treesitter" } },
 		})
 		use({ "savq/melange", opt = true })
-		use({ "folke/tokyonight.nvim" })
+		use({
+			"folke/tokyonight.nvim",
+			config = function()
+				vim.g.tokyonight_style = "storm"
+				vim.g.tokyonight_italic_functions = true
+			end,
+		})
 		use({
 			"Th3Whit3Wolf/space-nvim",
 			config = function()
@@ -81,11 +73,34 @@ packer.startup({
 		})
 		use({
 			"NTBBloodbath/doom-one.nvim",
+			disable = true,
 			config = function()
-				vim.g.doom_one_enable_treesitter = true
-				vim.g.doom_one_terminal_colors = false
-				vim.g.doom_one_transparent_background = false
-				vim.g.doom_one_cursor_coloring = true
+				require("doom-one").setup({
+					cursor_coloring = false,
+					terminal_colors = false,
+					italic_comments = false,
+					enable_treesitter = true,
+					transparent_background = false,
+					pumblend = {
+						enable = false,
+						transparency_amount = 20,
+					},
+					plugins_integrations = {
+						barbar = true,
+						bufferline = true,
+						gitgutter = true,
+						gitsigns = true,
+						telescope = true,
+						neogit = true,
+						nvim_tree = true,
+						dashboard = true,
+						startify = false,
+						whichkey = false,
+						indent_blankline = true,
+						vim_illuminate = true,
+						lspsaga = true,
+					},
+				})
 			end,
 		})
 		use({
@@ -101,16 +116,10 @@ packer.startup({
 					},
 					inverse = {
 						match_paren = true, -- inverse the highlighting of match_parens
-            visual = false,
-            search = false
-					},
-					hlgroups = {
-						TSPunctDelimiter = { fg = "${red}" }, -- Override a highlight group with the color red
-						LspCodeLens = { bg = "#000000", style = "italic" },
+						visual = false,
+						search = false,
 					},
 				})
-
-				-- Load the configuration set above and apply the colorscheme
 				nightfox.load()
 			end,
 		})
@@ -419,7 +428,7 @@ packer.startup({
 					timeout = 5000,
 
 					-- For stages that change opacity this is treated as the highlight behind the window
-					background_colour = "Normal",
+					background_colour = "#000000",
 
 					-- Icons for the different levels
 					icons = {
@@ -1166,6 +1175,7 @@ packer.startup({
 		})
 		use({
 			"lambdalisue/gina.vim",
+			disable = true,
 			config = function()
 				vim.fn["gina#custom#mapping#nmap"](
 					"status",
@@ -1195,71 +1205,84 @@ packer.startup({
 		})
 		use({
 			"TimUntersberger/neogit",
-			disable = true,
+			-- disable = true,
 			requires = { { "nvim-lua/plenary.nvim" }, { "sindrets/diffview.nvim" } },
 			config = function()
-				-- NOTE:
-				-- Extremely temporary hack to get nvim to not crash on startup.
-				-- Will debug this problem and report upstream. Seems to be related to
-				-- plenary loading its luv or async module incorrectly on startup.
-				vim.defer_fn(function()
-					local neogit = require("neogit")
-					neogit.setup({
-						disable_signs = false,
-						disable_context_highlighting = false,
-						disable_commit_confirmation = false,
-						auto_refresh = true,
-						disable_builtin_notifications = false,
-						commit_popup = {
-							kind = "split",
+				local neogit = require("neogit")
+				neogit.setup({
+					disable_signs = true,
+					disable_context_highlighting = false,
+					disable_commit_confirmation = false,
+					auto_refresh = true,
+					disable_builtin_notifications = false,
+					commit_popup = {
+						kind = "split",
+					},
+					-- customize displayed signs
+					signs = {
+						-- { CLOSED, OPENED }
+						section = { ">", "v" },
+						item = { ">", "v" },
+						hunk = { "", "" },
+					},
+					integrations = {
+						-- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
+						-- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
+						--
+						-- Requires you to have `sindrets/diffview.nvim` installed.
+						-- use {
+						--   'TimUntersberger/neogit',
+						--   requires = {
+						--     'nvim-lua/plenary.nvim',
+						--     'sindrets/diffview.nvim'
+						--   }
+						-- }
+						--
+						diffview = true,
+					},
+					-- override/add mappings
+					mappings = {
+						-- modify status buffer mappings
+						status = {
+							["q"] = "Close",
+							["1"] = "Depth1",
+							["2"] = "Depth2",
+							["3"] = "Depth3",
+							["4"] = "Depth4",
+							["<tab>"] = "Toggle",
+							["x"] = "Discard",
+							["s"] = "Stage",
+							["S"] = "StageUnstaged",
+							["<c-s>"] = "StageAll",
+							["u"] = "Unstage",
+							["U"] = "UnstageStaged",
+							["d"] = "DiffAtFile",
+							["D"] = "DiffPopup",
+							["$"] = "CommandHistory",
+							["<c-r>"] = "RefreshBuffer",
+							["<enter>"] = "GoToFile",
+							["<c-v>"] = "VSplitOpen",
+							["<c-x>"] = "SplitOpen",
+							["<c-t>"] = "TabOpen",
+							["?"] = "HelpPopup",
+							["p"] = "PullPopup",
+							["r"] = "RebasePopup",
+							["P"] = "PushPopup",
+							["c"] = "CommitPopup",
+							["L"] = "LogPopup",
+							["Z"] = "StashPopup",
+							["b"] = "BranchPopup",
 						},
-						-- customize displayed signs
-						signs = {
-							-- { CLOSED, OPENED }
-							section = { ">", "v" },
-							item = { ">", "v" },
-							hunk = { "", "" },
-						},
-						integrations = {
-							-- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
-							-- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
-							--
-							-- Requires you to have `sindrets/diffview.nvim` installed.
-							-- use {
-							--   'TimUntersberger/neogit',
-							--   requires = {
-							--     'nvim-lua/plenary.nvim',
-							--     'sindrets/diffview.nvim'
-							--   }
-							-- }
-							--
-							diffview = true,
-						},
-						-- override/add mappings
-						mappings = {
-							-- modify status buffer mappings
-							status = {
-								-- Adds a mapping with "B" as key that does the "BranchPopup" command
-								["B"] = "BranchPopup",
-								-- Removes the default mapping of "s"
-								["s"] = "",
-							},
-						},
-					})
+					},
+				})
 
-					vim.api.nvim_set_keymap(
-						"n",
-						"<leader>gs",
-						"<cmd>Neogit kind=split<cr>",
-						{ silent = true, noremap = true }
-					)
-					vim.api.nvim_set_keymap(
-						"n",
-						"<leader>gc",
-						"<cmd>Neogit commit<cr>",
-						{ silent = true, noremap = true }
-					)
-				end, 10)
+				vim.api.nvim_set_keymap(
+					"n",
+					"<leader>gs",
+					"<cmd>Neogit kind=split<cr>",
+					{ silent = true, noremap = true }
+				)
+				vim.api.nvim_set_keymap("n", "<leader>gc", "<cmd>Neogit commit<cr>", { silent = true, noremap = true })
 			end,
 		})
 		use({ "rhysd/git-messenger.vim" })

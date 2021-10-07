@@ -42,7 +42,7 @@ function _G.tkmpypy.Gigi.generate_gitignore(args)
 	end
 end
 
-M.setup = function()
+M.initialize = function()
 	regist_command()
 end
 

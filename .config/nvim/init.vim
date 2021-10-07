@@ -40,12 +40,10 @@ augroup end
 " colorscheme space-nvim
 " colorscheme gruvbox-flat
 " colorscheme doom-one
-" colorscheme nightfox
-colorscheme nordfox
 
 
 " load my scripts {{
-lua require('scripts/gen_gitignore').setup()
+lua require('scripts/gen_gitignore').initialize()
 
 lua << EOF
 require('scripts/note_talking').setup({
