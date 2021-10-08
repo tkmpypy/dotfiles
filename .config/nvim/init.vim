@@ -45,6 +45,7 @@ colorscheme everforest
 
 " load my scripts {{
 lua require('scripts/gen_gitignore').initialize()
+lua require('scripts/git_linker').initialize()
 
 lua << EOF
 require('scripts/note_talking').setup({
@@ -91,6 +92,7 @@ function! VisualSearch()
 
   let @/ = text
   call histadd('/', text)
+
 
 endfunction
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
