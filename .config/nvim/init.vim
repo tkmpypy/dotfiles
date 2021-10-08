@@ -198,9 +198,6 @@ nnoremap <leader>fR :FlutterHotRestart<cr>
 " rainbow {{
 let g:rainbow_active = 1
 " }}
-" python-syntax {{
-let g:python_highlight_all = 1
-" }}
 
 function! s:setup_nvim_lsp()
     lua require('lsp_settings')

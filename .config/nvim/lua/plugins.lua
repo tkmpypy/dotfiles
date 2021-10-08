@@ -467,6 +467,8 @@ packer.startup({
 					shade_filetypes = {},
 					shade_terminals = true,
 					direction = "horizontal",
+					insert_mappings = true,
+					close_on_exit = false,
 				})
 			end,
 		})
@@ -1508,10 +1510,11 @@ packer.startup({
 					local cmp = require("cmp")
 					local types = require("cmp.types")
 					local compare = require("cmp.config.compare")
+					local lspkind = require("lspkind")
 					cmp.setup({
 						completion = {
 							autocomplete = { types.cmp.TriggerEvent.TextChanged },
-							completeopt = "menu,menuone,noselect",
+							completeopt = "menu,menuone,noinsert",
 							keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
 							keyword_length = 1,
 						},
@@ -1547,7 +1550,7 @@ packer.startup({
 								local key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
 								vim.api.nvim_feedkeys(key, "i", false)
 							end,
-							["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+							["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
 						},
 
 						-- You should specify your *installed* sources.
@@ -1567,22 +1570,7 @@ packer.startup({
 							},
 						},
 						formatting = {
-							format = function(entry, vim_item)
-								-- fancy icons and a name of kind
-								vim_item.kind = require("lspkind").presets.default[vim_item.kind]
-									.. " "
-									.. vim_item.kind
-								-- set a name for each source
-								vim_item.menu = ({
-									buffer = "[BUF]",
-									path = "[PATH]",
-									nvim_lsp = "[LSP]",
-									nvim_lua = "[Lua]",
-									orgmode = "[ORG]",
-									vsnip = "[SNIP]",
-								})[entry.source.name]
-								return vim_item
-							end,
+							format = lspkind.cmp_format(),
 						},
 					})
 				end,
@@ -1715,5 +1703,7 @@ packer.startup({
 			end,
 		})
 	end,
-	config = { display = { open_fn = util.float } },
+	config = {
+		display = { open_fn = util.float },
+	},
 })
