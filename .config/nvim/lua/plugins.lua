@@ -1,5 +1,6 @@
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local packer_compiled_path = fn.stdpath("config") .. "/lua/packer_compiled.lua"
 
 if fn.empty(fn.glob(install_path)) > 0 then
 	fn.system({
@@ -13,14 +14,26 @@ end
 local packer = require("packer")
 local util = require("packer.util")
 
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+    autocmd User PackerCompileDone silent! lua require("packer_compiled")
+  augroup end
+]])
+
+if fn.empty(fn.glob(packer_compiled_path)) == 0 then
+  require("packer_compiled")
+end
+
 packer.startup({
 	function(use)
 		-- Packer can manage itself as an optional plugin
-		use({ "wbthomason/packer.nvim" })
+		use({"wbthomason/packer.nvim"})
 		use({
 			"lewis6991/impatient.nvim",
 			config = function()
-				require("impatient")
+				require("impatient").enable_profile()
 			end,
 		})
 
@@ -355,8 +368,6 @@ packer.startup({
 					hijack_cursor = false,
 					-- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
 					update_cwd = false,
-					-- show lsp diagnostics in the signcolumn
-					lsp_diagnostics = false,
 					-- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
 					update_focused_file = {
 						-- enables the feature
@@ -367,6 +378,16 @@ packer.startup({
 						-- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
 						-- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
 						ignore_list = {},
+					},
+					-- show lsp diagnostics in the signcolumn
+					diagnostics = {
+						enable = false,
+						icons = {
+							hint = "",
+							info = "",
+							warning = "",
+							error = "",
+						},
 					},
 					-- configuration options for the system open command (`s` in the tree by default)
 					system_open = {
@@ -1244,7 +1265,7 @@ packer.startup({
 						listing_style = "tree", -- One of 'list' or 'tree'
 						tree_options = { -- Only applies when listing_style is 'tree'
 							flatten_dirs = true,
-							folder_statuses = "always",  -- One of 'never', 'only_folded' or 'always'.
+							folder_statuses = "always", -- One of 'never', 'only_folded' or 'always'.
 						},
 					},
 					file_history_panel = {
@@ -1272,7 +1293,7 @@ packer.startup({
 							["<C-w>gf"] = cb("goto_file_tab"), -- Open the file in a new tabpage
 							["<leader>e"] = cb("focus_files"), -- Bring focus to the files panel
 							["<leader>b"] = cb("toggle_files"), -- Toggle the files panelos.time
-              ["q"] = "<CMD>DiffviewClose<CR>"
+							["q"] = "<CMD>DiffviewClose<CR>",
 						},
 						file_panel = {
 							["j"] = cb("next_entry"), -- Bring the cursor to the next file entry
@@ -1296,7 +1317,7 @@ packer.startup({
 							["f"] = cb("toggle_flatten_dirs"), -- Flatten empty subdirectories in tree listing style.
 							["<leader>e"] = cb("focus_files"),
 							["<leader>b"] = cb("toggle_files"),
-              ["q"] = "<CMD>DiffviewClose<CR>"
+							["q"] = "<CMD>DiffviewClose<CR>",
 						},
 						file_history_panel = {
 							["g!"] = cb("options"), -- Open the option panel
@@ -1317,7 +1338,7 @@ packer.startup({
 							["<C-w>gf"] = cb("goto_file_tab"),
 							["<leader>e"] = cb("focus_files"),
 							["<leader>b"] = cb("toggle_files"),
-              ["q"] = "<CMD>DiffviewClose<CR>"
+							["q"] = "<CMD>DiffviewClose<CR>",
 						},
 						option_panel = {
 							["<tab>"] = cb("select"),
@@ -1325,12 +1346,13 @@ packer.startup({
 						},
 					},
 				})
-      vim.api.nvim_set_keymap("n", "<leader>gdd",
-                          "<cmd>DiffviewOpen<cr>",
-                          {silent = true, noremap = true})
-      vim.api.nvim_set_keymap("n", "<leader>gdc",
-                          "<cmd>DiffviewFileHistory .<cr>",
-                          {silent = true, noremap = true})
+				vim.api.nvim_set_keymap("n", "<leader>gdd", "<cmd>DiffviewOpen<cr>", { silent = true, noremap = true })
+				vim.api.nvim_set_keymap(
+					"n",
+					"<leader>gdc",
+					"<cmd>DiffviewFileHistory .<cr>",
+					{ silent = true, noremap = true }
+				)
 			end,
 		})
 		use({
@@ -1607,7 +1629,6 @@ packer.startup({
 			})
 			use({
 				"hrsh7th/nvim-cmp",
-				branch = "custom-menu",
 				requires = {
 					{ "onsails/lspkind-nvim" },
 					{ "hrsh7th/vim-vsnip" },
@@ -1651,8 +1672,10 @@ packer.startup({
 
 						-- You must set mapping.
 						mapping = {
-							["<C-p>"] = cmp.mapping.select_prev_item(),
-							["<C-n>"] = cmp.mapping.select_next_item(),
+							["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+							["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+							["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+							["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 							["<C-d>"] = cmp.mapping.scroll_docs(-4),
 							["<C-b>"] = cmp.mapping.scroll_docs(4),
 							["<C-Space>"] = cmp.mapping.complete(),
@@ -1682,6 +1705,10 @@ packer.startup({
 						},
 						formatting = {
 							format = lspkind.cmp_format(),
+						},
+						experimental = {
+							native_menu = false,
+							ghost_text = true,
 						},
 					})
 				end,
@@ -1815,6 +1842,8 @@ packer.startup({
 		})
 	end,
 	config = {
+		-- Move to lua dir so impatient.nvim can cache it
+		compile_path = packer_compiled_path,
 		display = { open_fn = util.float },
 	},
 })

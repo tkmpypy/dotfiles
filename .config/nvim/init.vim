@@ -22,11 +22,6 @@ augroup END
 set background=dark
 
 lua require('plugins')
-augroup my_packer
-  autocmd!
-  autocmd BufWritePost plugins.lua :PackerCompile<CR>
-augroup end
-
 " colorscheme palenight
 " colorscheme miramare
 " colorscheme melange
