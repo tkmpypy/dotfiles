@@ -29,9 +29,10 @@ lua require('plugins')
 " colorscheme embark
 
 " colorscheme OceanicNext
-colorscheme everforest
-" colorscheme edge
+" colorscheme everforest
+colorscheme edge
 " colorscheme tokyonight
+" colorscheme tokyodark
 " colorscheme zephyr
 " colorscheme space-nvim
 " colorscheme gruvbox-flat
@@ -41,6 +42,10 @@ colorscheme everforest
 " load my scripts {{
 lua require('scripts/gen_gitignore').initialize()
 lua require('scripts/git_linker').initialize()
+nnoremap <silent> <leader>glc <cmd>GitLinker current<CR>
+xnoremap <silent> <leader>glc <cmd>'<,'>GitLinker current<CR>
+nnoremap <silent> <leader>gld <cmd>GitLinker default<CR>
+xnoremap <silent> <leader>gld <cmd>'<,'>GitLinker default<CR>
 
 lua << EOF
 require('scripts/note_talking').setup({
@@ -204,7 +209,7 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
     nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
     " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-    nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
+    " nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 
     nnoremap <silent> gp    <cmd>lua vim.lsp.buf.peek_definition()<CR>
     nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -866,7 +871,6 @@ endif
 set t_Co=256
 let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-
 
 set wrap
 set wildmenu

@@ -12,7 +12,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 local packer = require("packer")
-local util = require("packer.util")
+local packer_util = require("packer.util")
 
 vim.cmd([[
   augroup packer_user_config
@@ -23,13 +23,13 @@ vim.cmd([[
 ]])
 
 if fn.empty(fn.glob(packer_compiled_path)) == 0 then
-  require("packer_compiled")
+	require("packer_compiled")
 end
 
 packer.startup({
 	function(use)
 		-- Packer can manage itself as an optional plugin
-		use({"wbthomason/packer.nvim"})
+		use({ "wbthomason/packer.nvim" })
 		use({
 			"lewis6991/impatient.nvim",
 			config = function()
@@ -71,6 +71,15 @@ packer.startup({
 			requires = { { "nvim-treesitter/nvim-treesitter" } },
 		})
 		use({ "savq/melange", opt = true })
+		use({
+			"tiagovla/tokyodark.nvim",
+			config = function()
+				vim.g.tokyodark_transparent_background = false
+				vim.g.tokyodark_enable_italic_comment = true
+				vim.g.tokyodark_enable_italic = true
+				vim.g.tokyodark_color_gamma = "1.5"
+			end,
+		})
 		use({
 			"folke/tokyonight.nvim",
 			config = function()
@@ -262,14 +271,282 @@ packer.startup({
 
 		use({ "norcalli/nvim-colorizer.lua" })
 		use({ "kyazdani42/nvim-web-devicons" })
-		-- TODO: migrate to lualine.nvim or feline.nvim
 		use({
-			"glepnir/galaxyline.nvim",
-			branch = "main",
+			"famiu/feline.nvim",
 			config = function()
-				return require("statusline")
+				local lsp = require("feline.providers.lsp")
+				local vi_mode_utils = require("feline.providers.vi_mode")
+				local colors = {
+					-- bg = "NONE",
+					bg = "#2c323c",
+					fg = "NONE",
+					fg_green = "#8FBCBB",
+					yellow = "#EBCB8B",
+					cyan = "#A3BE8C",
+					darkblue = "#81A1C1",
+					green = "#8FBCBB",
+					orange = "#D08770",
+					purple = "#B48EAD",
+					magenta = "#BF616A",
+					gray = "#616E88",
+					blue = "#5E81AC",
+					red = "#BF616A",
+					violet = "#b294bb",
+				}
+				local vi_mode_colors = {
+					["NORMAL"] = "green",
+					["OP"] = "green",
+					["INSERT"] = "cyan",
+					["VISUAL"] = "violet",
+					["LINES"] = "violet",
+					["BLOCK"] = "violet",
+					["REPLACE"] = "red",
+					["V-REPLACE"] = "red",
+					["ENTER"] = "cyan",
+					["MORE"] = "cyan",
+					["SELECT"] = "orange",
+					["COMMAND"] = "magenta",
+					["SHELL"] = "green",
+					["TERM"] = "blue",
+					["NONE"] = "yellow",
+				}
+				local mode_alias = {
+					["n"] = "NORMAL",
+					["no"] = "OP",
+					["nov"] = "OP",
+					["noV"] = "OP",
+					["no"] = "OP",
+					["niI"] = "NORMAL",
+					["niR"] = "NORMAL",
+					["niV"] = "NORMAL",
+					["v"] = "VISUAL",
+					["V"] = "V-LINES",
+					[""] = "V-BLOCK",
+					["s"] = "SELECT",
+					["S"] = "SELECT",
+					[""] = "BLOCK",
+					["i"] = "INSERT",
+					["ic"] = "INSERT",
+					["ix"] = "INSERT",
+					["R"] = "REPLACE",
+					["Rc"] = "REPLACE",
+					["Rv"] = "V-REPLACE",
+					["Rx"] = "REPLACE",
+					["c"] = "COMMAND",
+					["cv"] = "COMMAND",
+					["ce"] = "COMMAND",
+					["r"] = "ENTER",
+					["rm"] = "MORE",
+					["r?"] = "CONFIRM",
+					["!"] = "SHELL",
+					["t"] = "TERM",
+					["null"] = "NONE",
+				}
+				local comps = {
+					vi_mode = {
+						icon = "",
+						provider = function()
+							local mode = vim.api.nvim_get_mode().mode
+							return " " .. mode_alias[mode] .. " "
+						end,
+						hl = function()
+							return {
+								name = vi_mode_utils.get_mode_highlight_name(),
+								fg = colors.bg,
+								bg = vi_mode_utils.get_mode_color(),
+								style = "bold",
+							}
+						end,
+						right_sep = " ",
+					},
+					file = {
+						info = {
+							-- provider = 'file_info',
+							provider = function()
+								local util = require("scripts.util")
+								return util.file.get_current_ufn()
+							end,
+							hl = {
+								fg = colors.blue,
+								style = "bold",
+							},
+							left_sep = " ",
+						},
+						encoding = {
+							provider = "file_encoding",
+							left_sep = " ",
+							hl = {
+								fg = colors.violet,
+								style = "bold",
+							},
+						},
+						type = {
+							provider = "file_type",
+						},
+						os = {
+							provider = function()
+								local util = require("scripts.util")
+								return util.os.icon()
+							end,
+							left_sep = " ",
+							hl = {
+								fg = colors.violet,
+								style = "bold",
+							},
+						},
+					},
+					line_percentage = {
+						provider = "line_percentage",
+						left_sep = " ",
+						hl = {
+							style = "bold",
+						},
+					},
+					position = {
+						provider = "position",
+						left_sep = " ",
+						hl = {
+							style = "bold",
+						},
+					},
+					scroll_bar = {
+						provider = "scroll_bar",
+						left_sep = " ",
+						hl = {
+							fg = colors.blue,
+							style = "bold",
+						},
+					},
+					diagnos = {
+						err = {
+							provider = "diagnostic_errors",
+							enabled = function()
+								return lsp.diagnostics_exist("Error")
+							end,
+							hl = {
+								fg = colors.red,
+							},
+						},
+						warn = {
+							provider = "diagnostic_warnings",
+							enabled = function()
+								return lsp.diagnostics_exist("Warning")
+							end,
+							hl = {
+								fg = colors.yellow,
+							},
+						},
+						hint = {
+							provider = "diagnostic_hints",
+							enabled = function()
+								return lsp.diagnostics_exist("Hint")
+							end,
+							hl = {
+								fg = colors.cyan,
+							},
+						},
+						info = {
+							provider = "diagnostic_info",
+							enabled = function()
+								return lsp.diagnostics_exist("Information")
+							end,
+							hl = {
+								fg = colors.blue,
+							},
+						},
+					},
+					lsp = {
+						name = {
+							provider = "lsp_client_names",
+							left_sep = " ",
+							icon = " ",
+							hl = {
+								fg = colors.yellow,
+							},
+						},
+					},
+					git = {
+						branch = {
+							provider = "git_branch",
+							icon = " ",
+							left_sep = " ",
+							hl = {
+								fg = colors.violet,
+								style = "bold",
+							},
+						},
+						add = {
+							provider = "git_diff_added",
+							hl = {
+								fg = colors.green,
+							},
+						},
+						change = {
+							provider = "git_diff_changed",
+							hl = {
+								fg = colors.orange,
+							},
+						},
+						remove = {
+							provider = "git_diff_removed",
+							hl = {
+								fg = colors.red,
+							},
+						},
+					},
+				}
+				local properties = {
+					force_inactive = {
+						filetypes = {
+							"NvimTree",
+							"dbui",
+							"packer",
+							"startify",
+							"fugitive",
+							"fugitiveblame",
+						},
+						buftypes = { "terminal" },
+						bufnames = {},
+					},
+				}
+				local components = {
+					active = {
+						{
+							comps.vi_mode,
+							comps.file.info,
+							comps.lsp.name,
+							comps.diagnos.err,
+							comps.diagnos.warn,
+							comps.diagnos.hint,
+							comps.diagnos.info,
+						},
+						{},
+						{
+							comps.git.branch,
+							comps.git.add,
+							comps.git.change,
+							comps.git.remove,
+							comps.file.os,
+							comps.scroll_bar,
+							comps.line_percentage,
+							comps.position,
+						},
+					},
+					inactive = {
+						{
+							comps.file.info,
+							comps.file.os,
+						},
+					},
+				}
+
+				require("feline").setup({
+					colors = colors,
+					components = components,
+					force_inactive = properties.force_inactive,
+					vi_mode_colors = vi_mode_colors,
+				})
 			end,
-			requires = { "kyazdani42/nvim-web-devicons" },
 		})
 		use({
 			"akinsho/bufferline.nvim",
@@ -1672,8 +1949,8 @@ packer.startup({
 
 						-- You must set mapping.
 						mapping = {
-							["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-							["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+							["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+							["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 							["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 							["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 							["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -1684,7 +1961,7 @@ packer.startup({
 								local key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
 								vim.api.nvim_feedkeys(key, "i", false)
 							end,
-							["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+							["<CR>"] = cmp.mapping.confirm({ select = true }),
 						},
 
 						-- You should specify your *installed* sources.
@@ -1719,7 +1996,6 @@ packer.startup({
 					require("lspkind").init({ with_text = false })
 				end,
 			})
-
 			use({
 				"glepnir/lspsaga.nvim",
 				disable = true,
@@ -1844,6 +2120,6 @@ packer.startup({
 	config = {
 		-- Move to lua dir so impatient.nvim can cache it
 		compile_path = packer_compiled_path,
-		display = { open_fn = util.float },
+		display = { open_fn = packer_util.float },
 	},
 })
