@@ -128,7 +128,6 @@ local diagnosticls_config = {
 		"typescriptreact",
 		"go",
 		"rust",
-		"lua",
 		"python",
 		"proto",
 	},

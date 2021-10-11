@@ -9,6 +9,18 @@ M.str.format = function(text, var_name, val)
   tbl[var_name] = val
   return text:gsub('$(%w+)', tbl)
 end
+M.str.split = function(str, ts)
+  if ts == nil then return {} end
+
+  local t = {} ;
+  local i=1
+  for s in string.gmatch(str, "([^"..ts.."]+)") do
+    t[i] = s
+    i = i + 1
+  end
+
+  return t
+end
 
 M.logger.info = function(tag, text)
 	api.nvim_echo({ { tag .. " " .. text, "InfoMsg" } }, true, {})
