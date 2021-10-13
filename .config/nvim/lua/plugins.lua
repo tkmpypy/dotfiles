@@ -278,7 +278,7 @@ packer.startup({
 				local vi_mode_utils = require("feline.providers.vi_mode")
 				local colors = {
 					-- bg = "NONE",
-					bg = "#2c323c",
+					bg = "#2E3440",
 					fg = "NONE",
 					fg_green = "#8FBCBB",
 					yellow = "#EBCB8B",
@@ -352,8 +352,8 @@ packer.startup({
 						hl = function()
 							return {
 								name = vi_mode_utils.get_mode_highlight_name(),
-								fg = colors.bg,
 								bg = vi_mode_utils.get_mode_color(),
+								fg = "#2c323c",
 								style = "bold",
 							}
 						end,
@@ -843,9 +843,7 @@ packer.startup({
 		})
 		use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
 		use({ "npxbr/glow.nvim" })
-		use({ "mbbill/undotree" })
 		use({ "osyo-manga/vim-over" })
-		use({ "tyru/operator-camelize.vim", requires = { { "kana/vim-operator-user" } } })
 		use({ "pechorin/any-jump.vim" })
 		use({ "hrsh7th/vim-eft" })
 		use({
@@ -856,7 +854,6 @@ packer.startup({
 		})
 		use({ "mtdl9/vim-log-highlighting", opt = true })
 		use({ "tversteeg/registers.nvim" })
-		-- use {'gelguy/wilder.nvim', run = ':UpdateRemotePlugins'}
 		use({ "bfredl/nvim-miniyank" })
 		use({
 			"kristijanhusak/orgmode.nvim",
@@ -1921,22 +1918,46 @@ packer.startup({
 					local compare = require("cmp.config.compare")
 					local lspkind = require("lspkind")
 					cmp.setup({
+						enabled = function()
+							return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+						end,
 						completion = {
 							autocomplete = { types.cmp.TriggerEvent.TextChanged },
-							completeopt = "menu,menuone,noinsert",
+							completeopt = "menu,menuone,noselect",
 							keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
 							keyword_length = 1,
 						},
 						sorting = {
 							priority_weight = 2,
 							comparators = {
-								compare.offset,
-								compare.exact,
-								compare.score,
-								compare.kind,
-								compare.sort_text,
-								compare.length,
-								compare.order,
+								function(e1, e2)
+									local diff
+									diff = compare.offset(e1, e2)
+									if diff ~= nil then
+										return diff
+									end
+									diff = compare.exact(e1, e2)
+									if diff ~= nil then
+										return diff
+									end
+									diff = compare.score(e1, e2)
+									if diff ~= nil then
+										return diff
+									end
+									diff = compare.kind(e1, e2)
+									if diff ~= nil then
+										return diff
+									end
+									diff = compare.sort_text(e1, e2)
+									if diff ~= nil then
+										return diff
+									end
+									diff = compare.length(e1, e2)
+									if diff ~= nil then
+										return diff
+									end
+									return compare.order(e1, e2)
+								end,
 							},
 						},
 						-- You should change this example to your chosen snippet engine.
@@ -1951,8 +1972,6 @@ packer.startup({
 						mapping = {
 							["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 							["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-							["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-							["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 							["<C-d>"] = cmp.mapping.scroll_docs(-4),
 							["<C-b>"] = cmp.mapping.scroll_docs(4),
 							["<C-Space>"] = cmp.mapping.complete(),
@@ -1974,9 +1993,16 @@ packer.startup({
 							{
 								name = "buffer",
 								opts = {
-									get_bufnrs = function()
-										return vim.api.nvim_list_bufs()
-									end,
+									-- get_bufnrs = function()
+									-- 	return vim.api.nvim_list_bufs()
+									-- end,
+                  get_bufnrs = function()
+                    local bufs = {}
+                    for _, win in ipairs(vim.api.nvim_list_wins()) do
+                      bufs[vim.api.nvim_win_get_buf(win)] = true
+                    end
+                    return vim.tbl_keys(bufs)
+                  end
 								},
 							},
 						},

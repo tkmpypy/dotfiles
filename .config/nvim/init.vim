@@ -163,7 +163,9 @@ let g:quickrun_config['rust/cargo'] = {
 \ }
 " }}
 " vim-test {{
-let test#strategy = "neovim"
+let g:test#strategy = "neovim"
+let g:test#neovim#term_position = "belowright"
+let g:test#preserve_screen = 1
 let g:test#javascript#runner = 'jest'
 let g:test#python#runner = 'pytest'
 let g:test#python#pytest#options = {
@@ -857,10 +859,7 @@ endif
 set complete&
     \ complete-=i
     \ complete-=t
-set completeopt&
-      \ completeopt+=menuone
-      \ completeopt+=noselect
-      \ completeopt-=preview
+set completeopt=menu,menuone,noselect
 
 if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
   if has('osx')
