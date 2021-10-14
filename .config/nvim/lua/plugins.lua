@@ -471,7 +471,7 @@ packer.startup({
 							icon = " ",
 							left_sep = " ",
 							hl = {
-								fg = colors.violet,
+								fg = colors.cyan,
 								style = "bold",
 							},
 						},
