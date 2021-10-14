@@ -6,6 +6,12 @@ local M = {}
 _G.tkmpypy = _G.tkmpypy or {}
 _G.tkmpypy.Carameliser = _G.tkmpypy.Carameliser or {}
 
+local mode_list = {
+  snake2camel=1,
+  snake2ucamel=2,
+  camel2snake=3,
+}
+
 -- TODO: snake to camel
 -- "hoge_fuga_piyo_foo_bar_baz" => "hogeFugaPiyoFooBarBaz"
 -- ":%s/\v_(.)/\u\1/g"
@@ -19,10 +25,8 @@ _G.tkmpypy.Carameliser = _G.tkmpypy.Carameliser or {}
 -- "%s/\v([a-z]\@=)([A-Z])/\1_\l\2/g"
 
 local validate = function(mode)
-  if mode == "snake2camel" or mode == "snake2ucamel" or mode == "camel2snake" then
-    return true
-  end
-  return false
+  local m = mode_list[mode]
+  return not m == nil
 end
 
 -- mode: snake2camel, snake2ucamel, camel2snake
