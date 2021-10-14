@@ -42,6 +42,7 @@ colorscheme edge
 " load my scripts {{
 lua require('scripts/gen_gitignore').initialize()
 lua require('scripts/git_linker').initialize()
+lua require('scripts/carameliser').initialize()
 nnoremap <silent> <leader>glc <cmd>GitLinker current<CR>
 xnoremap <silent> <leader>glc <cmd>'<,'>GitLinker current<CR>
 nnoremap <silent> <leader>gld <cmd>GitLinker default<CR>

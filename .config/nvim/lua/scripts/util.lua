@@ -1,5 +1,13 @@
 local api = vim.api
-local M = { str = {}, tbl = {}, logger = {}, keymaps = {}, os = {}, file = {} }
+local M = {
+	str = {},
+	tbl = {},
+	logger = {},
+	keymaps = {},
+	os = {},
+	file = {},
+  buffer = {}
+}
 
 local function same_until(first, second)
 	for i = 1, #first do
@@ -14,6 +22,18 @@ local function reverse(tbl)
 		local j = #tbl - i + 1
 		tbl[i], tbl[j] = tbl[j], tbl[i]
 	end
+end
+
+M.buffer.get_select_value = function()
+  vim.cmd[[
+    let tmp=@@
+    silent normal! gv""y
+    let selected=@@
+    let @@=tmp
+  ]]
+
+  local s = api.nvim_get_var("selected")
+  return s
 end
 
 M.file.get_tail = function(filename)

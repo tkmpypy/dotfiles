@@ -1,9 +1,17 @@
-local prettier = function()
-	return {
-		exe = "prettier",
-		args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0), "--single-quote" },
-		stdin = true,
-	}
+local prettier = function(parser)
+  local args = {}
+  if parser == nil then
+    args = { "-w", "--parser", "babel" }
+  else
+    args = { "-w", "--parser", parser }
+  end
+	return function()
+    return {
+      exe = "prettier",
+      args = args,
+      stdin = true,
+    }
+  end
 end
 
 local eslint = function()
@@ -51,12 +59,12 @@ require("formatter").setup({
 				}
 			end,
 		},
-		javascript = { prettier, eslint },
-		javascriptreact = { prettier, eslint },
-		typescript = { prettier, eslint },
-		typescriptreact = { prettier, eslint },
-		json = { prettier },
-		markdown = { prettier },
+		javascript = { prettier(nil), eslint },
+		javascriptreact = { prettier(nil), eslint },
+		typescript = { prettier(nil), eslint },
+		typescriptreact = { prettier(nil), eslint },
+		json = { prettier("json") },
+		markdown = { prettier("mdx") },
 		rust = {
 			function()
 				return {
@@ -88,8 +96,8 @@ require("formatter").setup({
 			function()
 				return {
 					exe = "shfmt",
-					stdin = false,
-					args = { "-w", vim.api.nvim_buf_get_name(0) },
+					stdin = true,
+					args = { "-i", 2 },
 				}
 			end,
 		},
