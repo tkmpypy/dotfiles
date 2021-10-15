@@ -1,6 +1,9 @@
 scriptencoding=utf-8
 set termguicolors
 
+" see nathom/filetype.nvim
+let g:did_load_filetypes = 1
+
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
@@ -42,7 +45,6 @@ colorscheme edge
 " load my scripts {{
 lua require('scripts/gen_gitignore').initialize()
 lua require('scripts/git_linker').initialize()
-lua require('scripts/carameliser').initialize()
 nnoremap <silent> <leader>glc <cmd>GitLinker current<CR>
 xnoremap <silent> <leader>glc <cmd>'<,'>GitLinker current<CR>
 nnoremap <silent> <leader>gld <cmd>GitLinker default<CR>
@@ -1072,3 +1074,10 @@ tnoremap <C-W>N <C-\><C-N>
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
 
+" camel,snake,kebap
+nnoremap <leader>c viw:s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
+xnoremap <leader>c :s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
+nnoremap <leader>_ viw:s/\%V\([A-Z]\)/_\l\1/g<CR>
+xnoremap <leader>_ :s/\%V\([A-Z]\)/_\l\1/g<CR>
+nnoremap <leader>- viw:s/\%V\([A-Z]\)/-\l\1/g<CR>
+xnoremap <leader>- :s/\%V\([A-Z]\)/-\l\1/g<CR>

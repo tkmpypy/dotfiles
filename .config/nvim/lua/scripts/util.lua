@@ -24,7 +24,7 @@ local function reverse(tbl)
 	end
 end
 
-M.buffer.get_select_value = function()
+M.buffer.get_vselected_value = function()
   vim.cmd[[
     let tmp=@@
     silent normal! gv""y

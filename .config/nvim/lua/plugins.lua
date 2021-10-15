@@ -30,6 +30,8 @@ packer.startup({
 	function(use)
 		-- Packer can manage itself as an optional plugin
 		use({ "wbthomason/packer.nvim" })
+
+    -- perf
 		use({
 			"lewis6991/impatient.nvim",
 			config = function()
@@ -40,6 +42,9 @@ packer.startup({
 		if vim.g.use_treesitter then
 			use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 		end
+    use({
+      "nathom/filetype.nvim"
+    })
 
 		-- ColorScheme
 		use({ "Rigellute/rigel", opt = true })
@@ -535,7 +540,6 @@ packer.startup({
 					inactive = {
 						{
 							comps.file.info,
-							comps.file.os,
 						},
 					},
 				}
@@ -1522,7 +1526,7 @@ packer.startup({
 				local cb = require("diffview.config").diffview_callback
 				require("diffview").setup({
 					diff_binaries = false, -- Show diffs for binaries
-					enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
+					enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
 					use_icons = true, -- Requires nvim-web-devicons
 					icons = { -- Only applies when use_icons is true.
 						folder_closed = "",
@@ -1623,7 +1627,7 @@ packer.startup({
 				vim.api.nvim_set_keymap("n", "<leader>gdd", "<cmd>DiffviewOpen<cr>", { silent = true, noremap = true })
 				vim.api.nvim_set_keymap(
 					"n",
-					"<leader>gdc",
+					"<leader>gdr",
 					"<cmd>DiffviewFileHistory .<cr>",
 					{ silent = true, noremap = true }
 				)
