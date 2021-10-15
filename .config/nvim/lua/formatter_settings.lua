@@ -65,6 +65,7 @@ require("formatter").setup({
 		typescriptreact = { prettier(nil), eslint },
 		json = { prettier("json") },
 		markdown = { prettier("mdx") },
+		yaml = { prettier("yaml") },
 		rust = {
 			function()
 				return {

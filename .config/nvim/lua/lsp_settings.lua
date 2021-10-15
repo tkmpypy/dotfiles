@@ -287,5 +287,5 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 	-- end,
 	signs = { priority = 20 },
 	-- Disable a feature
-	update_in_insert = false,
+	update_in_insert = true,
 })

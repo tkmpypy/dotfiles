@@ -848,6 +848,7 @@ packer.startup({
 		use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
 		use({ "npxbr/glow.nvim" })
 		use({ "osyo-manga/vim-over" })
+    use ({"nicwest/vim-camelsnek"})
 		use({ "pechorin/any-jump.vim" })
 		use({ "hrsh7th/vim-eft" })
 		use({

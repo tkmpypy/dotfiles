@@ -1074,10 +1074,3 @@ tnoremap <C-W>N <C-\><C-N>
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
 
-" camel,snake,kebap
-nnoremap <leader>c viw:s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
-xnoremap <leader>c :s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
-nnoremap <leader>_ viw:s/\%V\([A-Z]\)/_\l\1/g<CR>
-xnoremap <leader>_ :s/\%V\([A-Z]\)/_\l\1/g<CR>
-nnoremap <leader>- viw:s/\%V\([A-Z]\)/-\l\1/g<CR>
-xnoremap <leader>- :s/\%V\([A-Z]\)/-\l\1/g<CR>
