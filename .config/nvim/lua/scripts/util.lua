@@ -24,6 +24,7 @@ local function reverse(tbl)
 	end
 end
 
+M.buffer.scroll_bar_blocks = {'▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'}
 M.buffer.get_vselected_value = function()
   vim.cmd[[
     let tmp=@@
@@ -34,6 +35,12 @@ M.buffer.get_vselected_value = function()
 
   local s = api.nvim_get_var("selected")
   return s
+end
+M.buffer.scroll_bar = function()
+  local curr_line = api.nvim_win_get_cursor(0)[1]
+  local lines = api.nvim_buf_line_count(0)
+
+  return string.rep(M.buffer.scroll_bar_blocks[math.floor(curr_line / lines * 7) + 1], 2)
 end
 
 M.file.get_tail = function(filename)

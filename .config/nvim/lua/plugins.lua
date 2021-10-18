@@ -31,7 +31,7 @@ packer.startup({
 		-- Packer can manage itself as an optional plugin
 		use({ "wbthomason/packer.nvim" })
 
-    -- perf
+		-- perf
 		use({
 			"lewis6991/impatient.nvim",
 			config = function()
@@ -42,9 +42,9 @@ packer.startup({
 		if vim.g.use_treesitter then
 			use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 		end
-    use({
-      "nathom/filetype.nvim"
-    })
+		use({
+			"nathom/filetype.nvim",
+		})
 
 		-- ColorScheme
 		use({ "Rigellute/rigel", opt = true })
@@ -277,278 +277,201 @@ packer.startup({
 		use({ "norcalli/nvim-colorizer.lua" })
 		use({ "kyazdani42/nvim-web-devicons" })
 		use({
-			"famiu/feline.nvim",
+			"windwp/windline.nvim",
 			config = function()
-				local lsp = require("feline.providers.lsp")
-				local vi_mode_utils = require("feline.providers.vi_mode")
-				local colors = {
-					-- bg = "NONE",
-					bg = "#2E3440",
-					fg = "NONE",
-					fg_green = "#8FBCBB",
-					yellow = "#EBCB8B",
-					cyan = "#A3BE8C",
-					darkblue = "#81A1C1",
-					green = "#8FBCBB",
-					orange = "#D08770",
-					purple = "#B48EAD",
-					magenta = "#BF616A",
-					gray = "#616E88",
-					blue = "#5E81AC",
-					red = "#BF616A",
-					violet = "#b294bb",
+        local util = require('scripts/util')
+				local windline = require("windline")
+				local helper = require("windline.helpers")
+				local b_components = require("windline.components.basic")
+				local state = _G.WindLine.state
+
+				local lsp_comps = require("windline.components.lsp")
+				local git_comps = require("windline.components.git")
+
+				local hl_list = {
+					Black = { "white", "black" },
+					White = { "black", "white" },
+					Inactive = { "InactiveFg", "InactiveBg" },
+					Active = { "ActiveFg", "ActiveBg" },
 				}
-				local vi_mode_colors = {
-					["NORMAL"] = "green",
-					["OP"] = "green",
-					["INSERT"] = "cyan",
-					["VISUAL"] = "violet",
-					["LINES"] = "violet",
-					["BLOCK"] = "violet",
-					["REPLACE"] = "red",
-					["V-REPLACE"] = "red",
-					["ENTER"] = "cyan",
-					["MORE"] = "cyan",
-					["SELECT"] = "orange",
-					["COMMAND"] = "magenta",
-					["SHELL"] = "green",
-					["TERM"] = "blue",
-					["NONE"] = "yellow",
+				local basic = {}
+
+				local breakpoint_width = 90
+				basic.divider = { b_components.divider, "" }
+				basic.bg = { " ", "StatusLine" }
+
+				local colors_mode = {
+					Normal = { "red", "black" },
+					Insert = { "green", "black" },
+					Visual = { "yellow", "black" },
+					Replace = { "blue_light", "black" },
+					Command = { "magenta", "black" },
 				}
-				local mode_alias = {
-					["n"] = "NORMAL",
-					["no"] = "OP",
-					["nov"] = "OP",
-					["noV"] = "OP",
-					["no"] = "OP",
-					["niI"] = "NORMAL",
-					["niR"] = "NORMAL",
-					["niV"] = "NORMAL",
-					["v"] = "VISUAL",
-					["V"] = "V-LINES",
-					[""] = "V-BLOCK",
-					["s"] = "SELECT",
-					["S"] = "SELECT",
-					[""] = "BLOCK",
-					["i"] = "INSERT",
-					["ic"] = "INSERT",
-					["ix"] = "INSERT",
-					["R"] = "REPLACE",
-					["Rc"] = "REPLACE",
-					["Rv"] = "V-REPLACE",
-					["Rx"] = "REPLACE",
-					["c"] = "COMMAND",
-					["cv"] = "COMMAND",
-					["ce"] = "COMMAND",
-					["r"] = "ENTER",
-					["rm"] = "MORE",
-					["r?"] = "CONFIRM",
-					["!"] = "SHELL",
-					["t"] = "TERM",
-					["null"] = "NONE",
+
+        basic.scroll_bar = {
+					name = "scroll_bar",
+					hl_colors = colors_mode,
+					text = function()
+						return util.buffer.scroll_bar()
+					end,
+        }
+
+				basic.vi_mode = {
+					name = "vi_mode",
+					hl_colors = colors_mode,
+					text = function()
+						return { { "  ", state.mode[2] } }
+					end,
 				}
-				local comps = {
-					vi_mode = {
-						icon = "",
-						provider = function()
-							local mode = vim.api.nvim_get_mode().mode
-							return " " .. mode_alias[mode] .. " "
-						end,
-						hl = function()
+				basic.square_mode = {
+					hl_colors = colors_mode,
+					text = function()
+						return { { "▊", state.mode[2] } }
+					end,
+				}
+
+				basic.lsp_diagnos = {
+					name = "diagnostic",
+					hl_colors = {
+						red = { "red", "black" },
+						yellow = { "yellow", "black" },
+						blue = { "blue", "black" },
+					},
+					width = breakpoint_width,
+					text = function(bufnr)
+						if lsp_comps.check_lsp(bufnr) then
 							return {
-								name = vi_mode_utils.get_mode_highlight_name(),
-								bg = vi_mode_utils.get_mode_color(),
-								fg = "#2c323c",
-								style = "bold",
+								{ lsp_comps.lsp_error({ format = " %s", show_zero = true }), "red" },
+								{ lsp_comps.lsp_warning({ format = "  %s", show_zero = true }), "yellow" },
+								{ lsp_comps.lsp_info({ format = "  %s", show_zero = true }), "blue" },
+								{ lsp_comps.lsp_hint({ format = "  %s", show_zero = true }), "cyan" },
 							}
-						end,
-						right_sep = " ",
-					},
-					file = {
-						info = {
-							-- provider = 'file_info',
-							provider = function()
-								local util = require("scripts.util")
-								return util.file.get_current_ufn()
-							end,
-							hl = {
-								fg = colors.blue,
-								style = "bold",
-							},
-							left_sep = " ",
-						},
-						encoding = {
-							provider = "file_encoding",
-							left_sep = " ",
-							hl = {
-								fg = colors.violet,
-								style = "bold",
-							},
-						},
-						type = {
-							provider = "file_type",
-						},
-						os = {
-							provider = function()
-								local util = require("scripts.util")
-								return util.os.icon()
-							end,
-							left_sep = " ",
-							hl = {
-								fg = colors.violet,
-								style = "bold",
-							},
-						},
-					},
-					line_percentage = {
-						provider = "line_percentage",
-						left_sep = " ",
-						hl = {
-							style = "bold",
-						},
-					},
-					position = {
-						provider = "position",
-						left_sep = " ",
-						hl = {
-							style = "bold",
-						},
-					},
-					scroll_bar = {
-						provider = "scroll_bar",
-						left_sep = " ",
-						hl = {
-							fg = colors.blue,
-							style = "bold",
-						},
-					},
-					diagnos = {
-						err = {
-							provider = "diagnostic_errors",
-							enabled = function()
-								return lsp.diagnostics_exist("Error")
-							end,
-							hl = {
-								fg = colors.red,
-							},
-						},
-						warn = {
-							provider = "diagnostic_warnings",
-							enabled = function()
-								return lsp.diagnostics_exist("Warning")
-							end,
-							hl = {
-								fg = colors.yellow,
-							},
-						},
-						hint = {
-							provider = "diagnostic_hints",
-							enabled = function()
-								return lsp.diagnostics_exist("Hint")
-							end,
-							hl = {
-								fg = colors.cyan,
-							},
-						},
-						info = {
-							provider = "diagnostic_info",
-							enabled = function()
-								return lsp.diagnostics_exist("Information")
-							end,
-							hl = {
-								fg = colors.blue,
-							},
-						},
-					},
-					lsp = {
-						name = {
-							provider = "lsp_client_names",
-							left_sep = " ",
-							icon = " ",
-							hl = {
-								fg = colors.yellow,
-							},
-						},
-					},
-					git = {
-						branch = {
-							provider = "git_branch",
-							icon = " ",
-							left_sep = " ",
-							hl = {
-								fg = colors.cyan,
-								style = "bold",
-							},
-						},
-						add = {
-							provider = "git_diff_added",
-							hl = {
-								fg = colors.green,
-							},
-						},
-						change = {
-							provider = "git_diff_changed",
-							hl = {
-								fg = colors.orange,
-							},
-						},
-						remove = {
-							provider = "git_diff_removed",
-							hl = {
-								fg = colors.red,
-							},
-						},
-					},
+						end
+						return ""
+					end,
 				}
-				local properties = {
-					force_inactive = {
-						filetypes = {
-							"NvimTree",
-							"dbui",
-							"packer",
-							"startify",
-							"fugitive",
-							"fugitiveblame",
-						},
-						buftypes = { "terminal" },
-						bufnames = {},
+				basic.file = {
+					name = "file",
+					hl_colors = {
+						default = hl_list.Black,
+						white = { "white", "black" },
+						magenta = { "magenta", "black" },
 					},
+					text = function(_, _, _)
+						return {
+							{ b_components.cache_file_name("[No Name]", "unique"), "magenta" },
+							{ " ", "" },
+							{ b_components.file_modified(" "), "magenta" },
+						}
+					end,
 				}
-				local components = {
+				basic.file_right = {
+					hl_colors = {
+						default = hl_list.Black,
+						white = { "white", "black" },
+						magenta = { "magenta", "black" },
+					},
+					text = function(_, _, _)
+							return {
+								{ b_components.line_col_lua, {"InactiveFg"} },
+							}
+					end,
+				}
+				basic.git = {
+					name = "git",
+					hl_colors = {
+						green = { "green", "black" },
+						red = { "red", "black" },
+						blue = { "blue", "black" },
+					},
+					width = breakpoint_width,
+					text = function(bufnr)
+						if git_comps.is_git(bufnr) then
+							return {
+								{ " ", "" },
+								{ git_comps.diff_added({ format = " %s", show_zero = true }), "green" },
+								{ git_comps.diff_removed({ format = "  %s", show_zero = true }), "red" },
+								{ git_comps.diff_changed({ format = " 柳%s", show_zero = true }), "blue" },
+							}
+						end
+						return ""
+					end,
+				}
+
+				local quickfix = {
+					filetypes = { "qf", "Trouble" },
 					active = {
+						{ "🚦 Quickfix ", { "white", "black" } },
+						{ helper.separators.slant_right, { "black", "black_light" } },
 						{
-							comps.vi_mode,
-							comps.file.info,
-							comps.lsp.name,
-							comps.diagnos.err,
-							comps.diagnos.warn,
-							comps.diagnos.hint,
-							comps.diagnos.info,
+							function()
+								return vim.fn.getqflist({ title = 0 }).title
+							end,
+							{ "cyan", "black_light" },
 						},
-						{},
-						{
-							comps.git.branch,
-							comps.git.add,
-							comps.git.change,
-							comps.git.remove,
-							comps.file.os,
-							comps.scroll_bar,
-							comps.line_percentage,
-							comps.position,
-						},
+						{ " Total : %L ", { "cyan", "black_light" } },
+						{ helper.separators.slant_right, { "black_light", "InactiveBg" } },
+						{ " ", { "InactiveFg", "InactiveBg" } },
+						basic.divider,
+						{ helper.separators.slant_right, { "InactiveBg", "black" } },
+						{ "🧛 ", { "white", "black" } },
+					},
+
+					always_active = true,
+					show_last_status = true,
+				}
+
+				local explorer = {
+					filetypes = { "fern", "NvimTree", "lir" },
+					active = {
+						{ "  ", { "black", "red" } },
+						{ helper.separators.slant_right, { "red", "NormalBg" } },
+						{ b_components.divider, "" },
+						{ b_components.file_name(""), { "white", "NormalBg" } },
+					},
+					always_active = true,
+					show_last_status = true,
+				}
+				local default = {
+					filetypes = { "default" },
+					active = {
+						basic.square_mode,
+						basic.vi_mode,
+						{ " ", hl_list.Black },
+						basic.file,
+						{ " ", hl_list.Black },
+						{ lsp_comps.lsp_name(), { "green", "black" }, breakpoint_width },
+						{ " ", hl_list.Black },
+						basic.lsp_diagnos,
+						basic.divider,
+						{ git_comps.git_branch(), { "magenta", "black" }, breakpoint_width },
+						basic.git,
+						basic.file_right,
+            basic.scroll_bar,
+						{ " ", hl_list.Black },
+						basic.square_mode,
 					},
 					inactive = {
-						{
-							comps.file.info,
-						},
+						{ b_components.full_file_name, hl_list.Inactive },
+						basic.file_name_inactive,
+						basic.divider,
+						basic.divider,
+              { b_components.line_col_lua, hl_list.Inactive },
+              basic.scroll_bar,
 					},
 				}
 
-				require("feline").setup({
-					colors = colors,
-					components = components,
-					force_inactive = properties.force_inactive,
-					vi_mode_colors = vi_mode_colors,
+				windline.setup({
+					colors_name = function(colors)
+						-- print(vim.inspect(colors))
+						-- ADD MORE COLOR HERE ----
+						return colors
+					end,
+					statuslines = {
+						default,
+						quickfix,
+						explorer,
+					},
 				})
 			end,
 		})
@@ -664,8 +587,8 @@ packer.startup({
 					diagnostics = {
 						enable = false,
 						icons = {
-							hint = "",
-							info = "",
+							hint = "",
+							info = "",
 							warning = "",
 							error = "",
 						},
@@ -848,7 +771,7 @@ packer.startup({
 		use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
 		use({ "npxbr/glow.nvim" })
 		use({ "osyo-manga/vim-over" })
-    use ({"nicwest/vim-camelsnek"})
+		use({ "nicwest/vim-camelsnek" })
 		use({ "pechorin/any-jump.vim" })
 		use({ "hrsh7th/vim-eft" })
 		use({
@@ -1344,7 +1267,7 @@ packer.startup({
 								icons = {
 									["Error"] = { icon = "", color = "red" }, -- error
 									["Warning"] = { icon = "", color = "yellow" }, -- warning
-									["Information"] = { icon = "", color = "blue" }, -- info
+									["Information"] = { icon = "", color = "blue" }, -- info
 									["Hint"] = { icon = "", color = "magenta" }, -- hint
 								},
 							},
