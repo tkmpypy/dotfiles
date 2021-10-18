@@ -288,8 +288,8 @@ packer.startup({
 				local git_comps = require("windline.components.git")
 
 				local hl_list = {
-					Black = { "white", "black" },
-					White = { "black", "white" },
+					Black = { "white", "NormalBg" },
+					White = { "black", "NormalBg" },
 					Inactive = { "InactiveFg", "InactiveBg" },
 					Active = { "ActiveFg", "ActiveBg" },
 				}
@@ -300,11 +300,11 @@ packer.startup({
 				basic.bg = { " ", "StatusLine" }
 
 				local colors_mode = {
-					Normal = { "red", "black" },
-					Insert = { "green", "black" },
-					Visual = { "yellow", "black" },
-					Replace = { "blue_light", "black" },
-					Command = { "magenta", "black" },
+					Normal = { "red", "NormalBg" },
+					Insert = { "green", "NormalBg" },
+					Visual = { "yellow", "NormalBg" },
+					Replace = { "blue_light", "NormalBg" },
+					Command = { "magenta", "NormalBg" },
 				}
 
 				basic.vi_mode = {
@@ -332,9 +332,9 @@ packer.startup({
 				basic.lsp_diagnos = {
 					name = "diagnostic",
 					hl_colors = {
-						red = { "red", "black" },
-						yellow = { "yellow", "black" },
-						blue = { "blue", "black" },
+						red = { "red", "NormalBg" },
+						yellow = { "yellow", "NormalBg" },
+						blue = { "blue", "NormalBg" },
 					},
 					width = breakpoint_width,
 					text = function(bufnr)
@@ -353,8 +353,8 @@ packer.startup({
 					name = "file",
 					hl_colors = {
 						default = hl_list.Black,
-						white = { "white", "black" },
-						magenta = { "magenta", "black" },
+						white = { "white", "NormalBg" },
+						magenta = { "magenta", "NormalBg" },
 					},
 					text = function(_, _, _)
 						return {
@@ -369,8 +369,8 @@ packer.startup({
 				basic.file_right = {
 					hl_colors = {
 						default = hl_list.Black,
-						white = { "white", "black" },
-						magenta = { "magenta", "black" },
+						white = { "white", "NormalBg" },
+						magenta = { "magenta", "NormalBg" },
 					},
 					text = function(_, _, _)
 						return {
@@ -381,9 +381,9 @@ packer.startup({
 				basic.git = {
 					name = "git",
 					hl_colors = {
-						green = { "green", "black" },
-						red = { "red", "black" },
-						blue = { "blue", "black" },
+						green = { "green", "NormalBg" },
+						red = { "red", "NormalBg" },
+						blue = { "blue", "NormalBg" },
 					},
 					width = breakpoint_width,
 					text = function(bufnr)
@@ -441,11 +441,11 @@ packer.startup({
 						{ " ", hl_list.Black },
 						basic.file,
 						{ " ", hl_list.Black },
-						{ lsp_comps.lsp_name(), { "green", "black" }, breakpoint_width },
+						{ lsp_comps.lsp_name(), { "green", "NormalBg" }, breakpoint_width },
 						{ " ", hl_list.Black },
 						basic.lsp_diagnos,
 						basic.divider,
-						{ git_comps.git_branch(), { "magenta", "black" }, breakpoint_width },
+						{ git_comps.git_branch(), { "magenta", "NormalBg" }, breakpoint_width },
 						basic.git,
 						basic.file_right,
 						basic.scroll_bar,
@@ -1850,7 +1850,8 @@ packer.startup({
 						end,
 						completion = {
 							autocomplete = { types.cmp.TriggerEvent.TextChanged },
-							completeopt = "menu,menuone,noselect",
+							-- completeopt = "menu,menuone,noselect",
+							completeopt = "menu,menuone,noinsert",
 							keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
 							keyword_length = 1,
 						},
