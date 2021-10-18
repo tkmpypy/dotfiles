@@ -40,7 +40,11 @@ M.buffer.scroll_bar = function()
   local curr_line = api.nvim_win_get_cursor(0)[1]
   local lines = api.nvim_buf_line_count(0)
 
-  return string.rep(M.buffer.scroll_bar_blocks[math.floor(curr_line / lines * 7) + 1], 2)
+  local b = M.buffer.scroll_bar_blocks[math.floor(curr_line / lines * 7) + 1]
+  if b == nil then
+    return ""
+  end
+  return b..b
 end
 
 M.file.get_tail = function(filename)

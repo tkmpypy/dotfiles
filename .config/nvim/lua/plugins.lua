@@ -279,7 +279,6 @@ packer.startup({
 		use({
 			"windwp/windline.nvim",
 			config = function()
-        local util = require('scripts/util')
 				local windline = require("windline")
 				local helper = require("windline.helpers")
 				local b_components = require("windline.components.basic")
@@ -308,14 +307,6 @@ packer.startup({
 					Command = { "magenta", "black" },
 				}
 
-        basic.scroll_bar = {
-					name = "scroll_bar",
-					hl_colors = colors_mode,
-					text = function()
-						return util.buffer.scroll_bar()
-					end,
-        }
-
 				basic.vi_mode = {
 					name = "vi_mode",
 					hl_colors = colors_mode,
@@ -327,6 +318,14 @@ packer.startup({
 					hl_colors = colors_mode,
 					text = function()
 						return { { "▊", state.mode[2] } }
+					end,
+				}
+				basic.scroll_bar = {
+					text = function()
+            local util = require('scripts/util')
+						return {
+              { util.buffer.scroll_bar(), '' }
+            }
 					end,
 				}
 
@@ -359,6 +358,8 @@ packer.startup({
 					},
 					text = function(_, _, _)
 						return {
+              {b_components.cache_file_icon(), "magenta"},
+							{ " ", "" },
 							{ b_components.cache_file_name("[No Name]", "unique"), "magenta" },
 							{ " ", "" },
 							{ b_components.file_modified(" "), "magenta" },
@@ -372,9 +373,9 @@ packer.startup({
 						magenta = { "magenta", "black" },
 					},
 					text = function(_, _, _)
-							return {
-								{ b_components.line_col_lua, {"InactiveFg"} },
-							}
+						return {
+							{ b_components.line_col_lua, { "InactiveFg" } },
+						}
 					end,
 				}
 				basic.git = {
@@ -447,17 +448,15 @@ packer.startup({
 						{ git_comps.git_branch(), { "magenta", "black" }, breakpoint_width },
 						basic.git,
 						basic.file_right,
-            basic.scroll_bar,
+						basic.scroll_bar,
 						{ " ", hl_list.Black },
 						basic.square_mode,
 					},
 					inactive = {
 						{ b_components.full_file_name, hl_list.Inactive },
-						basic.file_name_inactive,
 						basic.divider,
 						basic.divider,
-              { b_components.line_col_lua, hl_list.Inactive },
-              basic.scroll_bar,
+						{ b_components.line_col_lua, hl_list.Inactive },
 					},
 				}
 
