@@ -202,9 +202,6 @@ nnoremap <leader>fq :FlutterQuit<cr>
 nnoremap <leader>fr :FlutterHotReload<cr>
 nnoremap <leader>fR :FlutterHotRestart<cr>
 " }}
-" rainbow {{
-let g:rainbow_active = 1
-" }}
 
 function! s:setup_nvim_lsp()
     lua require('lsp_settings')
@@ -225,22 +222,6 @@ function! s:setup_nvim_lsp()
     nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
     nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
     nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
-
-    " lspsaga mapping
-    " lsp provider to find the currsor word definition and reference
-    " nnoremap <silent> gf :Lspsaga lsp_finder<CR>
-    " nnoremap <silent><leader>ac :Lspsaga code_action<CR>
-    " vnoremap <silent><leader>ac :<C-u>Lspsaga range_code_action<CR>
-    " nnoremap <leader>rn :Lspsaga rename<CR>
-    " nnoremap <silent>K :Lspsaga hover_doc<CR>
-    " nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-    " nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-    " nnoremap <silent> H :Lspsaga signature_help<CR>
-    " nnoremap <silent> gdp :Lspsaga preview_definition<CR>
-    " nnoremap <silent> <leader>dp :Lspsaga diagnostic_jump_prev<CR>
-    " nnoremap <silent> <leader>dn :Lspsaga diagnostic_jump_next<CR>
-    " nnoremap <silent> <leader>dc :Lspsaga show_line_diagnostics<CR>
-
 endfunction
 
 function! s:setup_vsnip()
@@ -466,51 +447,10 @@ if g:lsp_client_type == 'neovim'
 elseif g:lsp_client_type == 'coc'
   call s:setup_coc()
 endif
-" vim-json {{
-let g:vim_json_syntax_conceal = 0
-" }}
-
-" blamer.nvim{{
-let g:blamer_enabled = 0
-let g:blamer_delay = 1000
-let g:blamer_show_in_visual_modes = 1
-let g:blamer_prefix = '  '
-" Available options: <author>, <author-mail>, <author-time>, <committer>, <committer-mail>, <committer-time>, <summary>, <commit-short>, <commit-long>.
-let g:blamer_template = '<committer>, <committer-time> • <summary>'
-nnoremap <Leader>gbt :BlamerToggle<CR>
-" }}
-
-" nvim-colorizer.lua{{
-lua require('colorizer').setup()
-" }}
-" quick-scope {{
-augroup qs_colors
-  autocmd!
-  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-augroup END
-let g:qs_lazy_highlight = 0
-let g:qs_max_chars=120
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-" }}
 
 " }}
 " vim-rooter {{
 nnoremap <leader>cdr :Rooter<CR>
-" }}
-" vim-bookmarks {{
-nmap <Leader>m <Plug>BookmarkToggle
-nmap <Leader>mi <Plug>BookmarkAnnotate
-nmap <Leader>ma <Plug>BookmarkShowAll
-nmap <Leader>mj <Plug>BookmarkNext
-nmap <Leader>mk <Plug>BookmarkPrev
-nmap <Leader>md <Plug>BookmarkClear
-nmap <Leader>mx <Plug>BookmarkClearAll
-nmap <Leader>mk <Plug>BookmarkMoveUp
-nmap <Leader>mj <Plug>BookmarkMoveDown
-nmap <Leader>mg <Plug>BookmarkMoveToLine
-nmap mj <Plug>BookmarkNext
-nmap mk <Plug>BookmarkPrev
 " }}
 
 " liuchengxu/vista.vim {{
@@ -555,10 +495,6 @@ nnoremap <leader>tt :Vista!! <CR>
 let g:git_messenger_always_into_popup = v:true
 let g:git_messenger_include_diff = "current"
 nmap <Leader>gm <Plug>(git-messenger)
-" }}
-" vim-session {{
-let g:session_autosave = 'no'
-let g:session_autoload = 'no'
 " }}
 " iamcco/markdown-preview.nvim {{
 " set to 1, nvim will open the preview window after entering the markdown buffer
@@ -639,19 +575,11 @@ let g:mkdp_port = ''
 " ${name} will be replace with the file name
 let g:mkdp_page_title = '「${name}」'
 
-nmap <leader>p <Plug>MarkdownPreview
+" nmap <leader>p <Plug>MarkdownPreview
 " nmap <M-s> <Plug>MarkdownPreviewStop
 " nmap <C-p> <Plug>MarkdownPreviewToggle
 " }}
-" undotree{{
-if has("persistent_undo")
-    set undodir="~/Dropbox/undodir"
-    set undofile
-endif
-nnoremap <Leader>ut :UndotreeToggle<cr>
-" }}
 " vim-over {{
-
 " over.vimの起動
 nnoremap <silent> <Leader>rw :OverCommandLine<CR>
 
@@ -782,7 +710,7 @@ endif
 set complete&
     \ complete-=i
     \ complete-=t
-set completeopt=menu,menuone,noselect
+set completeopt=menu,menuone,noinsert
 
 if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
   if has('osx')

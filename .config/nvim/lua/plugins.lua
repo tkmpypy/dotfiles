@@ -274,7 +274,9 @@ packer.startup({
 			end,
 		})
 
-		use({ "norcalli/nvim-colorizer.lua" })
+		use({ "norcalli/nvim-colorizer.lua", config = function ()
+      require('colorizer').setup()
+		end })
 		use({ "kyazdani42/nvim-web-devicons" })
 		use({
 			"windwp/windline.nvim",
@@ -1410,7 +1412,15 @@ packer.startup({
 			"lewis6991/gitsigns.nvim",
 			requires = { "nvim-lua/plenary.nvim" },
 			config = function()
-				require("gitsigns").setup()
+				require("gitsigns").setup({
+          signs = {
+              add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+              change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+              delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+              topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+              changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+            },
+        })
 			end,
 		})
 		use({
@@ -1625,7 +1635,6 @@ packer.startup({
 			end,
 		})
 		use({ "rhysd/git-messenger.vim" })
-		use({ "APZelos/blamer.nvim" })
 		use({
 			"pwntester/octo.nvim",
 			config = function()
