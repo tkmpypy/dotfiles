@@ -1913,10 +1913,6 @@ packer.startup({
 							["<C-b>"] = cmp.mapping.scroll_docs(4),
 							["<C-Space>"] = cmp.mapping.complete(),
 							["<C-e>"] = cmp.mapping.close(),
-							["<C-c>"] = function()
-								local key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
-								vim.api.nvim_feedkeys(key, "i", false)
-							end,
 							["<CR>"] = cmp.mapping.confirm({ select = true }),
 						},
 
