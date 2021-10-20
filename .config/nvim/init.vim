@@ -33,8 +33,8 @@ lua require('plugins')
 
 " colorscheme OceanicNext
 " colorscheme everforest
-colorscheme edge
-" colorscheme tokyonight
+" colorscheme edge
+colorscheme tokyonight
 " colorscheme tokyodark
 " colorscheme zephyr
 " colorscheme space-nvim
@@ -848,7 +848,7 @@ set nobackup
 set nowritebackup
 
 " Better display for messages
-set cmdheight=2
+set cmdheight=1
 
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=4000

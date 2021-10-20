@@ -274,9 +274,12 @@ packer.startup({
 			end,
 		})
 
-		use({ "norcalli/nvim-colorizer.lua", config = function ()
-      require('colorizer').setup()
-		end })
+		use({
+			"norcalli/nvim-colorizer.lua",
+			config = function()
+				require("colorizer").setup()
+			end,
+		})
 		use({ "kyazdani42/nvim-web-devicons" })
 		use({
 			"windwp/windline.nvim",
@@ -298,8 +301,8 @@ packer.startup({
 				local basic = {}
 
 				local breakpoint_width = 90
-				basic.divider = { b_components.divider, "" }
-				basic.bg = { " ", "StatusLine" }
+				basic.divider = { b_components.divider, hl_list.Black }
+				basic.bg = { " ", hl_list.Black }
 
 				local colors_mode = {
 					Normal = { "red", "NormalBg" },
@@ -309,6 +312,7 @@ packer.startup({
 					Command = { "magenta", "NormalBg" },
 				}
 
+        basic.separate = { " ", hl_list.Black }
 				basic.vi_mode = {
 					name = "vi_mode",
 					hl_colors = colors_mode,
@@ -324,10 +328,10 @@ packer.startup({
 				}
 				basic.scroll_bar = {
 					text = function()
-            local util = require('scripts/util')
+						local util = require("scripts/util")
 						return {
-              { util.buffer.scroll_bar(), '' }
-            }
+							{ util.buffer.scroll_bar(), "" },
+						}
 					end,
 				}
 
@@ -337,6 +341,7 @@ packer.startup({
 						red = { "red", "NormalBg" },
 						yellow = { "yellow", "NormalBg" },
 						blue = { "blue", "NormalBg" },
+						cyan = { "cyan", "NormalBg" },
 					},
 					width = breakpoint_width,
 					text = function(bufnr)
@@ -360,7 +365,7 @@ packer.startup({
 					},
 					text = function(_, _, _)
 						return {
-              {b_components.cache_file_icon(), "magenta"},
+							{ b_components.cache_file_icon(), "magenta" },
 							{ " ", "" },
 							{ b_components.cache_file_name("[No Name]", "unique"), "magenta" },
 							{ " ", "" },
@@ -440,18 +445,18 @@ packer.startup({
 					active = {
 						basic.square_mode,
 						basic.vi_mode,
-						{ " ", hl_list.Black },
+            basic.separate,
 						basic.file,
-						{ " ", hl_list.Black },
+            basic.separate,
 						{ lsp_comps.lsp_name(), { "green", "NormalBg" }, breakpoint_width },
-						{ " ", hl_list.Black },
+            basic.separate,
 						basic.lsp_diagnos,
 						basic.divider,
 						{ git_comps.git_branch(), { "magenta", "NormalBg" }, breakpoint_width },
 						basic.git,
 						basic.file_right,
 						basic.scroll_bar,
-						{ " ", hl_list.Black },
+            basic.separate,
 						basic.square_mode,
 					},
 					inactive = {
@@ -461,6 +466,13 @@ packer.startup({
 						{ b_components.line_col_lua, hl_list.Inactive },
 					},
 				}
+        local floatline_active = {
+            filetypes = { 'floatline' },
+            active = {
+                {'%F',{"red","blue"}},
+                {'%=',{"red","blue"}}
+            },
+        }
 
 				windline.setup({
 					colors_name = function(colors)
@@ -473,6 +485,20 @@ packer.startup({
 						quickfix,
 						explorer,
 					},
+				})
+				-- default config
+				require("wlfloatline").setup({
+					interval = 300,
+					ui = {
+						active_char = "▁",
+						active_color = "blue",
+						active_hl = nil,
+					},
+					skip_filetypes = {
+						"NvimTree",
+					},
+					-- by default it skip all floating window but you can change it
+					floating_show_filetypes = {},
 				})
 			end,
 		})
@@ -1413,14 +1439,29 @@ packer.startup({
 			requires = { "nvim-lua/plenary.nvim" },
 			config = function()
 				require("gitsigns").setup({
-          signs = {
-              add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-              change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-              delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-              topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-              changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-            },
-        })
+					signs = {
+						add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+						change = {
+							hl = "GitSignsChange",
+							text = "│",
+							numhl = "GitSignsChangeNr",
+							linehl = "GitSignsChangeLn",
+						},
+						delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+						topdelete = {
+							hl = "GitSignsDelete",
+							text = "‾",
+							numhl = "GitSignsDeleteNr",
+							linehl = "GitSignsDeleteLn",
+						},
+						changedelete = {
+							hl = "GitSignsChange",
+							text = "~",
+							numhl = "GitSignsChangeNr",
+							linehl = "GitSignsChangeLn",
+						},
+					},
+				})
 			end,
 		})
 		use({
