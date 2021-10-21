@@ -38,13 +38,13 @@ packer.startup({
 				require("impatient").enable_profile()
 			end,
 		})
+		use({
+			"nathom/filetype.nvim",
+		})
 
 		if vim.g.use_treesitter then
 			use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 		end
-		use({
-			"nathom/filetype.nvim",
-		})
 
 		-- ColorScheme
 		use({ "Rigellute/rigel", opt = true })
@@ -267,14 +267,6 @@ packer.startup({
 		})
 
 		use({
-			"folke/which-key.nvim",
-			disable = true,
-			config = function()
-				require("which_key.lua")
-			end,
-		})
-
-		use({
 			"norcalli/nvim-colorizer.lua",
 			config = function()
 				require("colorizer").setup()
@@ -312,7 +304,7 @@ packer.startup({
 					Command = { "magenta", "NormalBg" },
 				}
 
-        basic.separate = { " ", hl_list.Black }
+				basic.separate = { " ", hl_list.Black }
 				basic.vi_mode = {
 					name = "vi_mode",
 					hl_colors = colors_mode,
@@ -445,18 +437,18 @@ packer.startup({
 					active = {
 						basic.square_mode,
 						basic.vi_mode,
-            basic.separate,
+						basic.separate,
 						basic.file,
-            basic.separate,
+						basic.separate,
 						{ lsp_comps.lsp_name(), { "green", "NormalBg" }, breakpoint_width },
-            basic.separate,
+						basic.separate,
 						basic.lsp_diagnos,
 						basic.divider,
 						{ git_comps.git_branch(), { "magenta", "NormalBg" }, breakpoint_width },
 						basic.git,
 						basic.file_right,
 						basic.scroll_bar,
-            basic.separate,
+						basic.separate,
 						basic.square_mode,
 					},
 					inactive = {
@@ -466,13 +458,6 @@ packer.startup({
 						{ b_components.line_col_lua, hl_list.Inactive },
 					},
 				}
-        local floatline_active = {
-            filetypes = { 'floatline' },
-            active = {
-                {'%F',{"red","blue"}},
-                {'%=',{"red","blue"}}
-            },
-        }
 
 				windline.setup({
 					colors_name = function(colors)
@@ -563,7 +548,7 @@ packer.startup({
 		})
 		use({ "liuchengxu/vista.vim" })
 
-		-- tree
+		-- explorer
 		use({
 			"kyazdani42/nvim-tree.lua",
 			config = function()
@@ -1148,7 +1133,7 @@ packer.startup({
 								color_icons = true, -- colorize file|git icons
 								actions = {
 									["default"] = actions.file_edit,
-									["ctrl-s"] = actions.file_split,
+									["ctrl-x"] = actions.file_split,
 									["ctrl-v"] = actions.file_vsplit,
 									["ctrl-t"] = actions.file_tabedit,
 									["ctrl-q"] = actions.file_sel_to_qf,
@@ -1187,7 +1172,7 @@ packer.startup({
 									preview = "git show --pretty='%Cred%H%n%Cblue%an%n%Cgreen%s' --color {1}",
 									actions = {
 										["default"] = actions.git_buf_edit,
-										["ctrl-s"] = actions.git_buf_split,
+										["ctrl-x"] = actions.git_buf_split,
 										["ctrl-v"] = actions.git_buf_vsplit,
 										["ctrl-t"] = actions.git_buf_tabedit,
 									},
@@ -1221,7 +1206,7 @@ packer.startup({
 								color_icons = true, -- colorize file|git icons
 								actions = {
 									["default"] = actions.file_edit,
-									["ctrl-s"] = actions.file_split,
+									["ctrl-x"] = actions.file_split,
 									["ctrl-v"] = actions.file_vsplit,
 									["ctrl-t"] = actions.file_tabedit,
 									["ctrl-q"] = actions.file_sel_to_qf,
@@ -1242,7 +1227,7 @@ packer.startup({
 								sort_lastused = true, -- sort buffers() by last used
 								actions = {
 									["default"] = actions.buf_edit,
-									["ctrl-s"] = actions.buf_split,
+									["ctrl-x"] = actions.buf_split,
 									["ctrl-v"] = actions.buf_vsplit,
 									["ctrl-t"] = actions.buf_tabedit,
 									["ctrl-d"] = actions.buf_del,
@@ -1253,7 +1238,7 @@ packer.startup({
 								prompt = "BLines❯ ",
 								actions = {
 									["default"] = actions.buf_edit,
-									["ctrl-s"] = actions.buf_split,
+									["ctrl-x"] = actions.buf_split,
 									["ctrl-v"] = actions.buf_vsplit,
 									["ctrl-t"] = actions.buf_tabedit,
 								},
@@ -1447,7 +1432,12 @@ packer.startup({
 							numhl = "GitSignsChangeNr",
 							linehl = "GitSignsChangeLn",
 						},
-						delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+						delete = {
+							hl = "GitSignsDelete",
+							text = "_",
+							numhl = "GitSignsDeleteNr",
+							linehl = "GitSignsDeleteLn",
+						},
 						topdelete = {
 							hl = "GitSignsDelete",
 							text = "‾",
@@ -1462,36 +1452,6 @@ packer.startup({
 						},
 					},
 				})
-			end,
-		})
-		use({
-			"lambdalisue/gina.vim",
-			disable = true,
-			config = function()
-				vim.fn["gina#custom#mapping#nmap"](
-					"status",
-					"dd",
-					":<C-u>Gina diff --opener=vsplit<CR>",
-					{ noremap = 1, silent = 1 }
-				)
-				vim.fn["gina#custom#mapping#nmap"](
-					"status",
-					"dp",
-					":<C-u>Gina diff --opener=preview<CR>",
-					{ noremap = 1, silent = 1 }
-				)
-				vim.cmd([[
-        nnoremap <leader>gs :<C-u>Gina status --opener=split<CR>
-        nnoremap <leader>gc :<C-u>Gina commit --opener=vsplit<CR>
-        nnoremap <leader>gD :<C-u>Gina compare --opener=tabedit<CR>
-        nnoremap <leader>gd :<C-u>Gina diff --opener=tabedit<CR>
-        nnoremap <leader>gl :<C-u>Gina log --graph --opener=tabedit<CR>
-        nnoremap <leader>gb :<C-u>Gina blame --opener=vsplit<CR>
-        vnoremap <leader>gln :<C-u>:'<,'>Gina browse --exact --yank :<CR>
-        nnoremap <leader>gln :<C-u>:Gina browse --exact --yank :<CR>
-        nnoremap <leader>gm :<C-u>:Gina chaperon<CR>
-        nnoremap <leader>gp :<C-u>Gina push<CR>
-      ]])
 			end,
 		})
 		use({
@@ -1813,13 +1773,11 @@ packer.startup({
 		if vim.g.lsp_client_type == "neovim" then
 			-- use neovim built-in
 			use({ "neovim/nvim-lspconfig" })
-			use({ "kabouzeid/nvim-lspinstall", disable = true })
 			use({
 				"williamboman/nvim-lsp-installer",
 				requires = { { "neovim/nvim-lspconfig" } },
 			})
 			use({ "nvim-lua/lsp-status.nvim", disable = true })
-			use({ "tjdevries/lsp_extensions.nvim", disable = true })
 			use({
 				"mfussenegger/nvim-lint",
 				disable = true,
@@ -1865,28 +1823,25 @@ packer.startup({
 					require("lspconfig")["null-ls"].setup({})
 				end,
 			})
-			use({ "hrsh7th/vim-vsnip" })
-			use({ "hrsh7th/vim-vsnip-integ", requires = { { "hrsh7th/vim-vsnip" } } })
-			use({ "hrsh7th/cmp-vsnip", requires = { "hrsh7th/nvim-cmp" } })
-			use({ "hrsh7th/cmp-buffer", requires = { "hrsh7th/nvim-cmp" } })
-			use({ "hrsh7th/cmp-path", requires = { "hrsh7th/nvim-cmp" } })
-			use({ "hrsh7th/cmp-nvim-lua", requires = { "hrsh7th/nvim-cmp" } })
-			use({
-				"hrsh7th/cmp-nvim-lsp",
-				requires = { "hrsh7th/nvim-cmp" },
-				config = function()
-					require("cmp_nvim_lsp").setup({})
-				end,
-			})
 			use({
 				"hrsh7th/nvim-cmp",
 				requires = {
-					{ "onsails/lspkind-nvim" },
+					{
+						"onsails/lspkind-nvim",
+						config = function()
+							require("lspkind").init({ with_text = false })
+						end,
+					},
 					{ "hrsh7th/vim-vsnip" },
 					{ "hrsh7th/cmp-vsnip" },
 					{ "hrsh7th/cmp-buffer" },
 					{ "hrsh7th/cmp-path" },
-					{ "hrsh7th/cmp-nvim-lsp" },
+					{
+						"hrsh7th/cmp-nvim-lsp",
+						config = function()
+							require("cmp_nvim_lsp").setup({})
+						end,
+					},
 					{ "hrsh7th/cmp-nvim-lua" },
 				},
 				config = function()
@@ -1987,57 +1942,6 @@ packer.startup({
 							native_menu = false,
 							ghost_text = true,
 						},
-					})
-				end,
-			})
-			use({
-				"onsails/lspkind-nvim",
-				config = function()
-					require("lspkind").init({ with_text = false })
-				end,
-			})
-			use({
-				"glepnir/lspsaga.nvim",
-				disable = true,
-				require = { { "neovim/nvim-lspconfig" } },
-				config = function()
-					local saga = require("lspsaga")
-					saga.init_lsp_saga({
-						-- add your config value here
-						-- default value
-						use_saga_diagnostic_sign = false,
-						-- error_sign = '',
-						-- warn_sign = '',
-						-- hint_sign = '',
-						-- infor_sign = '',
-						-- dianostic_header_icon = '   ',
-						-- code_action_icon = ' ',
-						-- code_action_prompt = {
-						--   enable = true,
-						--   sign = true,
-						--   sign_priority = 20,
-						--   virtual_text = true,
-						-- },
-						-- finder_definition_icon = '  ',
-						-- finder_reference_icon = '  ',
-						-- max_preview_lines = 10, -- preview lines of lsp_finder and definition preview
-						-- finder_action_keys = {
-						--   open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>' -- quit can be a table
-						-- },
-						-- code_action_keys = {
-						--   quit = 'q',exec = '<CR>'
-						-- },
-						-- rename_action_keys = {
-						--   quit = '<C-c>',exec = '<CR>'  -- quit can be a table
-						-- },
-						-- definition_preview_icon = '  '
-						-- "single" "double" "round" "plus"
-						-- border_style = "single"
-						-- rename_prompt_prefix = '➤',
-						-- if you don't use nvim-lspconfig you must pass your server name and
-						-- the related filetypes into this table
-						-- like server_filetype_map = {metals = {'sbt', 'scala'}}
-						-- server_filetype_map = {}
 					})
 				end,
 			})
