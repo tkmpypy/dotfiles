@@ -285,26 +285,24 @@ packer.startup({
 				local git_comps = require("windline.components.git")
 
 				local hl_list = {
-					Black = { "white", "NormalBg" },
-					White = { "black", "NormalBg" },
 					Inactive = { "InactiveFg", "InactiveBg" },
 					Active = { "ActiveFg", "ActiveBg" },
 				}
 				local basic = {}
 
 				local breakpoint_width = 90
-				basic.divider = { b_components.divider, hl_list.Black }
-				basic.bg = { " ", hl_list.Black }
+				basic.divider = { b_components.divider, hl_list.Active }
+				basic.bg = { " ", hl_list.Active }
 
 				local colors_mode = {
-					Normal = { "red", "NormalBg" },
-					Insert = { "green", "NormalBg" },
-					Visual = { "yellow", "NormalBg" },
-					Replace = { "blue_light", "NormalBg" },
-					Command = { "magenta", "NormalBg" },
+					Normal = { "red", "ActiveBg" },
+					Insert = { "green", "ActiveBg" },
+					Visual = { "yellow", "ActiveBg" },
+					Replace = { "blue_light", "ActiveBg" },
+					Command = { "magenta", "ActiveBg" },
 				}
 
-				basic.separate = { " ", hl_list.Black }
+				basic.separate = { " ", hl_list.Active }
 				basic.vi_mode = {
 					name = "vi_mode",
 					hl_colors = colors_mode,
@@ -330,10 +328,10 @@ packer.startup({
 				basic.lsp_diagnos = {
 					name = "diagnostic",
 					hl_colors = {
-						red = { "red", "NormalBg" },
-						yellow = { "yellow", "NormalBg" },
-						blue = { "blue", "NormalBg" },
-						cyan = { "cyan", "NormalBg" },
+						red = { "red", "ActiveBg" },
+						yellow = { "yellow", "ActiveBg" },
+						blue = { "blue", "ActiveBg" },
+						cyan = { "cyan", "ActiveBg" },
 					},
 					width = breakpoint_width,
 					text = function(bufnr)
@@ -352,8 +350,8 @@ packer.startup({
 					name = "file",
 					hl_colors = {
 						default = hl_list.Black,
-						white = { "white", "NormalBg" },
-						magenta = { "magenta", "NormalBg" },
+						white = { "white", "ActiveBg" },
+						magenta = { "magenta", "ActiveBg" },
 					},
 					text = function(_, _, _)
 						return {
@@ -367,9 +365,9 @@ packer.startup({
 				}
 				basic.file_right = {
 					hl_colors = {
-						default = hl_list.Black,
-						white = { "white", "NormalBg" },
-						magenta = { "magenta", "NormalBg" },
+						default = hl_list.Active,
+						white = { "white", "ActiveBg" },
+						magenta = { "magenta", "ActiveBg" },
 					},
 					text = function(_, _, _)
 						return {
@@ -380,9 +378,9 @@ packer.startup({
 				basic.git = {
 					name = "git",
 					hl_colors = {
-						green = { "green", "NormalBg" },
-						red = { "red", "NormalBg" },
-						blue = { "blue", "NormalBg" },
+						green = { "green", "ActiveBg" },
+						red = { "red", "ActiveBg" },
+						blue = { "blue", "ActiveBg" },
 					},
 					width = breakpoint_width,
 					text = function(bufnr)
@@ -425,9 +423,9 @@ packer.startup({
 					filetypes = { "fern", "NvimTree", "lir" },
 					active = {
 						{ "  ", { "black", "red" } },
-						{ helper.separators.slant_right, { "red", "NormalBg" } },
+						{ helper.separators.slant_right, { "red", "ActiveBg" } },
 						{ b_components.divider, "" },
-						{ b_components.file_name(""), { "white", "NormalBg" } },
+						{ b_components.file_name(""), { "white", "ActiveBg" } },
 					},
 					always_active = true,
 					show_last_status = true,
@@ -440,11 +438,11 @@ packer.startup({
 						basic.separate,
 						basic.file,
 						basic.separate,
-						{ lsp_comps.lsp_name(), { "green", "NormalBg" }, breakpoint_width },
+						{ lsp_comps.lsp_name(), { "green", "ActiveBg" }, breakpoint_width },
 						basic.separate,
 						basic.lsp_diagnos,
 						basic.divider,
-						{ git_comps.git_branch(), { "magenta", "NormalBg" }, breakpoint_width },
+						{ git_comps.git_branch(), { "magenta", "ActiveBg" }, breakpoint_width },
 						basic.git,
 						basic.file_right,
 						basic.scroll_bar,

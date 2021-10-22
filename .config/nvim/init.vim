@@ -34,11 +34,11 @@ lua require('plugins')
 " colorscheme OceanicNext
 " colorscheme everforest
 " colorscheme edge
-colorscheme tokyonight
+" colorscheme tokyonight
 " colorscheme tokyodark
 " colorscheme zephyr
 " colorscheme space-nvim
-" colorscheme gruvbox-flat
+colorscheme gruvbox-flat
 " colorscheme doom-one
 
 
