@@ -1841,6 +1841,7 @@ packer.startup({
 						end,
 					},
 					{ "hrsh7th/cmp-nvim-lua" },
+					{ "lukas-reineke/cmp-under-comparator" },
 				},
 				config = function()
 					local cmp = require("cmp")
@@ -1861,34 +1862,14 @@ packer.startup({
 						sorting = {
 							priority_weight = 2,
 							comparators = {
-								function(e1, e2)
-									local diff
-									diff = compare.offset(e1, e2)
-									if diff ~= nil then
-										return diff
-									end
-									diff = compare.exact(e1, e2)
-									if diff ~= nil then
-										return diff
-									end
-									diff = compare.score(e1, e2)
-									if diff ~= nil then
-										return diff
-									end
-									diff = compare.kind(e1, e2)
-									if diff ~= nil then
-										return diff
-									end
-									diff = compare.sort_text(e1, e2)
-									if diff ~= nil then
-										return diff
-									end
-									diff = compare.length(e1, e2)
-									if diff ~= nil then
-										return diff
-									end
-									return compare.order(e1, e2)
-								end,
+								cmp.config.compare.offset,
+								cmp.config.compare.exact,
+								cmp.config.compare.score,
+								require("cmp-under-comparator").under,
+								cmp.config.compare.kind,
+								cmp.config.compare.sort_text,
+								cmp.config.compare.length,
+								cmp.config.compare.order,
 							},
 						},
 						-- You should change this example to your chosen snippet engine.
