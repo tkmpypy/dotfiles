@@ -12,28 +12,28 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-if command -v anyenv 1>/dev/null 2>&1; then
-  if [[ ! -f $XDG_CACHE_HOME/anyenv.cache ]]; then
-      anyenv init - --no-rehash > $XDG_CACHE_HOME/anyenv.cache
-      zcompile $XDG_CACHE_HOME/anyenv.cache
-  fi
-  source $XDG_CACHE_HOME/anyenv.cache
-fi
-if command -v pyenv 1>/dev/null 2>&1; then
-  if [[ ! -f $XDG_CACHE_HOME/pyenv.cache ]]; then
-      pyenv init - > $XDG_CACHE_HOME/pyenv.cache
-      zcompile $XDG_CACHE_HOME/pyenv.cache
-  fi
-  source $XDG_CACHE_HOME/pyenv.cache
+anyenv() {
+  unfunction "$0"
+  source <(anyenv init - --no-rehash)
+  $0 "$@"
+}
 
-  if which pyenv-virtualenv-init > /dev/null; then
-    if [[ ! -f $XDG_CACHE_HOME/virtualenv.cache ]]; then
-        pyenv virtualenv-init - > $XDG_CACHE_HOME/virtualenv.cache
-        zcompile $XDG_CACHE_HOME/virtualenv.cache
-    fi
-    source $XDG_CACHE_HOME/virtualenv.cache
-  fi
-fi
+pyenv() {
+  unfunction "$0"
+  source <(pyenv init -)
+  source <(pyenv virtualenv-init -)
+  $0 "$@"
+}
+nodenv() {
+  unfunction "$0"
+  source <(nodenv init -)
+  $0 "$@"
+}
+goenv() {
+  unfunction "$0"
+  source <(goenv init -)
+  $0 "$@"
+}
 
 typeset -U PATH
 

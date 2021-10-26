@@ -38,8 +38,11 @@ lua require('plugins')
 " colorscheme tokyodark
 " colorscheme zephyr
 " colorscheme space-nvim
-colorscheme gruvbox-flat
+" colorscheme gruvbox-flat
 " colorscheme doom-one
+" colorscheme nightfox
+" colorscheme duskfox
+colorscheme nordfox
 
 
 " load my scripts {{
