@@ -13,13 +13,27 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 if command -v anyenv 1>/dev/null 2>&1; then
-  eval "$(anyenv init -)"
+  if [[ ! -f $XDG_CACHE_HOME/anyenv.cache ]]; then
+      anyenv init - --no-rehash > $XDG_CACHE_HOME/anyenv.cache
+      zcompile $XDG_CACHE_HOME/anyenv.cache
+  fi
+  source $XDG_CACHE_HOME/anyenv.cache
 fi
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
+  if [[ ! -f $XDG_CACHE_HOME/pyenv.cache ]]; then
+      pyenv init - > $XDG_CACHE_HOME/pyenv.cache
+      zcompile $XDG_CACHE_HOME/pyenv.cache
+  fi
+  source $XDG_CACHE_HOME/pyenv.cache
+
+  if which pyenv-virtualenv-init > /dev/null; then
+    if [[ ! -f $XDG_CACHE_HOME/virtualenv.cache ]]; then
+        pyenv virtualenv-init - > $XDG_CACHE_HOME/virtualenv.cache
+        zcompile $XDG_CACHE_HOME/virtualenv.cache
+    fi
+    source $XDG_CACHE_HOME/virtualenv.cache
+  fi
 fi
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 typeset -U PATH
 

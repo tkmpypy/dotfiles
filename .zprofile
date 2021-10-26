@@ -10,7 +10,7 @@ fi
 # export TERM="xterm-256color-italic"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="$HOME/.anyenv/envs/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.anyenv/bin:$PATH"
@@ -21,3 +21,6 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 export NVIM_LOG_FILE="$XDG_CACHE_HOME/nvim/.nvim.log"
+
+eval "$(pyenv init --path)"
+
