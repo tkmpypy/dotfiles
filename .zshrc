@@ -19,17 +19,20 @@ anyenv() {
 }
 
 pyenv() {
+  anyenv
   unfunction "$0"
   source <(pyenv init -)
   source <(pyenv virtualenv-init -)
   $0 "$@"
 }
 nodenv() {
+  anyenv
   unfunction "$0"
   source <(nodenv init -)
   $0 "$@"
 }
 goenv() {
+  anyenv
   unfunction "$0"
   source <(goenv init -)
   $0 "$@"

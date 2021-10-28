@@ -15,7 +15,10 @@ local _opts = {
 	find_cmd = nil, --set required. string or function(notes_dir)
 	note = {
 		extension = ".md",
-		prefix_date_format = "%Y-%m-%d",
+		prefix = {
+			enabled = true,
+			date_format = "%Y-%m-%d",
+		},
 	},
 }
 
@@ -32,8 +35,12 @@ local validation = function(opts)
 end
 
 local build_note_path = function(name)
-	local prefix = os.date(_opts.note.prefix_date_format)
-	return vim.fn.expand(_opts.notes_dir .. "/" .. prefix .. "_" .. name .. _opts.note.extension)
+	if _opts.note.prefix.enabled then
+		local prefix = os.date(_opts.note.prefix_date_format)
+		return vim.fn.expand(_opts.notes_dir .. "/" .. prefix .. "_" .. name .. _opts.note.extension)
+	end
+
+	return vim.fn.expand(_opts.notes_dir .. "/" .. name .. _opts.note.extension)
 end
 
 _G.tkmpypy.Oboe.create = function()

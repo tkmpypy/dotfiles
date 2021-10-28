@@ -61,6 +61,11 @@ require('scripts/note_talking').setup({
     local p = vim.fn.expand(notes_dir)
     return "lua require('fzf-lua').live_grep({cwd = '"..p.."'})"
   end,
+  note = {
+    prefix = {
+      enabled = false
+      }
+    }
 })
 
 vim.api.nvim_set_keymap(
@@ -103,7 +108,7 @@ function! VisualSearch()
 endfunction
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
 
-nnoremap <silent> <leader>nt <cmd>e ~/Dropbox/todo/todo.txt<CR>
+nnoremap <silent> <leader>nt <cmd>e ~/Dropbox/todo/todo.md<CR>
 " }}
 
 " telescope.nvim {{

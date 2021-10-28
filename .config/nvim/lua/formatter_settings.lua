@@ -7,7 +7,7 @@ local prettier = function(parser)
   end
 	return function()
     return {
-      exe = "prettier",
+      exe = vim.fn.expand("$HOME/.anyenv/envs/nodenv/shims/prettier"),
       args = args,
       stdin = true,
     }
@@ -71,7 +71,7 @@ require("formatter").setup({
 				return {
 					exe = "rustfmt",
 					stdin = true,
-					args = { "--edition", "2018", vim.api.nvim_buf_get_name(0) },
+					args = { "--emit=stdout", "--edition", "2018"},
 				}
 			end,
 		},
