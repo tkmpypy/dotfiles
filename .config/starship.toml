@@ -89,7 +89,7 @@ disabled = false
 "gke_.*_(?P<cluster>[\\w-]+)" = "gke-$cluster"
 
 [python]
-pyenv_version_name=true
+pyenv_version_name=false
 symbol = " "
 detect_files=[".python-version", "Pipfile", "__init__.py", "pyproject.toml", "requirements.txt", "setup.py", "tox.ini", "pyrightconfig.json"]
 

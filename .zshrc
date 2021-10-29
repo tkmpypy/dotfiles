@@ -12,32 +12,6 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-anyenv() {
-  unfunction "$0"
-  source <(anyenv init - --no-rehash)
-  $0 "$@"
-}
-
-pyenv() {
-  anyenv
-  unfunction "$0"
-  source <(pyenv init -)
-  source <(pyenv virtualenv-init -)
-  $0 "$@"
-}
-nodenv() {
-  anyenv
-  unfunction "$0"
-  source <(nodenv init -)
-  $0 "$@"
-}
-goenv() {
-  anyenv
-  unfunction "$0"
-  source <(goenv init -)
-  $0 "$@"
-}
-
 typeset -U PATH
 
 # A glance at the new for-syntax – load all of the above
@@ -63,6 +37,8 @@ zinit light-mode for \
     zinit-zsh/z-a-patch-dl \
     zinit-zsh/z-a-as-monitor \
     zinit-zsh/z-a-bin-gem-node
+
+zinit light asdf-vm/asdf
 
 ### End of Zinit's installer chunk
 [ -f ~/.zshrc.`uname` ] && source ~/.zshrc.`uname`

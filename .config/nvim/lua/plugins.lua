@@ -768,12 +768,6 @@ packer.startup({
 					enable_check_bracket_line = true, --- check bracket in same line
 					check_ts = false,
 				})
-				if vim.g.lsp_client_type == "neovim" then
-					require("nvim-autopairs.completion.cmp").setup({
-						map_cr = true, --  map <CR> on insert mode
-						map_complete = true, -- it will auto insert `(` after select function or method item
-					})
-				end
 			end,
 		})
 		use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
@@ -1566,6 +1560,7 @@ packer.startup({
 		use({
 			"TimUntersberger/neogit",
 			requires = { { "nvim-lua/plenary.nvim" }, { "sindrets/diffview.nvim" } },
+      commit = "e507909518568d452ae48f117e5f2dc1ee620689",
 			config = function()
 				local neogit = require("neogit")
 				neogit.setup({
@@ -1841,11 +1836,13 @@ packer.startup({
 					},
 					{ "hrsh7th/cmp-nvim-lua" },
 					{ "lukas-reineke/cmp-under-comparator" },
+          { "windwp/nvim-autopairs" }
 				},
 				config = function()
 					local cmp = require("cmp")
 					local types = require("cmp.types")
 					local lspkind = require("lspkind")
+          local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 					cmp.setup({
 						enabled = function()
 							return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
@@ -1924,6 +1921,8 @@ packer.startup({
 							ghost_text = true,
 						},
 					})
+
+          cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 					-- Use buffer source for `/`.
 					cmp.setup.cmdline("/", {
 						sources = {
