@@ -134,7 +134,7 @@ local diagnosticls_config = {
 	init_options = {
 		linters = {
 			flake8 = {
-				command = vim.fn.expand("$HOME/.anyenv/envs/pyenv/shims/flake8"),
+				command = vim.fn.expand("$HOME/.asdf/shims/flake8"),
 				rootPatterns = { ".git" },
 				debounce = 100,
 				args = { "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-" },

@@ -12,7 +12,6 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-export PATH="$GOPATH/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 export NVIM_LOG_FILE="$XDG_CACHE_HOME/nvim/.nvim.log"

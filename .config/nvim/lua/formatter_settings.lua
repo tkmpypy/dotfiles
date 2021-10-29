@@ -7,7 +7,7 @@ local prettier = function(parser)
   end
 	return function()
     return {
-      exe = vim.fn.expand("$HOME/.anyenv/envs/nodenv/shims/prettier"),
+      exe = vim.fn.expand("$HOME/.asdf/shims/prettier"),
       args = args,
       stdin = true,
     }
@@ -78,7 +78,7 @@ require("formatter").setup({
 		python = {
 			function()
 				return {
-					exe = vim.fn.expand("$HOME/.anyenv/envs/pyenv/shims/autopep8"),
+					exe = vim.fn.expand("$HOME/.asdf/shims/autopep8"),
 					stdin = true,
 					args = { "--aggressive", "--experimental", "-" },
 				}
