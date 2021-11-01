@@ -1827,7 +1827,7 @@ packer.startup({
 					{ "hrsh7th/cmp-vsnip" },
 					{ "hrsh7th/cmp-buffer" },
 					{ "hrsh7th/cmp-path" },
-					{ "hrsh7th/cmp-cmdline" },
+					-- { "hrsh7th/cmp-cmdline" }, slow???
 					{
 						"hrsh7th/cmp-nvim-lsp",
 						config = function()
@@ -1924,20 +1924,20 @@ packer.startup({
 
           cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 					-- Use buffer source for `/`.
-					cmp.setup.cmdline("/", {
-						sources = {
-							{ name = "buffer" },
-						},
-					})
+					-- cmp.setup.cmdline("/", {
+					-- 	sources = {
+					-- 		{ name = "buffer" },
+					-- 	},
+					-- })
 
 					-- Use cmdline & path source for ':'.
-					cmp.setup.cmdline(":", {
-						sources = cmp.config.sources({
-							{ name = "path" },
-						}, {
-							{ name = "cmdline" },
-						}),
-					})
+					-- cmp.setup.cmdline(":", {
+					-- 	sources = cmp.config.sources({
+					-- 		{ name = "path" },
+					-- 	}, {
+					-- 		{ name = "cmdline" },
+					-- 	}),
+					-- })
 				end,
 			})
 			use({
