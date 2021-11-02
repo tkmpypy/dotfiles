@@ -1,9 +1,9 @@
 # Theme
-# zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # starship
-zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" atload='eval "$(starship init zsh)"'
-zinit load starship/starship
+# zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" atload='eval "$(starship init zsh)"'
+# zinit load starship/starship
 
 # fzf
 zinit ice from"gh-r" as"program" bpick"*darwin_amd*"
