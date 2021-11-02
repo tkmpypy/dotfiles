@@ -549,9 +549,7 @@ packer.startup({
 			"kyazdani42/nvim-tree.lua",
 			config = function()
 				local tree_cb = require("nvim-tree.config").nvim_tree_callback
-				vim.g.nvim_tree_ignore = { "node_modules", ".cache", ".DS_Store" } -- empty by default
 				vim.g.nvim_tree_indent_markers = 1 -- 0 by default, this option shows indent markers when folders are open
-				vim.g.nvim_tree_hide_dotfiles = 0 -- 0 by default, this option hides files and folders starting with a dot `.`
 				vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
 				vim.g.nvim_tree_root_folder_modifier = ":~" -- This is the default. See :help filename-modifiers for more options
 				vim.g.nvim_tree_show_icons = {
@@ -608,6 +606,11 @@ packer.startup({
 						-- the command arguments as a list
 						args = {},
 					},
+
+          filters = {
+            dotfiles = false,
+            custom = { "node_modules", ".cache", ".DS_Store" }
+          },
 
 					view = {
 						-- width of the window, can be either a number (columns) or a string in `%`
