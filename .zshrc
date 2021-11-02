@@ -1,8 +1,8 @@
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma-continuum/zinit)…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
@@ -20,8 +20,9 @@ typeset -U PATH
 zinit for \
     light-mode  zsh-users/zsh-autosuggestions \
                 zsh-users/zsh-syntax-highlighting \
-    light-mode  zdharma/fast-syntax-highlighting \
-                zdharma/history-search-multi-word \
+                zinit-zsh/z-a-patch-dl \
+                zinit-zsh/z-a-as-monitor \
+                zinit-zsh/z-a-bin-gem-node
 
 # Handle completions without loading any plugin, see "clist" command.
 # This one is to be ran just once, in interactive session.
@@ -30,13 +31,6 @@ zinit for \
 # fi
 # zinit creinstall ~/.zsh_completions
 
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-bin-gem-node
 
 zinit light asdf-vm/asdf
 

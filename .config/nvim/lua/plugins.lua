@@ -467,20 +467,20 @@ packer.startup({
 						explorer,
 					},
 				})
-				-- default config
-				require("wlfloatline").setup({
-					interval = 300,
-					ui = {
-						active_char = "▁",
-						active_color = "blue",
-						active_hl = nil,
-					},
-					skip_filetypes = {
-						"NvimTree",
-					},
-					-- by default it skip all floating window but you can change it
-					floating_show_filetypes = {},
-				})
+				-- TODO: slow??
+				-- require("wlfloatline").setup({
+				-- 	interval = 300,
+				-- 	ui = {
+				-- 		active_char = "▁",
+				-- 		active_color = "blue",
+				-- 		active_hl = nil,
+				-- 	},
+				-- 	skip_filetypes = {
+				-- 		"NvimTree",
+				-- 	},
+				-- 	-- by default it skip all floating window but you can change it
+				-- 	floating_show_filetypes = {},
+				-- })
 			end,
 		})
 		use({
@@ -1827,7 +1827,7 @@ packer.startup({
 					{ "hrsh7th/cmp-vsnip" },
 					{ "hrsh7th/cmp-buffer" },
 					{ "hrsh7th/cmp-path" },
-					-- { "hrsh7th/cmp-cmdline" }, slow???
+					{ "hrsh7th/cmp-cmdline" },
 					{
 						"hrsh7th/cmp-nvim-lsp",
 						config = function()
@@ -1924,20 +1924,20 @@ packer.startup({
 
           cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 					-- Use buffer source for `/`.
-					-- cmp.setup.cmdline("/", {
-					-- 	sources = {
-					-- 		{ name = "buffer" },
-					-- 	},
-					-- })
+					cmp.setup.cmdline("/", {
+						sources = {
+							{ name = "buffer" },
+						},
+					})
 
 					-- Use cmdline & path source for ':'.
-					-- cmp.setup.cmdline(":", {
-					-- 	sources = cmp.config.sources({
-					-- 		{ name = "path" },
-					-- 	}, {
-					-- 		{ name = "cmdline" },
-					-- 	}),
-					-- })
+					cmp.setup.cmdline(":", {
+						sources = cmp.config.sources({
+							{ name = "path" },
+						}, {
+							{ name = "cmdline" },
+						}),
+					})
 				end,
 			})
 			use({
