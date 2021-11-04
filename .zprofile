@@ -10,7 +10,6 @@ fi
 # export TERM="xterm-256color-italic"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
-export PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
