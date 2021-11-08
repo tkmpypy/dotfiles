@@ -77,6 +77,14 @@ local lua_config = {
   },
 }
 
+local jsonls_config = {
+  settings = {
+    json = {
+      schemas = require("schemastore").json.schemas(),
+    },
+  },
+}
+
 local dart_config = {
   init_options = {
     closingLabels = true,
@@ -255,10 +263,12 @@ local function setup_servers_use_nvim_lsp_installer()
       config.init_options = gopls_config.init_options
     elseif server.name == "pyright" then
       config.root_dir = pyright_config.root_dir
-    elseif server.name == "diagnosticls" then
-      config.init_options = diagnosticls_config.init_options
-      config.filetypes = diagnosticls_config.filetypes
-      config.root_dir = diagnosticls_config.root_dir
+    elseif server.name == "jsonls" then
+      config.settings = jsonls_config.settings
+      -- elseif server.name == "diagnosticls" then
+      --   config.init_options = diagnosticls_config.init_options
+      --   config.filetypes = diagnosticls_config.filetypes
+      --   config.root_dir = diagnosticls_config.root_dir
     end
 
     -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
@@ -269,6 +279,7 @@ local function setup_servers_use_nvim_lsp_installer()
 end
 
 setup_servers_use_nvim_lsp_installer()
+require("lspconfig")["null-ls"].setup {}
 set_diagnostic_sign()
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -289,5 +300,5 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
   -- end,
   signs = { priority = 20 },
   -- Disable a feature
-  update_in_insert = true,
+  update_in_insert = false,
 })

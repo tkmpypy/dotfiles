@@ -174,10 +174,12 @@ let g:quickrun_config['rust/cargo'] = {
 \ }
 " }}
 " vim-test {{
+let g:test#echo_command = 1
 let g:test#strategy = "neovim"
 let g:test#neovim#term_position = "belowright"
 let g:test#preserve_screen = 1
 let g:test#javascript#runner = 'jest'
+let g:test#javascript#jest#executable = './node_modules/.bin/jest'
 let g:test#python#runner = 'pytest'
 let g:test#python#pytest#options = {
     \ 'nearest': '-vv --capture=no',

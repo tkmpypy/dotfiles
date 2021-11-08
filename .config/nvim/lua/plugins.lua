@@ -749,6 +749,7 @@ packer.startup {
     }
     use {
       "mhartington/formatter.nvim",
+      disable = true,
       config = function()
         require "formatter_settings"
         vim.api.nvim_set_keymap("n", "<Leader>F", ":Format<cr>", {})
@@ -1779,7 +1780,7 @@ packer.startup {
         "williamboman/nvim-lsp-installer",
         requires = { { "neovim/nvim-lspconfig" } },
       }
-      use { "nvim-lua/lsp-status.nvim", disable = true }
+      use { "b0o/schemastore.nvim", requires = { { "neovim/nvim-lspconfig" } } }
       use {
         "mfussenegger/nvim-lint",
         disable = true,
@@ -1806,7 +1807,6 @@ packer.startup {
       }
       use {
         "jose-elias-alvarez/null-ls.nvim",
-        disable = true,
         requires = { { "neovim/nvim-lspconfig" }, { "nvim-lua/plenary.nvim" } },
         config = function()
           local null_ls = require "null-ls"
@@ -1843,7 +1843,7 @@ packer.startup {
           null_ls.register(golangcilint)
           null_ls.config {
             sources = {
-              null_ls.builtins.diagnostics.markdownlint,
+              -- null_ls.builtins.diagnostics.markdownlint,
               null_ls.builtins.diagnostics.flake8,
               null_ls.builtins.formatting.eslint_d,
               null_ls.builtins.diagnostics.eslint_d,
@@ -1861,8 +1861,6 @@ packer.startup {
             default_timeout = 5000,
             debug = false,
           }
-
-          require("lspconfig")["null-ls"].setup {}
 
           vim.api.nvim_set_keymap(
             "n",
@@ -1885,7 +1883,7 @@ packer.startup {
           { "hrsh7th/cmp-vsnip" },
           { "hrsh7th/cmp-buffer" },
           { "hrsh7th/cmp-path" },
-          { "hrsh7th/cmp-cmdline" },
+          -- { "hrsh7th/cmp-cmdline" },
           {
             "hrsh7th/cmp-nvim-lsp",
             config = function()
@@ -1988,20 +1986,20 @@ packer.startup {
 
           cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
           -- Use buffer source for `/`.
-          cmp.setup.cmdline("/", {
-            sources = {
-              { name = "buffer" },
-            },
-          })
+          -- cmp.setup.cmdline("/", {
+          --   sources = {
+          --     { name = "buffer" },
+          --   },
+          -- })
 
           -- Use cmdline & path source for ':'.
-          cmp.setup.cmdline(":", {
-            sources = cmp.config.sources({
-              { name = "path" },
-            }, {
-              { name = "cmdline" },
-            }),
-          })
+          -- cmp.setup.cmdline(":", {
+          --   sources = cmp.config.sources({
+          --     { name = "path" },
+          --   }, {
+          --     { name = "cmdline" },
+          --   }),
+          -- })
         end,
       }
       use {
