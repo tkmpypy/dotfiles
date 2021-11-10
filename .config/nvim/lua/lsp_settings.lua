@@ -49,6 +49,11 @@ local custom_attach = function(client, bufnr)
       false
     )
   end
+
+  -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
+  -- I only want to use null-ls formatting
+  client.resolved_capabilities.document_formatting = false
+  client.resolved_capabilities.document_range_formatting = false
 end
 
 -- Configure lua language server for neovim development
