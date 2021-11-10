@@ -176,4 +176,6 @@ M.keymaps.get_rhs = function(keymaps, mode, key)
   end, keymaps)
 end
 
+M.keymaps.default_opt = { silent = true, noremap = true }
+
 return M

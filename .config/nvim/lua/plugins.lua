@@ -991,6 +991,155 @@ packer.startup {
           if vim.g.lsp_client_type == "coc" then
             telescope.load_extension "coc"
           end
+
+
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sfg",
+            "<cmd>lua require('telescope.builtin').git_files{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>svc",
+            "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>svC",
+            "<cmd>lua require('telescope.builtin').git_commits{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>svs",
+            "<cmd>lua require('telescope.builtin').git_status{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>svb",
+            "<cmd>lua require('telescope.builtin').git_branches{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sff",
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sgc",
+            "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sgg",
+            "<cmd>lua require('telescope.builtin').live_grep{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sb",
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>scr",
+            "<cmd>lua require('telescope.builtin').command_history{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sfr",
+            "<cmd>lua require('telescope.builtin').oldfiles{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sfl",
+            "<cmd>lua require('telescope.builtin').loclist{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sfq",
+            "<cmd>lua require('telescope.builtin').quickfix{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sfj",
+            "<cmd>lua require('telescope').extensions.jumps.jumps{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          -- vim.api.nvim_set_keymap(
+          --   "n",
+          --   "<leader>st",
+          --   "<cmd>lua require('telescope.builtin').treesitter{}<CR>",
+          --   require("scripts/util").keymaps.default_opt
+          -- )
+          if vim.g.lsp_client_type == 'neovim' then
+            vim.api.nvim_set_keymap(
+              "n",
+              "gr",
+              "<cmd>Telescope lsp_references<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+          elseif vim.g.lsp_client_type == 'coc' then
+            vim.api.nvim_set_keymap(
+              "n",
+              "<leader>sd",
+              "<cmd>:Telescope coc diagnostics<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "<leader>sD",
+              "<cmd>:Telescope coc workspace_diagnostics<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "gr",
+              "<cmd>:Telescope coc references<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "gy",
+              "<cmd>:Telescope coc type_definitions<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "gi",
+              "<cmd>:Telescope coc implementations<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "<leader>sca",
+              "<cmd>:Telescope coc code_actions<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "<leader>ssw",
+              "<cmd>:Telescope coc workspace_symbols<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "<leader>ssd",
+              "<cmd>:Telescope coc document_symbols<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+          end
         end,
       }
       use {
@@ -998,13 +1147,35 @@ packer.startup {
         requires = { "nvim-telescope/telescope.nvim" },
         config = function()
           require("todo-comments").setup {
-            -- pattern = "(KEYWORDS)[(.*)]?.*:"
+            signs = true, -- show icons in the signs column
+            sign_priority = 8, -- sign priority
+            -- keywords recognized as todo comments
+            keywords = {
+              FIX = {
+                icon = " ", -- icon used for the sign, and in search results
+                color = "error", -- can be a hex color, or a named color (see below)
+                alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+                -- signs = false, -- configure signs for some keywords individually
+              },
+              TODO = { icon = " ", color = "info" },
+              HACK = { icon = " ", color = "warning" },
+              WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+              PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+              NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+            },
+            merge_keywords = true, -- when true, custom keywords will be merged with the defaults
+            -- highlighting of the line containing the todo comment
+            -- * before: highlights before the keyword (typically comment characters)
+            -- * keyword: highlights of the keyword
+            -- * after: highlights after the keyword (todo text)
             highlight = {
               before = "", -- "fg" or "bg" or empty
               keyword = "wide", -- "fg", "bg", "wide" or empty. (wide is the same as bg, but will also highlight surrounding characters)
               after = "fg", -- "fg" or "bg" or empty
-              pattern = [[.*<(KEYWORDS)\s*:]], -- pattern used for highlightng (vim regex)
-              comments_only = true, -- this applies the pattern only inside comments using `commentstring` option
+              pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlightng (vim regex)
+              comments_only = true, -- uses treesitter to match keywords in comments only
+              max_line_len = 400, -- ignore lines longer than this
+              exclude = {}, -- list of file types to exclude highlighting
             },
             -- list of named colors where we try to extract the guifg from the
             -- list of hilight groups or use the hex color if hl not found as a fallback
@@ -1031,7 +1202,12 @@ packer.startup {
             },
           }
 
-          vim.api.nvim_set_keymap("n", "<leader>st", "<cmd>TodoTelescope<cr>", { silent = true, noremap = true })
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>st",
+            "<cmd>TodoTelescope<cr>",
+            require("scripts/util").keymaps.default_opt
+          )
         end,
       }
     else

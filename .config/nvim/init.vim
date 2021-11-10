@@ -111,51 +111,6 @@ vnoremap <silent> * :<C-u>call VisualSearch()<CR>
 nnoremap <silent> <leader>nt <cmd>e ~/Dropbox/todo/todo.md<CR>
 " }}
 
-" telescope.nvim {{
-function! s:init_telescope()
-  " bat (preview) *
-  " ripgrep (finder) *
-  " Treesitter (nvim-treesitter) (finder/preview)
-  " fd (sharkdp/fd) (finder)
-  " git (picker) *
-  " neovim LSP (picker)
-  " devicons
-  nnoremap <Leader>sfg <cmd>lua require('telescope.builtin').git_files{}<CR>
-  nnoremap <Leader>svc <cmd>lua require('telescope.builtin').git_bcommits{}<CR>
-  nnoremap <Leader>svC <cmd>lua require('telescope.builtin').git_commits{}<CR>
-  nnoremap <Leader>svs <cmd>lua require('telescope.builtin').git_status{}<CR>
-  nnoremap <Leader>sgb <cmd>lua require('telescope.builtin').git_branches{}<CR>
-  nnoremap <Leader>sff <cmd>lua require('telescope.builtin').find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>
-  nnoremap <Leader>sgc <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find{}<CR>
-  nnoremap <Leader>sgg <cmd>lua require('telescope.builtin').live_grep{}<CR>
-  nnoremap <Leader>sb <cmd>lua require('telescope.builtin').buffers{ show_all_buffers = true, generic_sorters = require('telescope.sorters').fuzzy_with_index_bias }<CR>
-  nnoremap <Leader>sc <cmd>lua require('telescope.builtin').command_history{}<CR>
-  nnoremap <Leader>sr <cmd>lua require('telescope.builtin').oldfiles{}<CR>
-  nnoremap <Leader>sl <cmd>lua require('telescope.builtin').loclist{}<CR>
-  nnoremap <Leader>sq <cmd>lua require('telescope.builtin').quickfix{}<CR>
-  nnoremap <Leader>sj <cmd>lua require('telescope').extensions.jumps.jumps{}<CR>
-  nnoremap <Leader>st <cmd>lua require('telescope.builtin').treesitter{}<CR>
-
-  if g:lsp_client_type == 'neovim'
-    nnoremap <silent>gr    <cmd>Telescope lsp_references<CR>
-  elseif g:lsp_client_type == 'coc'
-    nnoremap <Leader>sd <cmd>:Telescope coc diagnostics<CR>
-    nnoremap <Leader>sD <cmd>:Telescope coc workspace_diagnostics<CR>
-    nnoremap <silent>gr <cmd>:Telescope coc references<CR>
-    nnoremap <silent>gy <cmd>:Telescope coc type_definitions<CR>
-    nnoremap <silent>gi <cmd>:Telescope coc implementations<CR>
-    nnoremap <Leader>sca <cmd>:Telescope coc code_actions<CR>
-    nnoremap <Leader>ssw <cmd>:Telescope coc workspace_symbols<CR>
-    nnoremap <Leader>ssd <cmd>:Telescope coc document_symbols<CR>
-  endif
-
-endfunction
-
-if g:fuzzy_finder_type == 'telescope'
-  call s:init_telescope()
-endif
-" }}
-
 
 " vim-quickrun {{
 nnoremap <leader>rb :QuickRun<CR>
