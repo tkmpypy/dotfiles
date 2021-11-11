@@ -275,7 +275,8 @@ packer.startup {
         local windline = require "windline"
         local helper = require "windline.helpers"
         local b_components = require "windline.components.basic"
-        local state = _G.WindLine.state
+        local W = _G.WindLine
+        local state = W.state
 
         local lsp_comps = require "windline.components.lsp"
         local git_comps = require "windline.components.git"
@@ -773,7 +774,7 @@ packer.startup {
       end,
     }
     use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install" }
-    use { "npxbr/glow.nvim" }
+    use { "npxbr/glow.nvim", ft = { "markdown" } }
     use { "osyo-manga/vim-over" }
     use { "nicwest/vim-camelsnek" }
     use { "pechorin/any-jump.vim" }
@@ -921,6 +922,7 @@ packer.startup {
     use {
       "akinsho/org-bullets.nvim",
       requires = { { "kristijanhusak/orgmode.nvim" } },
+      ft = { "org" },
       config = function()
         require("org-bullets").setup { symbols = { "◉", "○", "✸", "✿" } }
         vim.cmd [[
@@ -991,7 +993,6 @@ packer.startup {
           if vim.g.lsp_client_type == "coc" then
             telescope.load_extension "coc"
           end
-
 
           vim.api.nvim_set_keymap(
             "n",
@@ -1083,14 +1084,14 @@ packer.startup {
           --   "<cmd>lua require('telescope.builtin').treesitter{}<CR>",
           --   require("scripts/util").keymaps.default_opt
           -- )
-          if vim.g.lsp_client_type == 'neovim' then
+          if vim.g.lsp_client_type == "neovim" then
             vim.api.nvim_set_keymap(
               "n",
               "gr",
               "<cmd>Telescope lsp_references<CR>",
               require("scripts/util").keymaps.default_opt
             )
-          elseif vim.g.lsp_client_type == 'coc' then
+          elseif vim.g.lsp_client_type == "coc" then
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sd",
@@ -1488,114 +1489,114 @@ packer.startup {
               "n",
               "<leader>sb",
               "<cmd>lua require('fzf-lua').buffers()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             -- File
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sfg",
               "<cmd>lua require('fzf-lua').git_files()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sff",
               "<cmd>lua require('fzf-lua').files()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sfr",
               "<cmd>lua require('fzf-lua').files_resume()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             -- Git
             vim.api.nvim_set_keymap(
               "n",
               "<leader>svc",
               "<cmd>lua require('fzf-lua').git_bcommits()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>svC",
               "<cmd>lua require('fzf-lua').git_commits()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>svs",
               "<cmd>lua require('fzf-lua').git_status()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>svb",
               "<cmd>lua require('fzf-lua').git_branches()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             -- Grep
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sgg",
               "<cmd>lua require('fzf-lua').live_grep()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sgr",
               "<cmd>lua require('fzf-lua').live_grep_resume()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sgw",
               "<cmd>lua require('fzf-lua').grep_cword()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sgl",
               "<cmd>lua require('fzf-lua').blines()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sgc",
               "<cmd>lua require('fzf-lua').grep_curbuf()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             -- Misc
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sc",
               "<cmd>lua require('fzf-lua').command_history()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sr",
               "<cmd>lua require('fzf-lua').oldfiles()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sl",
               "<cmd>lua require('fzf-lua').loclist()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
               "n",
               "<leader>sq",
               "<cmd>lua require('fzf-lua').quickfix()<CR>",
-              { noremap = true, silent = true }
+              require("scripts/util").keymaps.default_opt
             )
             if vim.g.lsp_client_type == "neovim" then
               vim.api.nvim_set_keymap(
                 "n",
                 "gr",
                 "<cmd>lua require('fzf-lua').lsp_references()<CR>",
-                { noremap = true, silent = true }
+                require("scripts/util").keymaps.default_opt
               )
             end
           end,
@@ -1743,17 +1744,23 @@ packer.startup {
             },
           },
         }
-        vim.api.nvim_set_keymap("n", "<leader>gdd", "<cmd>DiffviewOpen<cr>", { silent = true, noremap = true })
-        vim.api.nvim_set_keymap("n", "<leader>gdr", "<cmd>DiffviewFileHistory .<cr>", {
-          silent = true,
-          noremap = true,
-        })
+        vim.api.nvim_set_keymap(
+          "n",
+          "<leader>gdd",
+          "<cmd>DiffviewOpen<cr>",
+          require("scripts/util").keymaps.default_opt
+        )
+        vim.api.nvim_set_keymap(
+          "n",
+          "<leader>gdr",
+          "<cmd>DiffviewFileHistory .<cr>",
+          require("scripts/util").keymaps.default_opt
+        )
       end,
     }
     use {
       "TimUntersberger/neogit",
       requires = { { "nvim-lua/plenary.nvim" }, { "sindrets/diffview.nvim" } },
-      commit = "e507909518568d452ae48f117e5f2dc1ee620689",
       config = function()
         local neogit = require "neogit"
         neogit.setup {
@@ -1811,7 +1818,12 @@ packer.startup {
           },
         }
 
-        vim.api.nvim_set_keymap("n", "<leader>gs", "<cmd>Neogit kind=split<cr>", { silent = true, noremap = true })
+        vim.api.nvim_set_keymap(
+          "n",
+          "<leader>gs",
+          "<cmd>Neogit kind=split<cr>",
+          require("scripts/util").keymaps.default_opt
+        )
       end,
     }
     use { "rhysd/git-messenger.vim" }
@@ -1958,30 +1970,6 @@ packer.startup {
       }
       use { "b0o/schemastore.nvim", requires = { { "neovim/nvim-lspconfig" } } }
       use {
-        "mfussenegger/nvim-lint",
-        disable = true,
-        config = function()
-          local lint = require "lint"
-          lint.linters.eslint.cmd = "./node_modules/.bin/eslint"
-          lint.linters_by_ft = {
-            markdown = { "vale" },
-            python = { "flake8" },
-            typescript = { "eslint" },
-            typescriptreact = { "eslint" },
-            javascript = { "eslint" },
-            javascriptreact = { "eslint" },
-            go = { "golangcilint" },
-          }
-
-          vim.cmd [[
-            augroup linter
-              autocmd!
-              autocmd BufEnter,BufWritePost * lua require('lint').try_lint()
-            augroup end
-          ]]
-        end,
-      }
-      use {
         "jose-elias-alvarez/null-ls.nvim",
         requires = { { "neovim/nvim-lspconfig" }, { "nvim-lua/plenary.nvim" } },
         config = function()
@@ -2059,7 +2047,7 @@ packer.startup {
           { "hrsh7th/cmp-vsnip" },
           { "hrsh7th/cmp-buffer" },
           { "hrsh7th/cmp-path" },
-          -- { "hrsh7th/cmp-cmdline" },
+          { "hrsh7th/cmp-cmdline" },
           {
             "hrsh7th/cmp-nvim-lsp",
             config = function()
@@ -2162,20 +2150,20 @@ packer.startup {
 
           cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
           -- Use buffer source for `/`.
-          -- cmp.setup.cmdline("/", {
-          --   sources = {
-          --     { name = "buffer" },
-          --   },
-          -- })
+          cmp.setup.cmdline("/", {
+            sources = {
+              { name = "buffer" },
+            },
+          })
 
           -- Use cmdline & path source for ':'.
-          -- cmp.setup.cmdline(":", {
-          --   sources = cmp.config.sources({
-          --     { name = "path" },
-          --   }, {
-          --     { name = "cmdline" },
-          --   }),
-          -- })
+          cmp.setup.cmdline(":", {
+            sources = cmp.config.sources({
+              { name = "path" },
+            }, {
+              { name = "cmdline" },
+            }),
+          })
         end,
       }
       use {
@@ -2228,7 +2216,7 @@ packer.startup {
             "n",
             "<leader>sD",
             "<cmd>LspTroubleWorkspaceToggle<cr>",
-            { silent = true, noremap = true }
+            require('scripts/util').keymaps.default_opt
           )
         end,
       }
