@@ -2012,7 +2012,7 @@ packer.startup {
               null_ls.builtins.formatting.eslint_d,
               null_ls.builtins.diagnostics.eslint_d,
               null_ls.builtins.formatting.prettier,
-              null_ls.builtins.formatting.gofmt,
+              -- null_ls.builtins.formatting.gofmt,
               null_ls.builtins.formatting.gofumpt,
               null_ls.builtins.formatting.rustfmt,
               null_ls.builtins.formatting.autopep8,
@@ -2210,7 +2210,7 @@ packer.startup {
             "n",
             "<leader>sd",
             "<cmd>LspTroubleDocumentToggle<cr>",
-            { silent = true, noremap = true }
+            require('scripts/util').keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
             "n",
