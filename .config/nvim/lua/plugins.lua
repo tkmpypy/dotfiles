@@ -1974,43 +1974,13 @@ packer.startup {
         requires = { { "neovim/nvim-lspconfig" }, { "nvim-lua/plenary.nvim" } },
         config = function()
           local null_ls = require "null-ls"
-          local golangcilint = {
-            method = null_ls.methods.DIAGNOSTICS,
-            filetypes = { "go" },
-            generator = null_ls.generator {
-              command = "golangci-lint",
-              args = { "run", "--out-format", "json", "$DIRNAME", "--path-prefix", "$ROOT" },
-              to_stdin = true,
-              from_stderr = false,
-              -- choose an output format (raw, json, or line)
-              format = "json",
-              check_exit_code = function(code)
-                return code <= 2
-              end,
-              on_output = function(params)
-                local diags = {}
-                for _, d in ipairs(params.output.Issues) do
-                  print(d.Pos.Filename)
-                  if d.Pos.Filename == params.bufname then
-                    table.insert(diags, {
-                      row = d.Pos.Line,
-                      col = d.Pos.Column,
-                      message = d.Text,
-                    })
-                  end
-                end
-                return diags
-              end,
-            },
-          }
-
-          null_ls.register(golangcilint)
           null_ls.config {
             sources = {
               -- null_ls.builtins.diagnostics.markdownlint,
               null_ls.builtins.diagnostics.flake8,
               null_ls.builtins.formatting.eslint_d,
               null_ls.builtins.diagnostics.eslint_d,
+              null_ls.builtins.diagnostics.golangci_lint,
               null_ls.builtins.formatting.prettier,
               -- null_ls.builtins.formatting.gofmt,
               null_ls.builtins.formatting.gofumpt,
@@ -2020,7 +1990,7 @@ packer.startup {
               null_ls.builtins.formatting.terraform_fmt,
               null_ls.builtins.formatting.shfmt,
             },
-            diagnostics_format = "#{m}",
+            diagnostics_format = "[#{s}] #{m}",
             debounce = 250,
             default_timeout = 5000,
             debug = false,
@@ -2069,8 +2039,8 @@ packer.startup {
             end,
             completion = {
               autocomplete = { types.cmp.TriggerEvent.TextChanged },
-              -- completeopt = "menu,menuone,noselect",
-              completeopt = "menu,menuone,noinsert",
+              completeopt = "menu,menuone,noselect",
+              -- completeopt = "menu,menuone,noinsert",
               keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
               keyword_length = 1,
             },

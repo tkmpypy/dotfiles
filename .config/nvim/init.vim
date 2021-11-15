@@ -33,12 +33,12 @@ lua require('plugins')
 
 " colorscheme OceanicNext
 " colorscheme everforest
-" colorscheme edge
+colorscheme edge
 " colorscheme tokyonight
 " colorscheme tokyodark
 " colorscheme zephyr
 " colorscheme space-nvim
-colorscheme gruvbox-flat
+" colorscheme gruvbox-flat
 " colorscheme doom-one
 " colorscheme nightfox
 " colorscheme duskfox
@@ -664,7 +664,7 @@ endif
 set complete&
     \ complete-=i
     \ complete-=t
-set completeopt=menu,menuone,noinsert
+set completeopt=menu,menuone,noselect
 
 if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
   if has('osx')
