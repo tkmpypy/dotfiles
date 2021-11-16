@@ -28,10 +28,7 @@ typeset -U PATH
 # https://zdharma.org/zinit/wiki/For-Syntax/
 zinit for \
     light-mode  zsh-users/zsh-autosuggestions \
-                zsh-users/zsh-syntax-highlighting \
-                zinit-zsh/z-a-patch-dl \
-                zinit-zsh/z-a-as-monitor \
-                zinit-zsh/z-a-bin-gem-node
+                zsh-users/zsh-syntax-highlighting
 
 # Handle completions without loading any plugin, see "clist" command.
 # This one is to be ran just once, in interactive session.

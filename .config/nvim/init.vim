@@ -533,7 +533,7 @@ let g:mkdp_preview_options = {
     \ }
 
 " use a custom markdown style must be absolute path
-let g:mkdp_markdown_css = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css'
+" let g:mkdp_markdown_css = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css'
 
 " use a custom highlight style must absolute path
 let g:mkdp_highlight_css = ''

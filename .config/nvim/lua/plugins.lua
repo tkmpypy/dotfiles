@@ -211,16 +211,22 @@ packer.startup {
         -- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a blend=nocombine]]
         require("indent_blankline").setup {
           -- char = "",
-          enabled = false,
+          enabled = true,
           buftype_exclude = { "terminal", "help" },
           filetype_exclude = { "startify", "alpha" },
           show_end_of_line = false,
           -- space_char_blankline = " ",
           show_trailing_blankline_indent = false,
           -- char_highlight_list = {
-          --   "IndentBlanklineIndent1", "IndentBlanklineIndent2"
+          --     "IndentBlanklineIndent1",
+          --     "IndentBlanklineIndent2",
+          --     "IndentBlanklineIndent3",
+          --     "IndentBlanklineIndent4",
+          --     "IndentBlanklineIndent5",
+          --     "IndentBlanklineIndent6",
           -- },
           show_current_context = false,
+          show_current_context_start = false
         }
       end,
     }
@@ -710,8 +716,8 @@ packer.startup {
     use {
       "moll/vim-bbye",
       config = function()
-        vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>:Bdelete<CR>", { noremap = true, silent = true })
-        vim.api.nvim_set_keymap("n", "<leader>Q", "<cmd>:Bdelete!<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>:Bdelete<CR>", require("scripts/util").keymaps.default_opt)
+        vim.api.nvim_set_keymap("n", "<leader>Q", "<cmd>:Bdelete!<CR>", require("scripts/util").keymaps.default_opt)
       end,
     }
     -- use {'tyru/caw.vim'}
@@ -903,19 +909,19 @@ packer.startup {
           "n",
           "<Leader>on",
           "<cmd>:e ~/Dropbox/org/note.org<cr>",
-          { silent = true, noremap = true }
+          require("scripts/util").keymaps.default_opt
         )
         vim.api.nvim_set_keymap(
           "n",
           "<Leader>ot",
           "<cmd>:e ~/Dropbox/org/todo.org<cr>",
-          { silent = true, noremap = true }
+          require("scripts/util").keymaps.default_opt
         )
         vim.api.nvim_set_keymap(
           "n",
           "<Leader>oj",
           "<cmd>:e ~/Dropbox/org/journal.org<cr>",
-          { silent = true, noremap = true }
+          require("scripts/util").keymaps.default_opt
         )
       end,
     }
