@@ -251,6 +251,12 @@ local make_config = function()
   }
 end
 
+local function setup_lsp_servers_without_installer()
+  require("lspconfig").dartls.setup {
+    init_options = dart_config.init_options
+  }
+end
+
 local function setup_servers_use_nvim_lsp_installer()
   local lsp_installer = require "nvim-lsp-installer"
 
@@ -270,6 +276,8 @@ local function setup_servers_use_nvim_lsp_installer()
       config.root_dir = pyright_config.root_dir
     elseif server.name == "jsonls" then
       config.settings = jsonls_config.settings
+    elseif server.name == "dartls" then
+      config.init_options = dart_config.init_options
       -- elseif server.name == "diagnosticls" then
       --   config.init_options = diagnosticls_config.init_options
       --   config.filetypes = diagnosticls_config.filetypes
@@ -283,6 +291,7 @@ local function setup_servers_use_nvim_lsp_installer()
   end)
 end
 
+setup_lsp_servers_without_installer()
 setup_servers_use_nvim_lsp_installer()
 require("lspconfig")["null-ls"].setup {}
 set_diagnostic_sign()

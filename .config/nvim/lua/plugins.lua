@@ -472,7 +472,6 @@ packer.startup {
             explorer,
           },
         }
-        -- TODO: slow??
         -- require("wlfloatline").setup({
         -- 	interval = 300,
         -- 	ui = {

@@ -92,8 +92,20 @@ endif
 
 " my utils {{
 
-" selected search when visual mode
+" local vimrc
+function! s:VimrcLocal(loc)
+  let files = findfile('.vimrc.local', escape(a:loc, ' ') . ';', -1)
+  for i in reverse(filter(files, 'filereadable(v:val)'))
+    source `=i`
+  endfor
+endfunction
+augroup VimrcLocal
+  autocmd!
+  autocmd BufNewFile,BufReadPost * call s:VimrcLocal(expand('<afile>:p:h'))
+augroup END
 
+
+" selected search when visual mode
 function! VisualSearch()
   let reg = '"'
   let [save_reg, save_type] = [getreg(reg), getregtype(reg)]
@@ -786,6 +798,10 @@ autocmd FileType lua setlocal ts=2 sw=2
 autocmd FileType yaml setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=4 sw=4
 autocmd FileType proto setlocal ts=2 sw=2
+augroup vagrant
+   au!
+   au BufRead,BufNewFile Vagrantfile set filetype=ruby
+ augroup END
 
 " No beep
 set visualbell
