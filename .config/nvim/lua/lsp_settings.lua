@@ -296,10 +296,9 @@ setup_servers_use_nvim_lsp_installer()
 require("lspconfig")["null-ls"].setup {}
 set_diagnostic_sign()
 
--- use null-ls setting
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
---   underline = true,
---   virtual_text = { spacing = 2, prefix = "»" },
---   signs = { priority = 20 },
---   update_in_insert = false,
--- })
+vim.diagnostic.config({
+    underline = true,
+    virtual_text = { spacing = 2, prefix = "»" },
+    signs = { priority = 20 },
+    update_in_insert = false,
+})

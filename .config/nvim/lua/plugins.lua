@@ -1995,10 +1995,15 @@ packer.startup {
               null_ls.builtins.formatting.terraform_fmt,
               null_ls.builtins.formatting.shfmt,
             },
-            diagnostics_format = "[#{s}] #{m}",
+            diagnostics_format = "[#{s} #{c}] #{m}",
             debounce = 250,
             default_timeout = 5000,
             debug = false,
+            log = {
+              enable = false,
+              level = 'warn',
+              use_console = 'async'
+            }
           }
 
           vim.api.nvim_set_keymap(
