@@ -213,7 +213,7 @@ packer.startup {
           -- char = "",
           enabled = true,
           buftype_exclude = { "terminal", "help" },
-          filetype_exclude = { "startify", "alpha" },
+          filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer" },
           show_end_of_line = false,
           -- space_char_blankline = " ",
           show_trailing_blankline_indent = false,
@@ -2098,13 +2098,31 @@ packer.startup {
 
             -- You should specify your *installed* sources.
             sources = cmp.config.sources {
-              { name = "nvim_lsp" },
-              { name = "vsnip" },
-              { name = "path" },
+              {
+                name = "nvim_lsp",
+                priority = 10,
+                max_item_count = 50,
+              },
+              {
+                name = "vsnip",
+                priority = 11,
+                max_item_count = 50,
+              },
+              {
+                name = "path",
+                max_item_count = 20,
+              },
               { name = "orgmode" },
-              { name = "nvim_lua" },
+              {
+                name = "nvim_lua",
+                priority = 11,
+                max_item_count = 50,
+              },
               {
                 name = "buffer",
+                priority = 1,
+                keyword_length = 2,
+                max_item_count = 50,
                 opts = {
                   -- get_bufnrs = function()
                   -- 	return vim.api.nvim_list_bufs()
