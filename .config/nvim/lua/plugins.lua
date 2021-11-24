@@ -2123,7 +2123,7 @@ packer.startup {
                 priority = 1,
                 keyword_length = 2,
                 max_item_count = 50,
-                opts = {
+                option = {
                   -- get_bufnrs = function()
                   -- 	return vim.api.nvim_list_bufs()
                   -- end,
@@ -2162,6 +2162,7 @@ packer.startup {
               { name = "cmdline" },
             }),
           })
+
         end,
       }
       use {
