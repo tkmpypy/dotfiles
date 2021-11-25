@@ -7,6 +7,7 @@ local M = {
   os = {},
   file = {},
   buffer = {},
+  lib = {},
 }
 
 local function same_until(first, second)
@@ -177,5 +178,14 @@ M.keymaps.get_rhs = function(keymaps, mode, key)
 end
 
 M.keymaps.default_opt = { silent = true, noremap = true }
+
+M.lib.prequire = function(...)
+  local status, lib = pcall(require, ...)
+  if status then
+    return lib
+  end
+  -- Library failed to load, so perhaps return `nil` or something?
+  return nil
+end
 
 return M

@@ -1,12 +1,3 @@
-local prequire = function(...)
-  local status, lib = pcall(require, ...)
-  if status then
-    return lib
-  end
-  -- Library failed to load, so perhaps return `nil` or something?
-  return nil
-end
-
 local vim = vim
 local util = require("lspconfig").util
 
@@ -105,7 +96,7 @@ local gopls_config = {
     gofumpt = true,
     usePlaceholders = true,
     semanticTokens = true,
-    staticcheck = true,
+    staticcheck = false,
     experimentalPostfixCompletions = true,
     analyses = {
       nilness = true,
@@ -132,102 +123,6 @@ local pyright_config = {
   end,
 }
 
-local diagnosticls_config = {
-  root_dir = function(fname)
-    return util.root_pattern ".git"(fname) or util.path.dirname(fname)
-  end,
-  filetypes = {
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "go",
-    "rust",
-    "python",
-    "proto",
-  },
-  init_options = {
-    linters = {
-      flake8 = {
-        command = vim.fn.expand "$HOME/.asdf/shims/flake8",
-        rootPatterns = { ".git" },
-        debounce = 100,
-        args = { "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-" },
-        sourceName = "flake8",
-        offsetLint = 0,
-        offsetColumn = 0,
-        formatLines = 1,
-        formatPattern = {
-          "(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
-          { line = 1, column = 2, security = 3, message = { "[flake8]", 4 } },
-        },
-        securities = {
-          W = "warning",
-          E = "error",
-          F = "error",
-          C = "error",
-          N = "error",
-        },
-      },
-      eslint = {
-        command = "./node_modules/.bin/eslint",
-        rootPatterns = { ".git" },
-        debounce = 300,
-        args = { "--stdin", "--stdin-filename", "%filepath", "--format", "json" },
-        sourceName = "eslint",
-        parseJson = {
-          errorsRoot = "[0].messages",
-          line = "line",
-          column = "column",
-          endLine = "endLine",
-          endColumn = "endColumn",
-          message = "${message} [${ruleId}]",
-          security = "severity",
-        },
-        securities = { [2] = "error", [1] = "warning" },
-      },
-      golangci = {
-        command = "golangci-lint",
-        sourceName = "golangci-lint",
-        rootPatterns = { ".git", "go.mod" },
-        debounce = 300,
-        args = { "run", "--out-format", "json", "--fast" },
-        parseJson = {
-          sourceName = "Pos.Filename",
-          sourceNameFilter = true,
-          errorsRoot = "Issues",
-          line = "Pos.Line",
-          column = "Pos.Column",
-          message = "${Text} [${FromLinter}]",
-        },
-      },
-      buf = {
-        command = "buf",
-        sourceName = "buf",
-        args = { "lint", "--path", vim.api.nvim_buf_get_name(0), "--error-format=text" },
-        rootPatterns = { "buf.yaml", "buf.yml" },
-        offsetLint = 0,
-        offsetColumn = 0,
-        formatLines = 1,
-        formatPattern = {
-          "([a-zA-Z|\\/|\\.]*):(\\d+):(\\d+):(.*)*$",
-          { sourceName = 1, line = 2, column = 3, message = 4 },
-        },
-      },
-    },
-    filetypes = {
-      javascript = "eslint",
-      javascriptreact = "eslint",
-      typescript = "eslint",
-      typescriptreact = "eslint",
-      dart = "dartanalyzer",
-      go = "golangci",
-      python = "flake8",
-      proto = "buf",
-    },
-  },
-}
-
 -- config that activates keymaps and enables snippet support
 local make_config = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -251,7 +146,7 @@ local make_config = function()
   }
 end
 
-local function setup_lsp_servers_without_installer()
+local function setup_servers_without_installer()
   require("lspconfig").dartls.setup {
     init_options = dart_config.init_options
   }
@@ -278,10 +173,6 @@ local function setup_servers_use_nvim_lsp_installer()
       config.settings = jsonls_config.settings
     elseif server.name == "dartls" then
       config.init_options = dart_config.init_options
-      -- elseif server.name == "diagnosticls" then
-      --   config.init_options = diagnosticls_config.init_options
-      --   config.filetypes = diagnosticls_config.filetypes
-      --   config.root_dir = diagnosticls_config.root_dir
     end
 
     -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
@@ -291,7 +182,7 @@ local function setup_servers_use_nvim_lsp_installer()
   end)
 end
 
-setup_lsp_servers_without_installer()
+setup_servers_without_installer()
 setup_servers_use_nvim_lsp_installer()
 require("lspconfig")["null-ls"].setup {}
 set_diagnostic_sign()

@@ -1511,8 +1511,14 @@ packer.startup {
             )
             vim.api.nvim_set_keymap(
               "n",
-              "<leader>sfr",
+              "<leader>sfF",
               "<cmd>lua require('fzf-lua').files_resume()<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "<leader>sfr",
+              "<cmd>lua require('fzf-lua').oldfiles()<CR>",
               require("scripts/util").keymaps.default_opt
             )
             -- Git
@@ -1549,7 +1555,7 @@ packer.startup {
             )
             vim.api.nvim_set_keymap(
               "n",
-              "<leader>sgr",
+              "<leader>sgG",
               "<cmd>lua require('fzf-lua').live_grep_resume()<CR>",
               require("scripts/util").keymaps.default_opt
             )
@@ -1576,12 +1582,6 @@ packer.startup {
               "n",
               "<leader>sc",
               "<cmd>lua require('fzf-lua').command_history()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sr",
-              "<cmd>lua require('fzf-lua').oldfiles()<CR>",
               require("scripts/util").keymaps.default_opt
             )
             vim.api.nvim_set_keymap(
