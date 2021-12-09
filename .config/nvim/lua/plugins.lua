@@ -615,6 +615,11 @@ packer.startup {
             dotfiles = false,
             custom = { "node_modules", ".cache", ".DS_Store" },
           },
+          git = {
+            enable = true,
+            ignore = false,
+            timeout = 500,
+          },
 
           view = {
             -- width of the window, can be either a number (columns) or a string in `%`
