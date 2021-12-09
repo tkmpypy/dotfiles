@@ -200,10 +200,10 @@ function! s:setup_nvim_lsp()
     nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
     nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
-    nnoremap <leader>dc <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-    nnoremap <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-    nnoremap <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-    nnoremap <leader>do <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+    nnoremap <leader>dc <cmd>lua vim.diagnostic.open_float()<CR>
+    nnoremap <leader>dn <cmd>lua vim.diagnostic.goto_next()<CR>
+    nnoremap <leader>dp <cmd>lua vim.diagnostic.goto_prev()<CR>
+    nnoremap <leader>do <cmd>lua vim.diagnostic.setloclist()<CR>
 endfunction
 
 function! s:setup_vsnip()

@@ -212,6 +212,7 @@ schemes:
       cyan:    '0x0db9d7'
       white:   '0xacb0d0'
 
+
   # Colors (one dark)
   onedark: &onedark
     # Default colors
@@ -243,7 +244,7 @@ schemes:
       cyan:    '0x56b6c2'
       white:   '0xffffff'
 
-colors: *tokyo-night-storm
+colors: *onedark
 
 # Mouse bindings
 #
@@ -336,7 +337,7 @@ cursor:
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
-  unfocused_hollow: true
+  unfocused_hollow: false
 
 # Live config reload (changes require restart)
 live_config_reload: true
@@ -583,7 +584,7 @@ key_bindings:
   #- { key: K,              mods: Command, mode: ~Vi|~Search, chars: "\x0c"                 }
   #- { key: K,              mods: Command, mode: ~Vi|~Search, action: ClearHistory          }
   - { key: Key0,           mods: Alt,                    action: ResetFontSize              }
-  - { key: Semicolon,           mods: Alt,                    action: IncreaseFontSize      }
+  - { key: Semicolon,      mods: Alt,                    action: IncreaseFontSize           }
   - { key: Minus,          mods: Alt,                    action: DecreaseFontSize           }
   #- { key: V,              mods: Command,                    action: Paste                 }
   #- { key: C,              mods: Command,                    action: Copy                  }
