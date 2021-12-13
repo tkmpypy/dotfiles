@@ -226,22 +226,7 @@ packer.startup {
           --     "IndentBlanklineIndent6",
           -- },
           show_current_context = false,
-          show_current_context_start = false
-        }
-      end,
-    }
-    use {
-      "mvllow/modes.nvim",
-      disable = true,
-      config = function()
-        require("modes").setup {
-          colors = {
-            copy = "#f5c359",
-            delete = "#c75c6a",
-            insert = "#78ccc5",
-            visual = "#9745be",
-          },
-          line_opacity = 0.1,
+          show_current_context_start = false,
         }
       end,
     }
@@ -256,18 +241,6 @@ packer.startup {
         }
       end,
     }
-    use {
-      "sunjon/shade.nvim",
-      disable = true,
-      config = function()
-        require("shade").setup {
-          overlay_opacity = 50,
-          opacity_step = 1,
-          keys = { brightness_up = "<C-Up>", brightness_down = "<C-Down>" },
-        }
-      end,
-    }
-
     use {
       "norcalli/nvim-colorizer.lua",
       config = function()
@@ -1984,7 +1957,7 @@ packer.startup {
         requires = { { "neovim/nvim-lspconfig" }, { "nvim-lua/plenary.nvim" } },
         config = function()
           local null_ls = require "null-ls"
-          null_ls.config {
+          null_ls.setup {
             sources = {
               -- null_ls.builtins.diagnostics.markdownlint,
               null_ls.builtins.diagnostics.flake8,
@@ -2006,9 +1979,9 @@ packer.startup {
             debug = false,
             log = {
               enable = false,
-              level = 'warn',
-              use_console = 'async'
-            }
+              level = "warn",
+              use_console = "async",
+            },
           }
 
           vim.api.nvim_set_keymap(
@@ -2167,7 +2140,6 @@ packer.startup {
               { name = "cmdline" },
             }),
           })
-
         end,
       }
       use {
@@ -2180,7 +2152,7 @@ packer.startup {
             -- refer to the configuration section below
             height = 10, -- height of the trouble list
             icons = true, -- use dev-icons for filenames
-            mode = "document", -- "workspace" or "document"
+            mode = "document_diagnostics", -- "workspace" or "document"
             fold_open = "", -- icon used for open folds
             fold_closed = "", -- icon used for closed folds
             action_keys = { -- key mappings for actions in the trouble list
@@ -2214,13 +2186,13 @@ packer.startup {
             "n",
             "<leader>sd",
             "<cmd>LspTroubleDocumentToggle<cr>",
-            require('scripts/util').keymaps.default_opt
+            require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sD",
             "<cmd>LspTroubleWorkspaceToggle<cr>",
-            require('scripts/util').keymaps.default_opt
+            require("scripts/util").keymaps.default_opt
           )
         end,
       }

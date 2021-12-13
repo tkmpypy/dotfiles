@@ -184,7 +184,6 @@ end
 
 setup_servers_without_installer()
 setup_servers_use_nvim_lsp_installer()
-require("lspconfig")["null-ls"].setup {}
 set_diagnostic_sign()
 
 vim.diagnostic.config({
