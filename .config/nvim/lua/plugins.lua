@@ -2185,13 +2185,13 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sd",
-            "<cmd>LspTroubleDocumentToggle<cr>",
+            "<cmd>TroubleToggle document_diagnostics<cr>",
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sD",
-            "<cmd>LspTroubleWorkspaceToggle<cr>",
+            "<cmd>TroubleToggle workspace_diagnostics<cr>",
             require("scripts/util").keymaps.default_opt
           )
         end,

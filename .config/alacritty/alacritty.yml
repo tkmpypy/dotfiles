@@ -219,6 +219,9 @@ schemes:
     primary:
       background: '0x282c34'
       foreground: '0xabb2bf'
+    cursor:
+      text: '0x000000'
+      cursor: '0xd19a66'
 
     # Normal colors
     normal:
