@@ -586,7 +586,8 @@ packer.startup {
 
           filters = {
             dotfiles = false,
-            custom = { "node_modules", ".cache", ".DS_Store" },
+            -- custom = { "node_modules", ".cache", ".DS_Store" },
+            custom = { ".cache", ".DS_Store" },
           },
           git = {
             enable = true,
