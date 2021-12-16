@@ -166,6 +166,7 @@ packer.startup {
 
     -- Languages
     use {
+      disable = true,
       "plasticboy/vim-markdown",
       ft = { "markdown" },
       config = function()
