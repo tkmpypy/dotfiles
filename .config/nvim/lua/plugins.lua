@@ -255,6 +255,7 @@ packer.startup {
         local windline = require "windline"
         local helper = require "windline.helpers"
         local b_components = require "windline.components.basic"
+        --- @diagnostic disable-next-line: undefined-field
         local W = _G.WindLine
         local state = W.state
 
