@@ -33,7 +33,8 @@ lua require('plugins')
 
 " colorscheme OceanicNext
 " colorscheme everforest
-colorscheme edge
+" colorscheme edge
+colorscheme kanagawa
 " colorscheme tokyonight
 " colorscheme tokyodark
 " colorscheme zephyr
@@ -678,15 +679,11 @@ set complete&
     \ complete-=t
 set completeopt=menu,menuone,noselect
 
-if $TERM =~# '\v(xterm|tmux)-256color' || has('gui_running')
-  if has('osx')
-    let &t_ZH = "\e[3m"
-    let &t_ZR = "\e[23m"
-  endif
-endif
 set t_Co=256
 let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
 
 set wrap
 set wildmenu

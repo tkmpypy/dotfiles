@@ -54,6 +54,25 @@ packer.startup {
     use { "embark-theme/vim", opt = true, as = "embark" }
 
     -- supported treesitter colorscheme
+    use {
+      "rebelot/kanagawa.nvim",
+      config = function()
+        require("kanagawa").setup {
+          undercurl = true, -- enable undercurls
+          commentStyle = "italic",
+          functionStyle = "NONE",
+          keywordStyle = "italic",
+          statementStyle = "bold",
+          typeStyle = "NONE",
+          variablebuiltinStyle = "italic",
+          specialReturn = true, -- special highlight for the return keyword
+          specialException = true, -- special highlight for exception handling keywords
+          transparent = false, -- do not set background color
+          colors = {},
+          overrides = {},
+        }
+      end,
+    }
     use { "mhartington/oceanic-next", opt = true }
     use { "sainnhe/edge" }
     use {
@@ -214,7 +233,7 @@ packer.startup {
           -- char = "",
           enabled = true,
           buftype_exclude = { "terminal", "help" },
-          filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer" },
+          filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer" },
           show_end_of_line = false,
           -- space_char_blankline = " ",
           show_trailing_blankline_indent = false,

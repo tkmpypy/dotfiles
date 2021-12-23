@@ -677,5 +677,5 @@ key_bindings:
   - { key: Minus, mods: Alt|Shift, chars: "\x1b_" } # Alt + _
   - { key: Key5, mods: Alt|Shift, chars: "\x1b%" } # Alt + %
   - { key: Key6, mods: Alt|Shift, chars: "\x1b^" } # Alt + ^
-  - { key: Backslash, mods: Alt, chars: "\x1b\\" } # Alt + \
-  - { key: Backslash, mods: Alt|Shift, chars: "\x1b|" } # Alt + |
+  - { key: Backslash, mods: Alt|Shift, chars: "\xA5" }
+  - { key: Backslash, chars: "\x5C" }
