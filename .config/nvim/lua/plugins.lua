@@ -38,9 +38,6 @@ packer.startup {
         require("impatient").enable_profile()
       end,
     }
-    use {
-      "nathom/filetype.nvim",
-    }
 
     if vim.g.use_treesitter then
       use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
@@ -294,7 +291,76 @@ packer.startup {
     }
     use { "kyazdani42/nvim-web-devicons" }
     use {
+      "nvim-lualine/lualine.nvim",
+      requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      disable = false,
+      config = function()
+        local util = require "scripts/util"
+        require("lualine").setup {
+          options = {
+            icons_enabled = true,
+            theme = "auto",
+            -- component_separators = { left = "", right = "" },
+            -- section_separators = { left = "", right = "" },
+            component_separators = "",
+            section_separators = "",
+            disabled_filetypes = {},
+            always_divide_middle = true,
+          },
+          sections = {
+            lualine_a = { "mode" },
+            lualine_b = {
+              "branch",
+              {
+                "diff",
+                -- Is it me or the symbol for modified us really weird
+                symbols = { added = " ", modified = "柳", removed = " " },
+              },
+            },
+            lualine_c = {
+              {
+                "filetype",
+                icon_only = true,
+              },
+              {
+                "filename",
+                padding = 0,
+                symbols = { modified = "  ", readonly = "  ", unnamed = "  " },
+                separator = " "
+              },
+              {
+                util.lsp.current_lsp,
+                icon = " ",
+              },
+              "diagnostics",
+              "lsp_progress",
+            },
+            lualine_x = { "encoding" },
+            lualine_y = { "progress" },
+            lualine_z = { "location" },
+          },
+          inactive_sections = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = { "filename" },
+            lualine_x = { "location" },
+            lualine_y = {},
+            lualine_z = {},
+          },
+          tabline = {},
+          extensions = {
+            "fzf",
+            "quickfix",
+            "toggleterm",
+            "symbols-outline",
+            "nvim-tree",
+          },
+        }
+      end,
+    }
+    use {
       "windwp/windline.nvim",
+      disable = true,
       config = function()
         local windline = require "windline"
         local helper = require "windline.helpers"
@@ -304,6 +370,7 @@ packer.startup {
         local state = W.state
 
         local lsp_comps = require "windline.components.lsp"
+        local lsp_progress_comps = require "windline.components.lsp_progress"
         local git_comps = require "windline.components.git"
 
         local hl_list = {
@@ -463,6 +530,7 @@ packer.startup {
             { lsp_comps.lsp_name(), { "green", "ActiveBg" }, breakpoint_width },
             basic.separate,
             basic.lsp_diagnos,
+            { lsp_progress_comps.lsp_progress(), { "green", "ActiveBg" }, breakpoint_width },
             basic.divider,
             { git_comps.git_branch(), { "magenta", "ActiveBg" }, breakpoint_width },
             basic.git,
@@ -809,12 +877,6 @@ packer.startup {
     use { "nicwest/vim-camelsnek" }
     use { "pechorin/any-jump.vim" }
     use { "hrsh7th/vim-eft" }
-    use {
-      "phaazon/hop.nvim",
-      config = function()
-        vim.api.nvim_set_keymap("n", ",", ":HopWord<cr>", {})
-      end,
-    }
     use { "mtdl9/vim-log-highlighting", opt = true }
     use { "tversteeg/registers.nvim" }
     use { "bfredl/nvim-miniyank" }

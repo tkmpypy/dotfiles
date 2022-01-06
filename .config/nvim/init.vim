@@ -1,8 +1,9 @@
 scriptencoding=utf-8
 set termguicolors
 
-" see nathom/filetype.nvim
-let g:did_load_filetypes = 1
+" enable filetype.lua and disable filetype.vim
+let g:do_filetype_lua = 1
+let g:did_load_filetypes = 0
 
 let mapleader = "\<Space>"
 

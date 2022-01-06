@@ -8,6 +8,7 @@ local M = {
   file = {},
   buffer = {},
   lib = {},
+  lsp = {},
 }
 
 local function same_until(first, second)
@@ -186,6 +187,28 @@ M.lib.prequire = function(...)
   end
   -- Library failed to load, so perhaps return `nil` or something?
   return nil
+end
+
+M.lsp.current_lsp = function ()
+  local msg = 'No Active Lsp'
+  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local clients = vim.lsp.get_active_clients()
+  if next(clients) == nil then
+    return msg
+  end
+
+  local client_names = {}
+  for _, client in ipairs(clients) do
+    local filetypes = client.config.filetypes
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+      table.insert(client_names, client.name)
+    end
+  end
+
+  if #client_names >= 1 then
+    msg = table.concat(client_names, "|")
+  end
+  return msg
 end
 
 return M
