@@ -26,31 +26,25 @@ augroup END
 set background=dark
 
 lua require('plugins')
-" colorscheme palenight
-" colorscheme miramare
-" colorscheme melange
-" colorscheme material
-" colorscheme embark
-
-" colorscheme OceanicNext
-" colorscheme everforest
-" colorscheme edge
-" colorscheme kanagawa
-colorscheme onenord
-" colorscheme tokyonight
-" colorscheme tokyodark
-" colorscheme zephyr
-" colorscheme space-nvim
-" colorscheme gruvbox-flat
-" colorscheme doom-one
-" colorscheme nightfox
-" colorscheme duskfox
-" colorscheme nordfox
-
 
 " load my scripts {{
-lua require('scripts/gen_gitignore').initialize()
-lua require('scripts/git_linker').initialize()
+lua << EOF
+require('scripts/random_coloescheme').set_random_coloescheme({
+  'everforest',
+  'edge',
+  'kanagawa',
+  'onenord',
+  'tokyonight',
+  'tokyodark',
+  'gruvbox-flat',
+  'nightfox',
+  'duskfox',
+  'nordfox'
+  })
+require('scripts/gen_gitignore').initialize()
+require('scripts/git_linker').initialize()
+EOF
+
 nnoremap <silent> <leader>glc <cmd>GitLinker current<CR>
 xnoremap <silent> <leader>glc <cmd>'<,'>GitLinker current<CR>
 nnoremap <silent> <leader>gld <cmd>GitLinker default<CR>
