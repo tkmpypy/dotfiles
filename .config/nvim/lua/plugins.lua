@@ -2071,10 +2071,23 @@ packer.startup {
             sources = {
               -- null_ls.builtins.diagnostics.markdownlint,
               null_ls.builtins.diagnostics.flake8,
-              null_ls.builtins.formatting.eslint_d,
-              null_ls.builtins.diagnostics.eslint_d,
+              -- eslintrcなどを変更した場合、 `eslint_d restart` すること
+              null_ls.builtins.formatting.eslint_d.with({
+                timeout = 50000
+              }),
+              null_ls.builtins.diagnostics.eslint_d.with({
+                timeout = 50000
+              }),
+              -- null_ls.builtins.formatting.eslint.with({
+              --   timeout = 50000
+              -- }),
+              -- null_ls.builtins.diagnostics.eslint.with({
+              --   timeout = 50000
+              -- }),
               null_ls.builtins.diagnostics.golangci_lint,
-              null_ls.builtins.formatting.prettier,
+              null_ls.builtins.formatting.prettier.with({
+                timeout = 50000
+              }),
               -- null_ls.builtins.formatting.gofmt,
               null_ls.builtins.formatting.gofumpt,
               null_ls.builtins.formatting.rustfmt,
@@ -2083,12 +2096,13 @@ packer.startup {
               null_ls.builtins.formatting.terraform_fmt,
               null_ls.builtins.formatting.shfmt,
             },
+            update_in_insert = false,
             diagnostics_format = "[#{s} #{c}] #{m}",
             debounce = 250,
             default_timeout = 5000,
             debug = false,
             log = {
-              enable = false,
+              enable = true,
               level = "warn",
               use_console = "async",
             },
