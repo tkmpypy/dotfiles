@@ -2078,10 +2078,16 @@ packer.startup {
               null_ls.builtins.diagnostics.eslint_d.with({
                 timeout = 50000
               }),
+              null_ls.builtins.code_actions.eslint_d.with({
+                timeout = 50000
+              }),
               -- null_ls.builtins.formatting.eslint.with({
               --   timeout = 50000
               -- }),
               -- null_ls.builtins.diagnostics.eslint.with({
+              --   timeout = 50000
+              -- }),
+              -- null_ls.builtins.code_actions.eslint.with({
               --   timeout = 50000
               -- }),
               null_ls.builtins.diagnostics.golangci_lint,

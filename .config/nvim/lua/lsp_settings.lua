@@ -123,6 +123,23 @@ local pyright_config = {
   end,
 }
 
+local function tsserver_organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = { vim.api.nvim_buf_get_name(0) },
+    title = "",
+  }
+  vim.lsp.buf.execute_command(params)
+end
+local tsserver_config = {
+  commands = {
+    OrganizeImports = {
+      tsserver_organize_imports,
+      description = "Organize Imports",
+    },
+  },
+}
+
 -- config that activates keymaps and enables snippet support
 local make_config = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -148,7 +165,7 @@ end
 
 local function setup_servers_without_installer()
   require("lspconfig").dartls.setup {
-    init_options = dart_config.init_options
+    init_options = dart_config.init_options,
   }
 end
 
@@ -173,6 +190,8 @@ local function setup_servers_use_nvim_lsp_installer()
       config.settings = jsonls_config.settings
     elseif server.name == "dartls" then
       config.init_options = dart_config.init_options
+    elseif server.name == "tsserver" then
+      config.commands = tsserver_config.commands
     end
 
     -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
@@ -186,9 +205,9 @@ setup_servers_without_installer()
 setup_servers_use_nvim_lsp_installer()
 set_diagnostic_sign()
 
-vim.diagnostic.config({
-    underline = true,
-    virtual_text = { spacing = 2, prefix = "»" },
-    signs = { priority = 20 },
-    update_in_insert = false,
-})
+vim.diagnostic.config {
+  underline = true,
+  virtual_text = { spacing = 2, prefix = "»" },
+  signs = { priority = 20 },
+  update_in_insert = false,
+}
