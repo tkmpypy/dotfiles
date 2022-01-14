@@ -29,7 +29,7 @@ lua require('plugins')
 
 " load my scripts {{
 lua << EOF
-require('scripts/random_coloescheme').set_random_coloescheme({
+require('scripts/random_colorscheme').set_random_colorscheme({
   'everforest',
   'edge',
   'kanagawa',
