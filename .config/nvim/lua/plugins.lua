@@ -326,7 +326,7 @@ packer.startup {
                 "filename",
                 padding = 0,
                 symbols = { modified = "  ", readonly = "  ", unnamed = "  " },
-                separator = " "
+                separator = " ",
               },
               {
                 util.lsp.current_lsp,
@@ -2072,15 +2072,15 @@ packer.startup {
               -- null_ls.builtins.diagnostics.markdownlint,
               null_ls.builtins.diagnostics.flake8,
               -- eslintrcなどを変更した場合、 `eslint_d restart` すること
-              null_ls.builtins.formatting.eslint_d.with({
-                timeout = 50000
-              }),
-              null_ls.builtins.diagnostics.eslint_d.with({
-                timeout = 50000
-              }),
-              null_ls.builtins.code_actions.eslint_d.with({
-                timeout = 50000
-              }),
+              null_ls.builtins.formatting.eslint_d.with {
+                timeout = 50000,
+              },
+              null_ls.builtins.diagnostics.eslint_d.with {
+                timeout = 50000,
+              },
+              null_ls.builtins.code_actions.eslint_d.with {
+                timeout = 50000,
+              },
               -- null_ls.builtins.formatting.eslint.with({
               --   timeout = 50000
               -- }),
@@ -2091,9 +2091,9 @@ packer.startup {
               --   timeout = 50000
               -- }),
               null_ls.builtins.diagnostics.golangci_lint,
-              null_ls.builtins.formatting.prettier.with({
-                timeout = 50000
-              }),
+              null_ls.builtins.formatting.prettier.with {
+                timeout = 50000,
+              },
               -- null_ls.builtins.formatting.gofmt,
               null_ls.builtins.formatting.gofumpt,
               null_ls.builtins.formatting.rustfmt,
@@ -2205,7 +2205,7 @@ packer.startup {
             },
 
             -- You should specify your *installed* sources.
-            sources = cmp.config.sources {
+            sources = cmp.config.sources({
               {
                 name = "nvim_lsp",
                 priority = 10,
@@ -2226,6 +2226,7 @@ packer.startup {
                 priority = 11,
                 max_item_count = 50,
               },
+            }, {
               {
                 name = "buffer",
                 priority = 1,
@@ -2244,7 +2245,7 @@ packer.startup {
                   end,
                 },
               },
-            },
+            }),
             formatting = {
               format = lspkind.cmp_format(),
             },
