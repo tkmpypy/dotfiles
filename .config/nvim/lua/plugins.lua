@@ -40,7 +40,8 @@ packer.startup {
     }
 
     if vim.g.use_treesitter then
-      use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+      -- use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+      use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", commit = "668de0951a36ef17016074f1120b6aacbe6c4515" }
     end
 
     -- ColorScheme
@@ -1316,18 +1317,29 @@ packer.startup {
             require("fzf-lua").setup {
               winopts = {
                 -- split         = "new",           -- open in a split instead?
-                win_height = 0.85, -- window height
-                win_width = 0.80, -- window width
-                win_row = 0.30, -- window row position (0=top, 1=bottom)
-                win_col = 0.50, -- window col position (0=left, 1=right)
+                height = 0.85, -- window height
+                width = 0.80, -- window width
+                row = 0.30, -- window row position (0=top, 1=bottom)
+                col = 0.50, -- window col position (0=left, 1=right)
                 -- win_border    = false,           -- window border? or borderchars?
-                win_border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-                hl_normal = "Normal", -- window normal color
-                hl_border = "FloatBorder", -- window border color
+                border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+                fullscrean = false,
+                preview = {
+                  default = "bat"
+                }
               },
-              -- fzf_bin             = 'sk',        -- use skim instead of fzf?
-              fzf_layout = "default", -- fzf '--layout='
-              fzf_args = "--cycle", -- adv: fzf extra args, empty unless adv
+              fzf_opts = {
+                -- options are sent as `<left>=<right>`
+                -- set to `false` to remove a flag
+                -- set to '' for a non-value flag
+                -- for raw args use `fzf_args` instead
+                ["--ansi"] = "",
+                ["--prompt"] = "> ",
+                ["--info"] = "inline",
+                ["--height"] = "100%",
+                ["--layout"] = "default",
+                ["--cycle"] = "",
+              },
               keymap = {
                 builtin = {
                   -- neovim `:tmap` mappings for the fzf win
@@ -1354,22 +1366,8 @@ packer.startup {
                   ["shift-up"] = "preview-page-up",
                 },
               },
-              preview_border = "border", -- border|noborder
-              preview_wrap = "nowrap", -- wrap|nowrap
-              preview_opts = "nohidden", -- hidden|nohidden
-              preview_vertical = "down:45%", -- up|down:size
-              preview_horizontal = "right:60%", -- right|left:size
-              preview_layout = "flex", -- horizontal|vertical|flex
-              flip_columns = 120, -- #cols to switch to horizontal on flex
-              default_previewer = "bat", -- override the default previewer?
               -- by default uses the builtin previewer
               previewers = {
-                cmd = {
-                  -- custom previewer, will execute:
-                  -- `<cmd> <args> <filename>`
-                  cmd = "echo",
-                  args = "",
-                },
                 cat = {
                   cmd = "cat",
                   args = "--number",
@@ -1380,32 +1378,15 @@ packer.startup {
                   theme = "Coldark-Dark", -- bat preview theme (bat --list-themes)
                   config = nil, -- nil uses $BAT_CONFIG_PATH
                 },
-                head = {
-                  cmd = "head",
-                  args = nil,
-                },
-                git_diff = {
-                  cmd = "git diff",
-                  args = "--color",
-                },
-                builtin = {
-                  title = true, -- preview title?
-                  scrollbar = true, -- scrollbar?
-                  scrollchar = "█", -- scrollbar character
-                  syntax = true, -- preview syntax highlight?
-                  syntax_limit_l = 0, -- syntax limit (lines), 0=nolimit
-                  syntax_limit_b = 1024 * 1024, -- syntax limit (bytes), 0=nolimit
-                  expand = false, -- preview max size?
-                  hl_cursor = "Cursor", -- cursor highlight
-                  hl_cursorline = "CursorLine", -- cursor line highlight
-                  hl_range = "IncSearch", -- ranger highlight (not yet in use)
-                },
               },
               -- provider setup
               files = {
                 -- previewer         = "cat",       -- uncomment to override previewer
                 prompt = "Files❯ ",
-                cmd = "rg -i --hidden --files -g !.git", -- "find . -type f -printf '%P\n'",
+                find_opts = [[-type f -not -path '*/\.git/*' -printf '%P\n']],
+                rg_opts = "--color=never --files --hidden --follow -g '!.git'",
+                fd_opts = "--color=never --type f --hidden --follow --exclude .git",
+                -- cmd = "rg -i --hidden --files -g !.git", -- "find . -type f -printf '%P\n'",
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
                 color_icons = true, -- colorize file|git icons
@@ -1424,6 +1405,7 @@ packer.startup {
                 files = {
                   prompt = "GitFiles❯ ",
                   cmd = "git ls-files --exclude-standard",
+                  multiprocess = true,
                   git_icons = true, -- show git icons?
                   file_icons = true, -- show file icons?
                   color_icons = true, -- colorize file|git icons
@@ -1479,6 +1461,7 @@ packer.startup {
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
                   .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
                 color_icons = true, -- colorize file|git icons
@@ -1495,7 +1478,7 @@ packer.startup {
               },
               oldfiles = {
                 prompt = "History❯ ",
-                cwd_only = false,
+                cwd_only = true,
               },
               buffers = {
                 -- previewer      = false,        -- disable the builtin previewer?
@@ -1576,6 +1559,12 @@ packer.startup {
                 ["lua"] = "blue",
               },
             }
+            vim.api.nvim_set_keymap(
+              "n",
+              "<leader>S",
+              "<cmd>lua require('fzf-lua').resume()<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
             -- Buffer
             vim.api.nvim_set_keymap(
               "n",
@@ -1598,14 +1587,8 @@ packer.startup {
             )
             vim.api.nvim_set_keymap(
               "n",
-              "<leader>sfF",
-              "<cmd>lua require('fzf-lua').files_resume()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
               "<leader>sfr",
-              "<cmd>lua require('fzf-lua').oldfiles()<CR>",
+              "<cmd>lua require('fzf-lua').oldfiles({cwd = vim.fn.getcwd()})<CR>",
               require("scripts/util").keymaps.default_opt
             )
             -- Git
@@ -2090,12 +2073,15 @@ packer.startup {
               -- null_ls.builtins.code_actions.eslint.with({
               --   timeout = 50000
               -- }),
-              null_ls.builtins.diagnostics.golangci_lint,
+              null_ls.builtins.diagnostics.golangci_lint.with {
+                timeout = 50000,
+              },
               null_ls.builtins.formatting.prettier.with {
                 timeout = 50000,
               },
               -- null_ls.builtins.formatting.gofmt,
               null_ls.builtins.formatting.gofumpt,
+              null_ls.builtins.formatting.goimports,
               null_ls.builtins.formatting.rustfmt,
               null_ls.builtins.formatting.autopep8,
               null_ls.builtins.formatting.stylua,
