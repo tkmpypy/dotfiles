@@ -9,7 +9,7 @@ let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
 let g:lsp_client_type = 'neovim' " neovim(builtin), coc
-let g:fuzzy_finder_type = 'fzf' " telescope, fzf
+let g:fuzzy_finder_type = 'telescope' " telescope, fzf
 
 filetype plugin indent on
 syntax on
