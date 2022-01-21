@@ -40,8 +40,7 @@ packer.startup {
     }
 
     if vim.g.use_treesitter then
-      -- use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
-      use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", commit = "668de0951a36ef17016074f1120b6aacbe6c4515" }
+      use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
     end
 
     -- ColorScheme
@@ -112,10 +111,6 @@ packer.startup {
         vim.g.everforest_diagnostic_text_highlight = 1
         vim.g.everforest_diagnostic_line_highlight = 1
       end,
-    }
-    use {
-      "glepnir/zephyr-nvim",
-      requires = { { "nvim-treesitter/nvim-treesitter" } },
     }
     use { "savq/melange", opt = true }
     use {
@@ -275,6 +270,7 @@ packer.startup {
     }
     use {
       "p00f/nvim-ts-rainbow",
+      disable = true,
       config = function()
         require("nvim-treesitter.configs").setup {
           rainbow = {
