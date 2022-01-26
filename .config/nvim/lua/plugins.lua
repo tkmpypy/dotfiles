@@ -44,13 +44,6 @@ packer.startup {
     end
 
     -- ColorScheme
-    use { "Rigellute/rigel", opt = true }
-    use { "arcticicestudio/nord-vim", opt = true }
-    use { "drewtempelmeyer/palenight.vim" }
-    use { "franbach/miramare", opt = true }
-    use { "embark-theme/vim", opt = true, as = "embark" }
-
-    -- supported treesitter colorscheme
     use {
       "rebelot/kanagawa.nvim",
       config = function()
@@ -95,7 +88,6 @@ packer.startup {
         }
       end,
     }
-    use { "mhartington/oceanic-next", opt = true }
     use { "sainnhe/edge" }
     use {
       "sainnhe/everforest",
@@ -112,7 +104,6 @@ packer.startup {
         vim.g.everforest_diagnostic_line_highlight = 1
       end,
     }
-    use { "savq/melange", opt = true }
     use {
       "tiagovla/tokyodark.nvim",
       config = function()
@@ -127,12 +118,6 @@ packer.startup {
       config = function()
         vim.g.tokyonight_style = "storm"
         vim.g.tokyonight_italic_functions = true
-      end,
-    }
-    use {
-      "Th3Whit3Wolf/space-nvim",
-      config = function()
-        vim.g.space_nvim_transparent_bg = true
       end,
     }
     use {
@@ -152,7 +137,6 @@ packer.startup {
     }
     use {
       "NTBBloodbath/doom-one.nvim",
-      disable = true,
       config = function()
         require("doom-one").setup {
           cursor_coloring = false,
@@ -263,14 +247,13 @@ packer.startup {
           --     "IndentBlanklineIndent5",
           --     "IndentBlanklineIndent6",
           -- },
-          show_current_context = false,
+          show_current_context = true,
           show_current_context_start = false,
         }
       end,
     }
     use {
       "p00f/nvim-ts-rainbow",
-      disable = true,
       config = function()
         require("nvim-treesitter.configs").setup {
           rainbow = {
@@ -289,7 +272,8 @@ packer.startup {
     use { "kyazdani42/nvim-web-devicons" }
     use {
       "nvim-lualine/lualine.nvim",
-      requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
       disable = false,
       config = function()
         local util = require "scripts/util"
@@ -302,7 +286,7 @@ packer.startup {
             component_separators = "",
             section_separators = "",
             disabled_filetypes = {},
-            always_divide_middle = true,
+            always_divide_middle = false,
           },
           sections = {
             lualine_a = { "mode" },
@@ -624,7 +608,7 @@ packer.startup {
         }
         theme.section.header.val = header.val
         theme.section.header.opts = header.opts
-        alpha.setup(theme.opts)
+        alpha.setup(theme.config)
         vim.cmd [[
             autocmd FileType alpha setlocal nofoldenable
         ]]
@@ -1973,6 +1957,42 @@ packer.startup {
     if vim.g.lsp_client_type == "neovim" then
       -- use neovim built-in
       use { "neovim/nvim-lspconfig" }
+      use {
+        "j-hui/fidget.nvim",
+        config = function()
+          require("fidget").setup {
+            text = {
+              spinner = "pipe", -- animation shown when tasks are ongoing
+              done = "✔", -- character shown when all tasks are complete
+              commenced = "Started", -- message shown when task starts
+              completed = "Completed", -- message shown when task completes
+            },
+            align = {
+              bottom = true, -- align fidgets along bottom edge of buffer
+              right = true, -- align fidgets along right edge of buffer
+            },
+            timer = {
+              spinner_rate = 125, -- frame rate of spinner animation, in ms
+              fidget_decay = 2000, -- how long to keep around empty fidget, in ms
+              task_decay = 1000, -- how long to keep around completed task, in ms
+            },
+            fmt = {
+              leftpad = true, -- right-justify text in fidget box
+              fidget = function(fidget_name, spinner)
+                return string.format("%s %s", spinner, fidget_name)
+              end,
+              task = function(task_name, message, percentage)
+                return string.format(
+                  "%s%s [%s]",
+                  message,
+                  percentage and string.format(" (%s%%)", percentage) or "",
+                  task_name
+                )
+              end,
+            },
+          }
+        end,
+      }
       use {
         "williamboman/nvim-lsp-installer",
         requires = { { "neovim/nvim-lspconfig" } },

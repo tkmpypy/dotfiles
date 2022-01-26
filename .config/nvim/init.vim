@@ -39,7 +39,8 @@ require('scripts/random_colorscheme').set_random_colorscheme({
   'gruvbox-flat',
   'nightfox',
   'duskfox',
-  'nordfox'
+  'nordfox',
+  'doom-one'
   })
 require('scripts/gen_gitignore').initialize()
 require('scripts/git_linker').initialize()
