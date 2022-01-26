@@ -183,27 +183,6 @@ nnoremap <leader>fr :FlutterHotReload<cr>
 nnoremap <leader>fR :FlutterHotRestart<cr>
 " }}
 
-function! s:setup_nvim_lsp()
-    lua require('lsp_settings')
-    " builtin mapping
-    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-    nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-    nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-    nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<CR>
-    " nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-    " nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
-
-    nnoremap <silent> gp    <cmd>lua vim.lsp.buf.peek_definition()<CR>
-    nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-    nnoremap <silent> H     <cmd>lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <leader>rn    <cmd>lua vim.lsp.buf.rename()<CR>
-    nnoremap <leader>ac    <cmd>lua vim.lsp.buf.code_action()<CR>
-    nnoremap <leader>dc <cmd>lua vim.diagnostic.open_float()<CR>
-    nnoremap <leader>dn <cmd>lua vim.diagnostic.goto_next()<CR>
-    nnoremap <leader>dp <cmd>lua vim.diagnostic.goto_prev()<CR>
-    nnoremap <leader>do <cmd>lua vim.diagnostic.setloclist()<CR>
-endfunction
-
 function! s:setup_vsnip()
   " NOTE: You can use other key to expand snippet.
 
@@ -422,7 +401,6 @@ endfunction
 
 
 if g:lsp_client_type == 'neovim'
-  call s:setup_nvim_lsp()
   call s:setup_vsnip()
 elseif g:lsp_client_type == 'coc'
   call s:setup_coc()

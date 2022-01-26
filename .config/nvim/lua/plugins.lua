@@ -860,10 +860,14 @@ packer.startup {
     use { "hrsh7th/vim-eft" }
     use { "mtdl9/vim-log-highlighting", opt = true }
     use { "tversteeg/registers.nvim" }
-    use { "bfredl/nvim-miniyank", disable = true, config = function()
-      vim.keymap.set('n', 'p', '<Plug>miniyank-autoput')
-      vim.keymap.set('n', 'P', '<Plug>miniyanl-autoPut')
-    end}
+    use {
+      "bfredl/nvim-miniyank",
+      disable = true,
+      config = function()
+        vim.keymap.set("n", "p", "<Plug>miniyank-autoput")
+        vim.keymap.set("n", "P", "<Plug>miniyanl-autoPut")
+      end,
+    }
     use {
       "kristijanhusak/orgmode.nvim",
       requires = { "nvim-treesitter/nvim-treesitter" },
@@ -1959,7 +1963,30 @@ packer.startup {
     use { "mattn/vim-sonictemplate" }
     if vim.g.lsp_client_type == "neovim" then
       -- use neovim built-in
-      use { "neovim/nvim-lspconfig" }
+      use {
+        "neovim/nvim-lspconfig",
+        config = function()
+          require "lsp_settings"
+          local o = require("scripts/util").keymaps.default_opt
+          vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", o)
+          vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", o)
+          vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", o)
+          vim.keymap.set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", o)
+          -- nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+          -- nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
+
+          vim.keymap.set("n", "gp", "<cmd>lua vim.lsp.buf.peek_definition()<CR>", o)
+          vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", o)
+          vim.keymap.set("n", "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", o)
+          vim.keymap.set("n", "<leader>F", "<cmd>lua vim.lsp.buf.formatting()<CR>", o)
+          vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", o)
+          vim.keymap.set("n", "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", o)
+          vim.keymap.set("n", "<leader>dc", "<cmd>lua vim.diagnostic.open_float()<CR>", o)
+          vim.keymap.set("n", "<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", o)
+          vim.keymap.set("n", "<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", o)
+          vim.keymap.set("n", "<leader>do", "<cmd>lua vim.diagnostic.setloclist()<CR>", o)
+        end,
+      }
       use {
         "j-hui/fidget.nvim",
         disable = true,
@@ -2056,13 +2083,6 @@ packer.startup {
               use_console = "async",
             },
           }
-
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>F",
-            "<cmd>lua vim.lsp.buf.formatting()<CR>",
-            { silent = false, noremap = true }
-          )
         end,
       }
       use {
