@@ -197,7 +197,6 @@ local function setup_servers_use_nvim_lsp_installer()
     -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
     opts = config
     server:setup(opts)
-    vim.cmd [[ do User LspAttachBuffers ]]
   end)
 end
 

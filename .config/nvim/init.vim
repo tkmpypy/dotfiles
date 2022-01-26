@@ -609,13 +609,8 @@ let g:eft_highlight = {
     \   }
     \ }
 " }}
-" bfredl/nvim-miniyank {{
-map p <Plug>(miniyank-autoput)
-map P <Plug>(miniyank-autoPut)
-" }}
 
 " chowcho.nvim {{
-
 nnoremap <leader>ww :Chowcho<CR>
 
 " }}

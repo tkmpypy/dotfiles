@@ -272,8 +272,8 @@ packer.startup {
     use { "kyazdani42/nvim-web-devicons" }
     use {
       "nvim-lualine/lualine.nvim",
-      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
-      requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
+      requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
       disable = false,
       config = function()
         local util = require "scripts/util"
@@ -860,7 +860,10 @@ packer.startup {
     use { "hrsh7th/vim-eft" }
     use { "mtdl9/vim-log-highlighting", opt = true }
     use { "tversteeg/registers.nvim" }
-    use { "bfredl/nvim-miniyank" }
+    use { "bfredl/nvim-miniyank", disable = true, config = function()
+      vim.keymap.set('n', 'p', '<Plug>miniyank-autoput')
+      vim.keymap.set('n', 'P', '<Plug>miniyanl-autoPut')
+    end}
     use {
       "kristijanhusak/orgmode.nvim",
       requires = { "nvim-treesitter/nvim-treesitter" },
@@ -1959,6 +1962,7 @@ packer.startup {
       use { "neovim/nvim-lspconfig" }
       use {
         "j-hui/fidget.nvim",
+        disable = true,
         config = function()
           require("fidget").setup {
             text = {
