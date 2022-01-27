@@ -272,8 +272,8 @@ packer.startup {
     use { "kyazdani42/nvim-web-devicons" }
     use {
       "nvim-lualine/lualine.nvim",
-      requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
-      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
+      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
       disable = false,
       config = function()
         local util = require "scripts/util"
@@ -1989,7 +1989,6 @@ packer.startup {
       }
       use {
         "j-hui/fidget.nvim",
-        disable = true,
         config = function()
           require("fidget").setup {
             text = {

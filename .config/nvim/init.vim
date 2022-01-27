@@ -116,14 +116,24 @@ function! VisualSearch()
 endfunction
 vnoremap <silent> * :<C-u>call VisualSearch()<CR>
 
-function! ScratchMarkdown()
-  enew
-  set ft=markdown
+let s:scratch_ft_map = {
+      \ 'markdown': 'md',
+      \ 'text': 'txt',
+\ }
+
+function! s:Scratch(ft, open) abort
+  let l:ext = s:scratch_ft_map[a:ft]
+  let l:bname = 'tkmpypy://scratch.' . l:ext
+  execute a:open. ' ' . l:bname
+  let &ft=a:ft
 endfunction
 
-nnoremap <leader>nm :<C-u>call ScratchMarkdown()<CR>
+function! s:ListScratchFiletypes(ArgLead, CmdLine, CursorPos) abort
+  return s:scratch_ft_map->keys()
+endfunction
 
-nnoremap <silent> <leader>nt <cmd>e ~/Dropbox/todo/todo.md<CR>
+command! -complete=customlist,s:ListScratchFiletypes -nargs=1 ScratchV :call s:Scratch(<f-args>, 'vsplit')
+command! -complete=customlist,s:ListScratchFiletypes -nargs=1 ScratchS :call s:Scratch(<f-args>, 'split')
 " }}
 
 
