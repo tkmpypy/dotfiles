@@ -47,6 +47,9 @@ zinit light asdf-vm/asdf
 alias ll='ls -la'
 alias g='git'
 
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
 
 # 文字コードの指定
 export LANG=ja_JP.UTF-8
@@ -94,6 +97,11 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt hist_no_store
 setopt hist_verify
+
+bindkey '^R' history-incremental-search-backward
+bindkey '^S' history-incremental-search-forward
+bindkey '^P' history-beginning-search-backward
+bindkey '^N' history-beginning-search-forward
 
 setopt no_flow_control
 

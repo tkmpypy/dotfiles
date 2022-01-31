@@ -10,6 +10,7 @@ let mapleader = "\<Space>"
 let g:use_treesitter = v:true
 let g:lsp_client_type = 'neovim' " neovim(builtin), coc
 let g:fuzzy_finder_type = 'telescope' " telescope, fzf
+let g:git_client_type = 'gina' " neogit, gina
 
 filetype plugin indent on
 syntax on
@@ -35,7 +36,6 @@ require('scripts/random_colorscheme').set_random_colorscheme({
   'kanagawa',
   'onenord',
   'tokyonight',
-  'tokyodark',
   'gruvbox-flat',
   'nightfox',
   'duskfox',
@@ -119,6 +119,7 @@ vnoremap <silent> * :<C-u>call VisualSearch()<CR>
 let s:scratch_ft_map = {
       \ 'markdown': 'md',
       \ 'text': 'txt',
+      \ 'python': 'py',
 \ }
 
 function! s:Scratch(ft, open) abort

@@ -41,6 +41,30 @@ packer.startup {
 
     if vim.g.use_treesitter then
       use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+      use {
+        "danymat/neogen",
+        config = function()
+          require("neogen").setup {
+            enabled = true,
+            languages = {
+              lua = {
+                template = {
+                  annotation_convention = "emmylua", -- for a full list of annotation_conventions, see supported-languages below,
+                },
+              },
+              python = {
+                template = {
+                  annotation_convention = "google_docstrings",
+                },
+              },
+            },
+          }
+          vim.keymap.set("n", "<leader>nc", function()
+            require("neogen").generate()
+          end)
+        end,
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
     end
 
     -- ColorScheme
@@ -102,15 +126,6 @@ packer.startup {
         vim.g.everforest_ui_contrast = "low" -- high or low
         vim.g.everforest_diagnostic_text_highlight = 1
         vim.g.everforest_diagnostic_line_highlight = 1
-      end,
-    }
-    use {
-      "tiagovla/tokyodark.nvim",
-      config = function()
-        vim.g.tokyodark_transparent_background = false
-        vim.g.tokyodark_enable_italic_comment = true
-        vim.g.tokyodark_enable_italic = true
-        vim.g.tokyodark_color_gamma = "1.5"
       end,
     }
     use {
@@ -272,8 +287,8 @@ packer.startup {
     use { "kyazdani42/nvim-web-devicons" }
     use {
       "nvim-lualine/lualine.nvim",
-      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
-      requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
+      requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
       disable = false,
       config = function()
         local util = require "scripts/util"
@@ -1758,74 +1773,93 @@ packer.startup {
         )
       end,
     }
-    use {
-      "TimUntersberger/neogit",
-      requires = { { "nvim-lua/plenary.nvim" }, { "sindrets/diffview.nvim" } },
-      config = function()
-        local neogit = require "neogit"
-        neogit.setup {
-          disable_signs = true,
-          disable_context_highlighting = false,
-          disable_commit_confirmation = false,
-          auto_refresh = true,
-          disable_builtin_notifications = false,
-          commit_popup = {
-            kind = "split",
-          },
-          -- customize displayed signs
-          signs = {
-            -- { CLOSED, OPENED }
-            section = { "", "" },
-            item = { "", "" },
-            hunk = { "", "" },
-          },
-          integrations = {
-            diffview = true,
-          },
-          -- override/add mappings
-          mappings = {
-            -- modify status buffer mappings
-            status = {
-              ["q"] = "Close",
-              ["1"] = "Depth1",
-              ["2"] = "Depth2",
-              ["3"] = "Depth3",
-              ["4"] = "Depth4",
-              ["<tab>"] = "Toggle",
-              ["x"] = "Discard",
-              ["s"] = "Stage",
-              ["S"] = "StageUnstaged",
-              ["<c-s>"] = "StageAll",
-              ["u"] = "Unstage",
-              ["U"] = "UnstageStaged",
-              ["d"] = "DiffAtFile",
-              ["D"] = "DiffPopup",
-              ["$"] = "CommandHistory",
-              ["<c-r>"] = "RefreshBuffer",
-              ["<enter>"] = "GoToFile",
-              ["<c-v>"] = "VSplitOpen",
-              ["<c-x>"] = "SplitOpen",
-              ["<c-t>"] = "TabOpen",
-              ["?"] = "HelpPopup",
-              ["p"] = "PullPopup",
-              ["r"] = "RebasePopup",
-              ["P"] = "PushPopup",
-              ["c"] = "CommitPopup",
-              ["L"] = "LogPopup",
-              ["Z"] = "StashPopup",
-              ["b"] = "BranchPopup",
-            },
-          },
-        }
 
-        vim.api.nvim_set_keymap(
-          "n",
-          "<leader>gs",
-          "<cmd>Neogit kind=vsplit<cr>",
-          require("scripts/util").keymaps.default_opt
-        )
-      end,
-    }
+    if vim.g.git_client_type == "neogit" then
+      use {
+        "TimUntersberger/neogit",
+        requires = { { "nvim-lua/plenary.nvim" }, { "sindrets/diffview.nvim" } },
+        config = function()
+          local neogit = require "neogit"
+          neogit.setup {
+            disable_signs = true,
+            disable_context_highlighting = false,
+            disable_commit_confirmation = false,
+            auto_refresh = true,
+            disable_builtin_notifications = false,
+            commit_popup = {
+              kind = "split",
+            },
+            -- customize displayed signs
+            signs = {
+              -- { CLOSED, OPENED }
+              section = { "", "" },
+              item = { "", "" },
+              hunk = { "", "" },
+            },
+            integrations = {
+              diffview = true,
+            },
+            -- override/add mappings
+            mappings = {
+              -- modify status buffer mappings
+              status = {
+                ["q"] = "Close",
+                ["1"] = "Depth1",
+                ["2"] = "Depth2",
+                ["3"] = "Depth3",
+                ["4"] = "Depth4",
+                ["<tab>"] = "Toggle",
+                ["x"] = "Discard",
+                ["s"] = "Stage",
+                ["S"] = "StageUnstaged",
+                ["<c-s>"] = "StageAll",
+                ["u"] = "Unstage",
+                ["U"] = "UnstageStaged",
+                ["d"] = "DiffAtFile",
+                ["D"] = "DiffPopup",
+                ["$"] = "CommandHistory",
+                ["<c-r>"] = "RefreshBuffer",
+                ["<enter>"] = "GoToFile",
+                ["<c-v>"] = "VSplitOpen",
+                ["<c-x>"] = "SplitOpen",
+                ["<c-t>"] = "TabOpen",
+                ["?"] = "HelpPopup",
+                ["p"] = "PullPopup",
+                ["r"] = "RebasePopup",
+                ["P"] = "PushPopup",
+                ["c"] = "CommitPopup",
+                ["L"] = "LogPopup",
+                ["Z"] = "StashPopup",
+                ["b"] = "BranchPopup",
+              },
+            },
+          }
+
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>gs",
+            "<cmd>Neogit kind=vsplit<cr>",
+            require("scripts/util").keymaps.default_opt
+          )
+        end,
+      }
+    elseif vim.g.git_client_type == "gina" then
+      use {
+        "lambdalisue/gina.vim",
+        config = function()
+          vim.keymap.set("n", "<leader>gs", "<cmd>Gina status --opener=vsplit<cr>")
+          vim.keymap.set("n", "<leader>gl", "<cmd>Gina log --opener=vsplit<cr>")
+          vim.api.nvim_call_function(
+            "gina#custom#mapping#nmap",
+            { "status", "<C-c>", "<cmd>Gina commit --restore<cr>", { noremap = 1, silent = 1 } }
+          )
+          vim.api.nvim_call_function(
+            "gina#custom#mapping#nmap",
+            { "status", "P", "<cmd>Gina push<cr>", { noremap = 1, silent = 1 } }
+          )
+        end,
+      }
+    end
     use { "rhysd/git-messenger.vim" }
     use {
       "pwntester/octo.nvim",
@@ -1989,6 +2023,7 @@ packer.startup {
       }
       use {
         "j-hui/fidget.nvim",
+        disable = true,
         config = function()
           require("fidget").setup {
             text = {
