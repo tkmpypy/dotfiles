@@ -178,15 +178,6 @@ nmap <leader>trs :TestSuite<CR>
 nmap <leader>trr :TestLast<CR>
 nmap <leader>trg :TestVisit<CR>
 " }}
-" vim-markdown {{
-let g:vim_markdown_toc_autofit = 1
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_math = 1
-let g:vim_markdown_conceal_code_blocks = 0
-nmap <leader>mit :InsertToc<CR>
-nmap <leader>mt :Toc<CR>
-nmap <leader>mf :TableFormat<CR>
-" }}
 " thosakwe/vim-flutter {{
 nnoremap <leader>fa :FlutterRun<cr>
 nnoremap <leader>fq :FlutterQuit<cr>

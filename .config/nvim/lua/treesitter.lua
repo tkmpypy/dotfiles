@@ -35,6 +35,6 @@ require("nvim-treesitter.configs").setup {
     "tsx",
     "html",
     "vim",
-    "markdown"
+    -- "markdown"
   },
 }

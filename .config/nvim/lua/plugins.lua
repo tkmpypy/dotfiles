@@ -202,14 +202,17 @@ packer.startup {
 
     -- Languages
     use {
-      disable = true,
       "plasticboy/vim-markdown",
+      disable = true,
       ft = { "markdown" },
       config = function()
         vim.g.vim_markdown_folding_disabled = 0
-        vim.g.vim_markdown_conceal = 0
+        vim.g.vim_markdown_conceal = 1
         vim.g.vim_markdown_folding_level = 6
         vim.g.vim_markdown_folding_style_pythonic = 1
+        vim.g.vim_markdown_toc_autofit = 1
+        vim.g.vim_markdown_math = 1
+        vim.g.vim_markdown_conceal_code_blocks = 1
       end,
     }
     use { "hashivim/vim-terraform" }

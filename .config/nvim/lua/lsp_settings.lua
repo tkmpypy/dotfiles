@@ -18,7 +18,7 @@ end
 
 local custom_init = function(client)
   if client.config.flags then
-    client.config.flags.allow_incremental_sync = false
+    client.config.flags.allow_incremental_sync = true
   end
 end
 
@@ -95,7 +95,7 @@ local gopls_config = {
   init_options = {
     gofumpt = true,
     usePlaceholders = false,
-    semanticTokens = true,
+    semanticTokens = false,
     staticcheck = false,
     experimentalPostfixCompletions = true,
     analyses = {
@@ -139,6 +139,21 @@ local tsserver_config = {
     },
   },
 }
+
+local setup_lsp_ui = function()
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+  vim.diagnostic.config {
+    underline = true,
+    virtual_text = { spacing = 2, prefix = "»", source = "always" },
+    float = {
+      source = "always",
+      border = "rounded",
+    },
+    signs = { priority = 20 },
+    update_in_insert = false,
+  }
+end
 
 -- config that activates keymaps and enables snippet support
 local make_config = function()
@@ -203,10 +218,4 @@ end
 setup_servers_without_installer()
 setup_servers_use_nvim_lsp_installer()
 set_diagnostic_sign()
-
-vim.diagnostic.config {
-  underline = true,
-  virtual_text = { spacing = 2, prefix = "»" },
-  signs = { priority = 20 },
-  update_in_insert = false,
-}
+setup_lsp_ui()
