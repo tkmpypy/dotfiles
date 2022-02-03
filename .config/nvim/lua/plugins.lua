@@ -1176,7 +1176,7 @@ packer.startup {
           )
           vim.api.nvim_set_keymap(
             "n",
-            "<leader>S",
+            "<leader>sr",
             "<cmd>lua require('telescope.builtin').resume{}<CR>",
             require("scripts/util").keymaps.default_opt
           )
@@ -1854,7 +1854,7 @@ packer.startup {
           vim.keymap.set("n", "<leader>gl", "<cmd>Gina log --opener=vsplit<cr>")
           vim.api.nvim_call_function(
             "gina#custom#mapping#nmap",
-            { "status", "<C-c>", "<cmd>Gina commit --restore<cr>", { noremap = 1, silent = 1 } }
+            { "status", "c", "<cmd>Gina commit --restore<cr>", { noremap = 1, silent = 1 } }
           )
           vim.api.nvim_call_function(
             "gina#custom#mapping#nmap",
@@ -2181,6 +2181,10 @@ packer.startup {
                 -- You must install `vim-vsnip` if you set up as same as the following.
                 vim.fn["vsnip#anonymous"](args.body)
               end,
+            },
+
+            documentation = {
+              border = "rounded"
             },
 
             -- You must set mapping.
