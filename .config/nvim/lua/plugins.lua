@@ -2125,12 +2125,7 @@ packer.startup {
       use {
         "hrsh7th/nvim-cmp",
         requires = {
-          {
-            "onsails/lspkind-nvim",
-            config = function()
-              require("lspkind").init { with_text = false }
-            end,
-          },
+          { "onsails/lspkind-nvim" },
           { "hrsh7th/vim-vsnip" },
           { "hrsh7th/cmp-vsnip" },
           { "hrsh7th/cmp-buffer" },
@@ -2184,7 +2179,7 @@ packer.startup {
             },
 
             documentation = {
-              border = "rounded"
+              border = "rounded",
             },
 
             -- You must set mapping.
@@ -2251,7 +2246,9 @@ packer.startup {
               },
             }),
             formatting = {
-              format = lspkind.cmp_format(),
+              format = lspkind.cmp_format {
+                mode = "symbol_text",
+              },
             },
             experimental = {
               native_menu = false,
