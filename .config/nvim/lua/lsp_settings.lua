@@ -80,6 +80,13 @@ local jsonls_config = {
     },
   },
 }
+local yamlls_config = {
+  settings = {
+    yaml = {
+      schemas = require("schemastore").json.schemas(),
+    },
+  },
+}
 
 local dart_config = {
   init_options = {
@@ -203,6 +210,8 @@ local function setup_servers_use_nvim_lsp_installer()
       config.root_dir = pyright_config.root_dir
     elseif server.name == "jsonls" then
       config.settings = jsonls_config.settings
+    elseif server.name == "yamlls" then
+      config.settings = yamlls_config.settings
     elseif server.name == "dartls" then
       config.init_options = dart_config.init_options
     elseif server.name == "tsserver" then

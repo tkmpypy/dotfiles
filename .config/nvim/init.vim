@@ -120,6 +120,7 @@ let s:scratch_ft_map = {
       \ 'markdown': 'md',
       \ 'text': 'txt',
       \ 'python': 'py',
+      \ 'json': 'json',
 \ }
 
 function! s:Scratch(ft, open) abort
