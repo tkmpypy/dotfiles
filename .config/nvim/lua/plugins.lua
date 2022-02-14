@@ -1028,7 +1028,6 @@ packer.startup {
     }
 
     -- finder
-
     if vim.g.fuzzy_finder_type == "telescope" then
       if vim.g.lsp_client_type == "coc" then
         use { "fannheyward/telescope-coc.nvim" }
@@ -1615,6 +1614,21 @@ packer.startup {
         }
       end
     end
+
+    use {
+      "hoschi/yode-nvim",
+      requires = { "nvim-lua/plenary.nvim" },
+      config = function()
+        require("yode-nvim").setup {}
+        vim.keymap.set("", "<leader>yc", ":YodeCreateSeditorFloating<cr>")
+        vim.keymap.set("", "<leader>yr", ":YodeCreateSeditorReplace<cr>")
+        vim.keymap.set("n", "<leader>yd", ":YodeBufferDelete<cr>")
+        vim.keymap.set("", "<leader>ywr", ":YodeLayoutShiftWinDown<cr>")
+        vim.keymap.set("", "<leader>ywR", ":YodeLayoutShiftWinUp<cr>")
+        vim.keymap.set("", "<leader>ywJ", ":YodeLayoutShiftWinBottom<cr>")
+        vim.keymap.set("", "<leader>ywK", ":YodeLayoutShiftWinTop<cr>")
+      end,
+    }
 
     -- Git
     use {
