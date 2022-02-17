@@ -2108,6 +2108,14 @@ packer.startup {
               },
               null_ls.builtins.formatting.prettier.with {
                 timeout = 50000,
+                extra_args = function(params)
+                  return params.options
+                    and params.options.tabSize
+                    and {
+                      "--tab-width",
+                      params.options.tabSize,
+                    }
+                end,
               },
               -- null_ls.builtins.formatting.gofmt,
               null_ls.builtins.formatting.gofumpt,
