@@ -1,6 +1,9 @@
 require("nvim-treesitter.configs").setup {
+  yati = { enable = true },
   highlight = {
     enable = true,
+    disable = {'org'},
+    additional_vim_regex_highlighting = {'org'},
   },
   incremental_selection = {
     enable = true,
@@ -36,5 +39,6 @@ require("nvim-treesitter.configs").setup {
     "html",
     "vim",
     -- "markdown"
+    "org"
   },
 }

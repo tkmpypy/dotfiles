@@ -10,7 +10,7 @@ let mapleader = "\<Space>"
 let g:use_treesitter = v:true
 let g:lsp_client_type = 'neovim' " neovim(builtin), coc
 let g:fuzzy_finder_type = 'telescope' " telescope, fzf
-let g:git_client_type = 'gina' " neogit, gina
+let g:git_client_type = 'neogit' " neogit, gina
 
 filetype plugin indent on
 syntax on
@@ -27,6 +27,7 @@ augroup END
 set background=dark
 
 lua require('plugins')
+" lua require('plugins_jetpack')
 
 " load my scripts {{
 lua << EOF

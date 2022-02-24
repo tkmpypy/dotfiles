@@ -112,6 +112,7 @@ local gopls_config = {
       unusedwrite = false,
       fieldalignment = false,
     },
+    -- matcher = "CaseSensitive",
     codelenses = { gc_details = true, tidy = true },
   },
 }

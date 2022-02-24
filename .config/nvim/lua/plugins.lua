@@ -41,6 +41,7 @@ packer.startup {
 
     if vim.g.use_treesitter then
       use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+      use { "yioneko/nvim-yati", requires = "nvim-treesitter/nvim-treesitter" }
       use {
         "danymat/neogen",
         config = function()
@@ -285,8 +286,8 @@ packer.startup {
     use { "kyazdani42/nvim-web-devicons" }
     use {
       "nvim-lualine/lualine.nvim",
-      requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
-      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
+      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
       disable = false,
       config = function()
         local util = require "scripts/util"
@@ -885,25 +886,7 @@ packer.startup {
       "kristijanhusak/orgmode.nvim",
       requires = { "nvim-treesitter/nvim-treesitter" },
       config = function()
-        local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-        parser_config.org = {
-          install_info = {
-            url = "https://github.com/milisims/tree-sitter-org",
-            revision = "main",
-            files = { "src/parser.c", "src/scanner.cc" },
-          },
-          filetype = "org",
-        }
-        require("nvim-treesitter.configs").setup {
-          -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
-          highlight = {
-            enable = true,
-            disable = { "org" }, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-            additional_vim_regex_highlighting = { "org" }, -- Required since TS highlighter doesn't support all syntax features (conceal)
-          },
-          ensure_installed = { "org" }, -- Or run :TSUpdate org
-        }
-
+        require("orgmode").setup_ts_grammar()
         require("orgmode").setup {
           org_agenda_files = { "~/Dropbox/org/*" },
           org_default_notes_file = "~/Dropbox/org/note.org",
@@ -2035,7 +2018,6 @@ packer.startup {
       }
       use {
         "j-hui/fidget.nvim",
-        disable = true,
         config = function()
           require("fidget").setup {
             text = {
@@ -2274,6 +2256,15 @@ packer.startup {
           }
 
           cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+          require("scripts/cmp/conventionalprefix")
+          cmp.setup.filetype("NeogitCommitMessage", {
+            sources = cmp.config.sources({
+              { name = "conventionalprefix" },
+              { name = "buffer" },
+            }),
+          })
+
           -- Use buffer source for `/`.
           cmp.setup.cmdline("/", {
             sources = {
