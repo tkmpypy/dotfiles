@@ -98,10 +98,19 @@ setopt hist_save_no_dups
 setopt hist_no_store
 setopt hist_verify
 
+# autoload -U history-search-end
+# zle -N history-beginning-search-backward-end history-search-end
+# zle -N history-beginning-search-forward-end history-search-end
+# bindkey '^P' history-beginning-search-backward-end
+# bindkey '^N' history-beginning-search-forward-end
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search
+
 bindkey '^R' history-incremental-search-backward
 bindkey '^S' history-incremental-search-forward
-bindkey '^P' history-beginning-search-backward-end
-bindkey '^N' history-beginning-search-forward-end
+
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
 
 setopt no_flow_control
 
