@@ -288,7 +288,7 @@ packer.startup {
       "nvim-lualine/lualine.nvim",
       -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
       requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
-      disable = false,
+      disable = true,
       config = function()
         local util = require "scripts/util"
         require("lualine").setup {
@@ -355,7 +355,6 @@ packer.startup {
     }
     use {
       "windwp/windline.nvim",
-      disable = true,
       config = function()
         local windline = require "windline"
         local helper = require "windline.helpers"
@@ -554,19 +553,19 @@ packer.startup {
             explorer,
           },
         }
-        -- require("wlfloatline").setup({
-        -- 	interval = 300,
-        -- 	ui = {
-        -- 		active_char = "▁",
-        -- 		active_color = "blue",
-        -- 		active_hl = nil,
-        -- 	},
-        -- 	skip_filetypes = {
-        -- 		"NvimTree",
-        -- 	},
-        -- 	-- by default it skip all floating window but you can change it
-        -- 	floating_show_filetypes = {},
-        -- })
+        require("wlfloatline").setup({
+        	interval = 300,
+        	ui = {
+        		active_char = "▁",
+        		active_color = "blue",
+        		active_hl = nil,
+        	},
+        	skip_filetypes = {
+        		"NvimTree",
+        	},
+        	-- by default it skip all floating window but you can change it
+        	floating_show_filetypes = {},
+        })
       end,
     }
     use {
@@ -2090,14 +2089,6 @@ packer.startup {
               },
               null_ls.builtins.formatting.prettier.with {
                 timeout = 50000,
-                extra_args = function(params)
-                  return params.options
-                    and params.options.tabSize
-                    and {
-                      "--tab-width",
-                      params.options.tabSize,
-                    }
-                end,
               },
               -- null_ls.builtins.formatting.gofmt,
               null_ls.builtins.formatting.gofumpt,
