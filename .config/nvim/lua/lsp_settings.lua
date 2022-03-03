@@ -131,6 +131,14 @@ local pyright_config = {
   end,
 }
 
+local eslint_config = {
+  settings = {
+    foramt = {
+      enable = true,
+    },
+  },
+}
+
 local function tsserver_organize_imports()
   local params = {
     command = "_typescript.organizeImports",
@@ -217,6 +225,15 @@ local function setup_servers_use_nvim_lsp_installer()
       config.init_options = dart_config.init_options
     elseif server.name == "tsserver" then
       config.commands = tsserver_config.commands
+    elseif server.name == "eslint" then
+      -- フォーマットはprettierに寄せるので使用しない
+      -- config.on_attach = function(client, bufnr)
+      --   custom_attach(client, bufnr)
+      --   -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
+      --   -- the resolved capabilities of the eslint server ourselves!
+      --   -- client.resolved_capabilities.document_formatting = true
+      -- end
+      config.settings = eslint_config.settings
     end
 
     -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)

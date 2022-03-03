@@ -55,8 +55,14 @@ packer.startup {
               },
             },
           }
-          vim.keymap.set("n", "<leader>nc", function()
-            require("neogen").generate()
+          vim.keymap.set("n", "<leader>ncf", function()
+            require("neogen").generate({type="func"})
+          end)
+          vim.keymap.set("n", "<leader>nct", function()
+            require("neogen").generate({type="type"})
+          end)
+          vim.keymap.set("n", "<leader>ncc", function()
+            require("neogen").generate({type="class"})
           end)
         end,
         requires = "nvim-treesitter/nvim-treesitter",
@@ -2065,16 +2071,16 @@ packer.startup {
             sources = {
               -- null_ls.builtins.diagnostics.markdownlint,
               null_ls.builtins.diagnostics.flake8,
-              -- eslintrcなどを変更した場合、 `eslint_d restart` すること
-              null_ls.builtins.formatting.eslint_d.with {
-                timeout = 50000,
-              },
-              null_ls.builtins.diagnostics.eslint_d.with {
-                timeout = 50000,
-              },
-              null_ls.builtins.code_actions.eslint_d.with {
-                timeout = 50000,
-              },
+              -- lsp-installerのeslint(vscode-exract)の方が軽いので使用しない
+              -- null_ls.builtins.formatting.eslint_d.with {
+              --   timeout = 50000,
+              -- },
+              -- null_ls.builtins.diagnostics.eslint_d.with {
+              --   timeout = 50000,
+              -- },
+              -- null_ls.builtins.code_actions.eslint_d.with {
+              --   timeout = 50000,
+              -- },
               -- null_ls.builtins.formatting.eslint.with({
               --   timeout = 50000
               -- }),
