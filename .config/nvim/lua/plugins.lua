@@ -39,36 +39,6 @@ packer.startup {
       end,
     }
 
-    if vim.g.use_treesitter then
-      use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
-      use { "yioneko/nvim-yati", requires = "nvim-treesitter/nvim-treesitter" }
-      use {
-        "danymat/neogen",
-        config = function()
-          require("neogen").setup {
-            enabled = true,
-            languages = {
-              python = {
-                template = {
-                  annotation_convention = "google_docstrings",
-                },
-              },
-            },
-          }
-          vim.keymap.set("n", "<leader>ncf", function()
-            require("neogen").generate({type="func"})
-          end)
-          vim.keymap.set("n", "<leader>nct", function()
-            require("neogen").generate({type="type"})
-          end)
-          vim.keymap.set("n", "<leader>ncc", function()
-            require("neogen").generate({type="class"})
-          end)
-        end,
-        requires = "nvim-treesitter/nvim-treesitter",
-      }
-    end
-
     -- ColorScheme
     use {
       "rebelot/kanagawa.nvim",
@@ -178,7 +148,7 @@ packer.startup {
             whichkey = false,
             indent_blankline = true,
             vim_illuminate = true,
-            lspsaga = true,
+            lspsaga = false,
           },
         }
       end,
@@ -201,6 +171,55 @@ packer.startup {
         -- nightfox.load()
       end,
     }
+
+    if vim.g.use_treesitter then
+      use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+      use {
+        "yioneko/nvim-yati",
+        requires = "nvim-treesitter/nvim-treesitter",
+        config = function()
+          require("nvim-treesitter.configs").setup {
+            yati = { enabled = true },
+          }
+        end,
+      }
+      use {
+        "windwp/nvim-ts-autotag",
+        requires = "nvim-treesitter/nvim-treesitter",
+        config = function()
+          require("nvim-treesitter.configs").setup {
+            autotag = {
+              enable = true,
+            },
+          }
+        end,
+      }
+      use {
+        "danymat/neogen",
+        config = function()
+          require("neogen").setup {
+            enabled = true,
+            languages = {
+              python = {
+                template = {
+                  annotation_convention = "google_docstrings",
+                },
+              },
+            },
+          }
+          vim.keymap.set("n", "<leader>ncf", function()
+            require("neogen").generate { type = "func" }
+          end)
+          vim.keymap.set("n", "<leader>nct", function()
+            require("neogen").generate { type = "type" }
+          end)
+          vim.keymap.set("n", "<leader>ncc", function()
+            require("neogen").generate { type = "class" }
+          end)
+        end,
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
+    end
 
     -- Languages
     use {
@@ -254,7 +273,7 @@ packer.startup {
         require("indent_blankline").setup {
           -- char = "",
           enabled = true,
-          buftype_exclude = { "terminal", "help" },
+          buftype_exclude = { "terminal", "help", "nofile" },
           filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer", "windline" },
           show_end_of_line = false,
           -- space_char_blankline = " ",
@@ -370,7 +389,6 @@ packer.startup {
         local state = W.state
 
         local lsp_comps = require "windline.components.lsp"
-        local lsp_progress_comps = require "windline.components.lsp_progress"
         local git_comps = require "windline.components.git"
 
         local hl_list = {
@@ -530,7 +548,6 @@ packer.startup {
             { lsp_comps.lsp_name(), { "green", "ActiveBg" }, breakpoint_width },
             basic.separate,
             basic.lsp_diagnos,
-            { lsp_progress_comps.lsp_progress(), { "green", "ActiveBg" }, breakpoint_width },
             basic.divider,
             { git_comps.git_branch(), { "magenta", "ActiveBg" }, breakpoint_width },
             basic.git,
@@ -559,19 +576,19 @@ packer.startup {
             explorer,
           },
         }
-        require("wlfloatline").setup({
-        	interval = 300,
-        	ui = {
-        		active_char = "▁",
-        		active_color = "blue",
-        		active_hl = nil,
-        	},
-        	skip_filetypes = {
-        		"NvimTree",
-        	},
-        	-- by default it skip all floating window but you can change it
-        	floating_show_filetypes = {},
-        })
+        require("wlfloatline").setup {
+          interval = 300,
+          ui = {
+            active_char = "▁",
+            active_color = "blue",
+            active_hl = nil,
+          },
+          skip_filetypes = {
+            "NvimTree",
+          },
+          -- by default it skip all floating window but you can change it
+          floating_show_filetypes = {},
+        }
       end,
     }
     use {
@@ -724,8 +741,8 @@ packer.startup {
               list = {
                 { key = "n", mode = "n", cb = tree_cb "create" },
                 { key = "u", mode = "n", cb = tree_cb "dir_up" },
-                { key = { "<CR>", "o", "<2-LeftMouse>" }, cb = tree_cb "edit" },
-                { key = { "<2-RightMouse>", "<C-}>" }, cb = tree_cb "cd" },
+                { key = "<CR>", cb = tree_cb "edit" },
+                { key = "o", mode = "n", cb = tree_cb "cd" },
                 { key = "<C-v>", cb = tree_cb "vsplit" },
                 { key = "<C-x>", cb = tree_cb "split" },
                 { key = "<C-t>", cb = tree_cb "tabnew" },
@@ -741,6 +758,7 @@ packer.startup {
                 { key = "H", cb = tree_cb "toggle_dotfiles" },
                 { key = "R", cb = tree_cb "refresh" },
                 { key = "d", cb = tree_cb "remove" },
+                { key = "D", cb = tree_cb "trash" },
                 { key = "r", cb = tree_cb "rename" },
                 { key = "<C->", cb = tree_cb "full_rename" },
                 { key = "x", cb = tree_cb "cut" },
@@ -2254,12 +2272,12 @@ packer.startup {
 
           cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-          require("scripts/cmp/conventionalprefix")
+          require "scripts/cmp/conventionalprefix"
           cmp.setup.filetype("NeogitCommitMessage", {
-            sources = cmp.config.sources({
+            sources = cmp.config.sources {
               { name = "conventionalprefix" },
               { name = "buffer" },
-            }),
+            },
           })
 
           -- Use buffer source for `/`.

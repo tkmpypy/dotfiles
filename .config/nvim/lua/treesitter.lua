@@ -1,5 +1,4 @@
 require("nvim-treesitter.configs").setup {
-  yati = { enable = true },
   highlight = {
     enable = true,
     disable = {'org'},

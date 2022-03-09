@@ -29,17 +29,21 @@ end
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec(
-      [[
+    vim.cmd[[
     augroup lsp_document_highlight
-    autocmd! * <buffer>
-    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      autocmd! * <buffer>
+      autocmd! CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+      autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     augroup END
-    ]],
-      false
-    )
+    ]]
   end
+
+  vim.cmd [[
+    augroup lsp_diagnostic
+      autocmd! * <buffer>
+      autocmd! CursorHold <buffer> lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
+    augroup END
+  ]]
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
   -- I only want to use null-ls formatting
@@ -134,9 +138,9 @@ local pyright_config = {
 local eslint_config = {
   settings = {
     foramt = {
-      enable = true,
+      enable = false,
     },
-  },
+  }
 }
 
 local function tsserver_organize_imports()
@@ -161,10 +165,16 @@ local setup_lsp_ui = function()
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
   vim.diagnostic.config {
     underline = true,
-    virtual_text = { spacing = 2, prefix = "»", source = "always" },
+    virtual_text = { spacing = 2, prefix = "»", source = "if_many" },
     float = {
-      source = "always",
+      source = false,
       border = "rounded",
+      format = function(diagnostic)
+        return diagnostic.message
+      end,
+      prefix = function(diagnostic)
+        return string.format("%s(%s): ", diagnostic.source, diagnostic.code)
+      end,
     },
     signs = { priority = 20 },
     update_in_insert = false,

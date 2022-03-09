@@ -180,12 +180,6 @@ nmap <leader>trs :TestSuite<CR>
 nmap <leader>trr :TestLast<CR>
 nmap <leader>trg :TestVisit<CR>
 " }}
-" thosakwe/vim-flutter {{
-nnoremap <leader>fa :FlutterRun<cr>
-nnoremap <leader>fq :FlutterQuit<cr>
-nnoremap <leader>fr :FlutterHotReload<cr>
-nnoremap <leader>fR :FlutterHotRestart<cr>
-" }}
 
 function! s:setup_vsnip()
   " NOTE: You can use other key to expand snippet.
@@ -666,8 +660,8 @@ let &t_Ce = "\e[4:0m"
 set wrap
 set wildmenu
 set wildmode=full
-set ttyfast
-set lazyredraw
+" set ttyfast
+" set lazyredraw
 " set virtualedit=all
 set number norelativenumber
 set laststatus=2 " ステータスラインを常に表示
@@ -781,7 +775,7 @@ augroup vagrant
 " No beep
 set visualbell
 set noerrorbells
-" set redrawtime=10000
+set redrawtime=300
 
 
 "*****************************************************************************
@@ -796,7 +790,7 @@ set nowritebackup
 set cmdheight=1
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=4000
+set updatetime=300
 
 " don't give |ins-completion-menu| messages.
 set shortmess&
