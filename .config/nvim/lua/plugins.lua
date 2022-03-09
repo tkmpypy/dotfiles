@@ -255,7 +255,7 @@ packer.startup {
           -- char = "",
           enabled = true,
           buftype_exclude = { "terminal", "help" },
-          filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer" },
+          filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer", "windline" },
           show_end_of_line = false,
           -- space_char_blankline = " ",
           show_trailing_blankline_indent = false,
