@@ -29,21 +29,31 @@ end
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
-    vim.cmd[[
-    augroup lsp_document_highlight
-      autocmd! * <buffer>
-      autocmd! CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-      autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    augroup END
-    ]]
+    local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_doc_hi", {clear=true})
+    vim.api.nvim_create_autocmd({"CursorHold"}, {
+      group = gid,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.document_highlight()
+      end
+    })
+    vim.api.nvim_create_autocmd({"CursorMoved"}, {
+      group = gid,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.clear_references()
+      end
+    })
   end
 
-  vim.cmd [[
-    augroup lsp_diagnostic
-      autocmd! * <buffer>
-      autocmd! CursorHold <buffer> lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
-    augroup END
-  ]]
+  local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_diagnostic", {clear=true})
+    vim.api.nvim_create_autocmd({"CursorHold"}, {
+      group = gid,
+      buffer = bufnr,
+      callback = function()
+        vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
+      end
+    })
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
   -- I only want to use null-ls formatting
