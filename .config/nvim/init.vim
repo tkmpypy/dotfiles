@@ -660,8 +660,8 @@ let &t_Ce = "\e[4:0m"
 set wrap
 set wildmenu
 set wildmode=full
-" set ttyfast
-" set lazyredraw
+set ttyfast
+set lazyredraw
 " set virtualedit=all
 set number norelativenumber
 set laststatus=2 " ステータスラインを常に表示
@@ -775,7 +775,7 @@ augroup vagrant
 " No beep
 set visualbell
 set noerrorbells
-set redrawtime=300
+set redrawtime=1000
 
 
 "*****************************************************************************
@@ -790,7 +790,7 @@ set nowritebackup
 set cmdheight=1
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
+set updatetime=1000
 
 " don't give |ins-completion-menu| messages.
 set shortmess&

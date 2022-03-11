@@ -2322,7 +2322,7 @@ packer.startup {
             floating_window_off_y = 1, -- adjust float windows y position.
 
             fix_pos = false, -- set to true, the floating window will not auto-close until finish all parameters
-            hint_enable = true, -- virtual hint enable
+            hint_enable = false, -- virtual hint enable
             hint_prefix = " ", -- Panda for parameter
             max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down
             -- to view the hiding contents
