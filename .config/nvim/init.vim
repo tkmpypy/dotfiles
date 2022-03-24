@@ -664,7 +664,12 @@ set ttyfast
 set lazyredraw
 " set virtualedit=all
 set number norelativenumber
-set laststatus=2 " ステータスラインを常に表示
+set laststatus=3
+" autocmd vimrc ColorScheme *
+"        \ : if &laststatus == 3
+"        \ |   hi clear VertSplit
+"        \ | endif
+
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
 set noruler

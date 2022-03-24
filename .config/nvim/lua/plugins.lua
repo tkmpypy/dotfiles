@@ -725,6 +725,7 @@ packer.startup {
           let g:fern#default_hidden = 1
           let g:fern#drawer_keep = v:false
           let g:fern#keepalt_on_edit = 1
+          let g:fern#disable_drawer_tabpage_isolation = 1
         ]]
       end,
       requires = {
