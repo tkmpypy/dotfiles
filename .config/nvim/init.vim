@@ -1,5 +1,150 @@
 scriptencoding=utf-8
+
+filetype plugin indent on
+syntax on
+
+set shell=zsh
+set mouse=n
+
 set termguicolors
+set laststatus=3
+" autocmd vimrc ColorScheme *
+"        \ : if &laststatus == 3
+"        \ |   hi clear VertSplit
+"        \ | endif
+set background=dark
+
+set clipboard^=unnamed,unnamedplus
+
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+
+au TextYankPost * silent! lua vim.highlight.on_yank {timeout = 300}
+
+" Use as many color as possible
+if !has('gui_running')
+      \ && exists('&termguicolors')
+      \ && $COLORTERM =~# '^\%(truecolor\|24bit\)$'
+  " https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
+" use truecolor in term
+  if exists('&pumblend')
+    set pumblend=20
+  endif
+endif
+
+" completion settings
+set complete&
+    \ complete-=i
+    \ complete-=t
+set completeopt=menu,menuone,noselect
+
+set t_Co=256
+set t_ZH=^[[3m
+set t_ZR=^[[23m
+
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
+
+set ttyfast
+set lazyredraw
+set redrawtime=500
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=500
+set nowrap
+set wildmenu
+set wildmode=full
+" set virtualedit=all
+set number norelativenumber
+
+set showmode " 現在のモードを表示
+set showcmd " 打ったコマンドをステータスラインの下に表示
+set noruler
+set cursorline
+set nocursorcolumn
+set hlsearch
+set backspace=indent,eol,start
+
+if !&scrolloff
+  set scrolloff=1
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+set display+=lastline
+
+set list
+set listchars=tab:»\ ,trail:░,eol:↲,extends:☛,precedes:☚,nbsp:␣,conceal:┊
+
+" No beep
+set visualbell
+set noerrorbells
+
+"*****************************************************************************
+" Indent Width
+"*****************************************************************************
+set expandtab "タブ入力を複数の空白入力に置き換える
+set tabstop=4 "画面上でタブ文字が占める幅
+set shiftwidth=4 "自動インデントでずれる幅
+set softtabstop=4 "連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
+set autoindent "改行時に前の行のインデントを継続する
+set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set smarttab "新しい行を作った時に高度な自動インデントを行う
+
+autocmd BufRead,BufNewFile *.go setfiletype go
+autocmd FileType go setlocal noexpandtab
+autocmd FileType dart setlocal ts=2 sw=2
+autocmd FileType vue setlocal ts=2 sw=2
+autocmd FileType typescript setlocal ts=2 sw=2
+autocmd FileType typescriptreact setlocal ts=2 sw=2
+autocmd FileType javascript setlocal ts=2 sw=2
+autocmd FileType vim setlocal ts=2 sw=2
+autocmd FileType lua setlocal ts=2 sw=2
+autocmd FileType yaml setlocal ts=2 sw=2
+autocmd FileType python setlocal ts=4 sw=4
+autocmd FileType proto setlocal ts=2 sw=2
+augroup vagrant
+   au!
+   au BufRead,BufNewFile Vagrantfile set filetype=ruby
+ augroup END
+
+
+
+"*****************************************************************************
+" Other
+"*****************************************************************************
+" if hidden not set, TextEdit might fail.
+set hidden
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=1
+
+
+" don't give |ins-completion-menu| messages.
+set shortmess&
+    \ shortmess+=c
+    \ shortmess-=S
+
+set signcolumn=yes
+
+set incsearch                                    " サーチ：インクリメンタルサーチ（検索中に文字を打つと自動で検索していく）
+set ignorecase                                   " サーチ：大文字小文字を区別しない
+set smartcase                                    " サーチ：大文字で検索されたら対象を大文字限定にする
+set showmatch                                    " カーソル：括弧にカーソルを合わせた時、対応した括弧を表示する
+set noswapfile
+" 内容が変更されたら自動で再読込
+set autoread
+set synmaxcol=200
+" 正規表現エンジンの固定
+" set regexpengine=1
+
+if !&compatible
+  set nocompatible
+endif
 
 " enable filetype.lua and disable filetype.vim
 let g:do_filetype_lua = 1
@@ -12,19 +157,12 @@ let g:lsp_client_type = 'neovim' " neovim(builtin), coc
 let g:fuzzy_finder_type = 'telescope' " telescope, fzf
 let g:git_client_type = 'neogit' " neogit, gina
 
-filetype plugin indent on
-syntax on
-
-if !&compatible
-  set nocompatible
-endif
 
 " reset augroup
 augroup vimrc
   autocmd!
 augroup END
 
-set background=dark
 
 lua require('plugins')
 " lua require('plugins_jetpack')
@@ -618,76 +756,6 @@ function! s:command_profile() abort
   profile file *
 endfunction
 
-"*****************************************************************************
-" Visual Settings
-"*****************************************************************************
-
-au TextYankPost * silent! lua vim.highlight.on_yank {timeout = 300}
-
-" Use as many color as possible
-if !has('gui_running')
-      \ && exists('&termguicolors')
-      \ && $COLORTERM =~# '^\%(truecolor\|24bit\)$'
-  " https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-" use truecolor in term
-  if exists('&pumblend')
-    set pumblend=20
-  endif
-endif
-
-" completion settings
-" set complete&
-"      \ complete+=k
-"      \ complete+=s
-"      \ complete+=i
-"      \ complete+=d
-"      \ complete+=t
-set complete&
-    \ complete-=i
-    \ complete-=t
-set completeopt=menu,menuone,noselect
-
-set t_Co=256
-set t_ZH=^[[3m
-set t_ZR=^[[23m
-
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-let &t_Cs = "\e[4:3m"
-let &t_Ce = "\e[4:0m"
-
-
-set wrap
-set wildmenu
-set wildmode=full
-set ttyfast
-set lazyredraw
-" set virtualedit=all
-set number norelativenumber
-set laststatus=3
-" autocmd vimrc ColorScheme *
-"        \ : if &laststatus == 3
-"        \ |   hi clear VertSplit
-"        \ | endif
-
-set showmode " 現在のモードを表示
-set showcmd " 打ったコマンドをステータスラインの下に表示
-set noruler
-set cursorline
-set nocursorcolumn
-set hlsearch
-set backspace=indent,eol,start
-
-if !&scrolloff
-  set scrolloff=1
-endif
-if !&sidescrolloff
-  set sidescrolloff=5
-endif
-set display+=lastline
-
-set list
-set listchars=tab:»\ ,trail:░,eol:↲,extends:☛,precedes:☚,nbsp:␣,conceal:┊
 
 let g:material_theme_style='default'
 let g:material_terminal_italics = 1
@@ -733,87 +801,6 @@ let g:oceanic_next_terminal_italic = 1
 let g:embark_terminal_italics = 1
 " }}
 
-set shell=zsh
-set mouse=n
-
-"*****************************************************************************
-" Copy/Paste/Cut
-"*****************************************************************************
-set clipboard^=unnamed,unnamedplus
-
-
-"*****************************************************************************
-" Encoding
-"*****************************************************************************
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
-
-"*****************************************************************************
-" Indent Width
-"*****************************************************************************
-set expandtab "タブ入力を複数の空白入力に置き換える
-set tabstop=4 "画面上でタブ文字が占める幅
-set shiftwidth=4 "自動インデントでずれる幅
-set softtabstop=4 "連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
-set autoindent "改行時に前の行のインデントを継続する
-set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
-set smarttab "新しい行を作った時に高度な自動インデントを行う
-
-autocmd BufRead,BufNewFile *.go setfiletype go
-autocmd FileType go setlocal noexpandtab
-autocmd FileType dart setlocal ts=2 sw=2
-autocmd FileType vue setlocal ts=2 sw=2
-autocmd FileType typescript setlocal ts=2 sw=2
-autocmd FileType typescriptreact setlocal ts=2 sw=2
-autocmd FileType javascript setlocal ts=2 sw=2
-autocmd FileType vim setlocal ts=2 sw=2
-autocmd FileType lua setlocal ts=2 sw=2
-autocmd FileType yaml setlocal ts=2 sw=2
-autocmd FileType python setlocal ts=4 sw=4
-autocmd FileType proto setlocal ts=2 sw=2
-augroup vagrant
-   au!
-   au BufRead,BufNewFile Vagrantfile set filetype=ruby
- augroup END
-
-" No beep
-set visualbell
-set noerrorbells
-set redrawtime=1000
-
-
-"*****************************************************************************
-" Other
-"*****************************************************************************
-" if hidden not set, TextEdit might fail.
-set hidden
-set nobackup
-set nowritebackup
-
-" Better display for messages
-set cmdheight=1
-
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=1000
-
-" don't give |ins-completion-menu| messages.
-set shortmess&
-    \ shortmess+=c
-    \ shortmess-=S
-
-set signcolumn=yes
-
-set incsearch                                    " サーチ：インクリメンタルサーチ（検索中に文字を打つと自動で検索していく）
-set ignorecase                                   " サーチ：大文字小文字を区別しない
-set smartcase                                    " サーチ：大文字で検索されたら対象を大文字限定にする
-set showmatch                                    " カーソル：括弧にカーソルを合わせた時、対応した括弧を表示する
-set noswapfile
-" 内容が変更されたら自動で再読込
-set autoread
-set synmaxcol=200
-" 正規表現エンジンの固定
-" set regexpengine=1
 "*****************************************************************************
 " KeyMap
 "*****************************************************************************

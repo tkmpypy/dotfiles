@@ -568,6 +568,11 @@ packer.startup {
         }
 
         windline.setup {
+          global_skip_filetypes = {
+              'NvimTree',
+              'lir',
+              'fern',
+          },
           colors_name = function(colors)
             -- print(vim.inspect(colors))
             -- ADD MORE COLOR HERE ----
@@ -579,21 +584,6 @@ packer.startup {
             explorer,
           },
         }
-
-        -- CursorHold,CursorMovedなどのautocmdと相性が悪い（発火しなくなる）
-        -- require("wlfloatline").setup {
-        --   interval = 300,
-        --   ui = {
-        --     active_char = "▁",
-        --     active_color = "blue",
-        --     active_hl = nil,
-        --   },
-        --   skip_filetypes = {
-        --     "NvimTree",
-        --   },
-        --   -- by default it skip all floating window but you can change it
-        --   floating_show_filetypes = {},
-        -- }
       end,
     }
     use {
@@ -726,6 +716,7 @@ packer.startup {
           let g:fern#drawer_keep = v:false
           let g:fern#keepalt_on_edit = 1
           let g:fern#disable_drawer_tabpage_isolation = 1
+          let g:fern#disable_drawer_auto_winfixwidth = 1
         ]]
       end,
       requires = {
