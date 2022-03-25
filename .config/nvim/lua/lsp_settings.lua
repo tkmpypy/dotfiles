@@ -46,14 +46,14 @@ local custom_attach = function(client, bufnr)
     })
   end
 
-  local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_diagnostic", {clear=true})
-    vim.api.nvim_create_autocmd({"CursorHold"}, {
-      group = gid,
-      buffer = bufnr,
-      callback = function()
-        vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
-      end
-    })
+  -- local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_diagnostic", {clear=true})
+  --   vim.api.nvim_create_autocmd({"CursorHold"}, {
+  --     group = gid,
+  --     buffer = bufnr,
+  --     callback = function()
+  --       vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
+  --     end
+  --   })
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
   -- I only want to use null-ls formatting

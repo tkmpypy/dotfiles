@@ -250,6 +250,7 @@ packer.startup {
     use { "aklt/plantuml-syntax", ft = { "plantuml" } }
     use {
       "leafgarland/typescript-vim",
+      disable = true,
       config = function()
         vim.g.typescript_indent_disable = true
       end,
@@ -715,8 +716,9 @@ packer.startup {
           let g:fern#default_hidden = 1
           let g:fern#drawer_keep = v:false
           let g:fern#keepalt_on_edit = 1
-          let g:fern#disable_drawer_tabpage_isolation = 1
-          let g:fern#disable_drawer_auto_winfixwidth = 1
+          let g:fern#disable_drawer_tabpage_isolation = 0
+          let g:fern#disable_drawer_auto_winfixwidth = 0
+          let g:fern#disable_drawer_auto_resize = 1
         ]]
       end,
       requires = {
@@ -725,7 +727,7 @@ packer.startup {
           config = function ()
             vim.cmd[[
               " Disable listing ignored files/directories
-              let g:fern_git_status#disable_ignored = 1
+              let g:fern_git_status#disable_ignored = 0
               " Disable listing untracked files
               let g:fern_git_status#disable_untracked = 0
               " Disable listing status of submodules
@@ -977,14 +979,6 @@ packer.startup {
         vim.cmd [[
       au FileType gitcommit let b:EditorConfig_disable = 1
       ]]
-      end,
-    }
-    use {
-      "mhartington/formatter.nvim",
-      disable = true,
-      config = function()
-        require "formatter_settings"
-        vim.api.nvim_set_keymap("n", "<Leader>F", ":Format<cr>", {})
       end,
     }
     use { "airblade/vim-rooter" }
