@@ -13,7 +13,7 @@ return {
   },
   enable_tab_bar = false,
   color_scheme = "nord",
-  leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
+  leader = { key = ",", mods = "CTRL", timeout_milliseconds = 1000 },
   keys = {
     { key = "^", mods = "LEADER|CTRL", action = "IncreaseFontSize" },
     { key = "-", mods = "LEADER|CTRL", action = "DecreaseFontSize" },

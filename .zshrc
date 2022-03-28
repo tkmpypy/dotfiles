@@ -47,6 +47,8 @@ zinit light asdf-vm/asdf
 alias ll='ls -la'
 alias g='git'
 
+bindkey -e
+
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
