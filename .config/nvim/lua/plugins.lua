@@ -722,6 +722,7 @@ packer.startup {
         ]]
       end,
       requires = {
+        {"antoinemadec/FixCursorHold.nvim"},
         {
           "lambdalisue/fern-git-status.vim",
           config = function ()
@@ -900,6 +901,9 @@ packer.startup {
     use { "rafcamlet/nvim-luapad" }
 
     -- Utils
+    use {
+      "thinca/vim-qfreplace"
+    }
     use {
       "rcarriga/nvim-notify",
       config = function()
