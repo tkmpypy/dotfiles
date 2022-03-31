@@ -2,8 +2,13 @@
 local wezterm = require "wezterm"
 return {
   term = "xterm-256color",
-  font = wezterm.font("JetBrainsMonoNL Nerd Font", { weight = "Medium" }),
-  font_size = 14,
+  -- font = wezterm.font("JetBrainsMonoNL Nerd Font", { weight = "Medium" }),
+  font = wezterm.font("PlemolJP Console NF", {weight = "Medium"}),
+  -- font = wezterm.font("UDEV Gothic NF", {weight = "Regular"}),
+  -- font = wezterm.font("FirgeNerd", {weight = "Regular"}),
+
+  font_size = 15,
+  freetype_load_target = "Normal",
   enable_scroll_bar = false,
   window_padding = {
     left = 0,

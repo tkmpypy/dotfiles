@@ -168,7 +168,7 @@ packer.startup {
               visual = false,
               search = false,
             },
-          }
+          },
         }
         -- nightfox.load()
       end,
@@ -570,9 +570,9 @@ packer.startup {
 
         windline.setup {
           global_skip_filetypes = {
-              'NvimTree',
-              'lir',
-              'fern',
+            "NvimTree",
+            "lir",
+            "fern",
           },
           colors_name = function(colors)
             -- print(vim.inspect(colors))
@@ -651,9 +651,9 @@ packer.startup {
     -- explorer
     use {
       "lambdalisue/fern.vim",
-      config = function ()
-        local gid = vim.api.nvim_create_augroup("tkmpypy_fern_settings", {clear=true})
-        vim.api.nvim_create_autocmd({"FileType"}, {
+      config = function()
+        local gid = vim.api.nvim_create_augroup("tkmpypy_fern_settings", { clear = true })
+        vim.api.nvim_create_autocmd({ "FileType" }, {
           group = gid,
           pattern = "fern",
           callback = function()
@@ -708,25 +708,25 @@ packer.startup {
 
               call glyph_palette#apply()
             ]]
-          end
+          end,
         })
         vim.keymap.set("n", "<Leader>ft", "<cmd>Fern . -drawer -toggle<CR>")
         vim.keymap.set("n", "<Leader>ff", "<cmd>Fern . -reveal=% -drawer -toggle<CR>")
-        vim.cmd[[
+        vim.cmd [[
           let g:fern#default_hidden = 1
           let g:fern#drawer_keep = v:false
           let g:fern#keepalt_on_edit = 1
           let g:fern#disable_drawer_tabpage_isolation = 0
           let g:fern#disable_drawer_auto_winfixwidth = 0
-          let g:fern#disable_drawer_auto_resize = 1
+          let g:fern#disable_drawer_auto_resize = 0
         ]]
       end,
       requires = {
-        {"antoinemadec/FixCursorHold.nvim"},
+        { "antoinemadec/FixCursorHold.nvim" },
         {
           "lambdalisue/fern-git-status.vim",
-          config = function ()
-            vim.cmd[[
+          config = function()
+            vim.cmd [[
               " Disable listing ignored files/directories
               let g:fern_git_status#disable_ignored = 0
               " Disable listing untracked files
@@ -736,25 +736,25 @@ packer.startup {
               " Disable listing status of directories
               let g:fern_git_status#disable_directories = 0
             ]]
-          end
+          end,
         },
         {
           "lambdalisue/fern-renderer-nerdfont.vim",
           requires = {
             "lambdalisue/nerdfont.vim",
-            "lambdalisue/glyph-palette.vim"
+            "lambdalisue/glyph-palette.vim",
           },
-          config = function ()
+          config = function()
             vim.cmd [[
               let g:fern#renderer = "nerdfont"
             ]]
-          end
+          end,
         },
         {
           "yuki-yano/fern-preview.vim",
-          config = function ()
-            local gid = vim.api.nvim_create_augroup("tkmpypy_fern_preview_settings", {clear=true})
-            vim.api.nvim_create_autocmd({"FileType"}, {
+          config = function()
+            local gid = vim.api.nvim_create_augroup("tkmpypy_fern_preview_settings", { clear = true })
+            vim.api.nvim_create_autocmd({ "FileType" }, {
               group = gid,
               pattern = "fern",
               callback = function()
@@ -764,11 +764,11 @@ packer.startup {
                   nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
                   nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
                 ]]
-              end
+              end,
             })
-          end
-        }
-      }
+          end,
+        },
+      },
     }
     use {
       "kyazdani42/nvim-tree.lua",
@@ -902,7 +902,7 @@ packer.startup {
 
     -- Utils
     use {
-      "thinca/vim-qfreplace"
+      "thinca/vim-qfreplace",
     }
     use {
       "rcarriga/nvim-notify",
@@ -929,7 +929,10 @@ packer.startup {
         }
       end,
     }
-    use { "itchyny/vim-winfix" }
+    use {
+      "itchyny/vim-winfix",
+      disable = true,
+    }
     use {
       "akinsho/toggleterm.nvim",
       config = function()
@@ -1157,9 +1160,11 @@ packer.startup {
         requires = {
           { "nvim-lua/plenary.nvim" },
           { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+          {"lambdalisue/mr.vim"}, -- for local source
         },
         config = function()
           local telescope = require "telescope"
+          local local_source = require "./scripts/telescope/mr"
           telescope.setup {
             defaults = {
               vimgrep_arguments = {
@@ -1293,6 +1298,21 @@ packer.startup {
             "<cmd>lua require('telescope.builtin').resume{}<CR>",
             require("scripts/util").keymaps.default_opt
           )
+
+
+          vim.keymap.set(
+            "n",
+            "<leader>su",
+            "<cmd>lua require('scripts/telescope/mr').mru()<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.keymap.set(
+            "n",
+            "<leader>sw",
+            "<cmd>lua require('scripts/telescope/mr').mrw()<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+
           -- vim.api.nvim_set_keymap(
           --   "n",
           --   "<leader>st",
@@ -2264,6 +2284,7 @@ packer.startup {
               require("cmp_nvim_lsp").setup {}
             end,
           },
+          { "hrsh7th/cmp-nvim-lsp-signature-help" },
           { "hrsh7th/cmp-nvim-lua" },
           { "lukas-reineke/cmp-under-comparator" },
           { "windwp/nvim-autopairs" },
@@ -2337,6 +2358,7 @@ packer.startup {
                 priority = 10,
                 max_item_count = 50,
               },
+              { name = "nvim_lsp_signature_help" },
               {
                 name = "vsnip",
                 priority = 11,
@@ -2412,6 +2434,7 @@ packer.startup {
       }
       use {
         "ray-x/lsp_signature.nvim",
+        disable = true,
         config = function()
           local cfg = {
             debug = false, -- set to true to enable debug logging
@@ -2438,7 +2461,7 @@ packer.startup {
             -- to view the hiding contents
             max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
             handler_opts = {
-              border = "rounded",   -- double, rounded, single, shadow, none
+              border = "rounded", -- double, rounded, single, shadow, none
             },
 
             always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
