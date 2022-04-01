@@ -1164,7 +1164,6 @@ packer.startup {
         },
         config = function()
           local telescope = require "telescope"
-          local local_source = require "./scripts/telescope/mr"
           telescope.setup {
             defaults = {
               vimgrep_arguments = {
@@ -1186,7 +1185,7 @@ packer.startup {
               buffers = {
                 -- sort_lastused = true,
                 sort_mru = true,
-                ignore_current_buffer = false,
+                ignore_current_buffer = true,
                 theme = "dropdown",
                 -- previewer = true,
                 mappings = {
