@@ -30,6 +30,7 @@ setup/nvim*
 .config/anyenv
 .config/gcloud
 .config/gh
+.config/gh-dash
 .config/helm
 .config/blg
 .config/iterm2

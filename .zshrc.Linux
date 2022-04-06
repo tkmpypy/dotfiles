@@ -40,6 +40,7 @@ zinit load denisidoro/navi
 # gh
 zinit ice from"gh-r" as"program" bpick"*linux_amd64.tar.gz" pick"gh*/bin/gh"
 zinit load cli/cli
+# gh extension install dlvhdr/gh-dash
 
 # bottom
 zinit ice from"gh-r" as"program" bpick"*x86_64-unknown-linux*" pick"bottom/btm"
