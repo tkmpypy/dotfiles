@@ -84,12 +84,15 @@ packer.startup {
         }
       end,
     }
-    use { "sainnhe/edge", config = function()
-      vim.g.edge_style = "aura"
-      vim.g.edge_enable_italic = true
-      vim.g.edge_disable_italic_comment = false
-      vim.g.edge_current_word = 'bold'
-    end }
+    use {
+      "sainnhe/edge",
+      config = function()
+        vim.g.edge_style = "aura"
+        vim.g.edge_enable_italic = true
+        vim.g.edge_disable_italic_comment = false
+        vim.g.edge_current_word = "bold"
+      end,
+    }
     use {
       "sainnhe/everforest",
       config = function()
@@ -108,7 +111,7 @@ packer.startup {
     use {
       "folke/tokyonight.nvim",
       config = function()
-        vim.g.tokyonight_style = 'storm'
+        vim.g.tokyonight_style = "storm"
         vim.g.tokyonight_italic_comment = true
         vim.g.tokyonight_italic_keywords = true
         vim.g.tokyonight_italic_functions = true
@@ -660,6 +663,7 @@ packer.startup {
     -- explorer
     use {
       "lambdalisue/fern.vim",
+      disable = true,
       config = function()
         local gid = vim.api.nvim_create_augroup("tkmpypy_fern_settings", { clear = true })
         vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -712,6 +716,7 @@ packer.startup {
                 \   "\<Plug>(fern-action-collapse)",
                 \   "\<Plug>(fern-action-leave)",
                 \ )
+              nmap <buffer><nowait> <CR> <Plug>(fern-my-expand-or-enter)
               nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
               nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
 
@@ -781,10 +786,9 @@ packer.startup {
     }
     use {
       "kyazdani42/nvim-tree.lua",
-      disable = true,
+      disable = false,
       config = function()
         local tree_cb = require("nvim-tree.config").nvim_tree_callback
-        vim.g.nvim_tree_indent_markers = 1 -- 0 by default, this option shows indent markers when folders are open
         vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
         vim.g.nvim_tree_root_folder_modifier = ":~" -- This is the default. See :help filename-modifiers for more options
         vim.g.nvim_tree_show_icons = {
@@ -858,8 +862,7 @@ packer.startup {
             width = 30,
             -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
             side = "left",
-            -- if true the tree will resize itself after opening a file
-            auto_resize = false,
+            preserve_window_proportions = false,
             mappings = {
               -- custom only false will merge the list with the default mappings
               -- if true, it will only use your list to set the mappings
@@ -868,6 +871,7 @@ packer.startup {
               list = {
                 { key = "n", mode = "n", cb = tree_cb "create" },
                 { key = "u", mode = "n", cb = tree_cb "dir_up" },
+                { key = "-", cb = tree_cb "dir_up" },
                 { key = "<CR>", cb = tree_cb "edit" },
                 { key = "o", mode = "n", cb = tree_cb "cd" },
                 { key = "<C-v>", cb = tree_cb "vsplit" },
@@ -896,9 +900,19 @@ packer.startup {
                 { key = "gy", cb = tree_cb "copy_absolute_path" },
                 { key = "[c", cb = tree_cb "prev_git_item" },
                 { key = "}c", cb = tree_cb "next_git_item" },
-                { key = "-", cb = tree_cb "dir_up" },
+                { key = "<C-k>", cb = tree_cb "toggle_file_info" },
                 { key = "q", cb = tree_cb "close" },
                 { key = "?", cb = tree_cb "toggle_help" },
+              },
+            },
+          },
+          renderer = {
+            indent_markers = {
+              enable = false,
+              icons = {
+                corner = "└ ",
+                edge = "│ ",
+                none = "  ",
               },
             },
           },
@@ -2295,12 +2309,12 @@ packer.startup {
           },
           { "hrsh7th/cmp-nvim-lsp-signature-help" },
           { "hrsh7th/cmp-nvim-lua" },
-          { "lukas-reineke/cmp-under-comparator" },
           { "windwp/nvim-autopairs" },
         },
         config = function()
           local cmp = require "cmp"
           local types = require "cmp.types"
+          local compare = require "cmp.config.compare"
           local lspkind = require "lspkind"
           local cmp_autopairs = require "nvim-autopairs.completion.cmp"
           cmp.setup {
@@ -2314,17 +2328,20 @@ packer.startup {
               keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
               keyword_length = 1,
             },
+            preselect = types.cmp.PreselectMode.None,
             sorting = {
               priority_weight = 2,
               comparators = {
-                require("cmp-under-comparator").under,
-                cmp.config.compare.offset,
-                cmp.config.compare.exact,
-                cmp.config.compare.score,
-                cmp.config.compare.kind,
-                cmp.config.compare.sort_text,
-                cmp.config.compare.length,
-                cmp.config.compare.order,
+                compare.offset,
+                compare.exact,
+                -- compare.scopes,
+                compare.score,
+                compare.recently_used,
+                compare.locality,
+                compare.kind,
+                compare.sort_text,
+                compare.length,
+                compare.order,
               },
             },
             -- You should change this example to your chosen snippet engine.
