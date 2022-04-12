@@ -227,10 +227,6 @@ local function setup_servers_use_nvim_lsp_installer()
     local opts = {}
     local config = make_config()
 
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
     if server.name == "sumneko_lua" then
       config.settings = lua_config.settings
     elseif server.name == "gopls" then

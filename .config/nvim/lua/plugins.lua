@@ -84,7 +84,12 @@ packer.startup {
         }
       end,
     }
-    use { "sainnhe/edge" }
+    use { "sainnhe/edge", config = function()
+      vim.g.edge_style = "aura"
+      vim.g.edge_enable_italic = true
+      vim.g.edge_disable_italic_comment = false
+      vim.g.edge_current_word = 'bold'
+    end }
     use {
       "sainnhe/everforest",
       config = function()
@@ -92,19 +97,23 @@ packer.startup {
         --   This configuration option should be placed before `colorscheme everforest`.
         --   Available values: 'hard', 'medium'(default), 'soft'
         vim.g.everforest_background = "soft"
-        vim.g.everforest_enable_italic = 1
-        vim.g.everforest_disable_italic_comment = 0
-        vim.g.everforest_transparent_background = 1
+        vim.g.everforest_enable_italic = true
+        vim.g.everforest_disable_italic_comment = false
+        vim.g.everforest_transparent_background = true
         vim.g.everforest_ui_contrast = "low" -- high or low
-        vim.g.everforest_diagnostic_text_highlight = 1
-        vim.g.everforest_diagnostic_line_highlight = 1
+        vim.g.everforest_diagnostic_text_highlight = true
+        vim.g.everforest_diagnostic_line_highlight = true
       end,
     }
     use {
       "folke/tokyonight.nvim",
       config = function()
-        vim.g.tokyonight_style = "storm"
+        vim.g.tokyonight_style = 'storm'
+        vim.g.tokyonight_italic_comment = true
+        vim.g.tokyonight_italic_keywords = true
         vim.g.tokyonight_italic_functions = true
+        vim.g.tokyonight_transparent = false
+        vim.g.tokyonight_hide_inactive_statusline = true
       end,
     }
     use {
@@ -1160,7 +1169,7 @@ packer.startup {
         requires = {
           { "nvim-lua/plenary.nvim" },
           { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-          {"lambdalisue/mr.vim"}, -- for local source
+          { "lambdalisue/mr.vim" }, -- for local source
         },
         config = function()
           local telescope = require "telescope"
@@ -1299,7 +1308,6 @@ packer.startup {
             "<cmd>lua require('telescope.builtin').resume{}<CR>",
             require("scripts/util").keymaps.default_opt
           )
-
 
           vim.keymap.set(
             "n",

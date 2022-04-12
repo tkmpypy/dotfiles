@@ -1,7 +1,8 @@
 -- https://wezfurlong.org/wezterm/config/keys.html
 local wezterm = require "wezterm"
 return {
-  term = "xterm-256color",
+  -- term = "xterm-256color",
+  term = "wezterm",
   -- font = wezterm.font("JetBrainsMonoNL Nerd Font", { weight = "Medium" }),
   font = wezterm.font("PlemolJP Console NF", {weight = "Medium"}),
   -- font = wezterm.font("UDEV Gothic NF", {weight = "Regular"}),

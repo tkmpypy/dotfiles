@@ -1,17 +1,33 @@
 scriptencoding=utf-8
 
+" You might have to force true color when using regular vim inside tmux as the
+" colorscheme can appear to be grayscale with "termguicolors" option enabled.
+if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+" let &t_Cs = "\e[4:3m"
+" let &t_Ce = "\e[4:0m"
+
+" Use as many color as possible
+" if !has('gui_running')
+"       \ && exists('&termguicolors')
+"       \ && $COLORTERM =~# '^\%(truecolor\|24bit\)$'
+"   " https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
+" " use truecolor in term
+"   if exists('&pumblend')
+"     set pumblend=20
+"   endif
+" endif
+
+set termguicolors
 filetype plugin indent on
 syntax on
 
 set shell=zsh
 set mouse=n
 
-set termguicolors
 set laststatus=3
-" autocmd vimrc ColorScheme *
-"        \ : if &laststatus == 3
-"        \ |   hi clear VertSplit
-"        \ | endif
 set background=dark
 
 set clipboard^=unnamed,unnamedplus
@@ -22,31 +38,11 @@ set fileencodings=utf-8
 
 au TextYankPost * silent! lua vim.highlight.on_yank {timeout = 300}
 
-" Use as many color as possible
-if !has('gui_running')
-      \ && exists('&termguicolors')
-      \ && $COLORTERM =~# '^\%(truecolor\|24bit\)$'
-  " https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-" use truecolor in term
-  if exists('&pumblend')
-    set pumblend=20
-  endif
-endif
-
 " completion settings
 set complete&
     \ complete-=i
     \ complete-=t
 set completeopt=menu,menuone,noselect
-
-set t_Co=256
-set t_ZH=^[[3m
-set t_ZR=^[[23m
-
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-let &t_Cs = "\e[4:3m"
-let &t_Ce = "\e[4:0m"
 
 set ttyfast
 set lazyredraw
@@ -756,50 +752,6 @@ function! s:command_profile() abort
   profile file *
 endfunction
 
-
-let g:material_theme_style='default'
-let g:material_terminal_italics = 1
-let g:edge_style = 'aura'
-let g:edge_enable_italic = 1
-let g:edge_disable_italic_comment = 0
-let g:edge_current_word = 'bold'
-let g:gruvbox_material_background = 'medium'
-let g:gruvbox_material_enable_italic = 1
-let g:gruvbox_material_disable_italic_comment = 1
-let g:seoul256_background = 237
-" tokyonight.nvim {{
-let g:tokyonight_style = 'storm' " available: night, storm
-let g:tokyonight_italic_comment = 1
-let g:tokyonight_italic_keywords = 1
-let g:tokyonight_italic_functions = 1
-let g:tokyonight_transparent = 0
-let g:tokyonight_hide_inactive_statusline = 1
-" }}
-" joshdick/onedark.vim {{
-let g:onedark_termcolors=256
-let g:onedark_terminal_italics=1
-let g:onedark_hide_endofbuffer=1
-" }}
-let g:neodark#use_256color = 1 " default: 0
-let g:neodark#solid_vertsplit = 1 " default: 0
-
-" 'drewtempelmeyer/palenight.vim'{{
-let g:palenight_terminal_italics=1
-" }}
-" miramare {{
-let g:miramare_enable_italic = 1
-let g:miramare_disable_italic_comment = 1
-let g:miramare_enable_bold = 1
-" }}
-
-" oceanic-next{{
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
-" }}
-
-" embark{{
-let g:embark_terminal_italics = 1
-" }}
 
 "*****************************************************************************
 " KeyMap
