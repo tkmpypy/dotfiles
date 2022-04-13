@@ -276,6 +276,7 @@ packer.startup {
     -- UI
     use {
       "lukas-reineke/indent-blankline.nvim",
+      cmd = {"IndentBlanklineEnable", "IndentBlanklineToggle"},
       config = function()
         -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 blend=nocombine]]
         -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B blend=nocombine]]
@@ -287,7 +288,7 @@ packer.startup {
         -- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a blend=nocombine]]
         require("indent_blankline").setup {
           -- char = "",
-          enabled = true,
+          enabled = false,
           buftype_exclude = { "terminal", "help", "nofile" },
           filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer", "windline" },
           show_end_of_line = false,
@@ -1807,16 +1808,65 @@ packer.startup {
             ["n <leader>ghr"] = "buffer_hunk_reset",
             ["n <leader>ghp"] = "buffer_hunk_preview",
             ["n <leader>gbp"] = "buffer_blame_preview",
-            ["n <leader>gdp"] = "buffer_diff_preview",
+            ["n <leader>gbd"] = "buffer_diff_preview",
             ["n <leader>gbu"] = "buffer_reset",
             ["n <leader>gbs"] = "buffer_stage",
             ["n <leader>gbg"] = "buffer_gutter_blame_preview",
             ["n <leader>gpl"] = "project_hunks_preview",
-            ["n <leader>gpd"] = "project_diff_preview",
             ["n <leader>gpq"] = "project_hunks_qf",
             ["n <leader>gx"] = "toggle_diff_preference",
           },
           settings = {
+            hls = {
+              GitBackgroundPrimary = "NormalFloat",
+              GitBackgroundSecondary = {
+                gui = nil,
+                fg = nil,
+                bg = nil,
+                sp = nil,
+                override = false,
+              },
+              GitBorder = "LineNr",
+              GitLineNr = "LineNr",
+              GitComment = "Comment",
+              GitSignsAdd = {
+                gui = nil,
+                fg = "#d7ffaf",
+                bg = nil,
+                sp = nil,
+                override = false,
+              },
+              GitSignsChange = {
+                gui = nil,
+                fg = "#7AA6DA",
+                bg = nil,
+                sp = nil,
+                override = false,
+              },
+              GitSignsDelete = {
+                gui = nil,
+                fg = "#e95678",
+                bg = nil,
+                sp = nil,
+                override = false,
+              },
+              GitSignsAddLn = "DiffAdd",
+              GitSignsDeleteLn = "DiffDelete",
+              GitWordAdd = {
+                gui = nil,
+                fg = nil,
+                bg = "#5d7a22",
+                sp = nil,
+                override = false,
+              },
+              GitWordDelete = {
+                gui = nil,
+                fg = nil,
+                bg = "#960f3d",
+                sp = nil,
+                override = false,
+              },
+            },
             live_blame = {
               enabled = true,
               format = function(blame, git_config)

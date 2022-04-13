@@ -1,5 +1,26 @@
 scriptencoding=utf-8
 
+let g:did_install_default_menus = 1
+let g:did_install_syntax_menu   = 1
+let g:did_indent_on             = 1
+let g:did_load_ftplugin         = 1
+let g:loaded_2html_plugin       = 1
+let g:loaded_gzip               = 1
+let g:loaded_man                = 1
+let g:loaded_matchit            = 1
+let g:loaded_matchparen         = 1
+let g:loaded_netrwPlugin        = 1
+let g:loaded_remote_plugins     = 1
+let g:loaded_shada_plugin       = 1
+let g:loaded_spellfile_plugin   = 1
+let g:loaded_tarPlugin          = 1
+let g:loaded_tutor_mode_plugin  = 1
+let g:loaded_zipPlugin          = 1
+let g:skip_loading_mswin        = 1
+" enable filetype.lua and disable filetype.vim
+let g:do_filetype_lua           = 1
+let g:did_load_filetypes        = 0
+
 " You might have to force true color when using regular vim inside tmux as the
 " colorscheme can appear to be grayscale with "termguicolors" option enabled.
 if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
@@ -142,9 +163,6 @@ if !&compatible
   set nocompatible
 endif
 
-" enable filetype.lua and disable filetype.vim
-let g:do_filetype_lua = 1
-let g:did_load_filetypes = 0
 
 let mapleader = "\<Space>"
 
