@@ -187,35 +187,108 @@ packer.startup {
     }
 
     if vim.g.use_treesitter then
-      use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
       use {
-        "yioneko/nvim-yati",
-        requires = "nvim-treesitter/nvim-treesitter",
+        "nvim-treesitter/nvim-treesitter",
+        run = ":TSUpdate",
+        requires = {
+          "yioneko/nvim-yati",
+          "nvim-treesitter/nvim-treesitter-textobjects",
+          "windwp/nvim-ts-autotag",
+          "p00f/nvim-ts-rainbow",
+          "JoosepAlviste/nvim-ts-context-commentstring",
+        },
         config = function()
           require("nvim-treesitter.configs").setup {
+            highlight = {
+              enable = true,
+              disable = { "org" },
+              additional_vim_regex_highlighting = { "org" },
+            },
+            indent = {
+              enable = false,
+            },
+            refactor = {
+              highlight_defintions = { enable = true },
+              smart_rename = { enable = false },
+              navigation = { enable = false },
+            },
+            ensure_installed = {
+              "java",
+              "dart",
+              "go",
+              "rust",
+              "ruby",
+              "python",
+              "lua",
+              "yaml",
+              "toml",
+              "json",
+              "typescript",
+              "javascript",
+              "tsx",
+              "html",
+              "vim",
+              -- "markdown"
+              "org",
+            },
             yati = { enabled = true },
-          }
-        end,
-      }
-      use {
-        "windwp/nvim-ts-autotag",
-        requires = "nvim-treesitter/nvim-treesitter",
-        config = function()
-          require("nvim-treesitter.configs").setup {
+            textobjects = {
+              move = {
+                enable = true,
+                set_jumps = true, -- whether to set jumps in the jumplist
+                goto_next_start = {
+                  ["]m"] = "@function.outer",
+                  ["]]"] = "@class.outer",
+                },
+                goto_next_end = {
+                  ["]M"] = "@function.outer",
+                  ["]["] = "@class.outer",
+                },
+                goto_previous_start = {
+                  ["[m"] = "@function.outer",
+                  ["[["] = "@class.outer",
+                },
+                goto_previous_end = {
+                  ["[M"] = "@function.outer",
+                  ["[]"] = "@class.outer",
+                },
+              },
+              -- swap = {
+              --   enable = true,
+              --   swap_next = {
+              --     ["<leader>a"] = "@parameter.inner",
+              --   },
+              --   swap_previous = {
+              --     ["<leader>A"] = "@parameter.inner",
+              --   },
+              -- },
+              select = {
+                enable = true,
+
+                -- Automatically jump forward to textobj, similar to targets.vim
+                lookahead = true,
+
+                keymaps = {
+                  -- You can use the capture groups defined in textobjects.scm
+                  ["af"] = "@function.outer",
+                  ["if"] = "@function.inner",
+                  ["ac"] = "@class.outer",
+                  ["ic"] = "@class.inner",
+                  ["ap"] = "@parameter.outer",
+                  ["ip"] = "@parameter.inner",
+                  ["ab"] = "@block.outer",
+                  ["ib"] = "@block.inner",
+                },
+              },
+            },
             autotag = {
               enable = true,
             },
-          }
-        end,
-      }
-      use {
-        "p00f/nvim-ts-rainbow",
-        config = function()
-          require("nvim-treesitter.configs").setup {
             rainbow = {
               enable = true,
               extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
             },
+            context_commentstring = { enable = true, enable_autocmd = false },
           }
         end,
       }
@@ -232,14 +305,6 @@ packer.startup {
               require("ts_context_commentstring.internal").update_commentstring()
             end,
           })
-        end,
-      }
-      use {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        config = function()
-          require("nvim-treesitter.configs").setup {
-            context_commentstring = { enable = true, enable_autocmd = false },
-          }
         end,
       }
       use {
@@ -284,7 +349,7 @@ packer.startup {
         vim.g.vim_markdown_conceal_code_blocks = 1
       end,
     }
-    use { "hashivim/vim-terraform", ft = {"terraform"} }
+    use { "hashivim/vim-terraform", ft = { "terraform" } }
     use { "uarun/vim-protobuf", ft = { "proto" } }
     use { "euclidianAce/BetterLua.vim", ft = { "lua" } }
     use {
@@ -303,7 +368,7 @@ packer.startup {
     -- UI
     use {
       "lukas-reineke/indent-blankline.nvim",
-      cmd = {"IndentBlanklineEnable", "IndentBlanklineToggle"},
+      cmd = { "IndentBlanklineEnable", "IndentBlanklineToggle" },
       config = function()
         -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 blend=nocombine]]
         -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B blend=nocombine]]
@@ -904,8 +969,8 @@ packer.startup {
                 { key = "I", cb = tree_cb "toggle_ignored" },
                 { key = "H", cb = tree_cb "toggle_dotfiles" },
                 { key = "R", cb = tree_cb "refresh" },
-                { key = "d", cb = tree_cb "remove" },
-                { key = "D", cb = tree_cb "trash" },
+                { key = "D", cb = tree_cb "remove" },
+                { key = "d", cb = tree_cb "trash" },
                 { key = "r", cb = tree_cb "rename" },
                 { key = "<C->", cb = tree_cb "full_rename" },
                 { key = "x", cb = tree_cb "cut" },
@@ -1017,7 +1082,7 @@ packer.startup {
         }
       end,
     }
-    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install", ft = {"markdown"} }
+    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install", ft = { "markdown" } }
     use { "npxbr/glow.nvim", ft = { "markdown" } }
     use { "osyo-manga/vim-over" }
     use { "nicwest/vim-camelsnek" }
@@ -1035,7 +1100,7 @@ packer.startup {
     }
     use {
       "kristijanhusak/orgmode.nvim",
-      ft = {"org"},
+      ft = { "org" },
       requires = { "nvim-treesitter/nvim-treesitter" },
       config = function()
         require("orgmode").setup_ts_grammar()
@@ -2483,6 +2548,7 @@ packer.startup {
       }
       use {
         "hrsh7th/nvim-cmp",
+        commit = "dbc72290295cfc63075dab9ea635260d2b72f2e5",
         requires = {
           { "onsails/lspkind-nvim" },
           { "hrsh7th/vim-vsnip" },
@@ -2490,6 +2556,15 @@ packer.startup {
           { "hrsh7th/cmp-buffer" },
           { "hrsh7th/cmp-path" },
           { "hrsh7th/cmp-cmdline" },
+          {
+            "petertriho/cmp-git",
+            requires = "nvim-lua/plenary.nvim",
+            config = function()
+              require("cmp_git").setup {
+                filetypes = { "NeogitCommitMessage", "gitcommit" },
+              }
+            end,
+          },
           {
             "hrsh7th/cmp-nvim-lsp",
             config = function()
@@ -2628,15 +2703,19 @@ packer.startup {
           cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
           require "scripts/cmp/conventionalprefix"
-          cmp.setup.filetype("NeogitCommitMessage", {
+          cmp.setup.filetype({ "NeogitCommitMessage", "gitcommit" }, {
             sources = cmp.config.sources {
               { name = "conventionalprefix" },
+              { name = "cmp_git" },
+            },
+            {
               { name = "buffer" },
             },
           })
 
           -- Use buffer source for `/`.
           cmp.setup.cmdline("/", {
+            mapping = cmp.mapping.preset.cmdline(),
             sources = {
               { name = "buffer" },
             },
@@ -2644,6 +2723,7 @@ packer.startup {
 
           -- Use cmdline & path source for ':'.
           cmp.setup.cmdline(":", {
+            mapping = cmp.mapping.preset.cmdline(),
             sources = cmp.config.sources({
               { name = "path" },
             }, {

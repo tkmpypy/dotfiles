@@ -235,11 +235,6 @@ EOF
 " }}
 
 
-" nvim-treesitter {{
-if (g:use_treesitter)
-  lua require('treesitter')
-endif
-" }}
 
 " my utils {{
 
