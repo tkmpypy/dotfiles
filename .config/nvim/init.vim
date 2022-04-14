@@ -599,11 +599,6 @@ let g:vista#renderer#enable_icon = 1
 nnoremap <leader>tc :Vista coc<CR>
 nnoremap <leader>tt :Vista!! <CR>
 " }}
-" git-messanger {{
-let g:git_messenger_always_into_popup = v:true
-let g:git_messenger_include_diff = "current"
-nmap <Leader>gm <Plug>(git-messenger)
-" }}
 " iamcco/markdown-preview.nvim {{
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0

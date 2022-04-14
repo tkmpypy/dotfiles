@@ -209,6 +209,40 @@ packer.startup {
         end,
       }
       use {
+        "p00f/nvim-ts-rainbow",
+        config = function()
+          require("nvim-treesitter.configs").setup {
+            rainbow = {
+              enable = true,
+              extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+            },
+          }
+        end,
+      }
+      use {
+        "b3nj5m1n/kommentary",
+        config = function()
+          local config = require "kommentary.config"
+          config.use_extended_mappings()
+          config.configure_language("default", {
+            ignore_whitespace = true,
+            use_consistent_indentation = true,
+            prefer_single_line_comments = true,
+            hook_function = function()
+              require("ts_context_commentstring.internal").update_commentstring()
+            end,
+          })
+        end,
+      }
+      use {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        config = function()
+          require("nvim-treesitter.configs").setup {
+            context_commentstring = { enable = true, enable_autocmd = false },
+          }
+        end,
+      }
+      use {
         "danymat/neogen",
         config = function()
           require("neogen").setup {
@@ -250,7 +284,7 @@ packer.startup {
         vim.g.vim_markdown_conceal_code_blocks = 1
       end,
     }
-    use { "hashivim/vim-terraform" }
+    use { "hashivim/vim-terraform", ft = {"terraform"} }
     use { "uarun/vim-protobuf", ft = { "proto" } }
     use { "euclidianAce/BetterLua.vim", ft = { "lua" } }
     use {
@@ -260,16 +294,9 @@ packer.startup {
       end,
     }
     use { "aklt/plantuml-syntax", ft = { "plantuml" } }
-    use {
-      "leafgarland/typescript-vim",
-      disable = true,
-      config = function()
-        vim.g.typescript_indent_disable = true
-      end,
-    }
 
     -- runner
-    use { "metakirby5/codi.vim" }
+    use { "metakirby5/codi.vim", disable = true }
     use { "vim-test/vim-test" }
     use { "thinca/vim-quickrun" }
 
@@ -304,17 +331,6 @@ packer.startup {
           -- },
           show_current_context = true,
           show_current_context_start = false,
-        }
-      end,
-    }
-    use {
-      "p00f/nvim-ts-rainbow",
-      config = function()
-        require("nvim-treesitter.configs").setup {
-          rainbow = {
-            enable = true,
-            extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-          },
         }
       end,
     }
@@ -787,7 +803,6 @@ packer.startup {
     }
     use {
       "kyazdani42/nvim-tree.lua",
-      disable = false,
       config = function()
         local tree_cb = require("nvim-tree.config").nvim_tree_callback
         vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
@@ -954,10 +969,6 @@ packer.startup {
       end,
     }
     use {
-      "itchyny/vim-winfix",
-      disable = true,
-    }
-    use {
       "akinsho/toggleterm.nvim",
       config = function()
         require("toggleterm").setup {
@@ -979,29 +990,6 @@ packer.startup {
       end,
     }
     -- use {'tyru/caw.vim'}
-    use {
-      "b3nj5m1n/kommentary",
-      config = function()
-        local config = require "kommentary.config"
-        config.use_extended_mappings()
-        config.configure_language("default", {
-          ignore_whitespace = true,
-          use_consistent_indentation = true,
-          prefer_single_line_comments = true,
-          hook_function = function()
-            require("ts_context_commentstring.internal").update_commentstring()
-          end,
-        })
-      end,
-    }
-    use {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-      config = function()
-        require("nvim-treesitter.configs").setup {
-          context_commentstring = { enable = true, enable_autocmd = false },
-        }
-      end,
-    }
     use { "godlygeek/tabular" }
     use {
       "editorconfig/editorconfig-vim",
@@ -1029,7 +1017,7 @@ packer.startup {
         }
       end,
     }
-    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install" }
+    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install", ft = {"markdown"} }
     use { "npxbr/glow.nvim", ft = { "markdown" } }
     use { "osyo-manga/vim-over" }
     use { "nicwest/vim-camelsnek" }
@@ -1047,6 +1035,7 @@ packer.startup {
     }
     use {
       "kristijanhusak/orgmode.nvim",
+      ft = {"org"},
       requires = { "nvim-treesitter/nvim-treesitter" },
       config = function()
         require("orgmode").setup_ts_grammar()
@@ -2235,7 +2224,6 @@ packer.startup {
         end,
       }
     end
-    use { "rhysd/git-messenger.vim" }
     use {
       "pwntester/octo.nvim",
       config = function()
@@ -2553,8 +2541,13 @@ packer.startup {
               end,
             },
 
-            documentation = {
-              border = "rounded",
+            window = {
+              -- completion = {
+              --   border = "rounded",
+              -- },
+              -- documentation = {
+              --   border = "rounded",
+              -- },
             },
 
             -- You must set mapping.
