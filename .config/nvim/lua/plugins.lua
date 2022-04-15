@@ -1258,6 +1258,11 @@ packer.startup {
               winblend = 10,
               scroll_strategy = "cycle",
               color_devicon = true,
+              preview = {
+                treesitter = false
+              },
+              file_previewer = require("telescope.previewers").cat.new,
+              grep_previewer = require("telescope.previewers").cat.new,
             },
             pickers = {
               buffers = {
@@ -2548,7 +2553,6 @@ packer.startup {
       }
       use {
         "hrsh7th/nvim-cmp",
-        commit = "dbc72290295cfc63075dab9ea635260d2b72f2e5",
         requires = {
           { "onsails/lspkind-nvim" },
           { "hrsh7th/vim-vsnip" },
@@ -2617,12 +2621,8 @@ packer.startup {
             },
 
             window = {
-              -- completion = {
-              --   border = "rounded",
-              -- },
-              -- documentation = {
-              --   border = "rounded",
-              -- },
+              -- completion = cmp.config.window.bordered(),
+              -- documentation = cmp.config.window.bordered(),
             },
 
             -- You must set mapping.
