@@ -110,6 +110,7 @@ set autoindent "改行時に前の行のインデントを継続する
 set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set smarttab "新しい行を作った時に高度な自動インデントを行う
 
+autocmd Syntax * syn sync minlines=500 maxlines=1000
 autocmd BufRead,BufNewFile *.go setfiletype go
 autocmd FileType go setlocal noexpandtab
 autocmd FileType dart setlocal ts=2 sw=2

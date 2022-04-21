@@ -201,8 +201,6 @@ packer.startup {
           require("nvim-treesitter.configs").setup {
             highlight = {
               enable = true,
-              disable = { "org" },
-              additional_vim_regex_highlighting = { "org" },
             },
             indent = {
               enable = false,
@@ -229,7 +227,6 @@ packer.startup {
               "html",
               "vim",
               -- "markdown"
-              "org",
             },
             yati = { enabled = true },
             textobjects = {
@@ -824,13 +821,13 @@ packer.startup {
           config = function()
             vim.cmd [[
               " Disable listing ignored files/directories
-              let g:fern_git_status#disable_ignored = 0
+              let g:fern_git_status#disable_ignored = 1
               " Disable listing untracked files
-              let g:fern_git_status#disable_untracked = 0
+              let g:fern_git_status#disable_untracked = 1
               " Disable listing status of submodules
-              let g:fern_git_status#disable_submodules = 0
+              let g:fern_git_status#disable_submodules = 1
               " Disable listing status of directories
-              let g:fern_git_status#disable_directories = 0
+              let g:fern_git_status#disable_directories = 1
             ]]
           end,
         },
@@ -868,6 +865,7 @@ packer.startup {
     }
     use {
       "kyazdani42/nvim-tree.lua",
+      disable = false,
       config = function()
         local tree_cb = require("nvim-tree.config").nvim_tree_callback
         vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
@@ -1098,134 +1096,6 @@ packer.startup {
         vim.keymap.set("n", "P", "<Plug>miniyanl-autoPut")
       end,
     }
-    use {
-      "kristijanhusak/orgmode.nvim",
-      ft = { "org" },
-      requires = { "nvim-treesitter/nvim-treesitter" },
-      config = function()
-        require("orgmode").setup_ts_grammar()
-        require("orgmode").setup {
-          org_agenda_files = { "~/Dropbox/org/*" },
-          org_default_notes_file = "~/Dropbox/org/note.org",
-          org_todo_keywords = { "TODO", "DOING", "HOLD", "|", "DONE" },
-          org_agenda_templates = {
-            t = {
-              description = "Task",
-              template = "* TODO %?\n  %u",
-              target = "~/Dropbox/org/todo.org",
-            },
-            n = {
-              description = "Note",
-              template = "* NOTE %?\n  %u",
-              target = "~/Dropbox/org/note.org",
-            },
-            j = {
-              description = "Journal",
-              template = "\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?",
-              target = "~/Dropbox/org/journal.org",
-            },
-          },
-          org_deadline_warning_days = 14,
-          org_agenda_span = "week", -- day/week/month/year/number of days
-          org_agenda_start_on_weekday = 1,
-          org_agenda_start_day = nil, -- start from today + this modifier
-          org_priority_highest = "A",
-          org_priority_default = "B",
-          org_priority_lowest = "C",
-          -- org_archive_location = '%s_archive::',
-          org_use_tag_inheritance = true,
-          -- org_tags_exclude_from_inheritance = {},
-          org_hide_leading_stars = false,
-          org_hide_emphasis_markers = false,
-          org_log_done = "time",
-          mappings = {
-            disable_all = false,
-            global = { org_agenda = "<Leader>oa", org_capture = "<Leader>oc" },
-            agenda = {
-              org_agenda_later = "f",
-              org_agenda_earlier = "b",
-              org_agenda_goto_today = ".",
-              org_agenda_day_view = "vd",
-              org_agenda_week_view = "vw",
-              org_agenda_month_view = "vm",
-              org_agenda_year_view = "vy",
-              org_agenda_quit = "q",
-              org_agenda_switch_to = "<CR>",
-              org_agenda_goto = { "<TAB>" },
-              org_agenda_goto_date = "J",
-              org_agenda_redo = "r",
-              org_agenda_show_help = "?",
-            },
-            capture = {
-              org_capture_finalize = "<C-c>",
-              org_capture_refile = "<Leader>or",
-              org_capture_kill = "<Leader>ok",
-              org_capture_show_help = "?",
-            },
-            org = {
-              org_refile = "<Leader>or",
-              org_timestamp_up = "<Leader>du",
-              org_timestamp_down = "<Leader>dd",
-              org_timestamp_up_day = "<Leader>dud",
-              org_timestamp_down_day = "<Leader>ddd",
-              org_change_date = "cid",
-              org_todo = "cit",
-              org_todo_prev = "ciT",
-              org_toggle_checkbox = "<Leader>oT",
-              org_open_at_point = "<Leader>oo",
-              org_cycle = "<TAB>",
-              org_global_cycle = "<S-TAB>",
-              org_archive_subtree = "<Leader>o$",
-              org_set_tags_command = "<Leader>t",
-              org_toggle_archive_tag = "<Leader>oA",
-              org_do_promote = "<<",
-              org_do_demote = ">>",
-              org_promote_subtree = "<s",
-              org_demote_subtree = ">s",
-              org_meta_return = "<Leader><CR>", -- Add headling, item or row
-              org_insert_heading_respect_content = "<Leader>oih", -- Add new headling after current heading block with same level
-              org_insert_todo_heading = "<Leader>oiT", -- Add new todo headling right after current heading with same level
-              org_insert_todo_heading_respect_content = "<Leader>oit", -- Add new todo headling after current heading block on same level
-              org_move_subtree_up = "<Leader>oK",
-              org_move_subtree_down = "<Leader>oJ",
-              org_show_help = "?",
-            },
-          },
-        }
-        vim.api.nvim_set_keymap(
-          "n",
-          "<Leader>on",
-          "<cmd>:e ~/Dropbox/org/note.org<cr>",
-          require("scripts/util").keymaps.default_opt
-        )
-        vim.api.nvim_set_keymap(
-          "n",
-          "<Leader>ot",
-          "<cmd>:e ~/Dropbox/org/todo.org<cr>",
-          require("scripts/util").keymaps.default_opt
-        )
-        vim.api.nvim_set_keymap(
-          "n",
-          "<Leader>oj",
-          "<cmd>:e ~/Dropbox/org/journal.org<cr>",
-          require("scripts/util").keymaps.default_opt
-        )
-      end,
-    }
-    use {
-      "akinsho/org-bullets.nvim",
-      requires = { { "kristijanhusak/orgmode.nvim" } },
-      ft = { "org" },
-      config = function()
-        require("org-bullets").setup { symbols = { "◉", "○", "✸", "✿" } }
-        vim.cmd [[
-          syntax match OrgHeadlineStar1 /^\*\ze\s/me=e-1 conceal cchar=◉ containedin=OrgHeadlineLevel1 contained
-          syntax match OrgHeadlineStar2 /^\*\{2}\ze\s/me=e-1 conceal cchar=○ containedin=OrgHeadlineLevel2 contained
-          syntax match OrgHeadlineStar3 /^\*\{3}\ze\s/me=e-1 conceal cchar=✸ containedin=OrgHeadlineLevel3 contained
-          syntax match OrgHeadlineStar4 /^\*{4}\ze\s/me=e-1 conceal cchar=✿ containedin=OrgHeadlineLevel4 contained
-        ]]
-      end,
-    }
 
     -- finder
     if vim.g.fuzzy_finder_type == "telescope" then
@@ -1259,7 +1129,7 @@ packer.startup {
               scroll_strategy = "cycle",
               color_devicon = true,
               preview = {
-                treesitter = false
+                treesitter = false,
               },
               -- file_previewer = require("telescope.previewers").cat.new,
               -- grep_previewer = require("telescope.previewers").vimgrep.new,
@@ -2555,7 +2425,7 @@ packer.startup {
       use {
         "hrsh7th/nvim-cmp",
         requires = {
-          { "onsails/lspkind-nvim" },
+          { "onsails/lspkind.nvim" },
           { "hrsh7th/vim-vsnip" },
           { "hrsh7th/cmp-vsnip" },
           { "hrsh7th/cmp-buffer" },
