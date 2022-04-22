@@ -364,6 +364,90 @@ packer.startup {
 
     -- UI
     use {
+      "petertriho/nvim-scrollbar",
+      requires = { "kevinhwang91/nvim-hlslens" },
+      config = function()
+        require("scrollbar").setup {
+          show = true,
+          set_highlights = true,
+          handle = {
+            text = " ",
+            color = nil,
+            cterm = nil,
+            highlight = "CursorColumn",
+            hide_if_all_visible = true, -- Hides handle if all lines are visible
+          },
+          marks = {
+            Search = {
+              text = { "-", "=" },
+              priority = 0,
+              color = nil,
+              cterm = nil,
+              highlight = "Search",
+            },
+            Error = {
+              text = { "-", "=" },
+              priority = 1,
+              color = nil,
+              cterm = nil,
+              highlight = "DiagnosticVirtualTextError",
+            },
+            Warn = {
+              text = { "-", "=" },
+              priority = 2,
+              color = nil,
+              cterm = nil,
+              highlight = "DiagnosticVirtualTextWarn",
+            },
+            Info = {
+              text = { "-", "=" },
+              priority = 3,
+              color = nil,
+              cterm = nil,
+              highlight = "DiagnosticVirtualTextInfo",
+            },
+            Hint = {
+              text = { "-", "=" },
+              priority = 4,
+              color = nil,
+              cterm = nil,
+              highlight = "DiagnosticVirtualTextHint",
+            },
+            Misc = {
+              text = { "-", "=" },
+              priority = 5,
+              color = nil,
+              cterm = nil,
+              highlight = "Normal",
+            },
+          },
+          excluded_buftypes = {
+            "terminal",
+          },
+          excluded_filetypes = {
+            "prompt",
+            "TelescopePrompt",
+          },
+          autocmd = {
+            render = {
+              "BufWinEnter",
+              "TabEnter",
+              "TermEnter",
+              "WinEnter",
+              "CmdwinLeave",
+              "TextChanged",
+              "VimResized",
+              "WinScrolled",
+            },
+          },
+          handlers = {
+            diagnostic = true,
+            search = true, -- Requires hlslens to be loaded, will run require("scrollbar.handlers.search").setup() for you
+          },
+        }
+      end,
+    }
+    use {
       "lukas-reineke/indent-blankline.nvim",
       cmd = { "IndentBlanklineEnable", "IndentBlanklineToggle" },
       config = function()
@@ -1171,6 +1255,12 @@ packer.startup {
           )
           vim.api.nvim_set_keymap(
             "n",
+            "<leader>sff",
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
             "<leader>svc",
             "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>",
             require("scripts/util").keymaps.default_opt
@@ -1195,13 +1285,7 @@ packer.startup {
           )
           vim.api.nvim_set_keymap(
             "n",
-            "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sgc",
+            "<leader>sbc",
             "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find{}<CR>",
             require("scripts/util").keymaps.default_opt
           )
@@ -1209,6 +1293,12 @@ packer.startup {
             "n",
             "<leader>sgg",
             "<cmd>lua require('telescope.builtin').live_grep{}<CR>",
+            require("scripts/util").keymaps.default_opt
+          )
+          vim.api.nvim_set_keymap(
+            "n",
+            "<leader>sgc",
+            "<cmd>lua require('telescope.builtin').grep_string{}<CR>",
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
