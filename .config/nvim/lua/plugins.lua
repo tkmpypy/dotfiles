@@ -1285,12 +1285,6 @@ packer.startup {
           )
           vim.api.nvim_set_keymap(
             "n",
-            "<leader>sbc",
-            "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
             "<leader>sgg",
             "<cmd>lua require('telescope.builtin').live_grep{}<CR>",
             require("scripts/util").keymaps.default_opt
