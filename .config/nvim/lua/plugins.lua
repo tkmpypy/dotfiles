@@ -72,7 +72,7 @@ packer.startup {
             keywords = "bold", -- Style that is applied to keywords: see `highlight-args` for options
             functions = "italic", -- Style that is applied to functions: see `highlight-args` for options
             variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
-            diagnostics = "underline", -- Style that is applied to diagnostics: see `highlight-args` for options
+            diagnostics = "undercurl", -- Style that is applied to diagnostics: see `highlight-args` for options
           },
           disable = {
             background = false, -- Disable setting the background color
@@ -228,7 +228,7 @@ packer.startup {
               "vim",
               -- "markdown"
             },
-            yati = { enabled = true },
+            yati = { enable = true },
             textobjects = {
               move = {
                 enable = true,
@@ -1932,7 +1932,7 @@ packer.startup {
               end,
             },
             live_gutter = {
-              enabled = true,
+              enabled = false,
             },
             authorship_code_lens = {
               enabled = true,
@@ -2010,33 +2010,32 @@ packer.startup {
     use {
       "lewis6991/gitsigns.nvim",
       requires = { "nvim-lua/plenary.nvim" },
-      tag = "release",
-      disable = true,
+      disable = false,
       config = function()
         require("gitsigns").setup {
           signs = {
-            add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+            add = { hl = "GitSignsAdd", text = "┃", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
             change = {
               hl = "GitSignsChange",
-              text = "│",
+              text = "┃",
               numhl = "GitSignsChangeNr",
               linehl = "GitSignsChangeLn",
             },
             delete = {
               hl = "GitSignsDelete",
-              text = "_",
+              text = "┃",
               numhl = "GitSignsDeleteNr",
               linehl = "GitSignsDeleteLn",
             },
             topdelete = {
               hl = "GitSignsDelete",
-              text = "‾",
+              text = "┃",
               numhl = "GitSignsDeleteNr",
               linehl = "GitSignsDeleteLn",
             },
             changedelete = {
               hl = "GitSignsChange",
-              text = "~",
+              text = "┃",
               numhl = "GitSignsChangeNr",
               linehl = "GitSignsChangeLn",
             },
