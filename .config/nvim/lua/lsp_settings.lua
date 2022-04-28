@@ -1,4 +1,5 @@
 local vim = vim
+local lspconfig = require "lspconfig"
 local util = require("lspconfig").util
 
 local set_diagnostic_sign = function()
@@ -29,20 +30,20 @@ end
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
-    local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_doc_hi", {clear=true})
-    vim.api.nvim_create_autocmd({"CursorHold"}, {
+    local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_doc_hi", { clear = true })
+    vim.api.nvim_create_autocmd({ "CursorHold" }, {
       group = gid,
       buffer = bufnr,
       callback = function()
         vim.lsp.buf.document_highlight()
-      end
+      end,
     })
-    vim.api.nvim_create_autocmd({"CursorMoved"}, {
+    vim.api.nvim_create_autocmd({ "CursorMoved" }, {
       group = gid,
       buffer = bufnr,
       callback = function()
         vim.lsp.buf.clear_references()
-      end
+      end,
     })
   end
 
@@ -150,7 +151,7 @@ local eslint_config = {
     foramt = {
       enable = false,
     },
-  }
+  },
 }
 
 local function tsserver_organize_imports()
@@ -214,34 +215,30 @@ local make_config = function()
   }
 end
 
-local function setup_servers_without_installer()
-  require("lspconfig").dartls.setup {
-    init_options = dart_config.init_options,
-  }
-end
-
-local function setup_servers_use_nvim_lsp_installer()
+local setup_servers = function()
   local lsp_installer = require "nvim-lsp-installer"
 
-  lsp_installer.on_server_ready(function(server)
+  local servers = lsp_installer.get_installed_servers()
+  for _, server in ipairs(servers) do
     local opts = {}
     local config = make_config()
 
-    if server.name == "sumneko_lua" then
+    local name = server.name
+    if name == "sumneko_lua" then
       config.settings = lua_config.settings
-    elseif server.name == "gopls" then
+    elseif name == "gopls" then
       config.init_options = gopls_config.init_options
-    elseif server.name == "pyright" then
+    elseif name == "pyright" then
       config.root_dir = pyright_config.root_dir
-    elseif server.name == "jsonls" then
+    elseif name == "jsonls" then
       config.settings = jsonls_config.settings
-    elseif server.name == "yamlls" then
+    elseif name == "yamlls" then
       config.settings = yamlls_config.settings
-    elseif server.name == "dartls" then
+    elseif name == "dartls" then
       config.init_options = dart_config.init_options
-    elseif server.name == "tsserver" then
+    elseif name == "tsserver" then
       config.commands = tsserver_config.commands
-    elseif server.name == "eslint" then
+    elseif name == "eslint" then
       -- フォーマットはprettierに寄せるので使用しない
       -- config.on_attach = function(client, bufnr)
       --   custom_attach(client, bufnr)
@@ -254,11 +251,10 @@ local function setup_servers_use_nvim_lsp_installer()
 
     -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
     opts = config
-    server:setup(opts)
-  end)
+    lspconfig[name].setup(opts)
+  end
 end
 
-setup_servers_without_installer()
-setup_servers_use_nvim_lsp_installer()
+setup_servers()
 set_diagnostic_sign()
 setup_lsp_ui()

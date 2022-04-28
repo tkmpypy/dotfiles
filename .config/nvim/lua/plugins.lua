@@ -2384,7 +2384,9 @@ packer.startup {
       -- use neovim built-in
       use {
         "neovim/nvim-lspconfig",
+        requires = {"williamboman/nvim-lsp-installer"},
         config = function()
+          require("nvim-lsp-installer").setup {}
           require "lsp_settings"
           local o = require("scripts/util").keymaps.default_opt
           vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", o)
@@ -2441,10 +2443,6 @@ packer.startup {
             },
           }
         end,
-      }
-      use {
-        "williamboman/nvim-lsp-installer",
-        requires = { { "neovim/nvim-lspconfig" } },
       }
       use { "b0o/schemastore.nvim", requires = { { "neovim/nvim-lspconfig" } } }
       use {
