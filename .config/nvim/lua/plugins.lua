@@ -1190,6 +1190,7 @@ packer.startup {
         requires = {
           { "nvim-lua/plenary.nvim" },
           { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+          { "nvim-telescope/telescope-ui-select.nvim" },
           { "lambdalisue/mr.vim" }, -- for local source
         },
         config = function()
@@ -1206,6 +1207,7 @@ packer.startup {
                 "--smart-case",
                 "--hidden",
               },
+              prompt_prefix = "  ",
               path_display = { "smart" },
               winblend = 10,
               scroll_strategy = "cycle",
@@ -1231,15 +1233,35 @@ packer.startup {
               },
             },
             extensions = {
-              fzf = {
-                fuzzy = true, -- false will only do exact matching
-                override_generic_sorter = true, -- override the generic sorter
-                override_file_sorter = true, -- override the file sorter
-                case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-                -- the default case_mode is "smart_case"
+              ["ui-select"] = {
+                require("telescope.themes").get_dropdown {
+                  -- even more opts
+                },
+
+                -- pseudo code / specification for writing custom displays, like the one
+                -- for "codeactions"
+                specific_opts = {
+                --   [kind] = {
+                --     make_indexed = function(items) -> indexed_items, width,
+                --     make_displayer = function(widths) -> displayer
+                --     make_display = function(displayer) -> function(e)
+                --     make_ordinal = function(e) -> string
+                --   },
+                --   -- for example to disable the custom builtin "codeactions" display
+                --      do the following
+                  codeactions = false,
+                }
               },
             },
+            fzf = {
+              fuzzy = true, -- false will only do exact matching
+              override_generic_sorter = true, -- override the generic sorter
+              override_file_sorter = true, -- override the file sorter
+              case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+              -- the default case_mode is "smart_case"
+            },
           }
+          telescope.load_extension "ui-select"
           telescope.load_extension "fzf"
           if vim.g.lsp_client_type == "coc" then
             telescope.load_extension "coc"
@@ -1571,7 +1593,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
@@ -2384,7 +2406,7 @@ packer.startup {
       -- use neovim built-in
       use {
         "neovim/nvim-lspconfig",
-        requires = {"williamboman/nvim-lsp-installer"},
+        requires = { "williamboman/nvim-lsp-installer" },
         config = function()
           require("nvim-lsp-installer").setup {}
           require "lsp_settings"
@@ -2399,7 +2421,7 @@ packer.startup {
           vim.keymap.set("n", "gp", "<cmd>lua vim.lsp.buf.peek_definition()<CR>", o)
           vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", o)
           vim.keymap.set("n", "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", o)
-          vim.keymap.set("n", "<leader>F", "<cmd>lua vim.lsp.buf.formatting()<CR>", o)
+          vim.keymap.set("n", "<leader>F", "<cmd>lua vim.lsp.buf.format{async = true}<CR>", o)
           vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", o)
           vim.keymap.set("n", "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", o)
           vim.keymap.set("n", "<leader>dc", "<cmd>lua vim.diagnostic.open_float()<CR>", o)

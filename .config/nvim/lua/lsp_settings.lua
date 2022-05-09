@@ -29,7 +29,7 @@ end
 
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
     local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_doc_hi", { clear = true })
     vim.api.nvim_create_autocmd({ "CursorHold" }, {
       group = gid,
@@ -58,8 +58,8 @@ local custom_attach = function(client, bufnr)
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
   -- I only want to use null-ls formatting
-  client.resolved_capabilities.document_formatting = false
-  client.resolved_capabilities.document_range_formatting = false
+  client.server_capabilities.document_formatting = false
+  client.server_capabilities.document_range_formatting = false
 end
 
 -- Configure lua language server for neovim development
@@ -162,6 +162,7 @@ local function tsserver_organize_imports()
   }
   vim.lsp.buf.execute_command(params)
 end
+
 local tsserver_config = {
   commands = {
     OrganizeImports = {
@@ -244,7 +245,7 @@ local setup_servers = function()
       --   custom_attach(client, bufnr)
       --   -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
       --   -- the resolved capabilities of the eslint server ourselves!
-      --   -- client.resolved_capabilities.document_formatting = true
+      --   -- client.server_capabilities.document_formatting = true
       -- end
       config.settings = eslint_config.settings
     end
