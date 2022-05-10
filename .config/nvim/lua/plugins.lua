@@ -1215,9 +1215,9 @@ packer.startup {
               preview = {
                 treesitter = false,
               },
-              -- file_previewer = require("telescope.previewers").cat.new,
-              -- grep_previewer = require("telescope.previewers").vimgrep.new,
-              -- qflist_previewer = require("telescope.previewers").qflist.new
+              file_previewer = require("telescope.previewers").cat.new,
+              grep_previewer = require("telescope.previewers").vimgrep.new,
+              qflist_previewer = require("telescope.previewers").qflist.new
             },
             pickers = {
               buffers = {
@@ -1230,6 +1230,9 @@ packer.startup {
                   i = { ["<c-d>"] = require("telescope.actions").delete_buffer },
                   n = { ["<c-d>"] = require("telescope.actions").delete_buffer },
                 },
+                find_files = {
+                  path_display = { "smart" }
+                }
               },
             },
             extensions = {
@@ -1241,16 +1244,16 @@ packer.startup {
                 -- pseudo code / specification for writing custom displays, like the one
                 -- for "codeactions"
                 specific_opts = {
-                --   [kind] = {
-                --     make_indexed = function(items) -> indexed_items, width,
-                --     make_displayer = function(widths) -> displayer
-                --     make_display = function(displayer) -> function(e)
-                --     make_ordinal = function(e) -> string
-                --   },
-                --   -- for example to disable the custom builtin "codeactions" display
-                --      do the following
+                  --   [kind] = {
+                  --     make_indexed = function(items) -> indexed_items, width,
+                  --     make_displayer = function(widths) -> displayer
+                  --     make_display = function(displayer) -> function(e)
+                  --     make_ordinal = function(e) -> string
+                  --   },
+                  --   -- for example to disable the custom builtin "codeactions" display
+                  --      do the following
                   codeactions = false,
-                }
+                },
               },
             },
             fzf = {
@@ -1306,7 +1309,7 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sgg",
-            "<cmd>lua require('telescope.builtin').live_grep{}<CR>",
+            '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1353,7 +1356,7 @@ packer.startup {
           )
           vim.api.nvim_set_keymap(
             "n",
-            "<leader>sr",
+            "<leader>S",
             "<cmd>lua require('telescope.builtin').resume{}<CR>",
             require("scripts/util").keymaps.default_opt
           )
@@ -1382,6 +1385,18 @@ packer.startup {
               "n",
               "gr",
               "<cmd>Telescope lsp_references<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "gi",
+              "<cmd>Telescope lsp_implementations<CR>",
+              require("scripts/util").keymaps.default_opt
+            )
+            vim.api.nvim_set_keymap(
+              "n",
+              "gy",
+              "<cmd>Telescope lsp_type_definitions<CR>",
               require("scripts/util").keymaps.default_opt
             )
           elseif vim.g.lsp_client_type == "coc" then
@@ -1451,14 +1466,28 @@ packer.startup {
                 -- split         = "new",           -- open in a split instead?
                 height = 0.85, -- window height
                 width = 0.80, -- window width
-                row = 0.30, -- window row position (0=top, 1=bottom)
+                row = 0.35, -- window row position (0=top, 1=bottom)
                 col = 0.50, -- window col position (0=left, 1=right)
                 -- win_border    = false,           -- window border? or borderchars?
                 border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
                 fullscrean = false,
                 preview = {
                   default = "bat",
-                  delay = 0, -- delay(ms): default 100
+                  delay = 100, -- delay(ms): default 100
+                  scrollbar = false,
+                },
+              },
+              previewers = {
+                bat = {
+                  cmd = "bat",
+                  args = "--style=numbers,changes,header --color always",
+                  theme = "Dracula", -- bat preview theme (bat --list-themes)
+                  config = nil, -- nil uses $BAT_CONFIG_PATH
+                },
+                builtin = {
+                  syntax = true, -- preview syntax highlight?
+                  syntax_limit_l = 50, -- syntax limit (lines), 0=nolimit
+                  syntax_limit_b = 1024 * 1024, -- syntax limit (bytes), 0=nolimit
                 },
               },
               fzf_opts = {
@@ -1499,19 +1528,6 @@ packer.startup {
                   ["shift-up"] = "preview-page-up",
                 },
               },
-              -- by default uses the builtin previewer
-              previewers = {
-                cat = {
-                  cmd = "cat",
-                  args = "--number",
-                },
-                bat = {
-                  cmd = "bat",
-                  args = "--style=numbers,changes --color always",
-                  theme = "Coldark-Dark", -- bat preview theme (bat --list-themes)
-                  config = nil, -- nil uses $BAT_CONFIG_PATH
-                },
-              },
               -- provider setup
               files = {
                 -- previewer         = "cat",       -- uncomment to override previewer
@@ -1530,7 +1546,7 @@ packer.startup {
                   ["ctrl-t"] = actions.file_tabedit,
                   ["ctrl-q"] = actions.file_sel_to_qf,
                   ["ctrl-y"] = function(selected)
-                    print(selected[2])
+                    print(selected[1])
                   end,
                 },
               },
@@ -1593,7 +1609,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
@@ -1804,6 +1820,24 @@ packer.startup {
                 "n",
                 "gr",
                 "<cmd>lua require('fzf-lua').lsp_references()<CR>",
+                require("scripts/util").keymaps.default_opt
+              )
+              vim.api.nvim_set_keymap(
+                "n",
+                "gi",
+                "<cmd>lua require('fzf-lua').lsp_implementations()<CR>",
+                require("scripts/util").keymaps.default_opt
+              )
+              vim.api.nvim_set_keymap(
+                "n",
+                "gy",
+                "<cmd>lua require('fzf-lua').lsp_typedefs()<CR>",
+                require("scripts/util").keymaps.default_opt
+              )
+              vim.api.nvim_set_keymap(
+                "n",
+                "<leader>ac",
+                "<cmd>lua require('fzf-lua').code_actions()<CR>",
                 require("scripts/util").keymaps.default_opt
               )
             end
@@ -2414,8 +2448,8 @@ packer.startup {
           local o = require("scripts/util").keymaps.default_opt
           vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", o)
           vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", o)
-          vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", o)
-          vim.keymap.set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", o)
+          -- vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", o)
+          -- vim.keymap.set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", o)
           -- nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
           -- nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 

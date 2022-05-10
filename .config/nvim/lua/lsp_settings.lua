@@ -23,9 +23,7 @@ local custom_init = function(client)
   end
 end
 
-local custom_flags = function()
-  return { debounce_text_changes = 300 }
-end
+local custom_flags = { debounce_text_changes = 300 }
 
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
@@ -212,7 +210,7 @@ local make_config = function()
     -- map buffer local keybindings when the language server attaches
     on_attach = custom_attach,
     on_init = custom_init,
-    flags = custom_flags(),
+    flags = custom_flags,
   }
 end
 
