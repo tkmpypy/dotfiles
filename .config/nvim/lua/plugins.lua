@@ -292,6 +292,8 @@ packer.startup {
       }
       use {
         "b3nj5m1n/kommentary",
+        opt = true,
+        event = {'BufEnter'},
         config = function()
           local config = require "kommentary.config"
           config.use_extended_mappings()
@@ -307,6 +309,8 @@ packer.startup {
       }
       use {
         "danymat/neogen",
+        opt = true,
+        event = {'BufEnter'},
         config = function()
           require("neogen").setup {
             enabled = true,
@@ -333,33 +337,20 @@ packer.startup {
     end
 
     -- Languages
-    use {
-      "plasticboy/vim-markdown",
-      disable = true,
-      ft = { "markdown" },
-      config = function()
-        vim.g.vim_markdown_folding_disabled = 0
-        vim.g.vim_markdown_conceal = 1
-        vim.g.vim_markdown_folding_level = 6
-        vim.g.vim_markdown_folding_style_pythonic = 1
-        vim.g.vim_markdown_toc_autofit = 1
-        vim.g.vim_markdown_math = 1
-        vim.g.vim_markdown_conceal_code_blocks = 1
-      end,
-    }
-    use { "hashivim/vim-terraform", ft = { "terraform" } }
-    use { "uarun/vim-protobuf", ft = { "proto" } }
-    use { "euclidianAce/BetterLua.vim", ft = { "lua" } }
+    use { "hashivim/vim-terraform", opt = true, ft = { "terraform" } }
+    use { "uarun/vim-protobuf", opt = true, ft = { "proto" } }
+    use { "euclidianAce/BetterLua.vim", opt = true, ft = { "lua" } }
     use {
       "towolf/vim-helm",
+      opt = true,
+      ft = {"helm", "yaml"},
       config = function()
         vim.cmd [[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]]
       end,
     }
-    use { "aklt/plantuml-syntax", ft = { "plantuml" } }
+    use { "aklt/plantuml-syntax", opt = true, ft = { "plantuml" } }
 
     -- runner
-    use { "metakirby5/codi.vim", disable = true }
     use { "vim-test/vim-test" }
     use { "thinca/vim-quickrun" }
 
@@ -450,7 +441,8 @@ packer.startup {
     }
     use {
       "lukas-reineke/indent-blankline.nvim",
-      cmd = { "IndentBlanklineEnable", "IndentBlanklineToggle" },
+      opt = true,
+      event = {"BufEnter"},
       config = function()
         -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 blend=nocombine]]
         -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B blend=nocombine]]
@@ -462,7 +454,7 @@ packer.startup {
         -- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a blend=nocombine]]
         require("indent_blankline").setup {
           -- char = "",
-          enabled = false,
+          enabled = true,
           buftype_exclude = { "terminal", "help", "nofile" },
           filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer", "windline" },
           show_end_of_line = false,
