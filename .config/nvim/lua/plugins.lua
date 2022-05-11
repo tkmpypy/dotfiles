@@ -226,6 +226,7 @@ packer.startup {
               "tsx",
               "html",
               "vim",
+              "swift",
               -- "markdown"
             },
             yati = { enable = true },

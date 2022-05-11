@@ -130,6 +130,15 @@ local gopls_config = {
   },
 }
 
+local solargraph_config = {
+  settings = {
+    solargraph = {
+      diagnostics = false,
+      useBundler = false
+    }
+  }
+}
+
 local pyright_config = {
   root_dir = function(fname)
     local root_files = {
@@ -229,6 +238,8 @@ local setup_servers = function()
       config.init_options = gopls_config.init_options
     elseif name == "pyright" then
       config.root_dir = pyright_config.root_dir
+    elseif name == "solargraph" then
+      config.settings = solargraph_config.settings
     elseif name == "jsonls" then
       config.settings = jsonls_config.settings
     elseif name == "yamlls" then
