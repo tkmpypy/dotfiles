@@ -2669,7 +2669,6 @@ packer.startup {
                 priority = 11,
                 max_item_count = 50,
               },
-            }, {
               {
                 name = "buffer",
                 priority = 1,
@@ -2680,11 +2679,7 @@ packer.startup {
                   -- 	return vim.api.nvim_list_bufs()
                   -- end,
                   get_bufnrs = function()
-                    local bufs = {}
-                    for _, win in ipairs(vim.api.nvim_list_wins()) do
-                      bufs[vim.api.nvim_win_get_buf(win)] = true
-                    end
-                    return vim.tbl_keys(bufs)
+                    return vim.api.nvim_list_bufs()
                   end,
                 },
               },
