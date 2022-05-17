@@ -96,7 +96,16 @@ local jsonls_config = {
 local yamlls_config = {
   settings = {
     yaml = {
+      validate = true,
+      format = { enable = false },
+      hover = true,
+      schemaStore = {
+        enable = true,
+        url = "https://www.schemastore.org/api/json/catalog.json",
+      },
+      schemaDownload = { enable = true },
       schemas = require("schemastore").json.schemas(),
+      -- schemas = {}
     },
   },
 }
@@ -243,7 +252,7 @@ local setup_servers = function()
     elseif name == "jsonls" then
       config.settings = jsonls_config.settings
     elseif name == "yamlls" then
-      config.settings = yamlls_config.settings
+      config = require("yaml-companion").setup()
     elseif name == "dartls" then
       config.init_options = dart_config.init_options
     elseif name == "tsserver" then

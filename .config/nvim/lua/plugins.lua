@@ -2524,7 +2524,19 @@ packer.startup {
       -- use neovim built-in
       use {
         "neovim/nvim-lspconfig",
-        requires = { "williamboman/nvim-lsp-installer" },
+        requires = {
+          use {"williamboman/nvim-lsp-installer"},
+          use {
+            "someone-stole-my-name/yaml-companion.nvim",
+            requires = {
+              "nvim-lua/plenary.nvim",
+              "nvim-telescope/telescope.nvim",
+            },
+            config = function ()
+              require("telescope").load_extension("yaml_schema")
+            end
+          }
+        },
         config = function()
           require("nvim-lsp-installer").setup {}
           require "lsp_settings"
