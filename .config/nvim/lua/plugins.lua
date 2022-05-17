@@ -293,7 +293,7 @@ packer.startup {
       use {
         "b3nj5m1n/kommentary",
         opt = true,
-        event = {'BufEnter'},
+        event = { "BufEnter" },
         config = function()
           local config = require "kommentary.config"
           config.use_extended_mappings()
@@ -310,7 +310,7 @@ packer.startup {
       use {
         "danymat/neogen",
         opt = true,
-        event = {'BufEnter'},
+        event = { "BufEnter" },
         config = function()
           require("neogen").setup {
             enabled = true,
@@ -343,7 +343,7 @@ packer.startup {
     use {
       "towolf/vim-helm",
       opt = true,
-      ft = {"helm", "yaml"},
+      ft = { "helm", "yaml" },
       config = function()
         vim.cmd [[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]]
       end,
@@ -356,8 +356,35 @@ packer.startup {
 
     -- UI
     use {
+      disable = true,
+      "lewis6991/satellite.nvim",
+      requires = { "lewis6991/gitsigns.nvim" },
+      config = function()
+        require("satellite").setup {
+          current_only = false,
+          winblend = 50,
+          zindex = 40,
+          excluded_filetypes = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer", "windline" },
+          width = 2,
+          handlers = {
+            search = {
+              enable = true,
+            },
+            diagnostic = {
+              enable = true,
+            },
+            gitsigns = {
+              enable = true,
+            },
+          },
+        }
+      end,
+    }
+    use {
       "petertriho/nvim-scrollbar",
       requires = { "kevinhwang91/nvim-hlslens" },
+      opt = true,
+      event = { "BufEnter" },
       config = function()
         require("scrollbar").setup {
           show = true,
@@ -442,7 +469,7 @@ packer.startup {
     use {
       "lukas-reineke/indent-blankline.nvim",
       opt = true,
-      event = {"BufEnter"},
+      event = { "BufEnter" },
       config = function()
         -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 blend=nocombine]]
         -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B blend=nocombine]]
@@ -898,13 +925,13 @@ packer.startup {
           config = function()
             vim.cmd [[
               " Disable listing ignored files/directories
-              let g:fern_git_status#disable_ignored = 1
+              let g:fern_git_status#disable_ignored = 0
               " Disable listing untracked files
-              let g:fern_git_status#disable_untracked = 1
+              let g:fern_git_status#disable_untracked = 0
               " Disable listing status of submodules
-              let g:fern_git_status#disable_submodules = 1
+              let g:fern_git_status#disable_submodules = 0
               " Disable listing status of directories
-              let g:fern_git_status#disable_directories = 1
+              let g:fern_git_status#disable_directories = 0
             ]]
           end,
         },
@@ -953,14 +980,16 @@ packer.startup {
           files = 1,
           folder_arrows = 1,
         }
+        vim.g.nvim_tree_highlight_opened_files = 0
         vim.api.nvim_set_keymap("n", "<Leader>ft", ":NvimTreeToggle<CR>", {})
         vim.api.nvim_set_keymap("n", "<Leader>fr", ":NvimTreeRefresh<CR>", {})
         vim.api.nvim_set_keymap("n", "<Leader>ff", ":NvimTreeFindFile<CR>", {})
         require("nvim-tree").setup {
+          auto_reload_on_write = true,
           -- disables netrw completely
           disable_netrw = true,
           -- hijack netrw window on startup
-          hijack_netrw = true,
+          hijack_netrw = false,
           -- open the tree when running this setup function
           open_on_setup = false,
           -- will not open on setup if the filetype is in this list
@@ -1160,9 +1189,70 @@ packer.startup {
     use { "osyo-manga/vim-over" }
     use { "nicwest/vim-camelsnek" }
     use { "pechorin/any-jump.vim" }
-    use { "hrsh7th/vim-eft" }
+    use {
+      "phaazon/hop.nvim",
+      config = function()
+        require("hop").setup {
+          keys = "etovxqpdygfblzhckisuran",
+          jump_on_sole_occurrence = false,
+        }
+        vim.keymap.set(
+          "n",
+          "f",
+          "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "n",
+          "F",
+          "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "o",
+          "f",
+          "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "n",
+          "L",
+          "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "t",
+          "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "T",
+          "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "n",
+          "<leader>e",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "v",
+          "<leader>e",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
+          {}
+        )
+        vim.keymap.set(
+          "o",
+          "<leader>e",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
+          {}
+        )
+      end,
+    }
     use { "mtdl9/vim-log-highlighting", opt = true }
-    use { "tversteeg/registers.nvim" }
     use {
       "bfredl/nvim-miniyank",
       disable = true,
@@ -1210,7 +1300,7 @@ packer.startup {
               },
               file_previewer = require("telescope.previewers").cat.new,
               grep_previewer = require("telescope.previewers").vimgrep.new,
-              qflist_previewer = require("telescope.previewers").qflist.new
+              qflist_previewer = require("telescope.previewers").qflist.new,
             },
             pickers = {
               buffers = {
@@ -1224,8 +1314,8 @@ packer.startup {
                   n = { ["<c-d>"] = require("telescope.actions").delete_buffer },
                 },
                 find_files = {
-                  path_display = { "smart" }
-                }
+                  path_display = { "smart" },
+                },
               },
             },
             extensions = {
@@ -2647,7 +2737,7 @@ packer.startup {
             },
 
             -- You should specify your *installed* sources.
-            sources = cmp.config.sources({
+            sources = cmp.config.sources {
               {
                 name = "nvim_lsp",
                 priority = 10,
@@ -2683,7 +2773,7 @@ packer.startup {
                   end,
                 },
               },
-            }),
+            },
             formatting = {
               format = lspkind.cmp_format {
                 mode = "symbol_text",

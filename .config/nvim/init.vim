@@ -692,42 +692,6 @@ nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '
 " pechorin/any-jump.vim{{
 nnoremap <Leader>j :AnyJump<CR>
 " }}
-" eft {{
-let g:eft_ignorecase = v:true
-nmap ; <Plug>(eft-repeat)
-xmap ; <Plug>(eft-repeat)
-
-nmap f <Plug>(eft-f)
-xmap f <Plug>(eft-f)
-omap f <Plug>(eft-f)
-nmap F <Plug>(eft-F)
-xmap F <Plug>(eft-F)
-omap F <Plug>(eft-F)
-
-nmap t <Plug>(eft-t)
-xmap t <Plug>(eft-t)
-omap t <Plug>(eft-t)
-nmap T <Plug>(eft-T)
-xmap T <Plug>(eft-T)
-omap T <Plug>(eft-T)
-let g:eft_highlight = {
-    \   '1': {
-    \     'highlight': 'EftChar',
-    \     'allow_space': v:true,
-    \     'allow_operator': v:true,
-    \   },
-    \   '2': {
-    \     'highlight': 'EftSubChar',
-    \     'allow_space': v:false,
-    \     'allow_operator': v:false,
-    \   },
-    \   'n': {
-    \     'highlight': 'EftSubChar',
-    \     'allow_space': v:false,
-    \     'allow_operator': v:false,
-    \   }
-    \ }
-" }}
 
 " chowcho.nvim {{
 nnoremap <leader>ww :Chowcho<CR>
