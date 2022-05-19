@@ -205,37 +205,6 @@ xnoremap <silent> <leader>glc <cmd>'<,'>GitLinker current<CR>
 nnoremap <silent> <leader>gld <cmd>GitLinker default<CR>
 xnoremap <silent> <leader>gld <cmd>'<,'>GitLinker default<CR>
 
-lua << EOF
-require('scripts/note_talking').setup({
-  notes_dir="~/Dropbox/notes",
-  -- find_cmd="FzfLua live_grep cwd=~/Dropbox/notes",
-  find_cmd=function(notes_dir)
-    local p = vim.fn.expand(notes_dir)
-    return "lua require('fzf-lua').live_grep({cwd = '"..p.."'})"
-  end,
-  note = {
-    prefix = {
-      enabled = false
-      }
-    }
-})
-
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>ml",
-  "<cmd>OboeList<CR>",
-  { noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>mn",
-  "<cmd>OboeNew<CR>",
-  { noremap = true, silent = true }
-)
-EOF
-" }}
-
-
 
 " my utils {{
 
