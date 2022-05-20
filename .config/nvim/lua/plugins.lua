@@ -1209,25 +1209,19 @@ packer.startup {
           {}
         )
         vim.keymap.set(
-          "n",
+          {"n", "v"},
           "L",
           "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>",
           {}
         )
         vim.keymap.set(
-          "",
-          "t",
+          "n",
+          "mc",
           "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = false })<cr>",
           {}
         )
         vim.keymap.set(
-          "n",
-          "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>",
-          {}
-        )
-        vim.keymap.set(
-          "v",
+          {"n", "v"},
           "mw",
           "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>",
           {}
@@ -1239,13 +1233,7 @@ packer.startup {
           {}
         )
         vim.keymap.set(
-          "n",
-          "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
-          {}
-        )
-        vim.keymap.set(
-          "v",
+          {"n", "v"},
           "mW",
           "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
           {}
