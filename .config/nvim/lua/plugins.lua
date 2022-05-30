@@ -972,15 +972,6 @@ packer.startup {
       disable = false,
       config = function()
         local tree_cb = require("nvim-tree.config").nvim_tree_callback
-        vim.g.nvim_tree_git_hl = 1 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
-        vim.g.nvim_tree_root_folder_modifier = ":~" -- This is the default. See :help filename-modifiers for more options
-        vim.g.nvim_tree_show_icons = {
-          git = 1,
-          folders = 1,
-          files = 1,
-          folder_arrows = 1,
-        }
-        vim.g.nvim_tree_highlight_opened_files = 0
         vim.api.nvim_set_keymap("n", "<Leader>ft", ":NvimTreeToggle<CR>", {})
         vim.api.nvim_set_keymap("n", "<Leader>fr", ":NvimTreeRefresh<CR>", {})
         vim.api.nvim_set_keymap("n", "<Leader>ff", ":NvimTreeFindFile<CR>", {})
@@ -1090,6 +1081,7 @@ packer.startup {
             },
           },
           renderer = {
+            highlight_opened_files = "none",
             indent_markers = {
               enable = false,
               icons = {
@@ -1098,6 +1090,7 @@ packer.startup {
                 none = "  ",
               },
             },
+            highlight_git = true,
           },
         }
       end,
