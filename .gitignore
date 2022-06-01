@@ -55,6 +55,7 @@ setup/nvim*
 .config/nvim/dev-init.vim
 .config/nvim/coc-settings.json
 .config/nvim/plugin
+.config/k9s/config.*
 fishd.c4b301c57d0b
 .config/coc
 projectile-bookmarks.eld

@@ -41,7 +41,7 @@ zinit for \
 zinit light asdf-vm/asdf
 
 ### End of Zinit's installer chunk
-[ -f ~/.zshrc.`uname` ] && source ~/.zshrc.`uname`
+[ -f ~/.zshrc.`uname`.`uname -m` ] && source ~/.zshrc.`uname`.`uname -m`
 
 # alias
 alias ll='ls -la'

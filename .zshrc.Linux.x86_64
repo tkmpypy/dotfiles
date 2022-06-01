@@ -45,3 +45,7 @@ zinit load cli/cli
 # bottom
 zinit ice from"gh-r" as"program" bpick"*x86_64-unknown-linux*" pick"bottom/btm"
 zinit load ClementTsang/bottom
+
+# k9s
+zinit ice from"gh-r" as"program" bpick"*Linux_x86_64*" pick"k9s"
+zinit load derailed/k9s

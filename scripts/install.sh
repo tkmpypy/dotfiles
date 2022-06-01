@@ -7,6 +7,9 @@ DOTFILES_DIR=$(
   pwd
 )
 
+OS=$(uname)
+ARCH=$(uname -m)
+
 function exec_cmd() {
   echo $1
   eval $1
@@ -26,14 +29,14 @@ function clone_dep() {
 }
 
 function run_os_scripts() {
-  exec_cmd "$DOTFILES_DIR/scripts/$(uname)/system.sh"
-  exec_cmd "$DOTFILES_DIR/scripts/$(uname)/brew.sh"
+  exec_cmd "$DOTFILES_DIR/scripts/$OS/system.sh"
+  exec_cmd "$DOTFILES_DIR/scripts/$OS/brew.sh"
 }
 
 function install() {
   exec_cmd "mkdir -p $HOME/.tmux"
 
-  DOT_FILES=(.zshrc .zprofile .zshrc.$(uname) .vimrc .tmux.conf .ideavimrc .p10k.zsh .terminfo)
+  DOT_FILES=(.zshrc .zprofile .zshrc.$OS.$ARCH .vimrc .tmux.conf .ideavimrc .p10k.zsh .terminfo)
   for file in ${DOT_FILES[@]}; do
     link_file $DOTFILES_DIR $file $HOME
   done

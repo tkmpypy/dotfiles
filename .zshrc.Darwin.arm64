@@ -1,0 +1,51 @@
+# Theme
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# starship
+# zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" atload='eval "$(starship init zsh)"'
+# zinit load starship/starship
+
+# fzf
+zinit ice from"gh-r" as"program" bpick"*darwin_amd*"
+zinit load junegunn/fzf
+
+# Neovim
+# zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
+# zinit load neovim/neovim
+
+# rg
+zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" pick"ripgrep*/rg"
+zinit load BurntSushi/ripgrep
+
+# delta
+zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
+zinit load dandavison/delta
+
+# bat
+zinit ice from"gh-r" as"program" bpick"*darwin*" pick"bat*/bat"
+zinit load sharkdp/bat
+
+# glow
+zinit ice from"gh-r" as"program" bpick"*darwin*" pick"glow*/glow"
+zinit load charmbracelet/glow
+
+# lazygit
+zinit ice from"gh-r" as"program" bpick"*Darwin_x86_64*" pick"lazygit*/lazygit"
+zinit load jesseduffield/lazygit
+
+# navi
+zinit ice from"gh-r" as"program" bpick"*darwin*" pick"navi"
+zinit load denisidoro/navi
+
+# gh
+zinit ice from"gh-r" as"program" bpick"*macOS_amd64.tar.gz" pick"gh*/bin/gh"
+zinit load cli/cli
+# gh extension install dlvhdr/gh-dash
+
+# bottom
+zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" pick"bottom/btm"
+zinit load ClementTsang/bottom
+
+# k9s
+zinit ice from"gh-r" as"program" bpick"*Darwin_arm64*" pick"k9s"
+zinit load derailed/k9s
