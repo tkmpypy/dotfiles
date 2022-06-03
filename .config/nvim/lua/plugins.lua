@@ -1202,7 +1202,7 @@ packer.startup {
           {}
         )
         vim.keymap.set(
-          {"n", "v"},
+          { "n", "v" },
           "L",
           "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>",
           {}
@@ -1214,7 +1214,7 @@ packer.startup {
           {}
         )
         vim.keymap.set(
-          {"n", "v"},
+          { "n", "v" },
           "mw",
           "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>",
           {}
@@ -1226,7 +1226,7 @@ packer.startup {
           {}
         )
         vim.keymap.set(
-          {"n", "v"},
+          { "n", "v" },
           "mW",
           "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
           {}
@@ -2171,7 +2171,7 @@ packer.startup {
     use {
       "sindrets/diffview.nvim",
       config = function()
-        local actions = require("diffview.actions")
+        local actions = require "diffview.actions"
         require("diffview").setup {
           diff_binaries = false, -- Show diffs for binaries
           enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
@@ -2222,13 +2222,13 @@ packer.startup {
             -- The `view` bindings are active in the diff buffers, only when the current
             -- tabpage is a Diffview.
             view = {
-              ["q"]     = actions.close,
+              ["q"] = actions.close,
             },
             file_panel = {
-              ["q"]     = actions.close,
+              ["q"] = actions.close,
             },
             file_history_panel = {
-              ["q"]     = actions.close,
+              ["q"] = actions.close,
             },
             option_panel = {
               ["q"] = actions.close,
