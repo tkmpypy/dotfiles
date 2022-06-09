@@ -27,32 +27,26 @@ local custom_flags = { debounce_text_changes = 300 }
 
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
-  if client.server_capabilities.document_highlight then
-    local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_doc_hi", { clear = true })
-    vim.api.nvim_create_autocmd({ "CursorHold" }, {
-      group = gid,
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.document_highlight()
-      end,
+  -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
+  if client.server_capabilities.documentHighlightProvider then
+    vim.api.nvim_create_augroup("lsp_document_highlight", {
+      clear = false,
     })
-    vim.api.nvim_create_autocmd({ "CursorMoved" }, {
-      group = gid,
+    vim.api.nvim_clear_autocmds {
       buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.clear_references()
-      end,
+      group = "lsp_document_highlight",
+    }
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      group = "lsp_document_highlight",
+      buffer = bufnr,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = "lsp_document_highlight",
+      buffer = bufnr,
+      callback = vim.lsp.buf.clear_references,
     })
   end
-
-  -- local gid = vim.api.nvim_create_augroup("tkmpypy_lsp_diagnostic", {clear=true})
-  --   vim.api.nvim_create_autocmd({"CursorHold"}, {
-  --     group = gid,
-  --     buffer = bufnr,
-  --     callback = function()
-  --       vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
-  --     end
-  --   })
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
   -- I only want to use null-ls formatting
@@ -145,9 +139,9 @@ local solargraph_config = {
   settings = {
     solargraph = {
       diagnostics = false,
-      useBundler = false
-    }
-  }
+      useBundler = false,
+    },
+  },
 }
 
 local pyright_config = {
