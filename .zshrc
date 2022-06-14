@@ -161,7 +161,6 @@ function switch_tmux_project_from_ghq() {
 }
 
 zle -N switch_tmux_project_from_ghq
-bindkey '^G' switch_tmux_project_from_ghq
 
 
 # Load a few important annexes, without Turbo
