@@ -49,3 +49,7 @@ zinit load ClementTsang/bottom
 # k9s
 zinit ice from"gh-r" as"program" bpick"*Darwin_arm64*" pick"k9s"
 zinit load derailed/k9s
+
+# ghq
+zinit ice from"gh-r" as"program" bpick"*darwin_amd64*" pick"ghq*/ghq"
+zinit load x-motemen/ghq
