@@ -134,12 +134,10 @@ if [ -f $HOME/google-cloud-sdk/completion.zsh.inc ]; then . $HOME/google-cloud-s
 
 function switch_tmux_project_from_ghq() {
   local project dir repository session current_session
-  project=$(ghq list | fzf --prompt='Project >')
+  dir=$(ghq list -p | sed -e "s|${HOME}|~|" | fzf-tmux -p 70%,70% --prompt='Project> ' --preview "bat \$(eval echo {})/README.md" --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up)
 
-  if [[ $project == "" ]]; then
+  if [[ $dir == "" ]]; then
     return 1
-  elif [[ -d ~/ghq/${project} ]]; then
-    dir=~/ghq/${project}
   fi
 
   if [[ ! -z ${TMUX} ]]; then
@@ -148,17 +146,17 @@ function switch_tmux_project_from_ghq() {
     current_session=$(tmux list-sessions | grep 'attached' | cut -d":" -f1)
 
     if [[ $current_session =~ ^[0-9]+$ ]]; then
-      cd $dir
+      eval cd "${dir}"
       tmux rename-session $session
     else
-      tmux list-sessions | cut -d":" -f1 | grep -e "^$session\$" > /dev/null
+      tmux list-sessions | cut -d":" -f1 | grep -e "^${session}\$" > /dev/null
       if [[ $? != 0 ]]; then
-        tmux new-session -d -c $dir -s $session
+        tmux new-session -d -c $(eval echo "${dir}") -s $session
       fi
       tmux switch-client -t $session
     fi
   else
-    cd $dir
+    eval cd "${dir}"
   fi
 }
 

@@ -8,6 +8,8 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # fzf
 zinit ice from"gh-r" as"program" bpick"*linux_amd*"
 zinit load junegunn/fzf
+zinit ice lucid as"program"
+zinit snippet 'https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux'
 
 # Neovim
 # zinit ice from"gh-r" as"program" bpick"*linux*" pick"nvim-linux64/bin/nvim" ver"nightly"
