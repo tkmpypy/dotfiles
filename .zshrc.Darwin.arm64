@@ -2,11 +2,11 @@
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # starship
-# zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" atload='eval "$(starship init zsh)"'
+# zinit ice from"gh-r" as"program" bpick"*aarch64-apple-darwin*" atload='eval "$(starship init zsh)"'
 # zinit load starship/starship
 
 # fzf
-zinit ice from"gh-r" as"program" bpick"*darwin_amd*"
+zinit ice from"gh-r" as"program" bpick"*darwin_arm*"
 zinit load junegunn/fzf
 
 # Neovim
@@ -26,11 +26,11 @@ zinit ice from"gh-r" as"program" bpick"*darwin*" pick"bat*/bat"
 zinit load sharkdp/bat
 
 # glow
-zinit ice from"gh-r" as"program" bpick"*darwin*" pick"glow*/glow"
+zinit ice from"gh-r" as"program" bpick"*darwin_arm64*" pick"glow*/glow"
 zinit load charmbracelet/glow
 
 # lazygit
-zinit ice from"gh-r" as"program" bpick"*Darwin_x86_64*" pick"lazygit*/lazygit"
+zinit ice from"gh-r" as"program" bpick"*Darwin_arm64*" pick"lazygit*/lazygit"
 zinit load jesseduffield/lazygit
 
 # navi

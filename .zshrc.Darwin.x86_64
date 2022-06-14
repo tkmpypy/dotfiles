@@ -26,7 +26,7 @@ zinit ice from"gh-r" as"program" bpick"*darwin*" pick"bat*/bat"
 zinit load sharkdp/bat
 
 # glow
-zinit ice from"gh-r" as"program" bpick"*darwin*" pick"glow*/glow"
+zinit ice from"gh-r" as"program" bpick"*darwin_x86_64*" pick"glow*/glow"
 zinit load charmbracelet/glow
 
 # lazygit

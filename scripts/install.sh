@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 set -e
 
@@ -51,9 +51,9 @@ function install() {
 }
 
 function main() {
+  install
   clone_dep
   run_os_scripts
-  install
 }
 
 main
