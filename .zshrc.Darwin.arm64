@@ -55,3 +55,8 @@ zinit load derailed/k9s
 # ghq
 zinit ice from"gh-r" as"program" bpick"*darwin_amd64*" pick"ghq*/ghq"
 zinit load x-motemen/ghq
+
+# git-cliff
+zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin.tar.gz" pick"git-cliff*/git-cliff"
+zinit load orhun/git-cliff
+
