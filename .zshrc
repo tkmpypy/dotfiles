@@ -35,8 +35,6 @@ zinit for \
 #     mkdir ~/.zsh_completions
 # fi
 # zinit creinstall ~/.zsh_completions
-
-
 zinit light asdf-vm/asdf
 
 [ -f ~/.zshrc.`uname`.`uname -m` ] && source ~/.zshrc.`uname`.`uname -m`
@@ -106,8 +104,8 @@ setopt hist_verify
 bindkey "^P" up-line-or-search
 bindkey "^N" down-line-or-search
 
-bindkey '^R' history-incremental-search-backward
-bindkey '^S' history-incremental-search-forward
+# bindkey '^R' history-incremental-search-backward
+# bindkey '^S' history-incremental-search-forward
 
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
@@ -161,6 +159,14 @@ function switch_tmux_project_from_ghq() {
 }
 
 zle -N switch_tmux_project_from_ghq
+
+function fzf-select-history() {
+    BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+zle -N fzf-select-history
+bindkey '^r' fzf-select-history
 
 
 # Load a few important annexes, without Turbo
