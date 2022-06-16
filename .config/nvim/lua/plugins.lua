@@ -26,6 +26,10 @@ if fn.empty(fn.glob(packer_compiled_path)) == 0 then
   require "packer_compiled"
 end
 
+-- See https://github.com/wbthomason/packer.nvim/issues/202#issuecomment-826481883
+packer.init({
+  max_jobs=50
+})
 packer.startup {
   function(use)
     -- Packer can manage itself as an optional plugin
