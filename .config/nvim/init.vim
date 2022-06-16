@@ -139,7 +139,7 @@ set nobackup
 set nowritebackup
 
 " Better display for messages
-set cmdheight=1
+set cmdheight=0
 
 
 " don't give |ins-completion-menu| messages.

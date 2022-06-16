@@ -468,7 +468,7 @@ function! s:setup_coc()
     " Use `:Format` to format current buffer
     command! -nargs=0 Format :call CocActionAsync('format')
     nnoremap <silent> <space>F  :<C-u>Format<cr>
-    
+
     nnoremap <silent> <space>I  :<C-u>OR<cr>
     " coc-translator
     " popup
@@ -819,7 +819,7 @@ let NERDTreeHijackNetrw = 0
 "     setlocal norelativenumber
 "     let b:indentLine_enabled = 0
 " endfunction
-" 
+"
 " let g:dashboard_default_executive ='fzf'
 " let g:dashboard_custom_shortcut={
 "      \ 'last_session'       : 'SPC s l',
@@ -831,7 +831,7 @@ let NERDTreeHijackNetrw = 0
 "      \ }
 " nmap <Leader>ss :<C-u>SessionSave<CR>
 " nmap <Leader>sl :<C-u>SessionLoad<CR>
-" 
+"
 " augroup dashboard-custom
 "     autocmd FileType dashboard IndentLinesDisable
 " augroup END
