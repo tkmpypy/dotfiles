@@ -23,7 +23,7 @@ return {
   keys = {
     { key = "+", mods = "LEADER|CTRL", action = "IncreaseFontSize" },
     { key = "-", mods = "LEADER|CTRL", action = "DecreaseFontSize" },
-    { key = "=", mods = "LEADER|CTRL", action = "ResetFontSize" },
+    { key = "0", mods = "LEADER|CTRL", action = "ResetFontSize" },
     { key = "Enter", mods = "LEADER|ALT", action = "ToggleFullScreen" },
     { key = "r", mods = "LEADER|ALT", action = "ReloadConfiguration" },
   },
