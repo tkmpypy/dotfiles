@@ -12,3 +12,7 @@ brew "tmux"
 brew "gpg"
 brew "ffmpeg"
 breq "jq"
+breq "imagemagick"
+breq "ghostscript"
+breq "wget"
+

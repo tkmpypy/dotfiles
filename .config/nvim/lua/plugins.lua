@@ -1435,7 +1435,7 @@ packer.startup {
           )
           vim.api.nvim_set_keymap(
             "n",
-            "<leader>S",
+            "<leader>sr",
             "<cmd>lua require('telescope.builtin').resume{}<CR>",
             require("scripts/util").keymaps.default_opt
           )
