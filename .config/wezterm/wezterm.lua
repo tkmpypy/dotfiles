@@ -21,9 +21,9 @@ return {
   color_scheme = "nord",
   leader = { key = ",", mods = "CTRL", timeout_milliseconds = 1000 },
   keys = {
-    { key = "^", mods = "LEADER|CTRL", action = "IncreaseFontSize" },
+    { key = "+", mods = "LEADER|CTRL", action = "IncreaseFontSize" },
     { key = "-", mods = "LEADER|CTRL", action = "DecreaseFontSize" },
-    { key = "0", mods = "LEADER|CTRL", action = "ResetFontSize" },
+    { key = "=", mods = "LEADER|CTRL", action = "ResetFontSize" },
     { key = "Enter", mods = "LEADER|ALT", action = "ToggleFullScreen" },
     { key = "r", mods = "LEADER|ALT", action = "ReloadConfiguration" },
   },
