@@ -3,7 +3,11 @@
 set -x
 set -e
 
-REPO_PATH=~/repos/wezterm
+REPO_PATH=~/ghq/github.com/wez/wezterm
+ARCH=x86_64
+if [[ $(uname m)=arm64 ]] ; then
+    ARCH=aarch64
+fi
 cd $REPO_PATH
 
 git pull
@@ -13,7 +17,7 @@ git submodule update --init --recursive
 
 
 export MACOSX_DEPLOYMENT_TARGET=10.9
-cargo build --target x86_64-apple-darwin --all --release
+cargo build --target ${ARCH}-apple-darwin --all --release
 
 
 builddir=WezTerm-macos-nightly
