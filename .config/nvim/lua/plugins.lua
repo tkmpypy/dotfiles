@@ -27,9 +27,9 @@ if fn.empty(fn.glob(packer_compiled_path)) == 0 then
 end
 
 -- See https://github.com/wbthomason/packer.nvim/issues/202#issuecomment-826481883
-packer.init({
-  max_jobs=50
-})
+packer.init {
+  max_jobs = 50,
+}
 packer.startup {
   function(use)
     -- Packer can manage itself as an optional plugin
@@ -42,27 +42,30 @@ packer.startup {
         require("impatient").enable_profile()
       end,
     }
-    use { "antoinemadec/FixCursorHold.nvim", config = function ()
-      vim.g.cursorhold_updatetime = 300
-    end }
+    use {
+      "antoinemadec/FixCursorHold.nvim",
+      config = function()
+        vim.g.cursorhold_updatetime = 300
+      end,
+    }
 
     -- ColorScheme
     use {
       "rebelot/kanagawa.nvim",
       config = function()
         require("kanagawa").setup {
-          undercurl = true,           -- enable undercurls
+          undercurl = true, -- enable undercurls
           commentStyle = { italic = true },
           functionStyle = {},
-          keywordStyle = { italic = true},
+          keywordStyle = { italic = true },
           statementStyle = { bold = true },
           typeStyle = {},
-          variablebuiltinStyle = { italic = true},
-          specialReturn = true,       -- special highlight for the return keyword
-          specialException = true,    -- special highlight for exception handling keywords
-          transparent = false,        -- do not set background color
-          dimInactive = false,        -- dim inactive window `:h hl-NormalNC`
-          globalStatus = false,       -- adjust window separators highlight for laststatus=3
+          variablebuiltinStyle = { italic = true },
+          specialReturn = true, -- special highlight for the return keyword
+          specialException = true, -- special highlight for exception handling keywords
+          transparent = false, -- do not set background color
+          dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+          globalStatus = false, -- adjust window separators highlight for laststatus=3
           colors = {},
           overrides = {},
         }
@@ -536,14 +539,9 @@ packer.startup {
           },
           sections = {
             lualine_a = { "mode" },
-            lualine_b = {
-              "branch",
-              {
-                "diff",
-                -- Is it me or the symbol for modified us really weird
-                symbols = { added = " ", modified = "柳", removed = " " },
-              },
-            },
+            lualine_b = {},
+            lualine_y = {},
+            lualine_z = {},
             lualine_c = {
               {
                 "filetype",
@@ -560,11 +558,17 @@ packer.startup {
                 icon = " ",
               },
               "diagnostics",
-              "lsp_progress",
             },
-            lualine_x = { "encoding" },
-            lualine_y = { "progress" },
-            lualine_z = { "location" },
+            lualine_x = {
+              "branch",
+              {
+                "diff",
+                -- Is it me or the symbol for modified us really weird
+                symbols = { added = " ", modified = "柳", removed = " " },
+              },
+              "encoding",
+              util.buffer.scroll_bar,
+            },
           },
           inactive_sections = {
             lualine_a = {},
@@ -771,6 +775,33 @@ packer.startup {
             { b_components.line_col_lua, hl_list.Inactive },
           },
         }
+        local statuslines = {
+          default,
+          quickfix,
+          explorer,
+        }
+
+        -- if vim.g.lsp_client_type == "neovim" then
+        --   local navic = require "nvim-navic"
+        --   local winbar = {
+        --     filetypes = { "winbar" },
+        --     active = {
+        --       { " " },
+        --       { "" },
+        --       {
+        --         function(_)
+        --           return navic.get_location()
+        --         end,
+        --       },
+        --     },
+        --     inactive = {},
+        --     enable = function(bufnr, winid)
+        --       return navic.is_available()
+        --     end, --a function to disable winbar on some window or filetype
+        --   }
+
+        --   table.insert(statuslines, winbar)
+        -- end
 
         windline.setup {
           global_skip_filetypes = {
@@ -783,11 +814,7 @@ packer.startup {
             -- ADD MORE COLOR HERE ----
             return colors
           end,
-          statuslines = {
-            default,
-            quickfix,
-            explorer,
-          },
+          statuslines = statuslines,
         }
       end,
     }
@@ -1231,7 +1258,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
+          ,
           {}
         )
         vim.keymap.set(
@@ -1243,7 +1271,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
+          ,
           {}
         )
       end,
@@ -1358,7 +1387,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1400,7 +1430,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
