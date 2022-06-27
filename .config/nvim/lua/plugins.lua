@@ -239,7 +239,7 @@ packer.startup {
               "html",
               "vim",
               "swift",
-              -- "markdown"
+              "markdown"
             },
             yati = { enable = true },
             textobjects = {
@@ -523,7 +523,7 @@ packer.startup {
       "nvim-lualine/lualine.nvim",
       -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
       requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
-      disable = true,
+      disable = false,
       config = function()
         local util = require "scripts/util"
         require("lualine").setup {
@@ -557,7 +557,11 @@ packer.startup {
                 util.lsp.current_lsp,
                 icon = " ",
               },
-              "diagnostics",
+              {
+                "diagnostics",
+                always_visible = true,
+                cond = function() return true end
+              }
             },
             lualine_x = {
               "branch",
@@ -591,7 +595,7 @@ packer.startup {
     }
     use {
       "windwp/windline.nvim",
-      disable = false,
+      disable = true,
       config = function()
         local windline = require "windline"
         local helper = require "windline.helpers"
