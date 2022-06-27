@@ -172,7 +172,7 @@ packer.startup {
             whichkey = false,
             indent_blankline = true,
             vim_illuminate = true,
-            lspsaga = false,
+            lspsaga = true,
           },
         }
       end,
@@ -238,8 +238,7 @@ packer.startup {
               "tsx",
               "html",
               "vim",
-              "swift",
-              "markdown"
+              "markdown",
             },
             yati = { enable = true },
             textobjects = {
@@ -535,7 +534,8 @@ packer.startup {
             component_separators = "",
             section_separators = "",
             disabled_filetypes = {},
-            always_divide_middle = false,
+            always_divide_middle = true,
+            globalstatus = true,
           },
           sections = {
             lualine_a = { "mode" },
@@ -551,20 +551,28 @@ packer.startup {
                 "filename",
                 padding = 0,
                 symbols = { modified = "  ", readonly = "  ", unnamed = "  " },
-                separator = " ",
+                separator = "    ",
+                path = 1,
               },
               {
                 util.lsp.current_lsp,
-                icon = " ",
+                icon = "",
               },
               {
                 "diagnostics",
                 always_visible = true,
-                cond = function() return true end
-              }
+                cond = function()
+                  return true
+                end,
+              },
             },
             lualine_x = {
-              "branch",
+              {
+                "branch",
+                color = {
+                  fg = require("lualine/themes/auto").visual.b.fg,
+                },
+              },
               {
                 "diff",
                 -- Is it me or the symbol for modified us really weird
@@ -2532,11 +2540,75 @@ packer.startup {
               require("telescope").load_extension "yaml_schema"
             end,
           },
+          use {
+            "glepnir/lspsaga.nvim",
+            branch = "main",
+            config = function()
+              local saga = require "lspsaga"
+
+              saga.init_lsp_saga {
+                -- your configuration
+                -- -- "single" | "double" | "rounded" | "bold" | "plus"
+                border_style = "single",
+                -- Error, Warn, Info, Hint
+                -- use emoji like
+                -- { "🙀", "😿", "😾", "😺" }
+                -- or
+                -- { "😡", "😥", "😤", "😐" }
+                -- and diagnostic_header can be a function type
+                -- must return a string and when diagnostic_header
+                -- is function type it will have a param `entry`
+                -- entry is a table type has these filed
+                -- { bufnr, code, col, end_col, end_lnum, lnum, message, severity, source }
+                diagnostic_header = { " ", " ", " ", "ﴞ " },
+                -- show diagnostic source
+                show_diagnostic_source = true,
+                -- add bracket or something with diagnostic source, just have 2 elements
+                diagnostic_source_bracket = {},
+                -- use emoji lightbulb in default
+                code_action_icon = "💡",
+                -- if true can press number to execute the codeaction in codeaction window
+                code_action_num_shortcut = true,
+                -- same as nvim-lightbulb but async
+                code_action_lightbulb = {
+                  enable = true,
+                  sign = true,
+                  sign_priority = 20,
+                  virtual_text = true,
+                },
+                -- separator in finder
+                finder_separator = "  ",
+                -- preview lines of lsp_finder and definition preview
+                max_preview_lines = 10,
+                finder_action_keys = {
+                  open = "o",
+                  vsplit = "s",
+                  split = "i",
+                  tabe = "t",
+                  quit = "q",
+                  scroll_down = "<C-f>",
+                  scroll_up = "<C-b>", -- quit can be a table
+                },
+                code_action_keys = {
+                  quit = "q",
+                  exec = "<CR>",
+                },
+                rename_action_quit = "<C-c>",
+                definition_preview_icon = "  ",
+                -- if you don't use nvim-lspconfig you must pass your server name and
+                -- the related filetypes into this table
+                -- like server_filetype_map = { metals = { "sbt", "scala" } }
+                server_filetype_map = {},
+              }
+            end,
+          },
         },
         config = function()
+          local action = require "lspsaga.action"
           require("nvim-lsp-installer").setup {}
           require "lsp_settings"
           local o = require("scripts/util").keymaps.default_opt
+          vim.keymap.set("n", "gh", require("lspsaga.finder").lsp_finder, { silent = true })
           vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", o)
           vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", o)
           -- vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", o)
@@ -2544,16 +2616,40 @@ packer.startup {
           -- nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
           -- nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 
-          vim.keymap.set("n", "gp", "<cmd>lua vim.lsp.buf.peek_definition()<CR>", o)
-          vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", o)
-          vim.keymap.set("n", "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", o)
+          -- vim.keymap.set("n", "gp", "<cmd>lua vim.lsp.buf.peek_definition()<CR>", o)
+          vim.keymap.set("n", "gp", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
+
+          -- vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", o)
+          vim.keymap.set("n", "K", require("lspsaga.hover").render_hover_doc, { silent = true })
+          -- scroll down hover doc or scroll in definition preview
+          vim.keymap.set("n", "<C-f>", function()
+            action.smart_scroll_with_saga(1)
+          end, { silent = true })
+          -- scroll up hover doc
+          vim.keymap.set("n", "<C-b>", function()
+            action.smart_scroll_with_saga(-1)
+          end, { silent = true })
+
+          -- vim.keymap.set("n", "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", o)
+          vim.keymap.set("n", "H", "<Cmd>Lspsaga signature_help<CR>", { silent = true })
+
           vim.keymap.set("n", "<leader>F", "<cmd>lua vim.lsp.buf.format{async = true}<CR>", o)
-          vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", o)
-          vim.keymap.set("n", "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", o)
+
+          -- vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", o)
+          vim.keymap.set("n", "rn", "<cmd>Lspsaga rename<CR>", { silent = true })
+
+          -- vim.keymap.set("n", "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", o)
+          vim.keymap.set("n", "<leader>ac", "<cmd>Lspsaga code_action<CR>", { silent = true })
+          vim.keymap.set("v", "<leader>ac", "<cmd><C-U>Lspsaga range_code_action<CR>", { silent = true })
+
           vim.keymap.set("n", "<leader>dc", "<cmd>lua vim.diagnostic.open_float()<CR>", o)
-          vim.keymap.set("n", "<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", o)
-          vim.keymap.set("n", "<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", o)
           vim.keymap.set("n", "<leader>do", "<cmd>lua vim.diagnostic.setloclist()<CR>", o)
+
+          -- vim.keymap.set("n", "<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", o)
+          -- vim.keymap.set("n", "<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", o)
+          -- or use command
+          vim.keymap.set("n", "<leader>dp", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
+          vim.keymap.set("n", "<leader>dn", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
         end,
       }
       use {
