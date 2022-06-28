@@ -178,9 +178,7 @@ augroup vimrc
   autocmd!
 augroup END
 
-
 lua require('plugins')
-" lua require('plugins_jetpack')
 
 " load my scripts {{
 lua << EOF
@@ -199,6 +197,7 @@ require('scripts/random_colorscheme').set_random_colorscheme({
 require('scripts/gen_gitignore').initialize()
 require('scripts/git_linker').initialize()
 EOF
+
 
 nnoremap <silent> <leader>glc <cmd>GitLinker current<CR>
 xnoremap <silent> <leader>glc <cmd>'<,'>GitLinker current<CR>

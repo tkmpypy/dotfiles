@@ -520,15 +520,18 @@ packer.startup {
     use { "kyazdani42/nvim-web-devicons" }
     use {
       "nvim-lualine/lualine.nvim",
-      -- requires = { { "kyazdani42/nvim-web-devicons", opt = true }, { "arkav/lualine-lsp-progress" } },
+      opt = true,
+      event = { "ColorScheme" },
       requires = { { "kyazdani42/nvim-web-devicons", opt = true } },
       disable = false,
       config = function()
         local util = require "scripts/util"
+        local lualine_utils = require "lualine.utils.utils"
+        local theme = require "lualine/themes/onedark"
         require("lualine").setup {
           options = {
             icons_enabled = true,
-            theme = "auto",
+            theme = theme,
             -- component_separators = { left = "", right = "" },
             -- section_separators = { left = "", right = "" },
             component_separators = "",
@@ -557,20 +560,57 @@ packer.startup {
               {
                 util.lsp.current_lsp,
                 icon = "",
+                color = {
+                  fg = theme.normal.a.bg,
+                  gui = "bold",
+                },
               },
               {
                 "diagnostics",
                 always_visible = true,
-                cond = function()
-                  return true
-                end,
+                diagnostics_color = {
+                  error = {
+                    fg = lualine_utils.extract_color_from_hllist("fg", {
+                      "DiagnosticError",
+                      "DiagnosticSignError",
+                      "LspDiagnosticsDefaultError",
+                      "DiffDelete",
+                      "ErrorText",
+                    }, "#e32636"),
+                  },
+                  warn = {
+                    fg = lualine_utils.extract_color_from_hllist("fg", {
+                      "DiagnosticWarn",
+                      "DiagnosticSignWarn",
+                      "LspDiagnosticsDefaultWarning",
+                      "DiffText",
+                      "WarningText",
+                    }, "#ffa500"),
+                  },
+                  info = {
+                    fg = lualine_utils.extract_color_from_hllist("fg", {
+                      "DiagnosticInfo",
+                      "DiagnosticSignInfo",
+                      "LspDiagnosticsDefaultInformation",
+                      "Normal",
+                      "InfoText",
+                    }, "#ffffff"),
+                  },
+                  hint = {
+                    fg = lualine_utils.extract_color_from_hllist(
+                      "fg",
+                      { "DiagnosticHint", "DiagnosticSignHint", "LspDiagnosticsDefaultHint", "DiffChange", "HintText" },
+                      "#273faf"
+                    ),
+                  },
+                },
               },
             },
             lualine_x = {
               {
                 "branch",
                 color = {
-                  fg = require("lualine/themes/auto").visual.b.fg,
+                  fg = theme.visual.a.bg,
                 },
               },
               {
@@ -1270,8 +1310,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
           {}
         )
         vim.keymap.set(
@@ -1283,8 +1322,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
           {}
         )
       end,
@@ -1399,8 +1437,7 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
-            ,
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1442,8 +1479,7 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
-            ,
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1731,7 +1767,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
