@@ -7,6 +7,7 @@ M.set_random_colorscheme = function (colors_tbl)
 
   local cs = colors_tbl[n]
   vim.cmd('colorscheme '..cs)
+  vim.notify_once(cs, vim.log.levels.INFO)
 end
 
 return M

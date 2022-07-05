@@ -1310,7 +1310,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
+          ,
           {}
         )
         vim.keymap.set(
@@ -1322,7 +1323,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
+          ,
           {}
         )
       end,
@@ -1437,7 +1439,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1479,7 +1482,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1767,7 +1771,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
@@ -2607,7 +2611,7 @@ packer.startup {
                 code_action_num_shortcut = true,
                 -- same as nvim-lightbulb but async
                 code_action_lightbulb = {
-                  enable = true,
+                  enable = false,
                   sign = true,
                   sign_priority = 20,
                   virtual_text = true,
