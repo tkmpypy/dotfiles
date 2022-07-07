@@ -2757,9 +2757,9 @@ packer.startup {
               -- null_ls.builtins.code_actions.eslint.with({
               --   timeout = 50000
               -- }),
-              null_ls.builtins.diagnostics.golangci_lint.with {
-                timeout = 50000,
-              },
+              -- null_ls.builtins.diagnostics.golangci_lint.with {
+              --   timeout = 50000,
+              -- },
               null_ls.builtins.formatting.prettier.with {
                 timeout = 50000,
               },

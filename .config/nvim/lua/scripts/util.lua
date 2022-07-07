@@ -19,11 +19,25 @@ local function same_until(first, second)
   end
   return 1
 end
+
 local function reverse(tbl)
   for i = 1, math.floor(#tbl / 2) do
     local j = #tbl - i + 1
     tbl[i], tbl[j] = tbl[j], tbl[i]
   end
+end
+
+M.tbl.set = function(list)
+  local set = {}
+  for _, l in ipairs(list) do
+    set[l] = true
+  end
+  return set
+end
+
+M.tbl.insert_set = function(list, v)
+  table.insert(list, v)
+  list[v] = true
 end
 
 M.buffer.scroll_bar_blocks = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" }
@@ -189,19 +203,21 @@ M.lib.prequire = function(...)
   return nil
 end
 
-M.lsp.current_lsp = function ()
-  local msg = 'No Active Lsp'
-  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+M.lsp.current_lsp = function()
+  local msg = "No Active Lsp"
+  local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
   local clients = vim.lsp.get_active_clients()
   if next(clients) == nil then
     return msg
   end
 
-  local client_names = {}
+  local client_names = M.tbl.set {}
   for _, client in ipairs(clients) do
-    local filetypes = client.config.filetypes
-    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-      table.insert(client_names, client.name)
+    if not client_names[client.name] then
+      local filetypes = client.config.filetypes
+      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+        M.tbl.insert_set(client_names, client.name)
+      end
     end
   end
 
