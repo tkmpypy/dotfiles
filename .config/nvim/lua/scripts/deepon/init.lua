@@ -5,6 +5,7 @@ local fn = vim.fn
 
 local dirname = "deepon"
 local config_fname = "config.json"
+local config_path = fn.stdpath("data") .. "/" .. dirname .. "/" .. config_fname
 
 _G.tkmpypy = _G.tkmpypy or {}
 _G.tkmpypy.Deepon = _G.tkmpypy.Deepon or {}
@@ -35,7 +36,6 @@ local initialize = function ()
   -- create config file to stdpath("data") when not found file
 
   -- check exists config file
-  local config_path = fn.stdpath("data") .. "/" .. dirname .. "/" .. config_fname
   -- question api token and save to config file
 end
 

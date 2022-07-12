@@ -135,6 +135,12 @@ local gopls_config = {
   },
 }
 
+-- local golangci_lint_ls_config = {
+--   init_options = {
+--     command = { "golangci-lint", "run", "--out-format", "json" },
+--   },
+-- }
+
 local solargraph_config = {
   settings = {
     solargraph = {
@@ -241,6 +247,8 @@ local setup_servers = function()
       config.settings = lua_config.settings
     elseif name == "gopls" then
       config.init_options = gopls_config.init_options
+    -- elseif name == "golangci_lint_ls" then
+    --   config.init_options = golangci_lint_ls_config.init_options
     elseif name == "pyright" then
       config.root_dir = pyright_config.root_dir
     elseif name == "solargraph" then
