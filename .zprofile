@@ -1,3 +1,5 @@
+ulimit -n 20480
+
 # Env
 if [[ -z "$XDG_CONFIG_HOME" ]]
 then
