@@ -1239,15 +1239,6 @@ packer.startup {
     }
     -- use {'tyru/caw.vim'}
     use { "godlygeek/tabular" }
-    use {
-      "editorconfig/editorconfig-vim",
-      config = function()
-        vim.g.EditorConfig_exclude_patterns = { "scp://.*" }
-        vim.cmd [[
-      au FileType gitcommit let b:EditorConfig_disable = 1
-      ]]
-      end,
-    }
     use { "airblade/vim-rooter" }
     use { "machakann/vim-sandwich" }
     use { "simeji/winresizer" }
@@ -2587,37 +2578,27 @@ packer.startup {
               local saga = require "lspsaga"
 
               saga.init_lsp_saga {
-                -- your configuration
-                -- -- "single" | "double" | "rounded" | "bold" | "plus"
-                border_style = "single",
-                -- Error, Warn, Info, Hint
-                -- use emoji like
-                -- { "🙀", "😿", "😾", "😺" }
-                -- or
-                -- { "😡", "😥", "😤", "😐" }
-                -- and diagnostic_header can be a function type
-                -- must return a string and when diagnostic_header
-                -- is function type it will have a param `entry`
-                -- entry is a table type has these filed
-                -- { bufnr, code, col, end_col, end_lnum, lnum, message, severity, source }
+                -- Options with default value
+                -- "single" | "double" | "rounded" | "bold" | "plus"
+                border_style = "rounded",
+                --the range of 0 for fully opaque window (disabled) to 100 for fully
+                --transparent background. Values between 0-30 are typically most useful.
+                saga_winblend = 20,
                 diagnostic_header = { " ", " ", " ", "ﴞ " },
-                -- show diagnostic source
                 show_diagnostic_source = true,
-                -- add bracket or something with diagnostic source, just have 2 elements
-                diagnostic_source_bracket = {},
-                -- use emoji lightbulb in default
                 code_action_icon = "💡",
-                -- if true can press number to execute the codeaction in codeaction window
-                code_action_num_shortcut = true,
-                -- same as nvim-lightbulb but async
                 code_action_lightbulb = {
-                  enable = false,
+                  enable = true,
                   sign = true,
                   sign_priority = 20,
                   virtual_text = true,
                 },
-                -- separator in finder
-                finder_separator = "  ",
+                -- finder icons
+                finder_icons = {
+                  def = "  ",
+                  ref = "諭 ",
+                  link = "  ",
+                },
                 -- preview lines of lsp_finder and definition preview
                 max_preview_lines = 10,
                 finder_action_keys = {
@@ -2635,10 +2616,25 @@ packer.startup {
                 },
                 rename_action_quit = "<C-c>",
                 definition_preview_icon = "  ",
-                -- if you don't use nvim-lspconfig you must pass your server name and
-                -- the related filetypes into this table
-                -- like server_filetype_map = { metals = { "sbt", "scala" } }
-                server_filetype_map = {},
+                -- show symbols in winbar must nightly
+                symbol_in_winbar = {
+                  in_custom = false,
+                  enable = true,
+                  separator = "  ",
+                  show_file = true,
+                  click_support = false,
+                },
+                -- show outline
+                show_outline = {
+                  win_position = "right",
+                  -- set the special filetype in there which in left like nvimtree neotree defx
+                  left_with = "",
+                  win_width = 30,
+                  auto_enter = true,
+                  auto_preview = true,
+                  virt_text = "┃",
+                  jump_key = "o",
+                },
               }
             end,
           },
