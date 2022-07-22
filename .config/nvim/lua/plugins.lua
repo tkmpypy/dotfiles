@@ -1192,6 +1192,62 @@ packer.startup {
       "thinca/vim-qfreplace",
     }
     use {
+      "haya14busa/vim-asterisk",
+      config = function()
+        vim.cmd [[
+          let g:asterisk#keeppos = 1
+        ]]
+        vim.keymap.set(
+          "",
+          "*",
+          "<Plug>(asterisk-z*)",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "#",
+          "<Plug>(asterisk-z#)",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "g*",
+          "<Plug>(asterisk-g*)",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "g#",
+          "<Plug>(asterisk-g#)",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "z*",
+          "<Plug>(asterisk-z*)",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "gz*",
+          "<Plug>(asterisk-gz*)",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "z#",
+          "<Plug>(asterisk-z#)",
+          {}
+        )
+        vim.keymap.set(
+          "",
+          "gz#",
+          "<Plug>(asterisk-gz#)",
+          {}
+        )
+      end
+    }
+    use {
       "rcarriga/nvim-notify",
       config = function()
         vim.notify = require "notify"
@@ -1301,8 +1357,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
           {}
         )
         vim.keymap.set(
@@ -1314,8 +1369,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
           {}
         )
       end,
@@ -1430,8 +1484,7 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
-            ,
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1473,8 +1526,7 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
-            ,
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1762,7 +1814,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
@@ -2576,7 +2628,6 @@ packer.startup {
             branch = "main",
             config = function()
               local saga = require "lspsaga"
-
               saga.init_lsp_saga {
                 -- Options with default value
                 -- "single" | "double" | "rounded" | "bold" | "plus"
@@ -2588,10 +2639,10 @@ packer.startup {
                 show_diagnostic_source = true,
                 code_action_icon = "💡",
                 code_action_lightbulb = {
-                  enable = true,
-                  sign = true,
+                  enable = false,
+                  sign = false,
                   sign_priority = 20,
-                  virtual_text = true,
+                  virtual_text = false,
                 },
                 -- finder icons
                 finder_icons = {
@@ -2619,7 +2670,7 @@ packer.startup {
                 -- show symbols in winbar must nightly
                 symbol_in_winbar = {
                   in_custom = false,
-                  enable = true,
+                  enable = false,
                   separator = "  ",
                   show_file = true,
                   click_support = false,
@@ -2819,6 +2870,9 @@ packer.startup {
             enabled = function()
               return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
             end,
+            view = {
+              entries = { name = "custom", selection_order = "top_down" },
+            },
             completion = {
               autocomplete = { types.cmp.TriggerEvent.TextChanged },
               completeopt = "menu,menuone,noselect",
@@ -2851,8 +2905,8 @@ packer.startup {
             },
 
             window = {
-              -- completion = cmp.config.window.bordered(),
-              -- documentation = cmp.config.window.bordered(),
+              completion = cmp.config.window.bordered(),
+              documentation = cmp.config.window.bordered(),
             },
 
             -- You must set mapping.
@@ -2905,9 +2959,6 @@ packer.startup {
                 keyword_length = 2,
                 max_item_count = 50,
                 option = {
-                  -- get_bufnrs = function()
-                  -- 	return vim.api.nvim_list_bufs()
-                  -- end,
                   get_bufnrs = function()
                     return vim.api.nvim_list_bufs()
                   end,
