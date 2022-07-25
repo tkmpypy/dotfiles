@@ -2360,6 +2360,7 @@ packer.startup {
             auto_refresh = true,
             disable_builtin_notifications = false,
             -- Change the default way of opening neogit
+            -- `tab`, `replace`, `floating`, `split`, `split_above`, `vsplit`
             kind = "split",
             -- Change the default way of opening the commit popup
             commit_popup = {
@@ -2637,7 +2638,7 @@ packer.startup {
                 -- show symbols in winbar must nightly
                 symbol_in_winbar = {
                   in_custom = false,
-                  enable = true,
+                  enable = false,
                   separator = "  ",
                   show_file = true,
                   click_support = false,
