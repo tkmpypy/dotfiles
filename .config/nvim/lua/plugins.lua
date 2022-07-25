@@ -1197,55 +1197,15 @@ packer.startup {
         vim.cmd [[
           let g:asterisk#keeppos = 1
         ]]
-        vim.keymap.set(
-          "",
-          "*",
-          "<Plug>(asterisk-z*)",
-          {}
-        )
-        vim.keymap.set(
-          "",
-          "#",
-          "<Plug>(asterisk-z#)",
-          {}
-        )
-        vim.keymap.set(
-          "",
-          "g*",
-          "<Plug>(asterisk-g*)",
-          {}
-        )
-        vim.keymap.set(
-          "",
-          "g#",
-          "<Plug>(asterisk-g#)",
-          {}
-        )
-        vim.keymap.set(
-          "",
-          "z*",
-          "<Plug>(asterisk-z*)",
-          {}
-        )
-        vim.keymap.set(
-          "",
-          "gz*",
-          "<Plug>(asterisk-gz*)",
-          {}
-        )
-        vim.keymap.set(
-          "",
-          "z#",
-          "<Plug>(asterisk-z#)",
-          {}
-        )
-        vim.keymap.set(
-          "",
-          "gz#",
-          "<Plug>(asterisk-gz#)",
-          {}
-        )
-      end
+        vim.keymap.set("", "*", "<Plug>(asterisk-z*)", {})
+        vim.keymap.set("", "#", "<Plug>(asterisk-z#)", {})
+        vim.keymap.set("", "g*", "<Plug>(asterisk-g*)", {})
+        vim.keymap.set("", "g#", "<Plug>(asterisk-g#)", {})
+        vim.keymap.set("", "z*", "<Plug>(asterisk-z*)", {})
+        vim.keymap.set("", "gz*", "<Plug>(asterisk-gz*)", {})
+        vim.keymap.set("", "z#", "<Plug>(asterisk-z#)", {})
+        vim.keymap.set("", "gz#", "<Plug>(asterisk-gz#)", {})
+      end,
     }
     use {
       "rcarriga/nvim-notify",
@@ -2399,7 +2359,14 @@ packer.startup {
             disable_commit_confirmation = false,
             auto_refresh = true,
             disable_builtin_notifications = false,
+            -- Change the default way of opening neogit
+            kind = "split",
+            -- Change the default way of opening the commit popup
             commit_popup = {
+              kind = "split",
+            },
+            -- Change the default way of opening popups
+            popup = {
               kind = "split",
             },
             -- customize displayed signs
@@ -2670,7 +2637,7 @@ packer.startup {
                 -- show symbols in winbar must nightly
                 symbol_in_winbar = {
                   in_custom = false,
-                  enable = false,
+                  enable = true,
                   separator = "  ",
                   show_file = true,
                   click_support = false,
