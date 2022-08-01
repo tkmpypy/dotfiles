@@ -2592,6 +2592,33 @@ packer.startup {
             end,
           },
           use {
+            "simrat39/inlay-hints.nvim",
+            config = function()
+              require("inlay-hints").setup {
+                only_current_line = true,
+
+                eol = {
+                  right_align = false,
+                  -- padding from the right if right_align is true
+                  right_align_padding = 7,
+                  parameter = {
+                    separator = ", ",
+                    format = function(hints)
+                      return string.format("  (%s)", hints)
+                    end,
+                  },
+
+                  type = {
+                    separator = ", ",
+                    format = function(hints)
+                      return string.format("  (%s)", hints)
+                    end,
+                  },
+                },
+              }
+            end,
+          },
+          use {
             "glepnir/lspsaga.nvim",
             branch = "main",
             config = function()

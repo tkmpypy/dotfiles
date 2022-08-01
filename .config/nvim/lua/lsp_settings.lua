@@ -1,6 +1,7 @@
 local vim = vim
 local lspconfig = require "lspconfig"
 local util = require("lspconfig").util
+local ih = require("inlay-hints")
 
 local set_diagnostic_sign = function()
   local signs = { "", "", "", "" }
@@ -52,6 +53,8 @@ local custom_attach = function(client, bufnr)
   -- I only want to use null-ls formatting
   client.server_capabilities.document_formatting = false
   client.server_capabilities.document_range_formatting = false
+
+  ih.on_attach(client, bufnr)
 end
 
 -- Configure lua language server for neovim development
@@ -66,6 +69,9 @@ local lua_config = {
       diagnostics = {
         -- Get the language server to recognize the `vim` global
         globals = { "vim" },
+      },
+      hint = {
+        enable = true,
       },
       workspace = {
         maxPreload = 2000,
@@ -117,6 +123,19 @@ local dart_config = {
 }
 
 local gopls_config = {
+  settings = {
+    gopls = {
+      hints = {
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableTypes = true,
+      },
+    },
+  },
   init_options = {
     gofumpt = true,
     usePlaceholders = false,
@@ -182,6 +201,30 @@ local function tsserver_organize_imports()
 end
 
 local tsserver_config = {
+  settings = {
+    javascript = {
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = true,
+      },
+    },
+    typescript = {
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = true,
+      },
+    },
+  },
   commands = {
     OrganizeImports = {
       tsserver_organize_imports,
@@ -247,6 +290,7 @@ local setup_servers = function()
       config.settings = lua_config.settings
     elseif name == "gopls" then
       config.init_options = gopls_config.init_options
+      config.settings = gopls_config.settings
     -- elseif name == "golangci_lint_ls" then
     --   config.init_options = golangci_lint_ls_config.init_options
     elseif name == "pyright" then
@@ -261,6 +305,7 @@ local setup_servers = function()
       config.init_options = dart_config.init_options
     elseif name == "tsserver" then
       config.commands = tsserver_config.commands
+      config.settings = tsserver_config.settings
     elseif name == "eslint" then
       -- フォーマットはprettierに寄せるので使用しない
       -- config.on_attach = function(client, bufnr)
