@@ -17,8 +17,7 @@ let g:loaded_tarPlugin          = 1
 let g:loaded_tutor_mode_plugin  = 1
 let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
-" enable filetype.lua and disable filetype.vim
-let g:do_legacy_filetype=0
+" let g:do_legacy_filetype=0
 
 " You might have to force true color when using regular vim inside tmux as the
 " colorscheme can appear to be grayscale with "termguicolors" option enabled.

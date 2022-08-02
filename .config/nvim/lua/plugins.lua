@@ -1317,7 +1317,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
+          ,
           {}
         )
         vim.keymap.set(
@@ -1329,7 +1330,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
+          ,
           {}
         )
       end,
@@ -1444,7 +1446,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1486,7 +1489,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1774,7 +1778,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
@@ -2589,6 +2593,83 @@ packer.startup {
             },
             config = function()
               require("telescope").load_extension "yaml_schema"
+            end,
+          },
+          use {
+            "utilyre/barbecue.nvim",
+            disable = true,
+            requires = {
+              "kyazdani42/nvim-web-devicons", -- optional
+              "smiteshp/nvim-navic",
+            },
+            config = function()
+              local barbecue = require "barbecue"
+
+              barbecue.setup {
+                -- If you set this to false, floating windows will look weird
+                exclude_float = true,
+
+                -- Instead of excluding countless number of filetypes, barbecue tries to only show on some buftypes
+                -- "" (empty): file buffer
+                -- "nofile": things like file tree and some other non-editable windows
+                -- "prompt": Telescope, FZF, etc
+                -- "terminal": Terminal buffer
+                -- ...
+                include_buftypes = { "" },
+
+                -- :help events
+                -- :help [event] (like :help BufWinEnter)
+                update_events = {
+                  "BufWinEnter",
+                  "BufWritePost",
+                  "CursorMoved",
+                  "CursorMovedI",
+                  "TextChanged",
+                  "TextChangedI",
+                },
+
+                -- Show `~ > ...` instead of `/ > home > user > ...`
+                tilde_home = true,
+
+                -- Your winbar will have a little padding from the edge
+                prefix = " ",
+
+                -- The sign between each entry
+                separator = "  ",
+
+                -- Show if lsp context is available but nothing to show
+                -- (You're either at the root of your file or language server is broken)
+                no_info_indicator = "…",
+                -- Icons passed to nvim-navic
+                icons = {
+                  File = " ",
+                  Module = " ",
+                  Namespace = " ",
+                  Package = " ",
+                  Class = " ",
+                  Method = " ",
+                  Property = " ",
+                  Field = " ",
+                  Constructor = " ",
+                  Enum = "練",
+                  Interface = "練",
+                  Function = " ",
+                  Variable = " ",
+                  Constant = " ",
+                  String = " ",
+                  Number = " ",
+                  Boolean = "◩ ",
+                  Array = " ",
+                  Object = " ",
+                  Key = " ",
+                  Null = "ﳠ ",
+                  EnumMember = " ",
+                  Struct = " ",
+                  Event = " ",
+                  Operator = " ",
+                  TypeParameter = " ",
+                },
+              }
             end,
           },
           use {

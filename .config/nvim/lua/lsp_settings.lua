@@ -2,6 +2,7 @@ local vim = vim
 local lspconfig = require "lspconfig"
 local util = require("lspconfig").util
 local ih = require("inlay-hints")
+-- local navic = require("nvim-navic")
 
 local set_diagnostic_sign = function()
   local signs = { "", "", "", "" }
@@ -30,6 +31,8 @@ local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
   if client.server_capabilities.documentHighlightProvider then
+    -- navic.attach(client, bufnr)
+
     vim.api.nvim_create_augroup("lsp_document_highlight", {
       clear = false,
     })
