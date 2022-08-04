@@ -2674,6 +2674,7 @@ packer.startup {
           },
           use {
             "simrat39/inlay-hints.nvim",
+            disable = true,
             config = function()
               require("inlay-hints").setup {
                 only_current_line = true,
@@ -2935,6 +2936,7 @@ packer.startup {
           { "hrsh7th/cmp-nvim-lsp-signature-help" },
           { "hrsh7th/cmp-nvim-lua" },
           { "windwp/nvim-autopairs" },
+          { "lukas-reineke/cmp-rg", disable = true }, -- blocking completion
         },
         config = function()
           local cmp = require "cmp"
@@ -2951,8 +2953,6 @@ packer.startup {
             },
             completion = {
               autocomplete = { types.cmp.TriggerEvent.TextChanged },
-              completeopt = "menu,menuone,noselect",
-              -- completeopt = "menu,menuone,noinsert",
               keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
               keyword_length = 1,
             },
@@ -3023,7 +3023,6 @@ packer.startup {
                 name = "path",
                 max_item_count = 20,
               },
-              { name = "orgmode" },
               {
                 name = "nvim_lua",
                 priority = 11,
@@ -3031,7 +3030,7 @@ packer.startup {
               },
               {
                 name = "buffer",
-                priority = 1,
+                priority = 2,
                 keyword_length = 2,
                 max_item_count = 50,
                 option = {
@@ -3044,6 +3043,13 @@ packer.startup {
             formatting = {
               format = lspkind.cmp_format {
                 mode = "symbol_text",
+                menu = {
+                  buffer = "[BUF]",
+                  nvim_lsp = "[LSP]",
+                  path = "[PATH]",
+                  vsnip = "[SNIP]",
+                  nvim_lua = "[LUA]",
+                },
               },
             },
             experimental = {

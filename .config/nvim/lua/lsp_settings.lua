@@ -1,7 +1,7 @@
 local vim = vim
 local lspconfig = require "lspconfig"
 local util = require("lspconfig").util
-local ih = require("inlay-hints")
+-- local ih = require("inlay-hints")
 -- local navic = require("nvim-navic")
 
 local set_diagnostic_sign = function()
@@ -57,7 +57,7 @@ local custom_attach = function(client, bufnr)
   client.server_capabilities.document_formatting = false
   client.server_capabilities.document_range_formatting = false
 
-  ih.on_attach(client, bufnr)
+  -- ih.on_attach(client, bufnr)
 end
 
 -- Configure lua language server for neovim development
