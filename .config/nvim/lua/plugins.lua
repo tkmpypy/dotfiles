@@ -2913,8 +2913,33 @@ packer.startup {
         "hrsh7th/nvim-cmp",
         requires = {
           { "onsails/lspkind.nvim" },
-          { "hrsh7th/vim-vsnip" },
-          { "hrsh7th/cmp-vsnip" },
+          -- { "hrsh7th/vim-vsnip" },
+          -- { "hrsh7th/cmp-vsnip" },
+          {
+            "L3MON4D3/LuaSnip",
+            requires = "rafamadriz/friendly-snippets",
+            config = function()
+              require("luasnip.loaders.from_vscode").lazy_load()
+              vim.cmd[[
+                " press <Tab> to expand or jump in a snippet. These can also be mapped separately
+                " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+                imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+                smap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+                imap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>' 
+                smap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>' 
+                " -1 for jumping backwards.
+                " inoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+                inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+                snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+                snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+                " For changing choices in choiceNodes (not strictly necessary for a basic setup).
+                " imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+                " smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+              ]]
+            end,
+          },
+          { "saadparwaiz1/cmp_luasnip" },
           { "hrsh7th/cmp-buffer" },
           { "hrsh7th/cmp-path" },
           { "hrsh7th/cmp-cmdline" },
@@ -2943,7 +2968,12 @@ packer.startup {
           local types = require "cmp.types"
           local compare = require "cmp.config.compare"
           local lspkind = require "lspkind"
+          local luasnip = require("luasnip")
           local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+          local has_words_before = function()
+            local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+            return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+          end
           cmp.setup {
             enabled = function()
               return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
@@ -2975,8 +3005,10 @@ packer.startup {
             -- You should change this example to your chosen snippet engine.
             snippet = {
               expand = function(args)
-                -- You must install `vim-vsnip` if you set up as same as the following.
-                vim.fn["vsnip#anonymous"](args.body)
+                -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+                luasnip.lsp_expand(args.body) -- For `luasnip` users.
+                -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+                -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
               end,
             },
 
@@ -2997,7 +3029,27 @@ packer.startup {
               ),
               ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
               ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-              ["<Tab>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "s", "c" }),
+              ["<Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif luasnip.expand_or_jumpable() then
+                  luasnip.expand_or_jump()
+                elseif has_words_before() then
+                  cmp.complete()
+                else
+                  fallback()
+                end
+              end, { "i", "s" }),
+
+              ["<S-Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                elseif luasnip.jumpable(-1) then
+                  luasnip.jump(-1)
+                else
+                  fallback()
+                end
+              end, { "i", "s" }),
               ["<C-Space>"] = cmp.mapping.complete(),
               ["<C-e>"] = cmp.mapping {
                 i = cmp.mapping.abort(),
@@ -3015,7 +3067,8 @@ packer.startup {
               },
               { name = "nvim_lsp_signature_help" },
               {
-                name = "vsnip",
+                -- name = "vsnip",
+                name = "luasnip",
                 priority = 11,
                 max_item_count = 50,
               },
@@ -3048,6 +3101,7 @@ packer.startup {
                   nvim_lsp = "[LSP]",
                   path = "[PATH]",
                   vsnip = "[SNIP]",
+                  luasnip = "[SNIP]",
                   nvim_lua = "[LUA]",
                 },
               },

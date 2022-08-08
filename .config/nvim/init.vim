@@ -295,30 +295,6 @@ nmap <leader>trr :TestLast<CR>
 nmap <leader>trg :TestVisit<CR>
 " }}
 
-function! s:setup_vsnip()
-  " NOTE: You can use other key to expand snippet.
-
-  " vsip
-  " Expand
-  imap <expr> <C-y>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-y>'
-  smap <expr> <C-y>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-y>'
-
-  " Expand or jump
-  imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-  smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-
-  " Jump forward or backward
-  imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-  smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-  imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-  smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-
-  " If you want to use snippet for multiple filetypes, you can `g:vsip_filetypes` for it.
-  let g:vsnip_filetypes = {}
-  let g:vsnip_filetypes.javascriptreact = ['javascript']
-  let g:vsnip_filetypes.typescriptreact = ['typescript']
-endfunction
-
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
     return luaeval("require('lsp-status').status()")
@@ -512,9 +488,7 @@ function! s:setup_coc()
 endfunction
 
 
-if g:lsp_client_type == 'neovim'
-  call s:setup_vsnip()
-elseif g:lsp_client_type == 'coc'
+if g:lsp_client_type == 'coc'
   call s:setup_coc()
 endif
 
