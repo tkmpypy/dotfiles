@@ -148,33 +148,36 @@ packer.startup {
     }
     use {
       "NTBBloodbath/doom-one.nvim",
-      config = function()
-        require("doom-one").setup {
-          cursor_coloring = false,
-          terminal_colors = false,
-          italic_comments = false,
-          enable_treesitter = true,
-          transparent_background = false,
-          pumblend = {
-            enable = false,
-            transparency_amount = 20,
-          },
-          plugins_integrations = {
-            barbar = true,
-            bufferline = true,
-            gitgutter = true,
-            gitsigns = true,
-            telescope = true,
-            neogit = true,
-            nvim_tree = true,
-            dashboard = true,
-            startify = false,
-            whichkey = false,
-            indent_blankline = true,
-            vim_illuminate = true,
-            lspsaga = true,
-          },
-        }
+      setup = function()
+        -- Add color to cursor
+        vim.g.doom_one_cursor_coloring = false
+        -- Set :terminal colors
+        vim.g.doom_one_terminal_colors = true
+        -- Enable italic comments
+        vim.g.doom_one_italic_comments = true
+        -- Enable TS support
+        vim.g.doom_one_enable_treesitter = true
+        -- Color whole diagnostic text or only underline
+        vim.g.doom_one_diagnostics_text_color = true
+        -- Enable transparent background
+        vim.g.doom_one_transparent_background = true
+
+        -- Pumblend transparency
+        vim.g.doom_one_pumblend_enable = true
+        vim.g.doom_one_pumblend_transparency = 20
+
+        -- Plugins integration
+        vim.g.doom_one_plugin_neorg = true
+        vim.g.doom_one_plugin_barbar = false
+        vim.g.doom_one_plugin_telescope = true
+        vim.g.doom_one_plugin_neogit = true
+        vim.g.doom_one_plugin_nvim_tree = true
+        vim.g.doom_one_plugin_dashboard = true
+        vim.g.doom_one_plugin_startify = true
+        vim.g.doom_one_plugin_whichkey = true
+        vim.g.doom_one_plugin_indent_blankline = true
+        vim.g.doom_one_plugin_vim_illuminate = true
+        vim.g.doom_one_plugin_lspsaga = true
       end,
     }
     use {
@@ -833,27 +836,27 @@ packer.startup {
           explorer,
         }
 
-        -- if vim.g.lsp_client_type == "neovim" then
-        --   local navic = require "nvim-navic"
-        --   local winbar = {
-        --     filetypes = { "winbar" },
-        --     active = {
-        --       { " " },
-        --       { "" },
-        --       {
-        --         function(_)
-        --           return navic.get_location()
-        --         end,
-        --       },
-        --     },
-        --     inactive = {},
-        --     enable = function(bufnr, winid)
-        --       return navic.is_available()
-        --     end, --a function to disable winbar on some window or filetype
-        --   }
+        if vim.g.lsp_client_type == "neovim" then
+          local navic = require "nvim-navic"
+          local winbar = {
+            filetypes = { "winbar" },
+            active = {
+              { " " },
+              { "" },
+              {
+                function(_)
+                  return navic.get_location()
+                end,
+              },
+            },
+            inactive = {},
+            enable = function(bufnr, winid)
+              return navic.is_available()
+            end, --a function to disable winbar on some window or filetype
+          }
 
-        --   table.insert(statuslines, winbar)
-        -- end
+          table.insert(statuslines, winbar)
+        end
 
         windline.setup {
           global_skip_filetypes = {
@@ -872,6 +875,7 @@ packer.startup {
     }
     use {
       "akinsho/bufferline.nvim",
+      disable = true,
       requires = { "kyazdani42/nvim-web-devicons" },
       config = function()
         require("bufferline").setup {
@@ -1317,8 +1321,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
           {}
         )
         vim.keymap.set(
@@ -1330,8 +1333,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
           {}
         )
       end,
@@ -1446,8 +1448,7 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
-            ,
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1489,8 +1490,7 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
-            ,
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1778,7 +1778,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?
@@ -2584,7 +2584,12 @@ packer.startup {
       use {
         "neovim/nvim-lspconfig",
         requires = {
-          use { "williamboman/nvim-lsp-installer" },
+          use {
+            "williamboman/mason.nvim",
+            requires = {
+              "williamboman/mason-lspconfig.nvim",
+            },
+          },
           use {
             "someone-stole-my-name/yaml-companion.nvim",
             requires = {
@@ -2597,7 +2602,7 @@ packer.startup {
           },
           use {
             "utilyre/barbecue.nvim",
-            disable = true,
+            disable = false,
             requires = {
               "kyazdani42/nvim-web-devicons", -- optional
               "smiteshp/nvim-navic",
@@ -2768,8 +2773,44 @@ packer.startup {
           },
         },
         config = function()
+          require("mason").setup {
+            ui = {
+              border = "rounded",
+              icons = {
+                package_installed = "✓",
+                package_pending = "➜",
+                package_uninstalled = "✗",
+              },
+            },
+          }
+          require("mason-lspconfig").setup {
+            ensure_installed = {
+              "sumneko_lua",
+              "rust_analyzer",
+              "cssls",
+              "dockerls",
+              "eslint",
+              "gopls",
+              "html",
+              "jsonls",
+              "tsserver",
+              "marksman",
+              "pyright",
+              "tailwindcss",
+              "terraformls",
+              "vimls",
+              "yamlls",
+            },
+            -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
+            -- This setting has no relation with the `ensure_installed` setting.
+            -- Can either be:
+            --   - false: Servers are not automatically installed.
+            --   - true: All servers set up via lspconfig are automatically installed.
+            --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
+            --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
+            automatic_installation = false,
+          }
           local action = require "lspsaga.action"
-          require("nvim-lsp-installer").setup {}
           require "lsp_settings"
           local o = require("scripts/util").keymaps.default_opt
           vim.keymap.set("n", "gh", require("lspsaga.finder").lsp_finder, { silent = true })
@@ -2913,32 +2954,64 @@ packer.startup {
         "hrsh7th/nvim-cmp",
         requires = {
           { "onsails/lspkind.nvim" },
-          -- { "hrsh7th/vim-vsnip" },
-          -- { "hrsh7th/cmp-vsnip" },
+          { "hrsh7th/vim-vsnip" },
           {
-            "L3MON4D3/LuaSnip",
+            "hrsh7th/cmp-vsnip",
             requires = "rafamadriz/friendly-snippets",
             config = function()
-              require("luasnip.loaders.from_vscode").lazy_load()
-              vim.cmd[[
-                " press <Tab> to expand or jump in a snippet. These can also be mapped separately
-                " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-                imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
-                smap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
-                imap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>' 
-                smap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>' 
-                " -1 for jumping backwards.
-                " inoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-                inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-                snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-                snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+              vim.cmd [[
+              " Expand
+              imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+              smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 
-                " For changing choices in choiceNodes (not strictly necessary for a basic setup).
-                " imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-                " smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-              ]]
+              " Expand or jump
+              imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+              smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+              " Jump forward or backward
+              imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+              smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+              imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+              smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+              " Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
+              " See https://github.com/hrsh7th/vim-vsnip/pull/50
+              nmap        s   <Plug>(vsnip-select-text)
+              xmap        s   <Plug>(vsnip-select-text)
+              nmap        S   <Plug>(vsnip-cut-text)
+              xmap        S   <Plug>(vsnip-cut-text)
+
+              " If you want to use snippet for multiple filetypes, you can `g:vsnip_filetypes` for it.
+              let g:vsnip_filetypes = {}
+              let g:vsnip_filetypes.javascriptreact = ['javascript']
+              let g:vsnip_filetypes.typescriptreact = ['typescript']
+            ]]
             end,
           },
+          -- {
+          --   "L3MON4D3/LuaSnip",
+          --   requires = "rafamadriz/friendly-snippets",
+          --   config = function()
+          --     require("luasnip.loaders.from_vscode").lazy_load()
+          --     vim.cmd[[
+          --       " press <Tab> to expand or jump in a snippet. These can also be mapped separately
+          --       " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+          --       imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
+          --       smap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
+          --       imap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>'
+          --       smap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>'
+          --       " -1 for jumping backwards.
+          --       " inoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+          --       inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+          --       snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+          --       snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+          --       " For changing choices in choiceNodes (not strictly necessary for a basic setup).
+          --       " imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+          --       " smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+          --     ]]
+          --   end,
+          -- },
           { "saadparwaiz1/cmp_luasnip" },
           { "hrsh7th/cmp-buffer" },
           { "hrsh7th/cmp-path" },
@@ -2968,12 +3041,7 @@ packer.startup {
           local types = require "cmp.types"
           local compare = require "cmp.config.compare"
           local lspkind = require "lspkind"
-          local luasnip = require("luasnip")
           local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-          local has_words_before = function()
-            local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-            return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-          end
           cmp.setup {
             enabled = function()
               return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
@@ -3005,8 +3073,8 @@ packer.startup {
             -- You should change this example to your chosen snippet engine.
             snippet = {
               expand = function(args)
-                -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-                luasnip.lsp_expand(args.body) -- For `luasnip` users.
+                vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+                -- luasnip.lsp_expand(args.body) -- For `luasnip` users.
                 -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
                 -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
               end,
@@ -3029,27 +3097,7 @@ packer.startup {
               ),
               ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
               ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-              ["<Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  cmp.select_next_item()
-                elseif luasnip.expand_or_jumpable() then
-                  luasnip.expand_or_jump()
-                elseif has_words_before() then
-                  cmp.complete()
-                else
-                  fallback()
-                end
-              end, { "i", "s" }),
-
-              ["<S-Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                  cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then
-                  luasnip.jump(-1)
-                else
-                  fallback()
-                end
-              end, { "i", "s" }),
+              ["<Tab>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "s", "c" }),
               ["<C-Space>"] = cmp.mapping.complete(),
               ["<C-e>"] = cmp.mapping {
                 i = cmp.mapping.abort(),
@@ -3067,8 +3115,8 @@ packer.startup {
               },
               { name = "nvim_lsp_signature_help" },
               {
-                -- name = "vsnip",
-                name = "luasnip",
+                name = "vsnip",
+                -- name = "luasnip",
                 priority = 11,
                 max_item_count = 50,
               },
@@ -3264,7 +3312,8 @@ packer.startup {
     end
 
     use {
-      "tkmpypy/chowcho.nvim",
+      -- "tkmpypy/chowcho.nvim",
+      "~/ghq/github.com/tkmpypy/chowcho.nvim",
       config = function()
         require("chowcho").setup { border_style = "rounded", icon_enabled = true }
       end,

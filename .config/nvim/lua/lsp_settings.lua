@@ -2,7 +2,7 @@ local vim = vim
 local lspconfig = require "lspconfig"
 local util = require("lspconfig").util
 -- local ih = require("inlay-hints")
--- local navic = require("nvim-navic")
+local navic = require "nvim-navic"
 
 local set_diagnostic_sign = function()
   local signs = { "", "", "", "" }
@@ -31,7 +31,7 @@ local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
   if client.server_capabilities.documentHighlightProvider then
-    -- navic.attach(client, bufnr)
+    navic.attach(client, bufnr)
 
     vim.api.nvim_create_augroup("lsp_document_highlight", {
       clear = false,
@@ -112,16 +112,6 @@ local yamlls_config = {
       schemas = require("schemastore").json.schemas(),
       -- schemas = {}
     },
-  },
-}
-
-local dart_config = {
-  init_options = {
-    closingLabels = true,
-    flutterOutline = true,
-    onlyAnalyzeProjectsWithOpenFiles = true,
-    outline = true,
-    suggestFromUnimportedLibraries = true,
   },
 }
 
@@ -281,49 +271,57 @@ local make_config = function()
 end
 
 local setup_servers = function()
-  local lsp_installer = require "nvim-lsp-installer"
-
-  local servers = lsp_installer.get_installed_servers()
-  for _, server in ipairs(servers) do
-    local opts = {}
-    local config = make_config()
-
-    local name = server.name
-    if name == "sumneko_lua" then
-      config.settings = lua_config.settings
-    elseif name == "gopls" then
-      config.init_options = gopls_config.init_options
-      config.settings = gopls_config.settings
-    -- elseif name == "golangci_lint_ls" then
-    --   config.init_options = golangci_lint_ls_config.init_options
-    elseif name == "pyright" then
-      config.root_dir = pyright_config.root_dir
-    elseif name == "solargraph" then
-      config.settings = solargraph_config.settings
-    elseif name == "jsonls" then
-      config.settings = jsonls_config.settings
-    elseif name == "yamlls" then
-      config = require("yaml-companion").setup()
-    elseif name == "dartls" then
-      config.init_options = dart_config.init_options
-    elseif name == "tsserver" then
-      config.commands = tsserver_config.commands
-      config.settings = tsserver_config.settings
-    elseif name == "eslint" then
-      -- フォーマットはprettierに寄せるので使用しない
-      -- config.on_attach = function(client, bufnr)
-      --   custom_attach(client, bufnr)
-      --   -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
-      --   -- the resolved capabilities of the eslint server ourselves!
-      --   -- client.server_capabilities.document_formatting = true
-      -- end
-      config.settings = eslint_config.settings
-    end
-
-    -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
-    opts = config
-    lspconfig[name].setup(opts)
-  end
+  require("mason-lspconfig").setup_handlers {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function(server_name) -- default handler (optional)
+      lspconfig[server_name].setup {}
+    end,
+    -- Next, you can provide targeted overrides for specific servers.
+    ["sumneko_lua"] = function()
+      lspconfig.sumneko_lua.setup {
+        settings = lua_config.settings,
+      }
+    end,
+    ["gopls"] = function()
+      lspconfig.gopls.setup {
+        init_options = gopls_config.init_options,
+        settings = gopls_config.settings,
+      }
+    end,
+    ["pyright"] = function()
+      lspconfig.pyright.setup {
+        root_dir = pyright_config.root_dir,
+      }
+    end,
+    ["solargraph"] = function()
+      lspconfig.solargraph.setup {
+        settings = solargraph_config.settings,
+      }
+    end,
+    ["jsonls"] = function()
+      lspconfig.jsonls.setup {
+        settings = jsonls_config.settings,
+      }
+    end,
+    ["yamlls"] = function()
+      lspconfig.yamlls.setup {
+        settings = yamlls_config.settings,
+      }
+    end,
+    ["tsserver"] = function()
+      lspconfig.tsserver.setup {
+        commands = tsserver_config.commands,
+        settings = tsserver_config.settings,
+      }
+    end,
+    ["eslint"] = function()
+      lspconfig.eslint.setup {
+        settings = eslint_config.settings,
+      }
+    end,
+  }
 end
 
 setup_servers()
