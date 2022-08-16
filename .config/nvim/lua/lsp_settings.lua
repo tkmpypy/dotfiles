@@ -271,55 +271,56 @@ local make_config = function()
 end
 
 local setup_servers = function()
+  local default_conf = make_config()
   require("mason-lspconfig").setup_handlers {
     -- The first entry (without a key) will be the default handler
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
     function(server_name) -- default handler (optional)
-      lspconfig[server_name].setup {}
+      lspconfig[server_name].setup{}
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["sumneko_lua"] = function()
-      lspconfig.sumneko_lua.setup {
-        settings = lua_config.settings,
-      }
+      local config = default_conf
+      config.settings = lua_config.settings
+      lspconfig.sumneko_lua.setup (config)
     end,
     ["gopls"] = function()
-      lspconfig.gopls.setup {
-        init_options = gopls_config.init_options,
-        settings = gopls_config.settings,
-      }
+      local config = default_conf
+      config.init_options = gopls_config.init_options
+      config.settings = gopls_config.settings
+      lspconfig.gopls.setup(config)
     end,
     ["pyright"] = function()
-      lspconfig.pyright.setup {
-        root_dir = pyright_config.root_dir,
-      }
+      local config = default_conf
+      config.root_dir = pyright_config.root_dir
+      lspconfig.pyright.setup(config)
     end,
     ["solargraph"] = function()
-      lspconfig.solargraph.setup {
-        settings = solargraph_config.settings,
-      }
+      local config = default_conf
+      config.settings = solargraph_config.settings
+      lspconfig.solargraph.setup(config)
     end,
     ["jsonls"] = function()
-      lspconfig.jsonls.setup {
-        settings = jsonls_config.settings,
-      }
+      local config = default_conf
+      config.settings = jsonls_config.settings
+      lspconfig.jsonls.setup(config)
     end,
     ["yamlls"] = function()
-      lspconfig.yamlls.setup {
-        settings = yamlls_config.settings,
-      }
+      local config = default_conf
+      config.settings = yamlls_config.settings
+      lspconfig.yamlls.setup(config)
     end,
     ["tsserver"] = function()
-      lspconfig.tsserver.setup {
-        commands = tsserver_config.commands,
-        settings = tsserver_config.settings,
-      }
+      local config = default_conf
+      config.commands = tsserver_config.commands
+      config.settings = tsserver_config.settings
+      lspconfig.tsserver.setup(config)
     end,
     ["eslint"] = function()
-      lspconfig.eslint.setup {
-        settings = eslint_config.settings,
-      }
+      local config = default_conf
+      config.settings = eslint_config.settings
+      lspconfig.eslint.setup(config)
     end,
   }
 end
