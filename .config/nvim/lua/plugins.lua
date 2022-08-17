@@ -63,7 +63,7 @@ packer.startup {
           variablebuiltinStyle = { italic = true },
           specialReturn = true, -- special highlight for the return keyword
           specialException = true, -- special highlight for exception handling keywords
-          transparent = false, -- do not set background color
+          transparent = true, -- do not set background color
           dimInactive = false, -- dim inactive window `:h hl-NormalNC`
           globalStatus = false, -- adjust window separators highlight for laststatus=3
           colors = {},
@@ -87,7 +87,7 @@ packer.startup {
             diagnostics = "undercurl", -- Style that is applied to diagnostics: see `highlight-args` for options
           },
           disable = {
-            background = false, -- Disable setting the background color
+            background = true, -- Disable setting the background color
             cursorline = false, -- Disable the cursorline
             eob_lines = true, -- Hide the end-of-buffer lines
           },
@@ -103,6 +103,7 @@ packer.startup {
         vim.g.edge_enable_italic = true
         vim.g.edge_disable_italic_comment = false
         vim.g.edge_current_word = "bold"
+        vim.g.edge_transparent_background = true
       end,
     }
     use {
@@ -127,7 +128,7 @@ packer.startup {
         vim.g.tokyonight_italic_comment = true
         vim.g.tokyonight_italic_keywords = true
         vim.g.tokyonight_italic_functions = true
-        vim.g.tokyonight_transparent = false
+        vim.g.tokyonight_transparent = true
         vim.g.tokyonight_hide_inactive_statusline = true
       end,
     }
@@ -139,7 +140,7 @@ packer.startup {
         vim.g.gruvbox_italic_comments = true
         vim.g.gruvbox_italic_keywords = true
         vim.g.gruvbox_italic_variables = false
-        vim.g.gruvbox_transparent = false
+        vim.g.gruvbox_transparent = true
         vim.g.gruvbox_dark_sidebar = true
         vim.g.gruvbox_dark_float = true
         vim.g.gruvbox_sidebars = { "qf", "vista_kind", "terminal", "packer" }
@@ -186,6 +187,7 @@ packer.startup {
         local nightfox = require "nightfox"
         nightfox.setup {
           options = {
+            transparent = true,
             styles = {
               comments = "italic", -- change style of comments to be italic
               keywords = "bold", -- change style of keywords to be bold
