@@ -1,7 +1,7 @@
 -- https://wezfurlong.org/wezterm/config/keys.html
 local wezterm = require "wezterm"
-local bg_transparent_enabled = true
-local bg_transparent_opacity = 0.7
+local enable_transparent = true
+local window_background_opacity = 0.7
 
 return {
   -- term = "xterm-256color",
@@ -21,7 +21,7 @@ return {
     top = 0,
     bottom = 0,
   },
-  window_background_opacity = bg_transparent_opacity,
+  window_background_opacity = window_background_opacity,
   enable_tab_bar = false,
   color_scheme = "nord",
   leader = { key = ",", mods = "CTRL", timeout_milliseconds = 1000 },
@@ -35,10 +35,10 @@ return {
       key = "t",
       mods = "ALT",
       action = wezterm.action_callback(function(win, pane)
-        bg_transparent_enabled = not bg_transparent_enabled
+        enable_transparent = not enable_transparent
         local overrides = win:get_config_overrides() or {}
-        if bg_transparent_enabled then
-          overrides.window_background_opacity = bg_transparent_opacity
+        if enable_transparent then
+          overrides.window_background_opacity = window_background_opacity
         else
           overrides.window_background_opacity = 1.0
         end
