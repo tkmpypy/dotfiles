@@ -30,11 +30,11 @@ return {
     { key = "-", mods = "LEADER|CTRL", action = "DecreaseFontSize" },
     { key = "0", mods = "LEADER|CTRL", action = "ResetFontSize" },
     { key = "Enter", mods = "LEADER|ALT", action = "ToggleFullScreen" },
-    { key = "r", mods = "LEADER|CTRL", action = "ReloadConfiguration" },
+    { key = "r", mods = "ALT", action = "ReloadConfiguration" },
     {
       key = "t",
       mods = "ALT",
-      action = wezterm.action_callback(function(win, pane)
+      action = wezterm.action_callback(function(win, _)
         enable_transparent = not enable_transparent
         local overrides = win:get_config_overrides() or {}
         if enable_transparent then
