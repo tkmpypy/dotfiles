@@ -1195,6 +1195,72 @@ packer.startup {
 
     -- Utils
     use {
+      "anuvyklack/hydra.nvim",
+      config = function()
+        -- setting hydra
+        local Hydra = require "hydra"
+        local hint = [[
+ Arrow^^^^^^   Select region with <C-v> 
+ ^ ^ _K_ ^ ^   _f_: surround it with box
+ _H_ ^ ^ _L_
+ ^ ^ _J_ ^ ^                      _<Esc>_
+]]
+
+        Hydra {
+          name = "Draw Diagram",
+          hint = hint,
+          config = {
+            color = "pink",
+            invoke_on_body = true,
+            hint = {
+              border = "rounded",
+            },
+            on_enter = function()
+              vim.o.virtualedit = "all"
+            end,
+          },
+          mode = "n",
+          body = "<leader>hd",
+          heads = {
+            { "H", "<C-v>h:VBox<CR>" },
+            { "J", "<C-v>j:VBox<CR>" },
+            { "K", "<C-v>k:VBox<CR>" },
+            { "L", "<C-v>l:VBox<CR>" },
+            { "f", ":VBox<CR>", { mode = "v" } },
+            { "<Esc>", nil, { exit = true } },
+          },
+        }
+      end,
+    }
+    use {
+      "jbyuki/venn.nvim",
+      config = function()
+        -- venn.nvim: enable or disable keymappings
+        function _G.Toggle_venn()
+          local venn_enabled = vim.inspect(vim.b.venn_enabled)
+          if venn_enabled == "nil" then
+            vim.b.venn_enabled = true
+            vim.cmd [[setlocal ve=all]]
+            -- draw a line on HJKL keystokes
+            vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", { noremap = true })
+            vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", { noremap = true })
+            vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<CR>", { noremap = true })
+            vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<CR>", { noremap = true })
+            -- draw a box by pressing "f" with visual selection
+            vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<CR>", { noremap = true })
+          else
+            vim.cmd [[setlocal ve=]]
+            vim.cmd [[mapclear <buffer>]]
+            vim.cmd [[IndentBlanklineDisable]]
+            vim.b.venn_enabled = nil
+          end
+        end
+
+        -- toggle keymappings for venn using <leader>v
+        vim.api.nvim_set_keymap("n", "<leader>v", ":lua Toggle_venn()<CR>", { noremap = true })
+      end,
+    }
+    use {
       "thinca/vim-qfreplace",
     }
     use {
@@ -1278,7 +1344,13 @@ packer.startup {
         }
       end,
     }
-    use { "iamcco/markdown-preview.nvim", run = "cd app && yarn install", ft = { "markdown" } }
+    use {
+      "iamcco/markdown-preview.nvim",
+      run = function()
+        vim.fn["mkdp#util#install"]()
+      end,
+      ft = { "markdown" },
+    }
     use { "npxbr/glow.nvim", ft = { "markdown" } }
     use { "osyo-manga/vim-over" }
     use { "nicwest/vim-camelsnek" }
@@ -1323,7 +1395,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
+          ,
           {}
         )
         vim.keymap.set(
@@ -1335,7 +1408,8 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
+          ,
           {}
         )
       end,
@@ -1450,7 +1524,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1492,7 +1567,8 @@ packer.startup {
           vim.api.nvim_set_keymap(
             "n",
             "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
+            ,
             require("scripts/util").keymaps.default_opt
           )
           vim.api.nvim_set_keymap(
@@ -1780,7 +1856,7 @@ packer.startup {
                 input_prompt = "Grep For❯ ",
                 -- cmd               = "rg --vimgrep",
                 rg_opts = "--hidden --column --line-number --no-heading "
-                  .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
+                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
                 multiprocess = true,
                 git_icons = true, -- show git icons?
                 file_icons = true, -- show file icons?

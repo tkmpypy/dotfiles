@@ -12,8 +12,8 @@ _G.tkmpypy.Deepon = _G.tkmpypy.Deepon or {}
 
 local default_opts = {
   lang = {
-    primary = "ja",
-    secondary = "en",
+    source = "ja",
+    target = "en",
   },
   ui = {
     open = "split", -- vsplit, split or tab????
@@ -24,8 +24,8 @@ local default_opts = {
 local regist_command = function()
   vim.cmd [[
     command! -nargs=0 DeeponEditToken call v:lua.tkmpypy.Deepon.edit_token()
-    command! -nargs=0 DeeponTransP2S call v:lua.tkmpypy.Deepon.trans()
-    command! -nargs=0 DeeponTransS2P call v:lua.tkmpypy.Deepon.trans_reverse()
+    command! -nargs=0 DeeponTrans call v:lua.tkmpypy.Deepon.trans()
+    command! -nargs=0 DeeponTransReverse call v:lua.tkmpypy.Deepon.trans_reverse()
   ]]
 end
 
