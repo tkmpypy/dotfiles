@@ -69,6 +69,15 @@ local lua_config = {
         version = "LuaJIT",
         path = vim.split(package.path, ";"),
       },
+      format = {
+        enable = false,
+        -- Put format options here
+        -- NOTE: the value should be STRING!!
+        defaultConfig = {
+          indent_style = "space",
+          indent_size = "2",
+        },
+      },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
         globals = { "vim" },
@@ -277,13 +286,13 @@ local setup_servers = function()
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
     function(server_name) -- default handler (optional)
-      lspconfig[server_name].setup{}
+      lspconfig[server_name].setup {}
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["sumneko_lua"] = function()
       local config = default_conf
       config.settings = lua_config.settings
-      lspconfig.sumneko_lua.setup (config)
+      lspconfig.sumneko_lua.setup(config)
     end,
     ["gopls"] = function()
       local config = default_conf
@@ -308,7 +317,7 @@ local setup_servers = function()
     end,
     ["yamlls"] = function()
       local config = default_conf
-      config.settings = yamlls_config.settings
+      config = require("yaml-companion").setup()
       lspconfig.yamlls.setup(config)
     end,
     ["tsserver"] = function()
