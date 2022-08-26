@@ -148,40 +148,6 @@ packer.startup {
       end,
     }
     use {
-      "NTBBloodbath/doom-one.nvim",
-      setup = function()
-        -- Add color to cursor
-        vim.g.doom_one_cursor_coloring = false
-        -- Set :terminal colors
-        vim.g.doom_one_terminal_colors = true
-        -- Enable italic comments
-        vim.g.doom_one_italic_comments = true
-        -- Enable TS support
-        vim.g.doom_one_enable_treesitter = true
-        -- Color whole diagnostic text or only underline
-        vim.g.doom_one_diagnostics_text_color = true
-        -- Enable transparent background
-        vim.g.doom_one_transparent_background = true
-
-        -- Pumblend transparency
-        vim.g.doom_one_pumblend_enable = true
-        vim.g.doom_one_pumblend_transparency = 20
-
-        -- Plugins integration
-        vim.g.doom_one_plugin_neorg = true
-        vim.g.doom_one_plugin_barbar = false
-        vim.g.doom_one_plugin_telescope = true
-        vim.g.doom_one_plugin_neogit = true
-        vim.g.doom_one_plugin_nvim_tree = true
-        vim.g.doom_one_plugin_dashboard = true
-        vim.g.doom_one_plugin_startify = true
-        vim.g.doom_one_plugin_whichkey = true
-        vim.g.doom_one_plugin_indent_blankline = true
-        vim.g.doom_one_plugin_vim_illuminate = true
-        vim.g.doom_one_plugin_lspsaga = true
-      end,
-    }
-    use {
       "EdenEast/nightfox.nvim",
       config = function()
         local nightfox = require "nightfox"
@@ -1195,41 +1161,148 @@ packer.startup {
 
     -- Utils
     use {
-      "anuvyklack/hydra.nvim",
+      "folke/which-key.nvim",
       config = function()
-        -- setting hydra
-        local Hydra = require "hydra"
-        local hint = [[
- Arrow^^^^^^   Select region with <C-v> 
- ^ ^ _K_ ^ ^   _f_: surround it with box
- _H_ ^ ^ _L_
- ^ ^ _J_ ^ ^                      _<Esc>_
-]]
-
-        Hydra {
-          name = "Draw Diagram",
-          hint = hint,
-          config = {
-            color = "pink",
-            invoke_on_body = true,
-            hint = {
-              border = "rounded",
+        local wk = require "which-key"
+        wk.setup {
+          plugins = {
+            marks = true, -- shows a list of your marks on ' and `
+            registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+            spelling = {
+              enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+              suggestions = 20, -- how many suggestions should be shown in the list?
             },
-            on_enter = function()
-              vim.o.virtualedit = "all"
-            end,
+            -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+            -- No actual key bindings are created
+            presets = {
+              operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+              motions = true, -- adds help for motions
+              text_objects = true, -- help for text objects triggered after entering an operator
+              windows = true, -- default bindings on <c-w>
+              nav = true, -- misc bindings to work with windows
+              z = true, -- bindings for folds, spelling and others prefixed with z
+              g = true, -- bindings for prefixed with g
+            },
           },
-          mode = "n",
-          body = "<leader>hd",
-          heads = {
-            { "H", "<C-v>h:VBox<CR>" },
-            { "J", "<C-v>j:VBox<CR>" },
-            { "K", "<C-v>k:VBox<CR>" },
-            { "L", "<C-v>l:VBox<CR>" },
-            { "f", ":VBox<CR>", { mode = "v" } },
-            { "<Esc>", nil, { exit = true } },
+          -- add operators that will trigger motion and text object completion
+          -- to enable all native operators, set the preset / operators plugin above
+          operators = { gc = "Comments" },
+          key_labels = {
+            -- override the label used to display some keys. It doesn't effect WK in any other way.
+            -- For example:
+            ["<space>"] = "SPC",
+            ["<cr>"] = "RET",
+            ["<tab>"] = "TAB",
+          },
+          icons = {
+            breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+            separator = "➜", -- symbol used between a key and it's label
+            group = "+", -- symbol prepended to a group
+          },
+          popup_mappings = {
+            scroll_down = "<c-d>", -- binding to scroll down inside the popup
+            scroll_up = "<c-u>", -- binding to scroll up inside the popup
+          },
+          window = {
+            border = "shadow", -- none, single, double, shadow
+            position = "bottom", -- bottom, top
+            margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+            padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+            winblend = 10,
+          },
+          layout = {
+            height = { min = 4, max = 25 }, -- min and max height of the columns
+            width = { min = 20, max = 50 }, -- min and max width of the columns
+            spacing = 3, -- spacing between columns
+            align = "left", -- align columns left, center or right
+          },
+          ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
+          hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
+          show_help = true, -- show help message on the command line when the popup is visible
+          triggers = "auto", -- automatically setup triggers
+          -- triggers = {"<leader>"} -- or specify a list manually
+          triggers_blacklist = {
+            -- list of mode / prefixes that should never be hooked by WhichKey
+            -- this is mostly relevant for key maps that start with a native binding
+            -- most people should not need to change this
+            i = { "j", "k" },
+            v = { "j", "k" },
           },
         }
+
+        wk.register {
+          ["<leader>s"] = {
+            name = "+Search",
+            b = {
+              '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+              "Buffer",
+            },
+            c = {
+              name = "+Commands",
+              r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
+            },
+            f = {
+              name = "+Files",
+              f = {
+                '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+                "Find Files",
+              },
+              g = { "<cmd>lua require('telescope.builtin').git_files{}<CR>", "Git Files" },
+              j = { "<cmd>lua require('telescope.builtin').jumplist{}<CR>", "Jump List" },
+              l = { "<cmd>lua require('telescope.builtin').loclist{}<CR>", "Location list" },
+              r = { "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", "Old Files" },
+              q = { "<cmd>lua require('telescope.builtin').quickfix{}<CR>", "Quickfix" },
+            },
+            v = {
+              name = "+Git",
+              c = { "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", "Buffer Commit" },
+              C = { "<cmd>lua require('telescope.builtin').git_commits{}<CR>", "Commit" },
+              s = { "<cmd>lua require('telescope.builtin').git_status{}<CR>", "Status" },
+              b = { "<cmd>lua require('telescope.builtin').git_branches{}<CR>", "Branch" },
+            },
+            g = {
+              name = "+Grep",
+              g = { '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>', "Live Grep" },
+              c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
+            },
+            r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
+          },
+          ["<leader>y"] = {
+            name = "+Yode",
+            c = {":YodeCreateSeditorFloating<cr>", "Create Floating"},
+            r = {":YodeCreateSeditorReplace<cr>", "Replace"},
+            d = {":YodeBufferDelete<cr>", "Delete"},
+            w = {
+              name = "+Layout",
+              d = {":YodeLayoutShiftWinDown<cr>", "Layout Down"},
+              u = {":YodeLayoutShiftWinUp<cr>", "Layout Up"},
+              j = {":YodeLayoutShiftWinBottom<cr>", "Layout Bottom"},
+              k = {":YodeLayoutShiftWinTop<cr>", "Layout Top"},
+            },
+          }
+        }
+        if vim.g.lsp_client_type == "neovim" then
+          wk.register {
+            ["g"] = {
+              name = "+LSP",
+              r = { "<cmd>Telescope lsp_references<CR>", "References" },
+              i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
+              y = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definitions" },
+            },
+          }
+        elseif vim.g.lsp_client_type == "coc" then
+          wk.register {
+            ["<lesder>sd"] = { "<cmd>:Telescope coc diagnostics<CR>", "Diagnostics" },
+            ["<lesder>sD"] = { "<cmd>:Telescope coc workspace_diagnostics<CR>", "Workspace Diagnostics" },
+            ["<lesder>ca"] = { "<cmd>:Telescope coc code_actions<CR>", "Code Actions" },
+            ["g"] = {
+              name = "+LSP",
+              r = { "<cmd>:Telescope coc references<CR>", "References" },
+              i = { "<cmd>:Telescope coc implementations<CR>", "Implementations" },
+              y = { "<cmd>:Telescope coc type_definitions<CR>", "Type Definitions" },
+            },
+          }
+        end
       end,
     }
     use {
@@ -1425,686 +1498,101 @@ packer.startup {
     }
 
     -- finder
-    if vim.g.fuzzy_finder_type == "telescope" then
-      if vim.g.lsp_client_type == "coc" then
-        use { "fannheyward/telescope-coc.nvim" }
-      end
-
-      use {
-        "nvim-telescope/telescope.nvim",
-        requires = {
-          { "nvim-lua/plenary.nvim" },
-          { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-          { "nvim-telescope/telescope-ui-select.nvim" },
-          { "lambdalisue/mr.vim" }, -- for local source
-        },
-        config = function()
-          local telescope = require "telescope"
-          telescope.setup {
-            defaults = {
-              vimgrep_arguments = {
-                "rg",
-                "--color=never",
-                "--no-heading",
-                "--with-filename",
-                "--line-number",
-                "--column",
-                "--smart-case",
-                "--hidden",
-              },
-              prompt_prefix = "  ",
-              path_display = { "smart" },
-              winblend = 10,
-              scroll_strategy = "cycle",
-              color_devicon = true,
-              preview = {
-                treesitter = false,
-              },
-              file_previewer = require("telescope.previewers").cat.new,
-              grep_previewer = require("telescope.previewers").vimgrep.new,
-              qflist_previewer = require("telescope.previewers").qflist.new,
-            },
-            pickers = {
-              buffers = {
-                -- sort_lastused = true,
-                sort_mru = true,
-                ignore_current_buffer = true,
-                theme = "dropdown",
-                -- previewer = true,
-                mappings = {
-                  i = { ["<c-d>"] = require("telescope.actions").delete_buffer },
-                  n = { ["<c-d>"] = require("telescope.actions").delete_buffer },
-                },
-                find_files = {
-                  path_display = { "smart" },
-                },
-              },
-            },
-            extensions = {
-              ["ui-select"] = {
-                require("telescope.themes").get_dropdown {
-                  -- even more opts
-                },
-
-                -- pseudo code / specification for writing custom displays, like the one
-                -- for "codeactions"
-                specific_opts = {
-                  --   [kind] = {
-                  --     make_indexed = function(items) -> indexed_items, width,
-                  --     make_displayer = function(widths) -> displayer
-                  --     make_display = function(displayer) -> function(e)
-                  --     make_ordinal = function(e) -> string
-                  --   },
-                  --   -- for example to disable the custom builtin "codeactions" display
-                  --      do the following
-                  codeactions = false,
-                },
-              },
-            },
-            fzf = {
-              fuzzy = true, -- false will only do exact matching
-              override_generic_sorter = true, -- override the generic sorter
-              override_file_sorter = true, -- override the file sorter
-              case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-              -- the default case_mode is "smart_case"
-            },
-          }
-          telescope.load_extension "ui-select"
-          telescope.load_extension "fzf"
-          if vim.g.lsp_client_type == "coc" then
-            telescope.load_extension "coc"
-          end
-
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sfg",
-            "<cmd>lua require('telescope.builtin').git_files{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sff",
-            '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>'
-            ,
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>svc",
-            "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>svC",
-            "<cmd>lua require('telescope.builtin').git_commits{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>svs",
-            "<cmd>lua require('telescope.builtin').git_status{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>svb",
-            "<cmd>lua require('telescope.builtin').git_branches{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sgg",
-            '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sgc",
-            "<cmd>lua require('telescope.builtin').grep_string{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sb",
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>'
-            ,
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>scr",
-            "<cmd>lua require('telescope.builtin').command_history{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sfr",
-            "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sfl",
-            "<cmd>lua require('telescope.builtin').loclist{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sfq",
-            "<cmd>lua require('telescope.builtin').quickfix{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sfj",
-            "<cmd>lua require('telescope.builtin').jumplist{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sr",
-            "<cmd>lua require('telescope.builtin').resume{}<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-
-          vim.keymap.set(
-            "n",
-            "<leader>su",
-            "<cmd>lua require('scripts/telescope/mr').mru()<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.keymap.set(
-            "n",
-            "<leader>sw",
-            "<cmd>lua require('scripts/telescope/mr').mrw()<CR>",
-            require("scripts/util").keymaps.default_opt
-          )
-
-          -- vim.api.nvim_set_keymap(
-          --   "n",
-          --   "<leader>st",
-          --   "<cmd>lua require('telescope.builtin').treesitter{}<CR>",
-          --   require("scripts/util").keymaps.default_opt
-          -- )
-          if vim.g.lsp_client_type == "neovim" then
-            vim.api.nvim_set_keymap(
-              "n",
-              "gr",
-              "<cmd>Telescope lsp_references<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "gi",
-              "<cmd>Telescope lsp_implementations<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "gy",
-              "<cmd>Telescope lsp_type_definitions<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-          elseif vim.g.lsp_client_type == "coc" then
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sd",
-              "<cmd>:Telescope coc diagnostics<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sD",
-              "<cmd>:Telescope coc workspace_diagnostics<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "gr",
-              "<cmd>:Telescope coc references<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "gy",
-              "<cmd>:Telescope coc type_definitions<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "gi",
-              "<cmd>:Telescope coc implementations<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sca",
-              "<cmd>:Telescope coc code_actions<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>ssw",
-              "<cmd>:Telescope coc workspace_symbols<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>ssd",
-              "<cmd>:Telescope coc document_symbols<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-          end
-        end,
-      }
-    else
-      if vim.g.fuzzy_finder_type == "fzf" then
-        use {
-          "ibhagwan/fzf-lua",
-          requires = {
-            "vijaymarupudi/nvim-fzf",
-            "kyazdani42/nvim-web-devicons",
-          },
-          config = function()
-            local actions = require "fzf-lua.actions"
-            require("fzf-lua").setup {
-              winopts = {
-                -- split         = "new",           -- open in a split instead?
-                height = 0.85, -- window height
-                width = 0.80, -- window width
-                row = 0.35, -- window row position (0=top, 1=bottom)
-                col = 0.50, -- window col position (0=left, 1=right)
-                -- win_border    = false,           -- window border? or borderchars?
-                border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-                fullscrean = false,
-                preview = {
-                  default = "bat",
-                  delay = 100, -- delay(ms): default 100
-                  scrollbar = false,
-                },
-              },
-              previewers = {
-                bat = {
-                  cmd = "bat",
-                  args = "--style=numbers,changes,header --color always",
-                  theme = "Dracula", -- bat preview theme (bat --list-themes)
-                  config = nil, -- nil uses $BAT_CONFIG_PATH
-                },
-                builtin = {
-                  syntax = true, -- preview syntax highlight?
-                  syntax_limit_l = 50, -- syntax limit (lines), 0=nolimit
-                  syntax_limit_b = 1024 * 1024, -- syntax limit (bytes), 0=nolimit
-                },
-              },
-              fzf_opts = {
-                -- options are sent as `<left>=<right>`
-                -- set to `false` to remove a flag
-                -- set to '' for a non-value flag
-                -- for raw args use `fzf_args` instead
-                ["--ansi"] = "",
-                ["--prompt"] = "> ",
-                ["--info"] = "inline",
-                ["--height"] = "100%",
-                ["--layout"] = "default",
-                ["--cycle"] = "",
-              },
-              keymap = {
-                builtin = {
-                  -- neovim `:tmap` mappings for the fzf win
-                  ["<F2>"] = "toggle-fullscreen",
-                  -- Only valid with the 'builtin' previewer
-                  ["<F3>"] = "toggle-preview-wrap",
-                  ["<F4>"] = "toggle-preview",
-                  ["<S-down>"] = "preview-page-down",
-                  ["<S-up>"] = "preview-page-up",
-                  ["<S-left>"] = "preview-page-reset",
-                },
-                fzf = {
-                  -- fzf '--bind=' options
-                  ["ctrl-u"] = "unix-line-discard",
-                  ["ctrl-f"] = "half-page-down",
-                  ["ctrl-b"] = "half-page-up",
-                  ["ctrl-a"] = "beginning-of-line",
-                  ["ctrl-e"] = "end-of-line",
-                  ["alt-a"] = "toggle-all",
-                  -- Only valid with fzf previewers (bat/cat/git/etc)
-                  ["f3"] = "toggle-preview-wrap",
-                  ["f4"] = "toggle-preview",
-                  ["shift-down"] = "preview-page-down",
-                  ["shift-up"] = "preview-page-up",
-                },
-              },
-              -- provider setup
-              files = {
-                -- previewer         = "cat",       -- uncomment to override previewer
-                prompt = "Files❯ ",
-                find_opts = [[-type f -not -path '*/\.git/*' -printf '%P\n']],
-                rg_opts = "--color=never --files --hidden --follow -g '!.git'",
-                fd_opts = "--color=never --type f --hidden --follow --exclude .git",
-                -- cmd = "rg -i --hidden --files -g !.git", -- "find . -type f -printf '%P\n'",
-                git_icons = true, -- show git icons?
-                file_icons = true, -- show file icons?
-                color_icons = true, -- colorize file|git icons
-                actions = {
-                  ["default"] = actions.file_edit,
-                  ["ctrl-x"] = actions.file_split,
-                  ["ctrl-v"] = actions.file_vsplit,
-                  ["ctrl-t"] = actions.file_tabedit,
-                  ["ctrl-q"] = actions.file_sel_to_qf,
-                  ["ctrl-y"] = function(selected)
-                    print(selected[1])
-                  end,
-                },
-              },
-              git = {
-                files = {
-                  prompt = "GitFiles❯ ",
-                  cmd = "git ls-files --exclude-standard",
-                  multiprocess = true,
-                  git_icons = true, -- show git icons?
-                  file_icons = true, -- show file icons?
-                  color_icons = true, -- colorize file|git icons
-                },
-                status = {
-                  prompt = "GitStatus❯ ",
-                  cmd = "git status -s",
-                  previewer = "git_diff",
-                  file_icons = true,
-                  git_icons = true,
-                  color_icons = true,
-                },
-                commits = {
-                  prompt = "Commits❯ ",
-                  cmd = "git log --pretty=oneline --abbrev-commit --color --reflog",
-                  preview = "git show --pretty='%Cred%H%n%Cblue%an%n%Cgreen%s' --color {1}",
-                  actions = {
-                    ["default"] = actions.git_checkout,
-                  },
-                },
-                bcommits = {
-                  prompt = "BCommits❯ ",
-                  cmd = "git log --pretty=oneline --abbrev-commit --color --reflog",
-                  preview = "git show --pretty='%Cred%H%n%Cblue%an%n%Cgreen%s' --color {1}",
-                  actions = {
-                    ["default"] = actions.git_buf_edit,
-                    ["ctrl-x"] = actions.git_buf_split,
-                    ["ctrl-v"] = actions.git_buf_vsplit,
-                    ["ctrl-t"] = actions.git_buf_tabedit,
-                  },
-                },
-                branches = {
-                  prompt = "Branches❯ ",
-                  cmd = "git branch --all --color --reflog",
-                  preview = "git log --graph --pretty=oneline --abbrev-commit --color {1}",
-                  actions = {
-                    ["default"] = actions.git_switch,
-                  },
-                },
-                icons = {
-                  -- ["M"] = { icon = "M", color = "yellow" },
-                  -- ["D"] = { icon = "D", color = "red" },
-                  -- ["A"] = { icon = "A", color = "green" },
-                  ["?"] = { icon = "?", color = "magenta" },
-                  ["M"] = { icon = "★", color = "red" },
-                  ["D"] = { icon = "✗", color = "red" },
-                  ["A"] = { icon = "+", color = "green" },
-                },
-              },
-              grep = {
-                prompt = "Rg❯ ",
-                input_prompt = "Grep For❯ ",
-                -- cmd               = "rg --vimgrep",
-                rg_opts = "--hidden --column --line-number --no-heading "
-                    .. "--color=always --with-filename --smart-case -g '!{.git,node_modules}/*'",
-                multiprocess = true,
-                git_icons = true, -- show git icons?
-                file_icons = true, -- show file icons?
-                color_icons = true, -- colorize file|git icons
-                actions = {
-                  ["default"] = actions.file_edit,
-                  ["ctrl-x"] = actions.file_split,
-                  ["ctrl-v"] = actions.file_vsplit,
-                  ["ctrl-t"] = actions.file_tabedit,
-                  ["ctrl-q"] = actions.file_sel_to_qf,
-                  ["ctrl-y"] = function(selected)
-                    print(selected[2])
-                  end,
-                },
-              },
-              oldfiles = {
-                prompt = "History❯ ",
-                cwd_only = true,
-              },
-              buffers = {
-                -- previewer      = false,        -- disable the builtin previewer?
-                prompt = "Buffers❯ ",
-                file_icons = true, -- show file icons?
-                color_icons = true, -- colorize file|git icons
-                sort_lastused = true, -- sort buffers() by last used
-                actions = {
-                  ["default"] = actions.buf_edit,
-                  ["ctrl-x"] = actions.buf_split,
-                  ["ctrl-v"] = actions.buf_vsplit,
-                  ["ctrl-t"] = actions.buf_tabedit,
-                  ["ctrl-d"] = actions.buf_del,
-                },
-              },
-              blines = {
-                previewer = "builtin", -- set to 'false' to disable
-                prompt = "BLines❯ ",
-                actions = {
-                  ["default"] = actions.buf_edit,
-                  ["ctrl-x"] = actions.buf_split,
-                  ["ctrl-v"] = actions.buf_vsplit,
-                  ["ctrl-t"] = actions.buf_tabedit,
-                },
-              },
-              colorschemes = {
-                prompt = "Colorschemes❯ ",
-                live_preview = true, -- apply the colorscheme on preview?
-                actions = {
-                  ["default"] = actions.colorscheme,
-                  ["ctrl-y"] = function(selected)
-                    print(selected[2])
-                  end,
-                },
-                winopts = {
-                  win_height = 0.55,
-                  win_width = 0.30,
-                },
-                post_reset_cb = function()
-                  -- reset statusline highlights after
-                  -- a live_preview of the colorscheme
-                  -- require('feline').reset_highlights()
-                end,
-              },
-              quickfix = {
-                -- cwd               = vim.loop.cwd(),
-                file_icons = true,
-                git_icons = true,
-              },
-              lsp = {
-                prompt = "❯ ",
-                -- cwd               = vim.loop.cwd(),
-                cwd_only = false, -- LSP/diagnostics for cwd only?
-                async_or_timeout = true, -- timeout(ms) or false for blocking calls
-                file_icons = true,
-                git_icons = false,
-                lsp_icons = true,
-                severity = "hint",
-                icons = {
-                  ["Error"] = { icon = "", color = "red" }, -- error
-                  ["Warning"] = { icon = "", color = "yellow" }, -- warning
-                  ["Information"] = { icon = "", color = "blue" }, -- info
-                  ["Hint"] = { icon = "", color = "magenta" }, -- hint
-                },
-              },
-              -- placeholders for additional user customizations
-              loclist = {},
-              helptags = {},
-              manpages = {},
-              -- optional override of file extension icon colors
-              -- available colors (terminal):
-              --    clear, bold, black, red, green, yellow
-              --    blue, magenta, cyan, grey, dark_grey, white
-              -- padding can help kitty term users with
-              -- double-width icon rendering
-              file_icon_padding = "",
-              file_icon_colors = {
-                ["lua"] = "blue",
-              },
-            }
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>S",
-              "<cmd>lua require('fzf-lua').resume()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            -- Buffer
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sb",
-              "<cmd>lua require('fzf-lua').buffers()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            -- File
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sfg",
-              "<cmd>lua require('fzf-lua').git_files()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sff",
-              "<cmd>lua require('fzf-lua').files()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sfr",
-              "<cmd>lua require('fzf-lua').oldfiles({cwd = vim.fn.getcwd()})<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            -- Git
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>svc",
-              "<cmd>lua require('fzf-lua').git_bcommits()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>svC",
-              "<cmd>lua require('fzf-lua').git_commits()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>svs",
-              "<cmd>lua require('fzf-lua').git_status()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>svb",
-              "<cmd>lua require('fzf-lua').git_branches()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            -- Grep
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sgg",
-              "<cmd>lua require('fzf-lua').live_grep()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sgG",
-              "<cmd>lua require('fzf-lua').live_grep_resume()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sgw",
-              "<cmd>lua require('fzf-lua').grep_cword()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sgl",
-              "<cmd>lua require('fzf-lua').blines()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sgc",
-              "<cmd>lua require('fzf-lua').grep_curbuf()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            -- Misc
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sc",
-              "<cmd>lua require('fzf-lua').command_history()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sl",
-              "<cmd>lua require('fzf-lua').loclist()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            vim.api.nvim_set_keymap(
-              "n",
-              "<leader>sq",
-              "<cmd>lua require('fzf-lua').quickfix()<CR>",
-              require("scripts/util").keymaps.default_opt
-            )
-            if vim.g.lsp_client_type == "neovim" then
-              vim.api.nvim_set_keymap(
-                "n",
-                "gr",
-                "<cmd>lua require('fzf-lua').lsp_references()<CR>",
-                require("scripts/util").keymaps.default_opt
-              )
-              vim.api.nvim_set_keymap(
-                "n",
-                "gi",
-                "<cmd>lua require('fzf-lua').lsp_implementations()<CR>",
-                require("scripts/util").keymaps.default_opt
-              )
-              vim.api.nvim_set_keymap(
-                "n",
-                "gy",
-                "<cmd>lua require('fzf-lua').lsp_typedefs()<CR>",
-                require("scripts/util").keymaps.default_opt
-              )
-              vim.api.nvim_set_keymap(
-                "n",
-                "<leader>ac",
-                "<cmd>lua require('fzf-lua').code_actions()<CR>",
-                require("scripts/util").keymaps.default_opt
-              )
-            end
-          end,
-        }
-      end
+    if vim.g.lsp_client_type == "coc" then
+      use { "fannheyward/telescope-coc.nvim" }
     end
 
+    use {
+      "nvim-telescope/telescope.nvim",
+      requires = {
+        { "nvim-lua/plenary.nvim" },
+        { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+        { "nvim-telescope/telescope-ui-select.nvim" },
+        { "lambdalisue/mr.vim" }, -- for local source
+      },
+      config = function()
+        local telescope = require "telescope"
+        telescope.setup {
+          defaults = {
+            vimgrep_arguments = {
+              "rg",
+              "--color=never",
+              "--no-heading",
+              "--with-filename",
+              "--line-number",
+              "--column",
+              "--smart-case",
+              "--hidden",
+            },
+            prompt_prefix = "  ",
+            path_display = { "smart" },
+            winblend = 10,
+            scroll_strategy = "cycle",
+            color_devicon = true,
+            preview = {
+              treesitter = false,
+            },
+            file_previewer = require("telescope.previewers").cat.new,
+            grep_previewer = require("telescope.previewers").vimgrep.new,
+            qflist_previewer = require("telescope.previewers").qflist.new,
+          },
+          pickers = {
+            buffers = {
+              -- sort_lastused = true,
+              sort_mru = true,
+              ignore_current_buffer = true,
+              theme = "dropdown",
+              -- previewer = true,
+              mappings = {
+                i = { ["<c-d>"] = require("telescope.actions").delete_buffer },
+                n = { ["<c-d>"] = require("telescope.actions").delete_buffer },
+              },
+              find_files = {
+                path_display = { "smart" },
+              },
+            },
+          },
+          extensions = {
+            ["ui-select"] = {
+              require("telescope.themes").get_dropdown {
+                -- even more opts
+              },
+
+              -- pseudo code / specification for writing custom displays, like the one
+              -- for "codeactions"
+              specific_opts = {
+                --   [kind] = {
+                --     make_indexed = function(items) -> indexed_items, width,
+                --     make_displayer = function(widths) -> displayer
+                --     make_display = function(displayer) -> function(e)
+                --     make_ordinal = function(e) -> string
+                --   },
+                --   -- for example to disable the custom builtin "codeactions" display
+                --      do the following
+                codeactions = false,
+              },
+            },
+          },
+          fzf = {
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+          },
+        }
+        telescope.load_extension "ui-select"
+        telescope.load_extension "fzf"
+        if vim.g.lsp_client_type == "coc" then
+          telescope.load_extension "coc"
+        end
+      end,
+    }
     use {
       "hoschi/yode-nvim",
       requires = { "nvim-lua/plenary.nvim" },
       config = function()
         require("yode-nvim").setup {}
-        vim.keymap.set("", "<leader>yc", ":YodeCreateSeditorFloating<cr>")
-        vim.keymap.set("", "<leader>yr", ":YodeCreateSeditorReplace<cr>")
-        vim.keymap.set("n", "<leader>yd", ":YodeBufferDelete<cr>")
-        vim.keymap.set("", "<leader>ywr", ":YodeLayoutShiftWinDown<cr>")
-        vim.keymap.set("", "<leader>ywR", ":YodeLayoutShiftWinUp<cr>")
-        vim.keymap.set("", "<leader>ywJ", ":YodeLayoutShiftWinBottom<cr>")
-        vim.keymap.set("", "<leader>ywK", ":YodeLayoutShiftWinTop<cr>")
       end,
     }
 

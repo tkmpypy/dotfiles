@@ -167,7 +167,6 @@ let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
 let g:lsp_client_type = 'neovim' " neovim(builtin), coc
-let g:fuzzy_finder_type = 'telescope' " telescope, fzf
 let g:git_client_type = 'neogit' " neogit, gina
 
 
@@ -190,7 +189,6 @@ require('scripts/random_colorscheme').set_random_colorscheme({
   'nightfox',
   'duskfox',
   'nordfox',
-  'doom-one'
   })
 require('scripts/gen_gitignore').initialize()
 require('scripts/git_linker').initialize()
