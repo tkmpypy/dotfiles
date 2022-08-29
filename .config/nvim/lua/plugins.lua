@@ -1269,27 +1269,51 @@ packer.startup {
           },
           ["<leader>y"] = {
             name = "+Yode",
-            c = {":YodeCreateSeditorFloating<cr>", "Create Floating"},
-            r = {":YodeCreateSeditorReplace<cr>", "Replace"},
-            d = {":YodeBufferDelete<cr>", "Delete"},
+            c = { ":YodeCreateSeditorFloating<cr>", "Create Floating" },
+            r = { ":YodeCreateSeditorReplace<cr>", "Replace" },
+            d = { ":YodeBufferDelete<cr>", "Delete" },
             w = {
               name = "+Layout",
-              d = {":YodeLayoutShiftWinDown<cr>", "Layout Down"},
-              u = {":YodeLayoutShiftWinUp<cr>", "Layout Up"},
-              j = {":YodeLayoutShiftWinBottom<cr>", "Layout Bottom"},
-              k = {":YodeLayoutShiftWinTop<cr>", "Layout Top"},
+              d = { ":YodeLayoutShiftWinDown<cr>", "Layout Down" },
+              u = { ":YodeLayoutShiftWinUp<cr>", "Layout Up" },
+              j = { ":YodeLayoutShiftWinBottom<cr>", "Layout Bottom" },
+              k = { ":YodeLayoutShiftWinTop<cr>", "Layout Top" },
             },
-          }
+          },
         }
         if vim.g.lsp_client_type == "neovim" then
-          wk.register {
+          wk.register({
             ["g"] = {
               name = "+LSP",
               r = { "<cmd>Telescope lsp_references<CR>", "References" },
               i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
               y = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definitions" },
+              h = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
+              d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
+              D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
+              p = { "<cmd>Lspsaga preview_definition<CR>", "Preview Definition" },
             },
-          }
+            ["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Doc" },
+            ["H"] = { "<Cmd>Lspsaga signature_help<CR>", "Signature Help" },
+            ["rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
+            ["<leader>"] = {
+              F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
+            },
+            ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
+            ["<leader>d"] = {
+              name = "+Diagnostics",
+              c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
+              o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
+              n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
+              p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
+            },
+          }, { mode = "n" })
+          wk.register({
+            ["<leader>ac"] = {
+              "<cmd><C-U>Lspsaga range_code_action<CR>",
+              "Code Action",
+            },
+          }, { mode = "v" })
         elseif vim.g.lsp_client_type == "coc" then
           wk.register {
             ["<lesder>sd"] = { "<cmd>:Telescope coc diagnostics<CR>", "Diagnostics" },
@@ -1468,8 +1492,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mw",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
           {}
         )
         vim.keymap.set(
@@ -1481,8 +1504,7 @@ packer.startup {
         vim.keymap.set(
           "o",
           "mW",
-          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>"
-          ,
+          "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
           {}
         )
       end,
@@ -2379,20 +2401,7 @@ packer.startup {
           local action = require "lspsaga.action"
           require "lsp_settings"
           local o = require("scripts/util").keymaps.default_opt
-          vim.keymap.set("n", "gh", require("lspsaga.finder").lsp_finder, { silent = true })
-          vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", o)
-          vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", o)
-          -- vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", o)
-          -- vim.keymap.set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", o)
-          -- nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-          -- nnoremap <leader>F    <cmd>lua vim.lsp.buf.formatting()<CR>
 
-          -- vim.keymap.set("n", "gp", "<cmd>lua vim.lsp.buf.peek_definition()<CR>", o)
-          vim.keymap.set("n", "gp", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
-
-          -- vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", o)
-          vim.keymap.set("n", "K", require("lspsaga.hover").render_hover_doc, { silent = true })
-          -- scroll down hover doc or scroll in definition preview
           vim.keymap.set("n", "<C-f>", function()
             action.smart_scroll_with_saga(1)
           end, { silent = true })
@@ -2400,27 +2409,6 @@ packer.startup {
           vim.keymap.set("n", "<C-b>", function()
             action.smart_scroll_with_saga(-1)
           end, { silent = true })
-
-          -- vim.keymap.set("n", "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", o)
-          vim.keymap.set("n", "H", "<Cmd>Lspsaga signature_help<CR>", { silent = true })
-
-          vim.keymap.set("n", "<leader>F", "<cmd>lua vim.lsp.buf.format{async = true}<CR>", o)
-
-          -- vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", o)
-          vim.keymap.set("n", "rn", "<cmd>Lspsaga rename<CR>", { silent = true })
-
-          -- vim.keymap.set("n", "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", o)
-          vim.keymap.set("n", "<leader>ac", "<cmd>Lspsaga code_action<CR>", { silent = true })
-          vim.keymap.set("v", "<leader>ac", "<cmd><C-U>Lspsaga range_code_action<CR>", { silent = true })
-
-          vim.keymap.set("n", "<leader>dc", "<cmd>lua vim.diagnostic.open_float()<CR>", o)
-          vim.keymap.set("n", "<leader>do", "<cmd>lua vim.diagnostic.setloclist()<CR>", o)
-
-          -- vim.keymap.set("n", "<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", o)
-          -- vim.keymap.set("n", "<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", o)
-          -- or use command
-          vim.keymap.set("n", "<leader>dp", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
-          vim.keymap.set("n", "<leader>dn", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
         end,
       }
       use {
