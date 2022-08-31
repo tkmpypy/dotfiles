@@ -103,3 +103,7 @@ ultisnips
 nordfox
 bname
 pytest
+nocapture
+gotos
+mygroup
+funcobj

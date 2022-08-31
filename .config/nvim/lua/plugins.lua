@@ -2435,31 +2435,31 @@ packer.startup {
         "jose-elias-alvarez/null-ls.nvim",
         requires = { { "neovim/nvim-lspconfig" }, { "nvim-lua/plenary.nvim" } },
         config = function()
-          local dir = vim.fn.stdpath "data" .. "/cspell"
+          local data_dir = vim.fn.stdpath "data" .. "/cspell"
+          local cspell_dic = {
+            dotfiles = {
+              name = "dotfiles",
+              path = vim.fn.stdpath "config" .. "/cspell/dotfiles.txt",
+            },
+            user = {
+              name = "user",
+              path = data_dir .. "/user.txt",
+            },
+          }
           -- vim辞書がなければダウンロード
-          if vim.fn.filereadable(dir .. "/vim.txt.gz") ~= 1 then
+          if vim.fn.filereadable(data_dir .. "/vim.txt.gz") ~= 1 then
             local vim_dictionary_url = "https://github.com/iamcco/coc-spell-checker/raw/master/dicts/vim/vim.txt.gz"
-            io.popen("curl -fsSLo " .. dir .. "/vim.txt.gz --create-dirs " .. vim_dictionary_url)
+            io.popen("curl -fsSLo " .. data_dir .. "/vim.txt.gz --create-dirs " .. vim_dictionary_url)
           end
 
           -- ユーザー辞書がなければ作成
-          if vim.fn.filereadable(dir .. "/user.txt") ~= 1 then
-            io.popen("mkdir -p " .. dir)
-            io.popen("touch " .. dir .. "/user.txt")
+          if vim.fn.filereadable(cspell_dic.user.path) ~= 1 then
+            io.popen("mkdir -p " .. data_dir)
+            io.popen("touch " .. cspell_dic.user.path)
           end
 
           local null_ls = require "null-ls"
 
-          local cspell_dic = {
-            dotfiles = {
-              name = "dotfiles",
-              path = vim.fn.stdpath("config") .. "/cspell/dotfiles.txt",
-            },
-            user = {
-              name = "user",
-              path = dir .. "/user.txt",
-            },
-          }
           local cspell_code_action = {
             method = null_ls.methods.CODE_ACTION,
             name = "cspell",
@@ -2467,14 +2467,18 @@ packer.startup {
             generator = {
               fn = function(params)
                 local actions = {}
-                local diagnostic = vim.diagnostic.get(params.bufnr, { lnum = params.row })
+                local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+                local diagnostic = vim.diagnostic.get(params.bufnr, { lnum = lnum })
+                if vim.tbl_isempty(diagnostic) then
+                  return
+                end
                 for _, d in pairs(cspell_dic) do
                   table.insert(actions, {
                     title = string.format("Add word to %s dictionary", d.name),
                     action = function()
                       local msg = diagnostic[1].message
-                      local w = msg:match("%b()")
-                      w = w:sub(2, #w-1)
+                      local w = msg:match "%b()"
+                      w = w:sub(2, #w - 1)
 
                       local f, err = io.open(d.path, "a+")
                       if not f then
@@ -2482,8 +2486,9 @@ packer.startup {
                         return
                       end
 
-                      f:write(w, '\n')
+                      f:write(w, "\n")
                       f:close()
+                      vim.notify(string.format("Added '%s'", w), vim.log.levels.INFO, { title = "[null-ls] cspell" })
 
                       local q = {
                         name = "cspell",
