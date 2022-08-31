@@ -1231,6 +1231,10 @@ packer.startup {
         }
 
         wk.register {
+          ["<leader>"] = {
+            q = {"<cmd>Bdelete<CR>", "Delete Buffer"},
+            Q = {"<cmd>Bdelete!<CR>", "Delete Buffer!"},
+          },
           ["<leader>s"] = {
             name = "+Search",
             b = {
@@ -1269,15 +1273,15 @@ packer.startup {
           },
           ["<leader>y"] = {
             name = "+Yode",
-            c = { ":YodeCreateSeditorFloating<cr>", "Create Floating" },
-            r = { ":YodeCreateSeditorReplace<cr>", "Replace" },
-            d = { ":YodeBufferDelete<cr>", "Delete" },
+            c = { "<cmd>YodeCreateSeditorFloating<cr>", "Create Floating" },
+            r = { "<cmd>YodeCreateSeditorReplace<cr>", "Replace" },
+            d = { "<cmd>YodeBufferDelete<cr>", "Delete" },
             w = {
               name = "+Layout",
-              d = { ":YodeLayoutShiftWinDown<cr>", "Layout Down" },
-              u = { ":YodeLayoutShiftWinUp<cr>", "Layout Up" },
-              j = { ":YodeLayoutShiftWinBottom<cr>", "Layout Bottom" },
-              k = { ":YodeLayoutShiftWinTop<cr>", "Layout Top" },
+              d = { "<cmd>YodeLayoutShiftWinDown<cr>", "Layout Down" },
+              u = { "<cmd>YodeLayoutShiftWinUp<cr>", "Layout Up" },
+              j = { "<cmd>YodeLayoutShiftWinBottom<cr>", "Layout Bottom" },
+              k = { "<cmd>YodeLayoutShiftWinTop<cr>", "Layout Top" },
             },
           },
         }
@@ -1294,7 +1298,6 @@ packer.startup {
               p = { "<cmd>Lspsaga preview_definition<CR>", "Preview Definition" },
             },
             ["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Doc" },
-            ["H"] = { "<Cmd>Lspsaga signature_help<CR>", "Signature Help" },
             ["rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
             ["<leader>"] = {
               F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
@@ -1316,14 +1319,14 @@ packer.startup {
           }, { mode = "v" })
         elseif vim.g.lsp_client_type == "coc" then
           wk.register {
-            ["<lesder>sd"] = { "<cmd>:Telescope coc diagnostics<CR>", "Diagnostics" },
-            ["<lesder>sD"] = { "<cmd>:Telescope coc workspace_diagnostics<CR>", "Workspace Diagnostics" },
-            ["<lesder>ca"] = { "<cmd>:Telescope coc code_actions<CR>", "Code Actions" },
+            ["<lesder>sd"] = { "<cmd>Telescope coc diagnostics<CR>", "Diagnostics" },
+            ["<lesder>sD"] = { "<cmd>Telescope coc workspace_diagnostics<CR>", "Workspace Diagnostics" },
+            ["<lesder>ca"] = { "<cmd>Telescope coc code_actions<CR>", "Code Actions" },
             ["g"] = {
               name = "+LSP",
-              r = { "<cmd>:Telescope coc references<CR>", "References" },
-              i = { "<cmd>:Telescope coc implementations<CR>", "Implementations" },
-              y = { "<cmd>:Telescope coc type_definitions<CR>", "Type Definitions" },
+              r = { "<cmd>Telescope coc references<CR>", "References" },
+              i = { "<cmd>Telescope coc implementations<CR>", "Implementations" },
+              y = { "<cmd>Telescope coc type_definitions<CR>", "Type Definitions" },
             },
           }
         end
@@ -1417,10 +1420,6 @@ packer.startup {
     }
     use {
       "moll/vim-bbye",
-      config = function()
-        vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>:Bdelete<CR>", require("scripts/util").keymaps.default_opt)
-        vim.api.nvim_set_keymap("n", "<leader>Q", "<cmd>:Bdelete!<CR>", require("scripts/util").keymaps.default_opt)
-      end,
     }
     -- use {'tyru/caw.vim'}
     use { "godlygeek/tabular" }
@@ -2322,6 +2321,10 @@ packer.startup {
                 },
                 -- preview lines of lsp_finder and definition preview
                 max_preview_lines = 10,
+                scroll_in_preview = {
+                  scroll_down = '<C-f>',
+                  scroll_up = '<C-b>',
+                },
                 finder_action_keys = {
                   open = "o",
                   vsplit = "s",
@@ -2398,17 +2401,7 @@ packer.startup {
             --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
             automatic_installation = false,
           }
-          local action = require "lspsaga.action"
           require "lsp_settings"
-          local o = require("scripts/util").keymaps.default_opt
-
-          vim.keymap.set("n", "<C-f>", function()
-            action.smart_scroll_with_saga(1)
-          end, { silent = true })
-          -- scroll up hover doc
-          vim.keymap.set("n", "<C-b>", function()
-            action.smart_scroll_with_saga(-1)
-          end, { silent = true })
         end,
       }
       use {
@@ -2872,6 +2865,13 @@ packer.startup {
         require("chowcho").setup { border_style = "rounded", icon_enabled = true }
       end,
     }
+    use {
+      "~/ghq/github.com/tkmpypy/deepon.nvim",
+      config = function()
+        require("deepon").setup()
+      end
+    }
+
   end,
   config = {
     -- Move to lua dir so impatient.nvim can cache it
