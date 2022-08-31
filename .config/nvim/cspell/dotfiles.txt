@@ -107,3 +107,9 @@ nocapture
 gotos
 mygroup
 funcobj
+oapi
+unmarshalled
+fzf's
+wezterm
+alacritty
+ideavimrc

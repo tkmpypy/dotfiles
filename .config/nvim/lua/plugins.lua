@@ -2469,13 +2469,19 @@ packer.startup {
                 local actions = {}
                 local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
                 local diagnostic = vim.diagnostic.get(params.bufnr, { lnum = lnum })
+                print(vim.inspect(diagnostic))
                 if vim.tbl_isempty(diagnostic) then
                   return
                 end
+                if diagnostic[1].source ~= "cspell" then
+                  return
+                end
+
                 for _, d in pairs(cspell_dic) do
                   table.insert(actions, {
                     title = string.format("Add word to %s dictionary", d.name),
                     action = function()
+
                       local msg = diagnostic[1].message
                       local w = msg:match "%b()"
                       w = w:sub(2, #w - 1)
