@@ -1232,8 +1232,8 @@ packer.startup {
 
         wk.register {
           ["<leader>"] = {
-            q = {"<cmd>Bdelete<CR>", "Delete Buffer"},
-            Q = {"<cmd>Bdelete!<CR>", "Delete Buffer!"},
+            q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
+            Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
           },
           ["<leader>s"] = {
             name = "+Search",
@@ -1421,12 +1421,10 @@ packer.startup {
     use {
       "moll/vim-bbye",
     }
-    -- use {'tyru/caw.vim'}
     use { "godlygeek/tabular" }
     use { "airblade/vim-rooter" }
     use { "machakann/vim-sandwich" }
     use { "simeji/winresizer" }
-    -- use {'cohama/lexima.vim'}
     use {
       "windwp/nvim-autopairs",
       config = function()
@@ -1509,14 +1507,6 @@ packer.startup {
       end,
     }
     use { "mtdl9/vim-log-highlighting", opt = true }
-    use {
-      "bfredl/nvim-miniyank",
-      disable = true,
-      config = function()
-        vim.keymap.set("n", "p", "<Plug>miniyank-autoput")
-        vim.keymap.set("n", "P", "<Plug>miniyanl-autoPut")
-      end,
-    }
 
     -- finder
     if vim.g.lsp_client_type == "coc" then
@@ -2322,8 +2312,8 @@ packer.startup {
                 -- preview lines of lsp_finder and definition preview
                 max_preview_lines = 10,
                 scroll_in_preview = {
-                  scroll_down = '<C-f>',
-                  scroll_up = '<C-b>',
+                  scroll_down = "<C-f>",
+                  scroll_up = "<C-b>",
                 },
                 finder_action_keys = {
                   open = "o",
@@ -2445,30 +2435,88 @@ packer.startup {
         "jose-elias-alvarez/null-ls.nvim",
         requires = { { "neovim/nvim-lspconfig" }, { "nvim-lua/plenary.nvim" } },
         config = function()
+          local dir = vim.fn.stdpath "data" .. "/cspell"
+          -- vim辞書がなければダウンロード
+          if vim.fn.filereadable(dir .. "/vim.txt.gz") ~= 1 then
+            local vim_dictionary_url = "https://github.com/iamcco/coc-spell-checker/raw/master/dicts/vim/vim.txt.gz"
+            io.popen("curl -fsSLo " .. dir .. "/vim.txt.gz --create-dirs " .. vim_dictionary_url)
+          end
+
+          -- ユーザー辞書がなければ作成
+          if vim.fn.filereadable(dir .. "/user.txt") ~= 1 then
+            io.popen("mkdir -p " .. dir)
+            io.popen("touch " .. dir .. "/user.txt")
+          end
+
           local null_ls = require "null-ls"
+
+          local cspell_dic = {
+            dotfiles = {
+              name = "dotfiles",
+              path = vim.fn.stdpath("config") .. "/cspell/dotfiles.txt",
+            },
+            user = {
+              name = "user",
+              path = dir .. "/user.txt",
+            },
+          }
+          local cspell_code_action = {
+            method = null_ls.methods.CODE_ACTION,
+            name = "cspell",
+            filetypes = {},
+            generator = {
+              fn = function(params)
+                local actions = {}
+                local diagnostic = vim.diagnostic.get(params.bufnr, { lnum = params.row })
+                for _, d in pairs(cspell_dic) do
+                  table.insert(actions, {
+                    title = string.format("Add word to %s dictionary", d.name),
+                    action = function()
+                      local msg = diagnostic[1].message
+                      local w = msg:match("%b()")
+                      w = w:sub(2, #w-1)
+
+                      local f, err = io.open(d.path, "a+")
+                      if not f then
+                        vim.notify(err, vim.log.levels.ERROR, { title = "[null-ls] cspell" })
+                        return
+                      end
+
+                      f:write(w, '\n')
+                      f:close()
+
+                      local q = {
+                        name = "cspell",
+                        methods = { [null_ls.methods.DIAGNOSTICS] = true },
+                        id = params.bufnr,
+                      }
+                      null_ls.disable(q)
+                      null_ls.enable(q)
+                    end,
+                  })
+                end
+
+                return actions
+              end,
+            },
+          }
+          null_ls.register(cspell_code_action)
+
           null_ls.setup {
             sources = {
-              -- null_ls.builtins.diagnostics.markdownlint,
+              null_ls.builtins.diagnostics.cspell.with {
+                extra_args = { "--config", vim.fn.stdpath "config" .. "/cspell/cspell.json" },
+                diagnostics_postprocess = function(diagnostic)
+                  -- レベルをWARNに変更（デフォルトはERROR）
+                  diagnostic.severity = vim.diagnostic.severity["WARN"]
+                end,
+                condition = function()
+                  -- cspellが実行できるときのみ有効
+                  return vim.fn.executable "cspell" > 0
+                end,
+                timeout = 50000,
+              },
               null_ls.builtins.diagnostics.flake8,
-              -- lsp-installerのeslint(vscode-exract)の方が軽いので使用しない
-              -- null_ls.builtins.formatting.eslint_d.with {
-              --   timeout = 50000,
-              -- },
-              -- null_ls.builtins.diagnostics.eslint_d.with {
-              --   timeout = 50000,
-              -- },
-              -- null_ls.builtins.code_actions.eslint_d.with {
-              --   timeout = 50000,
-              -- },
-              -- null_ls.builtins.formatting.eslint.with({
-              --   timeout = 50000
-              -- }),
-              -- null_ls.builtins.diagnostics.eslint.with({
-              --   timeout = 50000
-              -- }),
-              -- null_ls.builtins.code_actions.eslint.with({
-              --   timeout = 50000
-              -- }),
               null_ls.builtins.diagnostics.golangci_lint.with {
                 timeout = 50000,
               },
@@ -2869,9 +2917,8 @@ packer.startup {
       "~/ghq/github.com/tkmpypy/deepon.nvim",
       config = function()
         require("deepon").setup()
-      end
+      end,
     }
-
   end,
   config = {
     -- Move to lua dir so impatient.nvim can cache it
