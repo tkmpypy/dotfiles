@@ -113,3 +113,8 @@ fzf's
 wezterm
 alacritty
 ideavimrc
+oapimiddleware
+unusedparams
+venv
+pyproject
+pyrightconfig

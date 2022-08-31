@@ -2469,7 +2469,6 @@ packer.startup {
                 local actions = {}
                 local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
                 local diagnostic = vim.diagnostic.get(params.bufnr, { lnum = lnum })
-                print(vim.inspect(diagnostic))
                 if vim.tbl_isempty(diagnostic) then
                   return
                 end
