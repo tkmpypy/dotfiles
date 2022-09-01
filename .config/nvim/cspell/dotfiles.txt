@@ -118,3 +118,11 @@ unusedparams
 venv
 pyproject
 pyrightconfig
+Buildx
+goarch
+GDRIVE
+wcnt
+upgrader
+nolint
+gomnd
+firebaseui

@@ -1032,9 +1032,6 @@ packer.startup {
       disable = false,
       config = function()
         local tree_cb = require("nvim-tree.config").nvim_tree_callback
-        vim.api.nvim_set_keymap("n", "<Leader>ft", ":NvimTreeToggle<CR>", {})
-        vim.api.nvim_set_keymap("n", "<Leader>fr", ":NvimTreeRefresh<CR>", {})
-        vim.api.nvim_set_keymap("n", "<Leader>ff", ":NvimTreeFindFile<CR>", {})
         require("nvim-tree").setup {
           auto_reload_on_write = true,
           -- disables netrw completely
@@ -1234,6 +1231,12 @@ packer.startup {
           ["<leader>"] = {
             q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
             Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
+          },
+          ["<leader>f"] = {
+            name = "+Explorer",
+            t = {"<cmd>NvimTreeToggle<cr>", "Toggle"},
+            r = {"<cmd>NvimTreeRefresh<cr>", "Refresh"},
+            f = {"<cmd>NvimTreeFindFile<cr>", "Focus File"},
           },
           ["<leader>s"] = {
             name = "+Search",
@@ -2198,17 +2201,6 @@ packer.startup {
                 -- "terminal": Terminal buffer
                 -- ...
                 include_buftypes = { "" },
-
-                -- :help events
-                -- :help [event] (like :help BufWinEnter)
-                update_events = {
-                  "BufWinEnter",
-                  "BufWritePost",
-                  "CursorMoved",
-                  "CursorMovedI",
-                  "TextChanged",
-                  "TextChangedI",
-                },
 
                 -- Show `~ > ...` instead of `/ > home > user > ...`
                 tilde_home = true,
