@@ -216,49 +216,12 @@ packer.startup {
               move = {
                 enable = true,
                 set_jumps = true, -- whether to set jumps in the jumplist
-                goto_next_start = {
-                  ["]m"] = "@function.outer",
-                  ["]]"] = "@class.outer",
-                },
-                goto_next_end = {
-                  ["]M"] = "@function.outer",
-                  ["]["] = "@class.outer",
-                },
-                goto_previous_start = {
-                  ["[m"] = "@function.outer",
-                  ["[["] = "@class.outer",
-                },
-                goto_previous_end = {
-                  ["[M"] = "@function.outer",
-                  ["[]"] = "@class.outer",
-                },
               },
-              -- swap = {
-              --   enable = true,
-              --   swap_next = {
-              --     ["<leader>a"] = "@parameter.inner",
-              --   },
-              --   swap_previous = {
-              --     ["<leader>A"] = "@parameter.inner",
-              --   },
-              -- },
               select = {
                 enable = true,
-
                 -- Automatically jump forward to textobj, similar to targets.vim
                 lookahead = true,
-
-                keymaps = {
-                  -- You can use the capture groups defined in textobjects.scm
-                  ["af"] = "@function.outer",
-                  ["if"] = "@function.inner",
-                  ["ac"] = "@class.outer",
-                  ["ic"] = "@class.inner",
-                  ["ap"] = "@parameter.outer",
-                  ["ip"] = "@parameter.inner",
-                  ["ab"] = "@block.outer",
-                  ["ib"] = "@block.inner",
-                },
+                include_surrounding_whitespace = true,
               },
             },
             autotag = {
@@ -1157,184 +1120,6 @@ packer.startup {
     use { "rafcamlet/nvim-luapad" }
 
     -- Utils
-    use {
-      "folke/which-key.nvim",
-      config = function()
-        local wk = require "which-key"
-        wk.setup {
-          plugins = {
-            marks = true, -- shows a list of your marks on ' and `
-            registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-            spelling = {
-              enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-              suggestions = 20, -- how many suggestions should be shown in the list?
-            },
-            -- the presets plugin, adds help for a bunch of default keybindings in Neovim
-            -- No actual key bindings are created
-            presets = {
-              operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
-              motions = true, -- adds help for motions
-              text_objects = true, -- help for text objects triggered after entering an operator
-              windows = true, -- default bindings on <c-w>
-              nav = true, -- misc bindings to work with windows
-              z = true, -- bindings for folds, spelling and others prefixed with z
-              g = true, -- bindings for prefixed with g
-            },
-          },
-          -- add operators that will trigger motion and text object completion
-          -- to enable all native operators, set the preset / operators plugin above
-          operators = { gc = "Comments" },
-          key_labels = {
-            -- override the label used to display some keys. It doesn't effect WK in any other way.
-            -- For example:
-            ["<space>"] = "SPC",
-            ["<cr>"] = "RET",
-            ["<tab>"] = "TAB",
-          },
-          icons = {
-            breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-            separator = "➜", -- symbol used between a key and it's label
-            group = "+", -- symbol prepended to a group
-          },
-          popup_mappings = {
-            scroll_down = "<c-d>", -- binding to scroll down inside the popup
-            scroll_up = "<c-u>", -- binding to scroll up inside the popup
-          },
-          window = {
-            border = "shadow", -- none, single, double, shadow
-            position = "bottom", -- bottom, top
-            margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-            padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-            winblend = 10,
-          },
-          layout = {
-            height = { min = 4, max = 25 }, -- min and max height of the columns
-            width = { min = 20, max = 50 }, -- min and max width of the columns
-            spacing = 3, -- spacing between columns
-            align = "left", -- align columns left, center or right
-          },
-          ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-          hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
-          show_help = true, -- show help message on the command line when the popup is visible
-          triggers = "auto", -- automatically setup triggers
-          -- triggers = {"<leader>"} -- or specify a list manually
-          triggers_blacklist = {
-            -- list of mode / prefixes that should never be hooked by WhichKey
-            -- this is mostly relevant for key maps that start with a native binding
-            -- most people should not need to change this
-            i = { "j", "k" },
-            v = { "j", "k" },
-          },
-        }
-
-        wk.register {
-          ["<leader>"] = {
-            q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
-            Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
-          },
-          ["<leader>f"] = {
-            name = "+Explorer",
-            t = {"<cmd>NvimTreeToggle<cr>", "Toggle"},
-            r = {"<cmd>NvimTreeRefresh<cr>", "Refresh"},
-            f = {"<cmd>NvimTreeFindFile<cr>", "Focus File"},
-          },
-          ["<leader>s"] = {
-            name = "+Search",
-            b = {
-              '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
-              "Buffer",
-            },
-            c = {
-              name = "+Commands",
-              r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
-            },
-            f = {
-              name = "+Files",
-              f = {
-                '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
-                "Find Files",
-              },
-              g = { "<cmd>lua require('telescope.builtin').git_files{}<CR>", "Git Files" },
-              j = { "<cmd>lua require('telescope.builtin').jumplist{}<CR>", "Jump List" },
-              l = { "<cmd>lua require('telescope.builtin').loclist{}<CR>", "Location list" },
-              r = { "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", "Old Files" },
-              q = { "<cmd>lua require('telescope.builtin').quickfix{}<CR>", "Quickfix" },
-            },
-            v = {
-              name = "+Git",
-              c = { "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", "Buffer Commit" },
-              C = { "<cmd>lua require('telescope.builtin').git_commits{}<CR>", "Commit" },
-              s = { "<cmd>lua require('telescope.builtin').git_status{}<CR>", "Status" },
-              b = { "<cmd>lua require('telescope.builtin').git_branches{}<CR>", "Branch" },
-            },
-            g = {
-              name = "+Grep",
-              g = { '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>', "Live Grep" },
-              c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
-            },
-            r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
-          },
-          ["<leader>y"] = {
-            name = "+Yode",
-            c = { "<cmd>YodeCreateSeditorFloating<cr>", "Create Floating" },
-            r = { "<cmd>YodeCreateSeditorReplace<cr>", "Replace" },
-            d = { "<cmd>YodeBufferDelete<cr>", "Delete" },
-            w = {
-              name = "+Layout",
-              d = { "<cmd>YodeLayoutShiftWinDown<cr>", "Layout Down" },
-              u = { "<cmd>YodeLayoutShiftWinUp<cr>", "Layout Up" },
-              j = { "<cmd>YodeLayoutShiftWinBottom<cr>", "Layout Bottom" },
-              k = { "<cmd>YodeLayoutShiftWinTop<cr>", "Layout Top" },
-            },
-          },
-        }
-        if vim.g.lsp_client_type == "neovim" then
-          wk.register({
-            ["g"] = {
-              name = "+LSP",
-              r = { "<cmd>Telescope lsp_references<CR>", "References" },
-              i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
-              y = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definitions" },
-              h = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
-              d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-              D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
-              p = { "<cmd>Lspsaga preview_definition<CR>", "Preview Definition" },
-            },
-            ["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Doc" },
-            ["rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
-            ["<leader>"] = {
-              F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
-            },
-            ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
-            ["<leader>d"] = {
-              name = "+Diagnostics",
-              c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
-              o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
-              n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
-              p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
-            },
-          }, { mode = "n" })
-          wk.register({
-            ["<leader>ac"] = {
-              "<cmd><C-U>Lspsaga range_code_action<CR>",
-              "Code Action",
-            },
-          }, { mode = "v" })
-        elseif vim.g.lsp_client_type == "coc" then
-          wk.register {
-            ["<lesder>sd"] = { "<cmd>Telescope coc diagnostics<CR>", "Diagnostics" },
-            ["<lesder>sD"] = { "<cmd>Telescope coc workspace_diagnostics<CR>", "Workspace Diagnostics" },
-            ["<lesder>ca"] = { "<cmd>Telescope coc code_actions<CR>", "Code Actions" },
-            ["g"] = {
-              name = "+LSP",
-              r = { "<cmd>Telescope coc references<CR>", "References" },
-              i = { "<cmd>Telescope coc implementations<CR>", "Implementations" },
-              y = { "<cmd>Telescope coc type_definitions<CR>", "Type Definitions" },
-            },
-          }
-        end
-      end,
-    }
     use {
       "jbyuki/venn.nvim",
       config = function()
@@ -2472,7 +2257,6 @@ packer.startup {
                   table.insert(actions, {
                     title = string.format("Add word to %s dictionary", d.name),
                     action = function()
-
                       local msg = diagnostic[1].message
                       local w = msg:match "%b()"
                       w = w:sub(2, #w - 1)
@@ -2907,6 +2691,229 @@ packer.startup {
         requires = { "rafcamlet/coc-nvim-lua" },
       }
     end
+
+    use {
+      "folke/which-key.nvim",
+      config = function()
+        local wk = require "which-key"
+        wk.setup {
+          plugins = {
+            marks = true, -- shows a list of your marks on ' and `
+            registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+            spelling = {
+              enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+              suggestions = 20, -- how many suggestions should be shown in the list?
+            },
+            -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+            -- No actual key bindings are created
+            presets = {
+              operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+              motions = true, -- adds help for motions
+              text_objects = true, -- help for text objects triggered after entering an operator
+              windows = true, -- default bindings on <c-w>
+              nav = true, -- misc bindings to work with windows
+              z = true, -- bindings for folds, spelling and others prefixed with z
+              g = true, -- bindings for prefixed with g
+            },
+          },
+          -- add operators that will trigger motion and text object completion
+          -- to enable all native operators, set the preset / operators plugin above
+          operators = { gc = "Comments" },
+          key_labels = {
+            -- override the label used to display some keys. It doesn't effect WK in any other way.
+            -- For example:
+            ["<space>"] = "SPC",
+            ["<cr>"] = "RET",
+            ["<tab>"] = "TAB",
+          },
+          icons = {
+            breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+            separator = "➜", -- symbol used between a key and it's label
+            group = "+", -- symbol prepended to a group
+          },
+          popup_mappings = {
+            scroll_down = "<c-d>", -- binding to scroll down inside the popup
+            scroll_up = "<c-u>", -- binding to scroll up inside the popup
+          },
+          window = {
+            border = "shadow", -- none, single, double, shadow
+            position = "bottom", -- bottom, top
+            margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+            padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+            winblend = 10,
+          },
+          layout = {
+            height = { min = 4, max = 25 }, -- min and max height of the columns
+            width = { min = 20, max = 50 }, -- min and max width of the columns
+            spacing = 3, -- spacing between columns
+            align = "left", -- align columns left, center or right
+          },
+          ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
+          hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
+          show_help = true, -- show help message on the command line when the popup is visible
+          triggers = "auto", -- automatically setup triggers
+          -- triggers = {"<leader>"} -- or specify a list manually
+          triggers_blacklist = {
+            -- list of mode / prefixes that should never be hooked by WhichKey
+            -- this is mostly relevant for key maps that start with a native binding
+            -- most people should not need to change this
+            i = { "j", "k" },
+            v = { "j", "k" },
+          },
+        }
+
+        wk.register {
+          ["<leader>"] = {
+            q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
+            Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
+          },
+          ["<leader>f"] = {
+            name = "+Explorer",
+            t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
+            r = { "<cmd>NvimTreeRefresh<cr>", "Refresh" },
+            f = { "<cmd>NvimTreeFindFile<cr>", "Focus File" },
+          },
+          ["m"] = {
+            name = "+Move",
+            n = {
+              name = "+Next",
+              s = {
+                name = "+Start",
+                m = {"<cmd>TSTextobjectGotoNextStart @function.outer<cr>", "Method"},
+                b = {"<cmd>TSTextobjectGotoNextStart @block.outer<cr>", "Block"},
+              },
+              e = {
+                name = "+End",
+                m = {"<cmd>TSTextobjectGotoNextEnd @function.outer<cr>", "Method"},
+                b = {"<cmd>TSTextobjectGotoNextEnd @block.outer<cr>", "Block"},
+              },
+            },
+            p = {
+              name = "+Previous",
+              s = {
+                name = "+Start",
+                m = {"<cmd>TSTextobjectGotoPreviousStart @function.outer<cr>", "Method"},
+                b = {"<cmd>TSTextobjectGotoPreviousStart @block.outer<cr>", "Block"},
+              },
+              e = {
+                name = "+End",
+                m = {"<cmd>TSTextobjectGotoPreviousEnd @function.outer<cr>", "Method"},
+                b = {"<cmd>TSTextobjectGotoPreviousEnd @block.outer<cr>", "Block"},
+              },
+            }
+          },
+          ["v"] = {
+            name = "+Select",
+            i = {
+              name = "+Inner",
+              m = {"<cmd>TSTextobjectSelect @function.inner<cr>", "Select Method"},
+              b = {"<cmd>TSTextobjectSelect @block.inner<cr>", "Select Block"},
+              p = {"<cmd>TSTextobjectSelect @parameter.inner<cr>", "Select Parameter"},
+            },
+            o = {
+              name = "+Outer",
+              m = {"<cmd>TSTextobjectSelect @function.outer<cr>", "Select Method"},
+              b = {"<cmd>TSTextobjectSelect @block.outer<cr>", "Select Block"},
+              p = {"<cmd>TSTextobjectSelect @parameter.outer<cr>", "Select Parameter"},
+            },
+          },
+          ["<leader>s"] = {
+            name = "+Search",
+            b = {
+              '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+              "Buffer",
+            },
+            c = {
+              name = "+Commands",
+              r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
+            },
+            f = {
+              name = "+Files",
+              f = {
+                '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+                "Find Files",
+              },
+              g = { "<cmd>lua require('telescope.builtin').git_files{}<CR>", "Git Files" },
+              j = { "<cmd>lua require('telescope.builtin').jumplist{}<CR>", "Jump List" },
+              l = { "<cmd>lua require('telescope.builtin').loclist{}<CR>", "Location list" },
+              r = { "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", "Old Files" },
+              q = { "<cmd>lua require('telescope.builtin').quickfix{}<CR>", "Quickfix" },
+            },
+            v = {
+              name = "+Git",
+              c = { "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", "Buffer Commit" },
+              C = { "<cmd>lua require('telescope.builtin').git_commits{}<CR>", "Commit" },
+              s = { "<cmd>lua require('telescope.builtin').git_status{}<CR>", "Status" },
+              b = { "<cmd>lua require('telescope.builtin').git_branches{}<CR>", "Branch" },
+            },
+            g = {
+              name = "+Grep",
+              g = { '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>', "Live Grep" },
+              c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
+            },
+            r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
+          },
+          ["<leader>y"] = {
+            name = "+Yode",
+            c = { "<cmd>YodeCreateSeditorFloating<cr>", "Create Floating" },
+            r = { "<cmd>YodeCreateSeditorReplace<cr>", "Replace" },
+            d = { "<cmd>YodeBufferDelete<cr>", "Delete" },
+            w = {
+              name = "+Layout",
+              d = { "<cmd>YodeLayoutShiftWinDown<cr>", "Layout Down" },
+              u = { "<cmd>YodeLayoutShiftWinUp<cr>", "Layout Up" },
+              j = { "<cmd>YodeLayoutShiftWinBottom<cr>", "Layout Bottom" },
+              k = { "<cmd>YodeLayoutShiftWinTop<cr>", "Layout Top" },
+            },
+          },
+        }
+        if vim.g.lsp_client_type == "neovim" then
+          wk.register({
+            ["g"] = {
+              name = "+LSP",
+              r = { "<cmd>Telescope lsp_references<CR>", "References" },
+              i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
+              y = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definitions" },
+              h = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
+              d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
+              D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
+              p = { "<cmd>Lspsaga preview_definition<CR>", "Preview Definition" },
+            },
+            ["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Doc" },
+            ["rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
+            ["<leader>"] = {
+              F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
+            },
+            ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
+            ["<leader>d"] = {
+              name = "+Diagnostics",
+              c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
+              o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
+              n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
+              p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
+            },
+          }, { mode = "n" })
+          wk.register({
+            ["<leader>ac"] = {
+              "<cmd><C-U>Lspsaga range_code_action<CR>",
+              "Code Action",
+            },
+          }, { mode = "v" })
+        elseif vim.g.lsp_client_type == "coc" then
+          wk.register {
+            ["<lesder>sd"] = { "<cmd>Telescope coc diagnostics<CR>", "Diagnostics" },
+            ["<lesder>sD"] = { "<cmd>Telescope coc workspace_diagnostics<CR>", "Workspace Diagnostics" },
+            ["<lesder>ca"] = { "<cmd>Telescope coc code_actions<CR>", "Code Actions" },
+            ["g"] = {
+              name = "+LSP",
+              r = { "<cmd>Telescope coc references<CR>", "References" },
+              i = { "<cmd>Telescope coc implementations<CR>", "Implementations" },
+              y = { "<cmd>Telescope coc type_definitions<CR>", "Type Definitions" },
+            },
+          }
+        end
+      end,
+    }
 
     use {
       -- "tkmpypy/chowcho.nvim",
