@@ -1307,7 +1307,6 @@ packer.startup {
         { "nvim-lua/plenary.nvim" },
         { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
         { "nvim-telescope/telescope-ui-select.nvim" },
-        { "lambdalisue/mr.vim" }, -- for local source
       },
       config = function()
         local telescope = require "telescope"

@@ -1,5 +1,6 @@
 -- https://wezfurlong.org/wezterm/config/keys.html
 local wezterm = require "wezterm"
+local act = wezterm.action
 local enable_transparent = true
 local window_background_opacity = 0.7
 
@@ -31,6 +32,8 @@ return {
     { key = "0", mods = "LEADER|CTRL", action = "ResetFontSize" },
     { key = "Enter", mods = "LEADER|ALT", action = "ToggleFullScreen" },
     { key = "r", mods = "ALT", action = "ReloadConfiguration" },
+    { key = 'UpArrow', mods = 'SHIFT', action = act.ScrollToPrompt(-1) },
+    { key = 'DownArrow', mods = 'SHIFT', action = act.ScrollToPrompt(1) },
     {
       key = "t",
       mods = "ALT",

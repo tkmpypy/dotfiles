@@ -126,3 +126,17 @@ upgrader
 nolint
 gomnd
 firebaseui
+Deepl
+zdharma
+Zinit's
+zinit
+pushd
+dups
+nonomatch
+zstyle
+gcloud
+nord
+Plemol
+UDEV
+Firge
+oauthlib
