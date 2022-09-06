@@ -140,3 +140,12 @@ Plemol
 UDEV
 Firge
 oauthlib
+Demi
+pbcopy
+xclip
+sitm
+Smulx
+Setulc
+setw
+noitalics
+sessionist
