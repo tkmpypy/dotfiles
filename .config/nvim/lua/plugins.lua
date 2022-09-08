@@ -301,27 +301,22 @@ packer.startup {
 
     -- UI
     use {
-      disable = true,
-      "lewis6991/satellite.nvim",
-      requires = { "lewis6991/gitsigns.nvim" },
+      "levouh/tint.nvim",
       config = function()
-        require("satellite").setup {
-          current_only = false,
-          winblend = 50,
-          zindex = 40,
-          excluded_filetypes = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer", "windline" },
-          width = 2,
-          handlers = {
-            search = {
-              enable = true,
-            },
-            diagnostic = {
-              enable = true,
-            },
-            gitsigns = {
-              enable = true,
-            },
-          },
+        require("tint").setup {
+          tint = -45, -- Darken colors, use a positive value to brighten
+          saturation = 0.6, -- Saturation to preserve
+          transforms = require("tint").transforms.SATURATE_TINT, -- Showing default behavior, but value here can be predefined set of transforms
+          tint_background_colors = true, -- Tint background portions of highlight groups
+          highlight_ignore_patterns = { "WinSeparator", "Status.*" }, -- Highlight group patterns to ignore, see `string.find`
+          window_ignore_function = function(winid)
+            local bufid = vim.api.nvim_win_get_buf(winid)
+            local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
+            local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+
+            -- Do not tint `terminal` or floating windows, tint everything else
+            return buftype == "terminal" or floating
+          end,
         }
       end,
     }
@@ -1120,6 +1115,54 @@ packer.startup {
     use { "rafcamlet/nvim-luapad" }
 
     -- Utils
+    use {
+      "max397574/colortils.nvim",
+      cmd = "Colortils",
+      config = function()
+        require("colortils").setup {
+          -- Register in which color codes will be copied
+          register = "+",
+          -- Preview for colors, if it contains `%s` this will be replaced with a hex color code of the color
+          color_preview = "█ %s",
+          -- The default in which colors should be saved
+          -- This can be hex, hsl or rgb
+          default_format = "hex",
+          -- Border for the float
+          border = "rounded",
+          -- Some mappings which are used inside the tools
+          mappings = {
+            -- increment values
+            increment = "l",
+            -- decrement values
+            decrement = "h",
+            -- increment values with bigger steps
+            increment_big = "L",
+            -- decrement values with bigger steps
+            decrement_big = "H",
+            -- set values to the minimum
+            min_value = "0",
+            -- set values to the maximum
+            max_value = "$",
+            -- save the current color in the register specified above with the format specified above
+            set_register_default_format = "<cr>",
+            -- save the current color in the register specified above with a format you can choose
+            set_register_cjoose_format = "g<cr>",
+            -- replace the color under the cursor with the current color in the format specified above
+            replace_default_format = "<m-cr>",
+            -- replace the color under the cursor with the current color in a format you can choose
+            replace_choose_format = "g<m-cr>",
+            -- export the current color to a different tool
+            export = "E",
+            -- set the value to a certain number (done by just entering numbers)
+            set_value = "c",
+            -- toggle transparency
+            transparency = "T",
+            -- choose the background (for transparent colors)
+            choose_background = "B",
+          },
+        }
+      end,
+    }
     use {
       "jbyuki/venn.nvim",
       config = function()
@@ -2291,6 +2334,7 @@ packer.startup {
             sources = {
               null_ls.builtins.diagnostics.cspell.with {
                 extra_args = { "--config", vim.fn.stdpath "config" .. "/cspell/cspell.json" },
+                disabled_filetypes = { "NvimTree" },
                 diagnostics_postprocess = function(diagnostic)
                   -- レベルをWARNに変更（デフォルトはERROR）
                   diagnostic.severity = vim.diagnostic.severity["WARN"]
@@ -2766,6 +2810,18 @@ packer.startup {
             q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
             Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
           },
+          ["<leader>u"] = {
+            name = "+Utility",
+            c = {
+              name = "+Color",
+              p = { "<cmd>Colortils picker<CR>", "Picker" },
+              l = { "<cmd>Colortils lighten<CR>", "lighten" },
+              d = { "<cmd>Colortils darken<CR>", "Darken" },
+              s = { "<cmd>Colortils greyscale<CR>", "Greyscale" },
+              g = { "<cmd>Colortils gradient<CR>", "Gradient" },
+              c = { "<cmd>Colortils css list<CR>", "CSS List" },
+            },
+          },
           ["<leader>f"] = {
             name = "+Explorer",
             t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
@@ -2778,42 +2834,42 @@ packer.startup {
               name = "+Next",
               s = {
                 name = "+Start",
-                m = {"<cmd>TSTextobjectGotoNextStart @function.outer<cr>", "Method"},
-                b = {"<cmd>TSTextobjectGotoNextStart @block.outer<cr>", "Block"},
+                m = { "<cmd>TSTextobjectGotoNextStart @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoNextStart @block.outer<cr>", "Block" },
               },
               e = {
                 name = "+End",
-                m = {"<cmd>TSTextobjectGotoNextEnd @function.outer<cr>", "Method"},
-                b = {"<cmd>TSTextobjectGotoNextEnd @block.outer<cr>", "Block"},
+                m = { "<cmd>TSTextobjectGotoNextEnd @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoNextEnd @block.outer<cr>", "Block" },
               },
             },
             p = {
               name = "+Previous",
               s = {
                 name = "+Start",
-                m = {"<cmd>TSTextobjectGotoPreviousStart @function.outer<cr>", "Method"},
-                b = {"<cmd>TSTextobjectGotoPreviousStart @block.outer<cr>", "Block"},
+                m = { "<cmd>TSTextobjectGotoPreviousStart @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoPreviousStart @block.outer<cr>", "Block" },
               },
               e = {
                 name = "+End",
-                m = {"<cmd>TSTextobjectGotoPreviousEnd @function.outer<cr>", "Method"},
-                b = {"<cmd>TSTextobjectGotoPreviousEnd @block.outer<cr>", "Block"},
+                m = { "<cmd>TSTextobjectGotoPreviousEnd @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoPreviousEnd @block.outer<cr>", "Block" },
               },
-            }
+            },
           },
           ["v"] = {
             name = "+Select",
             i = {
               name = "+Inner",
-              m = {"<cmd>TSTextobjectSelect @function.inner<cr>", "Select Method"},
-              b = {"<cmd>TSTextobjectSelect @block.inner<cr>", "Select Block"},
-              p = {"<cmd>TSTextobjectSelect @parameter.inner<cr>", "Select Parameter"},
+              m = { "<cmd>TSTextobjectSelect @function.inner<cr>", "Select Method" },
+              b = { "<cmd>TSTextobjectSelect @block.inner<cr>", "Select Block" },
+              p = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", "Select Parameter" },
             },
             o = {
               name = "+Outer",
-              m = {"<cmd>TSTextobjectSelect @function.outer<cr>", "Select Method"},
-              b = {"<cmd>TSTextobjectSelect @block.outer<cr>", "Select Block"},
-              p = {"<cmd>TSTextobjectSelect @parameter.outer<cr>", "Select Parameter"},
+              m = { "<cmd>TSTextobjectSelect @function.outer<cr>", "Select Method" },
+              b = { "<cmd>TSTextobjectSelect @block.outer<cr>", "Select Block" },
+              p = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", "Select Parameter" },
             },
           },
           ["<leader>s"] = {
