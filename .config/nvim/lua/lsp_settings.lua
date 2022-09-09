@@ -31,8 +31,6 @@ local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
   if client.server_capabilities.documentHighlightProvider then
-    navic.attach(client, bufnr)
-
     vim.api.nvim_create_augroup("lsp_document_highlight", {
       clear = false,
     })
@@ -50,6 +48,9 @@ local custom_attach = function(client, bufnr)
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
     })
+  end
+  if client.server_capabilities.documentSymbolProvider then
+    navic.attach(client, bufnr)
   end
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts

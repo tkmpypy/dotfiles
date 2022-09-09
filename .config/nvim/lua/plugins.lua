@@ -184,6 +184,7 @@ packer.startup {
           require("nvim-treesitter.configs").setup {
             highlight = {
               enable = true,
+              disable = { "lua" },
             },
             indent = {
               enable = false,
@@ -307,7 +308,7 @@ packer.startup {
           tint = -45, -- Darken colors, use a positive value to brighten
           saturation = 0.6, -- Saturation to preserve
           transforms = require("tint").transforms.SATURATE_TINT, -- Showing default behavior, but value here can be predefined set of transforms
-          tint_background_colors = true, -- Tint background portions of highlight groups
+          tint_background_colors = false, -- Tint background portions of highlight groups
           highlight_ignore_patterns = { "WinSeparator", "Status.*" }, -- Highlight group patterns to ignore, see `string.find`
           window_ignore_function = function(winid)
             local bufid = vim.api.nvim_win_get_buf(winid)
@@ -2287,41 +2288,46 @@ packer.startup {
               fn = function(params)
                 local actions = {}
                 local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
-                local diagnostic = vim.diagnostic.get(params.bufnr, { lnum = lnum })
-                if vim.tbl_isempty(diagnostic) then
-                  return
-                end
-                if diagnostic[1].source ~= "cspell" then
+                local diagnostics = vim.diagnostic.get(params.bufnr, { lnum = lnum })
+                if vim.tbl_isempty(diagnostics) then
                   return
                 end
 
-                for _, d in pairs(cspell_dic) do
-                  table.insert(actions, {
-                    title = string.format("Add word to %s dictionary", d.name),
-                    action = function()
-                      local msg = diagnostic[1].message
-                      local w = msg:match "%b()"
-                      w = w:sub(2, #w - 1)
+                for _, diagnostic in pairs(diagnostics) do
+                  if diagnostic.source == "cspell" then
+                    for _, d in pairs(cspell_dic) do
+                      table.insert(actions, {
+                        title = string.format("Add word to %s dictionary", d.name),
+                        action = function()
+                          local msg = diagnostic.message
+                          local w = msg:match "%b()"
+                          w = w:sub(2, #w - 1)
 
-                      local f, err = io.open(d.path, "a+")
-                      if not f then
-                        vim.notify(err, vim.log.levels.ERROR, { title = "[null-ls] cspell" })
-                        return
-                      end
+                          local f, err = io.open(d.path, "a+")
+                          if not f then
+                            vim.notify(err, vim.log.levels.ERROR, { title = "[null-ls] cspell" })
+                            return
+                          end
 
-                      f:write(w, "\n")
-                      f:close()
-                      vim.notify(string.format("Added '%s'", w), vim.log.levels.INFO, { title = "[null-ls] cspell" })
+                          f:write(w, "\n")
+                          f:close()
+                          vim.notify(
+                            string.format("Added '%s'", w),
+                            vim.log.levels.INFO,
+                            { title = "[null-ls] cspell" }
+                          )
 
-                      local q = {
-                        name = "cspell",
-                        methods = { [null_ls.methods.DIAGNOSTICS] = true },
-                        id = params.bufnr,
-                      }
-                      null_ls.disable(q)
-                      null_ls.enable(q)
-                    end,
-                  })
+                          local q = {
+                            name = "cspell",
+                            methods = { [null_ls.methods.DIAGNOSTICS] = true },
+                            id = params.bufnr,
+                          }
+                          null_ls.disable(q)
+                          null_ls.enable(q)
+                        end,
+                      })
+                    end
+                  end
                 end
 
                 return actions
