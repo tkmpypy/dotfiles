@@ -55,8 +55,8 @@ local custom_attach = function(client, bufnr)
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
   -- I only want to use null-ls formatting
-  client.server_capabilities.document_formatting = false
-  client.server_capabilities.document_range_formatting = false
+  client.server_capabilities.document_formatting = true
+  client.server_capabilities.document_range_formatting = true
 
   -- ih.on_attach(client, bufnr)
 end
