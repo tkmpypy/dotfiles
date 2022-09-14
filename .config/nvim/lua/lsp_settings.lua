@@ -287,7 +287,7 @@ local setup_servers = function()
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
     function(server_name) -- default handler (optional)
-      lspconfig[server_name].setup {}
+      lspconfig[server_name].setup (default_conf)
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["sumneko_lua"] = function()

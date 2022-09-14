@@ -154,3 +154,9 @@ levouh
 bufid
 signin
 signup
+distroless
+entgo
+pgtype
+jackc
+katex
+nodenv

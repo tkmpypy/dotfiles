@@ -1134,49 +1134,62 @@ packer.startup {
 
     -- Utils
     use {
-      "max397574/colortils.nvim",
-      cmd = "Colortils",
+      "uga-rosa/ccc.nvim",
       config = function()
-        require("colortils").setup {
-          -- Register in which color codes will be copied
-          register = "+",
-          -- Preview for colors, if it contains `%s` this will be replaced with a hex color code of the color
-          color_preview = "█ %s",
-          -- The default in which colors should be saved
-          -- This can be hex, hsl or rgb
-          default_format = "hex",
-          -- Border for the float
-          border = "rounded",
-          -- Some mappings which are used inside the tools
+        local ccc = require "ccc"
+        local mapping = ccc.mapping
+
+        ccc.setup {
+          default_input_mode = "RGB",
+          default_output_mode = "ColorCode",
+          bar_char = "■",
+          win_opts = {
+            relative = "cursor",
+            row = 1,
+            col = 1,
+            style = "minimal",
+            border = "rounded",
+          },
           mappings = {
-            -- increment values
-            increment = "l",
-            -- decrement values
-            decrement = "h",
-            -- increment values with bigger steps
-            increment_big = "L",
-            -- decrement values with bigger steps
-            decrement_big = "H",
-            -- set values to the minimum
-            min_value = "0",
-            -- set values to the maximum
-            max_value = "$",
-            -- save the current color in the register specified above with the format specified above
-            set_register_default_format = "<cr>",
-            -- save the current color in the register specified above with a format you can choose
-            set_register_cjoose_format = "g<cr>",
-            -- replace the color under the cursor with the current color in the format specified above
-            replace_default_format = "<m-cr>",
-            -- replace the color under the cursor with the current color in a format you can choose
-            replace_choose_format = "g<m-cr>",
-            -- export the current color to a different tool
-            export = "E",
-            -- set the value to a certain number (done by just entering numbers)
-            set_value = "c",
-            -- toggle transparency
-            transparency = "T",
-            -- choose the background (for transparent colors)
-            choose_background = "B",
+            ["q"] = mapping.quit,
+            ["<CR>"] = mapping.complete,
+            ["i"] = mapping.input_mode_toggle,
+            ["o"] = mapping.output_mode_toggle,
+            ["h"] = mapping.decrease1,
+            ["l"] = mapping.increase1,
+            ["s"] = mapping.decrease5,
+            ["d"] = mapping.increase5,
+            ["m"] = mapping.decrease10,
+            [","] = mapping.increase10,
+            ["H"] = mapping.set0,
+            ["M"] = mapping.set50,
+            ["L"] = mapping.set100,
+            ["0"] = mapping.set0,
+            ["1"] = function()
+              ccc.set_percent(10)
+            end,
+            ["2"] = function()
+              ccc.set_percent(20)
+            end,
+            ["3"] = function()
+              ccc.set_percent(30)
+            end,
+            ["4"] = function()
+              ccc.set_percent(40)
+            end,
+            ["5"] = mapping.set50,
+            ["6"] = function()
+              ccc.set_percent(60)
+            end,
+            ["7"] = function()
+              ccc.set_percent(70)
+            end,
+            ["8"] = function()
+              ccc.set_percent(80)
+            end,
+            ["9"] = function()
+              ccc.set_percent(90)
+            end,
           },
         }
       end,
@@ -2310,14 +2323,27 @@ packer.startup {
 
                 for _, diagnostic in pairs(diagnostics) do
                   if diagnostic.source == "cspell" then
-                    for _, d in pairs(cspell_dic) do
-                      table.insert(actions, {
-                        title = string.format("Add word to %s dictionary", d.name),
-                        action = function()
-                          local msg = diagnostic.message
-                          local w = msg:match "%b()"
-                          w = w:sub(2, #w - 1)
+                    local msg = diagnostic.message
+                    local w = msg:match "%b()"
+                    w = w:sub(2, #w - 1)
 
+                    for _, d in pairs(cspell_dic) do
+                      local is_exists = false
+                      local title = string.format("Add '%s' to %s dictionary", w, d.name)
+
+                      for _, a in pairs(actions) do
+                        if a.title == title then
+                          is_exists = true
+                        end
+                      end
+
+                      if is_exists then
+                        goto continue
+                      end
+
+                      table.insert(actions, {
+                        title = title,
+                        action = function()
                           local f, err = io.open(d.path, "a+")
                           if not f then
                             vim.notify(err, vim.log.levels.ERROR, { title = "[null-ls] cspell" })
@@ -2341,6 +2367,7 @@ packer.startup {
                           null_ls.enable(q)
                         end,
                       })
+                      ::continue::
                     end
                   end
                 end
@@ -2835,12 +2862,7 @@ packer.startup {
             name = "+Utility",
             c = {
               name = "+Color",
-              p = { "<cmd>Colortils picker<CR>", "Picker" },
-              l = { "<cmd>Colortils lighten<CR>", "lighten" },
-              d = { "<cmd>Colortils darken<CR>", "Darken" },
-              s = { "<cmd>Colortils greyscale<CR>", "Greyscale" },
-              g = { "<cmd>Colortils gradient<CR>", "Gradient" },
-              c = { "<cmd>Colortils css list<CR>", "CSS List" },
+              p = { "<cmd>CccPick<CR>", "Picker" },
             },
           },
           ["<leader>f"] = {
