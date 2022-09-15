@@ -66,11 +66,6 @@ end
 local lua_config = {
   settings = {
     Lua = {
-      -- runtime = {
-      --   -- LuaJIT in the case of Neovim
-      --   version = "LuaJIT",
-      --   path = vim.split(package.path, ";"),
-      -- },
       format = {
         enable = false,
         -- Put format options here
@@ -81,27 +76,18 @@ local lua_config = {
         },
       },
       completion = {
-        callSnippet = "Replace"
+        callSnippet = "Replace",
       },
 
       -- https://github.com/sumneko/lua-language-server/wiki/Diagnostics
       diagnostics = {
         disable = {
-          "missing-parameter"
-        }
+          "missing-parameter",
+        },
       },
       hint = {
         enable = true,
       },
-      -- workspace = {
-      --   maxPreload = 2000,
-      --   preloadFileSize = 1000,
-      --   --   -- Make the server aware of Neovim runtime files
-      --   --   library = {
-      --   --     [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-      --   --     [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-      --   --   }
-      -- },
     },
   },
 }
@@ -294,10 +280,26 @@ local setup_servers = function()
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
     function(server_name) -- default handler (optional)
-      lspconfig[server_name].setup (default_conf)
+      lspconfig[server_name].setup(default_conf)
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["sumneko_lua"] = function()
+      require("lua-dev").setup {
+        library = {
+          enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
+          -- these settings will be used for your Neovim config directory
+          runtime = true, -- runtime path
+          types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+          plugins = true, -- installed opt or start plugins in packpath
+          -- you can also specify the list of plugins to make available as a workspace library
+          -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
+        },
+        setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
+        -- for your Neovim config directory, the config.library settings will be used as is
+        -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
+        -- for any other directory, config.library.enabled will be set to false
+      }
+
       local config = default_conf
       config.settings = lua_config.settings
       lspconfig.sumneko_lua.setup(config)
