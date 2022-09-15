@@ -62,14 +62,15 @@ local custom_attach = function(client, bufnr)
 end
 
 -- Configure lua language server for neovim development
+-- https://github.com/sumneko/lua-language-server/wiki/Settings
 local lua_config = {
   settings = {
     Lua = {
-      runtime = {
-        -- LuaJIT in the case of Neovim
-        version = "LuaJIT",
-        path = vim.split(package.path, ";"),
-      },
+      -- runtime = {
+      --   -- LuaJIT in the case of Neovim
+      --   version = "LuaJIT",
+      --   path = vim.split(package.path, ";"),
+      -- },
       format = {
         enable = false,
         -- Put format options here
@@ -79,22 +80,28 @@ local lua_config = {
           indent_size = "2",
         },
       },
+      completion = {
+        callSnippet = "Replace"
+      },
+
+      -- https://github.com/sumneko/lua-language-server/wiki/Diagnostics
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { "vim" },
+        disable = {
+          "missing-parameter"
+        }
       },
       hint = {
         enable = true,
       },
-      workspace = {
-        maxPreload = 2000,
-        preloadFileSize = 1000,
-        --   -- Make the server aware of Neovim runtime files
-        --   library = {
-        --     [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-        --     [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-        --   }
-      },
+      -- workspace = {
+      --   maxPreload = 2000,
+      --   preloadFileSize = 1000,
+      --   --   -- Make the server aware of Neovim runtime files
+      --   --   library = {
+      --   --     [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+      --   --     [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
+      --   --   }
+      -- },
     },
   },
 }

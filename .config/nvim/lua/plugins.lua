@@ -264,9 +264,6 @@ packer.startup {
             ignore_whitespace = true,
             use_consistent_indentation = true,
             prefer_single_line_comments = true,
-            hook_function = function()
-              require("ts_context_commentstring.internal").update_commentstring()
-            end,
           })
         end,
       }
@@ -287,13 +284,13 @@ packer.startup {
           }
           vim.keymap.set("n", "<leader>ncf", function()
             require("neogen").generate { type = "func" }
-          end)
+          end, {})
           vim.keymap.set("n", "<leader>nct", function()
             require("neogen").generate { type = "type" }
-          end)
+          end, {})
           vim.keymap.set("n", "<leader>ncc", function()
             require("neogen").generate { type = "class" }
-          end)
+          end, {})
         end,
         requires = "nvim-treesitter/nvim-treesitter",
       }
@@ -721,6 +718,7 @@ packer.startup {
             { helper.separators.slant_right, { "black", "black_light" } },
             {
               function()
+                ---@diagnostic disable-next-line: undefined-field
                 return vim.fn.getqflist({ title = 0 }).title
               end,
               { "cyan", "black_light" },
@@ -943,8 +941,8 @@ packer.startup {
             ]]
           end,
         })
-        vim.keymap.set("n", "<Leader>ft", "<cmd>Fern . -drawer -toggle<CR>")
-        vim.keymap.set("n", "<Leader>ff", "<cmd>Fern . -reveal=% -drawer -toggle<CR>")
+        vim.keymap.set("n", "<Leader>ft", "<cmd>Fern . -drawer -toggle<CR>", {})
+        vim.keymap.set("n", "<Leader>ff", "<cmd>Fern . -reveal=% -drawer -toggle<CR>", {})
         vim.cmd [[
           let g:fern#default_hidden = 1
           let g:fern#drawer_keep = v:false
@@ -1131,6 +1129,26 @@ packer.startup {
 
     -- Lua Utils
     use { "rafcamlet/nvim-luapad" }
+    use {
+      "folke/lua-dev.nvim",
+      config = function()
+        require("lua-dev").setup {
+          library = {
+            enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
+            -- these settings will be used for your Neovim config directory
+            runtime = true, -- runtime path
+            types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+            plugins = true, -- installed opt or start plugins in packpath
+            -- you can also specify the list of plugins to make available as a workspace library
+            -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
+          },
+          setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
+          -- for your Neovim config directory, the config.library settings will be used as is
+          -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
+          -- for any other directory, config.library.enabled will be set to false
+        }
+      end,
+    }
 
     -- Utils
     use {
@@ -1138,11 +1156,12 @@ packer.startup {
       config = function()
         local ccc = require "ccc"
         local mapping = ccc.mapping
-
         ccc.setup {
           default_input_mode = "RGB",
-          default_output_mode = "ColorCode",
+          default_output_mode = "HEX",
           bar_char = "■",
+          point_char = "◇",
+          bar_len = 30,
           win_opts = {
             relative = "cursor",
             row = 1,
@@ -1150,11 +1169,15 @@ packer.startup {
             style = "minimal",
             border = "rounded",
           },
+          default_color = "#000000",
+          preserve = false,
+          save_on_quit = false,
           mappings = {
             ["q"] = mapping.quit,
             ["<CR>"] = mapping.complete,
-            ["i"] = mapping.input_mode_toggle,
-            ["o"] = mapping.output_mode_toggle,
+            ["i"] = mapping.toggle_input_mode,
+            ["o"] = mapping.toggle_output_mode,
+            ["g"] = mapping.toggle_prev_colors,
             ["h"] = mapping.decrease1,
             ["l"] = mapping.increase1,
             ["s"] = mapping.decrease5,
@@ -1190,6 +1213,8 @@ packer.startup {
             ["9"] = function()
               ccc.set_percent(90)
             end,
+            ["w"] = "W",
+            ["b"] = "B",
           },
         }
       end,
@@ -1870,8 +1895,8 @@ packer.startup {
       use {
         "lambdalisue/gina.vim",
         config = function()
-          vim.keymap.set("n", "<leader>gs", "<cmd>Gina status --opener=vsplit<cr>")
-          vim.keymap.set("n", "<leader>gl", "<cmd>Gina log --opener=vsplit<cr>")
+          vim.keymap.set("n", "<leader>gs", "<cmd>Gina status --opener=vsplit<cr>", {})
+          vim.keymap.set("n", "<leader>gl", "<cmd>Gina log --opener=vsplit<cr>", {})
           vim.api.nvim_call_function(
             "gina#custom#mapping#nmap",
             { "status", "c", "<cmd>Gina commit --restore<cr>", { noremap = 1, silent = 1 } }
@@ -2021,6 +2046,7 @@ packer.startup {
       -- use neovim built-in
       use {
         "neovim/nvim-lspconfig",
+        after = { "lua-dev.nvim" },
         requires = {
           use {
             "williamboman/mason.nvim",
@@ -2500,7 +2526,7 @@ packer.startup {
           {
             "hrsh7th/cmp-nvim-lsp",
             config = function()
-              require("cmp_nvim_lsp").setup {}
+              require("cmp_nvim_lsp").setup()
             end,
           },
           { "hrsh7th/cmp-nvim-lsp-signature-help" },
