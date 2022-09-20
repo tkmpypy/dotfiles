@@ -455,12 +455,6 @@ packer.startup {
         }
       end,
     }
-    use {
-      "norcalli/nvim-colorizer.lua",
-      config = function()
-        require("colorizer").setup()
-      end,
-    }
     use { "kyazdani42/nvim-web-devicons" }
     use {
       "nvim-lualine/lualine.nvim",
@@ -1152,6 +1146,9 @@ packer.startup {
           default_color = "#000000",
           preserve = false,
           save_on_quit = false,
+          highlighter = {
+            auto_enable = true,
+          },
           mappings = {
             ["q"] = mapping.quit,
             ["<CR>"] = mapping.complete,

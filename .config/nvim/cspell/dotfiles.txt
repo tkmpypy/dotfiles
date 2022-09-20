@@ -162,3 +162,16 @@ katex
 nodenv
 Warnf
 luarc
+healthz
+kubecontext
+pyenv
+Goenv
+jenv
+plenv
+scalaenv
+fluxctl
+istioctl
+kogito
+kubectx
+kubens
+SSID
