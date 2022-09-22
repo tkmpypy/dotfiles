@@ -175,3 +175,9 @@ kogito
 kubectx
 kubens
 SSID
+oryd
+mysqld
+oidc
+kratos
+smtps
+nosec

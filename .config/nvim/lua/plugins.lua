@@ -202,15 +202,17 @@ packer.startup {
             highlight = {
               enable = true,
               disable = { "lua" },
+              additional_vim_regex_highlighting = true,
             },
+            yati = { enable = true },
             indent = {
               enable = false,
             },
-            refactor = {
-              highlight_defintions = { enable = true },
-              smart_rename = { enable = false },
-              navigation = { enable = false },
-            },
+            -- Install parsers synchronously (only applied to `ensure_installed`)
+            sync_install = false,
+
+            -- Automatically install missing parsers when entering buffer
+            auto_install = false,
             ensure_installed = {
               "java",
               "dart",
@@ -229,7 +231,6 @@ packer.startup {
               "vim",
               "markdown",
             },
-            yati = { enable = true },
             textobjects = {
               move = {
                 enable = true,
@@ -1887,6 +1888,7 @@ packer.startup {
     end
     use {
       "pwntester/octo.nvim",
+      disable = true,
       config = function()
         require("octo").setup {
           date_format = "%Y %b %d %I:%M %p %Z", -- date format
@@ -2052,59 +2054,129 @@ packer.startup {
             },
             config = function()
               local barbecue = require "barbecue"
-
               barbecue.setup {
-                -- If you set this to false, floating windows will look weird
-                exclude_float = true,
+                ---whether to create winbar updater autocmd
+                ---@type boolean
+                create_autocmd = true,
 
-                -- Instead of excluding countless number of filetypes, barbecue tries to only show on some buftypes
-                -- "" (empty): file buffer
-                -- "nofile": things like file tree and some other non-editable windows
-                -- "prompt": Telescope, FZF, etc
-                -- "terminal": Terminal buffer
-                -- ...
+                ---buftypes to enable winbar in
+                ---@type table
                 include_buftypes = { "" },
 
-                -- Show `~ > ...` instead of `/ > home > user > ...`
-                tilde_home = true,
+                ---returns a string to be shown at the end of winbar
+                ---@param bufnr number
+                ---@return string
+                custom_section = function(bufnr)
+                  return ""
+                end,
 
-                -- Your winbar will have a little padding from the edge
-                prefix = " ",
+                ---:help filename-modifiers
+                modifiers = {
+                  ---@type string
+                  dirname = ":~:.",
 
-                -- The sign between each entry
-                separator = "  ",
+                  ---@type string
+                  basename = "",
+                },
 
-                -- Show if lsp context is available but nothing to show
-                -- (You're either at the root of your file or language server is broken)
-                no_info_indicator = "…",
-                -- Icons passed to nvim-navic
-                icons = {
-                  File = " ",
-                  Module = " ",
-                  Namespace = " ",
-                  Package = " ",
-                  Class = " ",
-                  Method = " ",
-                  Property = " ",
-                  Field = " ",
-                  Constructor = " ",
-                  Enum = "練",
-                  Interface = "練",
-                  Function = " ",
-                  Variable = " ",
-                  Constant = " ",
-                  String = " ",
-                  Number = " ",
-                  Boolean = "◩ ",
-                  Array = " ",
-                  Object = " ",
-                  Key = " ",
-                  Null = "ﳠ ",
-                  EnumMember = " ",
-                  Struct = " ",
-                  Event = " ",
-                  Operator = " ",
-                  TypeParameter = " ",
+                symbols = {
+                  ---string to be shown at the start of winbar
+                  ---@type string
+                  prefix = " ",
+
+                  ---entry separator
+                  ---@type string
+                  -- The sign between each entry
+                  separator = "",
+
+                  ---string to be shown when buffer is modified
+                  ---@type string
+                  modified = "",
+
+                  ---string to be shown when context is available but empty
+                  ---@type string
+                  default_context = "…",
+                },
+
+                ---icons for different context entry kinds
+                kinds = {
+                  ---@type string
+                  File = "",
+
+                  ---@type string
+                  Package = "",
+
+                  ---@type string
+                  Module = "",
+
+                  ---@type string
+                  Namespace = "",
+
+                  ---@type string
+                  Class = "",
+
+                  ---@type string
+                  Constructor = "",
+
+                  ---@type string
+                  Field = "",
+
+                  ---@type string
+                  Property = "",
+
+                  ---@type string
+                  Method = "",
+
+                  ---@type string
+                  Struct = "",
+
+                  ---@type string
+                  Event = "",
+
+                  ---@type string
+                  Interface = "",
+
+                  ---@type string
+                  Enum = "",
+
+                  ---@type string
+                  EnumMember = "",
+
+                  ---@type string
+                  Constant = "",
+
+                  ---@type string
+                  Function = "",
+
+                  ---@type string
+                  TypeParameter = "",
+
+                  ---@type string
+                  Variable = "",
+
+                  ---@type string
+                  Operator = "",
+
+                  ---@type string
+                  Null = "",
+
+                  ---@type string
+                  Boolean = "",
+
+                  ---@type string
+                  Number = "",
+
+                  ---@type string
+                  String = "",
+
+                  ---@type string
+                  Key = "",
+
+                  ---@type string
+                  Array = "",
+
+                  ---@type string
+                  Object = "",
                 },
               }
             end,
