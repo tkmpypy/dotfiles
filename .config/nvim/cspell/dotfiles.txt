@@ -182,3 +182,5 @@ kratos
 smtps
 nosec
 Munif
+dgrijalva
+openfaas

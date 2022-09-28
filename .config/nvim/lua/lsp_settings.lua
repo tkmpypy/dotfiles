@@ -296,7 +296,7 @@ local setup_servers = function()
           plugins = {
             "plenary.nvim",
             "nui.nvim",
-          }, -- installed opt or start plugins in packpath
+          },
           -- you can also specify the list of plugins to make available as a workspace library
           -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
         },
@@ -304,6 +304,12 @@ local setup_servers = function()
         -- for your Neovim config directory, the config.library settings will be used as is
         -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
         -- for any other directory, config.library.enabled will be set to false
+        override = function(root_dir, library)
+          if require("lua-dev.util").is_plugin(root_dir) then
+            library.enabled = true
+            library.plugins = true
+          end
+        end,
       }
 
       local config = default_conf
