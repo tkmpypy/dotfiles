@@ -194,13 +194,6 @@ require('scripts/gen_gitignore').initialize()
 require('scripts/git_linker').initialize()
 EOF
 
-
-nnoremap <silent> <leader>glc <cmd>GitLinker current<CR>
-xnoremap <silent> <leader>glc <cmd>'<,'>GitLinker current<CR>
-nnoremap <silent> <leader>gld <cmd>GitLinker default<CR>
-xnoremap <silent> <leader>gld <cmd>'<,'>GitLinker default<CR>
-
-
 " my utils {{
 
 " local vimrc

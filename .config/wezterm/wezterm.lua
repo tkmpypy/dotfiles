@@ -51,8 +51,8 @@ return {
     { key = "0", mods = "LEADER|CTRL", action = "ResetFontSize" },
     { key = "Enter", mods = "LEADER|ALT", action = "ToggleFullScreen" },
     { key = "r", mods = "ALT", action = "ReloadConfiguration" },
-    { key = "UpArrow", mods = "SHIFT", action = act.ScrollToPrompt(-1) },
-    { key = "DownArrow", mods = "SHIFT", action = act.ScrollToPrompt(1) },
+    { key = "k", mods = "ALT", action = act.ScrollToPrompt(-1) },
+    { key = "j", mods = "ALT", action = act.ScrollToPrompt(1) },
     {
       key = "t",
       mods = "ALT",

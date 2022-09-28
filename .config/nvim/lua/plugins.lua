@@ -65,7 +65,7 @@ packer.startup {
           specialException = true, -- special highlight for exception handling keywords
           transparent = true, -- do not set background color
           dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-          globalStatus = false, -- adjust window separators highlight for laststatus=3
+          globalStatus = true, -- adjust window separators highlight for laststatus=3
           colors = {},
           overrides = {},
         }
@@ -212,7 +212,7 @@ packer.startup {
             sync_install = false,
 
             -- Automatically install missing parsers when entering buffer
-            auto_install = false,
+            auto_install = true,
             ensure_installed = {
               "java",
               "dart",
@@ -230,6 +230,7 @@ packer.startup {
               "html",
               "vim",
               "markdown",
+              "regex",
             },
             textobjects = {
               move = {
@@ -1130,69 +1131,13 @@ packer.startup {
       "uga-rosa/ccc.nvim",
       config = function()
         local ccc = require "ccc"
-        local mapping = ccc.mapping
         ccc.setup {
-          default_input_mode = "RGB",
-          default_output_mode = "HEX",
-          bar_char = "■",
-          point_char = "◇",
-          bar_len = 30,
-          win_opts = {
-            relative = "cursor",
-            row = 1,
-            col = 1,
-            style = "minimal",
-            border = "rounded",
-          },
-          default_color = "#000000",
-          preserve = false,
-          save_on_quit = false,
           highlighter = {
             auto_enable = true,
-          },
-          mappings = {
-            ["q"] = mapping.quit,
-            ["<CR>"] = mapping.complete,
-            ["i"] = mapping.toggle_input_mode,
-            ["o"] = mapping.toggle_output_mode,
-            ["g"] = mapping.toggle_prev_colors,
-            ["h"] = mapping.decrease1,
-            ["l"] = mapping.increase1,
-            ["s"] = mapping.decrease5,
-            ["d"] = mapping.increase5,
-            ["m"] = mapping.decrease10,
-            [","] = mapping.increase10,
-            ["H"] = mapping.set0,
-            ["M"] = mapping.set50,
-            ["L"] = mapping.set100,
-            ["0"] = mapping.set0,
-            ["1"] = function()
-              ccc.set_percent(10)
-            end,
-            ["2"] = function()
-              ccc.set_percent(20)
-            end,
-            ["3"] = function()
-              ccc.set_percent(30)
-            end,
-            ["4"] = function()
-              ccc.set_percent(40)
-            end,
-            ["5"] = mapping.set50,
-            ["6"] = function()
-              ccc.set_percent(60)
-            end,
-            ["7"] = function()
-              ccc.set_percent(70)
-            end,
-            ["8"] = function()
-              ccc.set_percent(80)
-            end,
-            ["9"] = function()
-              ccc.set_percent(90)
-            end,
-            ["w"] = "W",
-            ["b"] = "B",
+            filetypes = {},
+            excludes = {},
+            events = { "WinScrolled", "TextChanged", "TextChangedI", "BufEnter" },
+            lsp = false,
           },
         }
       end,
@@ -1389,6 +1334,11 @@ packer.startup {
         local telescope = require "telescope"
         telescope.setup {
           defaults = {
+            mappings = {
+              i = {
+                ["<C-h>"] = "which_key",
+              },
+            },
             vimgrep_arguments = {
               "rg",
               "--color=never",
@@ -2930,6 +2880,7 @@ packer.startup {
           },
         }
 
+        -- mode: n
         wk.register {
           ["<leader>"] = {
             q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
@@ -2947,50 +2898,6 @@ packer.startup {
             t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
             r = { "<cmd>NvimTreeRefresh<cr>", "Refresh" },
             f = { "<cmd>NvimTreeFindFile<cr>", "Focus File" },
-          },
-          ["m"] = {
-            name = "+Move",
-            n = {
-              name = "+Next",
-              s = {
-                name = "+Start",
-                m = { "<cmd>TSTextobjectGotoNextStart @function.outer<cr>", "Method" },
-                b = { "<cmd>TSTextobjectGotoNextStart @block.outer<cr>", "Block" },
-              },
-              e = {
-                name = "+End",
-                m = { "<cmd>TSTextobjectGotoNextEnd @function.outer<cr>", "Method" },
-                b = { "<cmd>TSTextobjectGotoNextEnd @block.outer<cr>", "Block" },
-              },
-            },
-            p = {
-              name = "+Previous",
-              s = {
-                name = "+Start",
-                m = { "<cmd>TSTextobjectGotoPreviousStart @function.outer<cr>", "Method" },
-                b = { "<cmd>TSTextobjectGotoPreviousStart @block.outer<cr>", "Block" },
-              },
-              e = {
-                name = "+End",
-                m = { "<cmd>TSTextobjectGotoPreviousEnd @function.outer<cr>", "Method" },
-                b = { "<cmd>TSTextobjectGotoPreviousEnd @block.outer<cr>", "Block" },
-              },
-            },
-          },
-          ["v"] = {
-            name = "+Select",
-            i = {
-              name = "+Inner",
-              m = { "<cmd>TSTextobjectSelect @function.inner<cr>", "Select Method" },
-              b = { "<cmd>TSTextobjectSelect @block.inner<cr>", "Select Block" },
-              p = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", "Select Parameter" },
-            },
-            o = {
-              name = "+Outer",
-              m = { "<cmd>TSTextobjectSelect @function.outer<cr>", "Select Method" },
-              b = { "<cmd>TSTextobjectSelect @block.outer<cr>", "Select Block" },
-              p = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", "Select Parameter" },
-            },
           },
           ["<leader>s"] = {
             name = "+Search",
@@ -3041,7 +2948,66 @@ packer.startup {
               k = { "<cmd>YodeLayoutShiftWinTop<cr>", "Layout Top" },
             },
           },
+          ["<leader>gl"] = {
+            name = "+GitLinker",
+            c = { "<cmd>GitLinker current<cr>", "Current git link" },
+            d = { "<cmd>GitLinker default<cr>", "Default branch git link" },
+          },
+          ["m"] = {
+            name = "+Move",
+            n = {
+              name = "+Next",
+              s = {
+                name = "+Start",
+                m = { "<cmd>TSTextobjectGotoNextStart @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoNextStart @block.outer<cr>", "Block" },
+              },
+              e = {
+                name = "+End",
+                m = { "<cmd>TSTextobjectGotoNextEnd @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoNextEnd @block.outer<cr>", "Block" },
+              },
+            },
+            p = {
+              name = "+Previous",
+              s = {
+                name = "+Start",
+                m = { "<cmd>TSTextobjectGotoPreviousStart @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoPreviousStart @block.outer<cr>", "Block" },
+              },
+              e = {
+                name = "+End",
+                m = { "<cmd>TSTextobjectGotoPreviousEnd @function.outer<cr>", "Method" },
+                b = { "<cmd>TSTextobjectGotoPreviousEnd @block.outer<cr>", "Block" },
+              },
+            },
+          },
+          ["v"] = {
+            name = "+Select",
+            i = {
+              name = "+Inner",
+              m = { "<cmd>TSTextobjectSelect @function.inner<cr>", "Select Method" },
+              b = { "<cmd>TSTextobjectSelect @block.inner<cr>", "Select Block" },
+              p = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", "Select Parameter" },
+            },
+            o = {
+              name = "+Outer",
+              m = { "<cmd>TSTextobjectSelect @function.outer<cr>", "Select Method" },
+              b = { "<cmd>TSTextobjectSelect @block.outer<cr>", "Select Block" },
+              p = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", "Select Parameter" },
+            },
+          },
         }
+
+        -- mode: x
+        wk.register({
+          ["<leader>gl"] = {
+            name = "+GitLinker",
+            c = { "<cmd>'<,'>GitLinker current<cr>", "Current git link" },
+            d = { "<cmd>'<,'>GitLinker default<cr>", "Default branch git link" },
+          },
+        }, { mode = "x" })
+
         if vim.g.lsp_client_type == "neovim" then
           wk.register({
             ["g"] = {
@@ -3099,6 +3065,10 @@ packer.startup {
     }
     use {
       "~/ghq/github.com/tkmpypy/deepon.nvim",
+      requires = {
+        "MunifTanjim/nui.nvim",
+        "nvim-lua/plenary.nvim",
+      },
       config = function()
         require("deepon").setup()
       end,

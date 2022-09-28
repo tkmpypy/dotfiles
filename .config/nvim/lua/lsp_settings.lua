@@ -263,6 +263,9 @@ local make_config = function()
   capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = { "documentation", "detail", "additionalTextEdits" },
   }
+  capabilities.textDocument.colorProvider = {
+    dynamicRegistration = true,
+  }
   return {
     -- enable snippet support
     capabilities = capabilities,
@@ -290,7 +293,10 @@ local setup_servers = function()
           -- these settings will be used for your Neovim config directory
           runtime = true, -- runtime path
           types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-          plugins = true, -- installed opt or start plugins in packpath
+          plugins = {
+            "plenary.nvim",
+            "nui.nvim",
+          }, -- installed opt or start plugins in packpath
           -- you can also specify the list of plugins to make available as a workspace library
           -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
         },
