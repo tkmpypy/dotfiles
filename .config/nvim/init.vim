@@ -70,8 +70,8 @@ set complete&
     \ complete-=t
 set completeopt=menu,menuone,noselect
 
-set ttyfast
-set lazyredraw
+" set ttyfast
+" set lazyredraw
 set redrawtime=500
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=500

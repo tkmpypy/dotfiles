@@ -202,7 +202,7 @@ packer.startup {
             highlight = {
               enable = true,
               disable = { "lua" },
-              additional_vim_regex_highlighting = true,
+              additional_vim_regex_highlighting = false,
             },
             yati = { enable = true },
             indent = {
@@ -893,7 +893,7 @@ packer.startup {
             },
           },
           popupmenu = {
-            enabled = false, -- disable if you use something like cmp-cmdline
+            enabled = true, -- disable if you use something like cmp-cmdline
             backend = "nui", -- 'nui' | 'cmp'
           },
         }
