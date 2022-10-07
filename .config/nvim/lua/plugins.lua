@@ -893,7 +893,7 @@ packer.startup {
             },
           },
           popupmenu = {
-            enabled = true, -- disable if you use something like cmp-cmdline
+            enabled = false, -- disable if you use something like cmp-cmdline
             backend = "nui", -- 'nui' | 'cmp'
           },
         }
