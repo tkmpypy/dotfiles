@@ -75,9 +75,9 @@ local lua_config = {
           indent_size = "2",
         },
       },
-      completion = {
-        callSnippet = "Replace",
-      },
+      -- completion = {
+      --   callSnippet = "Replace",
+      -- },
 
       -- https://github.com/sumneko/lua-language-server/wiki/Diagnostics
       diagnostics = {

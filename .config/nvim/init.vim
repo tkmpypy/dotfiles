@@ -1,5 +1,11 @@
 scriptencoding=utf-8
 
+let mapleader = "\<Space>"
+
+let g:use_treesitter = v:true
+let g:lsp_client_type = 'neovim' " neovim(builtin), coc
+let g:git_client_type = 'neogit' " neogit, gina
+
 let g:did_install_default_menus = 1
 let g:did_install_syntax_menu   = 1
 let g:did_indent_on             = 1
@@ -38,6 +44,7 @@ endif
 "     set pumblend=20
 "   endif
 " endif
+
 
 set termguicolors
 filetype plugin indent on
@@ -141,9 +148,7 @@ set cmdheight=1
 
 
 " don't give |ins-completion-menu| messages.
-set shortmess&
-    \ shortmess+=c
-    \ shortmess-=S
+set shortmess=acTSFI
 
 set signcolumn=yes
 
@@ -161,13 +166,6 @@ set synmaxcol=200
 if !&compatible
   set nocompatible
 endif
-
-
-let mapleader = "\<Space>"
-
-let g:use_treesitter = v:true
-let g:lsp_client_type = 'neovim' " neovim(builtin), coc
-let g:git_client_type = 'neogit' " neogit, gina
 
 
 " reset augroup

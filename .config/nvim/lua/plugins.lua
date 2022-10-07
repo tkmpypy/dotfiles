@@ -879,7 +879,6 @@ packer.startup {
       event = "VimEnter",
       requires = {
         "MunifTanjim/nui.nvim",
-        "hrsh7th/nvim-cmp",
         "rcarriga/nvim-notify",
       },
       config = function()
@@ -887,22 +886,16 @@ packer.startup {
           cmdline = {
             view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
             opts = { buf_options = { filetype = "vim" } }, -- enable syntax highlighting in the cmdline
-            menu = "popup", -- @type "popup" | "wild", -- what style of popupmenu do you want to use?
             icons = {
-              ["/"] = { icon = " ", hl_group = "DiagnosticWarn" },
-              ["?"] = { icon = " ", hl_group = "DiagnosticWarn" },
-              [":"] = { icon = " ", hl_group = "DiagnosticInfo", firstc = false },
+              ["/"] = { icon = " ", hl_group = "DiagnosticSignWarn" },
+              ["?"] = { icon = " ", hl_group = "DiagnosticSignWarn" },
+              [":"] = { icon = " ", hl_group = "DiagnosticSignInfo", firstc = false },
             },
           },
-          history = {
-            -- options for the message history that you get with `:Noice`
-            view = "split",
-            opts = { enter = true },
-            filter = { event = "msg_show", ["not"] = { kind = { "search_count", "echo" } } },
+          popupmenu = {
+            enabled = true, -- disable if you use something like cmp-cmdline
+            backend = "nui", -- 'nui' | 'cmp'
           },
-          throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
-          -- views = {}, -- @see the section on views below
-          -- routes = {}, -- @see the section on routes below
         }
       end,
     }
@@ -1163,15 +1156,13 @@ packer.startup {
     -- Utils
     use {
       "uga-rosa/ccc.nvim",
+      event = {"VimEnter"},
       config = function()
         local ccc = require "ccc"
         ccc.setup {
           highlighter = {
             auto_enable = true,
-            filetypes = {},
-            excludes = {},
-            events = { "WinScrolled", "TextChanged", "TextChangedI", "BufEnter" },
-            lsp = false,
+            lsp = true,
           },
         }
       end,
@@ -1458,6 +1449,7 @@ packer.startup {
     -- Git
     use {
       "tanvirtin/vgit.nvim",
+      disable = true,
       requires = {
         "nvim-lua/plenary.nvim",
       },
@@ -1531,7 +1523,7 @@ packer.startup {
               },
             },
             live_blame = {
-              enabled = true,
+              enabled = false,
               format = function(blame, git_config)
                 local config_author = git_config["user.name"]
                 local author = blame.author
@@ -1662,6 +1654,11 @@ packer.startup {
       disable = false,
       config = function()
         require("gitsigns").setup {
+          current_line_blame = true,
+          current_line_blame_formatter_opts = {
+            relative_time = true,
+          },
+          current_line_blame_formatter = ' <author>, <summary> at <author_time:%R>(<author_time:%Y/%m/d %H:%M>)',
           signs = {
             add = { hl = "GitSignsAdd", text = "┃", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
             change = {
