@@ -1,3 +1,5 @@
+pcall(require, "impatient")
+
 local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 local packer_compiled_path = fn.stdpath "config" .. "/lua/packer_compiled.lua"
@@ -1657,14 +1659,13 @@ packer.startup {
     use {
       "lewis6991/gitsigns.nvim",
       requires = { "nvim-lua/plenary.nvim" },
-      disable = false,
       config = function()
         require("gitsigns").setup {
           current_line_blame = true,
           current_line_blame_formatter_opts = {
             relative_time = true,
           },
-          current_line_blame_formatter = "   <author>   <summary>   <author_time:%R> at <author_time:%Y/%m/%d %H:%M>",
+          current_line_blame_formatter = "   <author> • <summary>   <author_time:%R> at <author_time:%Y/%m/%d %H:%M>",
           signs = {
             add = { hl = "GitSignsAdd", text = "┃", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
             change = {

@@ -55,6 +55,7 @@ set mouse=n
 
 set laststatus=3
 set background=dark
+set splitkeep=screen
 
 set clipboard^=unnamed,unnamedplus
 
