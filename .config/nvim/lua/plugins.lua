@@ -305,7 +305,6 @@ packer.startup {
     -- Languages
     use { "hashivim/vim-terraform", opt = true, ft = { "terraform" } }
     use { "uarun/vim-protobuf", opt = true, ft = { "proto" } }
-    use { "euclidianAce/BetterLua.vim", opt = true, ft = { "lua" } }
     use {
       "towolf/vim-helm",
       opt = true,
@@ -878,7 +877,7 @@ packer.startup {
     use { "liuchengxu/vista.vim" }
     use {
       "folke/noice.nvim",
-      event = "VimEnter",
+      event = {"ColorSchemePre"},
       requires = {
         "MunifTanjim/nui.nvim",
         "rcarriga/nvim-notify",
@@ -890,7 +889,7 @@ packer.startup {
             opts = { buf_options = { filetype = "vim" } }, -- enable syntax highlighting in the cmdline
             icons = {
               ["/"] = { icon = " ", hl_group = "DiagnosticWarn" },
-              ["?"] = { icon = " ", hl_group = "DiagnosticWarn" },
+              ["?"] = { icon = " ", hl_group = "DiagnosticWan" },
               [":"] = { icon = " ", hl_group = "DiagnosticInfo", firstc = false },
             },
           },
