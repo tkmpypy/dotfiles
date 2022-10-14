@@ -877,7 +877,7 @@ packer.startup {
     use { "liuchengxu/vista.vim" }
     use {
       "folke/noice.nvim",
-      event = {"ColorSchemePre"},
+      event = {"VimEnter"},
       requires = {
         "MunifTanjim/nui.nvim",
         "rcarriga/nvim-notify",
@@ -889,7 +889,7 @@ packer.startup {
             opts = { buf_options = { filetype = "vim" } }, -- enable syntax highlighting in the cmdline
             icons = {
               ["/"] = { icon = " ", hl_group = "DiagnosticWarn" },
-              ["?"] = { icon = " ", hl_group = "DiagnosticWan" },
+              ["?"] = { icon = " ", hl_group = "DiagnosticWarn" },
               [":"] = { icon = " ", hl_group = "DiagnosticInfo", firstc = false },
             },
           },
