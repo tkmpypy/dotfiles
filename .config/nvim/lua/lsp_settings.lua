@@ -286,7 +286,7 @@ local setup_servers = function()
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["sumneko_lua"] = function()
-      require("lua-dev").setup {
+      require("neodev").setup {
         library = {
           enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
           -- these settings will be used for your Neovim config directory
@@ -304,7 +304,7 @@ local setup_servers = function()
         -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
         -- for any other directory, config.library.enabled will be set to false
         override = function(root_dir, library)
-          if require("lua-dev.util").is_plugin(root_dir) then
+          if require("neodev.util").is_plugin(root_dir) then
             library.enabled = true
             library.plugins = true
           end

@@ -877,7 +877,7 @@ packer.startup {
     use { "liuchengxu/vista.vim" }
     use {
       "folke/noice.nvim",
-      event = {"VimEnter"},
+      event = { "VimEnter" },
       requires = {
         "MunifTanjim/nui.nvim",
         "rcarriga/nvim-notify",
@@ -897,7 +897,6 @@ packer.startup {
             -- options for the message history that you get with `:Noice`
             view = "split",
             opts = { enter = true },
-            filter = { event = "msg_show", ["not"] = { kind = { "search_count", "echo" } } },
           },
           popupmenu = {
             enabled = true, -- disable if you use something like cmp-cmdline
@@ -1224,26 +1223,29 @@ packer.startup {
     use {
       "rcarriga/nvim-notify",
       config = function()
-        vim.notify = require "notify"
-        vim.notify.setup {
-          -- Animation style (see below for details)
-          stages = "fade_in_slide_out",
-
-          -- Default timeout for notifications
-          timeout = 5000,
-
-          -- For stages that change opacity this is treated as the highlight behind the window
+        require("notify").setup {
           background_colour = "#000000",
-
-          -- Icons for the different levels
-          icons = {
-            ERROR = "",
-            WARN = "",
-            INFO = "",
-            DEBUG = "",
-            TRACE = "✎",
-          },
         }
+        -- vim.notify = require "notify"
+        -- vim.notify.setup {
+        --   -- Animation style (see below for details)
+        --   stages = "fade_in_slide_out",
+
+        --   -- Default timeout for notifications
+        --   timeout = 5000,
+
+        --   -- For stages that change opacity this is treated as the highlight behind the window
+        --   background_colour = "#000000",
+
+        --   -- Icons for the different levels
+        --   icons = {
+        --     ERROR = "",
+        --     WARN = "",
+        --     INFO = "",
+        --     DEBUG = "",
+        --     TRACE = "✎",
+        --   },
+        -- }
       end,
     }
     use {
@@ -2030,7 +2032,7 @@ packer.startup {
             end,
           },
           use {
-            "folke/lua-dev.nvim",
+            "folke/neodev.nvim",
           },
           use {
             "utilyre/barbecue.nvim",
