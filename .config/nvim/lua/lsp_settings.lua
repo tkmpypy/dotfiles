@@ -340,7 +340,6 @@ local setup_servers = function()
       local config = make_config()
       local yaml_config = require("yaml-companion").setup()
       config = vim.tbl_deep_extend("force", config, yaml_config)
-      print(vim.inspect(config))
       lspconfig.yamlls.setup(config)
     end,
     ["tsserver"] = function()
