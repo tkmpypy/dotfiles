@@ -252,20 +252,21 @@ end
 
 -- config that activates keymaps and enables snippet support
 local make_config = function()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.completion.completionItem.preselectSupport = true
-  capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-  capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-  capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-  capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-  capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = { "documentation", "detail", "additionalTextEdits" },
-  }
-  capabilities.textDocument.colorProvider = {
-    dynamicRegistration = true,
-  }
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+  -- capabilities.textDocument.completion.completionItem.preselectSupport = true
+  -- capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+  -- capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+  -- capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+  -- capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+  -- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+  -- capabilities.textDocument.completion.completionItem.resolveSupport = {
+  --   properties = { "documentation", "detail", "additionalTextEdits" },
+  -- }
+  -- capabilities.textDocument.colorProvider = {
+  --   dynamicRegistration = true,
+  -- }
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   return {
     -- enable snippet support
     capabilities = capabilities,
@@ -295,6 +296,7 @@ local setup_servers = function()
           plugins = {
             "plenary.nvim",
             "nui.nvim",
+            "neotest",
           },
           -- you can also specify the list of plugins to make available as a workspace library
           -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },

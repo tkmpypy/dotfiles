@@ -260,30 +260,6 @@ let g:quickrun_config['rust/cargo'] = {
 \   'exec': ['%c run'],
 \ }
 " }}
-" vim-test {{
-let g:test#echo_command = 1
-let g:test#strategy = "neovim"
-let g:test#neovim#term_position = "belowright"
-let g:test#preserve_screen = 1
-let g:test#javascript#runner = 'jest'
-let g:test#javascript#jest#executable = './node_modules/.bin/jest'
-let g:test#python#runner = 'pytest'
-let g:test#python#pytest#options = {
-    \ 'nearest': '-vv --capture=no',
-    \ 'file': '-vv --capture=no'
-\ }
-let g:test#rust#cargotest#options = {
-    \ 'nearest': '-- --nocapture'
-\ }
-let g:test#go#gotest#options = {
-    \ 'nearest': '-v'
-\ }
-nmap <leader>trn :TestNearest<CR>
-nmap <leader>trf :TestFile<CR>
-nmap <leader>trs :TestSuite<CR>
-nmap <leader>trr :TestLast<CR>
-nmap <leader>trg :TestVisit<CR>
-" }}
 
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
