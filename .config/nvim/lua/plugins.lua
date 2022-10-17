@@ -203,8 +203,15 @@ packer.startup {
           require("nvim-treesitter.configs").setup {
             highlight = {
               enable = true,
-              disable = { "lua" },
-              additional_vim_regex_highlighting = false,
+              disable = function(lang, buf)
+                local max_filesize = 100 * 1024 -- 100 KB
+                local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+                if ok and stats and stats.size > max_filesize then
+                  return true
+                end
+                return false
+              end,
+              additional_vim_regex_highlighting = true,
             },
             yati = { enable = true },
             indent = {
@@ -2520,6 +2527,7 @@ packer.startup {
                 end,
                 timeout = 50000,
               },
+              null_ls.builtins.code_actions.cspell,
               null_ls.builtins.diagnostics.flake8,
               null_ls.builtins.diagnostics.golangci_lint.with {
                 timeout = 50000,
@@ -3016,8 +3024,16 @@ packer.startup {
             r = { "<cmd>NvimTreeRefresh<cr>", "Refresh" },
             f = { "<cmd>NvimTreeFindFile<cr>", "Focus File" },
           },
+          ["<leader>w"] = {
+            name = "+Window",
+            w = { "<cmd>Chowcho<cr>", "Selector" },
+          },
           ["<leader>s"] = {
             name = "+Search",
+            j = {
+              '<cmd>AnyJump<CR>',
+              'AnyJump',
+            },
             b = {
               '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
               "Buffer",
@@ -3176,7 +3192,20 @@ packer.startup {
       -- "tkmpypy/chowcho.nvim",
       "~/ghq/github.com/tkmpypy/chowcho.nvim",
       config = function()
-        require("chowcho").setup { border_style = "rounded", icon_enabled = true }
+        require("chowcho").setup {
+          border_style = "rounded",
+          icon_enabled = true,
+          use_default_exclude = true,
+          exclude = function(buf, win)
+            -- exclude noice.nvim's cmdline_popup
+            local bt = vim.api.nvim_buf_get_option(buf, "buftype")
+            local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+            if bt == "nofile" and (ft == "noice" or ft == "vim") then
+              return true
+            end
+            return false
+          end,
+        }
       end,
     }
     use {

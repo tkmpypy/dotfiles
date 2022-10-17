@@ -595,15 +595,6 @@ nnoremap <silent> <Leader>rc :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
 " }}
-" pechorin/any-jump.vim{{
-nnoremap <Leader>j :AnyJump<CR>
-" }}
-
-" chowcho.nvim {{
-nnoremap <leader>ww :Chowcho<CR>
-
-" }}
-
 
 "*****************************************************************************
 " Utility Functions
