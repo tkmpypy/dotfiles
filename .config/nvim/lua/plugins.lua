@@ -914,7 +914,8 @@ packer.startup {
       requires = { "kyazdani42/nvim-web-devicons" },
       config = function()
         local alpha = require "alpha"
-        local theme = require "alpha.themes.startify"
+        local theme = require "alpha.themes.theta"
+        local dashboard = require("alpha.themes.dashboard")
 
         -- Set header
         local header = {
@@ -934,8 +935,22 @@ packer.startup {
             hl = "Type",
           },
         }
-        theme.section.header.val = header.val
-        theme.section.header.opts = header.opts
+        local buttons = {
+          type = "group",
+          val = {
+            { type = "text", val = "Quick links", opts = { hl = "SpecialComment", position = "center" } },
+            { type = "padding", val = 1 },
+            dashboard.button("e", "  New file", "<cmd>ene<CR>"),
+            dashboard.button("SPC s f f", "  Find file"),
+            dashboard.button("SPC s g g", "  Live grep"),
+            dashboard.button("U", "  Update plugins", "<cmd>PackerSync<CR>"),
+            dashboard.button("q", "  Quit", "<cmd>qa<CR>"),
+          },
+          position = "center",
+        }
+        theme.header.val = header.val
+        theme.header.opts = header.opts
+        theme.buttons.val = buttons.val
         alpha.setup(theme.config)
         vim.cmd [[
             autocmd FileType alpha setlocal nofoldenable
@@ -3032,8 +3047,8 @@ packer.startup {
           ["<leader>s"] = {
             name = "+Search",
             j = {
-              '<cmd>AnyJump<CR>',
-              'AnyJump',
+              "<cmd>AnyJump<CR>",
+              "AnyJump",
             },
             b = {
               '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
