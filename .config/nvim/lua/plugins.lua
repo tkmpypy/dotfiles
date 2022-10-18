@@ -204,7 +204,7 @@ packer.startup {
             highlight = {
               enable = true,
               disable = function(lang, buf)
-                local max_filesize = 100 * 1024 -- 100 KB
+                local max_filesize = 200 * 1024 -- 200 KB
                 local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
                 if ok and stats and stats.size > max_filesize then
                   return true
@@ -2528,6 +2528,7 @@ packer.startup {
                 timeout = 50000,
               },
               null_ls.builtins.code_actions.cspell,
+              null_ls.builtins.code_actions.shellcheck,
               null_ls.builtins.diagnostics.flake8,
               null_ls.builtins.diagnostics.golangci_lint.with {
                 timeout = 50000,
