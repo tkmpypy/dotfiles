@@ -18,9 +18,9 @@ function exec_cmd() {
 function link_file() {
   dir_name=$(dirname $2)
   if [ $dir_name = "." ]; then
-    exec_cmd "ln -s $1/$2 $3/"
+    exec_cmd "ln -sf $1/$2 $3"
   else
-    exec_cmd "ln -s $1/$2 $3/$dir_name"
+    exec_cmd "ln -sf $1/$2 $3/$dir_name"
   fi
 }
 
@@ -48,6 +48,8 @@ function install() {
       link_file $DOTFILES_DIR/.config $file $XDG_CONFIG_HOME
     done
   fi
+
+  link_file $DOTFILES_DIR bin $HOME
 }
 
 function main() {

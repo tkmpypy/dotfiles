@@ -43,18 +43,6 @@ zinit light asdf-vm/asdf
 alias ll='ls -la'
 alias g='git'
 
-fzf-gcloud-config-set-project() {
-    local project="$(gcloud projects list |
-        eval "fzf ${FZF_DEFAULT_OPTS} --header-lines=1" |
-        awk '{ print $1 }')"
-
-    if [[ -n "$project" ]]; then
-        gcloud config set project "$project"
-    fi
-}
-alias fgcpp="fzf-gcloud-config-set-project"
-
-
 bindkey -e
 
 autoload -Uz edit-command-line
@@ -141,56 +129,6 @@ if [ -f $HOME/google-cloud-sdk/completion.zsh.inc ]; then . $HOME/google-cloud-s
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-function switch_tmux_project_from_ghq() {
-  local project dir repository session current_session
-  dir=$(ghq list -p | sed -e "s|${HOME}|~|" | fzf-tmux -p 70%,70% --prompt='Project> ' --preview "bat \$(eval echo {})/README.md" --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up)
-
-  if [[ $dir == "" ]]; then
-    return 1
-  fi
-
-  if [[ ! -z ${TMUX} ]]; then
-    repository=${dir##*/}
-    session=${repository//./-}
-    current_session=$(tmux list-sessions | grep 'attached' | cut -d":" -f1)
-
-    if [[ $current_session =~ ^[0-9]+$ ]]; then
-      eval cd "${dir}"
-      tmux rename-session $session
-    else
-      tmux list-sessions | cut -d":" -f1 | grep -e "^${session}\$" > /dev/null
-      if [[ $? != 0 ]]; then
-        tmux new-session -d -c $(eval echo "${dir}") -s $session
-      fi
-      tmux switch-client -t $session
-    fi
-  else
-    eval cd "${dir}"
-  fi
-}
-zle -N switch_tmux_project_from_ghq
-
-function attach_session_with_new () {
-    session_name=$1
-    working_dir=$2
-
-    # 1. First you check if a tmux session exists with a given name.
-    tmux has-session -t=$session_name 2> /dev/null
-
-    # 2. Create the session if it doesn't exists.
-    if [[ $? -ne 0 ]]; then
-      TMUX='' tmux new-session -d -c "$working_dir" -s "$session_name"
-    fi
-
-    # 3. Attach if outside of tmux, switch if you're in tmux.
-    if [[ -z "$TMUX" ]]; then
-      tmux attach -t "$session_name"
-    else
-      tmux switch-client -t "$session_name"
-    fi
-}
-zle -N attach_session_with_new
 
 function fzf-select-history() {
     BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER")

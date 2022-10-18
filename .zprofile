@@ -10,6 +10,7 @@ then
     export XDG_CACHE_HOME="$HOME/.cache/"
 fi
 # export TERM="xterm-256color-italic"
+export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
 
