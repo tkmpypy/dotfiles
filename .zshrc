@@ -43,6 +43,18 @@ zinit light asdf-vm/asdf
 alias ll='ls -la'
 alias g='git'
 
+fzf-gcloud-config-set-project() {
+    local project="$(gcloud projects list |
+        eval "fzf ${FZF_DEFAULT_OPTS} --header-lines=1" |
+        awk '{ print $1 }')"
+
+    if [[ -n "$project" ]]; then
+        gcloud config set project "$project"
+    fi
+}
+alias fgcpp="fzf-gcloud-config-set-project"
+
+
 bindkey -e
 
 autoload -Uz edit-command-line
@@ -157,8 +169,28 @@ function switch_tmux_project_from_ghq() {
     eval cd "${dir}"
   fi
 }
-
 zle -N switch_tmux_project_from_ghq
+
+function attach_session_with_new () {
+    session_name=$1
+    working_dir=$2
+
+    # 1. First you check if a tmux session exists with a given name.
+    tmux has-session -t=$session_name 2> /dev/null
+
+    # 2. Create the session if it doesn't exists.
+    if [[ $? -ne 0 ]]; then
+      TMUX='' tmux new-session -d -c "$working_dir" -s "$session_name"
+    fi
+
+    # 3. Attach if outside of tmux, switch if you're in tmux.
+    if [[ -z "$TMUX" ]]; then
+      tmux attach -t "$session_name"
+    else
+      tmux switch-client -t "$session_name"
+    fi
+}
+zle -N attach_session_with_new
 
 function fzf-select-history() {
     BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER")
