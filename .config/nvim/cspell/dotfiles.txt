@@ -212,3 +212,4 @@ dylib
 neodev
 gonic
 jwks
+fstat
