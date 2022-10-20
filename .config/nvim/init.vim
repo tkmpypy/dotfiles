@@ -498,8 +498,6 @@ endif
 let g:vista_fzf_preview = ['right:50%']
 " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 1
-nnoremap <leader>tc :Vista coc<CR>
-nnoremap <leader>tt :Vista!! <CR>
 " }}
 " iamcco/markdown-preview.nvim {{
 " set to 1, nvim will open the preview window after entering the markdown buffer
@@ -645,9 +643,6 @@ nnoremap <Leader>bra :bufdo e!<Enter>
 " change tab
 nnoremap <Leader>tn :tabn<Enter>
 nnoremap <Leader>tp :tabp<Enter>
-
-" resize wondiw mode
-nnoremap <Leader>wr :WinResizerStartResize<Enter>
 
 " noremap <S-h>   ^
 " noremap <S-j>   }

@@ -975,6 +975,7 @@ packer.startup {
             -- NOTE: If you enable messages, then the cmdline is enabled automatically.
             -- This is a current Neovim limitation.
             enabled = true, -- enables the Noice messages UI
+            view = "mini", -- default view for messages
           },
           popupmenu = {
             enabled = true, -- enables the Noice popupmenu UI
@@ -996,7 +997,7 @@ packer.startup {
             enabled = true,
           },
           lsp_progress = {
-            enabled = false,
+            enabled = true,
           },
         }
       end,
@@ -2406,6 +2407,7 @@ packer.startup {
       }
       use {
         "j-hui/fidget.nvim",
+        disable = true,
         config = function()
           require("fidget").setup {
             text = {
@@ -3056,6 +3058,7 @@ packer.startup {
           ["<leader>w"] = {
             name = "+Window",
             w = { "<cmd>Chowcho<cr>", "Selector" },
+            r = { "<cmd>WinResizerStartResize<cr>", "Resize" },
           },
           ["<leader>s"] = {
             name = "+Search",
@@ -3096,6 +3099,7 @@ packer.startup {
               c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
             },
             r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
+            t = {"<cmd>Vista!!<CR>", "ToC"},
           },
           ["<leader>y"] = {
             name = "+Yode",
