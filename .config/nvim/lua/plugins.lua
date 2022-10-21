@@ -58,18 +58,14 @@ packer.startup {
         require("kanagawa").setup {
           undercurl = true, -- enable undercurls
           commentStyle = { italic = true },
-          functionStyle = {},
           keywordStyle = { italic = true },
           statementStyle = { bold = true },
-          typeStyle = {},
           variablebuiltinStyle = { italic = true },
           specialReturn = true, -- special highlight for the return keyword
           specialException = true, -- special highlight for exception handling keywords
           transparent = true, -- do not set background color
           dimInactive = false, -- dim inactive window `:h hl-NormalNC`
           globalStatus = true, -- adjust window separators highlight for laststatus=3
-          colors = {},
-          overrides = {},
         }
       end,
     }
@@ -93,8 +89,6 @@ packer.startup {
             cursorline = false, -- Disable the cursorline
             eob_lines = true, -- Hide the end-of-buffer lines
           },
-          custom_highlights = {}, -- Overwrite default highlight groups
-          custom_colors = {}, -- Overwrite default colors
         }
       end,
     }
@@ -1890,17 +1884,6 @@ packer.startup {
             disable_commit_confirmation = true,
             auto_refresh = true,
             disable_builtin_notifications = false,
-            -- Change the default way of opening neogit
-            -- `tab`, `replace`, `floating`, `split`, `split_above`, `vsplit`
-            kind = "split",
-            -- Change the default way of opening the commit popup
-            commit_popup = {
-              kind = "split",
-            },
-            -- Change the default way of opening popups
-            popup = {
-              kind = "split",
-            },
             -- customize displayed signs
             signs = {
               -- { CLOSED, OPENED }
@@ -1946,13 +1929,6 @@ packer.startup {
               },
             },
           }
-
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>gs",
-            "<cmd>Neogit kind=vsplit<cr>",
-            require("scripts/util").keymaps.default_opt
-          )
         end,
       }
     elseif vim.g.git_client_type == "gina" then
@@ -3099,7 +3075,7 @@ packer.startup {
               c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
             },
             r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
-            t = {"<cmd>Vista!!<CR>", "ToC"},
+            t = { "<cmd>Vista!!<CR>", "ToC" },
           },
           ["<leader>y"] = {
             name = "+Yode",
@@ -3114,10 +3090,14 @@ packer.startup {
               k = { "<cmd>YodeLayoutShiftWinTop<cr>", "Layout Top" },
             },
           },
-          ["<leader>gl"] = {
-            name = "+GitLinker",
-            c = { "<cmd>GitLinker current<cr>", "Current git link" },
-            d = { "<cmd>GitLinker default<cr>", "Default branch git link" },
+          ["<leader>g"] = {
+            name = "+Git",
+            s = { "<cmd>Neogit kind=vsplit<cr>", "Status" },
+            l = {
+              name = "+Linker",
+              c = { "<cmd>GitLinker current<cr>", "Current git link" },
+              d = { "<cmd>GitLinker default<cr>", "Default branch git link" },
+            },
           },
           ["m"] = {
             name = "+Move",
