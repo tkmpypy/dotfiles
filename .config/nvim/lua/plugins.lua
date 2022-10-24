@@ -3049,6 +3049,7 @@ packer.startup {
             c = {
               name = "+Commands",
               r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
+              c = { "<cmd>lua require('telescope.builtin').commands{}<CR>", "Commands" },
             },
             f = {
               name = "+Files",
