@@ -3094,6 +3094,10 @@ packer.startup {
           ["<leader>g"] = {
             name = "+Git",
             s = { "<cmd>Neogit kind=vsplit<cr>", "Status" },
+            d = {
+              name = "+Diff",
+              d = { "<cmd>Gitsigns diffthis<cr>", "Diff" },
+            },
             l = {
               name = "+Linker",
               c = { "<cmd>GitLinker current<cr>", "Current git link" },
@@ -3148,10 +3152,18 @@ packer.startup {
 
         -- mode: x
         wk.register({
-          ["<leader>gl"] = {
-            name = "+GitLinker",
-            c = { "<cmd>'<,'>GitLinker current<cr>", "Current git link" },
-            d = { "<cmd>'<,'>GitLinker default<cr>", "Default branch git link" },
+          ["<leader>g"] = {
+            name = "+Git",
+            s = {
+              name = "+Stage",
+              s = { ":Gitsigns stage_hunk<cr>", "Select Stage" },
+              u = { ":Gitsigns unstage_hunk<cr>", "Select Unstage" },
+            },
+            l = {
+              name = "+Linker",
+              c = { ":GitLinker current<cr>", "Current git link" },
+              d = { ":GitLinker default<cr>", "Default branch git link" },
+            },
           },
         }, { mode = "x" })
 
