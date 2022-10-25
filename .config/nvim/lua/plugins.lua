@@ -2896,18 +2896,6 @@ packer.startup {
             use_lsp_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
           }
 
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sd",
-            "<cmd>TroubleToggle document_diagnostics<cr>",
-            require("scripts/util").keymaps.default_opt
-          )
-          vim.api.nvim_set_keymap(
-            "n",
-            "<leader>sD",
-            "<cmd>TroubleToggle workspace_diagnostics<cr>",
-            require("scripts/util").keymaps.default_opt
-          )
         end,
       }
 
@@ -3050,6 +3038,11 @@ packer.startup {
               name = "+Commands",
               r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
               c = { "<cmd>lua require('telescope.builtin').commands{}<CR>", "Commands" },
+            },
+            d = {
+              name = "+Diagnostics",
+              d = {"<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics"},
+              D = {"<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics"},
             },
             f = {
               name = "+Files",
