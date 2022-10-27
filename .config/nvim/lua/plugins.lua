@@ -330,9 +330,12 @@ packer.startup {
         "nvim-neotest/neotest-go",
         "nvim-neotest/neotest-python",
         "haydenmeade/neotest-jest",
+        -- require `cargo-nextest`
+        -- `cargo install cargo-nextest --locked`
         "rouge8/neotest-rust",
       },
       config = function()
+        local neotest = require("neotest")
         -- get neotest namespace (api call creates or returns namespace)
         local neotest_ns = vim.api.nvim_create_namespace "neotest"
         vim.diagnostic.config({
@@ -343,7 +346,32 @@ packer.startup {
             end,
           },
         }, neotest_ns)
-        require("neotest").setup {
+        neotest.setup {
+          consumers = {
+            always_open_short_output = function(client)
+              local async = require "neotest.async"
+
+              client.listeners.results = function(adapter_id, results)
+                local file_path = async.fn.expand "%:p"
+                local row = async.fn.getpos(".")[2] - 1
+                local position = client:get_nearest(file_path, row, {})
+                if not position then
+                  return
+                end
+                local pos_id = position:data().id
+                if not results[pos_id] then
+                  return
+                end
+                neotest.output.open { position_id = pos_id, adapter = adapter_id }
+                neotest.summary.open()
+              end
+            end,
+          },
+          status = {
+            enabled = true,
+            signs = false,
+            virtual_text = true,
+          },
           adapters = {
             require "neotest-go" {
               args = { "-v" },
@@ -2895,7 +2923,6 @@ packer.startup {
             },
             use_lsp_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
           }
-
         end,
       }
 
@@ -3041,8 +3068,8 @@ packer.startup {
             },
             d = {
               name = "+Diagnostics",
-              d = {"<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics"},
-              D = {"<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics"},
+              d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics" },
+              D = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics" },
             },
             f = {
               name = "+Files",
@@ -3086,7 +3113,7 @@ packer.startup {
           },
           ["<leader>g"] = {
             name = "+Git",
-            s = { "<cmd>Neogit kind=vsplit<cr>", "Status" },
+            s = { "<cmd>lua require('neogit').open({ kind = 'vsplit' })<cr>", "Status" },
             d = {
               name = "+Diff",
               d = { "<cmd>Gitsigns diffthis<cr>", "Diff" },
