@@ -335,7 +335,7 @@ packer.startup {
         "rouge8/neotest-rust",
       },
       config = function()
-        local neotest = require("neotest")
+        local neotest = require "neotest"
         -- get neotest namespace (api call creates or returns namespace)
         local neotest_ns = vim.api.nvim_create_namespace "neotest"
         vim.diagnostic.config({
@@ -352,6 +352,8 @@ packer.startup {
               local async = require "neotest.async"
 
               client.listeners.results = function(adapter_id, results)
+                neotest.summary.open()
+
                 local file_path = async.fn.expand "%:p"
                 local row = async.fn.getpos(".")[2] - 1
                 local position = client:get_nearest(file_path, row, {})
@@ -363,7 +365,6 @@ packer.startup {
                   return
                 end
                 neotest.output.open { position_id = pos_id, adapter = adapter_id }
-                neotest.summary.open()
               end
             end,
           },
@@ -397,7 +398,7 @@ packer.startup {
               env = { CI = true },
             },
             require "neotest-rust" {
-              args = { "--nocapture" },
+              args = { "--no-capture" },
             },
           },
         }
@@ -1011,17 +1012,61 @@ packer.startup {
             filter = { event = { "msg_show", "notify" }, ["not"] = { kind = { "search_count", "echo" } } },
           },
           notify = {
-            -- Noice can be used as `vim.notify` so you can route any notification like other messages
-            -- Notification messages have their level and other properties set.
-            -- event is always "notify" and kind can be any log level as a string
-            -- The default routes will forward notifications to nvim-notify
-            -- Benefit of using Noice for this is the routing and consistent history view
             enabled = true,
           },
-          lsp_progress = {
-            enabled = true,
+          lsp = {
+            progress = {
+              enabled = true,
+            },
+            override = {
+              -- override the default lsp markdown formatter with Noice
+              ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+              -- override the lsp markdown formatter with Noice
+              ["vim.lsp.util.stylize_markdown"] = true,
+              -- override cmp documentation with Noice (needs the other options to work)
+              ["cmp.entry.get_documentation"] = true,
+            },
+            hover = {
+              enabled = true,
+            },
+            signature = {
+              enabled = true,
+              auto_open = {
+                enabled = true,
+                trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
+                luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
+                throttle = 50, -- Debounce lsp signature help request by 50ms
+              },
+            },
+            message = {
+              -- Messages shown by lsp servers
+              enabled = true,
+              view = "notify",
+            },
+            -- defaults for hover and signature help
+            documentation = {
+              view = "hover",
+              opts = {
+                lang = "markdown",
+                replace = true,
+                render = "plain",
+                format = { "{message}" },
+                win_options = { concealcursor = "n", conceallevel = 3 },
+              },
+            },
           },
         }
+        vim.keymap.set("n", "<c-f>", function()
+          if not require("noice.lsp").scroll(4) then
+            return "<c-f>"
+          end
+        end, { silent = true, expr = true })
+
+        vim.keymap.set("n", "<c-b>", function()
+          if not require("noice.lsp").scroll(-4) then
+            return "<c-b>"
+          end
+        end, { silent = true, expr = true })
       end,
     }
 
@@ -2302,6 +2347,7 @@ packer.startup {
           use {
             "glepnir/lspsaga.nvim",
             branch = "main",
+            disable = true,
             config = function()
               local saga = require "lspsaga"
               saga.init_lsp_saga {
@@ -2630,30 +2676,6 @@ packer.startup {
             ]]
             end,
           },
-          -- {
-          --   "L3MON4D3/LuaSnip",
-          --   requires = "rafamadriz/friendly-snippets",
-          --   config = function()
-          --     require("luasnip.loaders.from_vscode").lazy_load()
-          --     vim.cmd[[
-          --       " press <Tab> to expand or jump in a snippet. These can also be mapped separately
-          --       " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-          --       imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-          --       smap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-          --       imap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>'
-          --       smap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>'
-          --       " -1 for jumping backwards.
-          --       " inoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-          --       inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-          --       snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-          --       snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-
-          --       " For changing choices in choiceNodes (not strictly necessary for a basic setup).
-          --       " imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-          --       " smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-          --     ]]
-          --   end,
-          -- },
           { "saadparwaiz1/cmp_luasnip" },
           { "hrsh7th/cmp-buffer" },
           { "hrsh7th/cmp-path" },
@@ -2722,10 +2744,10 @@ packer.startup {
               end,
             },
 
-            window = {
-              completion = cmp.config.window.bordered(),
-              documentation = cmp.config.window.bordered(),
-            },
+            -- window = {
+            --   completion = cmp.config.window.bordered(),
+            --   documentation = cmp.config.window.bordered(),
+            -- },
 
             -- You must set mapping.
             mapping = {
@@ -2832,56 +2854,6 @@ packer.startup {
               { name = "cmdline" },
             }),
           })
-        end,
-      }
-      use {
-        "ray-x/lsp_signature.nvim",
-        disable = true,
-        config = function()
-          local cfg = {
-            debug = false, -- set to true to enable debug logging
-            verbose = false, -- show debug line number
-            -- If you want to hook lspsaga or other signature handler, pls set to false
-            doc_lines = 10, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
-            -- set to 0 if you DO NOT want any API comments be shown
-            -- This setting only take effect in insert mode, it does not affect signature help in normal
-            -- mode, 10 by default
-
-            floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
-
-            floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
-            -- will set to true when fully tested, set to false will use whichever side has more space
-            -- this setting will be helpful if you do not want the PUM and floating win overlap
-
-            floating_window_off_x = 1, -- adjust float windows x position.
-            floating_window_off_y = 1, -- adjust float windows y position.
-
-            fix_pos = false, -- set to true, the floating window will not auto-close until finish all parameters
-            hint_enable = false, -- virtual hint enable
-            hint_prefix = " ", -- Panda for parameter
-            max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down
-            -- to view the hiding contents
-            max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
-            handler_opts = {
-              border = "rounded", -- double, rounded, single, shadow, none
-            },
-
-            always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
-
-            auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
-            extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
-            zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
-
-            padding = "", -- character to pad on left and right of signature can be ' ', or '|'  etc
-
-            transparency = 10, -- disabled by default, allow floating win transparent value 1~100
-            shadow_blend = 36, -- if you using shadow as border use this set the opacity
-            shadow_guibg = "Black", -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
-            timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
-            toggle_key = nil, -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
-          }
-
-          require("lsp_signature").setup(cfg)
         end,
       }
       use {
@@ -3193,28 +3165,38 @@ packer.startup {
               name = "+LSP",
               r = { "<cmd>Telescope lsp_references<CR>", "References" },
               i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
-              h = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
+              -- h = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
               d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
               D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
-              p = { "<cmd>Lspsaga preview_definition<CR>", "Preview Definition" },
+              -- p = { "<cmd>Lspsaga preview_definition<CR>", "Preview Definition" },
             },
-            ["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Doc" },
-            ["rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
+            -- ["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Doc" },
+            -- ["rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
+            ["K"] = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Hover Doc" },
+            ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
+            ["rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
             ["<leader>"] = {
               F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
             },
-            ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
+            -- ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
+            ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
             ["<leader>d"] = {
               name = "+Diagnostics",
               c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
               o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
-              n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
-              p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
+              -- n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
+              -- p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
+              n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
+              p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
             },
           }, { mode = "n" })
           wk.register({
+            -- ["<leader>ac"] = {
+            --   "<cmd><C-U>Lspsaga range_code_action<CR>",
+            --   "Code Action",
+            -- },
             ["<leader>ac"] = {
-              "<cmd><C-U>Lspsaga range_code_action<CR>",
+              "<cmd>lua vim.lsp.buf.code_action()<CR>",
               "Code Action",
             },
           }, { mode = "v" })
