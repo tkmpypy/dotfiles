@@ -348,11 +348,11 @@ packer.startup {
         }, neotest_ns)
         neotest.setup {
           consumers = {
-            always_open_short_output = function(client)
+            always_open_output = function(client)
               local async = require "neotest.async"
 
               client.listeners.results = function(adapter_id, results)
-                neotest.summary.open()
+                -- neotest.summary.open()
 
                 local file_path = async.fn.expand "%:p"
                 local row = async.fn.getpos(".")[2] - 1
@@ -364,7 +364,28 @@ packer.startup {
                 if not results[pos_id] then
                   return
                 end
-                neotest.output.open { position_id = pos_id, adapter = adapter_id }
+
+                neotest.output.open {
+                  -- TODO
+                  -- open_win = function(opts)
+                  --   local old_buf = vim.api.nvim_get_current_buf()
+
+                  --   vim.cmd "bot 15split +enew"
+                  --   local buf = vim.api.nvim_get_current_buf()
+                  --   local win = vim.api.nvim_get_current_win()
+                  --   vim.api.nvim_buf_set_option(buf, "filetype", "neotest-output")
+                  --   vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
+                  --   vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+                  --   vim.api.nvim_buf_set_option(buf, "swapfile", false)
+
+                  --   -- restore cursor
+                  --   vim.api.nvim_set_current_buf(old_buf)
+
+                  --   return win
+                  -- end,
+                  position_id = pos_id,
+                  adapter = adapter_id,
+                }
               end
             end,
           },
@@ -1056,17 +1077,17 @@ packer.startup {
             },
           },
         }
-        vim.keymap.set("n", "<c-f>", function()
-          if not require("noice.lsp").scroll(4) then
-            return "<c-f>"
-          end
-        end, { silent = true, expr = true })
+        -- vim.keymap.set("n", "<c-f>", function()
+        --   if not require("noice.lsp").scroll(4) then
+        --     return "<c-f>"
+        --   end
+        -- end, { silent = true, expr = true })
 
-        vim.keymap.set("n", "<c-b>", function()
-          if not require("noice.lsp").scroll(-4) then
-            return "<c-b>"
-          end
-        end, { silent = true, expr = true })
+        -- vim.keymap.set("n", "<c-b>", function()
+        --   if not require("noice.lsp").scroll(-4) then
+        --     return "<c-b>"
+        --   end
+        -- end, { silent = true, expr = true })
       end,
     }
 
@@ -1436,14 +1457,7 @@ packer.startup {
     use {
       "windwp/nvim-autopairs",
       config = function()
-        require("nvim-autopairs").setup {
-          disable_filetype = { "TelescopePrompt" },
-          ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], "%s+", ""),
-          enable_moveright = true,
-          enable_afterquote = true, -- add bracket pairs after quote
-          enable_check_bracket_line = true, --- check bracket in same line
-          check_ts = false,
-        }
+        require("nvim-autopairs").setup {}
       end,
     }
     use {
@@ -2636,7 +2650,6 @@ packer.startup {
           local types = require "cmp.types"
           local compare = require "cmp.config.compare"
           local lspkind = require "lspkind"
-          local cmp_autopairs = require "nvim-autopairs.completion.cmp"
           cmp.setup {
             enabled = function()
               return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
@@ -2675,21 +2688,8 @@ packer.startup {
               end,
             },
 
-            -- window = {
-            --   completion = cmp.config.window.bordered(),
-            --   documentation = cmp.config.window.bordered(),
-            -- },
-
             -- You must set mapping.
-            mapping = {
-              ["<C-n>"] = cmp.mapping(
-                cmp.mapping.select_next_item { behavior = types.cmp.SelectBehavior.Insert },
-                { "i", "c" }
-              ),
-              ["<C-p>"] = cmp.mapping(
-                cmp.mapping.select_prev_item { behavior = types.cmp.SelectBehavior.Insert },
-                { "i", "c" }
-              ),
+            mapping = cmp.mapping.preset.insert {
               ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
               ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
               ["<Tab>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "s", "c" }),
@@ -2698,7 +2698,7 @@ packer.startup {
                 i = cmp.mapping.abort(),
                 c = cmp.mapping.close(),
               },
-              ["<CR>"] = cmp.mapping.confirm(),
+              ["<CR>"] = cmp.mapping.confirm { select = true },
             },
 
             -- You should specify your *installed* sources.
@@ -2754,8 +2754,6 @@ packer.startup {
               ghost_text = true,
             },
           }
-
-          cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
           require "scripts/cmp/conventionalprefix"
           cmp.setup.filetype({ "NeogitCommitMessage", "gitcommit" }, {
