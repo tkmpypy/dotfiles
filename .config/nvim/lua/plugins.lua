@@ -2344,75 +2344,6 @@ packer.startup {
               }
             end,
           },
-          use {
-            "glepnir/lspsaga.nvim",
-            branch = "main",
-            disable = true,
-            config = function()
-              local saga = require "lspsaga"
-              saga.init_lsp_saga {
-                -- Options with default value
-                -- "single" | "double" | "rounded" | "bold" | "plus"
-                border_style = "rounded",
-                --the range of 0 for fully opaque window (disabled) to 100 for fully
-                --transparent background. Values between 0-30 are typically most useful.
-                saga_winblend = 20,
-                diagnostic_header = { " ", " ", " ", "ﴞ " },
-                code_action_icon = "💡",
-                code_action_lightbulb = {
-                  enable = false,
-                  sign = false,
-                  sign_priority = 20,
-                  virtual_text = false,
-                },
-                -- finder icons
-                finder_icons = {
-                  def = "  ",
-                  ref = "諭 ",
-                  link = "  ",
-                },
-                -- preview lines of lsp_finder and definition preview
-                max_preview_lines = 10,
-                scroll_in_preview = {
-                  scroll_down = "<C-f>",
-                  scroll_up = "<C-b>",
-                },
-                finder_action_keys = {
-                  open = "o",
-                  vsplit = "s",
-                  split = "i",
-                  tabe = "t",
-                  quit = "q",
-                  scroll_down = "<C-f>",
-                  scroll_up = "<C-b>", -- quit can be a table
-                },
-                code_action_keys = {
-                  quit = "q",
-                  exec = "<CR>",
-                },
-                rename_action_quit = "<C-c>",
-                -- show symbols in winbar must nightly
-                symbol_in_winbar = {
-                  in_custom = false,
-                  enable = false,
-                  separator = "  ",
-                  show_file = true,
-                  click_support = false,
-                },
-                -- show outline
-                show_outline = {
-                  win_position = "right",
-                  -- set the special filetype in there which in left like nvimtree neotree defx
-                  left_with = "",
-                  win_width = 30,
-                  auto_enter = true,
-                  auto_preview = true,
-                  virt_text = "┃",
-                  jump_key = "o",
-                },
-              }
-            end,
-          },
         },
         config = function()
           require("mason").setup {
@@ -3165,36 +3096,25 @@ packer.startup {
               name = "+LSP",
               r = { "<cmd>Telescope lsp_references<CR>", "References" },
               i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
-              -- h = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
               d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
               D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
-              -- p = { "<cmd>Lspsaga preview_definition<CR>", "Preview Definition" },
             },
-            -- ["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Doc" },
-            -- ["rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
             ["K"] = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Hover Doc" },
             ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
             ["rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
             ["<leader>"] = {
               F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
             },
-            -- ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
             ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
             ["<leader>d"] = {
               name = "+Diagnostics",
               c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
               o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
-              -- n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
-              -- p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
               n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
               p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
             },
           }, { mode = "n" })
           wk.register({
-            -- ["<leader>ac"] = {
-            --   "<cmd><C-U>Lspsaga range_code_action<CR>",
-            --   "Code Action",
-            -- },
             ["<leader>ac"] = {
               "<cmd>lua vim.lsp.buf.code_action()<CR>",
               "Code Action",
