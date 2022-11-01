@@ -365,27 +365,10 @@ packer.startup {
                   return
                 end
 
-                neotest.output.open {
-                  -- TODO
-                  -- open_win = function(opts)
-                  --   local old_buf = vim.api.nvim_get_current_buf()
-
-                  --   vim.cmd "bot 15split +enew"
-                  --   local buf = vim.api.nvim_get_current_buf()
-                  --   local win = vim.api.nvim_get_current_win()
-                  --   vim.api.nvim_buf_set_option(buf, "filetype", "neotest-output")
-                  --   vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-                  --   vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-                  --   vim.api.nvim_buf_set_option(buf, "swapfile", false)
-
-                  --   -- restore cursor
-                  --   vim.api.nvim_set_current_buf(old_buf)
-
-                  --   return win
-                  -- end,
+                neotest.output.open({
                   position_id = pos_id,
                   adapter = adapter_id,
-                }
+                })
               end
             end,
           },
@@ -426,6 +409,7 @@ packer.startup {
 
         vim.cmd [[
           autocmd Filetype neotest-summary nnoremap <buffer> q <cmd>lua require("neotest").summary.close()<CR>
+          autocmd Filetype neotest-output nnoremap <buffer> q <cmd>q<CR>
         ]]
       end,
     }
@@ -2930,8 +2914,8 @@ packer.startup {
             o = {
               name = "+Display",
               s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Summary" },
-              o = { '<cmd>lua require("neotest").output.open()<CR>', "Output" },
-              O = { '<cmd>lua require("neotest").output.open({enter = true})<CR>', "Output Enter" },
+              o = { '<cmd>lua require("neotest").output.open({enter = true})<CR>', "Output" },
+              O = { '<cmd>lua require("neotest").output.open()<CR>', "Output Enter" },
             },
           },
           ["<leader>u"] = {
