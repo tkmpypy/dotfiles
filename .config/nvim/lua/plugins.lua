@@ -2914,8 +2914,8 @@ packer.startup {
             o = {
               name = "+Display",
               s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Summary" },
-              o = { '<cmd>lua require("neotest").output.open({enter = true})<CR>', "Output" },
-              O = { '<cmd>lua require("neotest").output.open()<CR>', "Output Enter" },
+              o = { '<cmd>lua require("neotest").output.open({enter = true})<CR>', "Output Enter" },
+              O = { '<cmd>lua require("neotest").output.open()<CR>', "Output" },
             },
           },
           ["<leader>u"] = {
