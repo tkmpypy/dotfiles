@@ -368,6 +368,7 @@ packer.startup {
                 neotest.output.open({
                   position_id = pos_id,
                   adapter = adapter_id,
+                  enter = true
                 })
               end
             end,
