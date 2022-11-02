@@ -319,8 +319,100 @@ packer.startup {
     -- runner
     use {
       "vim-test/vim-test",
-      disable = true,
     }
+    -- use {
+    --   "nvim-neotest/neotest",
+    --   requires = {
+    --     "nvim-lua/plenary.nvim",
+    --     "nvim-treesitter/nvim-treesitter",
+    --     "antoinemadec/FixCursorHold.nvim",
+    --     "nvim-neotest/neotest-go",
+    --     "nvim-neotest/neotest-python",
+    --     "haydenmeade/neotest-jest",
+    --     -- require `cargo-nextest`
+    --     -- `cargo install cargo-nextest --locked`
+    --     "rouge8/neotest-rust",
+    --   },
+    --   config = function()
+    --     local neotest = require "neotest"
+    --     -- get neotest namespace (api call creates or returns namespace)
+    --     local neotest_ns = vim.api.nvim_create_namespace "neotest"
+    --     vim.diagnostic.config({
+    --       virtual_text = {
+    --         format = function(diagnostic)
+    --           local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+    --           return message
+    --         end,
+    --       },
+    --     }, neotest_ns)
+    --     neotest.setup {
+    --       consumers = {
+    --         always_open_output = function(client)
+    --           local async = require "neotest.async"
+
+    --           client.listeners.results = function(adapter_id, results)
+    --             -- neotest.summary.open()
+
+    --             local file_path = async.fn.expand "%:p"
+    --             local row = async.fn.getpos(".")[2] - 1
+    --             local position = client:get_nearest(file_path, row, {})
+    --             if not position then
+    --               return
+    --             end
+    --             local pos_id = position:data().id
+    --             if not results[pos_id] then
+    --               return
+    --             end
+
+    --             neotest.output.open({
+    --               position_id = pos_id,
+    --               adapter = adapter_id,
+    --               enter = true
+    --             })
+    --           end
+    --         end,
+    --       },
+    --       status = {
+    --         enabled = true,
+    --         signs = false,
+    --         virtual_text = true,
+    --       },
+    --       adapters = {
+    --         require "neotest-go" {
+    --           args = { "-v" },
+    --         },
+    --         require "neotest-python" {
+    --           -- Extra arguments for nvim-dap configuration
+    --           dap = { justMyCode = false },
+    --           -- Command line arguments for runner
+    --           -- Can also be a function to return dynamic values
+    --           args = { "-vv", "--capture=no" },
+    --           -- Runner to use. Will use pytest if available by default.
+    --           -- Can be a function to return dynamic value.
+    --           runner = "pytest",
+    --           -- Custom python path for the runner.
+    --           -- Can be a string or a list of strings.
+    --           -- Can also be a function to return dynamic value.
+    --           -- If not provided, the path will be inferred by checking for
+    --           -- virtual envs in the local directory and for Pipenev/Poetry configs
+    --           -- python = ".venv/bin/python",
+    --         },
+    --         require "neotest-jest" {
+    --           jestCommand = "npm test --",
+    --           env = { CI = true },
+    --         },
+    --         require "neotest-rust" {
+    --           args = { "--no-capture" },
+    --         },
+    --       },
+    --     }
+
+    --     vim.cmd [[
+    --       autocmd Filetype neotest-summary nnoremap <buffer> q <cmd>lua require("neotest").summary.close()<CR>
+    --       autocmd Filetype neotest-output nnoremap <buffer> q <cmd>q<CR>
+    --     ]]
+    --   end,
+    -- }
     use {
       "nvim-neotest/neotest",
       requires = {
@@ -2902,21 +2994,31 @@ packer.startup {
             q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
             Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
           },
+          -- ["<leader>t"] = {
+          --   name = "+Test",
+          --   r = {
+          --     name = "+Run",
+          --     n = { '<cmd>lua require("neotest").run.run()<CR>', "Nearest" },
+          --     f = { '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Current File" },
+          --     r = { '<cmd>lua require("neotest").run.run_last()<CR>', "Last" },
+          --     s = { '<cmd>lua require("neotest").run.stop()<CR>', "Stop" },
+          --     a = { '<cmd>lua require("neotest").run.attach()<CR>', "Attach" },
+          --   },
+          --   o = {
+          --     name = "+Display",
+          --     s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Summary" },
+          --     o = { '<cmd>lua require("neotest").output.open({enter = true})<CR>', "Output Enter" },
+          --     O = { '<cmd>lua require("neotest").output.open()<CR>', "Output" },
+          --   },
+          -- },
           ["<leader>t"] = {
             name = "+Test",
             r = {
               name = "+Run",
-              n = { '<cmd>lua require("neotest").run.run()<CR>', "Nearest" },
-              f = { '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Current File" },
-              r = { '<cmd>lua require("neotest").run.run_last()<CR>', "Last" },
-              s = { '<cmd>lua require("neotest").run.stop()<CR>', "Stop" },
-              a = { '<cmd>lua require("neotest").run.attach()<CR>', "Attach" },
-            },
-            o = {
-              name = "+Display",
-              s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Summary" },
-              o = { '<cmd>lua require("neotest").output.open({enter = true})<CR>', "Output Enter" },
-              O = { '<cmd>lua require("neotest").output.open()<CR>', "Output" },
+              n = { "<cmd>TestNearest<cr>", "Nearest" },
+              f = { "<cmd>TestFile<cr>", "Current File" },
+              s = { "<cmd>TestSuite<cr>", "Suit" },
+              r = { "<cmd>TestLast<cr>", "Last" },
             },
           },
           ["<leader>u"] = {
