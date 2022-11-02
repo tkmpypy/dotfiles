@@ -413,102 +413,34 @@ packer.startup {
     --     ]]
     --   end,
     -- }
-    use {
-      "nvim-neotest/neotest",
-      requires = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "antoinemadec/FixCursorHold.nvim",
-        "nvim-neotest/neotest-go",
-        "nvim-neotest/neotest-python",
-        "haydenmeade/neotest-jest",
-        -- require `cargo-nextest`
-        -- `cargo install cargo-nextest --locked`
-        "rouge8/neotest-rust",
-      },
-      config = function()
-        local neotest = require "neotest"
-        -- get neotest namespace (api call creates or returns namespace)
-        local neotest_ns = vim.api.nvim_create_namespace "neotest"
-        vim.diagnostic.config({
-          virtual_text = {
-            format = function(diagnostic)
-              local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-              return message
-            end,
-          },
-        }, neotest_ns)
-        neotest.setup {
-          consumers = {
-            always_open_output = function(client)
-              local async = require "neotest.async"
-
-              client.listeners.results = function(adapter_id, results)
-                -- neotest.summary.open()
-
-                local file_path = async.fn.expand "%:p"
-                local row = async.fn.getpos(".")[2] - 1
-                local position = client:get_nearest(file_path, row, {})
-                if not position then
-                  return
-                end
-                local pos_id = position:data().id
-                if not results[pos_id] then
-                  return
-                end
-
-                neotest.output.open({
-                  position_id = pos_id,
-                  adapter = adapter_id,
-                  enter = true
-                })
-              end
-            end,
-          },
-          status = {
-            enabled = true,
-            signs = false,
-            virtual_text = true,
-          },
-          adapters = {
-            require "neotest-go" {
-              args = { "-v" },
-            },
-            require "neotest-python" {
-              -- Extra arguments for nvim-dap configuration
-              dap = { justMyCode = false },
-              -- Command line arguments for runner
-              -- Can also be a function to return dynamic values
-              args = { "-vv", "--capture=no" },
-              -- Runner to use. Will use pytest if available by default.
-              -- Can be a function to return dynamic value.
-              runner = "pytest",
-              -- Custom python path for the runner.
-              -- Can be a string or a list of strings.
-              -- Can also be a function to return dynamic value.
-              -- If not provided, the path will be inferred by checking for
-              -- virtual envs in the local directory and for Pipenev/Poetry configs
-              -- python = ".venv/bin/python",
-            },
-            require "neotest-jest" {
-              jestCommand = "npm test --",
-              env = { CI = true },
-            },
-            require "neotest-rust" {
-              args = { "--no-capture" },
-            },
-          },
-        }
-
-        vim.cmd [[
-          autocmd Filetype neotest-summary nnoremap <buffer> q <cmd>lua require("neotest").summary.close()<CR>
-          autocmd Filetype neotest-output nnoremap <buffer> q <cmd>q<CR>
-        ]]
-      end,
-    }
     use { "thinca/vim-quickrun" }
 
     -- UI
+    use {
+      "nvim-zh/colorful-winsep.nvim",
+      config = function()
+        require("colorful-winsep").setup {
+          direction = {
+            down = "j",
+            left = "h",
+            right = "l",
+            up = "k",
+          },
+          highlight = {
+            guibg = vim.api.nvim_get_hl_by_name("Normal", true)["background"],
+            guifg = "#957CC6",
+          },
+          -- refresh interval
+          interval = 100,
+          no_exec_files = { "packer", "TelescopePrompt", "mason", "CompetiTest", "NeogitStatus", "NeogitCommitMessage" },
+          symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+          win_opts = {
+            relative = "editor",
+            style = "minimal",
+          },
+        }
+      end,
+    }
     use {
       "levouh/tint.nvim",
       config = function()
@@ -1702,14 +1634,6 @@ packer.startup {
         end
       end,
     }
-    use {
-      "hoschi/yode-nvim",
-      requires = { "nvim-lua/plenary.nvim" },
-      config = function()
-        require("yode-nvim").setup {}
-      end,
-    }
-
     -- Git
     use {
       "tanvirtin/vgit.nvim",
@@ -1954,6 +1878,7 @@ packer.startup {
     }
     use {
       "sindrets/diffview.nvim",
+      requires = { "nvim-lua/plenary.nvim" },
       config = function()
         local actions = require "diffview.actions"
         require("diffview").setup {
@@ -3085,19 +3010,6 @@ packer.startup {
             },
             r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
             t = { "<cmd>Vista!!<CR>", "ToC" },
-          },
-          ["<leader>y"] = {
-            name = "+Yode",
-            c = { "<cmd>YodeCreateSeditorFloating<cr>", "Create Floating" },
-            r = { "<cmd>YodeCreateSeditorReplace<cr>", "Replace" },
-            d = { "<cmd>YodeBufferDelete<cr>", "Delete" },
-            w = {
-              name = "+Layout",
-              d = { "<cmd>YodeLayoutShiftWinDown<cr>", "Layout Down" },
-              u = { "<cmd>YodeLayoutShiftWinUp<cr>", "Layout Up" },
-              j = { "<cmd>YodeLayoutShiftWinBottom<cr>", "Layout Bottom" },
-              k = { "<cmd>YodeLayoutShiftWinTop<cr>", "Layout Top" },
-            },
           },
           ["<leader>g"] = {
             name = "+Git",

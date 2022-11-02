@@ -150,6 +150,14 @@ local gopls_config = {
   },
 }
 
+local rust_config = {
+  settings = {
+    checkOnSave = {
+      command = "clippy",
+    },
+  },
+}
+
 -- local golangci_lint_ls_config = {
 --   init_options = {
 --     command = { "golangci-lint", "run", "--out-format", "json" },
@@ -322,6 +330,11 @@ local setup_servers = function()
       config.init_options = gopls_config.init_options
       config.settings = gopls_config.settings
       lspconfig.gopls.setup(config)
+    end,
+    ["rust_analyzer"] = function ()
+      local config = make_config()
+      config.settings = rust_config.settings
+      lspconfig.rust_analyzer.setup(config)
     end,
     ["pyright"] = function()
       local config = make_config()
