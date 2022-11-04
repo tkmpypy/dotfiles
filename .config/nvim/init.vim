@@ -273,8 +273,12 @@ let g:test#python#pytest#options = {
     \ 'nearest': '-vv --capture=no',
     \ 'file': '-vv --capture=no'
 \ }
+
 let g:test#rust#cargotest#options = {
     \ 'nearest': '-- --nocapture'
+\ }
+let g:test#rust#cargonextest#options = {
+    \ 'nearest': '--no-capture'
 \ }
 let g:test#go#gotest#options = {
     \ 'nearest': '-v'

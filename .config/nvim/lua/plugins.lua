@@ -51,148 +51,12 @@ packer.startup {
       end,
     }
 
-    -- ColorScheme
-    use {
-      "rebelot/kanagawa.nvim",
-      config = function()
-        require("kanagawa").setup {
-          undercurl = true, -- enable undercurls
-          commentStyle = { italic = true },
-          keywordStyle = { italic = true },
-          statementStyle = { bold = true },
-          variablebuiltinStyle = { italic = true },
-          specialReturn = true, -- special highlight for the return keyword
-          specialException = true, -- special highlight for exception handling keywords
-          transparent = true, -- do not set background color
-          dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-          globalStatus = true, -- adjust window separators highlight for laststatus=3
-        }
-      end,
-    }
-    use {
-      "rmehri01/onenord.nvim",
-      config = function()
-        require("onenord").setup {
-          theme = "dark", -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
-          borders = true, -- Split window borders
-          fade_nc = false, -- Fade non-current windows, making them more distinguishable
-          styles = {
-            comments = "italic", -- Style that is applied to comments: see `highlight-args` for options
-            strings = "NONE", -- Style that is applied to strings: see `highlight-args` for options
-            keywords = "bold", -- Style that is applied to keywords: see `highlight-args` for options
-            functions = "italic", -- Style that is applied to functions: see `highlight-args` for options
-            variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
-            diagnostics = "undercurl", -- Style that is applied to diagnostics: see `highlight-args` for options
-          },
-          disable = {
-            background = true, -- Disable setting the background color
-            cursorline = false, -- Disable the cursorline
-            eob_lines = true, -- Hide the end-of-buffer lines
-          },
-        }
-      end,
-    }
-    use {
-      "sainnhe/edge",
-      config = function()
-        vim.g.edge_style = "aura"
-        vim.g.edge_enable_italic = true
-        vim.g.edge_disable_italic_comment = false
-        vim.g.edge_current_word = "bold"
-        vim.g.edge_transparent_background = true
-      end,
-    }
-    use {
-      "sainnhe/everforest",
-      config = function()
-        -- Set contrast.
-        --   This configuration option should be placed before `colorscheme everforest`.
-        --   Available values: 'hard', 'medium'(default), 'soft'
-        vim.g.everforest_background = "soft"
-        vim.g.everforest_enable_italic = true
-        vim.g.everforest_disable_italic_comment = false
-        vim.g.everforest_transparent_background = true
-        vim.g.everforest_ui_contrast = "low" -- high or low
-        vim.g.everforest_diagnostic_text_highlight = true
-        vim.g.everforest_diagnostic_line_highlight = true
-      end,
-    }
-    use {
-      "folke/tokyonight.nvim",
-      config = function()
-        require("tokyonight").setup {
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          style = "storm", -- The theme comes in three styles, `storm`, a darker variant `night` and `day`
-          transparent = true, -- Enable this to disable setting the background color
-          terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
-          styles = {
-            -- Style to be applied to different syntax groups
-            -- Value is any valid attr-list value `:help attr-list`
-            comments = "italic",
-            keywords = "italic",
-            functions = "NONE",
-            variables = "NONE",
-            -- Background styles. Can be "dark", "transparent" or "normal"
-            sidebars = "dark", -- style for sidebars, see below
-            floats = "dark", -- style for floating windows
-          },
-          sidebars = { "qf", "help", "NvimTree" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-          day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-          hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-          dim_inactive = false, -- dims inactive windows
-          lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
-        }
-      end,
-    }
-    use {
-      "eddyekofo94/gruvbox-flat.nvim",
-      config = function()
-        vim.g.gruvbox_flat_style = "dark"
-        vim.g.gruvbox_italic_functions = true
-        vim.g.gruvbox_italic_comments = true
-        vim.g.gruvbox_italic_keywords = true
-        vim.g.gruvbox_italic_variables = false
-        vim.g.gruvbox_transparent = true
-        vim.g.gruvbox_dark_sidebar = true
-        vim.g.gruvbox_dark_float = true
-        vim.g.gruvbox_sidebars = { "qf", "vista_kind", "terminal", "packer" }
-        vim.g.gruvbox_hide_inactive_statusline = true
-      end,
-    }
-    use {
-      "EdenEast/nightfox.nvim",
-      config = function()
-        local nightfox = require "nightfox"
-        nightfox.setup {
-          options = {
-            transparent = true,
-            styles = {
-              comments = "italic", -- change style of comments to be italic
-              keywords = "bold", -- change style of keywords to be bold
-            },
-            inverse = {
-              match_paren = true, -- inverse the highlighting of match_parens
-              visual = false,
-              search = false,
-            },
-          },
-        }
-        -- nightfox.load()
-      end,
-    }
-
     if vim.g.use_treesitter then
       use {
         "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
-        requires = {
-          "yioneko/nvim-yati",
-          "nvim-treesitter/nvim-treesitter-textobjects",
-          "windwp/nvim-ts-autotag",
-          "p00f/nvim-ts-rainbow",
-          "JoosepAlviste/nvim-ts-context-commentstring",
-        },
+        run = function()
+          require("nvim-treesitter.install").update { with_sync = true }
+        end,
         config = function()
           require("nvim-treesitter.configs").setup {
             highlight = {
@@ -207,7 +71,10 @@ packer.startup {
               end,
               additional_vim_regex_highlighting = true,
             },
-            yati = { enable = true },
+            yati = {
+              enable = true,
+              default_lazy = true,
+            },
             indent = {
               enable = false,
             },
@@ -261,7 +128,39 @@ packer.startup {
         end,
       }
       use {
+        "yioneko/nvim-yati",
+        tag = "*",
+        opt = true,
+        event = { "BufEnter" },
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
+      use {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        opt = true,
+        event = { "BufEnter" },
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
+      use {
+        "windwp/nvim-ts-autotag",
+        opt = true,
+        event = { "BufEnter" },
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
+      use {
+        "p00f/nvim-ts-rainbow",
+        opt = true,
+        event = { "BufEnter" },
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
+      use {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        opt = true,
+        event = { "BufEnter" },
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
+      use {
         "b3nj5m1n/kommentary",
+        requires = "nvim-treesitter/nvim-treesitter",
         opt = true,
         event = { "BufEnter" },
         config = function()
@@ -1460,7 +1359,12 @@ packer.startup {
       "moll/vim-bbye",
     }
     use { "godlygeek/tabular" }
-    use { "airblade/vim-rooter" }
+    use {
+      "airblade/vim-rooter",
+      config = function()
+        vim.g.rooter_patterns = { ".git", "Cargo.toml" }
+      end,
+    }
     use { "machakann/vim-sandwich" }
     use { "simeji/winresizer" }
     use {
@@ -3130,6 +3034,137 @@ packer.startup {
             },
           }
         end
+      end,
+    }
+
+    -- ColorScheme
+    use {
+      "rebelot/kanagawa.nvim",
+      config = function()
+        require("kanagawa").setup {
+          undercurl = true, -- enable undercurls
+          commentStyle = { italic = true },
+          keywordStyle = { italic = true },
+          statementStyle = { bold = true },
+          variablebuiltinStyle = { italic = true },
+          specialReturn = true, -- special highlight for the return keyword
+          specialException = true, -- special highlight for exception handling keywords
+          transparent = true, -- do not set background color
+          dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+          globalStatus = true, -- adjust window separators highlight for laststatus=3
+        }
+      end,
+    }
+    use {
+      "rmehri01/onenord.nvim",
+      config = function()
+        require("onenord").setup {
+          theme = "dark", -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
+          borders = true, -- Split window borders
+          fade_nc = false, -- Fade non-current windows, making them more distinguishable
+          styles = {
+            comments = "italic", -- Style that is applied to comments: see `highlight-args` for options
+            strings = "NONE", -- Style that is applied to strings: see `highlight-args` for options
+            keywords = "bold", -- Style that is applied to keywords: see `highlight-args` for options
+            functions = "italic", -- Style that is applied to functions: see `highlight-args` for options
+            variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
+            diagnostics = "undercurl", -- Style that is applied to diagnostics: see `highlight-args` for options
+          },
+          disable = {
+            background = true, -- Disable setting the background color
+            cursorline = false, -- Disable the cursorline
+            eob_lines = true, -- Hide the end-of-buffer lines
+          },
+        }
+      end,
+    }
+    use {
+      "sainnhe/edge",
+      config = function()
+        vim.g.edge_style = "aura"
+        vim.g.edge_enable_italic = true
+        vim.g.edge_disable_italic_comment = false
+        vim.g.edge_current_word = "bold"
+        vim.g.edge_transparent_background = true
+      end,
+    }
+    use {
+      "sainnhe/everforest",
+      config = function()
+        -- Set contrast.
+        --   This configuration option should be placed before `colorscheme everforest`.
+        --   Available values: 'hard', 'medium'(default), 'soft'
+        vim.g.everforest_background = "soft"
+        vim.g.everforest_enable_italic = true
+        vim.g.everforest_disable_italic_comment = false
+        vim.g.everforest_transparent_background = true
+        vim.g.everforest_ui_contrast = "low" -- high or low
+        vim.g.everforest_diagnostic_text_highlight = true
+        vim.g.everforest_diagnostic_line_highlight = true
+      end,
+    }
+    use {
+      "folke/tokyonight.nvim",
+      config = function()
+        require("tokyonight").setup {
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          style = "storm", -- The theme comes in three styles, `storm`, a darker variant `night` and `day`
+          transparent = true, -- Enable this to disable setting the background color
+          terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+          styles = {
+            -- Style to be applied to different syntax groups
+            -- Value is any valid attr-list value `:help attr-list`
+            comments = "italic",
+            keywords = "italic",
+            functions = "NONE",
+            variables = "NONE",
+            -- Background styles. Can be "dark", "transparent" or "normal"
+            sidebars = "dark", -- style for sidebars, see below
+            floats = "dark", -- style for floating windows
+          },
+          sidebars = { "qf", "help", "NvimTree" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+          day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+          hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+          dim_inactive = false, -- dims inactive windows
+          lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
+        }
+      end,
+    }
+    use {
+      "eddyekofo94/gruvbox-flat.nvim",
+      config = function()
+        vim.g.gruvbox_flat_style = "dark"
+        vim.g.gruvbox_italic_functions = true
+        vim.g.gruvbox_italic_comments = true
+        vim.g.gruvbox_italic_keywords = true
+        vim.g.gruvbox_italic_variables = false
+        vim.g.gruvbox_transparent = true
+        vim.g.gruvbox_dark_sidebar = true
+        vim.g.gruvbox_dark_float = true
+        vim.g.gruvbox_sidebars = { "qf", "vista_kind", "terminal", "packer" }
+        vim.g.gruvbox_hide_inactive_statusline = true
+      end,
+    }
+    use {
+      "EdenEast/nightfox.nvim",
+      config = function()
+        local nightfox = require "nightfox"
+        nightfox.setup {
+          options = {
+            transparent = true,
+            styles = {
+              comments = "italic", -- change style of comments to be italic
+              keywords = "bold", -- change style of keywords to be bold
+            },
+            inverse = {
+              match_paren = true, -- inverse the highlighting of match_parens
+              visual = false,
+              search = false,
+            },
+          },
+        }
+        -- nightfox.load()
       end,
     }
 
