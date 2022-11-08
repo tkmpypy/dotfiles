@@ -2200,7 +2200,7 @@ packer.startup {
 
         -- mode: n
         wk.register {
-          ["_"] = { "<Plug>(operator-replace)", "Replace" },
+          ["R"] = { "<Plug>(operator-replace)", "Replace" },
           ["<leader>"] = {
             q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
             Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
