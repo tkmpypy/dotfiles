@@ -150,14 +150,6 @@ local gopls_config = {
   },
 }
 
-local rust_config = {
-  settings = {
-    checkOnSave = {
-      command = "clippy",
-    },
-  },
-}
-
 -- local golangci_lint_ls_config = {
 --   init_options = {
 --     command = { "golangci-lint", "run", "--out-format", "json" },
@@ -274,7 +266,7 @@ local make_config = function()
   -- capabilities.textDocument.colorProvider = {
   --   dynamicRegistration = true,
   -- }
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
   return {
     -- enable snippet support
     capabilities = capabilities,
@@ -331,10 +323,79 @@ local setup_servers = function()
       config.settings = gopls_config.settings
       lspconfig.gopls.setup(config)
     end,
-    ["rust_analyzer"] = function ()
-      local config = make_config()
-      config.settings = rust_config.settings
-      lspconfig.rust_analyzer.setup(config)
+    ["rust_analyzer"] = function()
+      -- local config = make_config()
+      -- config.settings = rust_config.settings
+      -- lspconfig.rust_analyzer.setup(config)
+      local rt = require "rust-tools"
+
+      rt.setup {
+        server = {
+          on_attach = custom_attach
+        },
+        tools = { -- rust-tools options
+          -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
+          reload_workspace_from_cargo_toml = true,
+
+          -- These apply to the default RustSetInlayHints command
+          inlay_hints = {
+            -- automatically set inlay hints (type hints)
+            -- default: true
+            auto = true,
+
+            -- Only show inlay hints for the current line
+            only_current_line = false,
+
+            -- whether to show parameter hints with the inlay hints or not
+            -- default: true
+            show_parameter_hints = true,
+
+            -- prefix for parameter hints
+            -- default: "<-"
+            parameter_hints_prefix = "<- ",
+
+            -- prefix for all the other hints (type, chaining)
+            -- default: "=>"
+            other_hints_prefix = "=> ",
+
+            -- whether to align to the length of the longest line in the file
+            max_len_align = false,
+
+            -- padding from the left if max_len_align is true
+            max_len_align_padding = 1,
+
+            -- whether to align to the extreme right or not
+            right_align = false,
+
+            -- padding from the right if right_align is true
+            right_align_padding = 7,
+
+            -- The color of the hints
+            highlight = "Comment",
+          },
+
+          -- options same as lsp hover / vim.lsp.util.open_floating_preview()
+          hover_actions = {
+
+            -- the border that is used for the hover window
+            -- see vim.api.nvim_open_win()
+            border = {
+              { "╭", "FloatBorder" },
+              { "─", "FloatBorder" },
+              { "╮", "FloatBorder" },
+              { "│", "FloatBorder" },
+              { "╯", "FloatBorder" },
+              { "─", "FloatBorder" },
+              { "╰", "FloatBorder" },
+              { "│", "FloatBorder" },
+            },
+
+            -- whether the hover action window gets automatically focused
+            -- default: false
+            auto_focus = false,
+          },
+        },
+      }
     end,
     ["pyright"] = function()
       local config = make_config()
