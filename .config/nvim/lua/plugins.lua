@@ -61,6 +61,7 @@ packer.startup {
           require("nvim-treesitter.configs").setup {
             highlight = {
               enable = true,
+              -- disable = { "rust" },
               disable = function(lang, buf)
                 local max_filesize = 200 * 1024 -- 200 KB
                 local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -71,12 +72,12 @@ packer.startup {
               end,
               additional_vim_regex_highlighting = true,
             },
-            yati = {
-              enable = true,
-              default_lazy = true,
-            },
+            -- yati = {
+            --   enable = true,
+            --   default_lazy = true,
+            -- },
             indent = {
-              enable = false,
+              enable = true,
             },
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
@@ -104,18 +105,18 @@ packer.startup {
               "make",
               "dockerfile",
             },
-            textobjects = {
-              move = {
-                enable = true,
-                set_jumps = true, -- whether to set jumps in the jumplist
-              },
-              select = {
-                enable = true,
-                -- Automatically jump forward to textobj, similar to targets.vim
-                lookahead = true,
-                include_surrounding_whitespace = true,
-              },
-            },
+            -- textobjects = {
+            --   move = {
+            --     enable = true,
+            --     set_jumps = true, -- whether to set jumps in the jumplist
+            --   },
+            --   select = {
+            --     enable = true,
+            --     -- Automatically jump forward to textobj, similar to targets.vim
+            --     lookahead = true,
+            --     include_surrounding_whitespace = true,
+            --   },
+            -- },
             autotag = {
               enable = true,
             },
@@ -127,19 +128,19 @@ packer.startup {
           }
         end,
       }
-      use {
-        "yioneko/nvim-yati",
-        tag = "*",
-        opt = true,
-        event = { "BufEnter" },
-        requires = "nvim-treesitter/nvim-treesitter",
-      }
-      use {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        opt = true,
-        event = { "BufEnter" },
-        requires = "nvim-treesitter/nvim-treesitter",
-      }
+      -- use {
+      --   "yioneko/nvim-yati",
+      --   tag = "*",
+      --   opt = true,
+      --   event = { "BufEnter" },
+      --   requires = "nvim-treesitter/nvim-treesitter",
+      -- }
+      -- use {
+      --   "nvim-treesitter/nvim-treesitter-textobjects",
+      --   opt = true,
+      --   event = { "BufEnter" },
+      --   requires = "nvim-treesitter/nvim-treesitter",
+      -- }
       use {
         "windwp/nvim-ts-autotag",
         opt = true,
@@ -319,24 +320,25 @@ packer.startup {
       "nvim-zh/colorful-winsep.nvim",
       config = function()
         require("colorful-winsep").setup {
-          direction = {
-            down = "j",
-            left = "h",
-            right = "l",
-            up = "k",
-          },
+          -- Window divider color definition
           highlight = {
-            guibg = vim.api.nvim_get_hl_by_name("Normal", true)["background"],
-            guifg = "#957CC6",
+            guibg = "#16161E",
+            guifg = "#1F3442",
           },
-          -- refresh interval
-          interval = 100,
-          no_exec_files = { "packer", "TelescopePrompt", "mason", "CompetiTest", "NeogitStatus", "NeogitCommitMessage" },
+          -- timer refresh rate
+          interval = 30,
+          -- filetype in the list, will not be executed
+          no_exec_files = {
+            "packer",
+            "TelescopePrompt",
+            "mason",
+            "CompetiTest",
+            "NvimTree",
+            "NeogitStatus",
+            "NeogitCommitMessage",
+          },
+          -- Split line symbol definition
           symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
-          win_opts = {
-            relative = "editor",
-            style = "minimal",
-          },
         }
       end,
     }
@@ -1251,6 +1253,12 @@ packer.startup {
 
     -- Lua Utils
     use { "rafcamlet/nvim-luapad" }
+
+    -- Operator
+    use {
+      "kana/vim-operator-replace",
+      requires = { "kana/vim-operator-user" },
+    }
 
     -- Utils
     use {
@@ -2819,6 +2827,7 @@ packer.startup {
 
         -- mode: n
         wk.register {
+          ["_"] = { "<Plug>(operator-replace)", "Replace" },
           ["<leader>"] = {
             q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
             Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
@@ -3002,7 +3011,6 @@ packer.startup {
             },
             ["K"] = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Hover Doc" },
             ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-            ["rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
             ["<leader>"] = {
               F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
             },
@@ -3014,6 +3022,7 @@ packer.startup {
               n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
               p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
             },
+            ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
           }, { mode = "n" })
           wk.register({
             ["<leader>ac"] = {
