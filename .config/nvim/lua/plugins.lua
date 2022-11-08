@@ -316,17 +316,17 @@ packer.startup {
     use { "thinca/vim-quickrun" }
 
     -- UI
-    use {
+        use {
       "nvim-zh/colorful-winsep.nvim",
+      opt = true,
+      event = { "ColorScheme" },
       config = function()
         require("colorful-winsep").setup {
+          enable = true,
           -- Window divider color definition
           highlight = {
-            guibg = "#16161E",
-            guifg = "#1F3442",
+            guifg = "#957CC6",
           },
-          -- timer refresh rate
-          interval = 30,
           -- filetype in the list, will not be executed
           no_exec_files = {
             "packer",
@@ -337,11 +337,12 @@ packer.startup {
             "NeogitStatus",
             "NeogitCommitMessage",
           },
-          -- Split line symbol definition
-          symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+          create_event = function() end,
+          close_event = function() end,
         }
       end,
     }
+
     use {
       "levouh/tint.nvim",
       config = function()
@@ -605,33 +606,32 @@ packer.startup {
         }
       end,
     }
-    use {
-      "akinsho/bufferline.nvim",
-      disable = true,
-      requires = { "kyazdani42/nvim-web-devicons" },
-      config = function()
-        require("bufferline").setup {
-          options = {
-            view = "multiwindow", -- "multiwindow" | "default"
-            numbers = "ordinal", -- "none" | "ordinal" | "buffer_id"
-            buffer_close_icon = "",
-            modified_icon = "●",
-            close_icon = "",
-            left_trunc_marker = "",
-            right_trunc_marker = "",
-            max_name_length = 18,
-            tab_size = 18,
-            show_buffer_close_icons = true,
-            -- can also be a table containing 2 custom separators
-            -- [focused and unfocused]. eg: { '|', '|' }
-            separator_style = "thin", -- "slant" | "thick" | "thin" | { 'any', 'any' }
-            enforce_regular_tabs = false,
-            always_show_bufferline = true,
-            sort_by = "extension",
-          },
-        }
-      end,
-    }
+    -- use {
+    --   "akinsho/bufferline.nvim",
+    --   requires = { "kyazdani42/nvim-web-devicons" },
+    --   config = function()
+    --     require("bufferline").setup {
+    --       options = {
+    --         view = "multiwindow", -- "multiwindow" | "default"
+    --         numbers = "ordinal", -- "none" | "ordinal" | "buffer_id"
+    --         buffer_close_icon = "",
+    --         modified_icon = "●",
+    --         close_icon = "",
+    --         left_trunc_marker = "",
+    --         right_trunc_marker = "",
+    --         max_name_length = 18,
+    --         tab_size = 18,
+    --         show_buffer_close_icons = true,
+    --         -- can also be a table containing 2 custom separators
+    --         -- [focused and unfocused]. eg: { '|', '|' }
+    --         separator_style = "thin", -- "slant" | "thick" | "thin" | { 'any', 'any' }
+    --         enforce_regular_tabs = false,
+    --         always_show_bufferline = true,
+    --         sort_by = "extension",
+    --       },
+    --     }
+    --   end,
+    -- }
     use {
       "goolord/alpha-nvim",
       requires = { "kyazdani42/nvim-web-devicons" },
@@ -683,7 +683,6 @@ packer.startup {
     use { "liuchengxu/vista.vim" }
     use {
       "folke/noice.nvim",
-      event = { "VimEnter" },
       requires = {
         "MunifTanjim/nui.nvim",
         "rcarriga/nvim-notify",
@@ -2383,15 +2382,17 @@ packer.startup {
               d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
               D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
             },
-            ["K"] = { function ()
-              local buf = vim.api.nvim_get_current_buf() 
-              local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-              if ft == "rust" then
-                return require("rust-tools").hover_actions.hover_actions()
-              end
-              return vim.lsp.buf.hover()
-            end, "Hover Doc" },
-
+            ["K"] = {
+              function()
+                local buf = vim.api.nvim_get_current_buf()
+                local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+                if ft == "rust" then
+                  return require("rust-tools").hover_actions.hover_actions()
+                end
+                return vim.lsp.buf.hover()
+              end,
+              "Hover Doc",
+            },
             ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
             ["<leader>"] = {
               F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
