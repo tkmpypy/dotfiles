@@ -72,12 +72,12 @@ packer.startup {
               end,
               additional_vim_regex_highlighting = true,
             },
-            -- yati = {
-            --   enable = true,
-            --   default_lazy = true,
-            -- },
-            indent = {
+            yati = {
               enable = true,
+              default_lazy = true,
+            },
+            indent = {
+              enable = false,
             },
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
@@ -128,13 +128,13 @@ packer.startup {
           }
         end,
       }
-      -- use {
-      --   "yioneko/nvim-yati",
-      --   tag = "*",
-      --   opt = true,
-      --   event = { "BufEnter" },
-      --   requires = "nvim-treesitter/nvim-treesitter",
-      -- }
+      use {
+        "yioneko/nvim-yati",
+        tag = "*",
+        opt = true,
+        event = { "BufEnter" },
+        requires = "nvim-treesitter/nvim-treesitter",
+      }
       -- use {
       --   "nvim-treesitter/nvim-treesitter-textobjects",
       --   opt = true,
