@@ -316,7 +316,7 @@ packer.startup {
     use { "thinca/vim-quickrun" }
 
     -- UI
-        use {
+    use {
       "nvim-zh/colorful-winsep.nvim",
       opt = true,
       event = { "ColorScheme" },
@@ -1124,10 +1124,12 @@ packer.startup {
           size = 20,
           open_mapping = [[<c-t>]],
           shade_filetypes = {},
-          shade_terminals = true,
-          direction = "horizontal",
+          shade_terminals = false,
+          direction = "float",
           insert_mappings = true,
           close_on_exit = false,
+          persist_size = false,
+          persist_mode = false,
         }
       end,
     }
@@ -1146,7 +1148,10 @@ packer.startup {
     use {
       "windwp/nvim-autopairs",
       config = function()
-        require("nvim-autopairs").setup {}
+        require("nvim-autopairs").setup {
+          map_cr = false,
+          enable_check_bracket_line = false,
+        }
       end,
     }
     use {
@@ -1873,6 +1878,7 @@ packer.startup {
       use {
         "hrsh7th/nvim-cmp",
         requires = {
+          {"windwp/nvim-autopairs"},
           { "onsails/lspkind.nvim" },
           { "hrsh7th/vim-vsnip" },
           {
@@ -1927,10 +1933,9 @@ packer.startup {
               require("cmp_nvim_lsp").setup()
             end,
           },
-          { "hrsh7th/cmp-nvim-lsp-signature-help" },
+          -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
           { "hrsh7th/cmp-nvim-lua" },
           { "windwp/nvim-autopairs" },
-          { "lukas-reineke/cmp-rg", disable = true }, -- blocking completion
         },
         config = function()
           local cmp = require "cmp"
@@ -2041,6 +2046,9 @@ packer.startup {
               ghost_text = true,
             },
           }
+
+          local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+          cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
           require "scripts/cmp/conventionalprefix"
           cmp.setup.filetype({ "NeogitCommitMessage", "gitcommit" }, {

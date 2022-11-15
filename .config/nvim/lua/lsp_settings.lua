@@ -2,7 +2,6 @@ local vim = vim
 local lspconfig = require "lspconfig"
 local util = require("lspconfig").util
 -- local ih = require("inlay-hints")
-local navic = require "nvim-navic"
 
 local set_diagnostic_sign = function()
   local signs = { "", "", "", "" }
@@ -48,9 +47,6 @@ local custom_attach = function(client, bufnr)
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
     })
-  end
-  if client.server_capabilities.documentSymbolProvider then
-    navic.attach(client, bufnr)
   end
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
