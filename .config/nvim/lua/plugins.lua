@@ -1149,8 +1149,7 @@ packer.startup {
       "windwp/nvim-autopairs",
       config = function()
         require("nvim-autopairs").setup {
-          map_cr = false,
-          enable_check_bracket_line = false,
+          map_cr = true,
         }
       end,
     }
@@ -1990,7 +1989,7 @@ packer.startup {
                 i = cmp.mapping.abort(),
                 c = cmp.mapping.close(),
               },
-              ["<CR>"] = cmp.mapping.confirm { select = true },
+              ["<CR>"] = cmp.mapping.confirm { select = false },
             },
 
             -- You should specify your *installed* sources.
