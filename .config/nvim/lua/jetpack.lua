@@ -57,7 +57,7 @@ require("jetpack.packer").startup(function(use)
   if vim.g.use_treesitter then
     use {
       "nvim-treesitter/nvim-treesitter",
-      run = 'require("nvim-treesitter.install").update { with_sync = true }',
+      run = function() require("nvim-treesitter.install").update { with_sync = true } end,
       config = function()
         require("nvim-treesitter.configs").setup {
           highlight = {
@@ -1528,7 +1528,6 @@ require("jetpack.packer").startup(function(use)
     }
     -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
     use "hrsh7th/cmp-nvim-lua"
-    use "windwp/nvim-autopairs"
     use {
       "hrsh7th/cmp-vsnip",
       config = function()
