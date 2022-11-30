@@ -264,6 +264,7 @@ let g:quickrun_config['rust/cargo'] = {
 
 " vim-test {{
 let g:test#echo_command = 1
+let g:test#runner_commands = ['PyUnit']
 let g:test#strategy = "neovim"
 let g:test#neovim#term_position = "belowright"
 let g:test#preserve_screen = 1
