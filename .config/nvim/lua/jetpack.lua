@@ -803,7 +803,9 @@ require("jetpack.packer").startup(function(use)
   }
   use {
     "iamcco/markdown-preview.nvim",
-    run = "mkdp#util#install()",
+    run = function()
+      vim.fn["mkdp#util#install"]()
+    end,
     ft = { "markdown" },
   }
   use { "npxbr/glow.nvim", ft = { "markdown" } }
