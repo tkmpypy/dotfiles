@@ -219,3 +219,5 @@ jsonify
 indoc
 clippy
 hoge
+ulimits
+nproc

@@ -44,12 +44,6 @@ packer.startup {
         require("impatient").enable_profile()
       end,
     }
-    use {
-      "antoinemadec/FixCursorHold.nvim",
-      config = function()
-        vim.g.cursorhold_updatetime = 300
-      end,
-    }
 
     if vim.g.use_treesitter then
       use {
@@ -63,6 +57,7 @@ packer.startup {
               enable = true,
               -- disable = { "rust" },
               disable = function(lang, buf)
+                if (lang == "typescript") then return true end
                 local max_filesize = 200 * 1024 -- 200 KB
                 local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
                 if ok and stats and stats.size > max_filesize then
@@ -1553,6 +1548,7 @@ packer.startup {
           use {
             "utilyre/barbecue.nvim",
             disable = false,
+            commit = "f13fad8217cabea67e4d06a82bba79fdcc56344b",
             requires = {
               "kyazdani42/nvim-web-devicons", -- optional
               "smiteshp/nvim-navic",
@@ -1584,26 +1580,18 @@ packer.startup {
                   basename = "",
                 },
 
+                ---icons used by barbecue
+                ---@type table<string, string>
                 symbols = {
-                  ---string to be shown at the start of winbar
-                  ---@type string
-                  prefix = " ",
-
                   ---entry separator
                   ---@type string
-                  -- The sign between each entry
                   separator = "",
-
-                  ---string to be shown when buffer is modified
-                  ---@type string
-                  modified = "",
-
-                  ---string to be shown when context is available but empty
-                  ---@type string
-                  default_context = "…",
+                  ---modification indicator
+                  ---`false` to disable
+                  ---@type false|string
+                  modified = false,
                 },
 
-                ---icons for different context entry kinds
                 kinds = {
                   ---@type string
                   File = "",
@@ -1877,7 +1865,7 @@ packer.startup {
       use {
         "hrsh7th/nvim-cmp",
         requires = {
-          {"windwp/nvim-autopairs"},
+          { "windwp/nvim-autopairs" },
           { "onsails/lspkind.nvim" },
           { "hrsh7th/vim-vsnip" },
           {
