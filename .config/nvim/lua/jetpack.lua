@@ -57,7 +57,9 @@ require("jetpack.packer").startup(function(use)
   if vim.g.use_treesitter then
     use {
       "nvim-treesitter/nvim-treesitter",
-      run = function() require("nvim-treesitter.install").update { with_sync = true } end,
+      run = function()
+        require("nvim-treesitter.install").update { with_sync = true }
+      end,
       config = function()
         require("nvim-treesitter.configs").setup {
           highlight = {
@@ -370,7 +372,7 @@ require("jetpack.packer").startup(function(use)
       require("lualine").setup {
         options = {
           icons_enabled = true,
-          theme = theme,
+          theme = 'auto',
           -- component_separators = { left = "", right = "" },
           -- section_separators = { left = "", right = "" },
           component_separators = "",
@@ -513,7 +515,7 @@ require("jetpack.packer").startup(function(use)
           dashboard.button("e", "  New file", "<cmd>ene<CR>"),
           dashboard.button("SPC s f f", "  Find file"),
           dashboard.button("SPC s g g", "  Live grep"),
-          dashboard.button("U", "  Update plugins", "<cmd>PackerSync<CR>"),
+          dashboard.button("U", "  Update plugins", "<cmd>JetpackSync<CR>"),
           dashboard.button("q", "  Quit", "<cmd>qa<CR>"),
         },
         position = "center",
@@ -811,7 +813,6 @@ require("jetpack.packer").startup(function(use)
   use { "npxbr/glow.nvim", ft = { "markdown" } }
   use "osyo-manga/vim-over"
   use "nicwest/vim-camelsnek"
-  use "pechorin/any-jump.vim"
   use "pechorin/any-jump.vim"
   use {
     "phaazon/hop.nvim",
@@ -2062,6 +2063,31 @@ require("jetpack.packer").startup(function(use)
 
   -- ColorScheme
   use {
+    "lmburns/kimbox",
+    config = function()
+      require("kimbox").setup {
+        -- options
+        -- Main options --
+        style = "ocean", -- choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+        -- medium: #231A0C
+        -- ocean: #221A02
+        -- medium: #231A0C
+        -- deep: #0f111B
+        -- darker:#291804
+        -- General formatting --
+        allow_bold = true,
+        allow_italic = true,
+        allow_underline = true,
+        allow_undercurl = true,
+        allow_reverse = false,
+
+        transparent = false, -- don't set background
+        term_colors = true, -- if true enable the terminal
+        ending_tildes = false, -- show the end-of-buffer tildes
+      }
+    end,
+  }
+  use {
     "rebelot/kanagawa.nvim",
     config = function()
       require("kanagawa").setup {
@@ -2072,7 +2098,7 @@ require("jetpack.packer").startup(function(use)
         variablebuiltinStyle = { italic = true },
         specialReturn = true, -- special highlight for the return keyword
         specialException = true, -- special highlight for exception handling keywords
-        transparent = true, -- do not set background color
+        transparent = false, -- do not set background color
         dimInactive = false, -- dim inactive window `:h hl-NormalNC`
         globalStatus = true, -- adjust window separators highlight for laststatus=3
       }
