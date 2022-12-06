@@ -12,12 +12,7 @@ require("jetpack.packer").startup(function(use)
   use { "tani/vim-jetpack", opt = true }
 
   -- perf
-  use {
-    "lewis6991/impatient.nvim",
-    config = function()
-      require("impatient").enable_profile()
-    end,
-  }
+  use "lewis6991/impatient.nvim"
 
   -- Library
   use "kyazdani42/nvim-web-devicons"
@@ -372,7 +367,7 @@ require("jetpack.packer").startup(function(use)
       require("lualine").setup {
         options = {
           icons_enabled = true,
-          theme = 'auto',
+          theme = "auto",
           -- component_separators = { left = "", right = "" },
           -- section_separators = { left = "", right = "" },
           component_separators = "",
@@ -531,9 +526,9 @@ require("jetpack.packer").startup(function(use)
   }
   use {
     "stevearc/aerial.nvim",
-    config = function ()
-      require('aerial').setup()
-    end
+    config = function()
+      require("aerial").setup()
+    end,
   }
   use {
     "folke/noice.nvim",
@@ -1092,6 +1087,7 @@ require("jetpack.packer").startup(function(use)
   if vim.g.git_client_type == "neogit" then
     use {
       "TimUntersberger/neogit",
+      cmd = { "Neogit" },
       config = function()
         local neogit = require "neogit"
         neogit.setup {
@@ -1936,7 +1932,7 @@ require("jetpack.packer").startup(function(use)
         },
         ["<leader>g"] = {
           name = "+Git",
-          s = { "<cmd>lua require('neogit').open({ kind = 'vsplit' })<cr>", "Status" },
+          s = { "<cmd>Neogit kind=vsplit<cr>", "Status" },
           d = {
             name = "+Diff",
             d = { "<cmd>Gitsigns diffthis<cr>", "Diff" },

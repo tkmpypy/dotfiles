@@ -174,8 +174,8 @@ augroup vimrc
   autocmd!
 augroup END
 
-" lua require('plugins')
-lua require('jetpack')
+lua require('plugins_packer')
+" lua require('plugins_jetpack')
 
 " load my scripts {{
 lua << EOF

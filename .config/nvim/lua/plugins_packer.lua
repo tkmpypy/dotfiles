@@ -4,14 +4,16 @@ local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 local packer_compiled_path = fn.stdpath "config" .. "/lua/packer_compiled.lua"
 
-if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system {
-    "git",
-    "clone",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  }
+local ensure_install = function()
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
+
+local packer_bootstrap = ensure_install()
 
 local packer = require "packer"
 local packer_util = require "packer.util"
@@ -19,10 +21,10 @@ local packer_util = require "packer.util"
 vim.cmd [[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-    autocmd User PackerCompileDone silent! lua require("packer_compiled")
+    autocmd BufWritePost plugins_packer.lua source <afile> | PackerCompile
   augroup end
 ]]
+
 
 if fn.empty(fn.glob(packer_compiled_path)) == 0 then
   require "packer_compiled"
@@ -40,9 +42,6 @@ packer.startup {
     -- perf
     use {
       "lewis6991/impatient.nvim",
-      config = function()
-        require("impatient").enable_profile()
-      end,
     }
 
     if vim.g.use_treesitter then
@@ -364,6 +363,7 @@ packer.startup {
       opt = true,
       event = { "BufEnter" },
       config = function()
+        require("hlslens").setup()
         require("scrollbar").setup {
           show = true,
           set_highlights = true,
@@ -491,7 +491,7 @@ packer.startup {
         require("lualine").setup {
           options = {
             icons_enabled = true,
-            theme = theme,
+            theme = 'auto',
             -- component_separators = { left = "", right = "" },
             -- section_separators = { left = "", right = "" },
             component_separators = "",
@@ -675,7 +675,12 @@ packer.startup {
         ]]
       end,
     }
-    use { "liuchengxu/vista.vim" }
+    use {
+      "stevearc/aerial.nvim",
+      config = function ()
+        require('aerial').setup()
+      end
+    }
     use {
       "folke/noice.nvim",
       requires = {
@@ -2290,7 +2295,8 @@ packer.startup {
               c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
             },
             r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
-            t = { "<cmd>Vista!!<CR>", "ToC" },
+            t = { "<cmd>AerialToggle<CR>", "ToC" },
+            T = { "<cmd>AerialToggle!<CR>", "ToC" },
           },
           ["<leader>g"] = {
             name = "+Git",
@@ -2425,6 +2431,31 @@ packer.startup {
     }
 
     -- ColorScheme
+      use {
+        "lmburns/kimbox",
+        config = function()
+          require("kimbox").setup {
+            -- options
+            -- Main options --
+            style = "ocean", -- choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+            -- medium: #231A0C
+            -- ocean: #221A02
+            -- medium: #231A0C
+            -- deep: #0f111B
+            -- darker:#291804
+            -- General formatting --
+            allow_bold = true,
+            allow_italic = true,
+            allow_underline = true,
+            allow_undercurl = true,
+            allow_reverse = false,
+
+            transparent = false, -- don't set background
+            term_colors = true, -- if true enable the terminal
+            ending_tildes = false, -- show the end-of-buffer tildes
+          }
+        end,
+      }
     use {
       "rebelot/kanagawa.nvim",
       config = function()
@@ -2585,6 +2616,11 @@ packer.startup {
         require("deepon").setup()
       end,
     }
+
+
+    if packer_bootstrap then
+      require('packer').sync()
+    end
   end,
   config = {
     -- Move to lua dir so impatient.nvim can cache it
