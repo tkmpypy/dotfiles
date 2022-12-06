@@ -529,7 +529,12 @@ require("jetpack.packer").startup(function(use)
         ]]
     end,
   }
-  use "liuchengxu/vista.vim"
+  use {
+    "stevearc/aerial.nvim",
+    config = function ()
+      require('aerial').setup()
+    end
+  }
   use {
     "folke/noice.nvim",
     config = function()
@@ -1196,7 +1201,6 @@ require("jetpack.packer").startup(function(use)
     use "smiteshp/nvim-navic"
     use {
       "utilyre/barbecue.nvim",
-      commit = "f13fad8217cabea67e4d06a82bba79fdcc56344b",
       config = function()
         local barbecue = require "barbecue"
         barbecue.setup {
@@ -1927,7 +1931,8 @@ require("jetpack.packer").startup(function(use)
             c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
           },
           r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
-          t = { "<cmd>Vista!!<CR>", "ToC" },
+          t = { "<cmd>AerialToggle<CR>", "ToC" },
+          T = { "<cmd>AerialToggle!<CR>", "ToC" },
         },
         ["<leader>g"] = {
           name = "+Git",
