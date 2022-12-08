@@ -221,3 +221,6 @@ clippy
 hoge
 ulimits
 nproc
+mypy
+FAAS
+envrc

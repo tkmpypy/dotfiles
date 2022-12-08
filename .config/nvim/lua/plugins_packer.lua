@@ -6,7 +6,7 @@ local packer_compiled_path = fn.stdpath "config" .. "/lua/packer_compiled.lua"
 
 local ensure_install = function()
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
     vim.cmd [[packadd packer.nvim]]
     return true
   end
@@ -24,7 +24,6 @@ vim.cmd [[
     autocmd BufWritePost plugins_packer.lua source <afile> | PackerCompile
   augroup end
 ]]
-
 
 if fn.empty(fn.glob(packer_compiled_path)) == 0 then
   require "packer_compiled"
@@ -56,7 +55,9 @@ packer.startup {
               enable = true,
               -- disable = { "rust" },
               disable = function(lang, buf)
-                if (lang == "typescript") then return true end
+                if lang == "typescript" then
+                  return true
+                end
                 local max_filesize = 200 * 1024 -- 200 KB
                 local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
                 if ok and stats and stats.size > max_filesize then
@@ -340,6 +341,7 @@ packer.startup {
     use {
       "levouh/tint.nvim",
       config = function()
+        local ignore_ft = { "aerial" }
         require("tint").setup {
           tint = -45, -- Darken colors, use a positive value to brighten
           saturation = 0.6, -- Saturation to preserve
@@ -349,7 +351,12 @@ packer.startup {
           window_ignore_function = function(winid)
             local bufid = vim.api.nvim_win_get_buf(winid)
             local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
+            local ft = vim.api.nvim_buf_get_option(bufid, "filetype")
             local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+
+            if vim.tbl_contains(ignore_ft, ft) then
+              return true
+            end
 
             -- Do not tint `terminal` or floating windows, tint everything else
             return buftype == "terminal" or floating
@@ -491,7 +498,7 @@ packer.startup {
         require("lualine").setup {
           options = {
             icons_enabled = true,
-            theme = 'auto',
+            theme = "auto",
             -- component_separators = { left = "", right = "" },
             -- section_separators = { left = "", right = "" },
             component_separators = "",
@@ -677,9 +684,11 @@ packer.startup {
     }
     use {
       "stevearc/aerial.nvim",
-      config = function ()
-        require('aerial').setup()
-      end
+      config = function()
+        require("aerial").setup {
+          attach_mode = "global", -- "window" or "global"
+        }
+      end,
     }
     use {
       "folke/noice.nvim",
@@ -1839,6 +1848,7 @@ packer.startup {
               null_ls.builtins.code_actions.cspell,
               null_ls.builtins.code_actions.shellcheck,
               null_ls.builtins.diagnostics.flake8,
+              null_ls.builtins.diagnostics.mypy,
               null_ls.builtins.diagnostics.golangci_lint.with {
                 timeout = 50000,
               },
@@ -2039,8 +2049,8 @@ packer.startup {
             },
           }
 
-          local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-          cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+          -- local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+          -- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
           require "scripts/cmp/conventionalprefix"
           cmp.setup.filetype({ "NeogitCommitMessage", "gitcommit" }, {
@@ -2431,31 +2441,31 @@ packer.startup {
     }
 
     -- ColorScheme
-      use {
-        "lmburns/kimbox",
-        config = function()
-          require("kimbox").setup {
-            -- options
-            -- Main options --
-            style = "ocean", -- choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-            -- medium: #231A0C
-            -- ocean: #221A02
-            -- medium: #231A0C
-            -- deep: #0f111B
-            -- darker:#291804
-            -- General formatting --
-            allow_bold = true,
-            allow_italic = true,
-            allow_underline = true,
-            allow_undercurl = true,
-            allow_reverse = false,
+    use {
+      "lmburns/kimbox",
+      config = function()
+        require("kimbox").setup {
+          -- options
+          -- Main options --
+          style = "ocean", -- choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+          -- medium: #231A0C
+          -- ocean: #221A02
+          -- medium: #231A0C
+          -- deep: #0f111B
+          -- darker:#291804
+          -- General formatting --
+          allow_bold = true,
+          allow_italic = true,
+          allow_underline = true,
+          allow_undercurl = true,
+          allow_reverse = false,
 
-            transparent = false, -- don't set background
-            term_colors = true, -- if true enable the terminal
-            ending_tildes = false, -- show the end-of-buffer tildes
-          }
-        end,
-      }
+          transparent = false, -- don't set background
+          term_colors = true, -- if true enable the terminal
+          ending_tildes = false, -- show the end-of-buffer tildes
+        }
+      end,
+    }
     use {
       "rebelot/kanagawa.nvim",
       config = function()
@@ -2617,9 +2627,8 @@ packer.startup {
       end,
     }
 
-
     if packer_bootstrap then
-      require('packer').sync()
+      require("packer").sync()
     end
   end,
   config = {
