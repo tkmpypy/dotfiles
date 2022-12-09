@@ -688,7 +688,7 @@ packer.startup {
         require("aerial").setup {
           attach_mode = "global", -- "window" or "global"
           layout = {
-            placement = "edge"
+            placement = "window" -- "window" or "edge"
           }
         }
       end,
