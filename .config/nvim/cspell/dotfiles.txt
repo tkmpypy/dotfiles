@@ -224,3 +224,4 @@ nproc
 mypy
 FAAS
 envrc
+isort
