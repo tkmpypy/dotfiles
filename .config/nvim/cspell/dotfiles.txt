@@ -225,3 +225,4 @@ mypy
 FAAS
 envrc
 isort
+dioxus

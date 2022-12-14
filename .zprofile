@@ -16,8 +16,6 @@ export PATH="$PATH:/usr/local/bin"
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-eval "$(direnv hook zsh)"
-
 if [ "$(uname -m)" = "arm64" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
   export PATH="/opt/homebrew/bin:$PATH"
