@@ -155,7 +155,7 @@ local gopls_config = {
 local solargraph_config = {
   settings = {
     solargraph = {
-      diagnostics = false,
+      diagnostics = true,
       useBundler = false,
     },
   },

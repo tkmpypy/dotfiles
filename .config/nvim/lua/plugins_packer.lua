@@ -2274,6 +2274,10 @@ packer.startup {
               '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
               "Buffer",
             },
+            m = {
+              '<cmd>lua require("telescope.builtin").keymaps{ }<CR>',
+              "Keymaps",
+            },
             c = {
               name = "+Commands",
               r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
