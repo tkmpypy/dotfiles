@@ -800,7 +800,7 @@ require("jetpack.packer").startup(function(use)
   use {
     "airblade/vim-rooter",
     config = function()
-      vim.g.rooter_patterns = { ".git", "Cargo.toml" }
+      vim.g.rooter_patterns = { ".git", "Cargo.toml", "package.json" }
     end,
   }
   use {
