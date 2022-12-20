@@ -184,15 +184,6 @@ packer.startup {
               },
             },
           }
-          vim.keymap.set("n", "<leader>ncf", function()
-            require("neogen").generate { type = "func" }
-          end, {})
-          vim.keymap.set("n", "<leader>nct", function()
-            require("neogen").generate { type = "type" }
-          end, {})
-          vim.keymap.set("n", "<leader>ncc", function()
-            require("neogen").generate { type = "class" }
-          end, {})
         end,
         requires = "nvim-treesitter/nvim-treesitter",
       }
@@ -2330,6 +2321,13 @@ packer.startup {
               c = { "<cmd>GitLinker current<cr>", "Current git link" },
               d = { "<cmd>GitLinker default<cr>", "Default branch git link" },
             },
+          },
+          ["<leader>c"] = {
+            name = "+Comment",
+            f = { 'require("neogen").generate { type = "func" }', "Generate doc comment for function" },
+            F = { 'require("neogen").generate { type = "file" }', "Generate doc comment for file" },
+            t = { 'require("neogen").generate { type = "type" }', "Generate doc comment for type" },
+            c = { 'require("neogen").generate { type = "class" }', "Generate doc comment for class" },
           },
           ["m"] = {
             name = "+Move",
