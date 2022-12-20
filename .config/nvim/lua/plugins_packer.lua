@@ -320,7 +320,7 @@ packer.startup {
           enable = true,
           -- Window divider color definition
           highlight = {
-            guifg = "#957CC6",
+            fg = "#957CC6",
           },
           -- filetype in the list, will not be executed
           no_exec_files = {
@@ -688,8 +688,8 @@ packer.startup {
         require("aerial").setup {
           attach_mode = "global", -- "window" or "global"
           layout = {
-            placement = "window" -- "window" or "edge"
-          }
+            placement = "window", -- "window" or "edge"
+          },
         }
       end,
     }
@@ -1152,7 +1152,7 @@ packer.startup {
     use {
       "airblade/vim-rooter",
       config = function()
-        vim.g.rooter_patterns = { ".git", "Cargo.toml" }
+        vim.g.rooter_patterns = { ".git", "Cargo.toml", "package.json" }
       end,
     }
     use { "machakann/vim-sandwich" }
@@ -1401,13 +1401,15 @@ packer.startup {
           },
           file_history_panel = {
             log_options = {
-              single_file = {
-                max_count = 512,
-                follow = true,
-              },
-              multi_file = {
-                max_count = 128,
-                -- follow = false   -- `follow` only applies to single-file history
+              git = {
+                single_file = {
+                  max_count = 512,
+                  follow = true,
+                },
+                multi_file = {
+                  max_count = 128,
+                  -- follow = false   -- `follow` only applies to single-file history
+                },
               },
             },
             win_config = { -- See ':h diffview-config-win_config'

@@ -226,3 +226,6 @@ FAAS
 envrc
 isort
 dioxus
+fnames
+ppid
+pgrep
