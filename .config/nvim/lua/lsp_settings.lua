@@ -81,6 +81,9 @@ local lua_config = {
           "missing-parameter",
         },
       },
+      workspace = {
+        checkThirdParty = false, -- THIS IS THE IMPORTANT LINE TO ADD
+      },
       hint = {
         enable = true,
       },

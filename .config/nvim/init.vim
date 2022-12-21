@@ -174,8 +174,8 @@ augroup vimrc
   autocmd!
 augroup END
 
-lua require('plugins_packer')
-" lua require('plugins_jetpack')
+" lua require('plugins_packer')
+lua require('plugins_lazy')
 
 " load my scripts {{
 lua << EOF
@@ -245,48 +245,6 @@ command! -complete=customlist,s:ListScratchFiletypes -nargs=1 ScratchV :call s:S
 command! -complete=customlist,s:ListScratchFiletypes -nargs=1 ScratchS :call s:Scratch(<f-args>, 'split')
 " }}
 
-
-" vim-quickrun {{
-nnoremap <leader>rb :QuickRun<CR>
-let g:quickrun_config = {}
-let g:quickrun_config['typescript'] = { 'type' : 'typescript/tsc' }
-let g:quickrun_config['typescript/tsc'] = {
-\   'command': 'tsc',
-\   'exec': ['%c --target esnext --module commonjs %o %s', 'node %s:r.js'],
-\   'tempfile': '%{tempname()}.ts',
-\   'hook/sweep/files': ['%S:p:r.js'],
-\ }
-let g:quickrun_config['rust'] = { 'type' : 'rust/cargo' }
-let g:quickrun_config['rust/cargo'] = {
-\   'command': 'cargo',
-\   'exec': ['%c run'],
-\ }
-" }}
-
-" vim-test {{
-let g:test#echo_command = 1
-let g:test#runner_commands = ['PyUnit']
-let g:test#strategy = "neovim"
-let g:test#neovim#term_position = "belowright"
-let g:test#preserve_screen = 1
-let g:test#javascript#runner = 'jest'
-let g:test#javascript#jest#executable = './node_modules/.bin/jest'
-let g:test#python#runner = 'pytest'
-let g:test#python#pytest#options = {
-    \ 'nearest': '-vv --capture=no',
-    \ 'file': '-vv --capture=no'
-\ }
-
-let g:test#rust#cargotest#options = {
-    \ 'nearest': '-- --nocapture'
-\ }
-let g:test#rust#cargonextest#options = {
-    \ 'nearest': '--no-capture'
-\ }
-let g:test#go#gotest#options = {
-    \ 'nearest': '-v'
-\ }
-" }}
 
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
