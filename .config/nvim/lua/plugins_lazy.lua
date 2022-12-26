@@ -828,7 +828,7 @@ require("lazy").setup({
   },
   {
     "kyazdani42/nvim-tree.lua",
-    cmd = {"NvimTreeToggle", "NvimTreeFindFile"},
+    cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
     config = function()
       local tree_cb = require("nvim-tree.config").nvim_tree_callback
       require("nvim-tree").setup {
@@ -2328,7 +2328,7 @@ require("lazy").setup({
   -- ColorScheme
   {
     "lmburns/kimbox",
-    lazy = false,
+    lazy = true,
     config = function()
       require("kimbox").setup {
         -- options
@@ -2354,7 +2354,7 @@ require("lazy").setup({
   },
   {
     "rebelot/kanagawa.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       require("kanagawa").setup {
         undercurl = true, -- enable undercurls
@@ -2372,7 +2372,7 @@ require("lazy").setup({
   },
   {
     "rmehri01/onenord.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       require("onenord").setup {
         theme = "dark", -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
@@ -2396,7 +2396,7 @@ require("lazy").setup({
   },
   {
     "sainnhe/edge",
-    lazy = false,
+    lazy = true,
     config = function()
       vim.g.edge_style = "aura"
       vim.g.edge_enable_italic = true
@@ -2407,7 +2407,7 @@ require("lazy").setup({
   },
   {
     "sainnhe/everforest",
-    lazy = false,
+    lazy = true,
     config = function()
       -- Set contrast.
       --   This configuration option should be placed before `colorscheme everforest`.
@@ -2423,7 +2423,7 @@ require("lazy").setup({
   },
   {
     "folke/tokyonight.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       require("tokyonight").setup {
         -- your configuration comes here
@@ -2452,7 +2452,7 @@ require("lazy").setup({
   },
   {
     "eddyekofo94/gruvbox-flat.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       vim.g.gruvbox_flat_style = "dark"
       vim.g.gruvbox_italic_functions = true
@@ -2468,7 +2468,7 @@ require("lazy").setup({
   },
   {
     "EdenEast/nightfox.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       local nightfox = require "nightfox"
       nightfox.setup {

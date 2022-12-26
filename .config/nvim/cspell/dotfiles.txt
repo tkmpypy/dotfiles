@@ -229,3 +229,4 @@ dioxus
 fnames
 ppid
 pgrep
+ffprobe
