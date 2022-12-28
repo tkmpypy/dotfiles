@@ -231,3 +231,4 @@ ppid
 pgrep
 ffprobe
 tmpdir
+gunicorn

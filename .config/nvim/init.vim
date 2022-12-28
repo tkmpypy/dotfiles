@@ -603,7 +603,7 @@ nnoremap j gj
 nnoremap k gk
 
 
-inoremap <C-c> <ESC>
+inoremap <C-c> <ESC><ESC>
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ

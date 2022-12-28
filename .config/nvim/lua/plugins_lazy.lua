@@ -98,35 +98,35 @@ require("lazy").setup({
   },
   {
     "yioneko/nvim-yati",
-    event = "BufEnter",
+    event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
   },
   {
     "windwp/nvim-ts-autotag",
-    event = "BufEnter",
+    event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
   },
   {
     "p00f/nvim-ts-rainbow",
-    event = "BufEnter",
+    event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
   },
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
-    event = "BufEnter",
+    event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
   },
   {
     "b3nj5m1n/kommentary",
-    event = "BufEnter",
+    event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -142,7 +142,7 @@ require("lazy").setup({
   },
   {
     "danymat/neogen",
-    event = "BufEnter",
+    event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -184,6 +184,12 @@ require("lazy").setup({
   -- runner
   {
     "vim-test/vim-test",
+    cmd = {
+      "TestNearest",
+      "TestFile",
+      "TestSuite",
+      "TestLast",
+    },
     config = function()
       vim.cmd [[
         let g:test#echo_command = 1
@@ -213,9 +219,9 @@ require("lazy").setup({
   },
   {
     "thinca/vim-quickrun",
+    cmd = "QuickRun",
     config = function()
       vim.cmd [[
-        nnoremap <leader>rb :QuickRun<CR>
         let g:quickrun_config = {}
         let g:quickrun_config['typescript'] = { 'type' : 'typescript/tsc' }
         let g:quickrun_config['typescript/tsc'] = {
@@ -290,6 +296,7 @@ require("lazy").setup({
   },
   {
     "levouh/tint.nvim",
+    event = "BufReadPre",
     config = function()
       local ignore_ft = { "aerial" }
       require("tint").setup {
@@ -317,7 +324,7 @@ require("lazy").setup({
   {
     "petertriho/nvim-scrollbar",
     dependencies = { "kevinhwang91/nvim-hlslens" },
-    event = { "BufEnter" },
+    event = { "BufReadPre" },
     config = function()
       require("hlslens").setup()
       require("scrollbar").setup {
@@ -402,7 +409,7 @@ require("lazy").setup({
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = { "BufEnter" },
+    event = { "BufReadPre" },
     config = function()
       -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 blend=nocombine]]
       -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B blend=nocombine]]
@@ -605,6 +612,7 @@ require("lazy").setup({
   },
   {
     "stevearc/aerial.nvim",
+    cmd = "AerialToggle",
     config = function()
       require("aerial").setup {
         attach_mode = "global", -- "window" or "global"
@@ -961,13 +969,14 @@ require("lazy").setup({
   -- Operator
   {
     "kana/vim-operator-replace",
+    event = { "BufReadPre" },
     dependencies = { "kana/vim-operator-user" },
   },
 
   -- Utils
   {
     "uga-rosa/ccc.nvim",
-    event = { "VimEnter" },
+    event = { "BufReadPre" },
     config = function()
       local ccc = require "ccc"
       ccc.setup {
@@ -984,6 +993,7 @@ require("lazy").setup({
   },
   {
     "haya14busa/vim-asterisk",
+    event = { "BufReadPre" },
     config = function()
       vim.cmd [[
           let g:asterisk#keeppos = 1
