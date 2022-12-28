@@ -630,6 +630,13 @@ require("lazy").setup({
     },
     config = function()
       require("noice").setup {
+        presets = {
+          bottom_search = false, -- use a classic bottom cmdline for search
+          command_palette = false, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = true, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = true, -- add a border to hover docs and signature help
+        },
         cmdline = {
           view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
           opts = { buf_options = { filetype = "vim" } }, -- enable syntax highlighting in the cmdline
@@ -974,6 +981,12 @@ require("lazy").setup({
   },
 
   -- Utils
+  {
+    "monaqa/dial.nvim",
+    -- lazy-load on keys
+    -- mode is `n` by default. For more advanced options, check the section on key mappings
+    keys = { "<C-a>", { "<C-x>", mode = "n" } },
+  },
   {
     "uga-rosa/ccc.nvim",
     event = { "BufReadPre" },
@@ -1419,7 +1432,7 @@ require("lazy").setup({
   -- LSP
   {
     "neovim/nvim-lspconfig",
-    event = "BufReadPre",
+    event = { "BufReadPre" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -1617,10 +1630,12 @@ require("lazy").setup({
   },
   {
     "b0o/schemastore.nvim",
+    event = { "BufReadPre" },
     dependencies = { "neovim/nvim-lspconfig" },
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
+    event = { "BufReadPre" },
     dependencies = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim" },
     config = function()
       local data_dir = vim.fn.stdpath "data" .. "/cspell"
@@ -1764,6 +1779,7 @@ require("lazy").setup({
   },
   {
     "hrsh7th/nvim-cmp",
+    event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       { "windwp/nvim-autopairs" },
       { "onsails/lspkind.nvim" },
