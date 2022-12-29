@@ -119,8 +119,11 @@ local yamlls_config = {
 
 local rust_config = {
   settings = {
-    checkOnSave = {
-      command = "clippy",
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        command = "clippy",
+      },
+      inlayHints = { locationLinks = false },
     },
   },
 }
@@ -337,7 +340,7 @@ local setup_servers = function()
       rt.setup {
         server = {
           on_attach = custom_attach,
-          settings = rust_config.settings
+          settings = rust_config.settings,
         },
         tools = { -- rust-tools options
           -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
