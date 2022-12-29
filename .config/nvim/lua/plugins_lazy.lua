@@ -27,7 +27,6 @@ require("lazy").setup({
       require("nvim-treesitter.configs").setup {
         highlight = {
           enable = true,
-          -- disable = { "rust" },
           disable = function(lang, buf)
             if lang == "typescript" then
               return true
@@ -424,7 +423,7 @@ require("lazy").setup({
         -- char = "",
         enabled = true,
         buftype_exclude = { "terminal", "help", "nofile" },
-        filetype_exclude = { "startify", "alpha", "NvimTree", "notify", "packer", "lsp-installer", "windline" },
+        filetype_exclude = { "startify", "alpha", "NvimTree" },
         show_end_of_line = false,
         -- space_char_blankline = " ",
         show_trailing_blankline_indent = false,
