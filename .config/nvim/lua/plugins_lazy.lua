@@ -2195,11 +2195,6 @@ require("lazy").setup({
             r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
             c = { "<cmd>lua require('telescope.builtin').commands{}<CR>", "Commands" },
           },
-          d = {
-            name = "+Diagnostics",
-            d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics" },
-            D = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics" },
-          },
           f = {
             name = "+Files",
             f = {
@@ -2342,6 +2337,11 @@ require("lazy").setup({
             o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
             n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
             p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
+            d = {
+              name = "+Diagnostics",
+              d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics(Trouble)" },
+              D = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics(Trouble)" },
+            },
           },
           ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
         }, { mode = "n" })
