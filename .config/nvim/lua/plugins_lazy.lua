@@ -1228,7 +1228,7 @@ require("lazy").setup({
   -- Git
   {
     "lewis6991/gitsigns.nvim",
-    event = {"BufReadPre"},
+    event = { "BufReadPre" },
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("gitsigns").setup {
@@ -1434,18 +1434,61 @@ require("lazy").setup({
 
   -- LSP
   {
+    "williamboman/mason.nvim",
+    cmd = { "Mason", "MasonLog", "MasonInstall", "MasonUninstall", "MasonUninstallAll" },
+    config = function()
+      require("mason").setup {
+        ui = {
+          border = "rounded",
+          icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗",
+          },
+        },
+      }
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    event = {"BufReadPre"},
+    config = function()
+      require("mason-lspconfig").setup {
+        ensure_installed = {
+          "sumneko_lua",
+          "rust_analyzer",
+          "cssls",
+          "dockerls",
+          "eslint",
+          "gopls",
+          "html",
+          "jsonls",
+          "tsserver",
+          "marksman",
+          "pyright",
+          "tailwindcss",
+          "terraformls",
+          "vimls",
+          "yamlls",
+        },
+        -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
+        -- This setting has no relation with the `ensure_installed` setting.
+        -- Can either be:
+        --   - false: Servers are not automatically installed.
+        --   - true: All servers set up via lspconfig are automatically installed.
+        --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
+        --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
+        automatic_installation = false,
+      }
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
     dependencies = {
-      {
-        "williamboman/mason.nvim",
-        dependencies = {
-          "williamboman/mason-lspconfig.nvim",
-        },
-      },
       {
         "simrat39/rust-tools.nvim",
       },
@@ -1591,43 +1634,6 @@ require("lazy").setup({
       },
     },
     config = function()
-      require("mason").setup {
-        ui = {
-          border = "rounded",
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗",
-          },
-        },
-      }
-      require("mason-lspconfig").setup {
-        ensure_installed = {
-          "sumneko_lua",
-          "rust_analyzer",
-          "cssls",
-          "dockerls",
-          "eslint",
-          "gopls",
-          "html",
-          "jsonls",
-          "tsserver",
-          "marksman",
-          "pyright",
-          "tailwindcss",
-          "terraformls",
-          "vimls",
-          "yamlls",
-        },
-        -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
-        -- This setting has no relation with the `ensure_installed` setting.
-        -- Can either be:
-        --   - false: Servers are not automatically installed.
-        --   - true: All servers set up via lspconfig are automatically installed.
-        --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
-        --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
-        automatic_installation = false,
-      }
       require "lsp_settings"
     end,
   },
@@ -1989,7 +1995,7 @@ require("lazy").setup({
   {
     "folke/trouble.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
-    cmd = {"Trouble", "TroubleToggle", "TroubleClose", "TroubleRefresh"},
+    cmd = { "Trouble", "TroubleToggle", "TroubleClose", "TroubleRefresh" },
     config = function()
       require("trouble").setup {
         position = "bottom", -- position of the list can be: bottom, top, left, right
