@@ -4,7 +4,7 @@ local util = require("lspconfig").util
 -- local ih = require("inlay-hints")
 
 local set_diagnostic_sign = function()
-  local signs = { "", "", "", "" }
+  local signs = { "", "", "", "" }
   local diagnostic_types = { "Error", "Warn", "Info", "Hint" } -- or Warning, Information (which also don't seem to work) ...
   for i = 1, #diagnostic_types do
     local diagnostic_type = string.format("DiagnosticSign%s", diagnostic_types[i])

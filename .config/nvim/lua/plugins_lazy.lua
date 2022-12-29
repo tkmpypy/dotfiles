@@ -1451,7 +1451,7 @@ require("lazy").setup({
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    event = {"BufReadPre"},
+    event = { "BufReadPre" },
     config = function()
       require("mason-lspconfig").setup {
         ensure_installed = {
@@ -1755,7 +1755,9 @@ require("lazy").setup({
           },
           null_ls.builtins.code_actions.cspell,
           null_ls.builtins.code_actions.shellcheck,
-          null_ls.builtins.diagnostics.flake8,
+          null_ls.builtins.diagnostics.flake8.with {
+            extra_args = { "--max-line-length", "120" },
+          },
           null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.diagnostics.golangci_lint.with {
             timeout = 50000,
@@ -2571,5 +2573,25 @@ require("lazy").setup({
 }, {
   defaults = {
     lazy = false, -- should plugins be lazy-loaded?
+  },
+  performance = {
+    cache = {
+      enabled = true,
+      -- disable_events = {},
+    },
+    checker = { enabled = true },
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+        "nvim-treesitter-textobjects",
+      },
+    },
   },
 })
