@@ -1263,6 +1263,12 @@ require("lazy").setup({
             numhl = "GitSignsChangeNr",
             linehl = "GitSignsChangeLn",
           },
+          untracked = {
+            hl = "GitSignsAdd",
+            text = "│",
+            numhl = "GitSignsAddNr",
+            linehl = "GitSignsAddLn",
+          },
         },
       }
     end,
@@ -1358,7 +1364,7 @@ require("lazy").setup({
     config = function()
       local neogit = require "neogit"
       neogit.setup {
-        disable_signs = true,
+        disable_signs = false,
         disable_context_highlighting = false,
         disable_commit_confirmation = true,
         auto_refresh = true,
