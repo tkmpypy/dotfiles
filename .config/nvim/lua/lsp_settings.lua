@@ -242,7 +242,7 @@ local tsserver_config = {
 local setup_lsp_ui = function()
   vim.diagnostic.config {
     underline = true,
-    virtual_text = { spacing = 2, prefix = "»", source = "if_many" },
+    virtual_text = { spacing = 2 },
     float = {
       source = false,
       border = "rounded",
