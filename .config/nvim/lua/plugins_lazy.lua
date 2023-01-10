@@ -17,6 +17,7 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     event = "BufReadPre",
+    cmd = { "TSUpdate" },
     enabled = function()
       return vim.g.use_treesitter
     end,
@@ -111,7 +112,7 @@ require("lazy").setup({
     },
   },
   {
-    "p00f/nvim-ts-rainbow",
+    "mrjones2014/nvim-ts-rainbow",
     event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
