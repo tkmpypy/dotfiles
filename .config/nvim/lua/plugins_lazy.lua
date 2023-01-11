@@ -843,7 +843,7 @@ require("lazy").setup({
     },
   },
   {
-    "kyazdani42/nvim-tree.lua",
+    "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
     config = function()
       local tree_cb = require("nvim-tree.config").nvim_tree_callback
@@ -951,6 +951,18 @@ require("lazy").setup({
               { key = "?", cb = tree_cb "toggle_help" },
             },
           },
+          float = {
+            enable = false,
+            quit_on_focus_loss = true,
+            open_win_config = {
+              relative = "editor",
+              border = "rounded",
+              width = 30,
+              height = 30,
+              row = 1,
+              col = 1,
+            },
+          },
         },
         renderer = {
           highlight_opened_files = "none",
@@ -963,6 +975,9 @@ require("lazy").setup({
             },
           },
           highlight_git = true,
+        },
+        notify = {
+          threshold = vim.log.levels.WARN,
         },
       }
     end,
@@ -2592,6 +2607,7 @@ require("lazy").setup({
         "gzip",
         "matchit",
         "matchparen",
+        "netrw",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
