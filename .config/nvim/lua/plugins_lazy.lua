@@ -1065,6 +1065,7 @@ require("lazy").setup({
   "simeji/winresizer",
   {
     "windwp/nvim-autopairs",
+    event = {"InsertEnter", "CmdlineEnter"},
     config = function()
       require("nvim-autopairs").setup {
         map_cr = true,
@@ -1084,59 +1085,21 @@ require("lazy").setup({
   "pechorin/any-jump.vim",
   {
     "phaazon/hop.nvim",
+    keys = {
+      {"f", "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true })<cr>", "n", desc = "hop hint char"},
+      {"f", "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true, inclusive_jump = true })<cr>", "o", desc = "hop hint char(inclusive_jump)"},
+      {"L", "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>", {"n", "v"}, desc = "hop lines"},
+      {"mc", "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = false })<cr>", "n", desc = "hop hint char(current_line_only=false)"},
+      {"mw", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>", {"n", "v"}, desc = "hop hint words(BEGIN)"},
+      {"mw", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>", "o", desc = "hop hint words(BEGIN)"},
+      {"mW", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>", {"n", "v"}, desc = "hop hint words(END)"},
+      {"mW", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>", "o", desc = "hop hint words(END)"},
+    },
     config = function()
       require("hop").setup {
         keys = "etovxqpdygfblzhckisuran",
         jump_on_sole_occurrence = false,
       }
-      vim.keymap.set(
-        "n",
-        "f",
-        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true })<cr>",
-        {}
-      )
-      vim.keymap.set(
-        "o",
-        "f",
-        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true, inclusive_jump = true })<cr>",
-        {}
-      )
-      vim.keymap.set(
-        { "n", "v" },
-        "L",
-        "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>",
-        {}
-      )
-      vim.keymap.set(
-        "n",
-        "mc",
-        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = false })<cr>",
-        {}
-      )
-      vim.keymap.set(
-        { "n", "v" },
-        "mw",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>",
-        {}
-      )
-      vim.keymap.set(
-        "o",
-        "mw",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
-        {}
-      )
-      vim.keymap.set(
-        { "n", "v" },
-        "mW",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
-        {}
-      )
-      vim.keymap.set(
-        "o",
-        "mW",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
-        {}
-      )
     end,
   },
   "mtdl9/vim-log-highlighting",
