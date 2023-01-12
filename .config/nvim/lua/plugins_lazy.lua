@@ -672,7 +672,7 @@ require("lazy").setup({
             -- override the lsp markdown formatter with Noice
             ["vim.lsp.util.stylize_markdown"] = true,
             -- override cmp documentation with Noice (needs the other options to work)
-            ["cmp.entry.get_documentation"] = true,
+            ["cmp.entry.get_documentation"] = false,
           },
           hover = {
             enabled = true,
@@ -1421,6 +1421,9 @@ require("lazy").setup({
   {
     "williamboman/mason.nvim",
     cmd = { "Mason", "MasonLog", "MasonInstall", "MasonUninstall", "MasonUninstallAll" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     config = function()
       require("mason").setup {
         ui = {
@@ -1437,6 +1440,9 @@ require("lazy").setup({
   {
     "williamboman/mason-lspconfig.nvim",
     event = { "BufReadPre" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     config = function()
       require("mason-lspconfig").setup {
         ensure_installed = {
@@ -1630,6 +1636,9 @@ require("lazy").setup({
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = { "BufReadPre" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     dependencies = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim" },
     config = function()
       local data_dir = vim.fn.stdpath "data" .. "/cspell"
@@ -1776,6 +1785,9 @@ require("lazy").setup({
   {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     dependencies = {
       { "windwp/nvim-autopairs" },
       { "onsails/lspkind.nvim" },
@@ -1982,6 +1994,9 @@ require("lazy").setup({
   {
     "folke/trouble.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     cmd = { "Trouble", "TroubleToggle", "TroubleClose", "TroubleRefresh" },
     config = function()
       require("trouble").setup {
@@ -2044,7 +2059,6 @@ require("lazy").setup({
       return vim.g.lsp_client_type == "coc"
     end,
     build = "yarn install --frozen-lockfile",
-    dependencies = { "rafcamlet/coc-nvim-lua" },
   },
   {
     "folke/which-key.nvim",

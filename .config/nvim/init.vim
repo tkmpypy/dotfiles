@@ -270,7 +270,6 @@ function! s:setup_coc()
           \, 'coc-prettier'
           \, 'coc-pyright'
           \, 'coc-rust-analyzer'
-          \, 'coc-snippets'
           \, 'coc-vimlsp'
           \, 'coc-flutter-tools'
           \, 'coc-translator'

@@ -204,27 +204,31 @@ M.lib.prequire = function(...)
 end
 
 M.lsp.current_lsp = function()
-  local msg = "No Active Lsp"
-  local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-  local clients = vim.lsp.get_active_clients()
-  if next(clients) == nil then
-    return msg
-  end
+  if vim.g.lsp_client_type == "neovim" then
+    local msg = "No Active Lsp"
+    local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
+    local clients = vim.lsp.get_active_clients()
+    if next(clients) == nil then
+      return msg
+    end
 
-  local client_names = M.tbl.set {}
-  for _, client in ipairs(clients) do
-    if not client_names[client.name] then
-      local filetypes = client.config.filetypes
-      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-        M.tbl.insert_set(client_names, client.name)
+    local client_names = M.tbl.set {}
+    for _, client in ipairs(clients) do
+      if not client_names[client.name] then
+        local filetypes = client.config.filetypes
+        if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+          M.tbl.insert_set(client_names, client.name)
+        end
       end
     end
-  end
 
-  if #client_names >= 1 then
-    msg = table.concat(client_names, "|")
+    if #client_names >= 1 then
+      msg = table.concat(client_names, "|")
+    end
+    return msg
+  elseif vim.g.lsp_client_type == "coc" then
+    return 'coc.nvim'
   end
-  return msg
 end
 
 return M
