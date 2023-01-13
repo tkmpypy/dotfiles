@@ -244,7 +244,7 @@ local setup_lsp_ui = function()
     underline = true,
     virtual_text = { spacing = 2 },
     float = {
-      source = false,
+      source = true,
       border = "rounded",
       format = function(diagnostic)
         local content = diagnostic.message
@@ -252,7 +252,6 @@ local setup_lsp_ui = function()
         local lsp = vim.tbl_get(diagnostic, "user_data", "lsp")
         if lsp ~= nil then
           local _href = vim.tbl_get(lsp, "codeDescription", "href")
-          print(_href)
           if _href ~= nil then
             href = _href
           end
@@ -263,10 +262,10 @@ local setup_lsp_ui = function()
           end
         end
         if href ~= nil then
-          return string.format("%s\n   %s\n", content, href)
+          return string.format("%s\n   %s", content, href)
         end
 
-        return string.format("%s\n", content)
+        return string.format("%s", content)
       end,
     },
     signs = { priority = 20 },
