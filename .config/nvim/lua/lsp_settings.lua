@@ -247,7 +247,6 @@ local setup_lsp_ui = function()
       source = false,
       border = "rounded",
       format = function(diagnostic)
-        print(vim.inspect(diagnostic))
         local content = diagnostic.message
         local href = nil
         local lsp = vim.tbl_get(diagnostic, "user_data", "lsp")
