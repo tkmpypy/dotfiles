@@ -233,3 +233,5 @@ ffprobe
 tmpdir
 gunicorn
 tmppath
+Infow
+Debugw

@@ -1531,6 +1531,15 @@ require("lazy").setup({
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
       require("lspsaga").setup {
+        preview = {
+          lines_above = 0,
+          lines_below = 10,
+        },
+        scroll_preview = {
+          scroll_down = "<C-f>",
+          scroll_up = "<C-b>",
+        },
+        request_timeout = 2000,
         finder = {
           edit = { "o", "<CR>" },
           vsplit = "v",
@@ -1539,10 +1548,10 @@ require("lazy").setup({
           quit = { "q", "<ESC>" },
         },
         definition = {
-          edit = "<C-c>o",
-          vsplit = "<C-c>v",
-          split = "<C-c>s",
-          tabe = "<C-c>t",
+          edit = "<CR>",
+          vsplit = "<C-v>",
+          split = "<C-s>",
+          tabe = "<C-t>",
           quit = "q",
           close = "<Esc>",
         },
