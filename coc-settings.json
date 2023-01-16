@@ -15,7 +15,7 @@
   "diagnostic.warningSign": "⚠",
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
-  "diagnostic.virtualTextPrefix": "◆ ",
+  "diagnostic.virtualTextPrefix": "■ ",
   "codeLens.enable": true,
   "suggest.snippetsSupport": true,
   "suggest.enablePreview": false,
@@ -27,30 +27,6 @@
   "suggest.acceptSuggestionOnCommitCharacter": false,
   "suggest.floatEnable": false,
   "snippets.enableStatusItem": false,
-  "diagnostic-languageserver.debug": false,
-  "diagnostic-languageserver.enable": true,
-  "diagnostic-languageserver.filetypes": {
-    "vim": "vint",
-    "markdown": "markdownlint",
-    "go": "golangci-lint"
-  },
-  "diagnostic-languageserver.linters": {
-    "golangci-lint": {
-      "command": "golangci-lint",
-      "rootPatterns": [".git", "go.mod"],
-      "debounce": 1000,
-      "args": ["run", "--out-format", "json", "--fast"],
-      "sourceName": "golangci-lint",
-      "parseJson": {
-        "sourceName": "Pos.Filename",
-        "sourceNameFilter": true,
-        "errorsRoot": "Issues",
-        "line": "Pos.Line",
-        "column": "Pos.Column",
-        "message": "${Text} [${FromLinter}]"
-      }
-    }
-  },
   "html.filetypes": ["html", "handlebars", "html.handlebars"],
   "html.format.enable": false,
   "python.formatting.provider": "black",
@@ -91,5 +67,5 @@
     "ul-indent": {
       "indent": 4
     }
-  }
+  },
 }

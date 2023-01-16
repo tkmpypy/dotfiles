@@ -1045,7 +1045,7 @@ require("lazy").setup({
   "simeji/winresizer",
   {
     "windwp/nvim-autopairs",
-    event = {"InsertEnter", "CmdlineEnter"},
+    event = { "InsertEnter", "CmdlineEnter" },
     config = function()
       require("nvim-autopairs").setup {
         map_cr = true,
@@ -1066,14 +1066,54 @@ require("lazy").setup({
   {
     "phaazon/hop.nvim",
     keys = {
-      {"f", "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true })<cr>", "n", desc = "hop hint char"},
-      {"f", "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true, inclusive_jump = true })<cr>", "o", desc = "hop hint char(inclusive_jump)"},
-      {"L", "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>", {"n", "v"}, desc = "hop lines"},
-      {"mc", "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = false })<cr>", "n", desc = "hop hint char(current_line_only=false)"},
-      {"mw", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>", {"n", "v"}, desc = "hop hint words(BEGIN)"},
-      {"mw", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>", "o", desc = "hop hint words(BEGIN)"},
-      {"mW", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>", {"n", "v"}, desc = "hop hint words(END)"},
-      {"mW", "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>", "o", desc = "hop hint words(END)"},
+      {
+        "f",
+        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true })<cr>",
+        "n",
+        desc = "hop hint char",
+      },
+      {
+        "f",
+        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true, inclusive_jump = true })<cr>",
+        "o",
+        desc = "hop hint char(inclusive_jump)",
+      },
+      {
+        "L",
+        "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>",
+        { "n", "v" },
+        desc = "hop lines",
+      },
+      {
+        "mc",
+        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = false })<cr>",
+        "n",
+        desc = "hop hint char(current_line_only=false)",
+      },
+      {
+        "mw",
+        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>",
+        { "n", "v" },
+        desc = "hop hint words(BEGIN)",
+      },
+      {
+        "mw",
+        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
+        "o",
+        desc = "hop hint words(BEGIN)",
+      },
+      {
+        "mW",
+        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
+        { "n", "v" },
+        desc = "hop hint words(END)",
+      },
+      {
+        "mW",
+        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
+        "o",
+        desc = "hop hint words(END)",
+      },
     },
     config = function()
       require("hop").setup {
@@ -1459,153 +1499,122 @@ require("lazy").setup({
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
-    dependencies = {
-      {
-        "simrat39/rust-tools.nvim",
-      },
-      {
-        "someone-stole-my-name/yaml-companion.nvim",
-        dependencies = {
-          "nvim-lua/plenary.nvim",
-          "nvim-telescope/telescope.nvim",
-        },
-        config = function()
-          require("telescope").load_extension "yaml_schema"
-        end,
-      },
-      {
-        "folke/neodev.nvim",
-      },
-      {
-        "utilyre/barbecue.nvim",
-        dependencies = {
-          "kyazdani42/nvim-web-devicons", -- optional
-          "smiteshp/nvim-navic",
-        },
-        config = function()
-          local barbecue = require "barbecue"
-          barbecue.setup {
-            ---whether to create winbar updater autocmd
-            ---@type boolean
-            create_autocmd = true,
-
-            ---buftypes to enable winbar in
-            ---@type table
-            include_buftypes = { "" },
-
-            ---returns a string to be shown at the end of winbar
-            ---@param bufnr number
-            ---@return string
-            custom_section = function(bufnr)
-              return ""
-            end,
-
-            ---:help filename-modifiers
-            modifiers = {
-              ---@type string
-              dirname = ":~:.",
-
-              ---@type string
-              basename = "",
-            },
-
-            ---icons used by barbecue
-            ---@type table<string, string>
-            symbols = {
-              ---entry separator
-              ---@type string
-              separator = "",
-              ---modification indicator
-              ---`false` to disable
-              ---@type false|string
-              modified = false,
-            },
-
-            kinds = {
-              ---@type string
-              File = "",
-
-              ---@type string
-              Package = "",
-
-              ---@type string
-              Module = "",
-
-              ---@type string
-              Namespace = "",
-
-              ---@type string
-              Class = "",
-
-              ---@type string
-              Constructor = "",
-
-              ---@type string
-              Field = "",
-
-              ---@type string
-              Property = "",
-
-              ---@type string
-              Method = "",
-
-              ---@type string
-              Struct = "",
-
-              ---@type string
-              Event = "",
-
-              ---@type string
-              Interface = "",
-
-              ---@type string
-              Enum = "",
-
-              ---@type string
-              EnumMember = "",
-
-              ---@type string
-              Constant = "",
-
-              ---@type string
-              Function = "",
-
-              ---@type string
-              TypeParameter = "",
-
-              ---@type string
-              Variable = "",
-
-              ---@type string
-              Operator = "",
-
-              ---@type string
-              Null = "",
-
-              ---@type string
-              Boolean = "",
-
-              ---@type string
-              Number = "",
-
-              ---@type string
-              String = "",
-
-              ---@type string
-              Key = "",
-
-              ---@type string
-              Array = "",
-
-              ---@type string
-              Object = "",
-            },
-          }
-        end,
-      },
-    },
     config = function()
       require "lsp_settings"
+    end,
+  },
+  {
+    "folke/neodev.nvim",
+    ft = "lua",
+    dependencies = { "neovim/nvim-lspconfig" },
+  },
+  {
+    "someone-stole-my-name/yaml-companion.nvim",
+    ft = "yaml",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "neovim/nvim-lspconfig",
+    },
+    config = function()
+      require("telescope").load_extension "yaml_schema"
+    end,
+  },
+  {
+    "simrat39/rust-tools.nvim",
+    ft = "rust",
+    dependencies = { "neovim/nvim-lspconfig" },
+  },
+  {
+    "glepnir/lspsaga.nvim",
+    event = { "BufReadPre" },
+    dependencies = { "neovim/nvim-lspconfig" },
+    config = function()
+      require("lspsaga").setup {
+        finder = {
+          edit = { "o", "<CR>" },
+          vsplit = "v",
+          split = "s",
+          tabe = "t",
+          quit = { "q", "<ESC>" },
+        },
+        definition = {
+          edit = "<C-c>o",
+          vsplit = "<C-c>v",
+          split = "<C-c>s",
+          tabe = "<C-c>t",
+          quit = "q",
+          close = "<Esc>",
+        },
+        code_action = {
+          num_shortcut = true,
+          keys = {
+            -- string |table type
+            quit = "q",
+            exec = "<CR>",
+          },
+        },
+        lightbulb = {
+          enable = false,
+        },
+        diagnostic = {
+          twice_into = false,
+          show_code_action = true,
+          show_source = true,
+          keys = {
+            exec_action = "o",
+            quit = "q",
+            go_action = "g",
+          },
+        },
+        rename = {
+          quit = "<C-c>",
+          exec = "<CR>",
+          mark = "x",
+          confirm = "<CR>",
+          in_select = true,
+          whole_project = true,
+        },
+        symbol_in_winbar = {
+          enable = true,
+          separator = "  ",
+          hide_keyword = true,
+          show_file = true,
+          folder_level = 2,
+          respect_root = false,
+          color_mode = true,
+        },
+        ui = {
+          -- currently only round theme
+          theme = "round",
+          -- border type can be single,double,rounded,solid,shadow.
+          border = "rounded",
+          winblend = 0,
+          expand = "",
+          collapse = "",
+          preview = " ",
+          code_action = "",
+          diagnostic = "🐞",
+          incoming = " ",
+          outgoing = " ",
+          colors = {
+            normal_bg = "#1d1536",
+            --title background color
+            title_bg = "#afd700",
+            red = "#e95678",
+            magenta = "#b33076",
+            orange = "#FF8700",
+            yellow = "#f7bb3b",
+            green = "#afd700",
+            cyan = "#36d0e0",
+            blue = "#61afef",
+            purple = "#CBA6F7",
+            white = "#d1d4cf",
+            black = "#1c1c19",
+          },
+          kind = {},
+        },
+      }
     end,
   },
   {
@@ -2039,6 +2048,190 @@ require("lazy").setup({
       return vim.g.lsp_client_type == "coc"
     end,
     build = "yarn install --frozen-lockfile",
+    config = function()
+      local keyset = vim.keymap.set
+      vim.g.coc_global_extensions = {
+        "coc-lists",
+        "coc-nav",
+        "coc-json",
+        "coc-yaml",
+        "coc-marketplace",
+        "coc-html",
+        "coc-css",
+        "coc-tsserver",
+        "coc-eslint",
+        "coc-prettier",
+        "coc-pyright",
+        "coc-rust-analyzer",
+        "coc-vimlsp",
+        "coc-go",
+        "coc-lua",
+        "coc-sql",
+        "coc-sh",
+        "coc-emoji",
+        "coc-gitignore",
+        "coc-docker",
+        "coc-spell-checker",
+        "https://github.com/cstrap/python-snippets",
+      }
+      -- Use <C-j> for jump to next placeholder, it's default of coc.nvim
+      vim.g.coc_snippet_next = "<c-j>"
+
+      -- Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+      vim.g.coc_snippet_prev = "<c-k>"
+
+      -- Autocomplete
+      function _G.check_back_space()
+        local col = vim.fn.col "." - 1
+        return col == 0 or vim.fn.getline("."):sub(col, col):match "%s" ~= nil
+      end
+
+      -- Use Tab for trigger completion with characters ahead and navigate
+      -- NOTE: There's always a completion item selected by default, you may want to enable
+      -- no select by setting `"suggest.noselect": true` in your configuration file
+      -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
+      -- other plugins before putting this into your config
+      local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
+      keyset(
+        "i",
+        "<TAB>",
+        'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()',
+        opts
+      )
+      keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+
+      -- Make <CR> to accept selected completion item or notify coc.nvim to format
+      -- <C-g>u breaks current undo, please make your own choice
+      keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+
+      -- Use <c-j> to trigger snippets
+      keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+      -- Use <c-space> to trigger completion
+      keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
+
+      -- Use `[g` and `]g` to navigate diagnostics
+      -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+      keyset("n", "<leander>fp", "<Plug>(coc-diagnostic-prev)", { silent = true })
+      keyset("n", "<leader>dn", "<Plug>(coc-diagnostic-next)", { silent = true })
+
+      -- GoTo code navigation
+      keyset("n", "gd", "<Plug>(coc-definition)", { silent = true })
+      keyset("n", "gy", "<Plug>(coc-type-definition)", { silent = true })
+      keyset("n", "gi", "<Plug>(coc-implementation)", { silent = true })
+      keyset("n", "gr", "<Plug>(coc-references)", { silent = true })
+
+      -- Use K to show documentation in preview window
+      function _G.show_docs()
+        local cw = vim.fn.expand "<cword>"
+        if vim.fn.index({ "vim", "help" }, vim.bo.filetype) >= 0 then
+          vim.api.nvim_command("h " .. cw)
+        elseif vim.api.nvim_eval "coc#rpc#ready()" then
+          vim.fn.CocActionAsync "doHover"
+        else
+          vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
+        end
+      end
+      keyset("n", "K", "<CMD>lua _G.show_docs()<CR>", { silent = true })
+
+      -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
+      vim.api.nvim_create_augroup("CocGroup", {})
+      vim.api.nvim_create_autocmd("CursorHold", {
+        group = "CocGroup",
+        command = "silent call CocActionAsync('highlight')",
+        desc = "Highlight symbol under cursor on CursorHold",
+      })
+
+      -- Symbol renaming
+      keyset("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true })
+
+      -- Formatting selected code
+      keyset("x", "<leader>f", "<Plug>(coc-format-selected)", { silent = true })
+      keyset("n", "<leader>f", "<Plug>(coc-format-selected)", { silent = true })
+
+      -- Setup formatexpr specified filetype(s)
+      vim.api.nvim_create_autocmd("FileType", {
+        group = "CocGroup",
+        pattern = "typescript,json",
+        command = "setl formatexpr=CocAction('formatSelected')",
+        desc = "Setup formatexpr specified filetype(s).",
+      })
+
+      -- Update signature help on jump placeholder
+      vim.api.nvim_create_autocmd("User", {
+        group = "CocGroup",
+        pattern = "CocJumpPlaceholder",
+        command = "call CocActionAsync('showSignatureHelp')",
+        desc = "Update signature help on jump placeholder",
+      })
+
+      keyset("i", "<C-l>", "<Plug>(coc-snippets-expand)")
+      keyset("i", "<C-j>", "<Plug>(coc-snippets-expand-jump)")
+      keyset("v", "<C-j>", "<Plug>(coc-snippets-select)")
+      -- Apply codeAction to the selected region
+      -- Example: `<leader>aap` for current paragraph
+      keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
+      keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
+
+      -- Remap keys for apply code actions at the cursor position.
+      keyset("n", "<leader>ac", "<Plug>(coc-codeaction-cursor)", opts)
+      -- Remap keys for apply code actions affect whole buffer.
+      keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", opts)
+      -- Remap keys for applying codeActions to the current buffer
+      keyset("n", "<leader>ac", "<Plug>(coc-codeaction)", opts)
+      -- Apply the most preferred quickfix action on the current line.
+      keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", opts)
+
+      -- Remap keys for apply refactor code actions.
+      keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
+      keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+      keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+
+      -- Run the Code Lens actions on the current line
+      keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
+
+      -- Map function and class text objects
+      -- NOTE: Requires 'textDocument.documentSymbol' support from the language server
+      keyset("x", "if", "<Plug>(coc-funcobj-i)", opts)
+      keyset("o", "if", "<Plug>(coc-funcobj-i)", opts)
+      keyset("x", "af", "<Plug>(coc-funcobj-a)", opts)
+      keyset("o", "af", "<Plug>(coc-funcobj-a)", opts)
+      keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
+      keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
+      keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
+      keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
+
+      -- Remap <C-f> and <C-b> to scroll float windows/popups
+      ---@diagnostic disable-next-line: redefined-local
+      local opts = { silent = true, nowait = true, expr = true }
+      keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
+      keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
+      keyset("i", "<C-f>", 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
+      keyset("i", "<C-b>", 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
+      keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
+      keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
+
+      -- Use CTRL-S for selections ranges
+      -- Requires 'textDocument/selectionRange' support of language server
+      keyset("n", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
+      keyset("x", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
+
+      -- Add `:Format` command to format current buffer
+      vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
+
+      -- " Add `:Fold` command to fold current buffer
+      vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", { nargs = "?" })
+
+      -- Add `:OR` command for organize imports of the current buffer
+      vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
+
+      keyset("n", "<leader>F", ":Format<CR>", opts)
+      keyset("n", "<leader>O", ":OR<CR>", opts)
+
+      -- Add (Neo)Vim's native statusline support
+      -- NOTE: Please see `:h coc-status` for integrations with external plugins that
+      -- provide custom statusline: lightline.vim, vim-airline
+      vim.opt.statusline:prepend "%{coc#status()}%{get(b:,'coc_current_function','')}"
+    end,
   },
   {
     "folke/which-key.nvim",
@@ -2297,44 +2490,44 @@ require("lazy").setup({
         wk.register({
           ["g"] = {
             name = "+LSP",
-            r = { "<cmd>Telescope lsp_references<CR>", "References" },
+            r = { "<cmd>Lspsaga lsp_finder<CR>", "References" },
             i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
-            d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
+            d = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
             D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
+            c = {
+              name = "+Callhierarchy",
+              i = { "<cmd>Lspsaga incoming_calls<CR>", "Incoming" },
+              o = { "<cmd>Lspsaga incoming_calls<CR>", "Outgoing" },
+            },
           },
           ["K"] = {
-            function()
-              local buf = vim.api.nvim_get_current_buf()
-              local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-              if ft == "rust" then
-                return require("rust-tools").hover_actions.hover_actions()
-              end
-              return vim.lsp.buf.hover()
-            end,
+            "<cmd>Lspsaga hover_doc<CR>",
             "Hover Doc",
           },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
           ["<leader>"] = {
             F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
           },
-          ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
+          ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
           ["<leader>d"] = {
             name = "+Diagnostics",
-            c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
+            c = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Current cursor" },
+            l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Current line" },
+            b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Current buffer" },
             o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
-            n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
-            p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
+            n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
+            p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
             d = {
               name = "+Diagnostics",
               d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics(Trouble)" },
               D = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics(Trouble)" },
             },
           },
-          ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
+          ["<leader>rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
         }, { mode = "n" })
         wk.register({
           ["<leader>ac"] = {
-            "<cmd>lua vim.lsp.buf.code_action()<CR>",
+            "<cmd>Lspsaga code_action<CR>",
             "Code Action",
           },
         }, { mode = "v" })
