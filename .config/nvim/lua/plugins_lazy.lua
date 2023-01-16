@@ -1581,7 +1581,7 @@ require("lazy").setup({
           exec = "<CR>",
           mark = "x",
           confirm = "<CR>",
-          in_select = true,
+          in_select = false,
           whole_project = true,
         },
         symbol_in_winbar = {
@@ -2506,7 +2506,7 @@ require("lazy").setup({
             c = {
               name = "+Callhierarchy",
               i = { "<cmd>Lspsaga incoming_calls<CR>", "Incoming" },
-              o = { "<cmd>Lspsaga incoming_calls<CR>", "Outgoing" },
+              o = { "<cmd>Lspsaga outgoing_calls<CR>", "Outgoing" },
             },
           },
           ["K"] = {
