@@ -120,8 +120,8 @@ local yamlls_config = {
 local rust_config = {
   settings = {
     ["rust-analyzer"] = {
-      checkOnSave = {
-        command = "clippy",
+      check = {
+        command = "clippy"
       },
       inlayHints = { locationLinks = false },
     },

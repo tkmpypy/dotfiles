@@ -1606,22 +1606,22 @@ require("lazy").setup({
           diagnostic = "🐞",
           incoming = " ",
           outgoing = " ",
-          colors = {
-            normal_bg = "#1d1536",
-            --title background color
-            title_bg = "#afd700",
-            red = "#e95678",
-            magenta = "#b33076",
-            orange = "#FF8700",
-            yellow = "#f7bb3b",
-            green = "#afd700",
-            cyan = "#36d0e0",
-            blue = "#61afef",
-            purple = "#CBA6F7",
-            white = "#d1d4cf",
-            black = "#1c1c19",
-          },
-          kind = {},
+          -- colors = {
+          --   normal_bg = "#1d1536",
+          --   --title background color
+          --   title_bg = "#afd700",
+          --   red = "#e95678",
+          --   magenta = "#b33076",
+          --   orange = "#FF8700",
+          --   yellow = "#f7bb3b",
+          --   green = "#afd700",
+          --   cyan = "#36d0e0",
+          --   blue = "#61afef",
+          --   purple = "#CBA6F7",
+          --   white = "#d1d4cf",
+          --   black = "#1c1c19",
+          -- },
+          -- kind = {},
         },
       }
     end,
@@ -1752,6 +1752,13 @@ require("lazy").setup({
           },
           null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.diagnostics.golangci_lint.with {
+            args = {
+              "run",
+              "--fix=false",
+              "--out-format=json",
+              "--path-prefix",
+              "$ROOT",
+            },
             timeout = 50000,
           },
           null_ls.builtins.formatting.prettier.with {
@@ -1987,6 +1994,17 @@ require("lazy").setup({
           { name = "cmdline" },
         }),
       })
+    end,
+  },
+  {
+    "hrsh7th/nvim-gtd",
+    event = {"BufReadPre"},
+    dependencies = { "neovim/nvim-lspconfig" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
+    config = function()
+      require("gtd").setup {}
     end,
   },
   {
@@ -2500,45 +2518,73 @@ require("lazy").setup({
           ["g"] = {
             name = "+LSP",
             r = { "<cmd>Lspsaga lsp_finder<CR>", "References" },
-            i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
             d = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
+            -- r = { "<cmd>Telescope lsp_references<CR>", "References" },
+            i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
+            -- d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
             D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
             c = {
               name = "+Callhierarchy",
               i = { "<cmd>Lspsaga incoming_calls<CR>", "Incoming" },
               o = { "<cmd>Lspsaga outgoing_calls<CR>", "Outgoing" },
             },
+            f = {
+              name = "+Go To Definition",
+              f = {"<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", "Go to edit"},
+              s = {"<cmd>lua require('gtd').exec({ command = 'split' })<CR>", "Go to split"},
+              v = {"<cmd>lua require('gtd').exec({ command = 'vsplit' })<CR>", "Go to vsplit"},
+            }
           },
           ["K"] = {
             "<cmd>Lspsaga hover_doc<CR>",
             "Hover Doc",
           },
+          -- ["K"] = {
+          --   function()
+          --     local buf = vim.api.nvim_get_current_buf()
+          --     local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+          --     if ft == "rust" then
+          --       return require("rust-tools").hover_actions.hover_actions()
+          --     end
+          --     return vim.lsp.buf.hover()
+          --   end,
+          --   "Hover Doc",
+          -- },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
           ["<leader>"] = {
             F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
           },
           ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
+          -- ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
           ["<leader>d"] = {
             name = "+Diagnostics",
             c = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Current cursor" },
-            l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Current line" },
-            b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Current buffer" },
-            o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
             n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
             p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
+            l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Current line" },
+            b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Current buffer" },
+            -- c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
+            o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
+            -- n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
+            -- p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
             d = {
               name = "+Diagnostics",
               d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics(Trouble)" },
               D = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics(Trouble)" },
             },
           },
-          ["<leader>rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
+          -- ["<leader>rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
+          ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
         }, { mode = "n" })
         wk.register({
           ["<leader>ac"] = {
             "<cmd>Lspsaga code_action<CR>",
             "Code Action",
           },
+          -- ["<leader>ac"] = {
+          --   "<cmd>lua vim.lsp.buf.code_action()<CR>",
+          --   "Code Action",
+          -- },
         }, { mode = "v" })
       elseif vim.g.lsp_client_type == "coc" then
         wk.register {

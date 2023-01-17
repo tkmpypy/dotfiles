@@ -240,3 +240,5 @@ apiv
 Errorw
 shiguredo
 Fatalw
+Nanos
+Warnw
