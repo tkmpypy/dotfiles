@@ -242,3 +242,7 @@ shiguredo
 Fatalw
 Nanos
 Warnw
+cyclop
+gocognit
+nestif
+gosec

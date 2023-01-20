@@ -244,6 +244,7 @@ require("lazy").setup({
   "kyazdani42/nvim-web-devicons",
   {
     "rcarriga/nvim-notify",
+    lazy = true,
     config = function()
       require("notify").setup {
         background_colour = "#000000",
