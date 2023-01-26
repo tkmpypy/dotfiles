@@ -206,6 +206,21 @@ local function tsserver_organize_imports()
   vim.lsp.buf.execute_command(params)
 end
 
+local vtsls_config = {
+  settings = {
+    typescript = {
+      format = {
+        enable = false
+      }
+    },
+    javascript = {
+      format = {
+        enable = false
+      }
+    }
+  }
+}
+
 local tsserver_config = {
   settings = {
     javascript = {
@@ -449,6 +464,11 @@ local setup_servers = function()
       config.commands = tsserver_config.commands
       config.settings = tsserver_config.settings
       lspconfig.tsserver.setup(config)
+    end,
+    ["vtsls"] = function()
+      local config = make_config()
+      config.settings = vtsls_config.settings
+      lspconfig.vtsls.setup(config)
     end,
     ["eslint"] = function()
       local config = make_config()

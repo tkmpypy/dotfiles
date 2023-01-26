@@ -545,7 +545,7 @@ require("lazy").setup({
   },
   {
     "goolord/alpha-nvim",
-    lazy = false,
+    event = "VimEnter",
     dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function()
       local alpha = require "alpha"
@@ -610,10 +610,11 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
     },
+    event = "VeryLazy",
     config = function()
       require("noice").setup {
         presets = {
-          bottom_search = false, -- use a classic bottom cmdline for search
+          bottom_search = true, -- use a classic bottom cmdline for search
           command_palette = false, -- position the cmdline and popupmenu together
           long_message_to_split = true, -- long messages will be sent to a split
           inc_rename = true, -- enables an input dialog for inc-rename.nvim
@@ -980,9 +981,95 @@ require("lazy").setup({
   -- Utils
   {
     "monaqa/dial.nvim",
-    -- lazy-load on keys
-    -- mode is `n` by default. For more advanced options, check the section on key mappings
-    keys = { "<C-a>", { "<C-x>", mode = "n" } },
+    config = function()
+      local augend = require "dial.augend"
+      require("dial.config").augends:register_group {
+        -- default augends used when no group name is specified
+        default = {
+          augend.integer.alias.decimal, -- nonnegative decimal number (0, 1, 2, 3, ...)
+          augend.integer.alias.hex, -- nonnegative hex number  (0x01, 0x1a1f, etc.)
+          augend.date.alias["%Y/%m/%d"], -- date (2022/02/19, etc.)
+          augend.constant.alias.bool,
+          -- uppercase hex number (0x1A1A, 0xEEFE, etc.)
+          augend.constant.new {
+            elements = { "and", "or" },
+            word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
+            cyclic = true, -- "or" is incremented into "and".
+          },
+          augend.constant.new {
+            elements = { "&&", "||" },
+            word = false,
+            cyclic = true,
+          },
+          augend.case.new {
+            types = { "PascalCase", "camelCase", "snake_case", "kebab-case", "SCREAMING_SNAKE_CASE" },
+            cyclic = true,
+          },
+        },
+      }
+    end,
+    keys = {
+      {
+        "<C-a>",
+        function()
+          return require("dial.map").inc_normal()
+        end,
+        mode = "n",
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "<C-x>",
+        function()
+          return require("dial.map").dec_normal()
+        end,
+        mode = "n",
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "<C-a>",
+        function()
+          return require("dial.map").inc_visual()
+        end,
+        mode = "v",
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "<C-x>",
+        function()
+          return require("dial.map").dec_visual()
+        end,
+        mode = "v",
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "g<C-a>",
+        function()
+          return require("dial.map").inc_gvisual()
+        end,
+        mode = "v",
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "g<C-x>",
+        function()
+          return require("dial.map").dec_gvisual()
+        end,
+        mode = "v",
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+    },
   },
   {
     "uga-rosa/ccc.nvim",
@@ -1043,7 +1130,9 @@ require("lazy").setup({
     end,
   },
   "machakann/vim-sandwich",
-  "simeji/winresizer",
+  {
+    "simeji/winresizer",
+  },
   {
     "windwp/nvim-autopairs",
     event = { "InsertEnter", "CmdlineEnter" },
@@ -1070,49 +1159,49 @@ require("lazy").setup({
       {
         "f",
         "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true })<cr>",
-        "n",
+        mode = "n",
         desc = "hop hint char",
       },
       {
         "f",
         "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true, inclusive_jump = true })<cr>",
-        "o",
+        mode = "o",
         desc = "hop hint char(inclusive_jump)",
       },
       {
         "L",
         "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>",
-        { "n", "v" },
+        mode = { "n", "v" },
         desc = "hop lines",
       },
       {
         "mc",
         "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = false })<cr>",
-        "n",
+        mode = "n",
         desc = "hop hint char(current_line_only=false)",
       },
       {
         "mw",
         "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>",
-        { "n", "v" },
+        mode = { "n", "v" },
         desc = "hop hint words(BEGIN)",
       },
       {
         "mw",
         "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
-        "o",
+        mode = "o",
         desc = "hop hint words(BEGIN)",
       },
       {
         "mW",
         "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
-        { "n", "v" },
+        mode = { "n", "v" },
         desc = "hop hint words(END)",
       },
       {
         "mW",
         "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
-        "o",
+        mode = "o",
         desc = "hop hint words(END)",
       },
     },
@@ -1123,7 +1212,10 @@ require("lazy").setup({
       }
     end,
   },
-  "mtdl9/vim-log-highlighting",
+  {
+    "mtdl9/vim-log-highlighting",
+    ft = { "log" },
+  },
   {
     "fannheyward/telescope-coc.nvim",
     enabled = function()
@@ -1875,12 +1967,12 @@ require("lazy").setup({
         sorting = {
           priority_weight = 2,
           comparators = {
-            compare.offset,
-            compare.exact,
-            -- compare.scopes,
             compare.score,
             compare.recently_used,
             compare.locality,
+            compare.offset,
+            compare.exact,
+            -- compare.scopes,
             compare.kind,
             compare.sort_text,
             compare.length,
@@ -1999,7 +2091,7 @@ require("lazy").setup({
   },
   {
     "hrsh7th/nvim-gtd",
-    event = {"BufReadPre"},
+    event = { "BufReadPre" },
     dependencies = { "neovim/nvim-lspconfig" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
@@ -2531,10 +2623,10 @@ require("lazy").setup({
             },
             f = {
               name = "+Go To Definition",
-              f = {"<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", "Go to edit"},
-              s = {"<cmd>lua require('gtd').exec({ command = 'split' })<CR>", "Go to split"},
-              v = {"<cmd>lua require('gtd').exec({ command = 'vsplit' })<CR>", "Go to vsplit"},
-            }
+              f = { "<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", "Go to edit" },
+              s = { "<cmd>lua require('gtd').exec({ command = 'split' })<CR>", "Go to split" },
+              v = { "<cmd>lua require('gtd').exec({ command = 'vsplit' })<CR>", "Go to vsplit" },
+            },
           },
           ["K"] = {
             "<cmd>Lspsaga hover_doc<CR>",

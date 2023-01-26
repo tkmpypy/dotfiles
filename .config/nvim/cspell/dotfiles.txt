@@ -246,3 +246,4 @@ cyclop
 gocognit
 nestif
 gosec
+esbuild
