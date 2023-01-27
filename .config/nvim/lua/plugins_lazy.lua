@@ -424,7 +424,7 @@ require("lazy").setup({
   },
   {
     "nvim-lualine/lualine.nvim",
-    event = { "ColorScheme" },
+    event = { "VeryLazy" },
     dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function()
       local util = require "scripts/util"
@@ -602,6 +602,22 @@ require("lazy").setup({
           placement = "window", -- "window" or "edge"
         },
       }
+    end,
+  },
+  {
+    "stevearc/dressing.nvim",
+    lazy = true,
+    init = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.select = function(...)
+        require("lazy").load { plugins = { "dressing.nvim" } }
+        return vim.ui.select(...)
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.input = function(...)
+        require("lazy").load { plugins = { "dressing.nvim" } }
+        return vim.ui.input(...)
+      end
     end,
   },
   {
@@ -1567,7 +1583,8 @@ require("lazy").setup({
           "gopls",
           "html",
           "jsonls",
-          "tsserver",
+          "vtsls",
+          -- "tsserver",
           "marksman",
           "pyright",
           "tailwindcss",
@@ -2355,7 +2372,7 @@ require("lazy").setup({
   },
   {
     "folke/which-key.nvim",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       local wk = require "which-key"
       wk.setup {

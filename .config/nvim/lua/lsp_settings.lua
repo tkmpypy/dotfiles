@@ -211,12 +211,18 @@ local vtsls_config = {
     typescript = {
       format = {
         enable = false
-      }
+      },
+      suggest = {
+        completeFunctionCalls = true,
+      },
     },
     javascript = {
       format = {
         enable = false
-      }
+      },
+      suggest = {
+        completeFunctionCalls = true,
+      },
     }
   }
 }
