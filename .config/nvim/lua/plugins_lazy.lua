@@ -1239,6 +1239,40 @@ require("lazy").setup({
     end,
   },
   {
+    "kevinhwang91/nvim-bqf",
+    cmd = {"BqfEnable", "BqfDisable", "BqfToggle", "BqfAutoToggle"},
+    ft = "qf",
+    config = function()
+      require("bqf").setup {
+        auto_enable = true,
+        auto_resize_height = true, -- highly recommended enable
+        preview = {
+          win_height = 12,
+          win_vheight = 12,
+          delay_syntax = 80,
+          border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
+          show_title = false,
+        },
+        -- make `drop` and `tab drop` to become preferred
+        func_map = {
+          drop = "o",
+          openc = "O",
+          split = "<C-s>",
+          tabdrop = "<C-t>",
+          -- set to empty string to disable
+          tabc = "",
+          ptogglemode = "z,",
+        },
+        filter = {
+          fzf = {
+            action_for = { ["ctrl-s"] = "split", ["ctrl-t"] = "tab drop" },
+            extra_opts = { "--bind", "ctrl-o:toggle-all", "--prompt", "> " },
+          },
+        },
+      }
+    end,
+  },
+  {
     "nvim-telescope/telescope.nvim",
     lazy = true,
     dependencies = {
@@ -1906,39 +1940,30 @@ require("lazy").setup({
     dependencies = {
       { "windwp/nvim-autopairs" },
       { "onsails/lspkind.nvim" },
-      { "hrsh7th/vim-vsnip" },
       {
-        "hrsh7th/cmp-vsnip",
-        dependencies = "rafamadriz/friendly-snippets",
-        config = function()
-          vim.cmd [[
-              " Expand
-              imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-              smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-
-              " Expand or jump
-              imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-              smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-
-              " Jump forward or backward
-              imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-              smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-              imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-              smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-
-              " Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
-              " See https://github.com/hrsh7th/vim-vsnip/pull/50
-              nmap        s   <Plug>(vsnip-select-text)
-              xmap        s   <Plug>(vsnip-select-text)
-              nmap        S   <Plug>(vsnip-cut-text)
-              xmap        S   <Plug>(vsnip-cut-text)
-
-              " If you want to use snippet for multiple filetypes, you can `g:vsnip_filetypes` for it.
-              let g:vsnip_filetypes = {}
-              let g:vsnip_filetypes.javascriptreact = ['javascript']
-              let g:vsnip_filetypes.typescriptreact = ['typescript']
-            ]]
-        end,
+        "L3MON4D3/LuaSnip",
+        dependencies = {
+          "rafamadriz/friendly-snippets",
+          config = function()
+            require("luasnip.loaders.from_vscode").lazy_load()
+          end,
+        },
+        opts = {
+          history = true,
+          delete_check_events = "TextChanged",
+        },
+        -- stylua: ignore
+        keys = {
+          {
+            "<tab>",
+            function()
+              return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+            end,
+            expr = true, silent = true, mode = "i",
+          },
+          { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
+          { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+        },
       },
       { "saadparwaiz1/cmp_luasnip" },
       { "hrsh7th/cmp-buffer" },
@@ -1999,8 +2024,8 @@ require("lazy").setup({
         -- You should change this example to your chosen snippet engine.
         snippet = {
           expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- luasnip.lsp_expand(args.body) -- For `luasnip` users.
+            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            require("luasnip").lsp_expand(args.body)
             -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
             -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
           end,
@@ -2028,8 +2053,8 @@ require("lazy").setup({
           },
           { name = "nvim_lsp_signature_help" },
           {
-            name = "vsnip",
-            -- name = "luasnip",
+            -- name = "vsnip",
+            name = "luasnip",
             priority = 11,
             max_item_count = 50,
           },
