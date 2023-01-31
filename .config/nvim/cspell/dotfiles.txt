@@ -247,3 +247,4 @@ gocognit
 nestif
 gosec
 esbuild
+genproto
