@@ -433,18 +433,16 @@ require("lazy").setup({
           theme = "auto",
           -- component_separators = { left = "", right = "" },
           -- section_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
           component_separators = "",
-          section_separators = "",
+          -- section_separators = "",
           disabled_filetypes = {},
           always_divide_middle = true,
           globalstatus = true,
         },
         sections = {
           lualine_a = { "mode" },
-          lualine_b = {},
-          lualine_y = {},
-          lualine_z = {},
-          lualine_c = {
+          lualine_b = {
             {
               "filetype",
               icon_only = true,
@@ -456,9 +454,11 @@ require("lazy").setup({
               separator = "    ",
               path = 1,
             },
+          },
+          lualine_c = {
             {
               util.lsp.current_lsp,
-              icon = "",
+              icon = " ",
               color = {
                 fg = theme.normal.a.bg,
                 gui = "bold",
@@ -508,6 +508,7 @@ require("lazy").setup({
           lualine_x = {
             {
               "branch",
+              icon = "",
               color = {
                 fg = theme.visual.a.bg,
               },
@@ -517,9 +518,9 @@ require("lazy").setup({
               -- Is it me or the symbol for modified us really weird
               symbols = { added = " ", modified = "柳", removed = " " },
             },
-            "encoding",
-            util.buffer.scroll_bar,
           },
+          lualine_y = { "encoding" },
+          lualine_z = { "location" },
         },
         inactive_sections = {
           lualine_a = {},
@@ -714,129 +715,6 @@ require("lazy").setup({
   },
 
   -- explorer
-  {
-    "lambdalisue/fern.vim",
-    enabled = false,
-    config = function()
-      local gid = vim.api.nvim_create_augroup("tkmpypy_fern_settings", { clear = true })
-      vim.api.nvim_create_autocmd({ "FileType" }, {
-        group = gid,
-        pattern = "fern",
-        callback = function()
-          vim.cmd [[
-              setlocal nonumber
-              setlocal norelativenumber
-              let b:indentLine_enabled = 0
-
-              " Define NERDTree like mappings
-              nmap <buffer> o <Plug>(fern-action-open:edit)
-              nmap <buffer> go <Plug>(fern-action-open:edit)<C-w>p
-              nmap <buffer> t <Plug>(fern-action-open:tabedit)
-              nmap <buffer> T <Plug>(fern-action-open:tabedit)gT
-              nmap <buffer> <C-x> <Plug>(fern-action-open:split)
-              " nmap <buffer> <C-x> <Plug>(fern-action-open:split)<C-w>p
-              nmap <buffer> <C-v> <Plug>(fern-action-open:vsplit)
-              " nmap <buffer> <C-v> <Plug>(fern-action-open:vsplit)<C-w>p
-
-              nmap <buffer> P gg
-
-              nmap <buffer> C <Plug>(fern-action-enter)
-              nmap <buffer> u <Plug>(fern-action-leave)
-              nmap <buffer> r <Plug>(fern-action-reload)
-              nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
-              nmap <buffer> cd <Plug>(fern-action-cd)
-              nmap <buffer> CD gg<Plug>(fern-action-cd)<C-o>
-
-              nmap <buffer> I <Plug>(fern-action-hide-toggle)
-
-              nmap <buffer> q :<C-u>quit<CR>
-              nmap <buffer><expr>
-                \ <Plug>(fern-my-expand-or-collapse)
-                \ fern#smart#leaf(
-                \   "\<Plug>(fern-action-collapse)",
-                \   "\<Plug>(fern-action-expand)",
-                \   "\<Plug>(fern-action-collapse)",
-                \ )
-              nmap <buffer><expr>
-                \ <Plug>(fern-my-expand-or-enter)
-                \ fern#smart#drawer(
-                \   "\<Plug>(fern-action-open-or-expand)",
-                \   "\<Plug>(fern-action-open-or-enter)",
-                \ )
-              nmap <buffer><expr>
-                \ <Plug>(fern-my-collapse-or-leave)
-                \ fern#smart#drawer(
-                \   "\<Plug>(fern-action-collapse)",
-                \   "\<Plug>(fern-action-leave)",
-                \ )
-              nmap <buffer><nowait> <CR> <Plug>(fern-my-expand-or-enter)
-              nmap <buffer><nowait> l <Plug>(fern-my-expand-or-enter)
-              nmap <buffer><nowait> h <Plug>(fern-my-collapse-or-leave)
-
-              call glyph_palette#apply()
-            ]]
-        end,
-      })
-      vim.keymap.set("n", "<Leader>ft", "<cmd>Fern . -drawer -toggle<CR>", {})
-      vim.keymap.set("n", "<Leader>ff", "<cmd>Fern . -reveal=% -drawer -toggle<CR>", {})
-      vim.cmd [[
-          let g:fern#default_hidden = 1
-          let g:fern#drawer_keep = v:false
-          let g:fern#keepalt_on_edit = 1
-          let g:fern#disable_drawer_tabpage_isolation = 0
-          let g:fern#disable_drawer_auto_winfixwidth = 0
-          let g:fern#disable_drawer_auto_resize = 0
-        ]]
-    end,
-    requires = {
-      { "antoinemadec/FixCursorHold.nvim" },
-      {
-        "lambdalisue/fern-git-status.vim",
-        config = function()
-          vim.cmd [[
-              " Disable listing ignored files/directories
-              let g:fern_git_status#disable_ignored = 0
-              " Disable listing untracked files
-              let g:fern_git_status#disable_untracked = 0
-              " Disable listing status of submodules
-              let g:fern_git_status#disable_submodules = 0
-              " Disable listing status of directories
-              let g:fern_git_status#disable_directories = 0
-            ]]
-        end,
-      },
-      {
-        "lambdalisue/fern-renderer-nerdfont.vim",
-        requires = {
-          "lambdalisue/nerdfont.vim",
-          "lambdalisue/glyph-palette.vim",
-        },
-        config = function()
-          vim.cmd [[
-              let g:fern#renderer = "nerdfont"
-            ]]
-        end,
-      },
-      {
-        "yuki-yano/fern-preview.vim",
-        config = function()
-          local gid = vim.api.nvim_create_augroup("tkmpypy_fern_preview_settings", { clear = true })
-          vim.api.nvim_create_autocmd({ "FileType" }, {
-            group = gid,
-            pattern = "fern",
-            callback = function()
-              vim.cmd [[
-                  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
-                  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
-                  nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
-                  nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
-                ]]
-            end,
-          })
-        end,
-      },
-    },
-  },
   {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
@@ -1164,8 +1042,6 @@ require("lazy").setup({
   },
   { "npxbr/glow.nvim", ft = { "markdown" } },
   "osyo-manga/vim-over",
-  "nicwest/vim-camelsnek",
-  "pechorin/any-jump.vim",
   {
     "phaazon/hop.nvim",
     keys = {
@@ -1237,7 +1113,7 @@ require("lazy").setup({
   },
   {
     "kevinhwang91/nvim-bqf",
-    cmd = {"BqfEnable", "BqfDisable", "BqfToggle", "BqfAutoToggle"},
+    cmd = { "BqfEnable", "BqfDisable", "BqfToggle", "BqfAutoToggle" },
     ft = "qf",
     enabled = false,
     config = function()
