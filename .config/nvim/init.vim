@@ -3,8 +3,8 @@ scriptencoding=utf-8
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
-let g:lsp_client_type = 'neovim' " neovim(builtin), coc
-let g:git_client_type = 'neogit' " neogit, gina
+let g:lsp_client_type = 'coc' " neovim(builtin), coc
+let g:git_client_type = 'neogit' " neogit, ??????
 
 let g:did_install_default_menus = 1
 let g:did_install_syntax_menu   = 1

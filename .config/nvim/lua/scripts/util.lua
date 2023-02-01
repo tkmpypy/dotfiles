@@ -226,9 +226,9 @@ M.lsp.current_lsp = function()
       msg = table.concat(client_names, "|")
     end
     return msg
-  elseif vim.g.lsp_client_type == "coc" then
-    return 'coc.nvim'
   end
+
+  return ""
 end
 
 return M

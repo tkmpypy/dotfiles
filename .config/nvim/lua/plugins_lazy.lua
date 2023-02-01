@@ -427,6 +427,13 @@ require("lazy").setup({
       local util = require "scripts/util"
       local lualine_utils = require "lualine.utils.utils"
       local theme = require "lualine/themes/onedark"
+      local lsp_status = function()
+        if vim.g.lsp_client_type == "neovim" then
+          return util.lsp.current_lsp
+        elseif vim.g.lsp_client_type == "coc" then
+          return "g:coc_status"
+        end
+      end
       require("lualine").setup {
         options = {
           icons_enabled = true,
@@ -449,15 +456,13 @@ require("lazy").setup({
             },
             {
               "filename",
-              padding = 0,
               symbols = { modified = "  ", readonly = "  ", unnamed = "  " },
-              separator = "    ",
               path = 1,
             },
           },
           lualine_c = {
             {
-              util.lsp.current_lsp,
+              lsp_status(),
               icon = " ",
               color = {
                 fg = theme.normal.a.bg,
@@ -496,11 +501,13 @@ require("lazy").setup({
                   }, "#ffffff"),
                 },
                 hint = {
-                  fg = lualine_utils.extract_color_from_hllist(
-                    "fg",
-                    { "DiagnosticHint", "DiagnosticSignHint", "LspDiagnosticsDefaultHint", "DiffChange", "HintText" },
-                    "#273faf"
-                  ),
+                  fg = lualine_utils.extract_color_from_hllist("fg", {
+                    "DiagnosticHint",
+                    "DiagnosticSignHint",
+                    "LspDiagnosticsDefaultHint",
+                    "DiffChange",
+                    "HintText",
+                  }, "#273faf"),
                 },
               },
             },
@@ -555,7 +562,7 @@ require("lazy").setup({
         type = "text",
         val = {
           [[                                                     ]],
-          [[  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+          [[  ███��   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
           [[  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
           [[  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
           [[  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
@@ -605,6 +612,13 @@ require("lazy").setup({
   {
     "stevearc/dressing.nvim",
     lazy = true,
+    opts = {
+      input = {
+        relative = "win",
+        prefer_width = 60,
+        min_width = { 60, 0.6 },
+      },
+    },
     init = function()
       ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)
@@ -1013,7 +1027,10 @@ require("lazy").setup({
     end,
   },
   "moll/vim-bbye",
-  "godlygeek/tabular",
+  {
+    "godlygeek/tabular",
+    enabled = false,
+  },
   {
     "airblade/vim-rooter",
     config = function()
@@ -1027,6 +1044,9 @@ require("lazy").setup({
   {
     "windwp/nvim-autopairs",
     event = { "InsertEnter", "CmdlineEnter" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     config = function()
       require("nvim-autopairs").setup {
         map_cr = true,
@@ -1432,24 +1452,6 @@ require("lazy").setup({
       }
     end,
   },
-  {
-    "lambdalisue/gina.vim",
-    enabled = function()
-      return vim.g.git_client_type == "gina"
-    end,
-    config = function()
-      vim.keymap.set("n", "<leader>gs", "<cmd>Gina status --opener=vsplit<cr>", {})
-      vim.keymap.set("n", "<leader>gl", "<cmd>Gina log --opener=vsplit<cr>", {})
-      vim.api.nvim_call_function(
-        "gina#custom#mapping#nmap",
-        { "status", "c", "<cmd>Gina commit --restore<cr>", { noremap = 1, silent = 1 } }
-      )
-      vim.api.nvim_call_function(
-        "gina#custom#mapping#nmap",
-        { "status", "P", "<cmd>Gina push<cr>", { noremap = 1, silent = 1 } }
-      )
-    end,
-  },
 
   -- Snippet
   "mattn/vim-sonictemplate",
@@ -1546,6 +1548,9 @@ require("lazy").setup({
   {
     "glepnir/lspsaga.nvim",
     event = { "BufReadPre" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
       require("lspsaga").setup {
@@ -2080,6 +2085,7 @@ require("lazy").setup({
   },
   {
     "neoclide/coc.nvim",
+    event = "VeryLazy",
     enabled = function()
       return vim.g.lsp_client_type == "coc"
     end,
@@ -2087,8 +2093,9 @@ require("lazy").setup({
     config = function()
       local keyset = vim.keymap.set
       vim.g.coc_global_extensions = {
+        "coc-pairs",
         "coc-lists",
-        "coc-nav",
+        "coc-diagnostic",
         "coc-json",
         "coc-yaml",
         "coc-marketplace",
@@ -2101,13 +2108,15 @@ require("lazy").setup({
         "coc-rust-analyzer",
         "coc-vimlsp",
         "coc-go",
-        "coc-lua",
+        -- "coc-lua",
+        "coc-sumneko-lua",
         "coc-sql",
         "coc-sh",
         "coc-emoji",
         "coc-gitignore",
         "coc-docker",
         "coc-spell-checker",
+        "coc-snippets",
         "https://github.com/cstrap/python-snippets",
       }
       -- Use <C-j> for jump to next placeholder, it's default of coc.nvim
@@ -2200,9 +2209,7 @@ require("lazy").setup({
         desc = "Update signature help on jump placeholder",
       })
 
-      keyset("i", "<C-l>", "<Plug>(coc-snippets-expand)")
-      keyset("i", "<C-j>", "<Plug>(coc-snippets-expand-jump)")
-      keyset("v", "<C-j>", "<Plug>(coc-snippets-select)")
+      opts = { silent = true, nowait = true }
       -- Apply codeAction to the selected region
       -- Example: `<leader>aap` for current paragraph
       keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
@@ -2213,7 +2220,7 @@ require("lazy").setup({
       -- Remap keys for apply code actions affect whole buffer.
       keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", opts)
       -- Remap keys for applying codeActions to the current buffer
-      keyset("n", "<leader>ac", "<Plug>(coc-codeaction)", opts)
+      -- keyset("n", "<leader>ac", "<Plug>(coc-codeaction)", opts)
       -- Apply the most preferred quickfix action on the current line.
       keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", opts)
 
@@ -2260,8 +2267,8 @@ require("lazy").setup({
       -- Add `:OR` command for organize imports of the current buffer
       vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
 
-      keyset("n", "<leader>F", ":Format<CR>", opts)
-      keyset("n", "<leader>O", ":OR<CR>", opts)
+      keyset("n", "<leader>F", ":Format<CR>", { silent = true })
+      keyset("n", "<leader>O", ":OR<CR>", { silent = true })
 
       -- Add (Neo)Vim's native statusline support
       -- NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -2432,7 +2439,10 @@ require("lazy").setup({
           },
           g = {
             name = "+Grep",
-            g = { '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>', "Live Grep" },
+            g = {
+              '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
+              "Live Grep",
+            },
             c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
           },
           r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },

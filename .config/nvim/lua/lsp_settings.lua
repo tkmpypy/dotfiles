@@ -121,7 +121,7 @@ local rust_config = {
   settings = {
     ["rust-analyzer"] = {
       check = {
-        command = "clippy"
+        command = "clippy",
       },
       inlayHints = { locationLinks = false },
     },
@@ -210,7 +210,7 @@ local vtsls_config = {
   settings = {
     typescript = {
       format = {
-        enable = false
+        enable = false,
       },
       suggest = {
         completeFunctionCalls = true,
@@ -218,13 +218,13 @@ local vtsls_config = {
     },
     javascript = {
       format = {
-        enable = false
+        enable = false,
       },
       suggest = {
         completeFunctionCalls = true,
       },
-    }
-  }
+    },
+  },
 }
 
 local tsserver_config = {

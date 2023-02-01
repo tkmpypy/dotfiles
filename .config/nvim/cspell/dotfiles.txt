@@ -248,3 +248,5 @@ nestif
 gosec
 esbuild
 genproto
+vtsls
+Openai
