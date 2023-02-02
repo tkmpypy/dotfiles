@@ -3,6 +3,10 @@
   "coc.preferences.extensionUpdateCheck": "daily",
   "coc.source.file.ignoreHidden": false,
   "coc.preferences.floatActions": true,
+  "suggest.virtualText": true,
+  "suggest.enablePreselect": false,
+  "suggest.autoTrigger": "always",
+  "suggest.triggerAfterInsertEnter": true,
   "suggest.snippetsSupport": true,
   "suggest.minTriggerInputLength": 1,
   "suggest.maxCompleteItemCount": 50,
@@ -78,7 +82,6 @@
     "sh": "shellcheck",
     "yaml": ["yamllint"],
     "cmake": ["cmake-lint", "cmakelint"],
-    "systemd": "systemd-analyze",
     "typescript": "eslint",
     "javascript": "eslint",
     "typescriptreact": "eslint",
@@ -104,13 +107,8 @@
   "diagnostic-languageserver.formatters": {
     "stylua": {
       "command": "stylua",
-      "args": [
-        "--search-parent-directories",
-        "--stdin-filepath",
-        "%filepath",
-        "--",
-        "-"
-      ]
+      "args": ["--stdin-filepath", "%filepath", "--", "-"],
+      "rootPatterns": [".stylua.toml"]
     },
     "prettier": {
       "command": "./node_modules/.bin/prettier",
