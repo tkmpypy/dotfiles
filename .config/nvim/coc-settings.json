@@ -62,32 +62,8 @@
     },
     "codeLens.enable": true,
     "snippets.ultisnips.enable": false,
-    "cSpell.allowCompoundWords": true,
-    "cSpell.dictionaries": [
-        "dotfiles",
-        "user"
-    ],
-    "cSpell.dictionaryDefinitions": [
-        {
-            "name": "dotfiles",
-            "path": "/Users/tkmpypy/.config/nvim/cspell/dotfiles.txt",
-            "description": "dotfiles dictionary"
-        },
-        {
-            "name": "user",
-            "path": "/Users/tkmpypy/.local/share/nvim/cspell/user.txt",
-            "description": "User local dictionary"
-        }
-    ],
-    "cSpell.ignorePaths": [
-        "node_modules",
-        "**/node_modules",
-        "**/node_modules/**",
-        "node_modules/**",
-        "vscode-extension",
-        ".git",
-        "*.dll",
-        "**/*.dll"
+    "cSpell.import": [
+        "/Users/tkmpypy/.config/nvim/cspell/cspell.json"
     ],
     "diagnostic-languageserver.filetypes": {
         "vim": "vint",

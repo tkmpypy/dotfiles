@@ -47,8 +47,7 @@ machakann
 simeji
 winresizer
 iamcco
-mkdp
-npxbr
+mkdp npxbr
 osyo
 nicwest
 camelsnek
@@ -250,3 +249,8 @@ esbuild
 genproto
 vtsls
 Openai
+prettier
+prettierrc
+autopep
+struct
+cmake
