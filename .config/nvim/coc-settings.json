@@ -201,5 +201,6 @@
         }
     },
     "sumneko-lua.enableNvimLuaDev": true,
+    "Lua.format.enable": false,
     "rust-analyzer.check.command": "clippy"
 }
