@@ -191,6 +191,7 @@ require('scripts/random_colorscheme').set_random_colorscheme({
   'duskfox',
   'nordfox',
   'kimbox',
+  'everblush',
   })
 require('scripts/gen_gitignore').initialize()
 require('scripts/git_linker').initialize()
