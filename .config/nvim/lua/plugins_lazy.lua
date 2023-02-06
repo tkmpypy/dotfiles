@@ -1536,6 +1536,9 @@ require("lazy").setup({
 	{
 		"someone-stole-my-name/yaml-companion.nvim",
 		ft = "yaml",
+		enabled = function()
+			return vim.g.lsp_client_type == "neovim"
+		end,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
@@ -1656,6 +1659,9 @@ require("lazy").setup({
 	},
 	{
 		"b0o/schemastore.nvim",
+		enabled = function()
+			return vim.g.lsp_client_type == "neovim"
+		end,
 		event = { "BufReadPre" },
 		dependencies = { "neovim/nvim-lspconfig" },
 	},
@@ -1843,14 +1849,14 @@ require("lazy").setup({
         -- stylua: ignore
         keys = {
           {
-            "<tab>",
+            "<C-j>",
             function()
               return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
             end,
             expr = true, silent = true, mode = "i",
           },
-          { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
-          { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+          { "<C-j>", function() require("luasnip").jump(1) end, mode = "s" },
+          { "<C-k>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
         },
 			},
 			{ "saadparwaiz1/cmp_luasnip" },
