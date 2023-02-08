@@ -147,7 +147,18 @@ require("lazy").setup({
     config = function()
       require("neogen").setup({
         enabled = true,
+        snippet_engine = "luasnip",
         languages = {
+          go = {
+            template = {
+              annotation_convention = "godoc",
+            },
+          },
+          lua = {
+            template = {
+              annotation_convention = "emmylua",
+            },
+          },
           python = {
             template = {
               annotation_convention = "google_docstrings",
@@ -1135,7 +1146,6 @@ require("lazy").setup({
     "kevinhwang91/nvim-bqf",
     cmd = { "BqfEnable", "BqfDisable", "BqfToggle", "BqfAutoToggle" },
     ft = "qf",
-    enabled = false,
     config = function()
       require("bqf").setup({
         auto_enable = true,
@@ -1551,9 +1561,10 @@ require("lazy").setup({
   {
     "glepnir/lspsaga.nvim",
     event = { "BufReadPre" },
-    enabled = function()
-      return vim.g.lsp_client_type == "neovim"
-    end,
+    -- enabled = function()
+    --   return vim.g.lsp_client_type == "neovim"
+    -- end,
+    enabled = false,
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
       require("lspsaga").setup({
@@ -2025,6 +2036,14 @@ require("lazy").setup({
     end,
     config = function()
       require("gtd").setup({})
+    end,
+  },
+  {
+    "williamboman/warden.nvim",
+    event = { "BufReadPre" },
+    dependencies = { "neovim/nvim-lspconfig" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
     end,
   },
   {
@@ -2544,17 +2563,17 @@ require("lazy").setup({
         wk.register({
           ["g"] = {
             name = "+LSP",
-            r = { "<cmd>Lspsaga lsp_finder<CR>", "References" },
-            d = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
-            -- r = { "<cmd>Telescope lsp_references<CR>", "References" },
+            -- r = { "<cmd>Lspsaga lsp_finder<CR>", "References" },
+            -- d = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
+            r = { "<cmd>Telescope lsp_references<CR>", "References" },
             i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
-            -- d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
+            d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
             D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
-            c = {
-              name = "+Callhierarchy",
-              i = { "<cmd>Lspsaga incoming_calls<CR>", "Incoming" },
-              o = { "<cmd>Lspsaga outgoing_calls<CR>", "Outgoing" },
-            },
+            -- c = {
+            --   name = "+Callhierarchy",
+            --   i = { "<cmd>Lspsaga incoming_calls<CR>", "Incoming" },
+            --   o = { "<cmd>Lspsaga outgoing_calls<CR>", "Outgoing" },
+            -- },
             f = {
               name = "+Go To Definition",
               f = { "<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", "Go to edit" },
@@ -2562,38 +2581,38 @@ require("lazy").setup({
               v = { "<cmd>lua require('gtd').exec({ command = 'vsplit' })<CR>", "Go to vsplit" },
             },
           },
-          ["K"] = {
-            "<cmd>Lspsaga hover_doc<CR>",
-            "Hover Doc",
-          },
           -- ["K"] = {
-          --   function()
-          --     local buf = vim.api.nvim_get_current_buf()
-          --     local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-          --     if ft == "rust" then
-          --       return require("rust-tools").hover_actions.hover_actions()
-          --     end
-          --     return vim.lsp.buf.hover()
-          --   end,
+          --   "<cmd>Lspsaga hover_doc<CR>",
           --   "Hover Doc",
           -- },
+          ["K"] = {
+            function()
+              local buf = vim.api.nvim_get_current_buf()
+              local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+              if ft == "rust" then
+                return require("rust-tools").hover_actions.hover_actions()
+              end
+              return vim.lsp.buf.hover()
+            end,
+            "Hover Doc",
+          },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
           ["<leader>"] = {
-            F = { "<cmd>lua vim.lsp.buf.format{async = true}<CR>", "Format" },
+            F = { "<cmd>lua require('scripts/util').lsp.null_ls_formatting()<CR>", "Format" },
           },
-          ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
-          -- ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
+          -- ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
+          ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
           ["<leader>d"] = {
             name = "+Diagnostics",
-            c = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Current cursor" },
-            n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
-            p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
-            l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Current line" },
-            b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Current buffer" },
-            -- c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
+            -- c = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Current cursor" },
+            -- n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
+            -- p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
+            -- l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Current line" },
+            -- b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Current buffer" },
+            c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
             o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
-            -- n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
-            -- p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
+            n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
+            p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
             d = {
               name = "+Diagnostics",
               d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics(Trouble)" },
@@ -2604,14 +2623,14 @@ require("lazy").setup({
           ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
         }, { mode = "n" })
         wk.register({
-          ["<leader>ac"] = {
-            "<cmd>Lspsaga code_action<CR>",
-            "Code Action",
-          },
           -- ["<leader>ac"] = {
-          --   "<cmd>lua vim.lsp.buf.code_action()<CR>",
+          --   "<cmd>Lspsaga code_action<CR>",
           --   "Code Action",
           -- },
+          ["<leader>ac"] = {
+            "<cmd>lua vim.lsp.buf.code_action()<CR>",
+            "Code Action",
+          },
         }, { mode = "v" })
       elseif vim.g.lsp_client_type == "coc" then
         wk.register({

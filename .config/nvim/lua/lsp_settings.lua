@@ -1,7 +1,6 @@
 local vim = vim
-local lspconfig = require "lspconfig"
+local lspconfig = require("lspconfig")
 local util = require("lspconfig").util
--- local ih = require("inlay-hints")
 
 local set_diagnostic_sign = function()
   local signs = { "", "", "", "" }
@@ -33,10 +32,10 @@ local custom_attach = function(client, bufnr)
     vim.api.nvim_create_augroup("lsp_document_highlight", {
       clear = false,
     })
-    vim.api.nvim_clear_autocmds {
+    vim.api.nvim_clear_autocmds({
       buffer = bufnr,
       group = "lsp_document_highlight",
-    }
+    })
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       group = "lsp_document_highlight",
       buffer = bufnr,
@@ -51,10 +50,16 @@ local custom_attach = function(client, bufnr)
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
   -- I only want to use null-ls formatting
-  client.server_capabilities.document_formatting = true
-  client.server_capabilities.document_range_formatting = true
-
-  -- ih.on_attach(client, bufnr)
+  -- if client.supports_method("textDocument/formatting") then
+  --   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+  --   vim.api.nvim_create_autocmd("BufWritePre", {
+  --     group = augroup,
+  --     buffer = bufnr,
+  --     callback = function()
+  --       null_ls_formatting(bufnr)
+  --     end,
+  --   })
+  -- end
 end
 
 -- Configure lua language server for neovim development
@@ -261,7 +266,10 @@ local tsserver_config = {
 }
 
 local setup_lsp_ui = function()
-  vim.diagnostic.config {
+  vim.diagnostic.config({
+    warden = {
+      line_highlight = true,
+    },
     underline = true,
     -- virtual_text = { spacing = 2, source = "if_many" },
     virtual_text = { spacing = 0, severity = { min = vim.diagnostic.severity.HINT } },
@@ -293,7 +301,7 @@ local setup_lsp_ui = function()
     },
     signs = { priority = 20 },
     update_in_insert = false,
-  }
+  })
 end
 
 -- config that activates keymaps and enables snippet support
@@ -324,7 +332,7 @@ local make_config = function()
 end
 
 local setup_servers = function()
-  require("mason-lspconfig").setup_handlers {
+  require("mason-lspconfig").setup_handlers({
     -- The first entry (without a key) will be the default handler
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
@@ -333,7 +341,7 @@ local setup_servers = function()
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["sumneko_lua"] = function()
-      require("neodev").setup {
+      require("neodev").setup({
         library = {
           enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
           -- these settings will be used for your Neovim config directory
@@ -357,7 +365,7 @@ local setup_servers = function()
             library.plugins = true
           end
         end,
-      }
+      })
 
       local config = make_config()
       config.settings = lua_config.settings
@@ -373,9 +381,9 @@ local setup_servers = function()
       -- local config = make_config()
       -- config.settings = rust_config.settings
       -- lspconfig.rust_analyzer.setup(config)
-      local rt = require "rust-tools"
+      local rt = require("rust-tools")
 
-      rt.setup {
+      rt.setup({
         server = {
           on_attach = custom_attach,
           settings = rust_config.settings,
@@ -442,7 +450,7 @@ local setup_servers = function()
             auto_focus = false,
           },
         },
-      }
+      })
     end,
     ["pyright"] = function()
       local config = make_config()
@@ -453,6 +461,11 @@ local setup_servers = function()
       local config = make_config()
       config.settings = solargraph_config.settings
       lspconfig.solargraph.setup(config)
+    end,
+    ["ruby_ls"] = function()
+      local config = make_config()
+      config.cmd = { "bundle", "exec", "ruby-lsp" }
+      lspconfig.ruby_ls.setup(config)
     end,
     ["jsonls"] = function()
       local config = make_config()
@@ -481,7 +494,7 @@ local setup_servers = function()
       config.settings = eslint_config.settings
       lspconfig.eslint.setup(config)
     end,
-  }
+  })
 end
 
 setup_servers()
