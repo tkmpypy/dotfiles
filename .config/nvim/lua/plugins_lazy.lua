@@ -10,7 +10,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-vim.opt.runtimepath:prepend(lazypath)
+vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   -- treesitter
@@ -2860,12 +2860,19 @@ require("lazy").setup({
   defaults = {
     lazy = false, -- should plugins be lazy-loaded?
   },
+  concurrency = 50,
+  ui = {
+    border = "rounded"
+  },
+  checker = {
+    enabled = true,
+    concurrency = 50,
+  },
   performance = {
     cache = {
       enabled = true,
       -- disable_events = {},
     },
-    checker = { enabled = true },
     rtp = {
       disabled_plugins = {
         "gzip",
