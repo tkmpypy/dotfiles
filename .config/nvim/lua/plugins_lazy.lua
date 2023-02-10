@@ -249,7 +249,7 @@ require("lazy").setup({
   },
 
   -- UI
-  "kyazdani42/nvim-web-devicons",
+  "nvim-tree/nvim-web-devicons",
   {
     "rcarriga/nvim-notify",
     lazy = true,
@@ -287,6 +287,7 @@ require("lazy").setup({
   {
     "levouh/tint.nvim",
     event = "BufReadPre",
+    enabled = false,
     config = function()
       local ignore_ft = { "aerial" }
       require("tint").setup({
@@ -433,7 +434,7 @@ require("lazy").setup({
   {
     "nvim-lualine/lualine.nvim",
     event = { "VeryLazy" },
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local util = require("scripts/util")
       local lualine_utils = require("lualine.utils.utils")
@@ -562,7 +563,7 @@ require("lazy").setup({
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local alpha = require("alpha")
       local theme = require("alpha.themes.theta")
@@ -672,7 +673,7 @@ require("lazy").setup({
         popupmenu = {
           enabled = true, -- enables the Noice popupmenu UI
           ---@type 'nui'|'cmp'
-          backend = "nui", -- backend to use to show regular cmdline completions
+          backend = "cmp", -- backend to use to show regular cmdline completions
         },
         history = {
           -- options for the message history that you get with `:Noice`
@@ -1532,6 +1533,100 @@ require("lazy").setup({
     config = function()
       require("lsp_settings")
     end,
+  },
+  {
+    "SmiteshP/nvim-navic",
+    event = "BufReadPre",
+    dependencies = "neovim/nvim-lspconfig",
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
+  },
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
+    event = "BufReadPre",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      theme = "auto",
+      attach_navic = true,
+      symbols = {
+        ---modification indicator
+        ---@type string
+        modified = "●",
+
+        ---truncation indicator
+        ---@type string
+        ellipsis = "…",
+
+        ---entry separator
+        ---@type string
+        separator = "",
+      },
+        -- kinds = {
+        --   File = " ",
+        --   Module = " ",
+        --   Namespace = " ",
+        --   Package = " ",
+        --   Class = " ",
+        --   Method = " ",
+        --   Property = " ",
+        --   Field = " ",
+        --   Constructor = " ",
+        --   Enum = "練",
+        --   Interface = "練",
+        --   Function = " ",
+        --   Variable = " ",
+        --   Constant = " ",
+        --   String = " ",
+        --   Number = " ",
+        --   Boolean = "◩ ",
+        --   Array = " ",
+        --   Object = " ",
+        --   Key = " ",
+        --   Null = "ﳠ ",
+        --   EnumMember = " ",
+        --   Struct = " ",
+        --   Event = " ",
+        --   Operator = " ",
+        --   TypeParameter = " ",
+        -- },
+        kinds = {
+          File = "",
+          Module = "",
+          Namespace = "",
+          Package = "",
+          Class = "",
+          Method = "",
+          Property = "",
+          Field = "",
+          Constructor = "",
+          Enum = "",
+          Interface = "",
+          Function = "",
+          Variable = "",
+          Constant = "",
+          String = "",
+          Number = "",
+          Boolean = "",
+          Array = "",
+          Object = "",
+          Key = "",
+          Null = "",
+          EnumMember = "",
+          Struct = "",
+          Event = "",
+          Operator = "",
+          TypeParameter = "",
+        },
+    },
   },
   {
     "folke/neodev.nvim",
@@ -2491,10 +2586,13 @@ require("lazy").setup({
         },
         ["<leader>c"] = {
           name = "+Comment",
-          f = { 'require("neogen").generate { type = "func" }', "Generate doc comment for function" },
-          F = { 'require("neogen").generate { type = "file" }', "Generate doc comment for file" },
-          t = { 'require("neogen").generate { type = "type" }', "Generate doc comment for type" },
-          c = { 'require("neogen").generate { type = "class" }', "Generate doc comment for class" },
+          g = {
+            name = "+Generate",
+            f = { '<cmd>lua require("neogen").generate { type = "func" }<CR>', "Generate doc comment for function" },
+            F = { '<cmd>lua require("neogen").generate { type = "file" }<CR>', "Generate doc comment for file" },
+            t = { '<cmd>lua require("neogen").generate { type = "type" }<CR>', "Generate doc comment for type" },
+            c = { '<cmd>lua require("neogen").generate { type = "class" }<CR>', "Generate doc comment for class" },
+          },
         },
         ["m"] = {
           name = "+Move",
@@ -2862,7 +2960,7 @@ require("lazy").setup({
   },
   concurrency = 50,
   ui = {
-    border = "rounded"
+    border = "rounded",
   },
   checker = {
     enabled = true,
