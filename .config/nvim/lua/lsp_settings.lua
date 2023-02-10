@@ -1,6 +1,73 @@
 local vim = vim
 local lspconfig = require("lspconfig")
 local util = require("lspconfig").util
+local navic = require("nvim-navic")
+
+local setup_nav = function()
+  navic.setup({
+    icons = {
+      File = " ",
+      Module = " ",
+      Namespace = " ",
+      Package = " ",
+      Class = " ",
+      Method = " ",
+      Property = " ",
+      Field = " ",
+      Constructor = " ",
+      Enum = " ",
+      Interface = " ",
+      Function = " ",
+      Variable = " ",
+      Constant = " ",
+      String = " ",
+      Number = " ",
+      Boolean = " ",
+      Array = " ",
+      Object = " ",
+      Key = " ",
+      Null = " ",
+      EnumMember = " ",
+      Struct = " ",
+      Event = " ",
+      Operator = " ",
+      TypeParameter = " ",
+    },
+    -- icons = {
+    --   File = " ",
+    --   Module = " ",
+    --   Namespace = " ",
+    --   Package = " ",
+    --   Class = " ",
+    --   Method = " ",
+    --   Property = " ",
+    --   Field = " ",
+    --   Constructor = " ",
+    --   Enum = "練",
+    --   Interface = "練",
+    --   Function = " ",
+    --   Variable = " ",
+    --   Constant = " ",
+    --   String = " ",
+    --   Number = " ",
+    --   Boolean = "◩ ",
+    --   Array = " ",
+    --   Object = " ",
+    --   Key = " ",
+    --   Null = "ﳠ ",
+    --   EnumMember = " ",
+    --   Struct = " ",
+    --   Event = " ",
+    --   Operator = " ",
+    --   TypeParameter = " ",
+    -- },
+    highlight = true,
+    separator = "  ",
+    depth_limit = 0,
+    depth_limit_indicator = "..",
+    safe_output = true,
+  })
+end
 
 local set_diagnostic_sign = function()
   local signs = { "", "", "", "" }
@@ -60,6 +127,9 @@ local custom_attach = function(client, bufnr)
   --     end,
   --   })
   -- end
+  if client.server_capabilities.documentSymbolProvider then
+    navic.attach(client, bufnr)
+  end
 end
 
 -- Configure lua language server for neovim development
@@ -497,6 +567,7 @@ local setup_servers = function()
   })
 end
 
+-- setup_nav()
+setup_lsp_ui()
 setup_servers()
 set_diagnostic_sign()
-setup_lsp_ui()
