@@ -340,7 +340,7 @@ local setup_servers = function()
       lspconfig[server_name].setup(make_config())
     end,
     -- Next, you can provide targeted overrides for specific servers.
-    ["sumneko_lua"] = function()
+    ["lua_ls"] = function()
       require("neodev").setup({
         library = {
           enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
@@ -369,7 +369,7 @@ local setup_servers = function()
 
       local config = make_config()
       config.settings = lua_config.settings
-      lspconfig.sumneko_lua.setup(config)
+      lspconfig.lua_ls.setup(config)
     end,
     ["gopls"] = function()
       local config = make_config()

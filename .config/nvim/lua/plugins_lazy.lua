@@ -1496,7 +1496,7 @@ require("lazy").setup({
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
-          "sumneko_lua",
+          "lua_ls",
           "rust_analyzer",
           "cssls",
           "dockerls",
@@ -2001,14 +2001,14 @@ require("lazy").setup({
           priority_weight = 2,
           comparators = {
             compare.score,
+            compare.kind,
             compare.recently_used,
             compare.locality,
+            compare.sort_text,
+            compare.length,
             compare.offset,
             compare.exact,
             -- compare.scopes,
-            compare.kind,
-            compare.sort_text,
-            compare.length,
             compare.order,
           },
         },
@@ -2039,14 +2039,14 @@ require("lazy").setup({
         sources = cmp.config.sources({
           {
             name = "nvim_lsp",
-            priority = 10,
+            priority = 11,
             max_item_count = 50,
           },
           { name = "nvim_lsp_signature_help" },
           {
             -- name = "vsnip",
             name = "luasnip",
-            priority = 11,
+            priority = 10,
             max_item_count = 50,
           },
           {
@@ -2055,7 +2055,7 @@ require("lazy").setup({
           },
           {
             name = "nvim_lua",
-            priority = 11,
+            priority = 12,
             max_item_count = 50,
           },
           {
