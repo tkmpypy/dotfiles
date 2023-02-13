@@ -38,6 +38,24 @@ require("lazy").setup({
           end,
           additional_vim_regex_highlighting = true,
         },
+        playground = {
+          enable = true,
+          disable = {},
+          updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+          persist_queries = false, -- Whether the query persists across vim sessions
+          keybindings = {
+            toggle_query_editor = "o",
+            toggle_hl_groups = "i",
+            toggle_injected_languages = "t",
+            toggle_anonymous_nodes = "a",
+            toggle_language_display = "I",
+            focus_language = "f",
+            unfocus_language = "F",
+            update = "R",
+            goto_node = "<cr>",
+            show_help = "?",
+          },
+        },
         yati = {
           enable = true,
           default_lazy = true,
@@ -83,6 +101,9 @@ require("lazy").setup({
         --     include_surrounding_whitespace = true,
         --   },
         -- },
+        endwise = {
+          enable = true,
+        },
         autotag = {
           enable = true,
         },
@@ -95,7 +116,21 @@ require("lazy").setup({
     end,
   },
   {
+    "nvim-treesitter/playground",
+    event = "BufReadPre",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
+  {
     "yioneko/nvim-yati",
+    event = "BufReadPre",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
+  {
+    "RRethy/nvim-treesitter-endwise",
     event = "BufReadPre",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
@@ -1060,7 +1095,8 @@ require("lazy").setup({
       return vim.g.lsp_client_type == "neovim"
     end,
     config = function()
-      require("nvim-autopairs").setup({
+      local npairs = require("nvim-autopairs")
+      npairs.setup({
         map_cr = true,
       })
     end,
@@ -1570,62 +1606,62 @@ require("lazy").setup({
         ---@type string
         separator = "",
       },
-        -- kinds = {
-        --   File = " ",
-        --   Module = " ",
-        --   Namespace = " ",
-        --   Package = " ",
-        --   Class = " ",
-        --   Method = " ",
-        --   Property = " ",
-        --   Field = " ",
-        --   Constructor = " ",
-        --   Enum = "練",
-        --   Interface = "練",
-        --   Function = " ",
-        --   Variable = " ",
-        --   Constant = " ",
-        --   String = " ",
-        --   Number = " ",
-        --   Boolean = "◩ ",
-        --   Array = " ",
-        --   Object = " ",
-        --   Key = " ",
-        --   Null = "ﳠ ",
-        --   EnumMember = " ",
-        --   Struct = " ",
-        --   Event = " ",
-        --   Operator = " ",
-        --   TypeParameter = " ",
-        -- },
-        kinds = {
-          File = "",
-          Module = "",
-          Namespace = "",
-          Package = "",
-          Class = "",
-          Method = "",
-          Property = "",
-          Field = "",
-          Constructor = "",
-          Enum = "",
-          Interface = "",
-          Function = "",
-          Variable = "",
-          Constant = "",
-          String = "",
-          Number = "",
-          Boolean = "",
-          Array = "",
-          Object = "",
-          Key = "",
-          Null = "",
-          EnumMember = "",
-          Struct = "",
-          Event = "",
-          Operator = "",
-          TypeParameter = "",
-        },
+      -- kinds = {
+      --   File = " ",
+      --   Module = " ",
+      --   Namespace = " ",
+      --   Package = " ",
+      --   Class = " ",
+      --   Method = " ",
+      --   Property = " ",
+      --   Field = " ",
+      --   Constructor = " ",
+      --   Enum = "練",
+      --   Interface = "練",
+      --   Function = " ",
+      --   Variable = " ",
+      --   Constant = " ",
+      --   String = " ",
+      --   Number = " ",
+      --   Boolean = "◩ ",
+      --   Array = " ",
+      --   Object = " ",
+      --   Key = " ",
+      --   Null = "ﳠ ",
+      --   EnumMember = " ",
+      --   Struct = " ",
+      --   Event = " ",
+      --   Operator = " ",
+      --   TypeParameter = " ",
+      -- },
+      kinds = {
+        File = "",
+        Module = "",
+        Namespace = "",
+        Package = "",
+        Class = "",
+        Method = "",
+        Property = "",
+        Field = "",
+        Constructor = "",
+        Enum = "",
+        Interface = "",
+        Function = "",
+        Variable = "",
+        Constant = "",
+        String = "",
+        Number = "",
+        Boolean = "",
+        Array = "",
+        Object = "",
+        Key = "",
+        Null = "",
+        EnumMember = "",
+        Struct = "",
+        Event = "",
+        Operator = "",
+        TypeParameter = "",
+      },
     },
   },
   {
@@ -1984,6 +2020,7 @@ require("lazy").setup({
       local types = require("cmp.types")
       local compare = require("cmp.config.compare")
       local lspkind = require("lspkind")
+
       cmp.setup({
         enabled = function()
           return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
@@ -2089,8 +2126,8 @@ require("lazy").setup({
         },
       })
 
-      -- local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-      -- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
       require("scripts/cmp/conventionalprefix")
       cmp.setup.filetype({ "NeogitCommitMessage", "gitcommit" }, {
