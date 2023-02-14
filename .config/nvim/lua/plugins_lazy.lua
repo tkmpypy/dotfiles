@@ -2038,9 +2038,9 @@ require("lazy").setup({
           priority_weight = 2,
           comparators = {
             compare.score,
-            compare.kind,
             compare.recently_used,
             compare.locality,
+            compare.kind,
             compare.sort_text,
             compare.length,
             compare.offset,

@@ -254,3 +254,4 @@ prettierrc
 autopep
 struct
 cmake
+godoc
