@@ -255,3 +255,5 @@ autopep
 struct
 cmake
 godoc
+strconv
+Atoi
