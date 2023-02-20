@@ -305,7 +305,10 @@ require("lazy").setup({
   },
 
   -- UI
-  "nvim-tree/nvim-web-devicons",
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = true,
+  },
   {
     "rcarriga/nvim-notify",
     lazy = true,
