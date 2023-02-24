@@ -257,3 +257,5 @@ cmake
 godoc
 strconv
 Atoi
+tmpl
+fmtc

@@ -1098,7 +1098,29 @@ require("lazy").setup({
       })
     end,
   },
-  "moll/vim-bbye",
+  {
+    "ojroques/nvim-bufdel",
+    config = function()
+      require("bufdel").setup({
+        next = "tabs", -- or 'cycle, 'alternate'
+        quit = false, -- quit Neovim when last buffer is closed
+      })
+    end,
+    keys = {
+      {
+        "<leader>q",
+        "<cmd>BufDel<CR>",
+        mode = "n",
+        desc = "Delete buffer",
+      },
+      {
+        "<leader>Q",
+        "<cmd>BufDel!<CR>",
+        mode = "n",
+        desc = "Delete buffer and ignore changes",
+      },
+    },
+  },
   {
     "godlygeek/tabular",
     enabled = false,
@@ -2537,10 +2559,6 @@ require("lazy").setup({
       -- mode: n
       wk.register({
         ["R"] = { "<Plug>(operator-replace)", "Replace" },
-        ["<leader>"] = {
-          q = { "<cmd>Bdelete<CR>", "Delete Buffer" },
-          Q = { "<cmd>Bdelete!<CR>", "Delete Buffer!" },
-        },
         -- ["<leader>t"] = {
         --   name = "+Test",
         --   r = {
