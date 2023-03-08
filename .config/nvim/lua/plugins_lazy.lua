@@ -1361,6 +1361,8 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("gitsigns").setup({
+        numhl = true,
+        linehl = false,
         current_line_blame = true,
         current_line_blame_formatter_opts = {
           relative_time = true,
@@ -2222,10 +2224,11 @@ require("lazy").setup({
   {
     "williamboman/warden.nvim",
     event = { "BufReadPre" },
+    enabled = false,
     dependencies = { "neovim/nvim-lspconfig" },
-    enabled = function()
-      return vim.g.lsp_client_type == "neovim"
-    end,
+    -- enabled = function()
+    --   return vim.g.lsp_client_type == "neovim"
+    -- end,
   },
   {
     "folke/trouble.nvim",
