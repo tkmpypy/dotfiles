@@ -88,6 +88,7 @@ require("lazy").setup({
           "regex",
           "make",
           "dockerfile",
+          "proto",
         },
         -- textobjects = {
         --   move = {

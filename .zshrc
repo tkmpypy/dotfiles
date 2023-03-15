@@ -185,3 +185,5 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-rust
 
 ### End of Zinit's installer chunk
+
+source /Users/tkmpypy/.docker/init-zsh.sh || true # Added by Docker Desktop
