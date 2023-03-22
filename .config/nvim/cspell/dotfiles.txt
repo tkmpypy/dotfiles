@@ -262,3 +262,5 @@ fmtc
 godox
 freee
 emptypb
+timestamppb
+bufconn

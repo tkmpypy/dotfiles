@@ -803,7 +803,41 @@ require("lazy").setup({
   -- explorer
   {
     "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
+    keys = {
+      {
+        "<leader>ft",
+        function()
+          return require("nvim-tree.api").tree.toggle()
+        end,
+        mode = "n",
+        noremap = true,
+        silent = true,
+        expr = true,
+        desc = "Toggle",
+      },
+      {
+        "<leader>fr",
+        function()
+          return require("nvim-tree.api").tree.reload()
+        end,
+        mode = "n",
+        noremap = true,
+        silent = true,
+        expr = true,
+        desc = "Refresh",
+      },
+      {
+        "<leader>fr",
+        function()
+          return require("nvim-tree.api").tree.find_file({ open = true, update_root = false, focus = true })
+        end,
+        mode = "n",
+        noremap = true,
+        silent = true,
+        expr = true,
+        desc = "Focus File",
+      },
+    },
     config = function()
       require("nvim-tree").setup({
         auto_reload_on_write = true,
@@ -875,7 +909,7 @@ require("lazy").setup({
             list = {
               { key = "n", mode = "n", action = "create" },
               { key = "u", mode = "n", action = "dir_up" },
-              { key = "-",  action = "dir_up" },
+              { key = "-", action = "dir_up" },
               { key = "<CR>", action = "edit" },
               { key = "o", mode = "n", action = "cd" },
               { key = "<C-v>", action = "vsplit" },
@@ -2598,9 +2632,12 @@ require("lazy").setup({
         },
         ["<leader>f"] = {
           name = "+Explorer",
-          t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
-          r = { "<cmd>NvimTreeRefresh<cr>", "Refresh" },
-          f = { "<cmd>NvimTreeFindFile<cr>", "Focus File" },
+          t = { '<cmd>lua require("nvim-tree.api").tree.toggle()<cr>', "Toggle" },
+          r = { '<cmd>lua require("nvim-tree.api").tree.reload()<cr>', "Refresh" },
+          f = {
+            '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
+            "Focus File",
+          },
         },
         ["<leader>w"] = {
           name = "+Window",
