@@ -786,58 +786,24 @@ require("lazy").setup({
           },
         },
       })
-      -- vim.keymap.set("n", "<c-f>", function()
-      --   if not require("noice.lsp").scroll(4) then
-      --     return "<c-f>"
-      --   end
-      -- end, { silent = true, expr = true })
+      vim.keymap.set({ "n", "i", "s" }, "<c-d>", function()
+        if not require("noice.lsp").scroll(4) then
+          return "<c-f>"
+        end
+      end, { silent = true, expr = true })
 
-      -- vim.keymap.set("n", "<c-b>", function()
-      --   if not require("noice.lsp").scroll(-4) then
-      --     return "<c-b>"
-      --   end
-      -- end, { silent = true, expr = true })
+      vim.keymap.set({ "n", "i", "s" }, "<c-u>", function()
+        if not require("noice.lsp").scroll(-4) then
+          return "<c-b>"
+        end
+      end, { silent = true, expr = true })
     end,
   },
 
   -- explorer
   {
     "nvim-tree/nvim-tree.lua",
-    keys = {
-      {
-        "<leader>ft",
-        function()
-          return require("nvim-tree.api").tree.toggle()
-        end,
-        mode = "n",
-        noremap = true,
-        silent = true,
-        expr = true,
-        desc = "Toggle",
-      },
-      {
-        "<leader>fr",
-        function()
-          return require("nvim-tree.api").tree.reload()
-        end,
-        mode = "n",
-        noremap = true,
-        silent = true,
-        expr = true,
-        desc = "Refresh",
-      },
-      {
-        "<leader>fr",
-        function()
-          return require("nvim-tree.api").tree.find_file({ open = true, update_root = false, focus = true })
-        end,
-        mode = "n",
-        noremap = true,
-        silent = true,
-        expr = true,
-        desc = "Focus File",
-      },
-    },
+    event = "VeryLazy",
     config = function()
       require("nvim-tree").setup({
         auto_reload_on_write = true,
@@ -1442,6 +1408,27 @@ require("lazy").setup({
   {
     "sindrets/diffview.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    keys = {
+      {
+        "<leader>gdd",
+        "<cmd>DiffviewOpen<CR>",
+        mode = "n",
+        noremap = true,
+        silent = true,
+        expr = true,
+        desc = "Diffview Open",
+      },
+      {
+        "<leader>gdr",
+        "<cmd>DiffviewFileHistory .<CR>",
+        mode = "n",
+        noremap = true,
+        silent = true,
+        expr = true,
+        desc = "Diffview current history",
+      },
+    },
     config = function()
       local actions = require("diffview.actions")
       require("diffview").setup({
@@ -1511,13 +1498,6 @@ require("lazy").setup({
           },
         },
       })
-      vim.api.nvim_set_keymap("n", "<leader>gdd", "<cmd>DiffviewOpen<cr>", require("scripts/util").keymaps.default_opt)
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>gdr",
-        "<cmd>DiffviewFileHistory .<cr>",
-        require("scripts/util").keymaps.default_opt
-      )
     end,
   },
   {
@@ -2632,8 +2612,7 @@ require("lazy").setup({
         },
         ["<leader>f"] = {
           name = "+Explorer",
-          t = { '<cmd>lua require("nvim-tree.api").tree.toggle()<cr>', "Toggle" },
-          r = { '<cmd>lua require("nvim-tree.api").tree.reload()<cr>', "Refresh" },
+          t = { '<cmd>NvimTreeToggle<cr>', "Toggle" },
           f = {
             '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
             "Focus File",
