@@ -1,5 +1,7 @@
 scriptencoding=utf-8
 
+lua if vim.loader then vim.loader.enable() end
+
 let mapleader = "\<Space>"
 
 let g:use_treesitter = v:true
