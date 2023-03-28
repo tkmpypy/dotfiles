@@ -898,7 +898,7 @@ require("lazy").setup({
             ["<esc>"] = "revert_preview",
             ["P"] = { "toggle_preview", config = { use_float = true } },
             ["l"] = "focus_preview",
-            ["<C-s>"] = "open_split",
+            ["<C-x>"] = "open_split",
             ["<C-v>"] = "open_vsplit",
             -- ["S"] = "split_with_window_picker",
             -- ["s"] = "vsplit_with_window_picker",
@@ -985,7 +985,7 @@ require("lazy").setup({
               ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
               -- ["D"] = "fuzzy_sorter_directory",
               ["f"] = "filter_on_submit",
-              ["<c-x>"] = "clear_filter",
+              ["<c-q>"] = "clear_filter",
               ["[g"] = "prev_git_modified",
               ["]g"] = "next_git_modified",
             },
@@ -2991,7 +2991,7 @@ require("lazy").setup({
             name = "+Explorer",
             t = { "<cmd>NeoTreeRevealToggle<cr>", "Toggle" },
             f = {
-              "<cmd>NeoTreeFocus<cr>",
+              "<cmd>NeoTreeReveal<cr>",
               "Focus File",
             },
           },
