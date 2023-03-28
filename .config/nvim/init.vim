@@ -7,6 +7,7 @@ let mapleader = "\<Space>"
 let g:use_treesitter = v:true
 let g:lsp_client_type = 'neovim' " neovim(builtin), coc
 let g:git_client_type = 'neogit' " neogit, ??????
+let g:file_explorer_type = 'neo-tree' " neo-tree, nvim-tree
 
 let g:did_install_default_menus = 1
 let g:did_install_syntax_menu   = 1

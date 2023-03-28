@@ -5,7 +5,7 @@ set -e
 
 REPO_PATH=~/ghq/github.com/wez/wezterm
 ARCH=x86_64
-if [[ $(uname m)=arm64 ]] ; then
+if [[ $(uname m) = arm64 ]] ; then
     ARCH=aarch64
 fi
 cd $REPO_PATH

@@ -264,3 +264,4 @@ freee
 emptypb
 timestamppb
 bufconn
+aarch
