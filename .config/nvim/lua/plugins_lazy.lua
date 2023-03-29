@@ -968,7 +968,7 @@ require("lazy").setup({
           follow_current_file = false, -- This will find and focus the file in the active buffer every
           -- time the current file is changed while the tree is open.
           group_empty_dirs = false, -- when true, empty folders will be grouped together
-          hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+          hijack_netrw_behavior = "disabled", -- netrw disabled, opening a directory opens neo-tree
           -- in whatever position is specified in window.position
           -- "open_current",  -- netrw disabled, opening a directory opens within the
           -- window like netrw would, regardless of window.position
@@ -977,7 +977,7 @@ require("lazy").setup({
           -- instead of relying on nvim autocmd events.
           window = {
             mappings = {
-              ["<bs>"] = "navigate_up",
+              ["u"] = "navigate_up",
               ["."] = "set_root",
               ["H"] = "toggle_hidden",
               ["/"] = "fuzzy_finder",
@@ -992,14 +992,14 @@ require("lazy").setup({
           },
         },
         buffers = {
-          follow_current_file = true, -- This will find and focus the file in the active buffer every
+          follow_current_file = false, -- This will find and focus the file in the active buffer every
           -- time the current file is changed while the tree is open.
           group_empty_dirs = true, -- when true, empty folders will be grouped together
           show_unloaded = true,
           window = {
             mappings = {
               ["bd"] = "buffer_delete",
-              ["<bs>"] = "navigate_up",
+              ["u"] = "navigate_up",
               ["."] = "set_root",
             },
           },
@@ -2989,9 +2989,9 @@ require("lazy").setup({
         wk.register({
           ["<leader>f"] = {
             name = "+Explorer",
-            t = { "<cmd>NeoTreeRevealToggle<cr>", "Toggle" },
+            t = { "<cmd>Neotree toggle<cr>", "Toggle" },
             f = {
-              "<cmd>NeoTreeReveal<cr>",
+              "<cmd>Neotree reveal<cr>",
               "Focus File",
             },
           },
