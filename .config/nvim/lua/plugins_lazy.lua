@@ -474,7 +474,7 @@ require("lazy").setup({
         -- char = "",
         enabled = true,
         buftype_exclude = { "terminal", "help", "nofile" },
-        filetype_exclude = { "startify", "alpha", "NvimTree" },
+        filetype_exclude = { "startify", "alpha", "NvimTree", "neo-tree" },
         show_end_of_line = false,
         -- space_char_blankline = " ",
         show_trailing_blankline_indent = false,
@@ -812,6 +812,27 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
+      {
+        -- only needed if you want to use the commands with "_with_window_picker" suffix
+        's1n7ax/nvim-window-picker',
+        config = function()
+          require'window-picker'.setup({
+            autoselect_one = true,
+            include_current = false,
+            filter_rules = {
+              -- filter using buffer options
+              bo = {
+                -- if the file type is one of following, the window will be ignored
+                filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+
+                -- if the buffer type is one of following, the window will be ignored
+                buftype = { 'terminal', "quickfix" },
+              },
+            },
+            other_win_hl_color = '#e35e4f',
+          })
+        end,
+      }
     },
     config = function()
       -- Unless you are still migrating, remove the deprecated commands from v1.x
@@ -894,14 +915,15 @@ require("lazy").setup({
           mappings = {
             ["<space>"] = false,
             ["<2-LeftMouse>"] = "open",
-            ["<cr>"] = "open",
+            -- ["<cr>"] = "open",
+            ["<cr>"] = "open_with_window_picker",
             ["<esc>"] = "revert_preview",
             ["P"] = { "toggle_preview", config = { use_float = true } },
             ["l"] = "focus_preview",
-            ["<C-x>"] = "open_split",
-            ["<C-v>"] = "open_vsplit",
-            -- ["S"] = "split_with_window_picker",
-            -- ["s"] = "vsplit_with_window_picker",
+            -- ["<C-x>"] = "open_split",
+            -- ["<C-v>"] = "open_vsplit",
+            ["<C-x>"] = "split_with_window_picker",
+            ["<C-v>"] = "vsplit_with_window_picker",
             ["t"] = "open_tabnew",
             -- ["<cr>"] = "open_drop",
             -- ["t"] = "open_tab_drop",
