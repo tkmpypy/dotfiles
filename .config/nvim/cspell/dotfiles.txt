@@ -266,3 +266,4 @@ timestamppb
 bufconn
 aarch
 oneof
+gomod

@@ -145,23 +145,31 @@ local gopls_config = {
         parameterNames = true,
         rangeVariableTypes = true,
       },
+      gofumpt = true,
+      usePlaceholders = false,
+      semanticTokens = true,
+      staticcheck = false,
+      experimentalPostfixCompletions = true,
+      analyses = {
+        nilness = false,
+        shadow = false,
+        unusedparams = false,
+        unusedwrite = false,
+        fieldalignment = false,
+      },
+      allowModfileModifications = true,
+      -- matcher = "CaseSensitive",
+      codelenses = {
+        gc_details = true,
+        tidy = true,
+        generate = true,
+        regenerate_cgo = true,
+        run_govulncheck = true,
+        test = true,
+        upgrade_dependency = true,
+        vendor = true,
+      },
     },
-  },
-  init_options = {
-    gofumpt = true,
-    usePlaceholders = false,
-    semanticTokens = true,
-    staticcheck = false,
-    experimentalPostfixCompletions = true,
-    analyses = {
-      nilness = false,
-      shadow = false,
-      unusedparams = false,
-      unusedwrite = false,
-      fieldalignment = false,
-    },
-    -- matcher = "CaseSensitive",
-    codelenses = { gc_details = true, tidy = true },
   },
 }
 
@@ -373,7 +381,6 @@ local setup_servers = function()
     end,
     ["gopls"] = function()
       local config = make_config()
-      config.init_options = gopls_config.init_options
       config.settings = gopls_config.settings
       lspconfig.gopls.setup(config)
     end,

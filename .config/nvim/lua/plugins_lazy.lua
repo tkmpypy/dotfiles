@@ -85,6 +85,7 @@ require("lazy").setup({
           "html",
           "vim",
           "markdown",
+          "markdown_inline",
           "regex",
           "make",
           "dockerfile",
@@ -599,23 +600,26 @@ require("lazy").setup({
             },
           },
           lualine_y = { "encoding" },
-          lualine_z = { "location" },
+          lualine_z = { "selectioncount", "location" },
         },
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
           lualine_c = { "filename" },
-          lualine_x = { "location" },
+          lualine_x = { "selectioncount", "location" },
           lualine_y = {},
           lualine_z = {},
         },
         tabline = {},
         extensions = {
+          "aerial",
           "fzf",
           "quickfix",
           "toggleterm",
           "symbols-outline",
           "nvim-tree",
+          "neo-tree",
+          "lazy",
         },
       })
     end,
@@ -814,25 +818,25 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
       {
         -- only needed if you want to use the commands with "_with_window_picker" suffix
-        's1n7ax/nvim-window-picker',
+        "s1n7ax/nvim-window-picker",
         config = function()
-          require'window-picker'.setup({
+          require("window-picker").setup({
             autoselect_one = true,
             include_current = false,
             filter_rules = {
               -- filter using buffer options
               bo = {
                 -- if the file type is one of following, the window will be ignored
-                filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+                filetype = { "neo-tree", "neo-tree-popup", "notify" },
 
                 -- if the buffer type is one of following, the window will be ignored
-                buftype = { 'terminal', "quickfix" },
+                buftype = { "terminal", "quickfix" },
               },
             },
-            other_win_hl_color = '#e35e4f',
+            other_win_hl_color = "#e35e4f",
           })
         end,
-      }
+      },
     },
     config = function()
       -- Unless you are still migrating, remove the deprecated commands from v1.x
@@ -1200,6 +1204,44 @@ require("lazy").setup({
   },
 
   -- Utils
+  {
+    "epwalsh/obsidian.nvim",
+    cmd = {
+      "ObsidianOpen",
+      "ObsidianNew",
+      "ObsidianToday",
+      "ObsidianYesterday",
+      "ObsidianLink",
+      "ObsidianFollowLink",
+      "ObsidianSearch",
+      "ObsidianQuickSwitch",
+      "ObsidianLinkNew",
+    },
+    opts = {
+      dir = "~/Dropbox/notes",
+      daily_notes = {
+        folder = "journal",
+      },
+      completion = {
+        nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+      },
+      note_id_func = function(title)
+        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+        local suffix = ""
+        if title ~= nil then
+          -- If title is given, transform it into valid file name.
+          suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+        else
+          -- If title is nil, just add 4 random uppercase letters to the suffix.
+          for _ = 1, 4 do
+            suffix = suffix .. string.char(math.random(65, 90))
+          end
+        end
+        return tostring(os.date("%Y-%m-%d")) .. "-" .. suffix
+      end,
+      use_advanced_uri = false,
+    },
+  },
   {
     "monaqa/dial.nvim",
     config = function()

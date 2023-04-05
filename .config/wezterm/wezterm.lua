@@ -34,6 +34,8 @@ return {
 
   font_size = 15,
   adjust_window_size_when_changing_font_size = false,
+  use_ime = true,
+  macos_forward_to_ime_modifier_mask = "CTRL|SHIFT",
   freetype_load_target = "Normal",
   enable_scroll_bar = false,
   window_padding = {
