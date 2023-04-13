@@ -186,4 +186,4 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
-source /Users/tkmpypy/.docker/init-zsh.sh || true # Added by Docker Desktop
+source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
