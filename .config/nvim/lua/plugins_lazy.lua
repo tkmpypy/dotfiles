@@ -414,6 +414,7 @@ require("lazy").setup({
         excluded_filetypes = {
           "prompt",
           "TelescopePrompt",
+          "noice",
         },
         autocmd = {
           render = {
@@ -665,6 +666,7 @@ require("lazy").setup({
     lazy = true,
     opts = {
       input = {
+        insert_only = true,
         relative = "win",
         prefer_width = 60,
         min_width = { 60, 0.6 },
