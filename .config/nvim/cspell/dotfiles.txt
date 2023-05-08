@@ -270,3 +270,4 @@ gomod
 MULAW
 nozomi
 PCMU
+mypage

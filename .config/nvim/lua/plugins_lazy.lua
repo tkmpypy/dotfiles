@@ -727,7 +727,7 @@ require("lazy").setup({
         },
         lsp = {
           progress = {
-            enabled = true,
+            enabled = false,
           },
           override = {
             -- override the default lsp markdown formatter with Noice
@@ -1366,7 +1366,7 @@ require("lazy").setup({
     "ojroques/nvim-bufdel",
     config = function()
       require("bufdel").setup({
-        next = "tabs", -- or 'cycle, 'alternate'
+        next = "alternative", -- or 'cycle, 'alternate'
         quit = false, -- quit Neovim when last buffer is closed
       })
     end,
@@ -1809,6 +1809,21 @@ require("lazy").setup({
   "mattn/vim-sonictemplate",
 
   -- LSP
+  {
+    "j-hui/fidget.nvim",
+    opts = {
+      text = {
+        spinner = "pipe", -- animation shown when tasks are ongoing
+        done = "✔", -- character shown when all tasks are complete
+        commenced = "Started", -- message shown when task starts
+        completed = "Completed", -- message shown when task completes
+      },
+      align = {
+        bottom = true, -- align fidgets along bottom edge of buffer
+        right = true, -- align fidgets along right edge of buffer
+      },
+    },
+  },
   {
     "williamboman/mason.nvim",
     cmd = { "Mason", "MasonLog", "MasonInstall", "MasonUninstall", "MasonUninstallAll" },
