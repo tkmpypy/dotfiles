@@ -601,8 +601,47 @@ require("lazy").setup({
     end,
   },
   {
+    {
+      "glepnir/dashboard-nvim",
+      event = "VimEnter",
+      config = function()
+        require("dashboard").setup({
+          -- config
+          theme = "hyper",
+          config = {
+            week_header = {
+              enable = true,
+            },
+            shortcut = {
+              { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
+              {
+                icon = " ",
+                icon_hl = "@variable",
+                desc = "Find Files",
+                group = "Label",
+                action = "Telescope find_files",
+                key = "F",
+              },
+              {
+                icon = " ",
+                desc = "Explore Files",
+                group = "Number",
+                action = "Neotree toggle",
+                key = "f",
+              },
+            },
+          },
+        })
+      end,
+      dependencies = { { "nvim-tree/nvim-web-devicons" } },
+    },
+  },
+  {
     "goolord/alpha-nvim",
     event = "VimEnter",
+    enabled = function()
+      return vim.g.splash_type == "alpha-nvim"
+    end,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local alpha = require("alpha")
@@ -786,6 +825,7 @@ require("lazy").setup({
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
     event = "VeryLazy",
+    cmd = {"Neotree"},
     enabled = function()
       return vim.g.file_explorer_type == "neo-tree"
     end,
@@ -1527,6 +1567,7 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     lazy = true,
+    cmd = {"Telescope"},
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
