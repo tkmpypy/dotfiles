@@ -307,6 +307,7 @@ require("lazy").setup({
   },
   {
     "nvim-neotest/neotest",
+    lazy = true,
     enabled = function()
       return vim.g.test_runner_type == "neotest"
     end,
@@ -689,7 +690,7 @@ require("lazy").setup({
             {
               "diff",
               -- Is it me or the symbol for modified us really weird
-              symbols = { added = " ", modified = "柳", removed = " " },
+              symbols = { added = " ", modified = " ", removed = " " },
             },
           },
           lualine_y = { "encoding" },
@@ -1224,7 +1225,7 @@ require("lazy").setup({
         diagnostics = {
           enable = false,
           icons = {
-            hint = "",
+            hint = " ",
             info = "",
             warning = "",
             error = "",
@@ -2082,7 +2083,7 @@ require("lazy").setup({
       symbols = {
         ---modification indicator
         ---@type string
-        modified = "●",
+        modified = " ",
 
         ---truncation indicator
         ---@type string
