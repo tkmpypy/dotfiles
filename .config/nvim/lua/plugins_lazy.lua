@@ -225,7 +225,124 @@ require("lazy").setup({
 
   -- runner
   {
+    "michaelb/sniprun",
+    build = "bash ./install.sh",
+    -- cmd = {"SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive"},
+    config = function()
+      require("sniprun").setup({
+        selected_interpreters = {
+          -- "Python3_original",
+          "Lua_nvim",
+          "Go_original",
+          "Generic",
+        }, --# use those instead of the default for the current filetype
+        -- repl_enable = {}, --# enable REPL-like behavior for the given interpreters
+        -- repl_disable = {}, --# disable REPL-like behavior for the given interpreters
+
+        interpreter_options = { --# interpreter-specific options, see doc / :SnipInfo <name>
+
+          --# use the interpreter name as key
+          GFM_original = {
+            use_on_filetypes = { "markdown.pandoc" }, --# the 'use_on_filetypes' configuration key is
+            --# available for every interpreter
+          },
+          Python3_original = {
+            error_truncate = "auto", --# Truncate runtime errors 'long', 'short' or 'auto'
+            --# the hint is available for every interpreter
+            --# but may not be always respected
+          },
+        },
+
+        --# you can combo different display modes as desired and with the 'Ok' or 'Err' suffix
+        --# to filter only sucessful runs (or errored-out runs respectively)
+        display = {
+          -- "Classic", --# display results in the command-line  area
+          -- "VirtualTextOk", --# display ok results as virtual text (multiline is shortened)
+
+          -- "VirtualText",             --# display results as virtual text
+          -- "TempFloatingWindow",      --# display results in a floating window
+          -- "LongTempFloatingWindow",  --# same as above, but only long results. To use with VirtualText[Ok/Err]
+          -- "Terminal",                --# display results in a vertical split
+          -- "TerminalWithCode",        --# display results and code history in a vertical split
+          "NvimNotify", --# display with the nvim-notify plugin
+          -- "Api"                      --# return output to a programming interface
+        },
+
+        live_display = { "VirtualTextOk" }, --# display mode used in live_mode
+
+        -- display_options = {
+        --   terminal_scrollback = vim.o.scrollback, --# change terminal display scrollback lines
+        --   terminal_line_number = false, --# whether show line number in terminal window
+        --   terminal_signcolumn = false, --# whether show signcolumn in terminal window
+        --   terminal_persistence = true, --# always keep the terminal open (true) or close it at every occasion (false)
+        --   terminal_width = 45, --# change the terminal display option width
+        --   notification_timeout = 5, --# timeout for nvim_notify output
+        -- },
+
+        --# You can use the same keys to customize whether a sniprun producing
+        --# no output should display nothing or '(no output)'
+        -- show_no_output = {
+        --   "Classic",
+        --   "TempFloatingWindow", --# implies LongTempFloatingWindow, which has no effect on its own
+        -- },
+
+        --# customize highlight groups (setting this overrides colorscheme)
+        snipruncolors = {
+          SniprunVirtualTextOk = { bg = "#66eeff", fg = "#000000", ctermbg = "Cyan", cterfg = "Black" },
+          SniprunFloatingWinOk = { fg = "#66eeff", ctermfg = "Cyan" },
+          SniprunVirtualTextErr = { bg = "#881515", fg = "#000000", ctermbg = "DarkRed", cterfg = "Black" },
+          SniprunFloatingWinErr = { fg = "#881515", ctermfg = "DarkRed" },
+        },
+
+        -- live_mode_toggle = "off", --# live mode toggle, see Usage - Running for more info
+
+        --# miscellaneous compatibility/adjustement settings
+        inline_messages = false, --# boolean toggle for a one-line way to display messages
+        --# to workaround sniprun not being able to display anything
+
+        borders = "single", --# display borders around floating windows
+        --# possible values are 'none', 'single', 'double', or 'shadow'
+      })
+    end,
+  },
+  {
+    "nvim-neotest/neotest",
+    enabled = function()
+      return vim.g.test_runner_type == "neotest"
+    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-neotest/neotest-go",
+      "rouge8/neotest-rust",
+    },
+    config = function()
+      local neotest_ns = vim.api.nvim_create_namespace("neotest")
+      vim.diagnostic.config({
+        virtual_text = {
+          format = function(diagnostic)
+            local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+            return message
+          end,
+        },
+      }, neotest_ns)
+      require("neotest").setup({
+        -- your neotest config here
+        adapters = {
+          require("neotest-go"),
+          require("neotest-rust")({
+            args = { "--no-capture" },
+          }),
+        },
+      })
+    end,
+  },
+  {
     "vim-test/vim-test",
+    enabled = function()
+      return vim.g.test_runner_type == "vim-test"
+    end,
     cmd = {
       "TestNearest",
       "TestFile",
@@ -604,16 +721,20 @@ require("lazy").setup({
     {
       "glepnir/dashboard-nvim",
       event = "VimEnter",
+      enabled = function()
+        return vim.g.splash_type == "dashboard"
+      end,
       config = function()
         require("dashboard").setup({
           -- config
           theme = "hyper",
+          change_to_vcs_root = true,
           config = {
             week_header = {
               enable = true,
             },
             shortcut = {
-              { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "u" },
+              { desc = "󰊳 Update", group = "@property", action = "Lazy update", key = "U" },
               {
                 icon = " ",
                 icon_hl = "@variable",
@@ -623,7 +744,7 @@ require("lazy").setup({
                 key = "F",
               },
               {
-                icon = " ",
+                icon = " ",
                 desc = "Explore Files",
                 group = "Number",
                 action = "Neotree toggle",
@@ -639,8 +760,9 @@ require("lazy").setup({
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
+    commit = "89eaa18a472be680539dee5977e2255f4dbd0738",
     enabled = function()
-      return vim.g.splash_type == "alpha-nvim"
+      return vim.g.splash_type == "alpha"
     end,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
@@ -825,7 +947,7 @@ require("lazy").setup({
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
     event = "VeryLazy",
-    cmd = {"Neotree"},
+    cmd = { "Neotree" },
     enabled = function()
       return vim.g.file_explorer_type == "neo-tree"
     end,
@@ -1567,7 +1689,7 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     lazy = true,
-    cmd = {"Telescope"},
+    cmd = { "Telescope" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
@@ -2486,7 +2608,7 @@ require("lazy").setup({
         },
         experimental = {
           native_menu = false,
-          ghost_text = true,
+          ghost_text = false,
         },
       })
 
@@ -2874,33 +2996,6 @@ require("lazy").setup({
       -- mode: n
       wk.register({
         ["R"] = { "<Plug>(operator-replace)", "Replace" },
-        -- ["<leader>t"] = {
-        --   name = "+Test",
-        --   r = {
-        --     name = "+Run",
-        --     n = { '<cmd>lua require("neotest").run.run()<CR>', "Nearest" },
-        --     f = { '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Current File" },
-        --     r = { '<cmd>lua require("neotest").run.run_last()<CR>', "Last" },
-        --     s = { '<cmd>lua require("neotest").run.stop()<CR>', "Stop" },
-        --     a = { '<cmd>lua require("neotest").run.attach()<CR>', "Attach" },
-        --   },
-        --   o = {
-        --     name = "+Display",
-        --     s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Summary" },
-        --     o = { '<cmd>lua require("neotest").output.open({enter = true})<CR>', "Output Enter" },
-        --     O = { '<cmd>lua require("neotest").output.open()<CR>', "Output" },
-        --   },
-        -- },
-        ["<leader>t"] = {
-          name = "+Test",
-          r = {
-            name = "+Run",
-            n = { "<cmd>TestNearest<cr>", "Nearest" },
-            f = { "<cmd>TestFile<cr>", "Current File" },
-            s = { "<cmd>TestSuite<cr>", "Suit" },
-            r = { "<cmd>TestLast<cr>", "Last" },
-          },
-        },
         ["<leader>u"] = {
           name = "+Utility",
           c = {
@@ -3031,6 +3126,40 @@ require("lazy").setup({
           },
         },
       })
+      if vim.g.test_runner_type == "neotest" then
+        wk.register({
+          ["<leader>t"] = {
+            name = "+Test",
+            r = {
+              name = "+Run",
+              n = { '<cmd>lua require("neotest").run.run()<CR>', "Nearest" },
+              f = { '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Current File" },
+              r = { '<cmd>lua require("neotest").run.run_last()<CR>', "Last" },
+              s = { '<cmd>lua require("neotest").run.stop()<CR>', "Stop" },
+              a = { '<cmd>lua require("neotest").run.attach()<CR>', "Attach" },
+            },
+            o = {
+              name = "+Display",
+              s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Toggle Summary" },
+              o = { '<cmd>lua require("neotest").output.toggle()<CR>', "Toggle output" },
+              p = { '<cmd>lua require("neotest").output_panel.toggle()<CR>', "Toggle output Panel" },
+            },
+          },
+        })
+      elseif vim.g.test_runner_type == "vim-test" then
+        wk.register({
+          ["<leader>t"] = {
+            name = "+Test",
+            r = {
+              name = "+Run",
+              n = { "<cmd>TestNearest<cr>", "Nearest" },
+              f = { "<cmd>TestFile<cr>", "Current File" },
+              s = { "<cmd>TestSuite<cr>", "Suit" },
+              r = { "<cmd>TestLast<cr>", "Last" },
+            },
+          },
+        })
+      end
 
       -- mode: x
       wk.register({
