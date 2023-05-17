@@ -2778,13 +2778,26 @@ require("lazy").setup({
     end,
   },
   {
-    "williamboman/warden.nvim",
+    "VidocqH/lsp-lens.nvim",
     event = { "BufReadPre" },
-    enabled = false,
     dependencies = { "neovim/nvim-lspconfig" },
-    -- enabled = function()
-    --   return vim.g.lsp_client_type == "neovim"
-    -- end,
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
+    config = function()
+      require("lsp-lens").setup({
+        enable = true,
+        include_declaration = false, -- Reference include declaration
+        sections = { -- Enable / Disable specific request
+          definition = false,
+          references = true,
+          implementation = true,
+        },
+        ignore_filetype = {
+          "prisma",
+        },
+      })
+    end,
   },
   {
     "folke/trouble.nvim",
@@ -2833,11 +2846,11 @@ require("lazy").setup({
         auto_jump = { "lsp_definitions" }, -- for the given modes, automatically jump if there is only a single result
         signs = {
           -- icons / text used for a diagnostic
-          error = " ",
-          warning = "󰀪 ",
+          error = "",
+          warning = "",
           hint = "󰌶",
-          information = "󰋽",
-          other = "﫠",
+          information = "",
+          other = "",
         },
         use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
       })
