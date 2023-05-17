@@ -1094,6 +1094,15 @@ require("lazy").setup({
       vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
       require("neo-tree").setup({
+        source_selector = {
+          winbar = true,
+          statusline = true,
+          sources = {
+            { source = "filesystem", display_name = " 󰉓 Files " },
+            { source = "git_status", display_name = " 󰊢 Git " },
+            { source = "buffers", display_name = "  Buffers " },
+          },
+        },
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
         enable_git_status = true,
