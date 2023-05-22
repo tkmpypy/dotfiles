@@ -1646,23 +1646,21 @@ require("lazy").setup({
     end,
   },
   {
-    "ojroques/nvim-bufdel",
-    config = function()
-      require("bufdel").setup({
-        next = "alternative", -- or 'cycle, 'alternate'
-        quit = false, -- quit Neovim when last buffer is closed
-      })
-    end,
+    "famiu/bufdelete.nvim",
     keys = {
       {
         "<leader>q",
-        "<cmd>BufDel<CR>",
+        function ()
+          require('bufdelete').bufdelete(0, false)
+        end,
         mode = "n",
         desc = "Delete buffer",
       },
       {
         "<leader>Q",
-        "<cmd>BufDel!<CR>",
+        function ()
+          require('bufdelete').bufdelete(0, true)
+        end,
         mode = "n",
         desc = "Delete buffer and ignore changes",
       },
@@ -2528,7 +2526,7 @@ require("lazy").setup({
           null_ls.builtins.diagnostics.flake8.with({
             extra_args = { "--max-line-length", "120" },
           }),
-          null_ls.builtins.diagnostics.mypy,
+          -- null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.diagnostics.golangci_lint.with({
             args = {
               "run",
