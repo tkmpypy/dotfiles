@@ -40,16 +40,29 @@ M.tbl.insert_set = function(list, v)
   list[v] = true
 end
 
+M.tbl.join = function (list, sep)
+  local r = ""
+  for _, v in pairs(list) do
+    if r ~= "" then
+      r = r .. sep .. v
+    else
+      r = v
+    end
+  end
+
+  return r
+end
+
 M.buffer.scroll_bar_blocks = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" }
 M.buffer.get_vselected_value = function()
-  vim.cmd [[
+  vim.cmd([[
     let tmp=@@
     silent normal! gv""y
     let selected=@@
     let @@=tmp
-  ]]
+  ]])
 
-  local s = api.nvim_get_var "selected"
+  local s = api.nvim_get_var("selected")
   return s
 end
 M.buffer.scroll_bar = function()
@@ -109,7 +122,7 @@ M.file.get_current_ufn = function()
   local names = vim.tbl_map(function(buffer)
     return buffer.name
   end, listed)
-  local current_name = vim.fn.expand "%"
+  local current_name = vim.fn.expand("%")
   return M.file.get_unique_filename(current_name, names)
 end
 
@@ -188,7 +201,7 @@ M.keymaps.get_rhs = function(keymaps, mode, key)
     if v.mode == mode and v.lhs == k then
       return v.rhs
     end
-    return nil
+    return false
   end, keymaps)
 end
 
@@ -212,7 +225,7 @@ M.lsp.current_lsp = function()
       return msg
     end
 
-    local client_names = M.tbl.set {}
+    local client_names = M.tbl.set({})
     for _, client in ipairs(clients) do
       if not client_names[client.name] then
         local filetypes = client.config.filetypes
@@ -231,7 +244,6 @@ M.lsp.current_lsp = function()
   return ""
 end
 
-
 M.lsp.null_ls_formatting = function(bufnr)
   vim.lsp.buf.format({
     filter = function(client)
@@ -239,8 +251,20 @@ M.lsp.null_ls_formatting = function(bufnr)
       return client.name == "null-ls"
     end,
     bufnr = bufnr,
-    async = true
+    async = true,
   })
+end
+
+M.nvim_create_augroups = function(definitions)
+  for group_name, definition in pairs(definitions) do
+    api.nvim_command("augroup " .. group_name)
+    api.nvim_command("autocmd!")
+    for _, def in ipairs(definition) do
+      local command = table.concat(vim.tbl_flatten({ "autocmd", def }), " ")
+      api.nvim_command(command)
+    end
+    api.nvim_command("augroup END")
+  end
 end
 
 return M

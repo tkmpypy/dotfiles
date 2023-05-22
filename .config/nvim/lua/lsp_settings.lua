@@ -328,7 +328,13 @@ local make_config = function()
   -- capabilities.textDocument.colorProvider = {
   --   dynamicRegistration = true,
   -- }
+
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  -- NOTE: use nvim-ufo setting
+  -- capabilities.textDocument.foldingRange = {
+  --   dynamicRegistration = false,
+  --   lineFoldingOnly = true,
+  -- }
   return {
     -- enable snippet support
     capabilities = capabilities,

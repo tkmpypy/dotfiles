@@ -25,6 +25,19 @@ require("lazy").setup({
       require("nvim-treesitter.install").update({ with_sync = true })
     end,
     config = function()
+      local util = require("scripts/util")
+      vim.o.foldmethod = "expr"
+      vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+
+      local autoCommands = {
+        -- other autocommands
+        open_folds = {
+          { "BufReadPost,FileReadPost", "*", "normal zx zR" },
+        },
+      }
+
+      util.nvim_create_augroups(autoCommands)
+
       require("nvim-treesitter.configs").setup({
         highlight = {
           enable = true,
@@ -114,6 +127,61 @@ require("lazy").setup({
         context_commentstring = { enable = true, enable_autocmd = false },
       })
     end,
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      "kevinhwang91/promise-async",
+    },
+    enabled = false,
+    event = "BufRead",
+    config = function()
+      vim.o.foldcolumn = "0" -- '0' is not bad
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      -- vim.o.foldlevelstart = 99
+      -- vim.o.foldenable = true
+
+      -- require("ufo").setup({
+      --   provider_selector = function(bufnr, filetype, buftype)
+      --     return { "treesitter", "indent" }
+      --   end,
+      -- })
+      require("ufo").setup()
+    end,
+    keys = {
+      {
+        "zR",
+        function()
+          require("ufo").openAllFolds()
+        end,
+        mode = "n",
+        desc = "Open all folds",
+      },
+      {
+        "zM",
+        function()
+          require("ufo").closeAllFolds()
+        end,
+        mode = "n",
+        desc = "Close all folds",
+      },
+      -- {
+      --   "zr",
+      --   function()
+      --     require('ufo').openFoldsExceptKinds()
+      --   end,
+      --   mode = "n",
+      --   desc = "Open all folds",
+      -- },
+      -- {
+      --   "zm",
+      --   function()
+      --     require('ufo').closeFoldsWith()
+      --   end,
+      --   mode = "n",
+      --   desc = "Close all folds",
+      -- },
+    },
   },
   {
     "yioneko/nvim-yati",
@@ -1650,16 +1718,16 @@ require("lazy").setup({
     keys = {
       {
         "<leader>q",
-        function ()
-          require('bufdelete').bufdelete(0, false)
+        function()
+          require("bufdelete").bufdelete(0, false)
         end,
         mode = "n",
         desc = "Delete buffer",
       },
       {
         "<leader>Q",
-        function ()
-          require('bufdelete').bufdelete(0, true)
+        function()
+          require("bufdelete").bufdelete(0, true)
         end,
         mode = "n",
         desc = "Delete buffer and ignore changes",
