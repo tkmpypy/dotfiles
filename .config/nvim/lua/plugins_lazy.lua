@@ -26,16 +26,18 @@ require("lazy").setup({
     end,
     config = function()
       local util = require("scripts/util")
+      -- fold
       vim.o.foldmethod = "expr"
       vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 
+      -- NOTE:
+      -- This autocommand is workaround
+      -- https://github.com/nvim-telescope/telescope.nvim/issues/699#issuecomment-1448928969
       local autoCommands = {
-        -- other autocommands
         open_folds = {
-          { "BufReadPost,FileReadPost", "*", "normal zx zR" },
+          { "BufEnter", "*", "normal zx zR" },
         },
       }
-
       util.nvim_create_augroups(autoCommands)
 
       require("nvim-treesitter.configs").setup({
@@ -125,6 +127,32 @@ require("lazy").setup({
           extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
         },
         context_commentstring = { enable = true, enable_autocmd = false },
+      })
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    enabled = function()
+      return vim.g.use_treesitter
+    end,
+    event = "BufReadPre",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("treesitter-context").setup({
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
+        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        line_numbers = true,
+        multiline_threshold = 20, -- Maximum number of lines to collapse for a single context line
+        trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        mode = "topline", -- Line used to calculate context. Choices: 'cursor', 'topline'
+        -- Separator between context and content. Should be a single character string, like '-'.
+        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+        -- separator = "▁",
+        -- separator = "━",
+        -- separator = "─",
+        zindex = 20, -- The Z-index of the context window
+        on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
       })
     end,
   },
@@ -3125,6 +3153,10 @@ require("lazy").setup({
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
     config = function()
       local wk = require("which-key")
       wk.setup({
