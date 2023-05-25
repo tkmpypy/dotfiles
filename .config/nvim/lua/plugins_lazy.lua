@@ -2269,6 +2269,17 @@ require("lazy").setup({
     end,
   },
   {
+    "WhoIsSethDaniel/toggle-lsp-diagnostics.nvim",
+    cmd = { "ToggleDiag" },
+    dependencies = "neovim/nvim-lspconfig",
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
+    config = function()
+      require("toggle_lsp_diagnostics").init()
+    end,
+  },
+  {
     "SmiteshP/nvim-navic",
     event = "BufReadPre",
     dependencies = "neovim/nvim-lspconfig",
@@ -3493,6 +3504,7 @@ require("lazy").setup({
               d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics(Trouble)" },
               D = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics(Trouble)" },
             },
+            t = { "<cmd>ToggleDiag<CR>", "Toggle diagnostic" },
           },
           -- ["<leader>rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
           ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
