@@ -33,12 +33,18 @@ require("lazy").setup({
       -- NOTE:
       -- This autocommand is workaround
       -- https://github.com/nvim-telescope/telescope.nvim/issues/699#issuecomment-1448928969
-      local autoCommands = {
-        open_folds = {
-          { "BufEnter", "*", "normal zx zR" },
-        },
-      }
-      util.nvim_create_augroups(autoCommands)
+        vim.api.nvim_create_augroup("OpenFolds", {
+            clear = true
+        })
+        vim.api.nvim_create_autocmd({"BufEnter"}, {
+          group="OpenFolds",
+          pattern = {"*"},
+          callback = function(ev)
+            if require("nvim-treesitter.parsers").has_parser() then
+              vim.api.nvim_exec2("normal zx zR", {})
+            end
+          end,
+        })
 
       require("nvim-treesitter.configs").setup({
         highlight = {
