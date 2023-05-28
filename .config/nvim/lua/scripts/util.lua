@@ -36,11 +36,13 @@ M.tbl.set = function(list)
 end
 
 M.tbl.insert_set = function(list, v)
-  table.insert(list, v)
-  list[v] = true
+  if not list[v] then
+    table.insert(list, v)
+    list[v] = true
+  end
 end
 
-M.tbl.join = function (list, sep)
+M.tbl.join = function(list, sep)
   local r = ""
   for _, v in pairs(list) do
     if r ~= "" then
@@ -219,19 +221,21 @@ end
 M.lsp.current_lsp = function()
   if vim.g.lsp_client_type == "neovim" then
     local msg = "No Active Lsp"
-    local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
     local clients = vim.lsp.get_active_clients()
     if next(clients) == nil then
       return msg
     end
 
     local client_names = M.tbl.set({})
+    local null_ls_sources = M.tbl.set({})
     for _, client in ipairs(clients) do
-      if not client_names[client.name] then
-        local filetypes = client.config.filetypes
-        if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-          M.tbl.insert_set(client_names, client.name)
+      if client.name == "null-ls" then
+        for _, source in ipairs(require("null-ls.sources").get_available(vim.bo.filetype)) do
+          M.tbl.insert_set(null_ls_sources, source.name)
         end
+        M.tbl.insert_set(client_names, "null-ls(" .. table.concat(null_ls_sources, ", ") .. ")")
+      else
+        M.tbl.insert_set(client_names, client.name)
       end
     end
 

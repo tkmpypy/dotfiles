@@ -82,6 +82,7 @@ require("lazy").setup({
           "ruby",
           "python",
           "lua",
+          "luadoc",
           "php",
           "phpdoc",
           "yaml",
@@ -106,9 +107,11 @@ require("lazy").setup({
           "diff",
           "comment",
           "git_config",
+          "git_rebase",
           "gitattributes",
           "gitcommit",
           "gitignore",
+          "ini",
         },
         -- textobjects = {
         --   move = {
@@ -2307,14 +2310,14 @@ require("lazy").setup({
     },
     opts = {
       theme = "auto",
-      context_follow_icon_color = false,
+      context_follow_icon_color = true,
       exclude_filetypes = { "gitcommit", "toggleterm" },
       create_autocmd = true,
       attach_navic = true,
       symbols = {
         ---modification indicator
         ---@type string
-        modified = " ",
+        modified = "󰙏",
 
         ---truncation indicator
         ---@type string
