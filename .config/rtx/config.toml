@@ -1,0 +1,6 @@
+[tools]
+golang = "1.20.1"
+node = "latest"
+rust = "1.69.0"
+python = "3.10.5"
+

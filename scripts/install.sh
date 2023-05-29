@@ -43,7 +43,7 @@ function install() {
 
   if [[ -n "$XDG_CONFIG_HOME" ]]; then
     exec_cmd "mkdir -p $XDG_CONFIG_HOME"
-    CONFIG_FILES=(nvim wezterm starship.toml k9s)
+    CONFIG_FILES=(nvim wezterm starship.toml k9s rtx)
     for file in ${CONFIG_FILES[@]}; do
       link_file $DOTFILES_DIR/.config $file $XDG_CONFIG_HOME
     done

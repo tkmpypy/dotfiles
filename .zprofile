@@ -14,6 +14,7 @@ export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
+export PATH="$PATH:$HOME/.local/share/rtx"
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 

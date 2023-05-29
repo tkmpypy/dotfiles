@@ -42,7 +42,6 @@ zinit for \
 #     mkdir ~/.zsh_completions
 # fi
 # zinit creinstall ~/.zsh_completions
-zinit light asdf-vm/asdf
 
 [ -f ~/.zshrc.`uname`.`uname -m` ] && source ~/.zshrc.`uname`.`uname -m`
 
@@ -125,6 +124,8 @@ set -s escape-time 0
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+eval "$(rtx activate zsh)"
 
 eval "$(direnv hook zsh)"
 

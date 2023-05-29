@@ -19,6 +19,10 @@ zinit snippet 'https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux'
 zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" pick"ripgrep*/rg"
 zinit load BurntSushi/ripgrep
 
+# fd
+zinit ice from"gh-r" as"program" bpick"*apple-darwin*" pick"fd*/fd"
+zinit load sharkdp/fd
+
 # delta
 zinit ice from"gh-r" as"program" bpick"*darwin*" pick"delta*/delta"
 zinit load dandavison/delta

@@ -25,7 +25,6 @@ require("lazy").setup({
       require("nvim-treesitter.install").update({ with_sync = true })
     end,
     config = function()
-      local util = require("scripts/util")
       -- fold
       vim.o.foldmethod = "expr"
       vim.o.foldexpr = "nvim_treesitter#foldexpr()"
@@ -2843,7 +2842,7 @@ require("lazy").setup({
         },
         experimental = {
           native_menu = false,
-          ghost_text = false,
+          ghost_text = true,
         },
       })
 
