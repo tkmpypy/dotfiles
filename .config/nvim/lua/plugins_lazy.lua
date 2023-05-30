@@ -347,7 +347,7 @@ require("lazy").setup({
   {
     "michaelb/sniprun",
     build = "bash ./install.sh",
-    -- cmd = {"SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive"},
+    cmd = {"SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive"},
     config = function()
       require("sniprun").setup({
         selected_interpreters = {
