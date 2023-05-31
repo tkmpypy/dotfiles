@@ -32,18 +32,18 @@ require("lazy").setup({
       -- NOTE:
       -- This autocommand is workaround
       -- https://github.com/nvim-telescope/telescope.nvim/issues/699#issuecomment-1448928969
-        vim.api.nvim_create_augroup("OpenFolds", {
-            clear = true
-        })
-        vim.api.nvim_create_autocmd({"BufEnter"}, {
-          group="OpenFolds",
-          pattern = {"*"},
-          callback = function(ev)
-            if require("nvim-treesitter.parsers").has_parser() then
-              vim.api.nvim_exec2("normal zx zR", {})
-            end
-          end,
-        })
+      vim.api.nvim_create_augroup("OpenFolds", {
+        clear = true,
+      })
+      vim.api.nvim_create_autocmd({ "BufEnter" }, {
+        group = "OpenFolds",
+        pattern = { "*" },
+        callback = function(ev)
+          if require("nvim-treesitter.parsers").has_parser() then
+            vim.api.nvim_exec2("normal zx zR", {})
+          end
+        end,
+      })
 
       require("nvim-treesitter.configs").setup({
         highlight = {
@@ -347,7 +347,7 @@ require("lazy").setup({
   {
     "michaelb/sniprun",
     build = "bash ./install.sh",
-    cmd = {"SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive"},
+    cmd = { "SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive" },
     config = function()
       require("sniprun").setup({
         selected_interpreters = {
@@ -2288,102 +2288,246 @@ require("lazy").setup({
     end,
   },
   {
-    "SmiteshP/nvim-navic",
+    "Bekaboo/dropbar.nvim",
     event = "BufReadPre",
-    dependencies = "neovim/nvim-lspconfig",
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
-  },
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    enabled = function()
-      return vim.g.lsp_client_type == "neovim"
-    end,
-    event = "BufReadPre",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
     opts = {
-      theme = "auto",
-      context_follow_icon_color = true,
-      exclude_filetypes = { "gitcommit", "toggleterm" },
-      create_autocmd = true,
-      attach_navic = true,
-      symbols = {
-        ---modification indicator
-        ---@type string
-        modified = "󰙏",
-
-        ---truncation indicator
-        ---@type string
-        ellipsis = "…",
-
-        ---entry separator
-        ---@type string
-        separator = "",
+      icons = {
+        kinds = {
+          use_devicons = true,
+          symbols = {
+            Array = "󰅪 ",
+            Boolean = " ",
+            BreakStatement = "󰙧 ",
+            Call = "󰃷 ",
+            CaseStatement = "󱃙 ",
+            Class = " ",
+            Color = "󰏘 ",
+            Constant = "󰏿 ",
+            Constructor = " ",
+            ContinueStatement = "→ ",
+            Copilot = " ",
+            Declaration = "󰙠 ",
+            Delete = "󰩺 ",
+            DoStatement = "󰑖 ",
+            Enum = " ",
+            EnumMember = " ",
+            Event = " ",
+            Field = " ",
+            File = "󰈔 ",
+            Folder = "󰉋 ",
+            ForStatement = "󰑖 ",
+            Function = "󰊕 ",
+            Identifier = "󰀫 ",
+            IfStatement = "󰇉 ",
+            Interface = " ",
+            Keyword = "󰌋 ",
+            List = "󰅪 ",
+            Log = "󰦪 ",
+            Lsp = " ",
+            Macro = "󰁌 ",
+            MarkdownH1 = "󰉫 ",
+            MarkdownH2 = "󰉬 ",
+            MarkdownH3 = "󰉭 ",
+            MarkdownH4 = "󰉮 ",
+            MarkdownH5 = "󰉯 ",
+            MarkdownH6 = "󰉰 ",
+            Method = "󰆧 ",
+            Module = "󰏗 ",
+            Namespace = "󰅩 ",
+            Null = "󰢤 ",
+            Number = "󰎠 ",
+            Object = "󰅩 ",
+            Operator = "󰆕 ",
+            Package = "󰆦 ",
+            Property = " ",
+            Reference = "󰦾 ",
+            Regex = " ",
+            Repeat = "󰑖 ",
+            Scope = "󰅩 ",
+            Snippet = "󰩫 ",
+            Specifier = "󰦪 ",
+            Statement = "󰅩 ",
+            String = "󰉾 ",
+            Struct = " ",
+            SwitchStatement = "󰺟 ",
+            Text = " ",
+            Type = " ",
+            TypeParameter = "󰆩 ",
+            Unit = " ",
+            Value = "󰎠 ",
+            Variable = "󰀫 ",
+            WhileStatement = "󰑖 ",
+          },
+        },
+        ui = {
+          bar = {
+            separator = "  ",
+            extends = "…",
+          },
+          menu = {
+            separator = " ",
+            indicator = "  ",
+          },
+        },
       },
-      -- kinds = {
-      --   File = " ",
-      --   Module = " ",
-      --   Namespace = " ",
-      --   Package = " ",
-      --   Class = " ",
-      --   Method = " ",
-      --   Property = " ",
-      --   Field = " ",
-      --   Constructor = " ",
-      --   Enum = "練",
-      --   Interface = "練",
-      --   Function = " ",
-      --   Variable = " ",
-      --   Constant = " ",
-      --   String = " ",
-      --   Number = " ",
-      --   Boolean = "◩ ",
-      --   Array = " ",
-      --   Object = " ",
-      --   Key = " ",
-      --   Null = "ﳠ ",
-      --   EnumMember = " ",
-      --   Struct = " ",
-      --   Event = " ",
-      --   Operator = " ",
-      --   TypeParameter = " ",
-      -- },
-      kinds = {
-        File = "",
-        Module = "",
-        Namespace = "",
-        Package = "",
-        Class = "",
-        Method = "",
-        Property = "",
-        Field = "",
-        Constructor = "",
-        Enum = "",
-        Interface = "",
-        Function = "",
-        Variable = "",
-        Constant = "",
-        String = "",
-        Number = "",
-        Boolean = "",
-        Array = "",
-        Object = "",
-        Key = "",
-        Null = "",
-        EnumMember = "",
-        Struct = "",
-        Event = "",
-        Operator = "",
-        TypeParameter = "",
+      bar = {
+        ---@type dropbar_source_t[]|fun(buf: integer, win: integer): dropbar_source_t[]
+        padding = {
+          left = 1,
+          right = 1,
+        },
+        pick = {
+          pivots = "abcdefghijklmnopqrstuvwxyz",
+        },
+        truncate = true,
+      },
+      menu = {
+        entry = {
+          padding = {
+            left = 1,
+            right = 1,
+          },
+        },
+        ---@type table<string, string|function|table<string, string|function>>
+        keymaps = {
+          ["<LeftMouse>"] = function()
+            local api = require("dropbar.api")
+            local menu = api.get_current_dropbar_menu()
+            if not menu then
+              return
+            end
+            local mouse = vim.fn.getmousepos()
+            if mouse.winid ~= menu.win then
+              local parent_menu = api.get_dropbar_menu(mouse.winid)
+              if parent_menu and parent_menu.sub_menu then
+                parent_menu.sub_menu:close()
+              end
+              if vim.api.nvim_win_is_valid(mouse.winid) then
+                vim.api.nvim_set_current_win(mouse.winid)
+              end
+              return
+            end
+            menu:click_at({ mouse.line, mouse.column }, nil, 1, "l")
+          end,
+          ["<CR>"] = function()
+            local menu = require("dropbar.api").get_current_dropbar_menu()
+            if not menu then
+              return
+            end
+            local cursor = vim.api.nvim_win_get_cursor(menu.win)
+            local component = menu.entries[cursor[1]]:first_clickable(cursor[2])
+            if component then
+              menu:click_on(component, nil, 1, "l")
+            end
+          end,
+          ["<ESC>"] = function()
+            local menu = require("dropbar.api").get_current_dropbar_menu()
+            menu:close()
+          end,
+        },
       },
     },
   },
+  -- {
+  --   "SmiteshP/nvim-navic",
+  --   event = "BufReadPre",
+  --   dependencies = "neovim/nvim-lspconfig",
+  --   enabled = function()
+  --     return vim.g.lsp_client_type == "neovim"
+  --   end,
+  -- },
+  -- {
+  --   "utilyre/barbecue.nvim",
+  --   name = "barbecue",
+  --   version = "*",
+  --   enabled = function()
+  --     return vim.g.lsp_client_type == "neovim"
+  --   end,
+  --   event = "BufReadPre",
+  --   dependencies = {
+  --     "SmiteshP/nvim-navic",
+  --     "nvim-tree/nvim-web-devicons", -- optional dependency
+  --   },
+  --   opts = {
+  --     theme = "auto",
+  --     context_follow_icon_color = true,
+  --     exclude_filetypes = { "gitcommit", "toggleterm" },
+  --     create_autocmd = true,
+  --     attach_navic = true,
+  --     symbols = {
+  --       ---modification indicator
+  --       ---@type string
+  --       modified = "󰙏",
+
+  --       ---truncation indicator
+  --       ---@type string
+  --       ellipsis = "…",
+
+  --       ---entry separator
+  --       ---@type string
+  --       separator = "",
+  --     },
+  --     -- kinds = {
+  --     --   File = " ",
+  --     --   Module = " ",
+  --     --   Namespace = " ",
+  --     --   Package = " ",
+  --     --   Class = " ",
+  --     --   Method = " ",
+  --     --   Property = " ",
+  --     --   Field = " ",
+  --     --   Constructor = " ",
+  --     --   Enum = "練",
+  --     --   Interface = "練",
+  --     --   Function = " ",
+  --     --   Variable = " ",
+  --     --   Constant = " ",
+  --     --   String = " ",
+  --     --   Number = " ",
+  --     --   Boolean = "◩ ",
+  --     --   Array = " ",
+  --     --   Object = " ",
+  --     --   Key = " ",
+  --     --   Null = "ﳠ ",
+  --     --   EnumMember = " ",
+  --     --   Struct = " ",
+  --     --   Event = " ",
+  --     --   Operator = " ",
+  --     --   TypeParameter = " ",
+  --     -- },
+  --     kinds = {
+  --       File = "",
+  --       Module = "",
+  --       Namespace = "",
+  --       Package = "",
+  --       Class = "",
+  --       Method = "",
+  --       Property = "",
+  --       Field = "",
+  --       Constructor = "",
+  --       Enum = "",
+  --       Interface = "",
+  --       Function = "",
+  --       Variable = "",
+  --       Constant = "",
+  --       String = "",
+  --       Number = "",
+  --       Boolean = "",
+  --       Array = "",
+  --       Object = "",
+  --       Key = "",
+  --       Null = "",
+  --       EnumMember = "",
+  --       Struct = "",
+  --       Event = "",
+  --       Operator = "",
+  --       TypeParameter = "",
+  --     },
+  --   },
+  -- },
   {
     "folke/neodev.nvim",
     ft = "lua",
@@ -3429,29 +3573,32 @@ require("lazy").setup({
         },
       }, { mode = "x" })
 
+      local explorer = {}
       if vim.g.file_explorer_type == "nvim-tree" then
-        wk.register({
-          ["<leader>f"] = {
-            name = "+Explorer",
-            t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
-            f = {
-              '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
-              "Focus File",
-            },
+        explorer["<leader>f"] = {
+          name = "+Explorer",
+          t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
+          f = {
+            '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
+            "Focus File",
           },
-        })
+        }
       elseif vim.g.file_explorer_type == "neo-tree" then
-        wk.register({
-          ["<leader>f"] = {
-            name = "+Explorer",
-            t = { "<cmd>Neotree toggle<cr>", "Toggle" },
-            f = {
-              "<cmd>Neotree reveal<cr>",
-              "Focus File",
-            },
+        explorer["<leader>f"] = {
+          name = "+Explorer",
+          t = { "<cmd>Neotree toggle<cr>", "Toggle" },
+          f = {
+            "<cmd>Neotree reveal<cr>",
+            "Focus File",
           },
-        })
+        }
       end
+
+      explorer["<leader>f"]["p"] = {
+        '<cmd>lua require("dropbar.api").pick()<CR>',
+        "Pick breadcrumbs",
+      }
+      wk.register(explorer)
 
       if vim.g.lsp_client_type == "neovim" then
         wk.register({
