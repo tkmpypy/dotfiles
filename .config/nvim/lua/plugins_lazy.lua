@@ -1996,7 +1996,7 @@ require("lazy").setup({
         current_line_blame_formatter_opts = {
           relative_time = true,
         },
-        current_line_blame_formatter = "   <author> • <summary>   <author_time:%R> at <author_time:%Y/%m/%d %H:%M>",
+        current_line_blame_formatter = "    <author> • <summary>  󱋡 <author_time:%R> at <author_time:%Y/%m/%d %H:%M>",
         signs = {
           add = { hl = "GitSignsAdd", text = "┃", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
           change = {
