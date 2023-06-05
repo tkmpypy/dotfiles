@@ -1,6 +1,6 @@
 -- bootstraping for lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -25,22 +25,18 @@ require("lazy").setup({
       require("nvim-treesitter.install").update({ with_sync = true })
     end,
     config = function()
-      -- fold
-      vim.o.foldmethod = "expr"
-      vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-
       -- NOTE:
-      -- This autocommand is workaround
-      -- https://github.com/nvim-telescope/telescope.nvim/issues/699#issuecomment-1448928969
-      vim.api.nvim_create_augroup("OpenFolds", {
-        clear = true,
-      })
-      vim.api.nvim_create_autocmd({ "BufEnter" }, {
-        group = "OpenFolds",
+      -- Enable fold by autocmd
+      -- but this autocommand is workaround
+      -- https://github.com/nvim-telescope/telescope.nvim/issues/699
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufNew", "BufWinEnter" }, {
+        group = vim.api.nvim_create_augroup("ts_fold_workaround", { clear = true }),
         pattern = { "*" },
-        callback = function(ev)
+        callback = function()
           if require("nvim-treesitter.parsers").has_parser() then
-            vim.api.nvim_exec2("normal zx zR", {})
+            vim.api.nvim_exec2("set nofoldenable", {})
+            vim.api.nvim_exec2("set foldmethod=expr", {})
+            vim.api.nvim_exec2("set foldexpr=nvim_treesitter#foldexpr()", {})
           end
         end,
       })
@@ -50,7 +46,7 @@ require("lazy").setup({
           enable = true,
           disable = function(lang, buf)
             local max_filesize = 200 * 1024 -- 200 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
             if ok and stats and stats.size > max_filesize then
               return true
             end
