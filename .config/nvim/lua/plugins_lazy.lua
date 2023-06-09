@@ -643,7 +643,6 @@ require("lazy").setup({
           "NvimTree",
           "NeogitStatus",
           "NeogitCommitMessage",
-          "colortemplate",
         },
         create_event = function() end,
         close_event = function() end,
@@ -1179,7 +1178,7 @@ require("lazy").setup({
               -- filter using buffer options
               bo = {
                 -- if the file type is one of following, the window will be ignored
-                filetype = { "neo-tree", "neo-tree-popup", "notify", "colortemplate" },
+                filetype = { "neo-tree", "neo-tree-popup", "notify" },
 
                 -- if the buffer type is one of following, the window will be ignored
                 buftype = { "terminal", "quickfix" },
@@ -1208,7 +1207,7 @@ require("lazy").setup({
         popup_border_style = "rounded",
         enable_git_status = true,
         enable_diagnostics = true,
-        open_files_do_not_replace_types = { "terminal", "trouble", "qf", "colortemplate" }, -- when opening files, do not use windows containing these filetypes or buftypes
+        open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
         sort_case_insensitive = false, -- used when sorting files and directories in the tree
         sort_function = nil, -- use a custom function for sorting files and directories in the tree
         -- sort_function = function (a,b)
