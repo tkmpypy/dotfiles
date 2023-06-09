@@ -271,3 +271,4 @@ MULAW
 nozomi
 PCMU
 mypage
+catppuccin

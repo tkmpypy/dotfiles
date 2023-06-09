@@ -643,6 +643,7 @@ require("lazy").setup({
           "NvimTree",
           "NeogitStatus",
           "NeogitCommitMessage",
+          "colortemplate",
         },
         create_event = function() end,
         close_event = function() end,
@@ -1178,7 +1179,7 @@ require("lazy").setup({
               -- filter using buffer options
               bo = {
                 -- if the file type is one of following, the window will be ignored
-                filetype = { "neo-tree", "neo-tree-popup", "notify" },
+                filetype = { "neo-tree", "neo-tree-popup", "notify", "colortemplate" },
 
                 -- if the buffer type is one of following, the window will be ignored
                 buftype = { "terminal", "quickfix" },
@@ -1207,7 +1208,7 @@ require("lazy").setup({
         popup_border_style = "rounded",
         enable_git_status = true,
         enable_diagnostics = true,
-        open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
+        open_files_do_not_replace_types = { "terminal", "trouble", "qf", "colortemplate" }, -- when opening files, do not use windows containing these filetypes or buftypes
         sort_case_insensitive = false, -- used when sorting files and directories in the tree
         sort_function = nil, -- use a custom function for sorting files and directories in the tree
         -- sort_function = function (a,b)
@@ -1238,7 +1239,7 @@ require("lazy").setup({
           icon = {
             folder_closed = "",
             folder_open = "",
-            folder_empty = "ﰊ",
+            folder_empty = "󰷏",
             -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
             -- then these will never be used.
             default = "*",
@@ -1259,11 +1260,11 @@ require("lazy").setup({
               added = "✚", -- or "✚", but this is redundant info if you use git_status_colors on the name
               modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
               deleted = "✖", -- this can only be used in the git_status source
-              renamed = "", -- this can only be used in the git_status source
+              renamed = "󰏫", -- this can only be used in the git_status source
               -- Status type
               untracked = "",
-              ignored = "",
-              unstaged = "",
+              ignored = "󱋯",
+              unstaged = "",
               staged = "",
               conflict = "",
             },
@@ -2195,7 +2196,7 @@ require("lazy").setup({
     "j-hui/fidget.nvim",
     opts = {
       text = {
-        spinner = "pipe", -- animation shown when tasks are ongoing
+        spinner = "meter", -- animation shown when tasks are ongoing
         done = "✔", -- character shown when all tasks are complete
         commenced = "Started", -- message shown when task starts
         completed = "Completed", -- message shown when task completes
@@ -3687,6 +3688,53 @@ require("lazy").setup({
   },
 
   -- ColorScheme
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    opts = {
+      flavour = "frappe", -- latte, frappe, macchiato, mocha
+      -- background = { -- :h background
+      --   light = "latte",
+      --   dark = "mocha",
+      -- },
+      transparent_background = false, -- disables setting the background color.
+      show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+      term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+      dim_inactive = {
+        enabled = false, -- dims the background color of inactive window
+        shade = "dark",
+        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+      },
+      no_italic = false, -- Force no italic
+      no_bold = false, -- Force no bold
+      no_underline = false, -- Force no underline
+      styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { "italic" }, -- Change the style of comments
+        conditionals = { "italic" },
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+      },
+      color_overrides = {},
+      custom_highlights = {},
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        telescope = true,
+        notify = true,
+        mini = false,
+        -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+      },
+    },
+  },
   {
     "Everblush/nvim",
     name = "everblush",
