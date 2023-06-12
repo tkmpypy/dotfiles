@@ -1005,11 +1005,11 @@ require("lazy").setup({
         val = {
           { type = "text", val = "Quick links", opts = { hl = "SpecialComment", position = "center" } },
           { type = "padding", val = 1 },
-          dashboard.button("e", "  New file", "<cmd>ene<CR>"),
-          dashboard.button("SPC s f f", "  Find file"),
-          dashboard.button("SPC s g g", "  Live grep"),
+          dashboard.button("e", "󰈔  New file", "<cmd>ene<CR>"),
+          dashboard.button("SPC s f f", "󰱼  Find file"),
+          dashboard.button("SPC s g g", "󱩾  Live grep"),
           dashboard.button("U", "  Update plugins", "<cmd>Lazy sync<CR>"),
-          dashboard.button("q", "  Quit", "<cmd>qa<CR>"),
+          dashboard.button("q", "󰗼  Quit", "<cmd>qa<CR>"),
         },
         position = "center",
       }
