@@ -1203,6 +1203,26 @@ require("lazy").setup({
             { source = "buffers", display_name = "  Buffers " },
           },
         },
+        document_symbols = {
+          kinds = {
+            File = { icon = "󰈙", hl = "Tag" },
+            Namespace = { icon = "󰌗", hl = "Include" },
+            Package = { icon = "󰏖", hl = "Label" },
+            Class = { icon = "󰌗", hl = "Include" },
+            Property = { icon = "󰆧", hl = "@property" },
+            Enum = { icon = "󰒻", hl = "@number" },
+            Function = { icon = "󰊕", hl = "Function" },
+            String = { icon = "󰀬", hl = "String" },
+            Number = { icon = "󰎠", hl = "Number" },
+            Array = { icon = "󰅪", hl = "Type" },
+            Object = { icon = "󰅩", hl = "Type" },
+            Key = { icon = "󰌋", hl = "" },
+            Struct = { icon = "󰌗", hl = "Type" },
+            Operator = { icon = "󰆕", hl = "Operator" },
+            TypeParameter = { icon = "󰊄", hl = "Type" },
+            StaticMethod = { icon = "󰠄 ", hl = "Function" },
+          },
+        },
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
         enable_git_status = true,
@@ -1259,11 +1279,11 @@ require("lazy").setup({
               added = "✚", -- or "✚", but this is redundant info if you use git_status_colors on the name
               modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
               deleted = "✖", -- this can only be used in the git_status source
-              renamed = "󰏫", -- this can only be used in the git_status source
+              renamed = "󰁕", -- this can only be used in the git_status source
               -- Status type
               untracked = "",
               ignored = "󱋯",
-              unstaged = "",
+              unstaged = "󰄱",
               staged = "",
               conflict = "",
             },
@@ -3938,7 +3958,12 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      require("deepon").setup()
+      require("deepon").setup({
+        lang = {
+          source = "ja",
+          target = "en",
+        },
+      })
     end,
   },
 }, {
