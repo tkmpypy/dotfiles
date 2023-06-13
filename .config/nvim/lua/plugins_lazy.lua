@@ -16,7 +16,7 @@ require("lazy").setup({
   -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "BufReadPre",
+    event = "VeryLazy",
     cmd = { "TSUpdate" },
     enabled = function()
       return vim.g.use_treesitter
@@ -24,6 +24,34 @@ require("lazy").setup({
     build = function()
       require("nvim-treesitter.install").update({ with_sync = true })
     end,
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-context",
+        config = function()
+          require("treesitter-context").setup({
+            enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+            max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
+            min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+            line_numbers = true,
+            multiline_threshold = 20, -- Maximum number of lines to collapse for a single context line
+            trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+            mode = "topline", -- Line used to calculate context. Choices: 'cursor', 'topline'
+            -- Separator between context and content. Should be a single character string, like '-'.
+            -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+            -- separator = "▁",
+            -- separator = "━",
+            -- separator = "─",
+            zindex = 20, -- The Z-index of the context window
+            on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+          })
+        end,
+      },
+      "yioneko/nvim-yati",
+      "RRethy/nvim-treesitter-endwise",
+      "windwp/nvim-ts-autotag",
+      "mrjones2014/nvim-ts-rainbow",
+      "JoosepAlviste/nvim-ts-context-commentstring",
+    },
     config = function()
       -- NOTE:
       -- Enable fold by autocmd
@@ -135,32 +163,6 @@ require("lazy").setup({
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter-context",
-    enabled = function()
-      return vim.g.use_treesitter
-    end,
-    event = "BufReadPre",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("treesitter-context").setup({
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
-        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-        line_numbers = true,
-        multiline_threshold = 20, -- Maximum number of lines to collapse for a single context line
-        trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        mode = "topline", -- Line used to calculate context. Choices: 'cursor', 'topline'
-        -- Separator between context and content. Should be a single character string, like '-'.
-        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-        -- separator = "▁",
-        -- separator = "━",
-        -- separator = "─",
-        zindex = 20, -- The Z-index of the context window
-        on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-      })
-    end,
-  },
-  {
     "kevinhwang91/nvim-ufo",
     dependencies = {
       "kevinhwang91/promise-async",
@@ -216,43 +218,8 @@ require("lazy").setup({
     },
   },
   {
-    "yioneko/nvim-yati",
-    event = "BufReadPre",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
-  {
-    "RRethy/nvim-treesitter-endwise",
-    event = "BufReadPre",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    event = "BufReadPre",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
-  {
-    "mrjones2014/nvim-ts-rainbow",
-    event = "BufReadPre",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    event = "BufReadPre",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
-  {
     "b3nj5m1n/kommentary",
-    event = "BufReadPre",
+    event = "VeryLazy",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -268,7 +235,7 @@ require("lazy").setup({
   },
   {
     "danymat/neogen",
-    event = "BufReadPre",
+    lazy = true,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -650,37 +617,9 @@ require("lazy").setup({
     end,
   },
   {
-    "levouh/tint.nvim",
-    event = "BufReadPre",
-    enabled = false,
-    config = function()
-      local ignore_ft = { "aerial" }
-      require("tint").setup({
-        tint = -45, -- Darken colors, use a positive value to brighten
-        saturation = 0.6, -- Saturation to preserve
-        transforms = require("tint").transforms.SATURATE_TINT, -- Showing default behavior, but value here can be predefined set of transforms
-        tint_background_colors = false, -- Tint background portions of highlight groups
-        highlight_ignore_patterns = { "WinSeparator", "Status.*" }, -- Highlight group patterns to ignore, see `string.find`
-        window_ignore_function = function(winid)
-          local bufid = vim.api.nvim_win_get_buf(winid)
-          local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
-          local ft = vim.api.nvim_buf_get_option(bufid, "filetype")
-          local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
-
-          if vim.tbl_contains(ignore_ft, ft) then
-            return true
-          end
-
-          -- Do not tint `terminal` or floating windows, tint everything else
-          return buftype == "terminal" or floating
-        end,
-      })
-    end,
-  },
-  {
     "petertriho/nvim-scrollbar",
     dependencies = { "kevinhwang91/nvim-hlslens" },
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     config = function()
       require("hlslens").setup()
       require("scrollbar").setup({
@@ -766,7 +705,7 @@ require("lazy").setup({
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     config = function()
       -- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 blend=nocombine]]
       -- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B blend=nocombine]]
@@ -1064,7 +1003,7 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
     },
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     config = function()
       require("noice").setup({
         presets = {
@@ -1579,7 +1518,7 @@ require("lazy").setup({
   -- Operator
   {
     "kana/vim-operator-replace",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     dependencies = { "kana/vim-operator-user" },
   },
 
@@ -1716,7 +1655,7 @@ require("lazy").setup({
   },
   {
     "uga-rosa/ccc.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     config = function()
       local ccc = require("ccc")
       ccc.setup({
@@ -1734,7 +1673,7 @@ require("lazy").setup({
   },
   {
     "haya14busa/vim-asterisk",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     config = function()
       vim.cmd([[
           let g:asterisk#keeppos = 1
@@ -2002,7 +1941,7 @@ require("lazy").setup({
   -- Git
   {
     "lewis6991/gitsigns.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("gitsigns").setup({
@@ -2247,7 +2186,7 @@ require("lazy").setup({
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -2284,7 +2223,7 @@ require("lazy").setup({
   },
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -2305,7 +2244,7 @@ require("lazy").setup({
   },
   {
     "Bekaboo/dropbar.nvim",
-    event = "BufReadPre",
+    event = "VeryLazy",
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -2571,7 +2510,7 @@ require("lazy").setup({
   },
   {
     "glepnir/lspsaga.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     -- enabled = function()
     --   return vim.g.lsp_client_type == "neovim"
     -- end,
@@ -2679,12 +2618,12 @@ require("lazy").setup({
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     dependencies = { "neovim/nvim-lspconfig" },
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -3041,7 +2980,7 @@ require("lazy").setup({
   },
   {
     "hrsh7th/nvim-gtd",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     dependencies = { "neovim/nvim-lspconfig" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
@@ -3052,7 +2991,7 @@ require("lazy").setup({
   },
   {
     "VidocqH/lsp-lens.nvim",
-    event = { "BufReadPre" },
+    event = { "VeryLazy" },
     dependencies = { "neovim/nvim-lspconfig" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"

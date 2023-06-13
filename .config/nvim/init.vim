@@ -136,6 +136,7 @@ autocmd FileType yaml setlocal ts=2 sw=2
 autocmd FileType json setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=4 sw=4
 autocmd FileType proto setlocal ts=2 sw=2
+autocmd BufReadPost,BufNewFile *.md setlocal ts=2 sw=2
 autocmd FileType markdown setlocal ts=2 sw=2
 augroup vagrant
    au!
@@ -256,9 +257,6 @@ command! -complete=customlist,s:ListScratchFiletypes -nargs=1 ScratchS :call s:S
 " }}
 
 " }}
-" vim-rooter {{
-nnoremap <leader>cdr :Rooter<CR>
-" }}
 
 " iamcco/markdown-preview.nvim {{
 " set to 1, nvim will open the preview window after entering the markdown buffer
@@ -342,17 +340,6 @@ let g:mkdp_page_title = '「${name}」'
 " nmap <leader>p <Plug>MarkdownPreview
 " nmap <M-s> <Plug>MarkdownPreviewStop
 " nmap <C-p> <Plug>MarkdownPreviewToggle
-" }}
-" vim-over {{
-" over.vimの起動
-nnoremap <silent> <Leader>rw :OverCommandLine<CR>
-
-" カーソル下の単語をハイライト付きで置換
-nnoremap <silent> <Leader>rc :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-
-" コピーした文字列をハイライト付きで置換
-nnoremap <silent> <Leader>ry y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
-
 " }}
 
 "*****************************************************************************
