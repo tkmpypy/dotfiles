@@ -3576,6 +3576,10 @@ require("lazy").setup({
               s = { "<cmd>lua require('gtd').exec({ command = 'split' })<CR>", "Go to split" },
               v = { "<cmd>lua require('gtd').exec({ command = 'vsplit' })<CR>", "Go to vsplit" },
             },
+            h = {
+              name = "+Inlay Hint",
+              t = {'<cmd>lua vim.lsp.buf.inlay_hint(0)<CR>', "Toggle"}
+            }
           },
           -- ["K"] = {
           --   "<cmd>Lspsaga hover_doc<CR>",

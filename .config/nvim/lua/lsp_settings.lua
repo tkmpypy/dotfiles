@@ -2,6 +2,27 @@ local vim = vim
 local lspconfig = require("lspconfig")
 local util = require("lspconfig").util
 
+local function setInlayHintHL()
+  local has_hl, hl = pcall(vim.api.nvim_get_hl_by_name, "LspInlayHint", true)
+  if has_hl and (hl["foreground"] or hl["background"]) then
+    return
+  end
+
+  hl = vim.api.nvim_get_hl_by_name("Comment", true)
+  local foreground = string.format("#%06x", hl["foreground"] or 0)
+  if #foreground < 3 then
+    foreground = ""
+  end
+
+  hl = vim.api.nvim_get_hl_by_name("CursorLine", true)
+  local background = string.format("#%06x", hl["background"] or 0)
+  if #background < 3 then
+    background = ""
+  end
+
+  vim.api.nvim_set_hl(0, "LspInlayHint", { fg = foreground, bg = background })
+end
+
 local set_diagnostic_sign = function()
   local signs = { "", "", "", "󰌶" }
   local diagnostic_types = { "Error", "Warn", "Info", "Hint" } -- or Warning, Information (which also don't seem to work) ...
@@ -46,6 +67,22 @@ local custom_attach = function(client, bufnr)
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
     })
+  end
+
+  if client.supports_method("textDocument/inlayHint") then
+    setInlayHintHL()
+    vim.lsp.buf.inlay_hint(bufnr, true)
+
+    -- vim.api.nvim_create_autocmd("InsertLeave", {
+    --   callback = function()
+    --     vim.lsp.buf.inlay_hint(bufnr, true)
+    --   end,
+    -- })
+    -- vim.api.nvim_create_autocmd("InsertEnter", {
+    --   callback = function()
+    --     vim.lsp.buf.inlay_hint(bufnr, false)
+    --   end,
+    -- })
   end
 
   -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
@@ -228,6 +265,15 @@ local vtsls_config = {
       suggest = {
         completeFunctionCalls = true,
       },
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = true,
+      },
     },
     javascript = {
       format = {
@@ -235,6 +281,15 @@ local vtsls_config = {
       },
       suggest = {
         completeFunctionCalls = true,
+      },
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = true,
       },
     },
   },
@@ -409,7 +464,7 @@ local setup_servers = function()
           inlay_hints = {
             -- automatically set inlay hints (type hints)
             -- default: true
-            auto = true,
+            auto = false,
 
             -- Only show inlay hints for the current line
             only_current_line = false,
