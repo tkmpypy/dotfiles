@@ -618,10 +618,8 @@ require("lazy").setup({
   },
   {
     "petertriho/nvim-scrollbar",
-    dependencies = { "kevinhwang91/nvim-hlslens" },
     event = { "VeryLazy" },
     config = function()
-      require("hlslens").setup()
       require("scrollbar").setup({
         show = true,
         set_highlights = true,
@@ -698,7 +696,7 @@ require("lazy").setup({
         },
         handlers = {
           diagnostic = true,
-          search = true, -- Requires hlslens to be loaded, will run require("scrollbar.handlers.search").setup() for you
+          search = false, -- Requires hlslens to be loaded, will run require("scrollbar.handlers.search").setup() for you
         },
       })
     end,
@@ -1165,7 +1163,7 @@ require("lazy").setup({
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
         enable_git_status = true,
-        enable_diagnostics = true,
+        enable_diagnostics = false,
         open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
         sort_case_insensitive = false, -- used when sorting files and directories in the tree
         sort_function = nil, -- use a custom function for sorting files and directories in the tree
@@ -1762,63 +1760,183 @@ require("lazy").setup({
   { "npxbr/glow.nvim", ft = { "markdown" } },
   "osyo-manga/vim-over",
   {
-    "phaazon/hop.nvim",
-    keys = {
-      {
-        "f",
-        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true })<cr>",
-        mode = "n",
-        desc = "hop hint char",
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- labels = "abcdefghijklmnopqrstuvwxyz",
+      labels = "asdfghjklqwertyuiopzxcvbnm",
+      search = {
+        -- search/jump in all windows
+        multi_window = true,
+        -- search direction
+        forward = true,
+        -- when `false`, find only matches in the given direction
+        wrap = false,
+        ---@type Flash.Pattern.Mode
+        -- Each mode will take ignorecase and smartcase into account.
+        -- * exact: exact match
+        -- * search: regular search
+        -- * fuzzy: fuzzy search
+        -- * fun(str): custom function that returns a pattern
+        --   For example, to only match at the beginning of a word:
+        --   mode = function(str)
+        --     return "\\<" .. str
+        --   end,
+        mode = "exact",
+        -- behave like `incsearch`
+        incremental = true,
+        -- Excluded filetypes and custom window filters
+        ---@type (string|fun(win:window))[]
+        exclude = {
+          "notify",
+          "cmp_menu",
+          "noice",
+          "flash_prompt",
+          function(win)
+            -- exclude non-focusable windows
+            return not vim.api.nvim_win_get_config(win).focusable
+          end,
+        },
+        -- Optional trigger character that needs to be typed before
+        -- a jump label can be used. It's NOT recommended to set this,
+        -- unless you know what you're doing
+        trigger = "",
+        -- max pattern length. If the pattern length is equal to this
+        -- labels will no longer be skipped. When it exceeds this length
+        -- it will either end in a jump or terminate the search
+        max_length = nil, ---@type number?
       },
-      {
-        "f",
-        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = true, inclusive_jump = true })<cr>",
-        mode = "o",
-        desc = "hop hint char(inclusive_jump)",
+      jump = {
+        -- save location in the jumplist
+        jumplist = true,
+        -- jump position
+        pos = "start", ---@type "start" | "end" | "range"
+        -- add pattern to search history
+        history = false,
+        -- add pattern to search register
+        register = false,
+        -- clear highlight after jump
+        nohlsearch = false,
+        -- automatically jump when there is only one match
+        autojump = false,
+        -- You can force inclusive/exclusive jumps by setting the
+        -- `inclusive` option. By default it will be automatically
+        -- set based on the mode.
+        inclusive = nil, ---@type boolean?
+        -- jump position offset. Not used for range jumps.
+        -- 0: default
+        -- 1: when pos == "end" and pos < current position
+        offset = nil, ---@type number
       },
-      {
-        "L",
-        "<cmd>lua require'hop'.hint_lines_skip_whitespace({ current_line_only = false })<cr>",
-        mode = { "n", "v" },
-        desc = "hop lines",
+      highlight = {
+        label = {
+          -- allow uppercase labels
+          uppercase = true,
+          -- add a label for the first match in the current window.
+          -- you can always jump to the first match with `<CR>`
+          current = true,
+          -- show the label after the match
+          after = true, ---@type boolean|number[]
+          -- show the label before the match
+          before = false, ---@type boolean|number[]
+          -- position of the label extmark
+          style = "overlay", ---@type "eol" | "overlay" | "right_align" | "inline"
+          -- flash tries to re-use labels that were already assigned to a position,
+          -- when typing more characters. By default only lower-case labels are re-used.
+          reuse = "lowercase", ---@type "lowercase" | "all"
+          -- for the current window, label targets closer to the cursor first
+          distance = true,
+          -- minimum pattern length to show labels
+          -- Ignored for custom labelers.
+          min_pattern_length = 0,
+        },
+        -- show a backdrop with hl FlashBackdrop
+        backdrop = true,
+        -- Highlight the search matches
+        matches = true,
+        -- extmark priority
+        priority = 5000,
+        groups = {
+          match = "FlashMatch",
+          current = "FlashCurrent",
+          backdrop = "FlashBackdrop",
+          label = "FlashLabel",
+        },
       },
-      {
-        "mc",
-        "<cmd>lua require'hop'.hint_char1({ direction = nil, current_line_only = false })<cr>",
-        mode = "n",
-        desc = "hop hint char(current_line_only=false)",
-      },
-      {
-        "mw",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN })<cr>",
-        mode = { "n", "v" },
-        desc = "hop hint words(BEGIN)",
-      },
-      {
-        "mw",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.BEGIN, inclusive_jump = true })<cr>",
-        mode = "o",
-        desc = "hop hint words(BEGIN)",
-      },
-      {
-        "mW",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<cr>",
-        mode = { "n", "v" },
-        desc = "hop hint words(END)",
-      },
-      {
-        "mW",
-        "<cmd> lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<cr>",
-        mode = "o",
-        desc = "hop hint words(END)",
+      -- action to perform when picking a label.
+      -- defaults to the jumping logic depending on the mode.
+      ---@type fun(match:Flash.Match, state:Flash.State)|nil
+      action = nil,
+      -- initial pattern to use when opening flash
+      pattern = "",
+      -- When `true`, flash will try to continue the last search
+      continue = false,
+      -- You can override the default options for a specific mode.
+      -- Use it with `require("flash").jump({mode = "forward"})`
+      ---@type table<string, Flash.Config>
+      modes = {
+        -- options used when flash is activated through
+        -- `f`, `F`, `t`, `T`, `;` and `,` motions
+        char = {
+          enabled = true,
+          -- by default all keymaps are enabled, but you can disable some of them,
+          -- by removing them from the list.
+          keys = { "f", "F", "t", "T", ";", "," },
+          search = { wrap = false },
+          highlight = { backdrop = true },
+          jump = { register = false },
+        },
+        -- options used for treesitter selections
+        -- `require("flash").treesitter()`
+        treesitter = {
+          labels = "abcdefghijklmnopqrstuvwxyz",
+          jump = { pos = "range" },
+          highlight = {
+            label = { before = true, after = true, style = "inline" },
+            backdrop = false,
+            matches = false,
+          },
+        },
       },
     },
-    config = function()
-      require("hop").setup({
-        keys = "etovxqpdygfblzhckisuran",
-        jump_on_sole_occurrence = false,
-      })
-    end,
+    keys = {
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          -- default options: exact mode, multi window, all directions, with a backdrop
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "S",
+        mode = { "n", "o", "x" },
+        function()
+          -- show labeled treesitter nodes around the cursor
+          require("flash").treesitter()
+        end,
+        desc = "Flash Treesitter",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          -- jump to a remote location to execute the operator
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+      {
+        "R",
+        mode = { "n", "o", "x" },
+        function()
+          -- show labeled treesitter nodes around the search matches
+          require("flash").treesitter_search()
+        end,
+        desc = "Treesitter Search",
+      },
+    },
   },
   {
     "mtdl9/vim-log-highlighting",
@@ -3578,8 +3696,8 @@ require("lazy").setup({
             },
             h = {
               name = "+Inlay Hint",
-              t = {'<cmd>lua vim.lsp.buf.inlay_hint(0)<CR>', "Toggle"}
-            }
+              t = { "<cmd>lua vim.lsp.buf.inlay_hint(0)<CR>", "Toggle" },
+            },
           },
           -- ["K"] = {
           --   "<cmd>Lspsaga hover_doc<CR>",
