@@ -1763,15 +1763,15 @@ require("lazy").setup({
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
-      -- labels = "abcdefghijklmnopqrstuvwxyz",
-      labels = "asdfghjklqwertyuiopzxcvbnm",
+      labels = "abcdefghijklmnopqrstuvwxyz",
+      -- labels = "asdfghjklqwertyuiopzxcvbnm",
       search = {
         -- search/jump in all windows
         multi_window = true,
         -- search direction
         forward = true,
         -- when `false`, find only matches in the given direction
-        wrap = false,
+        wrap = true,
         ---@type Flash.Pattern.Mode
         -- Each mode will take ignorecase and smartcase into account.
         -- * exact: exact match
@@ -1784,7 +1784,7 @@ require("lazy").setup({
         --   end,
         mode = "exact",
         -- behave like `incsearch`
-        incremental = true,
+        incremental = false,
         -- Excluded filetypes and custom window filters
         ---@type (string|fun(win:window))[]
         exclude = {
@@ -1828,40 +1828,38 @@ require("lazy").setup({
         -- 1: when pos == "end" and pos < current position
         offset = nil, ---@type number
       },
-      highlight = {
-        label = {
-          -- allow uppercase labels
-          uppercase = true,
-          -- add a label for the first match in the current window.
-          -- you can always jump to the first match with `<CR>`
-          current = true,
-          -- show the label after the match
-          after = true, ---@type boolean|number[]
-          -- show the label before the match
-          before = false, ---@type boolean|number[]
-          -- position of the label extmark
-          style = "overlay", ---@type "eol" | "overlay" | "right_align" | "inline"
-          -- flash tries to re-use labels that were already assigned to a position,
-          -- when typing more characters. By default only lower-case labels are re-used.
-          reuse = "lowercase", ---@type "lowercase" | "all"
-          -- for the current window, label targets closer to the cursor first
-          distance = true,
-          -- minimum pattern length to show labels
-          -- Ignored for custom labelers.
-          min_pattern_length = 0,
-        },
-        -- show a backdrop with hl FlashBackdrop
-        backdrop = true,
-        -- Highlight the search matches
-        matches = true,
-        -- extmark priority
-        priority = 5000,
-        groups = {
-          match = "FlashMatch",
-          current = "FlashCurrent",
-          backdrop = "FlashBackdrop",
-          label = "FlashLabel",
-        },
+      label = {
+        -- allow uppercase labels
+        uppercase = true,
+        -- add a label for the first match in the current window.
+        -- you can always jump to the first match with `<CR>`
+        current = true,
+        -- show the label after the match
+        after = true, ---@type boolean|number[]
+        -- show the label before the match
+        before = false, ---@type boolean|number[]
+        -- position of the label extmark
+        style = "overlay", ---@type "eol" | "overlay" | "right_align" | "inline"
+        -- flash tries to re-use labels that were already assigned to a position,
+        -- when typing more characters. By default only lower-case labels are re-used.
+        reuse = "lowercase", ---@type "lowercase" | "all"
+        -- for the current window, label targets closer to the cursor first
+        distance = true,
+        -- minimum pattern length to show labels
+        -- Ignored for custom labelers.
+        min_pattern_length = 0,
+      },
+      -- show a backdrop with hl FlashBackdrop
+      backdrop = true,
+      -- Highlight the search matches
+      matches = true,
+      -- extmark priority
+      priority = 5000,
+      groups = {
+        match = "FlashMatch",
+        current = "FlashCurrent",
+        backdrop = "FlashBackdrop",
+        label = "FlashLabel",
       },
       -- action to perform when picking a label.
       -- defaults to the jumping logic depending on the mode.
@@ -1877,6 +1875,9 @@ require("lazy").setup({
       modes = {
         -- options used when flash is activated through
         -- `f`, `F`, `t`, `T`, `;` and `,` motions
+        search = {
+          labels = "abcdefghijklmnopqrstuvwxyz",
+        },
         char = {
           enabled = true,
           -- by default all keymaps are enabled, but you can disable some of them,
