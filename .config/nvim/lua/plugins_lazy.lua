@@ -399,6 +399,7 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-go",
+      "nvim-neotest/neotest-python",
       "rouge8/neotest-rust",
     },
     config = function()
@@ -417,6 +418,27 @@ require("lazy").setup({
           require("neotest-go"),
           require("neotest-rust")({
             args = { "--no-capture" },
+          }),
+          require("neotest-python")({
+            -- Extra arguments for nvim-dap configuration
+            -- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
+            dap = { justMyCode = false },
+            -- Command line arguments for runner
+            -- Can also be a function to return dynamic values
+            args = { "-vv", "--capture=no", "--log-level", "DEBUG" },
+            runner = "pytest",
+            python = function()
+              return vim.fn.trim(vim.fn.system({ "which", "python" }))
+            end,
+            -- Returns if a given file path is a test file.
+            -- NB: This function is called a lot so don't perform any heavy tasks within it.
+            -- is_test_file = function(file_path)
+            --   local s, e = file_path:find("test", 1, true)
+            --   local b = s ~= nil
+            --   print(b)
+
+            --   return b
+            -- end,
           }),
         },
         benchmark = {
