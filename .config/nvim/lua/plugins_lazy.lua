@@ -1541,6 +1541,100 @@ require("lazy").setup({
     event = { "VeryLazy" },
     dependencies = { "kana/vim-operator-user" },
   },
+  {
+    "gbprod/yanky.nvim",
+    event = { "VeryLazy" },
+    opts = {
+      ring = {
+        history_length = 100,
+        storage = "shada",
+        sync_with_numbered_registers = true,
+        cancel_event = "update",
+      },
+      picker = {
+        select = {
+          action = nil, -- nil to use default put action
+        },
+        telescope = {
+          use_default_mappings = true, -- if default mappings should be used
+          mappings = nil, -- nil to use default mappings or no mappings (see `use_default_mappings`)
+        },
+      },
+      system_clipboard = {
+        sync_with_ring = true,
+      },
+      highlight = {
+        on_put = true,
+        on_yank = true,
+        timer = 500,
+      },
+      preserve_cursor_position = {
+        enabled = true,
+      },
+    },
+    keys = {
+      {
+        "p",
+        function()
+          return "<Plug>(YankyPutAfter)"
+        end,
+        mode = { "n", "x" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "P",
+        function()
+          return "<Plug>(YankyPutBefore)"
+        end,
+        mode = { "n", "x" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "gp",
+        function()
+          return "<Plug>(YankyGPutAfter)"
+        end,
+        mode = { "n", "x" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "gP",
+        function()
+          return "<Plug>(YankyGPutBefore)"
+        end,
+        mode = { "n", "x" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "<C-n>",
+        function()
+          return "<Plug>(YankyCycleForward)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "<C-p>",
+        function()
+          return "<Plug>(YankyCycleBackward)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+    },
+  },
 
   -- Utils
   {
