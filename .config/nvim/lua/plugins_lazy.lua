@@ -2319,7 +2319,7 @@ require("lazy").setup({
     end,
   },
   {
-    "TimUntersberger/neogit",
+    "NeogitOrg/neogit",
     lazy = true,
     enabled = function()
       return vim.g.git_client_type == "neogit"
