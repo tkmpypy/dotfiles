@@ -50,6 +50,11 @@ local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
   if client.server_capabilities.documentHighlightProvider then
+    -- vim.cmd([[
+    --   hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+    --   hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+    --   hi! LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+    -- ]])
     vim.api.nvim_create_augroup("lsp_document_highlight", {
       clear = false,
     })
@@ -62,16 +67,16 @@ local custom_attach = function(client, bufnr)
       buffer = bufnr,
       callback = vim.lsp.buf.document_highlight,
     })
-    vim.api.nvim_create_autocmd("CursorMoved", {
+    vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
       group = "lsp_document_highlight",
       buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
+      callback = function() vim.lsp.buf.clear_references(bufnr) end,
     })
   end
 
   if client.supports_method("textDocument/inlayHint") then
     setInlayHintHL()
-    vim.lsp.buf.inlay_hint(bufnr, true)
+    vim.lsp.inlay_hint(bufnr, true)
 
     -- vim.api.nvim_create_autocmd("InsertLeave", {
     --   callback = function()
