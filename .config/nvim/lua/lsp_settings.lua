@@ -2,7 +2,7 @@ local vim = vim
 local lspconfig = require("lspconfig")
 local util = require("lspconfig").util
 
-local function setInlayHintHL()
+local function set_inlay_hint_hl()
   local has_hl, hl = pcall(vim.api.nvim_get_hl_by_name, "LspInlayHint", true)
   if has_hl and (hl["foreground"] or hl["background"]) then
     return
@@ -75,8 +75,8 @@ local custom_attach = function(client, bufnr)
   end
 
   if client.supports_method("textDocument/inlayHint") then
-    setInlayHintHL()
-    vim.lsp.inlay_hint(bufnr, true)
+    set_inlay_hint_hl()
+    -- vim.lsp.inlay_hint(bufnr, true)
 
     -- vim.api.nvim_create_autocmd("InsertLeave", {
     --   callback = function()

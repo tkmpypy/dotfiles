@@ -29,7 +29,7 @@ require("lazy").setup({
         "nvim-treesitter/nvim-treesitter-context",
         config = function()
           require("treesitter-context").setup({
-            enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+            enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
             max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
             min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
             line_numbers = true,
@@ -3259,7 +3259,7 @@ require("lazy").setup({
         height = 10, -- height of the trouble list when position is top or bottom
         width = 50, -- width of the list when position is left or right
         icons = true, -- use devicons for filenames
-        mode = "workspace_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
+        mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
         fold_open = "", -- icon used for open folds
         fold_closed = "", -- icon used for closed folds
         group = true, -- group results by file
@@ -3813,7 +3813,7 @@ require("lazy").setup({
             },
             h = {
               name = "+Inlay Hint",
-              t = { "<cmd>lua vim.lsp.buf.inlay_hint(0)<CR>", "Toggle" },
+              t = { "<cmd>lua vim.lsp.inlay_hint(0)<CR>", "Toggle" },
             },
           },
           -- ["K"] = {
