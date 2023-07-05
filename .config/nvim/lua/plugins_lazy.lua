@@ -2474,7 +2474,6 @@ require("lazy").setup({
   {
     "Bekaboo/dropbar.nvim",
     event = "VeryLazy",
-    commit = "19011d96959cd40a7173485ee54202589760caae",
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
