@@ -406,7 +406,8 @@ inoremap <C-c> <ESC><ESC>
 
 " terminal
 " ESCでターミナルモードからノーマルモードへ
-tnoremap <C-W>N <C-\><C-N>
+tnoremap <C-w>N <C-\><C-n>
+tnoremap <ESC> <C-\><C-n>
 
 nnoremap <Leader>cdg :cd %:h<Enter>:pwd<Enter>
 nnoremap <Leader>cdl :lcd %:h<Enter>:pwd<Enter>
