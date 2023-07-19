@@ -49,7 +49,7 @@ require("lazy").setup({
       "yioneko/nvim-yati",
       "RRethy/nvim-treesitter-endwise",
       "windwp/nvim-ts-autotag",
-      "mrjones2014/nvim-ts-rainbow",
+      "HiPhish/nvim-ts-rainbow2",
       "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
@@ -65,6 +65,7 @@ require("lazy").setup({
             vim.api.nvim_exec2("set nofoldenable", {})
             vim.api.nvim_exec2("set foldmethod=expr", {})
             vim.api.nvim_exec2("set foldexpr=nvim_treesitter#foldexpr()", {})
+            -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
           end
         end,
       })
@@ -156,66 +157,16 @@ require("lazy").setup({
         },
         rainbow = {
           enable = true,
-          extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+          -- list of languages you want to disable the plugin for
+          -- disable = { "jsx", "cpp" },
+          -- Which query to use for finding delimiters
+          -- query = "rainbow-parens",
+          -- Highlight the entire buffer all at once
+          -- strategy = require("ts-rainbow").strategy.global,
         },
         context_commentstring = { enable = true, enable_autocmd = false },
       })
     end,
-  },
-  {
-    "kevinhwang91/nvim-ufo",
-    dependencies = {
-      "kevinhwang91/promise-async",
-    },
-    enabled = false,
-    event = "BufRead",
-    config = function()
-      vim.o.foldcolumn = "0" -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-      -- vim.o.foldlevelstart = 99
-      -- vim.o.foldenable = true
-
-      -- require("ufo").setup({
-      --   provider_selector = function(bufnr, filetype, buftype)
-      --     return { "treesitter", "indent" }
-      --   end,
-      -- })
-      require("ufo").setup()
-    end,
-    keys = {
-      {
-        "zR",
-        function()
-          require("ufo").openAllFolds()
-        end,
-        mode = "n",
-        desc = "Open all folds",
-      },
-      {
-        "zM",
-        function()
-          require("ufo").closeAllFolds()
-        end,
-        mode = "n",
-        desc = "Close all folds",
-      },
-      -- {
-      --   "zr",
-      --   function()
-      --     require('ufo').openFoldsExceptKinds()
-      --   end,
-      --   mode = "n",
-      --   desc = "Open all folds",
-      -- },
-      -- {
-      --   "zm",
-      --   function()
-      --     require('ufo').closeFoldsWith()
-      --   end,
-      --   mode = "n",
-      --   desc = "Close all folds",
-      -- },
-    },
   },
   {
     "b3nj5m1n/kommentary",
@@ -303,6 +254,7 @@ require("lazy").setup({
   },
   {
     "aklt/plantuml-syntax",
+    enabled = false,
     ft = "plantuml",
   },
 
@@ -751,7 +703,7 @@ require("lazy").setup({
         --     "IndentBlanklineIndent5",
         --     "IndentBlanklineIndent6",
         -- },
-        show_current_context = true,
+        show_current_context = false,
         show_current_context_start = false,
       })
     end,
@@ -790,6 +742,7 @@ require("lazy").setup({
             {
               "filetype",
               icon_only = true,
+              -- icon = {align = "right"}
             },
             {
               "filename",
@@ -1825,6 +1778,24 @@ require("lazy").setup({
     end,
   },
   {
+    "chomosuke/term-edit.nvim",
+    ft = "toggleterm",
+    version = "1.*",
+    config = function()
+      require("term-edit").setup({
+        -- Mandatory option:
+        -- Set this to a lua pattern that would match the end of your prompt.
+        -- Or a table of multiple lua patterns where at least one would match the
+        -- end of your prompt at any given time.
+        -- For most bash/zsh user this is '%$ '.
+        -- For most powershell/fish user this is '> '.
+        -- For most windows cmd user this is '>'.
+        prompt_end = "%$ ",
+        -- How to write lua patterns: https://www.lua.org/pil/20.2.html
+      })
+    end,
+  },
+  {
     "famiu/bufdelete.nvim",
     keys = {
       {
@@ -2014,11 +1985,6 @@ require("lazy").setup({
         treesitter = {
           labels = "abcdefghijklmnopqrstuvwxyz",
           jump = { pos = "range" },
-          highlight = {
-            label = { before = true, after = true, style = "inline" },
-            backdrop = false,
-            matches = false,
-          },
         },
       },
     },
@@ -4172,7 +4138,6 @@ require("lazy").setup({
         "tohtml",
         "tutor",
         "zipPlugin",
-        "nvim-treesitter-textobjects",
       },
     },
   },
