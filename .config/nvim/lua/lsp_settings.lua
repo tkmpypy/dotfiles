@@ -230,6 +230,15 @@ local solargraph_config = {
   },
 }
 
+local sqlls_config = {
+  root_dir = function(fname)
+    local root_files = {
+      ".git",
+    }
+    return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
+  end,
+}
+
 local pyright_config = {
   root_dir = function(fname)
     local root_files = {
@@ -524,6 +533,11 @@ local setup_servers = function()
           },
         },
       })
+    end,
+    ["sqlls"] = function()
+      local config = make_config()
+      config.root_dir = sqlls_config.root_dir
+      lspconfig.sqlls.setup(config)
     end,
     ["pyright"] = function()
       local config = make_config()

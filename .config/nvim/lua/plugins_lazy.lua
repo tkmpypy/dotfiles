@@ -2964,6 +2964,7 @@ require("lazy").setup({
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.terraform_fmt,
           null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.formatting.sql_formatter,
         },
         update_in_insert = false,
         diagnostics_format = "[#{s} #{c}] #{m}",
