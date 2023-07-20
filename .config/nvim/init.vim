@@ -31,6 +31,9 @@ let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 " let g:do_legacy_filetype=0
 
+" disable mapping for sql
+let g:omni_sql_no_default_maps = 1
+
 " You might have to force true color when using regular vim inside tmux as the
 " colorscheme can appear to be grayscale with "termguicolors" option enabled.
 if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
