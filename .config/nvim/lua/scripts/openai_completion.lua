@@ -44,7 +44,7 @@ local default_config = {
 	model = "text-davinci-003",
 	max_tokens = 300,
 	prefix = function()
-		local ft = vim.api.nvim_buf_get_option(0, "filetype")
+		local ft = vim.api.nvim_get_option_value("filetype", {buf=0})
 		return string.format("Please reply with source code only. use language is %s%s", ft, end_of_text)
 	end,
 	suffix = nil,

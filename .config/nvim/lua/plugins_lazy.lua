@@ -2450,6 +2450,20 @@ require("lazy").setup({
       return vim.g.lsp_client_type == "neovim"
     end,
     opts = {
+      -- general = {
+      --   ---@type boolean|fun(buf: integer, win: integer): boolean
+      --   enable = function(buf, win)
+      --     local disabled_ft = {
+      --       "NeogitCommitMessage",
+      --     }
+
+      --     return not vim.api.nvim_win_get_config(win).zindex
+      --       and not vim.tbl_contains(disabled_ft, vim.bo[buf].ft, nil)
+      --       and vim.bo[buf].buftype == ""
+      --       and vim.api.nvim_buf_get_name(buf) ~= ""
+      --       and not vim.wo[win].diff
+      --   end,
+      -- },
       icons = {
         kinds = {
           use_devicons = true,
@@ -3044,7 +3058,7 @@ require("lazy").setup({
 
       cmp.setup({
         enabled = function()
-          return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+          return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
         end,
         view = {
           entries = { name = "custom", selection_order = "top_down" },
@@ -3790,7 +3804,7 @@ require("lazy").setup({
           ["K"] = {
             function()
               local buf = vim.api.nvim_get_current_buf()
-              local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+              local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
               if ft == "rust" then
                 return require("rust-tools").hover_actions.hover_actions()
               end
@@ -4065,8 +4079,8 @@ require("lazy").setup({
         use_default_exclude = true,
         exclude = function(buf, win)
           -- exclude noice.nvim's cmdline_popup
-          local bt = vim.api.nvim_buf_get_option(buf, "buftype")
-          local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+          local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
+          local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
           if bt == "nofile" and (ft == "noice" or ft == "vim") then
             return true
           end
