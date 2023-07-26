@@ -3853,8 +3853,13 @@ require("lazy").setup({
 
   -- ColorScheme
   {
+    "olimorris/onedarkpro.nvim",
+    lazy = true,
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
+    lazy = true,
     opts = {
       flavour = "frappe", -- latte, frappe, macchiato, mocha
       -- background = { -- :h background
@@ -3909,32 +3914,6 @@ require("lazy").setup({
         nvim_tree = {
           contrast = false,
         },
-      })
-    end,
-  },
-  {
-    "lmburns/kimbox",
-    lazy = true,
-    config = function()
-      require("kimbox").setup({
-        -- options
-        -- Main options --
-        style = "ocean", -- choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-        -- medium: #231A0C
-        -- ocean: #221A02
-        -- medium: #231A0C
-        -- deep: #0f111B
-        -- darker:#291804
-        -- General formatting --
-        allow_bold = true,
-        allow_italic = true,
-        allow_underline = true,
-        allow_undercurl = true,
-        allow_reverse = false,
-
-        transparent = false, -- don't set background
-        term_colors = true, -- if true enable the terminal
-        ending_tildes = false, -- show the end-of-buffer tildes
       })
     end,
   },
@@ -4114,6 +4093,13 @@ require("lazy").setup({
 }, {
   defaults = {
     lazy = false, -- should plugins be lazy-loaded?
+  },
+  readme = {
+    enabled = true,
+    root = vim.fn.stdpath("state") .. "/lazy/readme",
+    files = { "README.md", "lua/**/README.md" },
+    -- only generate markdown helptags for plugins that dont have docs
+    skip_if_doc_exists = true,
   },
   concurrency = 50,
   ui = {

@@ -272,3 +272,4 @@ nozomi
 PCMU
 mypage
 catppuccin
+currval
