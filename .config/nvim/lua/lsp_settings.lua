@@ -154,11 +154,11 @@ local yamlls_config = {
       format = { enable = false },
       hover = true,
       schemaStore = {
-        enable = true,
-        url = "https://www.schemastore.org/api/json/catalog.json",
+        enable = false,
+        url = "",
       },
       schemaDownload = { enable = true },
-      schemas = require("schemastore").json.schemas(),
+      schemas = require("schemastore").yaml.schemas(),
       -- schemas = {}
     },
   },

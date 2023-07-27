@@ -2392,33 +2392,88 @@ require("lazy").setup({
       return vim.g.lsp_client_type == "neovim"
     end,
     config = function()
-      require("mason-lspconfig").setup({
+      require("mason-lspconfig").setup()
+    end,
+  },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    event = { "VeryLazy" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
+    config = function()
+      require("mason-tool-installer").setup({
+
+        -- a list of all tools you want to ensure are installed upon
+        -- start; they should be the names Mason uses for each tool
         ensure_installed = {
-          "lua_ls",
-          "rust_analyzer",
-          "cssls",
-          "dockerls",
-          "eslint",
+
+          -- you can pin a tool to a particular version
+          -- { "golangci-lint", version = "v1.47.0" },
+
+          -- you can turn off/on auto_update per tool
+          -- { "bash-language-server", auto_update = true },
+
+          -- LSP
+          "lua-language-server",
+          "vim-language-server",
           "gopls",
-          "html",
-          "jsonls",
+          "rust-analyzer",
+          "css-lsp",
+          "dockerfile-language-server",
           "vtsls",
-          -- "tsserver",
-          "marksman",
+          "eslint-lsp",
+          "html-lsp",
+          "json-lsp",
+          "yaml-language-server",
+          "buf-language-server",
           "pyright",
-          "tailwindcss",
-          "terraformls",
-          "vimls",
-          "yamlls",
+          "marksman",
+          "sqlls",
+          "svelte-language-server",
+          "tailwindcss-language-server",
+          "terraform-ls",
+          -- Linter
+          "buf",
+          "cspell",
+          "golangci-lint",
+          "shellcheck",
+          -- Formatter
+          "sql-formatter",
+          "black",
+          "gofumpt",
+          "goimports",
+          "prettier",
+          "shfmt",
+          "stylua",
         },
-        -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
-        -- This setting has no relation with the `ensure_installed` setting.
-        -- Can either be:
-        --   - false: Servers are not automatically installed.
-        --   - true: All servers set up via lspconfig are automatically installed.
-        --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
-        --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
-        automatic_installation = false,
+
+        -- if set to true this will check each tool for updates. If updates
+        -- are available the tool will be updated. This setting does not
+        -- affect :MasonToolsUpdate or :MasonToolsInstall.
+        -- Default: false
+        auto_update = false,
+
+        -- automatically install / update on startup. If set to false nothing
+        -- will happen on startup. You can use :MasonToolsInstall or
+        -- :MasonToolsUpdate to install tools and check for updates.
+        -- Default: true
+        run_on_start = false,
+
+        -- set a delay (in ms) before the installation starts. This is only
+        -- effective if run_on_start is set to true.
+        -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
+        -- Default: 0
+        start_delay = 3000, -- 3 second delay
+
+        -- Only attempt to install if 'debounce_hours' number of hours has
+        -- elapsed since the last time Neovim was started. This stores a
+        -- timestamp in a file named stdpath('data')/mason-tool-installer-debounce.
+        -- This is only relevant when you are using 'run_on_start'. It has no
+        -- effect when running manually via ':MasonToolsInstall' etc....
+        -- Default: nil
+        debounce_hours = 5, -- at least 5 hours between attempts to install/update
       })
     end,
   },
