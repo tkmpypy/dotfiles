@@ -2608,6 +2608,22 @@ require("lazy").setup({
           pivots = "abcdefghijklmnopqrstuvwxyz",
         },
         truncate = true,
+        sources = function(buf, _)
+          local sources = require("dropbar.sources")
+          local utils = require("dropbar.utils")
+          local s = {sources.lsp}
+          if require("nvim-treesitter.parsers").has_parser() then
+            s[#s+1]=sources.treesitter
+          end
+          if vim.bo[buf].ft == "markdown" then
+            s[#s+1] = sources.markdown
+          end
+
+          return {
+            sources.path,
+            utils.source.fallback(s),
+          }
+        end,
       },
       menu = {
         entry = {
@@ -3012,13 +3028,6 @@ require("lazy").setup({
           }),
           -- null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.diagnostics.golangci_lint.with({
-            args = {
-              "run",
-              "--fix=false",
-              "--out-format=json",
-              "--path-prefix",
-              "$ROOT",
-            },
             timeout = 50000,
           }),
           null_ls.builtins.formatting.prettier.with({
