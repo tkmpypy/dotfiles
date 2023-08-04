@@ -11,14 +11,9 @@ local get_head_commit_hash = function()
   return vim.fn.trim(vim.fn.system { "git", "rev-parse", "HEAD" })
 end
 
-local get_default_branch_name = function(remote)
-  -- git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
-  local refs = vim.fn.trim(vim.fn.system("git symbolic-ref refs/remotes/" .. remote .. "/HEAD"))
-  refs = util.str.split(refs, "/")
-  if vim.tbl_isempty(refs) then
-    return ""
-  end
-  return refs[#refs]
+local get_default_branch_name = function()
+  local ref = vim.fn.trim(vim.fn.system("git remote show origin | grep 'HEAD branch' | awk '{print $NF}'"))
+  return ref
 end
 
 local get_remote_url = function(remote)
@@ -52,7 +47,7 @@ _G.tkmpypy.GitLinker.run = function(mode, start_line, end_line)
       return
     end
   elseif mode == "default" then
-    b = get_default_branch_name(remote)
+    b = get_default_branch_name()
     if b == "" then
       logger.warn("GitLinker", "could not get branch name.")
       return

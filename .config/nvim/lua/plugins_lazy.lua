@@ -1096,7 +1096,6 @@ require("lazy").setup({
                 buftype = { "terminal", "quickfix" },
               },
             },
-            other_win_hl_color = "#e35e4f",
           })
         end,
       },
@@ -2505,20 +2504,6 @@ require("lazy").setup({
       return vim.g.lsp_client_type == "neovim"
     end,
     opts = {
-      -- general = {
-      --   ---@type boolean|fun(buf: integer, win: integer): boolean
-      --   enable = function(buf, win)
-      --     local disabled_ft = {
-      --       "NeogitCommitMessage",
-      --     }
-
-      --     return not vim.api.nvim_win_get_config(win).zindex
-      --       and not vim.tbl_contains(disabled_ft, vim.bo[buf].ft, nil)
-      --       and vim.bo[buf].buftype == ""
-      --       and vim.api.nvim_buf_get_name(buf) ~= ""
-      --       and not vim.wo[win].diff
-      --   end,
-      -- },
       icons = {
         kinds = {
           use_devicons = true,
@@ -2611,12 +2596,12 @@ require("lazy").setup({
         sources = function(buf, _)
           local sources = require("dropbar.sources")
           local utils = require("dropbar.utils")
-          local s = {sources.lsp}
+          local s = { sources.lsp }
           if require("nvim-treesitter.parsers").has_parser() then
-            s[#s+1]=sources.treesitter
+            s[#s + 1] = sources.treesitter
           end
           if vim.bo[buf].ft == "markdown" then
-            s[#s+1] = sources.markdown
+            s[#s + 1] = sources.markdown
           end
 
           return {
@@ -3622,6 +3607,12 @@ require("lazy").setup({
           v = { "j", "k" },
         },
       })
+
+      -- mode: v
+      wk.register({
+        ["<C-j>"] = { ":m '>+1<CR>gv=gv", "range down" },
+        ["<C-k>"] = { ":m '<-2<CR>gv=gv", "range up" },
+      }, {mode = "v"})
 
       -- mode: n
       wk.register({

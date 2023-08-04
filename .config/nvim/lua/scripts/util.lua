@@ -221,7 +221,7 @@ end
 M.lsp.current_lsp = function()
   if vim.g.lsp_client_type == "neovim" then
     local msg = "No Active Lsp"
-    local clients = vim.lsp.get_active_clients()
+    local clients = vim.lsp.get_clients(nil)
     if next(clients) == nil then
       return msg
     end
