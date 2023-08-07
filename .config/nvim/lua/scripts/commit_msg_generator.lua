@@ -49,23 +49,6 @@ local base_url = "https://api.openai.com/v1"
 
 local app_name = "CommitMsgGen"
 
----join string
----@param list string[]
----@param sep string
----@return string
-local join_str = function(list, sep)
-  local r = ""
-  for _, v in pairs(list) do
-    if r ~= "" then
-      r = r .. sep .. v
-    else
-      r = v
-    end
-  end
-
-  return r
-end
-
 ---`vim.notify` wrapper
 ---@param msg string
 ---@param level number | nil
@@ -163,7 +146,7 @@ OpenAI.build_prompt = function(_, type, diff)
 
   s[#s + 1] = string.format("```diff\n%s```\n",diff)
 
-  return join_str(s, "\n")
+  return vim.fn.join(s, "\n")
 end
 
 OpenAI.request_completions = function(self, params, on_success, on_error, on_exit)
