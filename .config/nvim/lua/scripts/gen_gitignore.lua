@@ -38,7 +38,7 @@ function _G.tkmpypy.Gigi.generate_gitignore(args)
     local cmd = create_cmd(args)
     local r = vim.fn.system(cmd)
     r = vim.split(r, "\n")
-    vim.api.nvim_put(r, "l", "", true)
+    vim.api.nvim_put(r, "l", false, true)
   end
 end
 
