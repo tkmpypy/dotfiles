@@ -273,3 +273,5 @@ PCMU
 mypage
 catppuccin
 currval
+rclone
+fusermount
