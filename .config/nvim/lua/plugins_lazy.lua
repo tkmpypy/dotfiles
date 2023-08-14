@@ -323,9 +323,9 @@ require("lazy").setup({
 
         --# customize highlight groups (setting this overrides colorscheme)
         snipruncolors = {
-          SniprunVirtualTextOk = { bg = "#66eeff", fg = "#000000", ctermbg = "Cyan", cterfg = "Black" },
+          SniprunVirtualTextOk = { bg = "#66eeff", fg = "#000000", ctermbg = "Cyan", ctermfg = "Black" },
           SniprunFloatingWinOk = { fg = "#66eeff", ctermfg = "Cyan" },
-          SniprunVirtualTextErr = { bg = "#881515", fg = "#000000", ctermbg = "DarkRed", cterfg = "Black" },
+          SniprunVirtualTextErr = { bg = "#881515", fg = "#000000", ctermbg = "DarkRed", ctermfg = "Black" },
           SniprunFloatingWinErr = { fg = "#881515", ctermfg = "DarkRed" },
         },
 
@@ -762,6 +762,7 @@ require("lazy").setup({
             {
               "diagnostics",
               always_visible = true,
+              symbols = { error = " ", warn = " ", info = " ", hint =  " " },
               diagnostics_color = {
                 error = {
                   fg = lualine_utils.extract_color_from_hllist("fg", {
@@ -1856,7 +1857,6 @@ require("lazy").setup({
     event = "VeryLazy",
     opts = {
       labels = "abcdefghijklmnopqrstuvwxyz",
-      -- labels = "asdfghjklqwertyuiopzxcvbnm",
       search = {
         -- search/jump in all windows
         multi_window = true,
@@ -1864,7 +1864,6 @@ require("lazy").setup({
         forward = true,
         -- when `false`, find only matches in the given direction
         wrap = true,
-        ---@type Flash.Pattern.Mode
         -- Each mode will take ignorecase and smartcase into account.
         -- * exact: exact match
         -- * search: regular search
@@ -1878,7 +1877,6 @@ require("lazy").setup({
         -- behave like `incsearch`
         incremental = false,
         -- Excluded filetypes and custom window filters
-        ---@type (string|fun(win:window))[]
         exclude = {
           "notify",
           "cmp_menu",
@@ -1955,7 +1953,6 @@ require("lazy").setup({
       },
       -- action to perform when picking a label.
       -- defaults to the jumping logic depending on the mode.
-      ---@type fun(match:Flash.Match, state:Flash.State)|nil
       action = nil,
       -- initial pattern to use when opening flash
       pattern = "",
@@ -1963,7 +1960,6 @@ require("lazy").setup({
       continue = false,
       -- You can override the default options for a specific mode.
       -- Use it with `require("flash").jump({mode = "forward"})`
-      ---@type table<string, Flash.Config>
       modes = {
         -- options used when flash is activated through
         -- `f`, `F`, `t`, `T`, `;` and `,` motions
@@ -2584,7 +2580,6 @@ require("lazy").setup({
         },
       },
       bar = {
-        ---@type dropbar_source_t[]|fun(buf: integer, win: integer): dropbar_source_t[]
         padding = {
           left = 1,
           right = 1,
