@@ -3,18 +3,18 @@ local lspconfig = require("lspconfig")
 local util = require("lspconfig").util
 
 local function set_inlay_hint_hl()
-  local has_hl, hl = pcall(vim.api.nvim_get_hl_by_name, "LspInlayHint", true)
+  local has_hl, hl = pcall(vim.api.nvim_get_hl, 0, { name = "LspInlayHint", link = true })
   if has_hl and (hl["foreground"] or hl["background"]) then
     return
   end
 
-  hl = vim.api.nvim_get_hl_by_name("Comment", true)
+  hl = vim.api.nvim_get_hl(0, { name = "Comment", link = true })
   local foreground = string.format("#%06x", hl["foreground"] or 0)
   if #foreground < 3 then
     foreground = ""
   end
 
-  hl = vim.api.nvim_get_hl_by_name("CursorLine", true)
+  hl = vim.api.nvim_get_hl(0, { name = "CursorLine", link = true })
   local background = string.format("#%06x", hl["background"] or 0)
   if #background < 3 then
     background = ""
@@ -71,7 +71,9 @@ local custom_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
       group = "lsp_document_highlight",
       buffer = bufnr,
-      callback = function() vim.lsp.buf.clear_references(bufnr) end,
+      callback = function()
+        vim.lsp.buf.clear_references(bufnr)
+      end,
     })
   end
 
