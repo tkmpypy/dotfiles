@@ -385,7 +385,7 @@ local setup_lsp_ui = function()
 end
 
 -- config that activates keymaps and enables snippet support
-local make_config = function()
+local make_default_config = function()
   -- local capabilities = vim.lsp.protocol.make_client_capabilities()
   -- capabilities.textDocument.completion.completionItem.snippetSupport = true
   -- capabilities.textDocument.completion.completionItem.preselectSupport = true
@@ -423,7 +423,7 @@ local setup_servers = function()
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
     function(server_name) -- default handler (optional)
-      lspconfig[server_name].setup(make_config())
+      lspconfig[server_name].setup(make_default_config())
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["lua_ls"] = function()
@@ -453,12 +453,12 @@ local setup_servers = function()
         end,
       })
 
-      local config = make_config()
+      local config = make_default_config()
       config.settings = lua_config.settings
       lspconfig.lua_ls.setup(config)
     end,
     ["gopls"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.settings = gopls_config.settings
       lspconfig.gopls.setup(config)
     end,
@@ -538,49 +538,49 @@ local setup_servers = function()
       })
     end,
     ["sqlls"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.root_dir = sqlls_config.root_dir
       lspconfig.sqlls.setup(config)
     end,
     ["pyright"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.root_dir = pyright_config.root_dir
       lspconfig.pyright.setup(config)
     end,
     ["solargraph"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.settings = solargraph_config.settings
       lspconfig.solargraph.setup(config)
     end,
     ["ruby_ls"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.cmd = { "bundle", "exec", "ruby-lsp" }
       lspconfig.ruby_ls.setup(config)
     end,
     ["jsonls"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.settings = jsonls_config.settings
       lspconfig.jsonls.setup(config)
     end,
     ["yamlls"] = function()
-      local config = make_config()
+      local config = make_default_config()
       local yaml_config = require("yaml-companion").setup()
       config = vim.tbl_deep_extend("force", config, yaml_config)
       lspconfig.yamlls.setup(config)
     end,
     ["tsserver"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.commands = tsserver_config.commands
       config.settings = tsserver_config.settings
       lspconfig.tsserver.setup(config)
     end,
     ["vtsls"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.settings = vtsls_config.settings
       lspconfig.vtsls.setup(config)
     end,
     ["eslint"] = function()
-      local config = make_config()
+      local config = make_default_config()
       config.settings = eslint_config.settings
       lspconfig.eslint.setup(config)
     end,
