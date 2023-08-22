@@ -1496,10 +1496,10 @@ require("lazy").setup({
   },
   {
     "gbprod/yanky.nvim",
-    event = { "VeryLazy" },
+    cmd = { "YankyClearHistory", "YankyRingHistory" },
     opts = {
       ring = {
-        history_length = 100,
+        history_length = 10,
         storage = "shada",
         sync_with_numbered_registers = true,
         cancel_event = "update",
@@ -2479,7 +2479,7 @@ require("lazy").setup({
       return vim.g.lsp_client_type == "neovim"
     end,
     config = function()
-      require("lsp_settings")
+      require("lsp")
     end,
   },
   {
@@ -3002,27 +3002,6 @@ require("lazy").setup({
             timeout = 50000,
           }),
           null_ls.builtins.code_actions.cspell,
-          null_ls.builtins.code_actions.shellcheck,
-          null_ls.builtins.diagnostics.flake8.with({
-            extra_args = { "--max-line-length", "120" },
-          }),
-          -- null_ls.builtins.diagnostics.mypy,
-          null_ls.builtins.diagnostics.golangci_lint.with({
-            timeout = 50000,
-          }),
-          null_ls.builtins.formatting.prettier.with({
-            timeout = 50000,
-          }),
-          -- null_ls.builtins.formatting.gofmt,
-          null_ls.builtins.formatting.gofumpt,
-          null_ls.builtins.formatting.goimports,
-          null_ls.builtins.formatting.rustfmt,
-          null_ls.builtins.formatting.autopep8,
-          null_ls.builtins.formatting.isort,
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.terraform_fmt,
-          null_ls.builtins.formatting.shfmt,
-          null_ls.builtins.formatting.sql_formatter,
         },
         update_in_insert = false,
         diagnostics_format = "[#{s} #{c}] #{m}",
@@ -3864,7 +3843,8 @@ require("lazy").setup({
           },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
           ["<leader>"] = {
-            F = { "<cmd>lua require('scripts/util').lsp.null_ls_formatting()<CR>", "Format" },
+            -- F = { "<cmd>lua require('scripts/util').lsp.null_ls_formatting()<CR>", "Format" },
+            F = { "<cmd>lua vim.lsp.buf.format()<CR>", "Format" },
           },
           -- ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
           ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
