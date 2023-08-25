@@ -185,7 +185,6 @@ end
 ---on success callback
 ---@param resp string
 local on_success = function(resp)
-  print(resp)
   ---@type OpenaiCompletion.ChatCompletionResponse
   local r = vim.json.decode(resp)
   ---@param choice OpenaiCompletion.ChatCompletionChoice
