@@ -9,7 +9,7 @@ main() {
   if [ "$dir" = "" ]; then
     return 1
   fi
-    
+
   repository=${dir##*/}
   session=$(echo "$repository" | sed -E 's/\./_/g')
 
