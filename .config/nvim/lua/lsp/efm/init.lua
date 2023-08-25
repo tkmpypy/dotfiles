@@ -39,7 +39,7 @@ M.make_config = function()
   local sql_formatter = require("lsp.efm.formatter.sql_formatter")
   local prettier = require("lsp.efm.formatter.prettier")
   local eslint_d = require("lsp.efm.linter.eslint_d")
-  local languages = {
+  M.settings.languages = {
     lua = { stylua },
     go = { gofumpt, goimports, golangci_lint },
     python = { autopep8, isort, flake8 },
@@ -60,7 +60,6 @@ M.make_config = function()
     yaml = { prettier },
     markdown = { prettier },
   }
-  M.settings.languages = languages
 
   return {
     filetypes = vim.tbl_keys(M.settings.languages),

@@ -9,8 +9,6 @@ local M = {
   lintStdin = true,
   lintFormats = { "%f:%l:%c: %m" },
   lintIgnoreExitCode = true,
-  -- formatCommand = format_command,
-  -- formatStdin = true,
   rootMarkers = {
     ".eslintrc",
     ".eslintrc.cjs",

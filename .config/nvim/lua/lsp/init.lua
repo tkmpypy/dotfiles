@@ -402,11 +402,6 @@ local make_default_config = function()
   -- }
 
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
-  -- NOTE: use nvim-ufo setting
-  -- capabilities.textDocument.foldingRange = {
-  --   dynamicRegistration = false,
-  --   lineFoldingOnly = true,
-  -- }
   return {
     -- enable snippet support
     capabilities = capabilities,
@@ -428,7 +423,7 @@ local setup_servers = function()
     -- Next, you can provide targeted overrides for specific servers.
     ["efm"] = function()
       local config = make_default_config()
-      local config = vim.tbl_deep_extend("force", config, require("lsp.efm").make_config())
+      config = vim.tbl_deep_extend("force", config, require("lsp.efm").make_config())
       lspconfig.efm.setup(config)
     end,
     ["lua_ls"] = function()
