@@ -1,5 +1,4 @@
--- bootstraping for lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -885,7 +884,6 @@ require("lazy").setup({
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
-    commit = "89eaa18a472be680539dee5977e2255f4dbd0738",
     enabled = function()
       return vim.g.splash_type == "alpha"
     end,
@@ -977,7 +975,8 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
     },
-    -- event = "VeryLazy",
+    -- enabled = false,
+    event = "VeryLazy",
     config = function()
       require("noice").setup({
         presets = {
