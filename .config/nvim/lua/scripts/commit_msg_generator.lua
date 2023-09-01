@@ -1,3 +1,6 @@
+---TODO
+---  - [ ] Be selective from the generated results list
+
 local M = {}
 local base_url = "https://api.openai.com/v1"
 
