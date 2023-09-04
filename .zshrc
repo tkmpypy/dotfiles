@@ -43,7 +43,9 @@ zinit for \
 # fi
 # zinit creinstall ~/.zsh_completions
 
-[ -f ~/.zshrc.`uname`.`uname -m` ] && source ~/.zshrc.`uname`.`uname -m`
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit ice lucid as"program"
+zinit snippet 'https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux'
 
 # alias
 alias ll='ls -la'
