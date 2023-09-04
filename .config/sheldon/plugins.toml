@@ -1,0 +1,47 @@
+shell = "zsh"
+
+
+[plugins.dotfiles-sync]
+local = "~/.config/zsh"
+use = ["sync.zsh"]
+apply = ["source"]
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+apply = ["source"]
+
+[templates]
+defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
+post-hook = "{{ hooks | get: \"post\" | nl }}"
+
+[plugins.compinit]
+inline = 'autoload -Uz compinit && zsh-defer compinit'
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ["defer"]
+
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+apply = ["source"]
+
+[plugins.fzf-tmux]
+remote = "https://github.com/junegunn/fzf/raw/master/bin/fzf-tmux"
+apply = ["PATH", "post-hook"]
+
+[plugins.fzf-tmux.hooks]
+post = 'chmod 777 ~/.local/share/sheldon/downloads/github.com/junegunn/fzf/raw/master/bin/fzf-tmux'
+
+[plugins.dotfiles-defers]
+local = "~/.config/zsh"
+use = ["{!sync,*}.zsh"]
+apply = ["defer"]
+
