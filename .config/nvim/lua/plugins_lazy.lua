@@ -761,7 +761,7 @@ require("lazy").setup({
             {
               "diagnostics",
               always_visible = true,
-              symbols = { error = " ", warn = " ", info = " ", hint =  " " },
+              symbols = { error = " ", warn = " ", info = " ", hint = " " },
               diagnostics_color = {
                 error = {
                   fg = lualine_utils.extract_color_from_hllist("fg", {
@@ -2590,6 +2590,12 @@ require("lazy").setup({
         sources = function(buf, _)
           local sources = require("dropbar.sources")
           local utils = require("dropbar.utils")
+          if vim.bo[buf].buftype == "terminal" then
+            return {
+              sources.terminal,
+            }
+          end
+
           local s = { sources.lsp }
           if require("nvim-treesitter.parsers").has_parser() then
             s[#s + 1] = sources.treesitter
@@ -3585,7 +3591,7 @@ require("lazy").setup({
       wk.register({
         ["<C-j>"] = { ":m '>+1<CR>gv=gv", "range down" },
         ["<C-k>"] = { ":m '<-2<CR>gv=gv", "range up" },
-      }, {mode = "v"})
+      }, { mode = "v" })
 
       -- mode: n
       wk.register({
