@@ -15,6 +15,10 @@ zinit snippet 'https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux'
 # zinit ice from"gh-r" as"program" bpick"*macos*" pick"nvim-osx64/bin/nvim" ver"nightly"
 # zinit load neovim/neovim
 
+# rtx(asdf compatible)
+zinit ice from"gh-r" as"program" bpick"*macos-x64.tar.gz" pick"rtx/bin/rtx"
+zinit load jdx/rtx
+
 # rg
 zinit ice from"gh-r" as"program" bpick"*x86_64-apple-darwin*" pick"ripgrep*/rg"
 zinit load BurntSushi/ripgrep

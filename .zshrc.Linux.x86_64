@@ -17,7 +17,7 @@ zinit snippet 'https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux'
 
 # rtx(asdf compatible)
 zinit ice from"gh-r" as"program" bpick"*linux-x64.tar.gz" pick"rtx/bin/rtx"
-zinit load jdxcode/rtx
+zinit load jdx/rtx
 
 # rg
 zinit ice from"gh-r" as"program" bpick"*x86_64-unknown-linux*" pick"ripgrep*/rg"
