@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+
+function upd_tools() {
+  aqua update-aqua
+  aqua i -l -a
+}
+
+function upd_zsh_plugins() {
+  sheldon lock --update
+}
+
+upd_tools
+upd_zsh_plugins
