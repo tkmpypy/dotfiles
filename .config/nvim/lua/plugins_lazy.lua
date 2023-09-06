@@ -48,7 +48,6 @@ require("lazy").setup({
       "yioneko/nvim-yati",
       "RRethy/nvim-treesitter-endwise",
       "windwp/nvim-ts-autotag",
-      "HiPhish/nvim-ts-rainbow2",
       "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
@@ -85,9 +84,29 @@ require("lazy").setup({
         yati = {
           enable = true,
           default_lazy = true,
+          suppress_conflict_warning = true,
         },
         indent = {
           enable = false,
+          disable = {
+            "html",
+            "javascript",
+            "typescript",
+            "css",
+            "json",
+            "json5",
+            "c",
+            "cpp",
+            "comment",
+            "graphql",
+            "jsdoc",
+            "lua",
+            "python",
+            "rust",
+            "toml",
+            "tsx",
+            "vue",
+          },
         },
         -- Install parsers synchronously (only applied to `ensure_installed`)
         sync_install = false,
@@ -95,6 +114,7 @@ require("lazy").setup({
         -- Automatically install missing parsers when entering buffer
         auto_install = false,
         ensure_installed = {
+          "bash",
           "java",
           "dart",
           "go",
@@ -154,16 +174,36 @@ require("lazy").setup({
         autotag = {
           enable = true,
         },
-        rainbow = {
-          enable = true,
-          -- list of languages you want to disable the plugin for
-          -- disable = { "jsx", "cpp" },
-          -- Which query to use for finding delimiters
-          -- query = "rainbow-parens",
-          -- Highlight the entire buffer all at once
-          -- strategy = require("ts-rainbow").strategy.global,
-        },
         context_commentstring = { enable = true, enable_autocmd = false },
+      })
+    end,
+  },
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    event = "BufReadPre",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      local rainbow_delimiters = require 'rainbow-delimiters'
+      require("rainbow-delimiters.setup")({
+        strategy = {
+          [""] = rainbow_delimiters.strategy["global"],
+          vim = rainbow_delimiters.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+        },
+        highlight = {
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
       })
     end,
   },
@@ -4155,7 +4195,7 @@ require("lazy").setup({
     border = "rounded",
   },
   checker = {
-    enabled = true,
+    enabled = false,
     concurrency = 50,
   },
   performance = {
