@@ -283,3 +283,4 @@ emmylua
 libuv
 pigz
 conv
+Zettelkasten

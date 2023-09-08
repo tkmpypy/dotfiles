@@ -65,9 +65,6 @@
     },
     "codeLens.enable": true,
     "snippets.ultisnips.enable": false,
-    "cSpell.import": [
-        "/Users/tkmpypy/.config/nvim/cspell/cspell.json"
-    ],
     "diagnostic-languageserver.filetypes": {
         "vim": "vint",
         "sh": "shellcheck",
