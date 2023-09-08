@@ -39,6 +39,8 @@ M.make_config = function()
   local sql_formatter = require("lsp.efm.formatter.sql_formatter")
   local prettier = require("lsp.efm.formatter.prettier")
   local eslint_d = require("lsp.efm.linter.eslint_d")
+  local cspell = require("lsp.efm.linter.cspell")
+
   M.settings.languages = {
     lua = { stylua },
     go = { gofumpt, goimports, golangci_lint },
@@ -59,6 +61,7 @@ M.make_config = function()
     jsonc = { prettier },
     yaml = { prettier },
     markdown = { prettier },
+    ["="] = { cspell },
   }
 
   return {
