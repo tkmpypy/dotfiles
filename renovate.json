@@ -7,8 +7,7 @@
     "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)"
   ],
   "schedule": [
-    "before 9am",
-    "before 3pm"
+    "before 9am"
   ],
   "prConcurrentLimit": 0,
   "branchConcurrentLimit": 0,
