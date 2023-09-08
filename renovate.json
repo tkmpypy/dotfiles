@@ -8,7 +8,7 @@
     "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)"
   ],
   "prConcurrentLimit": 0,
-  "branchConcurrentLimit": 0
+  "branchConcurrentLimit": 0,
   "dependencyDashboard": true,
   "enabledManagers": ["regex"]
 }
