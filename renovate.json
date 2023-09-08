@@ -3,12 +3,22 @@
     "config:base",
     ":timezone(Asia/Tokyo)",
     ":prHourlyLimitNone",
-    ":automergePatch",
     "github>whitesource/merge-confidence:beta",
     "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)"
+  ],
+  "schedule": [
+    "0 9 * * *",
+    "0 15 * * *"
   ],
   "prConcurrentLimit": 0,
   "branchConcurrentLimit": 0,
   "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    }
+  ]
   "enabledManagers": ["regex"]
 }
