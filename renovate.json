@@ -4,14 +4,14 @@
     ":timezone(Asia/Tokyo)",
     ":prHourlyLimitNone",
     "github>whitesource/merge-confidence:beta",
-    "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)"
+    "github>aquaprojenovate-config:file(.config/aqua/aqua.yaml)"
   ],
   "requiredStatusChecks": null,
   "schedule": [
-    "every 1 hour after 00:00 and before 23:59 every day"
+    "before 9am"
   ],
   "automergeSchedule": [
-    "every 1 hour after 00:00 and before 23:59 every day"
+    "before 9am"
   ],
   "prConcurrentLimit": 0,
   "branchConcurrentLimit": 0,

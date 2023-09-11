@@ -284,3 +284,4 @@ libuv
 pigz
 conv
 Zettelkasten
+aquaproj
