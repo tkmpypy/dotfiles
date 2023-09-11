@@ -1,12 +1,12 @@
 {
   "extends": [
-    "config:base",
+    "mergeConfidence:all-badges",
+    "config:recommended",
     ":timezone(Asia/Tokyo)",
     ":prHourlyLimitNone",
-    "github>whitesource/merge-confidence:beta",
     "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)"
   ],
-  "requiredStatusChecks": null,
+  "ignoreTests": true,
   "schedule": [
     "before 9am"
   ],
