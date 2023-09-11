@@ -4,7 +4,7 @@ local M = {}
 
 local bin = "cspell"
 local command = string.format(
-  '%s lint --config %s --no-color --no-progress --no-summary "${INPUT}"',
+  "%s lint --config %s --no-color --no-progress --no-summary stdin://${INPUT}",
   efm.get_executable_path(bin),
   vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "cspell.json")
 )
@@ -55,13 +55,20 @@ local insert_word = function(dict_path, diagnostic)
   f:close()
   vim.notify(string.format("Added '%s'", word), vim.log.levels.INFO, { title = "[efm] cspell" })
 
+  --`github>aquaproj/renovate-config`
+  --If `aquaproj` is not registered in the dictionary and a spell check error occurs,
+  --the string before `>` or `'` is also included in the number of `end_col`,
+  --so the sum of `start_col` and the number of strings is used as `end_col`.
+  --e.g.
+  --The pattern should be `start_col=8` `end_col=15`, but in this pattern `start_col=8` `end_col=22`.
+
   -- replace word in buffer to trigger cspell to update diagnostics
   vim.api.nvim_buf_set_text(
     diagnostic.bufnr,
     diagnostic.lnum,
     diagnostic.col,
     diagnostic.end_lnum,
-    diagnostic.end_col,
+    diagnostic.col + #word,
     { word }
   )
 end
@@ -99,8 +106,8 @@ M = {
   -- lintSource = bin,
   lintCommand = command,
   lintIgnoreExitCode = true,
-  lintStdin = false,
-  lintFormats = { "%f:%l:%c - %m", "%f:%l:%c %m" },
+  lintStdin = true,
+  lintFormats = { "%f:%l:%c - %m", "%f:%l:%c %m" }, -- ./renovate.json:25:8 - Unknown word (automerge)
   -- cspell does not use any severity levels, use INFO level by default
   lintSeverity = 3,
 }
