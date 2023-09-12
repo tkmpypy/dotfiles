@@ -24,16 +24,11 @@ function link_file() {
   fi
 }
 
-function clone_dep() {
-  exec_cmd "$DOTFILES_DIR/scripts/clone.sh"
-}
-
 function run_os_scripts() {
-  exec_cmd "$DOTFILES_DIR/scripts/$OS/system.sh"
-  exec_cmd "$DOTFILES_DIR/scripts/$OS/brew.sh"
+  exec_cmd "$DOTFILES_DIR/scripts/$OS/root.sh"
 }
 
-function install() {
+function link() {
   exec_cmd "mkdir -p $HOME/.tmux"
 
   DOT_FILES=(.zshrc .zprofile .zshrc.$OS.$ARCH .vimrc .tmux.conf .ideavimrc .p10k.zsh .terminfo .vsnip)
@@ -53,9 +48,8 @@ function install() {
 }
 
 function main() {
-  install
-  clone_dep
   run_os_scripts
+  link
 }
 
 main
