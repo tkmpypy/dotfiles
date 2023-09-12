@@ -285,3 +285,4 @@ pigz
 conv
 Zettelkasten
 aquaproj
+vernemq
