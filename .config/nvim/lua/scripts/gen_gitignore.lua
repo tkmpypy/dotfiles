@@ -3,22 +3,13 @@ local util = require("scripts/util")
 local M = {}
 local cache = { list = {} }
 
-_G.tkmpypy = _G.tkmpypy or {}
-_G.tkmpypy.Gigi = _G.tkmpypy.Gigi or {}
-
-local regist_command = function()
-  vim.cmd([[
-    command! -nargs=1 -complete=customlist,v:lua.tkmpypy.Gigi.get_template_list Gigi call v:lua.tkmpypy.Gigi.generate_gitignore(<f-args>)
-  ]])
+local create_request = function(path)
+  return string.format('curl -sL "https://www.toptal.com/developers/gitignore/api/%s"', path)
 end
 
-local create_cmd = function(path)
-  return 'curl -sL "https://www.toptal.com/developers/gitignore/api/' .. path .. '"'
-end
-
-function _G.tkmpypy.Gigi.get_template_list(arg, _, _)
+local get_template_list = function(arg, _, _)
   if vim.tbl_isempty(cache.list) then
-    local cmd = create_cmd("list")
+    local cmd = create_request("list")
     local r = vim.fn.system(cmd)
     local lines = vim.split(r, "\n")
     for _, line in ipairs(lines) do
@@ -33,17 +24,25 @@ function _G.tkmpypy.Gigi.get_template_list(arg, _, _)
   return l
 end
 
-function _G.tkmpypy.Gigi.generate_gitignore(args)
+local generate_gitignore = function(opts)
   if vim.api.nvim_get_option_value("modifiable", { buf = 0 }) then
-    local cmd = create_cmd(args)
-    local r = vim.fn.system(cmd)
-    r = vim.split(r, "\n")
-    vim.api.nvim_put(r, "l", false, true)
+    local cmd = create_request(opts.args)
+    local res = vim.fn.system(cmd)
+    local r = vim.split(res, "\n")
+    vim.api.nvim_put(r, "l", false, false)
   end
 end
 
-M.initialize = function()
-  regist_command()
+local create_command = function()
+  vim.api.nvim_create_user_command("Gigi", generate_gitignore, {
+    bang = false,
+    nargs = 1,
+    complete = get_template_list,
+  })
+end
+
+M.setup = function()
+  create_command()
 end
 
 return M

@@ -208,7 +208,7 @@ require('scripts/random_colorscheme').set_random_colorscheme({
   'catppuccin',
   'onedark',
   })
-require('scripts/gen_gitignore').initialize()
+require('scripts/gen_gitignore').setup()
 require('scripts/git_linker').initialize()
 require('scripts/commit_msg_generator').setup({})
 EOF
