@@ -1,14 +1,11 @@
 local vim = vim
 local api = vim.api
-local util = require "scripts/util"
+local util = require("scripts/util")
 local logger = util.logger
 local M = {}
 
-_G.tkmpypy = _G.tkmpypy or {}
-_G.tkmpypy.GitLinker = _G.tkmpypy.GitLinker or {}
-
 local get_head_commit_hash = function()
-  return vim.fn.trim(vim.fn.system { "git", "rev-parse", "HEAD" })
+  return vim.fn.trim(vim.fn.system({ "git", "rev-parse", "HEAD" }))
 end
 
 local get_default_branch_name = function()
@@ -17,13 +14,13 @@ local get_default_branch_name = function()
 end
 
 local get_remote_url = function(remote)
-  local url = vim.fn.trim(vim.fn.system { "git", "remote", "get-url", "--push", remote })
+  local url = vim.fn.trim(vim.fn.system({ "git", "remote", "get-url", "--push", remote }))
   url = url:gsub("%.git", "")
   return url
 end
 
 local get_git_path = function(f)
-  return vim.fn.trim(vim.fn.system { "git", "ls-files", f })
+  return vim.fn.trim(vim.fn.system({ "git", "ls-files", f }))
 end
 
 local yank = function(val)
@@ -36,17 +33,17 @@ local create_line_val = function(s, e)
   return "#L" .. s .. "-L" .. e
 end
 
-_G.tkmpypy.GitLinker.run = function(mode, start_line, end_line)
-  local remote = vim.fn.trim(vim.fn.system { "git", "remote", "show" })
+local run = function(opts)
+  local remote = vim.fn.trim(vim.fn.system({ "git", "remote", "show" }))
 
   local b = ""
-  if mode == "current" then
+  if opts.args == "current" then
     b = get_head_commit_hash()
     if b == "" then
       logger.warn("GitLinker", "could not get commit hash.")
       return
     end
-  elseif mode == "default" then
+  elseif opts.args == "default" then
     b = get_default_branch_name()
     if b == "" then
       logger.warn("GitLinker", "could not get branch name.")
@@ -70,23 +67,25 @@ _G.tkmpypy.GitLinker.run = function(mode, start_line, end_line)
   local remote_url = get_remote_url(remote)
   local link = remote_url .. "/" .. "blob/" .. b .. "/" .. p
 
-  if not (start_line == 1 and end_line == 1) then
-    local line = create_line_val(start_line, end_line)
+  if not (opts.line1 == 1 and opts.line2 == 1) then
+    local line = create_line_val(opts.line1, opts.line2)
     link = link .. line
   end
 
-  print(link)
+  vim.notify_once(link, vim.log.levels.INFO)
   yank(link)
 end
 
-local regist_command = function()
-  vim.cmd [[
-    command! -range -nargs=1 GitLinker call v:lua.tkmpypy.GitLinker.run(<f-args>,<line1>,<line2>)
-  ]]
+local create_command = function()
+  vim.api.nvim_create_user_command("GitLinker", run, {
+    bang = false,
+    nargs = 1,
+    range = true,
+  })
 end
 
-M.initialize = function()
-  regist_command()
+M.setup = function()
+  create_command()
 end
 
 return M
