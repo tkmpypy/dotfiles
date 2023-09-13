@@ -209,7 +209,7 @@ require('scripts/random_colorscheme').set_random_colorscheme({
   'onedark',
   })
 require('scripts/gen_gitignore').setup()
-require('scripts/git_linker').initialize()
+require('scripts/git_linker').setup()
 require('scripts/commit_msg_generator').setup({})
 EOF
 
