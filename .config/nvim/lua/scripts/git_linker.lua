@@ -24,13 +24,13 @@ local get_git_path = function(f)
 end
 
 local yank = function(val)
-  local c = 'let @+ = "' .. val .. '"'
+  local c = string.format('let @+ = "%s"', val)
   vim.cmd(c)
 end
 
 local create_line_val = function(s, e)
   -- #L1-L30
-  return "#L" .. s .. "-L" .. e
+  return string.format("#L%s-L%s", s, e)
 end
 
 local run = function(opts)
@@ -65,7 +65,7 @@ local run = function(opts)
     return
   end
   local remote_url = get_remote_url(remote)
-  local link = remote_url .. "/" .. "blob/" .. b .. "/" .. p
+  local link = string.format(remote_url .. "/blob/%s/%s", b, p)
 
   if not (opts.line1 == 1 and opts.line2 == 1) then
     local line = create_line_val(opts.line1, opts.line2)
