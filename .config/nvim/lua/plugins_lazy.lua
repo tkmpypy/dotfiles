@@ -1109,7 +1109,6 @@ require("lazy").setup({
   -- explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
     event = "VeryLazy",
     cmd = { "Neotree" },
     enabled = function()
@@ -1223,6 +1222,9 @@ require("lazy").setup({
             trailing_slash = false,
             use_git_status_colors = true,
             highlight = "NeoTreeFileName",
+          },
+          symlink_target = {
+            enabled = false,
           },
           git_status = {
             symbols = {
@@ -2134,6 +2136,7 @@ require("lazy").setup({
             "--column",
             "--smart-case",
             "--hidden",
+            "--multiline",
           },
           prompt_prefix = "  ",
           path_display = { "smart" },
