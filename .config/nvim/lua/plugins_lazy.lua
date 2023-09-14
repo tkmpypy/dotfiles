@@ -2199,6 +2199,94 @@ require("lazy").setup({
     end,
   },
   {
+    "akinsho/git-conflict.nvim",
+    version = "*",
+    lazy = false,
+    cmd = {
+      "GitConflictChooseOurs",
+      "GitConflictChooseTheirs",
+      "GitConflictChooseBoth",
+      "GitConflictChooseNone",
+      "GitConflictNextConflict",
+      "GitConflictPrevConflict",
+      "GitConflictListQf",
+    },
+    config = function()
+      require("git-conflict").setup({
+        default_mappings = false, -- disable buffer local mapping created by this plugin
+        default_commands = true, -- disable commands created by this plugin
+        disable_diagnostics = false, -- This will disable the diagnostics in a buffer whilst it is conflicted
+        list_opener = "copen", -- command or function to open the conflicts list
+        highlights = { -- They must have background color, otherwise the default color will be used
+          incoming = "DiffAdd",
+          current = "DiffText",
+        },
+      })
+    end,
+    keys = {
+      {
+        "co",
+        function()
+          return "<Plug>(git-conflict-ours)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "ct",
+        function()
+          return "<Plug>(git-conflict-theirs)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "cb",
+        function()
+          return "<Plug>(git-conflict-both)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "c0",
+        function()
+          return "<Plug>(git-conflict-none)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "]x",
+        function()
+          return "<Plug>(git-conflict-prev-conflict)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "[x",
+        function()
+          return "<Plug>(git-conflict-next-conflict)"
+        end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+    },
+  },
+  {
     "NeogitOrg/neogit",
     lazy = true,
     enabled = function()
