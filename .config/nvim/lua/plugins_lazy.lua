@@ -185,7 +185,7 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      local rainbow_delimiters = require 'rainbow-delimiters'
+      local rainbow_delimiters = require("rainbow-delimiters")
       require("rainbow-delimiters.setup")({
         strategy = {
           [""] = rainbow_delimiters.strategy["global"],
@@ -1325,7 +1325,7 @@ require("lazy").setup({
             },
           },
           follow_current_file = {
-            enabled = false
+            enabled = false,
           },
           -- time the current file is changed while the tree is open.
           group_empty_dirs = false, -- when true, empty folders will be grouped together
@@ -1354,7 +1354,7 @@ require("lazy").setup({
         },
         buffers = {
           follow_current_file = {
-            enabled = false
+            enabled = false,
           },
           -- time the current file is changed while the tree is open.
           group_empty_dirs = true, -- when true, empty folders will be grouped together
@@ -1495,6 +1495,7 @@ require("lazy").setup({
   -- Utils
   {
     "epwalsh/obsidian.nvim",
+    lazy = true,
     cmd = {
       "ObsidianOpen",
       "ObsidianNew",
@@ -1506,30 +1507,44 @@ require("lazy").setup({
       "ObsidianQuickSwitch",
       "ObsidianLinkNew",
     },
-    opts = {
-      dir = "~/Dropbox/notes",
-      daily_notes = {
-        folder = "journal",
-      },
-      completion = {
-        nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
-      },
-      note_id_func = function(title)
-        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-        local suffix = ""
-        if title ~= nil then
-          -- If title is given, transform it into valid file name.
-          suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-        else
-          -- If title is nil, just add 4 random uppercase letters to the suffix.
-          for _ = 1, 4 do
-            suffix = suffix .. string.char(math.random(65, 90))
-          end
-        end
-        return tostring(os.date("%Y-%m-%d")) .. "-" .. suffix
-      end,
-      use_advanced_uri = false,
+    event = {
+      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+      string.format("BufReadPre %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
+      string.format("BufNewFile %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
     },
+    config = function()
+      require("obsidian").setup({
+        dir = "~/Dropbox/notes",
+        daily_notes = {
+          folder = "journal",
+        },
+        completion = {
+          nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+        },
+        -- Optional, key mappings.
+        mappings = {
+          -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+          ["ol"] = require("obsidian.mapping").gf_passthrough(),
+        },
+
+        note_id_func = function(title)
+          -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+          local suffix = ""
+          if title ~= nil then
+            -- If title is given, transform it into valid file name.
+            suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+          else
+            -- If title is nil, just add 4 random uppercase letters to the suffix.
+            for _ = 1, 4 do
+              suffix = suffix .. string.char(math.random(65, 90))
+            end
+          end
+          return tostring(os.date("%Y-%m-%d")) .. "-" .. suffix
+        end,
+        use_advanced_uri = false,
+      })
+    end,
   },
   {
     "monaqa/dial.nvim",
@@ -3607,10 +3622,6 @@ require("lazy").setup({
               t = { "<cmd>lua vim.lsp.inlay_hint(0)<CR>", "Toggle" },
             },
           },
-          -- ["K"] = {
-          --   "<cmd>Lspsaga hover_doc<CR>",
-          --   "Hover Doc",
-          -- },
           ["K"] = {
             function()
               local buf = vim.api.nvim_get_current_buf()
@@ -3624,18 +3635,11 @@ require("lazy").setup({
           },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
           ["<leader>"] = {
-            -- F = { "<cmd>lua require('scripts/util').lsp.null_ls_formatting()<CR>", "Format" },
             F = { "<cmd>lua vim.lsp.buf.format()<CR>", "Format" },
           },
-          -- ["<leader>ac"] = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
           ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
           ["<leader>d"] = {
             name = "+Diagnostics",
-            -- c = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Current cursor" },
-            -- n = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump Next" },
-            -- p = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump Previous" },
-            -- l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Current line" },
-            -- b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Current buffer" },
             c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
             o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
             n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
@@ -3647,14 +3651,9 @@ require("lazy").setup({
             },
             t = { "<cmd>ToggleDiag<CR>", "Toggle diagnostic" },
           },
-          -- ["<leader>rn"] = { "<cmd>Lspsaga rename<CR>", "Rename" },
           ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
         }, { mode = "n" })
         wk.register({
-          -- ["<leader>ac"] = {
-          --   "<cmd>Lspsaga code_action<CR>",
-          --   "Code Action",
-          -- },
           ["<leader>ac"] = {
             "<cmd>lua vim.lsp.buf.code_action()<CR>",
             "Code Action",
