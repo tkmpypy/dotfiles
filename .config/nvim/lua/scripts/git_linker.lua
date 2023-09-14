@@ -4,23 +4,30 @@ local util = require("scripts/util")
 local logger = util.logger
 local M = {}
 
+---exec git command
+---@param args string[]
+---@return string
+local exec_git = function(args)
+  table.insert(args, 1, "git")
+  return vim.fn.trim(vim.fn.system(table.concat(args, " ")))
+end
+
 local get_head_commit_hash = function()
-  return vim.fn.trim(vim.fn.system({ "git", "rev-parse", "HEAD" }))
+  return exec_git({ "rev-parse", "HEAD" })
 end
 
 local get_default_branch_name = function()
-  local ref = vim.fn.trim(vim.fn.system("git remote show origin | grep 'HEAD branch' | awk '{print $NF}'"))
-  return ref
+  return exec_git({ "remote", "show", "origin", "|", "grep", "'HEAD branch'", "|", "awk", "'{print $NF}'" })
 end
 
 local get_remote_url = function(remote)
-  local url = vim.fn.trim(vim.fn.system({ "git", "remote", "get-url", "--push", remote }))
+  local url = exec_git({ "remote", "get-url", "--push", remote })
   url = url:gsub("%.git", "")
   return url
 end
 
 local get_git_path = function(f)
-  return vim.fn.trim(vim.fn.system({ "git", "ls-files", f }))
+  return exec_git({ "ls-files", f })
 end
 
 local yank = function(val)
@@ -34,7 +41,7 @@ local create_line_val = function(s, e)
 end
 
 local run = function(opts)
-  local remote = vim.fn.trim(vim.fn.system({ "git", "remote", "show" }))
+  local remote = exec_git({ "remote", "show" })
 
   local b = ""
   if opts.args == "current" then
