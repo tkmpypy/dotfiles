@@ -1324,7 +1324,9 @@ require("lazy").setup({
               --".null-ls_*",
             },
           },
-          follow_current_file = false, -- This will find and focus the file in the active buffer every
+          follow_current_file = {
+            enabled = false
+          },
           -- time the current file is changed while the tree is open.
           group_empty_dirs = false, -- when true, empty folders will be grouped together
           hijack_netrw_behavior = "disabled", -- netrw disabled, opening a directory opens neo-tree
@@ -1351,7 +1353,9 @@ require("lazy").setup({
           },
         },
         buffers = {
-          follow_current_file = false, -- This will find and focus the file in the active buffer every
+          follow_current_file = {
+            enabled = false
+          },
           -- time the current file is changed while the tree is open.
           group_empty_dirs = true, -- when true, empty folders will be grouped together
           show_unloaded = true,
@@ -1376,148 +1380,6 @@ require("lazy").setup({
               ["gg"] = "git_commit_and_push",
             },
           },
-        },
-      })
-    end,
-  },
-  {
-    "nvim-tree/nvim-tree.lua",
-    event = "VeryLazy",
-    enabled = function()
-      return vim.g.file_explorer_type == "nvim-tree"
-    end,
-    config = function()
-      require("nvim-tree").setup({
-        auto_reload_on_write = true,
-        -- disables netrw completely
-        disable_netrw = true,
-        -- hijack netrw window on startup
-        hijack_netrw = false,
-        -- open the tree when running this setup function
-        open_on_setup = false,
-        -- will not open on setup if the filetype is in this list
-        ignore_ft_on_setup = {},
-        -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-        open_on_tab = false,
-        -- hijack the cursor in the tree to put it at the start of the filename
-        hijack_cursor = false,
-        -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
-        update_cwd = false,
-        -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
-        update_focused_file = {
-          -- enables the feature
-          enable = false,
-          -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
-          -- only relevant when `update_focused_file.enable` is true
-          update_cwd = false,
-          -- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
-          -- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
-          ignore_list = {},
-        },
-        -- show lsp diagnostics in the signcolumn
-        diagnostics = {
-          enable = false,
-          icons = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-          },
-        },
-        -- configuration options for the system open command (`s` in the tree by default)
-        system_open = {
-          -- the command to run this, leaving nil should work in most cases
-          cmd = nil,
-          -- the command arguments as a list
-          args = {},
-        },
-
-        filters = {
-          dotfiles = false,
-          -- custom = { "node_modules", ".cache", ".DS_Store" },
-          custom = { ".cache", ".DS_Store" },
-        },
-        git = {
-          enable = true,
-          ignore = false,
-          timeout = 500,
-        },
-
-        view = {
-          -- width of the window, can be either a number (columns) or a string in `%`
-          width = 30,
-          -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
-          side = "left",
-          preserve_window_proportions = false,
-          mappings = {
-            -- custom only false will merge the list with the default mappings
-            -- if true, it will only use your list to set the mappings
-            custom_only = true,
-            -- list of mappings to set on the tree manually
-            list = {
-              { key = "n", mode = "n", action = "create" },
-              { key = "u", mode = "n", action = "dir_up" },
-              { key = "-", action = "dir_up" },
-              { key = "<CR>", action = "edit" },
-              { key = "o", mode = "n", action = "cd" },
-              { key = "<C-v>", action = "vsplit" },
-              { key = "<C-x>", action = "split" },
-              { key = "<C-t>", action = "tabnew" },
-              { key = "<", action = "prev_sibling" },
-              { key = ">", action = "next_sibling" },
-              { key = "P", action = "parent_node" },
-              { key = "<BS>", action = "close_node" },
-              { key = "<S-CR>", action = "close_node" },
-              { key = "<Tab>", action = "preview" },
-              { key = "K", action = "first_sibling" },
-              { key = "J", action = "last_sibling" },
-              { key = "I", action = "toggle_ignored" },
-              { key = "H", action = "toggle_dotfiles" },
-              { key = "R", action = "refresh" },
-              { key = "D", action = "remove" },
-              { key = "d", action = "trash" },
-              { key = "r", action = "rename" },
-              { key = "<C->", action = "full_rename" },
-              { key = "x", action = "cut" },
-              { key = "c", action = "copy" },
-              { key = "p", action = "paste" },
-              { key = "y", action = "copy_name" },
-              { key = "Y", action = "copy_path" },
-              { key = "gy", action = "copy_absolute_path" },
-              { key = "[c", action = "prev_git_item" },
-              { key = "}c", action = "next_git_item" },
-              { key = "<C-k>", action = "toggle_file_info" },
-              { key = "q", action = "close" },
-              { key = "?", action = "toggle_help" },
-            },
-          },
-          float = {
-            enable = false,
-            quit_on_focus_loss = true,
-            open_win_config = {
-              relative = "editor",
-              border = "rounded",
-              width = 30,
-              height = 30,
-              row = 1,
-              col = 1,
-            },
-          },
-        },
-        renderer = {
-          highlight_opened_files = "none",
-          indent_markers = {
-            enable = false,
-            icons = {
-              corner = "└ ",
-              edge = "│ ",
-              none = "  ",
-            },
-          },
-          highlight_git = true,
-        },
-        notify = {
-          threshold = vim.log.levels.WARN,
         },
       })
     end,
