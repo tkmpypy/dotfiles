@@ -3094,7 +3094,7 @@ require("lazy").setup({
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-      require("scripts/cmp/conventionalprefix")
+      require("cmp.conventionalprefix")
       cmp.setup.filetype({ "NeogitCommitMessage", "gitcommit" }, {
         sources = cmp.config.sources({
           { name = "conventionalprefix" },
@@ -3991,6 +3991,52 @@ require("lazy").setup({
 
   -- Local plugins
   {
+    "tkmpypy/commit_msg_generator",
+    dev = true,
+    cmd = { "CommitMsgGen" },
+    config = function()
+      require("commit_msg_generator").setup({})
+    end,
+  },
+  {
+    "tkmpypy/gen_gitignore",
+    dev = true,
+    cmd = { "Gigi" },
+    config = function()
+      require("gen_gitignore").setup()
+    end,
+  },
+  {
+    "tkmpypy/git_linker",
+    dev = true,
+    cmd = { "GitLinker" },
+    config = function()
+      require("git_linker").setup()
+    end,
+  },
+  {
+    "tkmpypy/random_colorscheme",
+    dev = true,
+    lazy = false,
+    priority = 10000,
+    config = function()
+      require("random_colorscheme").setup({
+        "everforest",
+        "edge",
+        "kanagawa",
+        "onenord",
+        "tokyonight",
+        "gruvbox-flat",
+        "nightfox",
+        "duskfox",
+        "nordfox",
+        "everblush",
+        "catppuccin",
+        "onedark",
+      })
+    end,
+  },
+  {
     -- "tkmpypy/chowcho.nvim",
     dir = "~/ghq/github.com/tkmpypy/chowcho.nvim",
     config = function()
@@ -4028,6 +4074,11 @@ require("lazy").setup({
 }, {
   defaults = {
     lazy = false, -- should plugins be lazy-loaded?
+  },
+  dev = {
+    path = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin"),
+    patterns = {},
+    fallback = false,
   },
   readme = {
     enabled = true,
