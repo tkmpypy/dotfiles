@@ -1,7 +1,10 @@
 local vim = vim
-local util = require("scripts/util")
 local M = {}
 local cache = { list = {} }
+
+local starts_with = function(text, prefix)
+  return text:find(prefix, 1, true) == 1
+end
 
 local create_request = function(path)
   return string.format('curl -sL "https://www.toptal.com/developers/gitignore/api/%s"', path)
@@ -19,7 +22,7 @@ local get_template_list = function(arg, _, _)
   end
 
   local l = vim.tbl_filter(function(v)
-    return util.str.starts_with(v, arg)
+    return starts_with(v, arg)
   end, cache.list)
   return l
 end
@@ -46,3 +49,4 @@ M.setup = function()
 end
 
 return M
+

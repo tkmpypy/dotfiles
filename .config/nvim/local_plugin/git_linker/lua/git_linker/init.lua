@@ -1,8 +1,18 @@
 local vim = vim
 local api = vim.api
-local util = require("scripts/util")
-local logger = util.logger
 local M = {}
+local logger = {}
+
+logger.log = function(tag, msg, level)
+  vim.notify_once(msg, level, { title = tag })
+end
+logger.warn = function(tag, msg)
+  logger.log(tag, msg, vim.log.levels.WARN)
+end
+
+logger.error = function(tag, msg)
+  logger.log(tag, msg, vim.log.levels.ERROR)
+end
 
 ---exec git command
 ---@param args string[]
