@@ -1,0 +1,29 @@
+local g_var = vim.g
+
+g_var.use_treesitter = true
+g_var.lsp_client_type = "neovim" --neovim(builtin), coc
+g_var.git_client_type = "neogit" --neogit, ??????
+g_var.file_explorer_type = "neo-tree" -- neo-tree, nvim-tree
+g_var.splash_type = "alpha" -- dashboard, alpha
+g_var.test_runner_type = "neotest" -- vim-test, neotest
+
+g_var.mapleader = " "
+g_var.did_install_default_menus = 1
+g_var.did_install_syntax_menu = 1
+g_var.did_indent_on = 1
+g_var.did_load_ftplugin = 1
+g_var.loaded_2html_plugin = 1
+g_var.loaded_gzip = 1
+g_var.loaded_man = 1
+g_var.loaded_matchit = 1
+g_var.loaded_matchparen = 1
+g_var.loaded_netrw = 1
+g_var.loaded_netrwPlugin = 1
+g_var.loaded_remote_plugins = 1
+g_var.loaded_shada_plugin = 1
+g_var.loaded_spellfile_plugin = 1
+g_var.loaded_tarPlugin = 1
+g_var.loaded_tutor_mode_plugin = 1
+g_var.loaded_zipPlugin = 1
+g_var.skip_loading_mswin = 1
+g_var.omni_sql_no_default_maps = 1
