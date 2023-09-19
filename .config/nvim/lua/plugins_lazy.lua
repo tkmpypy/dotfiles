@@ -1525,7 +1525,7 @@ require("lazy").setup({
         -- Optional, key mappings.
         mappings = {
           -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-          ["ol"] = require("obsidian.mapping").gf_passthrough(),
+          -- ["ol"] = require("obsidian.mapping").gf_passthrough(),
         },
 
         note_id_func = function(title)
@@ -1533,7 +1533,7 @@ require("lazy").setup({
           local suffix = ""
           if title ~= nil then
             -- If title is given, transform it into valid file name.
-            suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+            suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-ぁ-んァ-ヶー一-龯]", ""):lower()
           else
             -- If title is nil, just add 4 random uppercase letters to the suffix.
             for _ = 1, 4 do
