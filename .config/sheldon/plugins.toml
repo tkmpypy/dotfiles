@@ -33,13 +33,6 @@ apply = ["defer"]
 github = "romkatv/powerlevel10k"
 apply = ["source"]
 
-[plugins.fzf-tmux]
-remote = "https://github.com/junegunn/fzf/raw/master/bin/fzf-tmux"
-apply = ["PATH", "post-hook"]
-
-[plugins.fzf-tmux.hooks]
-post = 'chmod 777 ~/.local/share/sheldon/downloads/github.com/junegunn/fzf/raw/master/bin/fzf-tmux'
-
 [plugins.dotfiles-defers]
 local = "~/.config/zsh"
 use = ["{!sync,*}.zsh"]
