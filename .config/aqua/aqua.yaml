@@ -27,3 +27,4 @@ packages:
 - name: orhun/git-cliff@v1.3.0
 - name: lima-vm/lima@v0.17.2
 - name: jqlang/jq@jq-1.7
+- name: sharkdp/hyperfine@v1.17.0
