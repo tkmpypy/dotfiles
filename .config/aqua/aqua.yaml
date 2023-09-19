@@ -26,3 +26,4 @@ packages:
 - name: x-motemen/ghq@v1.4.2
 - name: orhun/git-cliff@v1.3.0
 - name: lima-vm/lima@v0.17.2
+- name: jqlang/jq@jq-1.7
