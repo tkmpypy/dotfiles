@@ -1,3 +1,6 @@
 alias ll='ls -la'
 alias g='git'
-
+alias aq='aqua'
+alias aqls='aq list | fzf'
+alias aqgi='aq g -i'
+alias aqia='aq i -l -a'
