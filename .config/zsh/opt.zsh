@@ -45,9 +45,5 @@ setopt nonomatch
 
 set -s escape-time 0
 
-# 色を使用出来るようにする
-autoload -Uz colors
-colors
-
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'

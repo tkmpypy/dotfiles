@@ -1,11 +1,5 @@
 shell = "zsh"
 
-
-[plugins.dotfiles-sync]
-local = "~/.config/zsh"
-use = ["sync.zsh"]
-apply = ["source"]
-
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 apply = ["source"]
@@ -14,8 +8,24 @@ apply = ["source"]
 defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
 post-hook = "{{ hooks | get: \"post\" | nl }}"
 
+[plugins.dotfiles-sync]
+local = "~/.config/zsh"
+use = ["sync.zsh"]
+apply = ["source"]
+
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+apply = ["source"]
+
+
 [plugins.compinit]
 inline = 'autoload -Uz compinit && zsh-defer compinit'
+
+[plugins.colors]
+inline = 'autoload -Uz colors && zsh-defer colors'
+
+[plugins.zle]
+inline = 'autoload -Uz edit-command-line && zsh-defer zle -N edit-command-line'
 
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
@@ -28,10 +38,6 @@ apply = ["defer"]
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
 apply = ["defer"]
-
-[plugins.powerlevel10k]
-github = "romkatv/powerlevel10k"
-apply = ["source"]
 
 [plugins.dotfiles-defers]
 local = "~/.config/zsh"
