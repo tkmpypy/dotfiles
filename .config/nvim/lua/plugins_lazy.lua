@@ -1015,7 +1015,6 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
     },
-    -- enabled = false,
     event = "VeryLazy",
     config = function()
       require("noice").setup({
@@ -1025,6 +1024,18 @@ require("lazy").setup({
           long_message_to_split = false, -- long messages will be sent to a split
           inc_rename = true, -- enables an input dialog for inc-rename.nvim
           lsp_doc_border = true, -- add a border to hover docs and signature help
+        },
+        routes = {
+          {
+            --TODO
+            --https://github.com/HiPhish/rainbow-delimiters.nvim/issues/36#issuecomment-1725332199
+            filter = {
+              event = "notify",
+              kind = "warn",
+              find = "for_each_child",
+            },
+            opts = { skip = true },
+          },
         },
         cmdline = {
           view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
