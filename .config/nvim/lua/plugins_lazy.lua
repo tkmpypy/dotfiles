@@ -3148,7 +3148,7 @@ require("lazy").setup({
   },
   {
     "VidocqH/lsp-lens.nvim",
-    event = { "VeryLazy" },
+    event = { "LspAttach" },
     dependencies = { "neovim/nvim-lspconfig" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
@@ -3157,11 +3157,22 @@ require("lazy").setup({
       require("lsp-lens").setup({
         enable = true,
         include_declaration = false, -- Reference include declaration
-        sections = { -- Enable / Disable specific request
-          definition = false,
-          references = true,
-          implementation = true,
+        hide_zero_counts = true, -- Hide lsp sections which have no content
+        sections = {
+          definition = function(count)
+            return "Definitions: " .. count
+          end,
+          references = function(count)
+            return "References: " .. count
+          end,
+          implements = function(count)
+            return "Implements: " .. count
+          end,
         },
+        separator = " | ",
+        decorator = function(line)
+          return line
+        end,
         ignore_filetype = {
           "prisma",
         },

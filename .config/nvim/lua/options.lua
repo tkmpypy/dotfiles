@@ -43,7 +43,7 @@ end
 opt.display:append("lastline")
 opt.list = true
 opt.listchars = {
-  tab = "»\\",
+  tab = "» ",
   trail = "░",
   eol = "↲",
   extends = "☛",
