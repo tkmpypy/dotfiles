@@ -4013,32 +4013,28 @@ require("lazy").setup({
 
   -- Local plugins
   {
-    "tkmpypy/commit_msg_generator",
-    dev = true,
+    dir = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin", "commit_msg_generator"),
     cmd = { "CommitMsgGen" },
     config = function()
       require("commit_msg_generator").setup({})
     end,
   },
   {
-    "tkmpypy/gen_gitignore",
-    dev = true,
+    dir = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin", "gen_gitignore"),
     cmd = { "Gigi" },
     config = function()
       require("gen_gitignore").setup()
     end,
   },
   {
-    "tkmpypy/git_linker",
-    dev = true,
+    dir = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin", "git_linker"),
     cmd = { "GitLinker" },
     config = function()
       require("git_linker").setup()
     end,
   },
   {
-    "tkmpypy/random_colorscheme",
-    dev = true,
+    dir = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin", "random_colorscheme"),
     lazy = false,
     priority = 10000,
     config = function()
@@ -4059,8 +4055,8 @@ require("lazy").setup({
     end,
   },
   {
-    -- "tkmpypy/chowcho.nvim",
-    dir = "~/ghq/github.com/tkmpypy/chowcho.nvim",
+    "tkmpypy/chowcho.nvim",
+    dev = true,
     config = function()
       require("chowcho").setup({
         border_style = "rounded",
@@ -4079,7 +4075,8 @@ require("lazy").setup({
     end,
   },
   {
-    dir = "~/ghq/github.com/tkmpypy/deepon.nvim",
+    "tkmpypy/deepon.nvim",
+    dev = true,
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
@@ -4098,7 +4095,7 @@ require("lazy").setup({
     lazy = false, -- should plugins be lazy-loaded?
   },
   dev = {
-    path = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin"),
+    path = "~/ghq/github.com/tkmpypy",
     patterns = {},
     fallback = false,
   },
