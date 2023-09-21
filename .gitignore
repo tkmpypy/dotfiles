@@ -72,3 +72,4 @@ packer_compiled.lua
 packer_load.vim
 .config/gcloud/logs
 .luarc.json
+*.zwc

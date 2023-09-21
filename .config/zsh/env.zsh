@@ -1,6 +1,3 @@
-ulimit -n 20480
-
-# Env
 if [[ -z "$XDG_CONFIG_HOME" ]]
 then
     export XDG_CONFIG_HOME="$HOME/.config/"
@@ -26,8 +23,5 @@ export AQUA_GLOBAL_CONFIG="$XDG_CONFIG_HOME/aqua/aqua.yaml"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 if [ "$(uname -m)" = "arm64" ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
   export PATH="/opt/homebrew/bin:$PATH"
-else
-  eval "$(/usr/local/bin/brew shellenv)"
 fi

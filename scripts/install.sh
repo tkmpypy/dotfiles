@@ -31,14 +31,14 @@ function run_os_scripts() {
 function link() {
   exec_cmd "mkdir -p $HOME/.tmux"
 
-  DOT_FILES=(.zshrc .zprofile .zshrc.$OS.$ARCH .vimrc .tmux.conf .ideavimrc .p10k.zsh .terminfo .vsnip)
+  DOT_FILES=(.zshrc .zshrc.$OS.$ARCH .vimrc .tmux.conf .ideavimrc .p10k.zsh .terminfo .vsnip)
   for file in ${DOT_FILES[@]}; do
     link_file $DOTFILES_DIR $file $HOME
   done
 
   if [[ -n "$XDG_CONFIG_HOME" ]]; then
     exec_cmd "mkdir -p $XDG_CONFIG_HOME"
-    CONFIG_FILES=(nvim wezterm starship.toml k9s rtx helix aqua sheldon)
+    CONFIG_FILES=(nvim wezterm starship.toml k9s rtx helix aqua sheldon zsh)
     for file in ${CONFIG_FILES[@]}; do
       link_file $DOTFILES_DIR/.config $file $XDG_CONFIG_HOME
     done

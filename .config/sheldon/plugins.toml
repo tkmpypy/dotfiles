@@ -8,15 +8,10 @@ apply = ["source"]
 defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
 post-hook = "{{ hooks | get: \"post\" | nl }}"
 
-[plugins.dotfiles-sync]
-local = "~/.config/zsh"
-use = ["sync.zsh"]
-apply = ["source"]
-
 [plugins.powerlevel10k]
-github = "romkatv/powerlevel10k"
+github = 'romkatv/powerlevel10k'
 apply = ["source"]
-
+use = ['{{ name }}.zsh-theme']
 
 [plugins.compinit]
 inline = 'autoload -Uz compinit && zsh-defer compinit'
@@ -39,8 +34,37 @@ apply = ["defer"]
 github = "zsh-users/zsh-completions"
 apply = ["defer"]
 
-[plugins.dotfiles-defers]
+[plugins.dotfiles-env]
 local = "~/.config/zsh"
-use = ["{!sync,*}.zsh"]
+use = ["env.zsh"]
 apply = ["defer"]
 
+[plugins.dotfiles-p10k]
+local = "~/.config/zsh"
+use = ["p10k.zsh"]
+apply = ["source"]
+
+[plugins.dotfiles-init]
+local = "~/.config/zsh"
+use = ["init.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-alias]
+local = "~/.config/zsh"
+use = ["alias.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-bindkey]
+local = "~/.config/zsh"
+use = ["bindkey.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-opt]
+local = "~/.config/zsh"
+use = ["opt.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-zle]
+local = "~/.config/zsh"
+use = ["zle.zsh"]
+apply = ["defer"]
