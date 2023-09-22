@@ -1750,6 +1750,7 @@ require("lazy").setup({
   },
   {
     "akinsho/toggleterm.nvim",
+    event = {"VeryLazy"},
     config = function()
       require("toggleterm").setup({
         size = function(term)
@@ -2453,6 +2454,7 @@ require("lazy").setup({
   -- LSP
   {
     "j-hui/fidget.nvim",
+    event = {"LspAttach"},
     opts = {
       text = {
         spinner = "meter", -- animation shown when tasks are ongoing
