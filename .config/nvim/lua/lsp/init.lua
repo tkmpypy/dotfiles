@@ -92,19 +92,6 @@ local custom_attach = function(client, bufnr)
     --   end,
     -- })
   end
-
-  -- See https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Avoiding-LSP-formatting-conflicts
-  -- I only want to use null-ls formatting
-  -- if client.supports_method("textDocument/formatting") then
-  --   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-  --   vim.api.nvim_create_autocmd("BufWritePre", {
-  --     group = augroup,
-  --     buffer = bufnr,
-  --     callback = function()
-  --       null_ls_formatting(bufnr)
-  --     end,
-  --   })
-  -- end
 end
 
 -- Configure lua language server for neovim development
@@ -386,22 +373,11 @@ end
 
 -- config that activates keymaps and enables snippet support
 local make_default_config = function()
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- capabilities.textDocument.completion.completionItem.snippetSupport = true
-  -- capabilities.textDocument.completion.completionItem.preselectSupport = true
-  -- capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-  -- capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-  -- capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-  -- capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-  -- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-  -- capabilities.textDocument.completion.completionItem.resolveSupport = {
-  --   properties = { "documentation", "detail", "additionalTextEdits" },
-  -- }
-  -- capabilities.textDocument.colorProvider = {
-  --   dynamicRegistration = true,
-  -- }
-
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  }
   return {
     -- enable snippet support
     capabilities = capabilities,

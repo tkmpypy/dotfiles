@@ -51,23 +51,6 @@ require("lazy").setup({
       "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
-      -- NOTE:
-      -- Enable fold by autocmd
-      -- but this autocommand is workaround
-      -- https://github.com/nvim-telescope/telescope.nvim/issues/699
-      vim.api.nvim_create_autocmd({ "BufEnter", "BufNew", "BufWinEnter" }, {
-        group = vim.api.nvim_create_augroup("ts_fold_workaround", { clear = true }),
-        pattern = { "*" },
-        callback = function()
-          if require("nvim-treesitter.parsers").has_parser() then
-            vim.api.nvim_exec2("set nofoldenable", {})
-            vim.api.nvim_exec2("set foldmethod=expr", {})
-            vim.api.nvim_exec2("set foldexpr=nvim_treesitter#foldexpr()", {})
-            -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-          end
-        end,
-      })
-
       require("nvim-treesitter.configs").setup({
         highlight = {
           enable = true,
@@ -177,6 +160,87 @@ require("lazy").setup({
         context_commentstring = { enable = true, enable_autocmd = false },
       })
     end,
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      "kevinhwang91/promise-async",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+      {
+        "luukvbaal/statuscol.nvim",
+        config = function()
+          local builtin = require("statuscol.builtin")
+          require("statuscol").setup({
+            -- foldfunc = "builtin",
+            -- setopt = true,
+            relculright = true,
+            segments = {
+              { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+              { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+            },
+          })
+        end,
+      },
+    },
+    event = {"BufRead"},
+    config = function()
+      vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+      vim.o.foldcolumn = "1" -- '0' is not bad
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+
+      local ftMap = {
+        vim = "indent",
+        python = { "indent" },
+        git = "",
+      }
+      require("ufo").setup({
+        open_fold_hl_timeout = 150,
+        provider_selector = function(bufnr, filetype, buftype)
+          -- if you prefer treesitter provider rather than lsp,
+          return ftMap[filetype] or { "treesitter", "indent" }
+
+          -- refer to ./doc/example.lua for detail
+        end,
+      })
+    end,
+    keys = {
+      {
+        "zR",
+        function() return require('ufo').openAllFolds() end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "zM",
+        function() return require('ufo').closeAllFolds() end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "zr",
+        function() return require('ufo').openFoldsExceptKinds() end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+      {
+        "zm",
+        function() return require('ufo').closeFoldsWith() end,
+        mode = { "n" },
+        noremap = true,
+        silent = true,
+        expr = true,
+      },
+    },
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
@@ -2699,103 +2763,6 @@ require("lazy").setup({
       },
     },
   },
-  -- {
-  --   "SmiteshP/nvim-navic",
-  --   event = "BufReadPre",
-  --   dependencies = "neovim/nvim-lspconfig",
-  --   enabled = function()
-  --     return vim.g.lsp_client_type == "neovim"
-  --   end,
-  -- },
-  -- {
-  --   "utilyre/barbecue.nvim",
-  --   name = "barbecue",
-  --   version = "*",
-  --   enabled = function()
-  --     return vim.g.lsp_client_type == "neovim"
-  --   end,
-  --   event = "BufReadPre",
-  --   dependencies = {
-  --     "SmiteshP/nvim-navic",
-  --     "nvim-tree/nvim-web-devicons", -- optional dependency
-  --   },
-  --   opts = {
-  --     theme = "auto",
-  --     context_follow_icon_color = true,
-  --     exclude_filetypes = { "gitcommit", "toggleterm" },
-  --     create_autocmd = true,
-  --     attach_navic = true,
-  --     symbols = {
-  --       ---modification indicator
-  --       ---@type string
-  --       modified = "󰙏",
-
-  --       ---truncation indicator
-  --       ---@type string
-  --       ellipsis = "…",
-
-  --       ---entry separator
-  --       ---@type string
-  --       separator = "",
-  --     },
-  --     -- kinds = {
-  --     --   File = " ",
-  --     --   Module = " ",
-  --     --   Namespace = " ",
-  --     --   Package = " ",
-  --     --   Class = " ",
-  --     --   Method = " ",
-  --     --   Property = " ",
-  --     --   Field = " ",
-  --     --   Constructor = " ",
-  --     --   Enum = "練",
-  --     --   Interface = "練",
-  --     --   Function = " ",
-  --     --   Variable = " ",
-  --     --   Constant = " ",
-  --     --   String = " ",
-  --     --   Number = " ",
-  --     --   Boolean = "◩ ",
-  --     --   Array = " ",
-  --     --   Object = " ",
-  --     --   Key = " ",
-  --     --   Null = "ﳠ ",
-  --     --   EnumMember = " ",
-  --     --   Struct = " ",
-  --     --   Event = " ",
-  --     --   Operator = " ",
-  --     --   TypeParameter = " ",
-  --     -- },
-  --     kinds = {
-  --       File = "",
-  --       Module = "",
-  --       Namespace = "",
-  --       Package = "",
-  --       Class = "",
-  --       Method = "",
-  --       Property = "",
-  --       Field = "",
-  --       Constructor = "",
-  --       Enum = "",
-  --       Interface = "",
-  --       Function = "",
-  --       Variable = "",
-  --       Constant = "",
-  --       String = "",
-  --       Number = "",
-  --       Boolean = "",
-  --       Array = "",
-  --       Object = "",
-  --       Key = "",
-  --       Null = "",
-  --       EnumMember = "",
-  --       Struct = "",
-  --       Event = "",
-  --       Operator = "",
-  --       TypeParameter = "",
-  --     },
-  --   },
-  -- },
   {
     "folke/neodev.nvim",
     ft = "lua",
