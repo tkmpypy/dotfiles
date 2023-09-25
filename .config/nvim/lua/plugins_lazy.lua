@@ -184,7 +184,7 @@ require("lazy").setup({
         end,
       },
     },
-    event = {"BufRead"},
+    event = { "BufRead" },
     config = function()
       vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
       vim.o.foldcolumn = "1" -- '0' is not bad
@@ -210,7 +210,9 @@ require("lazy").setup({
     keys = {
       {
         "zR",
-        function() return require('ufo').openAllFolds() end,
+        function()
+          return require("ufo").openAllFolds()
+        end,
         mode = { "n" },
         noremap = true,
         silent = true,
@@ -218,7 +220,9 @@ require("lazy").setup({
       },
       {
         "zM",
-        function() return require('ufo').closeAllFolds() end,
+        function()
+          return require("ufo").closeAllFolds()
+        end,
         mode = { "n" },
         noremap = true,
         silent = true,
@@ -226,7 +230,9 @@ require("lazy").setup({
       },
       {
         "zr",
-        function() return require('ufo').openFoldsExceptKinds() end,
+        function()
+          return require("ufo").openFoldsExceptKinds()
+        end,
         mode = { "n" },
         noremap = true,
         silent = true,
@@ -234,7 +240,9 @@ require("lazy").setup({
       },
       {
         "zm",
-        function() return require('ufo').closeFoldsWith() end,
+        function()
+          return require("ufo").closeFoldsWith()
+        end,
         mode = { "n" },
         noremap = true,
         silent = true,
@@ -1089,18 +1097,6 @@ require("lazy").setup({
           inc_rename = true, -- enables an input dialog for inc-rename.nvim
           lsp_doc_border = true, -- add a border to hover docs and signature help
         },
-        routes = {
-          {
-            --TODO
-            --https://github.com/HiPhish/rainbow-delimiters.nvim/issues/36#issuecomment-1725332199
-            filter = {
-              event = "notify",
-              kind = "warn",
-              find = "for_each_child",
-            },
-            opts = { skip = true },
-          },
-        },
         cmdline = {
           view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
           opts = { buf_options = { filetype = "vim" } }, -- enable syntax highlighting in the cmdline
@@ -1750,7 +1746,7 @@ require("lazy").setup({
   },
   {
     "akinsho/toggleterm.nvim",
-    event = {"VeryLazy"},
+    event = { "VeryLazy" },
     config = function()
       require("toggleterm").setup({
         size = function(term)
@@ -2454,7 +2450,7 @@ require("lazy").setup({
   -- LSP
   {
     "j-hui/fidget.nvim",
-    event = {"LspAttach"},
+    event = { "LspAttach" },
     opts = {
       text = {
         spinner = "meter", -- animation shown when tasks are ongoing
@@ -2525,7 +2521,6 @@ require("lazy").setup({
           "css-lsp",
           "dockerfile-language-server",
           "vtsls",
-          "eslint-lsp",
           "html-lsp",
           "json-lsp",
           "yaml-language-server",
