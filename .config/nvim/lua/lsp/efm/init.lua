@@ -26,20 +26,22 @@ M.get_executable_path = function(command)
 end
 
 M.make_config = function()
-  local stylua = require("lsp.efm.formatter.stylua")
-  local gofumpt = require("lsp.efm.formatter.gofumpt")
-  local goimports = require("lsp.efm.formatter.goimports")
-  local golangci_lint = require("lsp.efm.linter.golangci_lint")
-  local autopep8 = require("lsp.efm.formatter.autopep8")
-  local flake8 = require("lsp.efm.linter.flake8")
-  local isort = require("lsp.efm.formatter.isort")
-  local tf_fmt = require("lsp.efm.formatter.terraform_fmt")
-  local shfmt = require("lsp.efm.formatter.shfmt")
-  local shellcheck = require("lsp.efm.linter.shellcheck")
-  local sql_formatter = require("lsp.efm.formatter.sql_formatter")
-  local prettier = require("lsp.efm.formatter.prettier")
-  local eslint_d = require("lsp.efm.linter.eslint_d")
-  local cspell = require("lsp.efm.linter.cspell")
+  local linters = require("lsp.efm.linter")
+  local formatters = require("lsp.efm.formatter")
+  local stylua = formatters.stylua
+  local gofumpt = formatters.gofumpt
+  local goimports = formatters.goimports
+  local golangci_lint = linters.golangci_lint
+  local autopep8 = formatters.autopep8
+  local flake8 = linters.flake8
+  local isort = formatters.isort
+  local tf_fmt = formatters.terraform_fmt
+  local shfmt = formatters.shfmt
+  local shellcheck = linters.shellcheck
+  local sql_formatter = formatters.sql_formatter
+  local prettier = formatters.prettier
+  local eslint_d = linters.eslint_d
+  local cspell = linters.cspell
 
   M.settings.languages = {
     lua = { stylua },
