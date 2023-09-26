@@ -30,3 +30,4 @@ packages:
 - name: sharkdp/hyperfine@v1.17.0
 - name: twistedpair/google-cloud-sdk@447.0.0
 - name: rhysd/vim-startuptime@v1.3.1
+- name: kubernetes/kubectl@v1.25.14
