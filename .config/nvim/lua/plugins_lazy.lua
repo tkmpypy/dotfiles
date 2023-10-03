@@ -26,9 +26,10 @@ require("lazy").setup({
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-context",
+        enabled = false,
         config = function()
           require("treesitter-context").setup({
-            enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
+            enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
             max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
             min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
             line_numbers = true,
@@ -2486,6 +2487,7 @@ require("lazy").setup({
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    -- dependencies = {"williamboman/mason.nvim"},
     event = { "VeryLazy" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
@@ -2578,6 +2580,7 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     event = { "VeryLazy" },
+    dependencies = {"williamboman/mason-lspconfig.nvim"},
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
