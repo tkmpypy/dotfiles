@@ -1,13 +1,20 @@
 local efm = require("lsp.efm")
 
 local bin = "eslint_d"
-local command = string.format("%s --no-color --format visualstudio --stdin --stdin-filename ${INPUT}", efm.get_executable_path(bin))
+local command =
+  string.format("%s --no-color --stdin-filename ${INPUT} --stdin", efm.get_executable_path(bin))
 
 local M = {
   prefix = bin,
   lintCommand = command,
   lintStdin = true,
-  lintFormats = { "%f:%l:%c: %m" },
+  lintFormats = {
+    "%-P%f",
+    " %#%l:%c %# %trror  %m",
+    " %#%l:%c %# %tarning  %m",
+    "%-Q",
+    "%-G%.%#",
+  },
   lintIgnoreExitCode = true,
   rootMarkers = {
     ".eslintrc",

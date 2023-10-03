@@ -398,9 +398,7 @@ local setup_servers = function()
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["efm"] = function()
-      local config = make_default_config()
-      config = vim.tbl_deep_extend("force", config, require("lsp.efm").make_config())
-      lspconfig.efm.setup(config)
+      lspconfig.efm.setup(require("lsp.efm").make_config())
     end,
     ["lua_ls"] = function()
       require("neodev").setup({

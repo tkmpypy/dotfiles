@@ -1,18 +1,19 @@
 local efm = require("lsp.efm")
+local M = {}
 
 local bin = "golangci-lint"
 local command = string.format("%s run --fast --color never --out-format line-number ./...", efm.get_executable_path(bin))
 
-local M = {
+M = {
   prefix = bin,
   lintCommand = command,
-  lintStdin = false,
+  lintStdin = true,
   lintFormats = {
-    "%A%.%#:%l:%c: %m",
-    "%C%.%#",
-    "%Z%p^",
+    "%E%f:%l:%c: %m",
+    "%E%f:%l: %m",
+    "%C%.%#"
   },
-  rootMarkers = {},
+  rootMarkers = {"go.mod", ".git"},
 }
 
 return M

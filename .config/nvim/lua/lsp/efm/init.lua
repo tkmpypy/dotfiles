@@ -1,3 +1,4 @@
+---ref: https://github.com/reviewdog/errorformat/tree/master/fmts
 local M = {
   init_options = {
     documentFormatting = true,
@@ -11,6 +12,7 @@ local M = {
     rootMarkers = { ".git/" },
     languages = {},
   },
+  -- single_file_support = false
 }
 
 ---return base path string
