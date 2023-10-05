@@ -13,7 +13,7 @@ packages:
 - name: cli/cli@v2.36.0
 - name: junegunn/fzf@0.42.0
 - name: junegunn/fzf/fzf-tmux@0.42.0
-- name: jdxcode/rtx@v2023.10.0
+- name: jdxcode/rtx@v2023.10.1
 - name: BurntSushi/ripgrep@13.0.0
 - name: sharkdp/fd@v8.7.0
 - name: dandavison/delta@0.16.5
