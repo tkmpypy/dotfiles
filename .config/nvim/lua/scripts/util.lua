@@ -248,17 +248,6 @@ M.lsp.current_lsp = function()
   return ""
 end
 
-M.lsp.null_ls_formatting = function(bufnr)
-  vim.lsp.buf.format({
-    filter = function(client)
-      -- apply whatever logic you want (in this example, we'll only use null-ls)
-      return client.name == "null-ls"
-    end,
-    bufnr = bufnr,
-    async = true,
-  })
-end
-
 M.nvim_create_augroups = function(definitions)
   for group_name, definition in pairs(definitions) do
     api.nvim_command("augroup " .. group_name)

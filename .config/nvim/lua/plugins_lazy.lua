@@ -476,10 +476,31 @@ require("lazy").setup({
           end,
         },
       }, neotest_ns)
+
+      local group = vim.api.nvim_create_augroup("NeotestConfig", {})
+      for _, ft in ipairs({ "output", "output-panel", "attach", "summary" }) do
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = "neotest-" .. ft,
+          group = group,
+          callback = function(opts)
+            vim.keymap.set("n", "q", function()
+              pcall(vim.api.nvim_win_close, 0, true)
+            end, {
+              buffer = opts.buf,
+            })
+          end,
+        })
+      end
       require("neotest").setup({
         -- your neotest config here
         adapters = {
-          require("neotest-go"),
+          require("neotest-go")({
+
+            experimental = {
+              test_table = true,
+            },
+            args = { "-v" },
+          }),
           require("neotest-rust")({
             args = { "--no-capture" },
           }),
@@ -551,7 +572,7 @@ require("lazy").setup({
           open = "botright split | resize 15",
         },
         quickfix = {
-          enabled = true,
+          enabled = false,
           open = true,
         },
         run = {
@@ -815,8 +836,8 @@ require("lazy").setup({
       require("ibl").setup({
         scope = { highlight = highlight },
         indent = {
-          tab_char = "▎"
-        }
+          tab_char = "▎",
+        },
       })
       hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
     end,
@@ -997,7 +1018,7 @@ require("lazy").setup({
   },
   {
     "goolord/alpha-nvim",
-    event = "VimEnter",
+    -- event = "VeryLazy",
     enabled = function()
       return vim.g.splash_type == "alpha"
     end,
@@ -2580,7 +2601,7 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     event = { "VeryLazy" },
-    dependencies = {"williamboman/mason-lspconfig.nvim"},
+    dependencies = { "williamboman/mason-lspconfig.nvim" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -3633,7 +3654,7 @@ require("lazy").setup({
             o = {
               name = "+Display",
               s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Toggle Summary" },
-              o = { '<cmd>lua require("neotest").output.toggle()<CR>', "Toggle output" },
+              o = { '<cmd>lua require("neotest").output.open({ enter = true })<CR>', "Open output" },
               p = { '<cmd>lua require("neotest").output_panel.toggle()<CR>', "Toggle output Panel" },
             },
           },
@@ -3736,7 +3757,7 @@ require("lazy").setup({
           },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
           ["<leader>"] = {
-            F = { "<cmd>lua vim.lsp.buf.format()<CR>", "Format" },
+            F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
           },
           ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
           ["<leader>d"] = {
