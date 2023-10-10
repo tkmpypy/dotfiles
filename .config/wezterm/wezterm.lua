@@ -27,7 +27,7 @@ return {
     Black
     ExtraBlack
   --]]
-  -- font = wezterm.font("PlemolJP Console NF", { weight = "Regular" }),
+  -- font = wezterm.font("PlemolJP Console NF", { weight = "Medium" }),
   font = wezterm.font("UDEV Gothic NF", {weight = "Regular"}),
   -- font = wezterm.font("FirgeNerd", {weight = "Regular"}),
 

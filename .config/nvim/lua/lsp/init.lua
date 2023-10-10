@@ -166,6 +166,9 @@ local rust_config = {
 }
 
 local gopls_config = {
+  init_options = {
+    usePlaceholders = true,
+  },
   settings = {
     gopls = {
       hints = {
@@ -178,10 +181,9 @@ local gopls_config = {
         rangeVariableTypes = true,
       },
       gofumpt = true,
-      usePlaceholders = false,
       semanticTokens = true,
       staticcheck = false,
-      experimentalPostfixCompletions = false,
+      experimentalPostfixCompletions = true,
       analyses = {
         nilness = false,
         shadow = false,
@@ -434,6 +436,7 @@ local setup_servers = function()
     ["gopls"] = function()
       local config = make_default_config()
       config.settings = gopls_config.settings
+      config.init_options = gopls_config.init_options
       lspconfig.gopls.setup(config)
     end,
     ["rust_analyzer"] = function()

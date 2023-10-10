@@ -1494,6 +1494,7 @@ require("lazy").setup({
   {
     "gbprod/yanky.nvim",
     cmd = { "YankyClearHistory", "YankyRingHistory" },
+    enabled = false,
     opts = {
       ring = {
         history_length = 10,
