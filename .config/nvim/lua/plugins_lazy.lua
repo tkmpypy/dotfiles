@@ -1204,6 +1204,7 @@ require("lazy").setup({
   {
     "nvim-neo-tree/neo-tree.nvim",
     event = "VeryLazy",
+    branch = "v3.x",
     cmd = { "Neotree" },
     enabled = function()
       return vim.g.file_explorer_type == "neo-tree"
@@ -1215,16 +1216,16 @@ require("lazy").setup({
       {
         -- only needed if you want to use the commands with "_with_window_picker" suffix
         "s1n7ax/nvim-window-picker",
+        version = "2.*",
         config = function()
           require("window-picker").setup({
-            autoselect_one = true,
-            include_current = false,
             filter_rules = {
+              include_current_win = false,
+              autoselect_one = true,
               -- filter using buffer options
               bo = {
                 -- if the file type is one of following, the window will be ignored
                 filetype = { "neo-tree", "neo-tree-popup", "notify" },
-
                 -- if the buffer type is one of following, the window will be ignored
                 buftype = { "terminal", "quickfix" },
               },
@@ -3141,7 +3142,8 @@ require("lazy").setup({
     event = { "LspAttach" },
     dependencies = { "neovim/nvim-lspconfig" },
     enabled = function()
-      return vim.g.lsp_client_type == "neovim"
+      return false
+      -- return vim.g.lsp_client_type == "neovim"
     end,
     config = function()
       require("lsp-lens").setup({
@@ -3852,19 +3854,6 @@ require("lazy").setup({
     },
   },
   {
-    "Everblush/nvim",
-    name = "everblush",
-    lazy = true,
-    config = function()
-      require("everblush").setup({
-        transparent_background = true,
-        nvim_tree = {
-          contrast = false,
-        },
-      })
-    end,
-  },
-  {
     "rebelot/kanagawa.nvim",
     lazy = true,
     config = function()
@@ -4038,7 +4027,6 @@ require("lazy").setup({
         "nightfox",
         "duskfox",
         "nordfox",
-        "everblush",
         "catppuccin",
         "onedark",
       })
