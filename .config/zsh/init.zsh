@@ -9,5 +9,3 @@ fi
 eval "$(rtx activate zsh)"
 eval "$(direnv hook zsh)"
 
-source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
-
