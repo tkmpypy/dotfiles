@@ -13,6 +13,11 @@ github = 'romkatv/powerlevel10k'
 apply = ["source"]
 use = ['{{ name }}.zsh-theme']
 
+[plugins.dotfiles-p10k]
+local = "~/.config/zsh"
+use = ["p10k.zsh"]
+apply = ["source"]
+
 [plugins.compinit]
 inline = 'autoload -Uz compinit && zsh-defer compinit'
 
@@ -38,11 +43,6 @@ apply = ["defer"]
 local = "~/.config/zsh"
 use = ["env.zsh"]
 apply = ["defer"]
-
-[plugins.dotfiles-p10k]
-local = "~/.config/zsh"
-use = ["p10k.zsh"]
-apply = ["source"]
 
 [plugins.dotfiles-init]
 local = "~/.config/zsh"
