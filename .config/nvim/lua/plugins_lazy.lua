@@ -539,7 +539,7 @@ require("lazy").setup({
           enabled = true,
         },
         floating = {
-          border = "rounded",
+          border = "single",
           max_height = 0.6,
           max_width = 0.6,
           options = {},
@@ -834,6 +834,7 @@ require("lazy").setup({
       end)
 
       require("ibl").setup({
+        enabled = false,
         scope = { highlight = highlight },
         indent = {
           tab_char = "▎",
@@ -1269,7 +1270,7 @@ require("lazy").setup({
           },
         },
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
-        popup_border_style = "rounded",
+        popup_border_style = "single",
         enable_git_status = true,
         enable_diagnostics = false,
         open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
@@ -2813,111 +2814,6 @@ require("lazy").setup({
     dependencies = { "neovim/nvim-lspconfig" },
   },
   {
-    "glepnir/lspsaga.nvim",
-    event = { "VeryLazy" },
-    -- enabled = function()
-    --   return vim.g.lsp_client_type == "neovim"
-    -- end,
-    enabled = false,
-    dependencies = { "neovim/nvim-lspconfig" },
-    config = function()
-      require("lspsaga").setup({
-        preview = {
-          lines_above = 0,
-          lines_below = 10,
-        },
-        scroll_preview = {
-          scroll_down = "<C-f>",
-          scroll_up = "<C-b>",
-        },
-        request_timeout = 2000,
-        finder = {
-          edit = { "o", "<CR>" },
-          vsplit = "v",
-          split = "s",
-          tabe = "t",
-          quit = { "q", "<ESC>" },
-        },
-        definition = {
-          edit = "<CR>",
-          vsplit = "<C-v>",
-          split = "<C-s>",
-          tabe = "<C-t>",
-          quit = "q",
-          close = "<Esc>",
-        },
-        code_action = {
-          num_shortcut = true,
-          keys = {
-            -- string |table type
-            quit = "q",
-            exec = "<CR>",
-          },
-        },
-        lightbulb = {
-          enable = false,
-        },
-        diagnostic = {
-          twice_into = false,
-          show_code_action = true,
-          show_source = true,
-          keys = {
-            exec_action = "o",
-            quit = "q",
-            go_action = "g",
-          },
-        },
-        rename = {
-          quit = "<C-c>",
-          exec = "<CR>",
-          mark = "x",
-          confirm = "<CR>",
-          in_select = false,
-          whole_project = true,
-        },
-        symbol_in_winbar = {
-          enable = true,
-          separator = "  ",
-          hide_keyword = true,
-          show_file = true,
-          folder_level = 2,
-          respect_root = false,
-          color_mode = true,
-        },
-        ui = {
-          -- currently only round theme
-          theme = "round",
-          -- border type can be single,double,rounded,solid,shadow.
-          border = "rounded",
-          winblend = 0,
-          expand = "",
-          collapse = "",
-          preview = " ",
-          code_action = "",
-          diagnostic = "🐞",
-          incoming = " ",
-          outgoing = " ",
-          -- colors = {
-          --   normal_bg = "#1d1536",
-          --   --title background color
-          --   title_bg = "#afd700",
-          --   red = "#e95678",
-          --   magenta = "#b33076",
-          --   orange = "#FF8700",
-          --   yellow = "#f7bb3b",
-          --   green = "#afd700",
-          --   cyan = "#36d0e0",
-          --   blue = "#61afef",
-          --   purple = "#CBA6F7",
-          --   white = "#d1d4cf",
-          --   black = "#1c1c19",
-          -- },
-          -- kind = {},
-        },
-      })
-    end,
-  },
-  {
     "b0o/schemastore.nvim",
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
@@ -2994,6 +2890,18 @@ require("lazy").setup({
         end,
         view = {
           entries = { name = "custom", selection_order = "top_down" },
+        },
+        window = {
+          -- • "none": No border (default).
+          -- • "single": A single line box.
+          -- • "double": A double line box.
+          -- • "rounded": Like "single", but with rounded corners ("╭"
+          --   etc.).
+          -- • "solid": Adds padding by a single whitespace cell.
+          -- • "shadow": A drop shadow effect by blending with the
+          --   background.
+          completion = cmp.config.window.bordered({ border = "single" }),
+          documentation = cmp.config.window.bordered({border = "single"}),
         },
         completion = {
           autocomplete = { types.cmp.TriggerEvent.TextChanged },

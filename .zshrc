@@ -25,4 +25,7 @@
 # unset cache_dir sheldon_cache sheldon_toml
 # zsh-defer unfunction source
 
+if [ "$(uname -m)" = "arm64" ]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+fi
 eval "$(sheldon source)"

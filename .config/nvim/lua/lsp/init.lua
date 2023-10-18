@@ -376,7 +376,51 @@ end
 
 -- config that activates keymaps and enables snippet support
 local make_default_config = function()
-  local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  local capabilities = {
+    textDocument = {
+      completion = {
+        dynamicRegistration = false,
+        completionItem = {
+          snippetSupport = true,
+          commitCharactersSupport = true,
+          deprecatedSupport = true,
+          preselectSupport = true,
+          insertReplaceSupport = true,
+          resolveSupport = {
+            properties = {
+              "documentation",
+              "detail",
+              "additionalTextEdits",
+              "sortText",
+              "filterText",
+              "insertText",
+              "textEdit",
+              "insertTextFormat",
+              "insertTextMode",
+            },
+          },
+          insertTextModeSupport = {
+            valueSet = {
+              1, -- asIs
+              2, -- adjustIndentation
+            },
+          },
+          labelDetailsSupport = true,
+        },
+        contextSupport = true,
+        insertTextMode = 1,
+        completionList = {
+          itemDefaults = {
+            "commitCharacters",
+            "editRange",
+            "insertTextFormat",
+            "insertTextMode",
+            "data",
+          },
+        },
+      },
+    },
+  }
   capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,
     lineFoldingOnly = true,
