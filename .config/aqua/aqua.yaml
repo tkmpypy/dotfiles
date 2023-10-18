@@ -30,5 +30,5 @@ packages:
 - name: sharkdp/hyperfine@v1.18.0
 - name: twistedpair/google-cloud-sdk@447.0.0
 - name: rhysd/vim-startuptime@v1.3.1
-- name: kubernetes/kubectl@v1.28.2
+- name: kubernetes/kubectl@v1.28.3
 - name: goreleaser/goreleaser@v1.21.2
