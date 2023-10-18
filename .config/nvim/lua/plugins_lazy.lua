@@ -813,34 +813,41 @@ require("lazy").setup({
     main = "ibl",
     event = { "VeryLazy" },
     config = function()
-      local highlight = {
-        "RainbowRed",
-        "RainbowYellow",
-        "RainbowBlue",
-        "RainbowOrange",
-        "RainbowGreen",
-        "RainbowViolet",
-        "RainbowCyan",
-      }
       local hooks = require("ibl.hooks")
-      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-        vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-        vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-        vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-        vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-        vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-        vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-        vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-      end)
 
+      -- local highlight = {
+      --   "RainbowRed",
+      --   "RainbowYellow",
+      --   "RainbowBlue",
+      --   "RainbowOrange",
+      --   "RainbowGreen",
+      --   "RainbowViolet",
+      --   "RainbowCyan",
+      -- }
+      -- hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+      --   vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+      --   vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+      --   vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+      --   vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+      --   vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+      --   vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+      --   vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+      -- end)
+      -- hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
       require("ibl").setup({
-        enabled = false,
-        scope = { highlight = highlight },
+        enabled = true,
+        scope = {
+          enabled = false,
+          -- highlight = highlight,
+        },
         indent = {
           tab_char = "▎",
         },
       })
-      hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+      hooks.register(hooks.type.ACTIVE, function(bufnr)
+        return vim.api.nvim_buf_line_count(bufnr) < 2000
+      end)
+
     end,
   },
   {
@@ -2901,7 +2908,7 @@ require("lazy").setup({
           -- • "shadow": A drop shadow effect by blending with the
           --   background.
           completion = cmp.config.window.bordered({ border = "single" }),
-          documentation = cmp.config.window.bordered({border = "single"}),
+          documentation = cmp.config.window.bordered({ border = "single" }),
         },
         completion = {
           autocomplete = { types.cmp.TriggerEvent.TextChanged },
