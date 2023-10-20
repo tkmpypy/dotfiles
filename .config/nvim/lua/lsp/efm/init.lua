@@ -44,6 +44,7 @@ M.make_config = function()
   local prettier = formatters.prettier
   local eslint_d = linters.eslint_d
   local cspell = linters.cspell
+  local jsonlint = linters.jsonlint
 
   M.settings.languages = {
     lua = { stylua },
@@ -61,7 +62,7 @@ M.make_config = function()
     scss = { prettier },
     less = { prettier },
     html = { prettier },
-    json = { prettier },
+    json = { prettier, jsonlint },
     jsonc = { prettier },
     yaml = { prettier },
     markdown = { prettier },

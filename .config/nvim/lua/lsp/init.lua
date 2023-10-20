@@ -133,7 +133,9 @@ local jsonls_config = {
   settings = {
     json = {
       schemas = require("schemastore").json.schemas(),
-      validate = true,
+      validate = {
+        enable = true,
+      },
       format = { enable = false },
     },
   },

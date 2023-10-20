@@ -825,7 +825,6 @@ require("lazy").setup({
       hooks.register(hooks.type.ACTIVE, function(bufnr)
         return vim.api.nvim_buf_line_count(bufnr) < 2000
       end)
-
     end,
   },
   {
@@ -873,7 +872,7 @@ require("lazy").setup({
           lualine_c = {
             {
               lsp_status(),
-              icon = " ",
+              icon = "󰒋",
               color = {
                 fg = theme.normal.a.bg,
                 gui = "bold",
@@ -1584,7 +1583,7 @@ require("lazy").setup({
       "ScratchOpenFzf",
       "ScratchCheckConfig",
       "ScratchEditConfig",
-      "ScratchPad"
+      "ScratchPad",
     },
   },
   {
@@ -1836,7 +1835,7 @@ require("lazy").setup({
   {
     "airblade/vim-rooter",
     config = function()
-      vim.g.rooter_patterns = { ".git", "Cargo.toml", "package.json" }
+      vim.g.rooter_patterns = { ".git" }
     end,
   },
   "machakann/vim-sandwich",
@@ -2830,16 +2829,20 @@ require("lazy").setup({
       { "onsails/lspkind.nvim" },
       {
         "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        build = "make install_jsregexp",
         dependencies = {
           "rafamadriz/friendly-snippets",
-          config = function()
-            require("luasnip.loaders.from_vscode").lazy_load()
-          end,
         },
-        opts = {
-          history = true,
-          delete_check_events = "TextChanged",
-        },
+        config = function()
+          require("luasnip").setup({
+            history = true,
+            delete_check_events = "TextChanged",
+          })
+          require("luasnip").log.set_loglevel("debug")
+          require("luasnip.loaders.from_vscode").lazy_load()
+          require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/nvim/snippets" } })
+        end,
         -- stylua: ignore
         keys = {
           {
