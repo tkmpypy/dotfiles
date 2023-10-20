@@ -1119,7 +1119,7 @@ require("lazy").setup({
         popupmenu = {
           enabled = true, -- enables the Noice popupmenu UI
           ---@type 'nui'|'cmp'
-          backend = "cmp", -- backend to use to show regular cmdline completions
+          backend = "nui", -- backend to use to show regular cmdline completions
         },
         history = {
           -- options for the message history that you get with `:Noice`
@@ -2000,6 +2000,7 @@ require("lazy").setup({
         -- options used when flash is activated through
         -- `f`, `F`, `t`, `T`, `;` and `,` motions
         search = {
+          enabled = false,
           labels = "abcdefghijklmnopqrstuvwxyz",
         },
         char = {
