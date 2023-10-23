@@ -1575,6 +1575,32 @@ require("lazy").setup({
 
   -- Utils
   {
+    "uga-rosa/translate.nvim",
+    cmd = {"Translate"},
+    config = function()
+      local api_key = os.getenv("DEEPL_API_KEY")
+      if api_key == nil then
+        vim.notify_once("'DEEPL_API_KEY' is not set", vim.log.levels.WARN)
+      end
+      vim.g.deepl_api_auth_key = api_key
+
+      require("translate").setup({
+        default = {
+          command = "deepl_free",
+          output = "split",
+        },
+        preset = {
+          parse_before = "trim",
+          output = {
+            split = {
+              append = true,
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
     "LintaoAmons/scratch.nvim",
     cmd = {
       "Scratch",
@@ -3414,6 +3440,17 @@ require("lazy").setup({
       wk.register({
         ["<C-j>"] = { ":m '>+1<CR>gv=gv", "range down" },
         ["<C-k>"] = { ":m '<-2<CR>gv=gv", "range up" },
+        ["<leader>x"] = {
+          name = "+Translate",
+          e = {
+            ":Translate EN<CR>",
+            "to English",
+          },
+          j = {
+            ":Translate JA<CR>",
+            "to Japanese",
+          }
+        }
       }, { mode = "v" })
 
       -- mode: n
@@ -3956,22 +3993,6 @@ require("lazy").setup({
           end
           return false
         end,
-      })
-    end,
-  },
-  {
-    "tkmpypy/deepon.nvim",
-    dev = true,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      require("deepon").setup({
-        lang = {
-          source = "ja",
-          target = "en",
-        },
       })
     end,
   },
