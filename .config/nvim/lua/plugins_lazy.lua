@@ -3010,10 +3010,8 @@ require("lazy").setup({
         sources = cmp.config.sources({
           { name = "conventionalprefix" },
           { name = "git" },
-        }),
-        {
           { name = "buffer" },
-        },
+        }),
       })
 
       -- Use buffer source for `/`.
