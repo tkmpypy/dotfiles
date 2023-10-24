@@ -1576,7 +1576,7 @@ require("lazy").setup({
   -- Utils
   {
     "uga-rosa/translate.nvim",
-    cmd = {"Translate"},
+    cmd = { "Translate" },
     config = function()
       local api_key = os.getenv("DEEPL_API_KEY")
       if api_key == nil then
@@ -1584,16 +1584,31 @@ require("lazy").setup({
       end
       vim.g.deepl_api_auth_key = api_key
 
+      local group = vim.api.nvim_create_augroup("TranslateGroup", {})
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "translate",
+        group = group,
+        callback = function(opts)
+          vim.keymap.set("n", "q", function()
+            pcall(vim.api.nvim_win_close, 0, true)
+          end, {
+            buffer = opts.buf,
+          })
+        end,
+      })
+
       require("translate").setup({
         default = {
           command = "deepl_free",
           output = "split",
         },
         preset = {
-          parse_before = "trim",
           output = {
             split = {
-              append = true,
+              position = "top",
+              min_size = 5,
+              max_size = 0.8,
+              append = false,
             },
           },
         },
@@ -3449,8 +3464,8 @@ require("lazy").setup({
           j = {
             ":Translate JA<CR>",
             "to Japanese",
-          }
-        }
+          },
+        },
       }, { mode = "v" })
 
       -- mode: n
