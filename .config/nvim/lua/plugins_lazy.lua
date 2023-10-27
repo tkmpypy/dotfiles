@@ -1224,6 +1224,7 @@ require("lazy").setup({
       vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
       require("neo-tree").setup({
+        git_status_async = true,
         source_selector = {
           winbar = true,
           statusline = true,
@@ -1414,7 +1415,7 @@ require("lazy").setup({
           -- "open_current",  -- netrw disabled, opening a directory opens within the
           -- window like netrw would, regardless of window.position
           -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-          use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+          use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
           -- instead of relying on nvim autocmd events.
           window = {
             mappings = {
@@ -2606,6 +2607,7 @@ require("lazy").setup({
           "black",
           "gofumpt",
           "goimports",
+          "gci",
           "prettier",
           "shfmt",
           "stylua",

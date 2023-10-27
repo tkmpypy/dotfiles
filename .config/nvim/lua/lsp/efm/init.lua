@@ -33,6 +33,7 @@ M.make_config = function()
   local stylua = formatters.stylua
   local gofumpt = formatters.gofumpt
   local goimports = formatters.goimports
+  local gci = formatters.gci
   local golangci_lint = linters.golangci_lint
   local autopep8 = formatters.autopep8
   local flake8 = linters.flake8
@@ -48,7 +49,7 @@ M.make_config = function()
 
   M.settings.languages = {
     lua = { stylua },
-    go = { gofumpt, goimports, golangci_lint },
+    go = { golangci_lint,  goimports, gci, gofumpt },
     python = { autopep8, isort, flake8 },
     terraform = { tf_fmt },
     sh = { shfmt, shellcheck },

@@ -2,6 +2,7 @@ return {
   autopep8 = require("lsp.efm.formatter.autopep8"),
   gofumpt = require("lsp.efm.formatter.gofumpt"),
   goimports = require("lsp.efm.formatter.goimports"),
+  gci = require("lsp.efm.formatter.gci"),
   isort = require("lsp.efm.formatter.isort"),
   prettier = require("lsp.efm.formatter.prettier"),
   rustfmt = require("lsp.efm.formatter.rustfmt"),
