@@ -2471,40 +2471,6 @@ require("lazy").setup({
         integrations = {
           diffview = true,
         },
-        -- override/add mappings
-        mappings = {
-          -- modify status buffer mappings
-          status = {
-            ["q"] = "Close",
-            ["1"] = "Depth1",
-            ["2"] = "Depth2",
-            ["3"] = "Depth3",
-            ["4"] = "Depth4",
-            ["<tab>"] = "Toggle",
-            ["x"] = "Discard",
-            ["s"] = "Stage",
-            ["S"] = "StageUnstaged",
-            ["<c-s>"] = "StageAll",
-            ["u"] = "Unstage",
-            ["U"] = "UnstageStaged",
-            ["d"] = "DiffAtFile",
-            ["D"] = "DiffPopup",
-            ["$"] = "CommandHistory",
-            ["<c-r>"] = "RefreshBuffer",
-            ["<enter>"] = "GoToFile",
-            ["<c-v>"] = "VSplitOpen",
-            ["<c-x>"] = "SplitOpen",
-            ["<c-t>"] = "TabOpen",
-            ["?"] = "HelpPopup",
-            ["p"] = "PullPopup",
-            ["r"] = "RebasePopup",
-            ["P"] = "PushPopup",
-            ["c"] = "CommitPopup",
-            ["L"] = "LogPopup",
-            ["Z"] = "StashPopup",
-            ["b"] = "BranchPopup",
-          },
-        },
       })
     end,
   },
@@ -3466,6 +3432,14 @@ require("lazy").setup({
           j = {
             ":Translate JA<CR>",
             "to Japanese",
+          },
+          E = {
+            ":Translate EN -output=replace<CR>",
+            "replace to English",
+          },
+          J = {
+            ":Translate JA -output=replace<CR>",
+            "replace to Japanese",
           },
         },
       }, { mode = "v" })
