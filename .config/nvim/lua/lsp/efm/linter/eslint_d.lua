@@ -2,7 +2,7 @@ local efm = require("lsp.efm")
 
 local bin = "eslint_d"
 local command =
-  string.format("%s --no-color --stdin-filename ${INPUT} --stdin", efm.get_executable_path(bin))
+  string.format('%s --no-color --stdin-filename "${INPUT}" --stdin', efm.get_executable_path(bin))
 
 local M = {
   prefix = bin,
