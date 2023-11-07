@@ -1143,6 +1143,7 @@ require("lazy").setup({
           },
           hover = {
             enabled = true,
+            silent = true,
           },
           signature = {
             enabled = true,
@@ -2456,6 +2457,38 @@ require("lazy").setup({
     config = function()
       local neogit = require("neogit")
       neogit.setup({
+        kind = "auto",
+        commit_editor = {
+          kind = "split",
+        },
+        commit_select_view = {
+          kind = "split",
+        },
+        commit_view = {
+          kind = "split",
+          verify_commit = os.execute("which gpg") == 0, -- Can be set to true or false, otherwise we try to find the binary
+        },
+        log_view = {
+          kind = "tab",
+        },
+        rebase_editor = {
+          kind = "auto",
+        },
+        reflog_view = {
+          kind = "tab",
+        },
+        merge_editor = {
+          kind = "auto",
+        },
+        tag_editor = {
+          kind = "auto",
+        },
+        preview_buffer = {
+          kind = "split",
+        },
+        popup = {
+          kind = "split",
+        },
         disable_signs = false,
         disable_context_highlighting = false,
         disable_commit_confirmation = true,
@@ -2826,6 +2859,20 @@ require("lazy").setup({
     end,
     event = { "VeryLazy" },
     dependencies = { "neovim/nvim-lspconfig" },
+  },
+  {
+    "zeioth/garbage-day.nvim",
+    dependencies = { "neovim/nvim-lspconfig" },
+    event = { "LspAttach" },
+    opts = {
+      grace_period = 60 * 15,
+      excluded_filetypes = {
+        "java",
+        "markdown",
+      },
+      stop_invisible = false,
+      notifications = true,
+    },
   },
   {
     "hrsh7th/nvim-cmp",
@@ -3511,7 +3558,7 @@ require("lazy").setup({
         },
         ["<leader>g"] = {
           name = "+Git",
-          s = { "<cmd>lua require('neogit').open({ kind = 'vsplit' })<cr>", "Status" },
+          s = { "<cmd>lua require('neogit').open({ kind = 'auto' })<cr>", "Status" },
           d = {
             name = "+Diff",
             d = { "<cmd>Gitsigns diffthis<cr>", "Diff" },
