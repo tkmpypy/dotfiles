@@ -2866,9 +2866,10 @@ require("lazy").setup({
     event = { "LspAttach" },
     opts = {
       grace_period = 60 * 15,
-      excluded_filetypes = {
-        "java",
-        "markdown",
+      excluded_lsp_clients = {
+        "jdtls",
+        "marksman",
+        "vtsls",
       },
       stop_invisible = false,
       notifications = true,
