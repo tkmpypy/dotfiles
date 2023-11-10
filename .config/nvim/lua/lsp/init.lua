@@ -25,8 +25,8 @@ end
 
 local set_diagnostic_sign = function()
   -- local signs = { "", "", "", "󰌶" }
-  local signs = { "", "", "", "" }
-  -- local signs = { "", "", "", "" }
+  -- local signs = { "", "", "", "" }
+  local signs = { "", "", "", "" }
   local diagnostic_types = { "Error", "Warn", "Info", "Hint" } -- or Warning, Information (which also don't seem to work) ...
   for i = 1, #diagnostic_types do
     local diagnostic_type = string.format("DiagnosticSign%s", diagnostic_types[i])
@@ -47,6 +47,19 @@ local custom_init = function(client)
 end
 
 local custom_flags = { debounce_text_changes = 300 }
+
+-- use only efm-language-server formatting
+local lsp_formatting = function(bufnr)
+  vim.lsp.buf.format({
+    filter = function(client)
+      return client.name == "efm"
+    end,
+    bufnr = bufnr,
+  })
+end
+
+-- if you want to set up formatting on save, you can use this as a callback
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
@@ -80,18 +93,19 @@ local custom_attach = function(client, bufnr)
 
   if client.supports_method("textDocument/inlayHint") then
     set_inlay_hint_hl()
-    -- vim.lsp.inlay_hint(bufnr, true)
+  end
 
-    -- vim.api.nvim_create_autocmd("InsertLeave", {
-    --   callback = function()
-    --     vim.lsp.buf.inlay_hint(bufnr, true)
-    --   end,
-    -- })
-    -- vim.api.nvim_create_autocmd("InsertEnter", {
-    --   callback = function()
-    --     vim.lsp.buf.inlay_hint(bufnr, false)
-    --   end,
-    -- })
+  -- format on save
+  if client.supports_method("textDocument/formatting") then
+    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup,
+      -- buffer = bufnr,
+      pattern = {"*.css", "*.tsx", "*.jsx", "*.js", "*.ts"},
+      callback = function()
+        lsp_formatting(bufnr)
+      end,
+    })
   end
 end
 
@@ -127,6 +141,21 @@ local lua_config = {
       },
     },
   },
+}
+
+local cssls_config = {
+  settings = {
+    css = {
+      validate = true,
+    },
+    scss = {
+      validate = true,
+    },
+    less = {
+      validate = true,
+    },
+  },
+  single_file_support = true,
 }
 
 local jsonls_config = {
@@ -580,6 +609,11 @@ local setup_servers = function()
       local config = make_default_config()
       config.cmd = { "bundle", "exec", "ruby-lsp" }
       lspconfig.ruby_ls.setup(config)
+    end,
+    ["cssls"] = function()
+      local config = make_default_config()
+      config = vim.tbl_deep_extend("force", config, cssls_config)
+      lspconfig.cssls.setup(config)
     end,
     ["jsonls"] = function()
       local config = make_default_config()
