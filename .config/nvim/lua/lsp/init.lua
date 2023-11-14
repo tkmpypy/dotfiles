@@ -95,18 +95,6 @@ local custom_attach = function(client, bufnr)
     set_inlay_hint_hl()
   end
 
-  -- format on save
-  if client.supports_method("textDocument/formatting") then
-    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = augroup,
-      -- buffer = bufnr,
-      pattern = {"*.css", "*.tsx", "*.jsx", "*.js", "*.ts"},
-      callback = function()
-        lsp_formatting(bufnr)
-      end,
-    })
-  end
 end
 
 -- Configure lua language server for neovim development

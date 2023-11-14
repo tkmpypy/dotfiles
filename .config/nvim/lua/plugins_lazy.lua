@@ -2515,18 +2515,7 @@ require("lazy").setup({
   {
     "j-hui/fidget.nvim",
     event = { "LspAttach" },
-    opts = {
-      text = {
-        spinner = "meter", -- animation shown when tasks are ongoing
-        done = "✔", -- character shown when all tasks are complete
-        commenced = "Started", -- message shown when task starts
-        completed = "Completed", -- message shown when task completes
-      },
-      align = {
-        bottom = true, -- align fidgets along bottom edge of buffer
-        right = true, -- align fidgets along right edge of buffer
-      },
-    },
+    config = true,
   },
   {
     "williamboman/mason.nvim",
