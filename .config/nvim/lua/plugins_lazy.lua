@@ -2515,7 +2515,13 @@ require("lazy").setup({
   {
     "j-hui/fidget.nvim",
     event = { "LspAttach" },
-    config = true,
+    opts = {
+      notification = {
+        window = {
+          winblend = 0,
+        },
+      },
+    },
   },
   {
     "williamboman/mason.nvim",
