@@ -16,12 +16,11 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
-    cmd = { "TSUpdate" },
     enabled = function()
       return vim.g.use_treesitter
     end,
     build = function()
-      require("nvim-treesitter.install").update({ with_sync = true })
+      require("nvim-treesitter.install").update({ with_sync = true })()
     end,
     dependencies = {
       "yioneko/nvim-yati",
@@ -860,8 +859,8 @@ require("lazy").setup({
           lualine_b = {
             {
               "filetype",
-              icon_only = true,
-              -- icon = {align = "right"}
+              icon_only = false,
+              icon = {align = "right"}
             },
             {
               "filename",
