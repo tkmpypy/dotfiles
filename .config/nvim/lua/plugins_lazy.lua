@@ -26,7 +26,6 @@ require("lazy").setup({
       "yioneko/nvim-yati",
       "RRethy/nvim-treesitter-endwise",
       "windwp/nvim-ts-autotag",
-      "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -135,7 +134,6 @@ require("lazy").setup({
         autotag = {
           enable = true,
         },
-        context_commentstring = { enable = true, enable_autocmd = false },
       })
     end,
   },
@@ -261,7 +259,15 @@ require("lazy").setup({
     "b3nj5m1n/kommentary",
     event = "VeryLazy",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
+      { "nvim-treesitter/nvim-treesitter" },
+      {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        config = function()
+          require("ts_context_commentstring").setup({
+            enable_autocmd = false,
+          })
+        end,
+      },
     },
     config = function()
       local config = require("kommentary.config")
@@ -270,6 +276,11 @@ require("lazy").setup({
         ignore_whitespace = true,
         use_consistent_indentation = true,
         prefer_single_line_comments = true,
+        single_line_comment_string = "auto",
+        multi_line_comment_strings = "auto",
+        hook_function = function()
+          require("ts_context_commentstring").update_commentstring()
+        end,
       })
     end,
   },
@@ -860,7 +871,7 @@ require("lazy").setup({
             {
               "filetype",
               icon_only = false,
-              icon = {align = "right"}
+              icon = { align = "right" },
             },
             {
               "filename",
@@ -1631,6 +1642,7 @@ require("lazy").setup({
   {
     "epwalsh/obsidian.nvim",
     lazy = true,
+    commit = "7c9cd6e907bce4ea4cfc5b10a511c7a65538883f",
     cmd = {
       "ObsidianOpen",
       "ObsidianNew",
@@ -1647,6 +1659,10 @@ require("lazy").setup({
       -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
       string.format("BufReadPre %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
       string.format("BufNewFile %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
+    },
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
     },
     config = function()
       require("obsidian").setup({

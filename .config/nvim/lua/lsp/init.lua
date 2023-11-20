@@ -49,17 +49,16 @@ end
 local custom_flags = { debounce_text_changes = 300 }
 
 -- use only efm-language-server formatting
-local lsp_formatting = function(bufnr)
-  vim.lsp.buf.format({
-    filter = function(client)
+local override_lsp_formatting = function()
+  local origin = vim.lsp.buf.format
+  vim.lsp.buf.format = function(opts)
+    opts.filter = function(client)
       return client.name == "efm"
-    end,
-    bufnr = bufnr,
-  })
-end
+    end
 
--- if you want to set up formatting on save, you can use this as a callback
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+    origin(opts)
+  end
+end
 
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
@@ -291,6 +290,7 @@ local vtsls_config = {
       suggest = {
         completeFunctionCalls = true,
       },
+      updateImportsOnFileMove = "always",
       inlayHints = {
         includeInlayEnumMemberValueHints = true,
         includeInlayFunctionLikeReturnTypeHints = true,
@@ -308,6 +308,7 @@ local vtsls_config = {
       suggest = {
         completeFunctionCalls = true,
       },
+      updateImportsOnFileMove = "always",
       inlayHints = {
         includeInlayEnumMemberValueHints = true,
         includeInlayFunctionLikeReturnTypeHints = true,
@@ -636,3 +637,4 @@ end
 setup_lsp_ui()
 setup_servers()
 set_diagnostic_sign()
+override_lsp_formatting()

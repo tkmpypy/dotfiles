@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+function upd_rtx_plugins() {
+  rtx plugin update
+}
 
 function upd_tools() {
   aqua -v
@@ -14,3 +17,4 @@ function upd_zsh_plugins() {
 
 upd_tools
 upd_zsh_plugins
+upd_rtx_plugins
