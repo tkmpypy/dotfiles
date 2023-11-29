@@ -361,7 +361,7 @@ require("lazy").setup({
   -- runner
   {
     "michaelb/sniprun",
-    build = "bash ./install.sh",
+    build = "sh ./install.sh",
     cmd = { "SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive" },
     config = function()
       require("sniprun").setup({
@@ -403,7 +403,7 @@ require("lazy").setup({
           -- "Api"                      --# return output to a programming interface
         },
 
-        live_display = { "VirtualTextOk" }, --# display mode used in live_mode
+        live_display = { "VirtualText", "TerminalOk"}, --..or anything you want
 
         -- display_options = {
         --   terminal_scrollback = vim.o.scrollback, --# change terminal display scrollback lines
