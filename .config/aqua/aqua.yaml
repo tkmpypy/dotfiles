@@ -14,7 +14,7 @@ packages:
 - name: junegunn/fzf@0.44.1
 - name: junegunn/fzf/fzf-tmux@0.44.1
 - name: jdx/rtx@v2023.11.8
-- name: BurntSushi/ripgrep@13.0.0
+- name: BurntSushi/ripgrep@14.0.3
 - name: sharkdp/fd@v8.7.1
 - name: dandavison/delta@0.16.5
 - name: sharkdp/bat@v0.24.0
