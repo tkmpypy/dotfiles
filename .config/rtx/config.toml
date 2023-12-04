@@ -6,4 +6,6 @@ python = "3.10.5"
 terraform = "1.2.2"
 go = "1.20.1"
 ruby = "3.2.2"
+java = "19"
+gradle = "8.0"
 
