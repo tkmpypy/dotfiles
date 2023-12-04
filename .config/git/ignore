@@ -9,6 +9,8 @@ cliff.toml
 
 pyrightconfig.json
 .python-version
+.luarc.json
+
 .ruby-version
 .vim
 .tool-versions
