@@ -34,3 +34,4 @@ packages:
 - name: goreleaser/goreleaser@v1.22.1
 - name: kubernetes-sigs/kustomize@kustomize/v5.2.1
 - name: yannh/kubeconform@v0.6.4
+- name: haskell/ghcup-hs@v0.1.20.0

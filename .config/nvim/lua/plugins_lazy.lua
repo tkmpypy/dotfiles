@@ -2880,6 +2880,7 @@ require("lazy").setup({
         "jdtls",
         "marksman",
         "vtsls",
+        "hls"
       },
       stop_invisible = false,
       notifications = true,

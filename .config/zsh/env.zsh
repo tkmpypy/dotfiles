@@ -23,5 +23,6 @@ export AQUA_ROOT_DIR="$XDG_DATA_HOME/aquaproj-aqua"
 export PATH="$PATH:$AQUA_ROOT_DIR/bin"
 export AQUA_GLOBAL_CONFIG="$XDG_CONFIG_HOME/aqua/aqua.yaml"
 export PATH="$PATH:$HOME/.docker/bin"
+export GHCUP_USE_XDG_DIRS="true"
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
