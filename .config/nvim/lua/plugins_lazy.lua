@@ -96,6 +96,8 @@ require("lazy").setup({
           "jsdoc",
           "tsx",
           "html",
+          "haskell",
+          "haskell_persistent",
           "vim",
           "markdown",
           "markdown_inline",
