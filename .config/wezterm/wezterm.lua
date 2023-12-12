@@ -30,7 +30,7 @@ return {
   font = wezterm.font("PlemolJP Console NF", { weight = "Medium" }),
   -- font = wezterm.font("UDEV Gothic NF", {weight = "Regular"}),
   -- font = wezterm.font("IntoneMono Nerd Font", {weight = "Medium"}),
-  -- font = wezterm.font("FirgeNerd", {weight = "Regular"}),
+  -- font = wezterm.font("Firge35Nerd Console", {weight = "Regular"}),
 
   font_size = 14.0,
   adjust_window_size_when_changing_font_size = false,

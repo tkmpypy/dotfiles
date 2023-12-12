@@ -1,7 +1,7 @@
 local efm = require("lsp.efm")
 
 local formatter = "rustfmt"
-local command = string.format("%s --emit=stdout", efm.get_executable_path(formatter))
+local command = string.format("%s --emit=stdout", formatter)
 
 -- if plenary is available, we can try to read the Rust edition from Cargo.toml
 -- source: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Source-specific-Configuration#rustfmt

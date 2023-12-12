@@ -405,7 +405,7 @@ require("lazy").setup({
           -- "Api"                      --# return output to a programming interface
         },
 
-        live_display = { "VirtualText", "TerminalOk"}, --..or anything you want
+        live_display = { "VirtualText", "TerminalOk" }, --..or anything you want
 
         -- display_options = {
         --   terminal_scrollback = vim.o.scrollback, --# change terminal display scrollback lines
@@ -2288,6 +2288,23 @@ require("lazy").setup({
     end,
   },
   {
+    "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    cmd = { "Octo" },
+    config = function()
+      require("octo").setup({
+        gh_env = {
+          AQUA_ROOT_DIR = vim.env["AQUA_ROOT_DIR"],
+          AQUA_GLOBAL_CONFIG = vim.env["AQUA_GLOBAL_CONFIG"],
+        },
+      })
+    end,
+  },
+  {
     "sindrets/diffview.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "DiffviewOpen", "DiffviewFileHistory" },
@@ -2882,7 +2899,8 @@ require("lazy").setup({
         "jdtls",
         "marksman",
         "vtsls",
-        "hls"
+        "hls",
+        "rust_analyzer",
       },
       stop_invisible = false,
       notifications = true,
