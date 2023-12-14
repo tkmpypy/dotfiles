@@ -26,18 +26,16 @@ end
 local set_diagnostic_sign = function()
   -- local signs = { "", "", "", "󰌶" }
   -- local signs = { "", "", "", "" }
-  local signs = { "", "", "", "" }
-  local diagnostic_types = { "Error", "Warn", "Info", "Hint" } -- or Warning, Information (which also don't seem to work) ...
-  for i = 1, #diagnostic_types do
-    local diagnostic_type = string.format("DiagnosticSign%s", diagnostic_types[i])
-    local opts = {
-      text = signs[i],
-      texthl = string.format("DiagnosticSign%s", diagnostic_types[i]),
-      linehl = "",
-      numhl = "",
+  vim.diagnostic.config({
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = '',
+        [vim.diagnostic.severity.WARN] = '',
+        [vim.diagnostic.severity.HINT] = '',
+        [vim.diagnostic.severity.INFO] = '',
+      }
     }
-    vim.fn.sign_define(diagnostic_type, opts)
-  end
+  })
 end
 
 local custom_init = function(client)
