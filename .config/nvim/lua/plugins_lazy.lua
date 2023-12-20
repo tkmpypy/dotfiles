@@ -1323,9 +1323,9 @@ require("lazy").setup({
           git_status = {
             symbols = {
               -- Change type
-              added = "✚", -- or "✚", but this is redundant info if you use git_status_colors on the name
+              added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
               modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
-              deleted = "✖", -- this can only be used in the git_status source
+              deleted = "", -- this can only be used in the git_status source
               renamed = "󰁕", -- this can only be used in the git_status source
               -- Status type
               untracked = "",
@@ -1428,7 +1428,7 @@ require("lazy").setup({
           -- "open_current",  -- netrw disabled, opening a directory opens within the
           -- window like netrw would, regardless of window.position
           -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-          use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
+          use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
           -- instead of relying on nvim autocmd events.
           window = {
             mappings = {
@@ -2891,6 +2891,7 @@ require("lazy").setup({
   },
   {
     "zeioth/garbage-day.nvim",
+    enabled = false,
     dependencies = { "neovim/nvim-lspconfig" },
     event = { "LspAttach" },
     opts = {

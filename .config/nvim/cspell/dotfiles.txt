@@ -290,3 +290,4 @@ mygrpc
 healthpb
 uncons
 Prec
+kansuji

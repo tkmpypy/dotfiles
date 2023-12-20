@@ -1,1 +1,4 @@
 Brewfile.lock.json
+bin/cloud-functions-initializer
+bin/.crates2.json
+bin/.crates.toml

@@ -1,13 +1,13 @@
 -- https://wezfurlong.org/wezterm/config/keys.html
-local wezterm = require "wezterm"
+local wezterm = require("wezterm")
 local act = wezterm.action
 local enable_transparent = false
 local transparent_window_background_opacity = 0.7
-local default_window_background_opacity = function ()
-    if enable_transparent then
-      return transparent_window_background_opacity
-    end
-    return 1.0
+local default_window_background_opacity = function()
+  if enable_transparent then
+    return transparent_window_background_opacity
+  end
+  return 1.0
 end
 
 return {
