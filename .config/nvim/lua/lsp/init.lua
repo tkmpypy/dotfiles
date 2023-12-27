@@ -29,12 +29,12 @@ local set_diagnostic_sign = function()
   vim.diagnostic.config({
     signs = {
       text = {
-        [vim.diagnostic.severity.ERROR] = '',
-        [vim.diagnostic.severity.WARN] = '',
-        [vim.diagnostic.severity.HINT] = '',
-        [vim.diagnostic.severity.INFO] = '',
-      }
-    }
+        [vim.diagnostic.severity.ERROR] = "",
+        [vim.diagnostic.severity.WARN] = "",
+        [vim.diagnostic.severity.HINT] = "",
+        [vim.diagnostic.severity.INFO] = "",
+      },
+    },
   })
 end
 
@@ -91,7 +91,6 @@ local custom_attach = function(client, bufnr)
   if client.supports_method("textDocument/inlayHint") then
     set_inlay_hint_hl()
   end
-
 end
 
 -- Configure lua language server for neovim development
@@ -353,6 +352,74 @@ local tsserver_config = {
   },
 }
 
+local tailwindcss_config = {
+  filetypes = {
+    "aspnetcorerazor",
+    "astro",
+    "astro-markdown",
+    "blade",
+    -- "clojure",
+    "django-html",
+    "htmldjango",
+    "edge",
+    "eelixir",
+    "elixir",
+    "ejs",
+    "erb",
+    "eruby",
+    -- "gohtml",
+    -- "gohtmltmpl",
+    "haml",
+    "handlebars",
+    "hbs",
+    "html",
+    "html-eex",
+    "heex",
+    "jade",
+    "leaf",
+    "liquid",
+    -- "markdown",
+    -- "mdx",
+    "mustache",
+    "njk",
+    "nunjucks",
+    -- "php",
+    "razor",
+    "slim",
+    "twig",
+    "css",
+    "less",
+    "postcss",
+    "sass",
+    "scss",
+    "stylus",
+    "sugarss",
+    "javascript",
+    "javascriptreact",
+    "reason",
+    "rescript",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "svelte",
+  },
+  settings = {
+    tailwindCSS = {
+      classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
+      lint = {
+        cssConflict = "warning",
+        invalidApply = "error",
+        invalidConfigPath = "error",
+        invalidScreen = "error",
+        invalidTailwindDirective = "error",
+        invalidVariant = "error",
+        recommendedVariantOrder = "warning",
+      },
+      validate = true,
+    },
+  },
+}
+
 local setup_lsp_ui = function()
   vim.diagnostic.config({
     warden = {
@@ -606,6 +673,11 @@ local setup_servers = function()
       local config = make_default_config()
       config.settings = jsonls_config.settings
       lspconfig.jsonls.setup(config)
+    end,
+    ["tailwindcss"] = function()
+      local config = make_default_config()
+      config = vim.tbl_deep_extend("force", config, tailwindcss_config)
+      lspconfig.tailwindcss.setup(config)
     end,
     ["yamlls"] = function()
       local config = make_default_config()
