@@ -502,6 +502,7 @@ require("lazy").setup({
             -- Can also be a function to return dynamic values
             args = { "-vv", "--capture=no", "--log-level", "DEBUG" },
             runner = "pytest",
+            pytest_discover_instances = true,
             python = function()
               return vim.fn.trim(vim.fn.system({ "which", "python" }))
             end,
