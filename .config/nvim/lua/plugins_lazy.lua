@@ -1,3 +1,4 @@
+local vim = vim
 local lazypath = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
@@ -99,6 +100,7 @@ require("lazy").setup({
           "haskell",
           "haskell_persistent",
           "vim",
+          "vimdoc",
           "markdown",
           "markdown_inline",
           "mermaid",
@@ -2578,6 +2580,7 @@ require("lazy").setup({
         "neo-tree",
         "neo-tree-popup",
         "notify",
+        "toggleterm",
       }
       local ignore_bt = {
         "terminal",

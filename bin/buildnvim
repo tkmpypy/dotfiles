@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+ROOT=$(ghq root)
+REPO=$ROOT/github.com/neovim/neovim
+
+POSITIONAL_ARGS=()
+while [[ $# -gt 0 ]]; do
+	case $1 in
+	--clean)
+		CLEAN=true
+		shift
+		;; #// Without value
+	--pull)
+		PULL=true
+		shift
+		;; #// Without value
+	--)
+		shift
+		POSITIONAL_ARGS+=("$@")
+		set --
+		;;
+	--*)
+		echo "[ERROR] Unknown option $1"
+		exit 1
+		;;
+	-*) #// Multiple short name options. e.g.-fh
+		OPTIONS=$1
+		for ((i = 1; i < ${#OPTIONS}; i++)); do
+			case "-${OPTIONS:$i:1}" in
+			-c) CLEAN=true ;;
+			-p) PULL=true ;;
+			*)
+				echo "[ERROR] Unknown option -${OPTIONS:$i:1}"
+				exit 1
+				;;
+			esac
+		done
+		unset OPTIONS
+		shift
+		;;
+	*)
+		POSITIONAL_ARGS+=("$1")
+		shift
+		;;
+	esac
+done
+set -- "${POSITIONAL_ARGS[@]}" #// set $1, $2, ...
+unset POSITIONAL_ARGS
+
+cd $REPO
+
+if $PULL; then
+	git pull
+fi
+
+if $CLEAN; then
+	make CMAKE_INSTALL_PREFIX=$HOME/.local/nvim
+	make distclean
+fi
+
+make CMAKE_BUILD_TYPE=Release \
+	CMAKE_INSTALL_PREFIX=$HOME/.local/nvim \
+	BUNDLED_CMAKE_FLAG='-DUSE_BUNDLED_TS_PARSERS=OFF'
+make install
