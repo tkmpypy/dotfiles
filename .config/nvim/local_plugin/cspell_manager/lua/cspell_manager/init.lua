@@ -1,13 +1,4 @@
-local efm = require("lsp.efm")
-
 local M = {}
-
-local bin = "cspell"
-local command = string.format(
-  "%s lint --config %s --no-color --no-progress --no-summary stdin://${INPUT}",
-  efm.get_executable_path(bin),
-  vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "cspell.json")
-)
 
 ---@alias CspellDictType "dotfiles"|"user"|
 
@@ -24,19 +15,6 @@ local cspell_dic = {
     path = local_dict_path,
   },
 }
-local init = function()
-  -- vim辞書がなければダウンロード
-  if vim.fn.filereadable(data_dir .. "/vim.txt.gz") ~= 1 then
-    local vim_dictionary_url = "https://github.com/iamcco/coc-spell-checker/raw/master/dicts/vim/vim.txt.gz"
-    io.popen("curl -fsSLo " .. data_dir .. "/vim.txt.gz --create-dirs " .. vim_dictionary_url)
-  end
-
-  -- ユーザー辞書がなければ作成
-  if vim.fn.filereadable(cspell_dic.user.path) ~= 1 then
-    io.popen("mkdir -p " .. data_dir)
-    io.popen("touch " .. cspell_dic.user.path)
-  end
-end
 
 ---Insert word to dict
 ---@param dict_path string
@@ -44,7 +22,7 @@ end
 local insert_word = function(dict_path, diagnostic)
   local f, err = io.open(dict_path, "a+")
   if not f then
-    vim.notify(err, vim.log.levels.ERROR, { title = "[efm] cspell" })
+    vim.notify(err, vim.log.levels.ERROR, { title = "[cspell]" })
     return
   end
 
@@ -53,7 +31,7 @@ local insert_word = function(dict_path, diagnostic)
   local word = w:sub(2, #w - 1)
   f:write(word, "\n")
   f:close()
-  vim.notify(string.format("Added '%s'", word), vim.log.levels.INFO, { title = "[efm] cspell" })
+  vim.notify(string.format("Added '%s'", word), vim.log.levels.INFO, { title = "[cspell]" })
 
   --`github>aquaproj/renovate-config`
   --If `aquaproj` is not registered in the dictionary and a spell check error occurs,
@@ -83,7 +61,7 @@ local add_word = function(dict_type)
   end
 
   for _, diagnostic in pairs(diagnostics) do
-    if diagnostic.message:find("[cspell]", 1, true) then
+    if diagnostic.source == "cspell" then
       insert_word(cspell_dic[dict_type].path, diagnostic)
     end
   end
@@ -98,18 +76,22 @@ local create_command = function()
   end, { bang = false })
 end
 
-init()
-create_command()
+M.setup = function()
+  -- vim辞書がなければダウンロード
+  if vim.fn.filereadable(data_dir .. "/vim.txt.gz") ~= 1 then
+    local vim_dictionary_url = "https://github.com/iamcco/coc-spell-checker/raw/master/dicts/vim/vim.txt.gz"
+    io.popen("curl -fsSLo " .. data_dir .. "/vim.txt.gz --create-dirs " .. vim_dictionary_url)
+  end
 
-M = {
-  prefix = bin,
-  -- lintSource = bin,
-  lintCommand = command,
-  lintIgnoreExitCode = true,
-  lintStdin = true,
-  lintFormats = { "%f:%l:%c - %m", "%f:%l:%c %m" }, -- ./renovate.json:25:8 - Unknown word (automerge)
-  -- cspell does not use any severity levels, use INFO level by default
-  lintSeverity = 3,
-}
+  -- ユーザー辞書がなければ作成
+  if vim.fn.filereadable(cspell_dic.user.path) ~= 1 then
+    io.popen("mkdir -p " .. data_dir)
+    io.popen("touch " .. cspell_dic.user.path)
+  end
+
+  create_command()
+end
 
 return M
+
+
