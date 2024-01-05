@@ -2546,6 +2546,135 @@ require("lazy").setup({
   -- Snippet
   "mattn/vim-sonictemplate",
 
+  -- Linter
+  {
+    "mfussenegger/nvim-lint",
+    config = function()
+      local lint = require("lint")
+      lint.linters_by_ft = {
+        markdown = { "vale" },
+        go = { "golangcilint" },
+        python = { "flake8" },
+        sh = { "shellcheck" },
+        javascript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
+        typescript = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
+        vue = { "eslint_d" },
+        json = { "jsonlint" },
+      }
+
+      local cspell = lint.linters.cspell
+      cspell.args = {
+        "lint",
+        "--no-color",
+        "--no-progress",
+        "--no-summary",
+        "--config",
+        vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "cspell.json"),
+      }
+
+      local ignore_ft = {
+        "neo-tree",
+        "neo-tree-popup",
+        "notify",
+      }
+      local ignore_bt = {
+        "terminal",
+        "quickfix",
+      }
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+        group = vim.api.nvim_create_augroup("lint", { clear = true }),
+        callback = function()
+          local buf = vim.api.nvim_get_current_buf()
+          local ft = vim.bo[buf].filetype
+          local bt = vim.bo[buf].buftype
+          if vim.list_contains(ignore_ft, ft) then
+            vim.notify("this filetype is ignored: " .. ft, { title = "[lint]" })
+            return
+          elseif vim.list_contains(ignore_bt, bt) then
+            vim.notify("this buftype is ignored: " .. bt, { title = "[lint]" })
+            return
+          end
+
+          lint.try_lint()
+          lint.try_lint("cspell")
+        end,
+      })
+    end,
+  },
+
+  -- Formatter
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<leader>F",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = "",
+        desc = "Format buffer",
+      },
+    },
+    config = function()
+      local conform = require("conform")
+      conform.setup({
+        notify_on_error = true,
+        format_on_save = function(bufnr)
+          -- Disable with a global or buffer-local variable
+          if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+            return
+          end
+          return { timeout_ms = 500, lsp_fallback = true }
+        end,
+        formatters_by_ft = {
+          lua = { "stylua" },
+          go = { "goimports", "gofumpt", "gci" },
+          python = { "isort", "autopep8" },
+          terraform = { "terraform_fmt" },
+          sh = { "shfmt" },
+          rust = { "rustfmt" },
+          sql = { "sql_formatter" },
+          javascript = { { "prettier_d", "prettier" } },
+          javascriptreact = { { "prettier_d", "prettier" } },
+          typescript = { { "prettier_d", "prettier" } },
+          typescriptreact = { { "prettier_d", "prettier" } },
+          vue = { { "prettier_d", "prettier" } },
+          css = { { "prettier_d", "prettier" } },
+          scss = { { "prettier_d", "prettier" } },
+          less = { { "prettier_d", "prettier" } },
+          html = { { "prettier_d", "prettier" } },
+          json = { { "prettier_d", "prettier" } },
+          jsonc = { { "prettier_d", "prettier" } },
+          yaml = { { "prettier_d", "prettier" } },
+          markdown = { { "prettier_d", "prettier" } },
+        },
+      })
+
+      vim.api.nvim_create_user_command("FormatDisable", function(args)
+        if args.bang then
+          -- FormatDisable! will disable formatting just for this buffer
+          vim.b.disable_autoformat = true
+        else
+          vim.g.disable_autoformat = true
+        end
+      end, {
+        desc = "Disable autoformat-on-save",
+        bang = true,
+      })
+      vim.api.nvim_create_user_command("FormatEnable", function()
+        vim.b.disable_autoformat = false
+        vim.g.disable_autoformat = false
+      end, {
+        desc = "Re-enable autoformat-on-save",
+      })
+    end,
+  },
+
   -- LSP
   {
     "j-hui/fidget.nvim",
@@ -2631,13 +2760,14 @@ require("lazy").setup({
           "cspell",
           "golangci-lint",
           "shellcheck",
-          -- Formatter
+          "eslint_d",
+          -- Formatte
+          "prettierd",
           "sql-formatter",
           "black",
           "gofumpt",
           "goimports",
           "gci",
-          "prettier",
           "shfmt",
           "stylua",
         },
@@ -3775,9 +3905,9 @@ require("lazy").setup({
             "Hover Doc",
           },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-          ["<leader>"] = {
-            F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
-          },
+          -- ["<leader>"] = {
+          --   F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
+          -- },
           ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
           ["<leader>d"] = {
             name = "+Diagnostics",
@@ -4007,6 +4137,13 @@ require("lazy").setup({
   },
 
   -- Local plugins
+  {
+    dir = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin", "cspell_manager"),
+    cmd = { "CspellAddWordLocal", "CspellAddWordManaged" },
+    config = function()
+      require("cspell_manager").setup()
+    end,
+  },
   {
     dir = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin", "commit_msg_generator"),
     cmd = { "CommitMsgGen" },

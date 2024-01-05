@@ -46,18 +46,6 @@ end
 
 local custom_flags = { debounce_text_changes = 300 }
 
--- use only efm-language-server formatting
-local override_lsp_formatting = function()
-  local origin = vim.lsp.buf.format
-  vim.lsp.buf.format = function(opts)
-    opts.filter = function(client)
-      return client.name == "efm"
-    end
-
-    origin(opts)
-  end
-end
-
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
@@ -529,9 +517,6 @@ local setup_servers = function()
       lspconfig[server_name].setup(make_default_config())
     end,
     -- Next, you can provide targeted overrides for specific servers.
-    ["efm"] = function()
-      lspconfig.efm.setup(require("lsp.efm").make_config())
-    end,
     ["lua_ls"] = function()
       require("neodev").setup({
         library = {
@@ -707,4 +692,3 @@ end
 setup_lsp_ui()
 setup_servers()
 set_diagnostic_sign()
-override_lsp_formatting()

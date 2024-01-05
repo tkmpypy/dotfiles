@@ -291,3 +291,4 @@ healthpb
 uncons
 Prec
 kansuji
+golangcilint
