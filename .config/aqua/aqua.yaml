@@ -22,7 +22,7 @@ packages:
   - name: jesseduffield/lazygit@v0.40.2
   - name: denisidoro/navi@v2.23.0
   - name: ClementTsang/bottom@0.9.6
-  - name: derailed/k9s@v0.30.8
+  - name: derailed/k9s@v0.31.1
   - name: x-motemen/ghq@v1.4.2
   - name: orhun/git-cliff@v1.4.0
   - name: lima-vm/lima@v0.19.1
