@@ -2581,12 +2581,13 @@ require("lazy").setup({
         "neo-tree-popup",
         "notify",
         "toggleterm",
+        "alpha",
       }
       local ignore_bt = {
         "terminal",
         "quickfix",
       }
-      vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPre" }, {
         group = vim.api.nvim_create_augroup("lint", { clear = true }),
         callback = function()
           local buf = vim.api.nvim_get_current_buf()

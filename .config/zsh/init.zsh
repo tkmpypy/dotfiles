@@ -6,6 +6,6 @@ else
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-eval "$(rtx activate zsh)"
+eval "$(mise activate zsh)"
 eval "$(direnv hook zsh)"
 

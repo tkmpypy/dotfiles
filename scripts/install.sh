@@ -39,7 +39,7 @@ function link() {
 
   if [[ -n "$XDG_CONFIG_HOME" ]]; then
     exec_cmd "mkdir -p $XDG_CONFIG_HOME"
-    CONFIG_FILES=(git nvim wezterm k9s/skin.yml rtx helix aqua sheldon zsh)
+    CONFIG_FILES=(git nvim wezterm k9s/skin.yml mise helix aqua sheldon zsh)
     for file in ${CONFIG_FILES[@]}; do
       link_file $DOTFILES_DIR/.config $file $XDG_CONFIG_HOME
     done
