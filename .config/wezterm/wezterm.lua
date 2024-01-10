@@ -34,7 +34,7 @@ return {
   -- font = wezterm.font("FiraCode Nerd Font", { weight = "Medium" }),
   font = wezterm.font("MonaspiceNe Nerd Font", { weight = "Medium" }),
 
-  font_size = 13.0,
+  font_size = 12.0,
   adjust_window_size_when_changing_font_size = false,
   use_ime = true,
   macos_forward_to_ime_modifier_mask = "CTRL|SHIFT",

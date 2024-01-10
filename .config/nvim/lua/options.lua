@@ -27,14 +27,8 @@ opt.cursorline = true
 opt.cursorcolumn = false
 opt.hlsearch = true
 opt.backspace = { "indent", "eol", "start" }
-
-if opt.scrolloff == 0 then
-  opt.scrolloff = 1
-end
-
-if opt.sidescrolloff == 0 then
-  opt.sidescrolloff = 5
-end
+opt.scrolloff = 1
+opt.sidescrolloff = 7
 
 if opt.compatible then
   opt.compatible = false
