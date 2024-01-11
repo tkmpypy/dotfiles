@@ -857,6 +857,13 @@ require("lazy").setup({
           return "g:coc_status"
         end
       end
+      local lint_progress = function()
+        local linters = require("lint").get_running()
+        if #linters == 0 then
+          return " "
+        end
+        return "󰔟 " .. table.concat(linters, ", ")
+      end
       require("lualine").setup({
         options = {
           icons_enabled = true,
@@ -934,6 +941,16 @@ require("lazy").setup({
                     "HintText",
                   }, "#273faf"),
                 },
+              },
+            },
+            {
+              lint_progress,
+              color = {
+                fg = lualine_utils.extract_color_from_hllist("fg", {
+                  "SpecialComment",
+                  "Comment",
+                }, "#ffffff"),
+                gui = "bold",
               },
             },
           },
