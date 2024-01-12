@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
 main() {
-  dir=""
-  repository=""
-  session="" 
-  dir=$(ghq list -p | sed -e "s|${HOME}|~|" | fzf-tmux -p 70%,70% --prompt='Project> ' --preview "bat \$(eval echo {})/README.md" --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up)
+	dir=""
+	repository=""
+	session=""
+	dir=$(ghq list -p | sed -e "s|${HOME}|~|" | fzf-tmux -p 70%,70% --prompt='Project> ' --preview "bat \$(eval echo {})/README.md" --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up)
 
-  if [ "$dir" = "" ]; then
-    return 1
-  fi
+	if [ "$dir" = "" ]; then
+		return 1
+	fi
 
-  repository=${dir##*/}
-  session=$(echo "$repository" | sed -E 's/\./_/g')
+	repository=${dir##*/}
+	session=$(echo "$repository" | sed -E 's/\./_/g')
 
-  tmux-switch-client-with-new-session "$session" "$repository"
+	tmux-switch-client-with-new-session "$session" "$repository"
 }
 
 main

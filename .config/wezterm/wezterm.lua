@@ -29,8 +29,8 @@ return {
   --]]
   -- font = wezterm.font("PlemolJP Console NF", { weight = "Medium" }),
   -- font = wezterm.font("UDEV Gothic NF", { weight = "Regular" }),
-  font = wezterm.font("FiraCode Nerd Font", { weight = "Medium" }),
-  -- font = wezterm.font("MonaspiceNe Nerd Font Propo", { weight = "Medium" }),
+  -- font = wezterm.font("FiraCode Nerd Font", { weight = "Medium" }),
+  font = wezterm.font("MonaspiceNe Nerd Font Propo", { weight = "Medium" }),
 
   font_size = 12.0,
   adjust_window_size_when_changing_font_size = false,
