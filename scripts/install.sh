@@ -32,7 +32,7 @@ function run_os_scripts() {
 function link() {
   exec_cmd "mkdir -p $HOME/.tmux"
 
-  DOT_FILES=(.zshrc .vimrc .tmux.conf .ideavimrc .p10k.zsh .terminfo .vsnip)
+  DOT_FILES=(.zshrc .vimrc .tmux.conf .ideavimrc .p10k.zsh .vsnip)
   for file in ${DOT_FILES[@]}; do
     link_file $DOTFILES_DIR $file $HOME
   done

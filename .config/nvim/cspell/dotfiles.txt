@@ -292,3 +292,4 @@ uncons
 Prec
 kansuji
 golangcilint
+preemptible
