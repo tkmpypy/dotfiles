@@ -318,27 +318,6 @@ require("lazy").setup({
       })
     end,
   },
-  {
-    "lukas-reineke/headlines.nvim",
-    ft = { "markdown" },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      vim.cmd([[highlight Headline1 guibg=#1e2718]])
-      vim.cmd([[highlight Headline2 guibg=#000a40]])
-      vim.cmd([[highlight Headline3 guibg=#32063e]])
-      vim.cmd([[highlight Headline4 guibg=#430000]])
-      vim.cmd([[highlight Headline5 guibg=#21262d]])
-      vim.cmd([[highlight CodeBlock guibg=#1c1c1c]])
-      vim.cmd([[highlight Dash guibg=#D19A66 gui=bold]])
-      require("headlines").setup({
-        markdown = {
-          headline_highlights = { "Headline1", "Headline2", "Headline3", "Headline4", "Headline5" },
-        },
-      })
-    end,
-  },
 
   -- Language
   {
