@@ -36,7 +36,7 @@ return {
   -- font = wezterm.font("MonaspiceNe Nerd Font Propo", { weight = "Medium" }),
 
   -- front_end = "WebGpu",
-  font_size = 14.5,
+  font_size = 14.0,
   adjust_window_size_when_changing_font_size = false,
   use_ime = true,
   macos_forward_to_ime_modifier_mask = "CTRL|SHIFT",

@@ -3085,7 +3085,7 @@ require("lazy").setup({
         dependencies = "nvim-lua/plenary.nvim",
         config = function()
           require("cmp_git").setup({
-            filetypes = { "NeogitCommitMessage", "gitcommit" },
+            filetypes = { "NeogitCommitMessage", "gitcommit", "octo" },
           })
         end,
       },
