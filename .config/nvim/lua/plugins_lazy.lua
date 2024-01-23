@@ -2629,7 +2629,7 @@ require("lazy").setup({
           if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
             return
           end
-          return { timeout_ms = 500, lsp_fallback = true }
+          return { timeout_ms = 1000, lsp_fallback = true }
         end,
         formatters_by_ft = {
           lua = { "stylua" },
@@ -3604,7 +3604,7 @@ require("lazy").setup({
           scroll_up = "<c-u>", -- binding to scroll up inside the popup
         },
         window = {
-          border = "shadow", -- none, single, double, shadow
+          border = "rounded", -- none, single, double, shadow
           position = "bottom", -- bottom, top
           margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
           padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
