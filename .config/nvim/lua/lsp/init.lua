@@ -1,4 +1,30 @@
+local exists_neodev, neodev = pcall(require, "neodev")
+if exists_neodev then
+  neodev.setup({
+    library = {
+      enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
+      -- these settings will be used for your Neovim config directory
+      runtime = true, -- runtime path
+      types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+      plugins = true,
+      -- you can also specify the list of plugins to make available as a workspace library
+      -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
+    },
+    setup_jsonls = false, -- configures jsonls to provide completion for project specific .luarc.json files
+    -- override = function(root_dir, library)
+    --   library.enabled = true
+    --   library.plugins = true
+    --   -- library.runtime = true
+    --   -- library.types = true
+    -- end,
+    lspconfig = true,
+    pathStrict = true,
+    debug = true,
+  })
+end
+
 local vim = vim
+
 local lspconfig = require("lspconfig")
 local util = require("lspconfig").util
 
@@ -95,9 +121,9 @@ local lua_config = {
           indent_size = "2",
         },
       },
-      -- completion = {
-      --   callSnippet = "Replace",
-      -- },
+      completion = {
+        callSnippet = "Replace",
+      },
 
       -- https://github.com/sumneko/lua-language-server/wiki/Diagnostics
       diagnostics = {
@@ -518,32 +544,6 @@ local setup_servers = function()
     end,
     -- Next, you can provide targeted overrides for specific servers.
     ["lua_ls"] = function()
-      require("neodev").setup({
-        library = {
-          enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
-          -- these settings will be used for your Neovim config directory
-          runtime = true, -- runtime path
-          types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-          plugins = {
-            "plenary.nvim",
-            "nui.nvim",
-            "neotest",
-          },
-          -- you can also specify the list of plugins to make available as a workspace library
-          -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
-        },
-        setup_jsonls = false, -- configures jsonls to provide completion for project specific .luarc.json files
-        -- for your Neovim config directory, the config.library settings will be used as is
-        -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
-        -- for any other directory, config.library.enabled will be set to false
-        override = function(root_dir, library)
-          if require("neodev.util").is_plugin(root_dir) then
-            library.enabled = true
-            library.plugins = true
-          end
-        end,
-      })
-
       local config = make_default_config()
       config.settings = lua_config.settings
       lspconfig.lua_ls.setup(config)

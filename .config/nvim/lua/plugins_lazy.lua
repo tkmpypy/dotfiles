@@ -1236,6 +1236,13 @@ require("lazy").setup({
 
       require("neo-tree").setup({
         git_status_async = true,
+        -- These options are for people with VERY large git repos
+        git_status_async_options = {
+          batch_size = 1000, -- how many lines of git status results to process at a time
+          batch_delay = 10, -- delay in ms between batches. Spreads out the workload to let other processes run.
+          max_lines = 10000, -- How many lines of git status results to process. Anything after this will be dropped.
+          -- Anything before this will be used. The last items to be processed are the untracked files.
+        },
         source_selector = {
           winbar = true,
           statusline = true,
@@ -1427,7 +1434,7 @@ require("lazy").setup({
           -- "open_current",  -- netrw disabled, opening a directory opens within the
           -- window like netrw would, regardless of window.position
           -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
-          use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes
+          use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
           -- instead of relying on nvim autocmd events.
           window = {
             mappings = {
@@ -4191,8 +4198,15 @@ require("lazy").setup({
     config = function()
       require("chowcho").setup({
         border_style = "rounded",
+        active_border_color = "#b400c8",
+        active_text_color = "#fefefe",
+        active_label_color = "#C8CFFF",
+        deactive_border_color = "#fefefe",
+        deactive_text_color = "#d0d0d0",
+        deactive_label_color = "#ABABAB",
         icon_enabled = true,
         use_default_exclude = true,
+        labels = { "a", "b", "c", "d", "e", "f", "g", "h", "i" },
         exclude = function(buf, win)
           -- exclude noice.nvim's cmdline_popup
           local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
