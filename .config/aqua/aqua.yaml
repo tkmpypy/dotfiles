@@ -29,7 +29,7 @@ packages:
   - name: jqlang/jq@jq-1.7.1
   - name: sharkdp/hyperfine@v1.18.0
   - name: twistedpair/google-cloud-sdk@447.0.0
-  - name: rhysd/vim-startuptime@v1.3.1
+  - name: rhysd/vim-startuptime@v1.3.2
   - name: kubernetes/kubectl@v1.29.1
   - name: goreleaser/goreleaser@v1.24.0
   - name: kubernetes-sigs/kustomize@kustomize/v5.3.0
