@@ -29,7 +29,7 @@ return {
   --]]
   font = wezterm.font_with_fallback({
     { family = "PlemolJP Console NF", weight = "Medium" },
-    { family = "MonaspiceNe Nerd Font Propo", weight = "Medium" },
+    -- { family = "MonaspiceNe Nerd Font Propo", weight = "Medium" },
   }),
   -- font = wezterm.font("UDEV Gothic NF", { weight = "Regular" }),
   -- font = wezterm.font("FiraCode Nerd Font", { weight = "Medium" }),

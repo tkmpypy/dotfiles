@@ -1,0 +1,13 @@
+{
+  "class object": {
+    "prefix": "class",
+    "body": [
+      "${1:name}.${2:fnname} = function(${3:params})",
+      "\tlocal obj = {}",
+      "\tsetmetatable(obj, { __index = ${1} })",
+      "",
+      "\treturn obj",
+      "end"
+    ]
+  }
+}
