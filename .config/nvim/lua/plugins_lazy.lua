@@ -29,6 +29,16 @@ require("lazy").setup({
       "windwp/nvim-ts-autotag",
     },
     config = function()
+      -- https://github.com/EmranMR/tree-sitter-blade/discussions/19
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      parser_config.blade = {
+        install_info = {
+          url = "https://github.com/EmranMR/tree-sitter-blade",
+          files = { "src/parser.c" },
+          branch = "main",
+        },
+        filetype = "blade",
+      }
       require("nvim-treesitter.configs").setup({
         highlight = {
           enable = true,
@@ -88,6 +98,7 @@ require("lazy").setup({
           "lua",
           "luadoc",
           "php",
+          "blade",
           "phpdoc",
           "yaml",
           "toml",
@@ -2646,6 +2657,7 @@ require("lazy").setup({
           terraform = { "terraform_fmt" },
           sh = { "shfmt" },
           rust = { "rustfmt" },
+          php = { "pint" },
           sql = { "sql_formatter" },
           javascript = { { "prettierd", "prettier" } },
           javascriptreact = { { "prettierd", "prettier" } },
@@ -2778,6 +2790,7 @@ require("lazy").setup({
           "gci",
           "shfmt",
           "stylua",
+          "pint",
         },
 
         -- if set to true this will check each tool for updates. If updates
