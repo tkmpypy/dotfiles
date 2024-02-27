@@ -1907,13 +1907,9 @@ require("lazy").setup({
     },
   },
   {
-    "godlygeek/tabular",
-    enabled = false,
-  },
-  {
     "airblade/vim-rooter",
     config = function()
-      vim.g.rooter_patterns = { ".git" }
+      vim.g.rooter_patterns = { ".git", "composer.json", "package.json" }
     end,
   },
   "machakann/vim-sandwich",
@@ -1963,7 +1959,17 @@ require("lazy").setup({
       vim.g.mkdp_page_title = "「${name}」"
     end,
   },
-  { "npxbr/glow.nvim", ft = { "markdown" } },
+  {
+    "ellisonleao/glow.nvim",
+    config = function()
+      require("glow").setup({
+        border = "rounded", -- floating window border config
+        style = "dark", -- filled automatically with your current editor background, you can override using glow json style
+        pager = false,
+      })
+    end,
+    cmd = "Glow",
+  },
   "osyo-manga/vim-over",
   {
     "folke/flash.nvim",
@@ -2761,6 +2767,8 @@ require("lazy").setup({
           "lua-language-server",
           "vim-language-server",
           "gopls",
+          "phpactor",
+          -- "intelephense",
           "rust-analyzer",
           "css-lsp",
           "dockerfile-language-server",

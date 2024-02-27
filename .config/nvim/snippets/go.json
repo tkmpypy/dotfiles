@@ -21,5 +21,9 @@
       "}"
     ],
     "description": "type of option for functional option pattern"
+  },
+  "recover": {
+    "prefix": "rec",
+    "body": ["if ${1:rec} := recover(); ${1} != nil {", "\t${2:statement}", "}"]
   }
 }
