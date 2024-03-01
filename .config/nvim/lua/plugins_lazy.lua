@@ -131,18 +131,6 @@ require("lazy").setup({
           "gitignore",
           "ini",
         },
-        -- textobjects = {
-        --   move = {
-        --     enable = true,
-        --     set_jumps = true, -- whether to set jumps in the jumplist
-        --   },
-        --   select = {
-        --     enable = true,
-        --     -- Automatically jump forward to textobj, similar to targets.vim
-        --     lookahead = true,
-        --     include_surrounding_whitespace = true,
-        --   },
-        -- },
         endwise = {
           enable = true,
         },
