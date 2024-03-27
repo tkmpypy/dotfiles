@@ -11,8 +11,6 @@ echo "installing Homebrew ..."
 which brew >/dev/null 2>&1 || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 cd $THIS_DIR
 
-source ~/.zprofile
-
 echo "run brew doctor ..."
 which brew >/dev/null 2>&1 && brew doctor
 

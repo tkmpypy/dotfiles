@@ -2,13 +2,11 @@
 
 set -e
 
-DOTFILES_DIR=$(
-  cd $(dirname $0)/../
-  pwd
-)
+export XDG_CONFIG_HOME="$HOME/.config/"
+export DOTFILES_DIR="~/ghq/github.com/tkmpypy/dotfiles"
 
-OS=$(uname)
-ARCH=$(uname -m)
+export OS=$(uname)
+export ARCH=$(uname -m)
 
 function exec_cmd() {
   echo $1
@@ -37,20 +35,26 @@ function link() {
     link_file $DOTFILES_DIR $file $HOME
   done
 
-  if [[ -n "$XDG_CONFIG_HOME" ]]; then
-    exec_cmd "mkdir -p $XDG_CONFIG_HOME"
-    CONFIG_FILES=(git nvim wezterm k9s/skin.yml mise helix aqua sheldon zsh)
-    for file in ${CONFIG_FILES[@]}; do
-      link_file $DOTFILES_DIR/.config $file $XDG_CONFIG_HOME
-    done
-  fi
+  exec_cmd "mkdir -p $XDG_CONFIG_HOME"
+  CONFIG_FILES=(git nvim wezterm k9s/skin.yml mise helix aqua sheldon zsh)
+  for file in ${CONFIG_FILES[@]}; do
+    link_file $DOTFILES_DIR/.config $file $XDG_CONFIG_HOME
+  done
 
   link_file $DOTFILES_DIR bin $HOME
+}
+
+function term() {
+  unset DOTFILES_DIR
+  unset OS
+  unset ARCH
+  unset XDG_CONFIG_HOME
 }
 
 function main() {
   run_os_scripts
   link
+  term
 }
 
 main
