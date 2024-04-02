@@ -3056,6 +3056,17 @@ require("lazy").setup({
     },
   },
   {
+    "zbirenbaum/copilot.lua",
+    cmd = { "Copilot" },
+    event = { "InsertEnter" },
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  },
+  {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
     enabled = function()
@@ -3115,6 +3126,15 @@ require("lazy").setup({
       -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "hrsh7th/cmp-nvim-lua" },
       { "windwp/nvim-autopairs" },
+      {
+        "zbirenbaum/copilot-cmp",
+        dependencies = {
+          "zbirenbaum/copilot.lua",
+        },
+        config = function()
+          require("copilot_cmp").setup()
+        end,
+      },
     },
     config = function()
       local cmp = require("cmp")
@@ -3188,6 +3208,10 @@ require("lazy").setup({
         -- You should specify your *installed* sources.
         sources = cmp.config.sources({
           {
+            name = "copilot",
+            priority = 10,
+          },
+          {
             name = "nvim_lsp",
             priority = 11,
             max_item_count = 50,
@@ -3230,6 +3254,12 @@ require("lazy").setup({
               vsnip = "[SNIP]",
               luasnip = "[SNIP]",
               nvim_lua = "[LUA]",
+              Copilot = "[COPILOT]",
+            },
+          }, {
+            mode = "symbol",
+            menu = {
+              Copilot = "",
             },
           }),
         },
@@ -3383,7 +3413,7 @@ require("lazy").setup({
     enabled = function()
       return vim.g.lsp_client_type == "coc"
     end,
-    build = "yarn install --frozen-lockfile",
+    build = "npm ci",
     config = function()
       local keyset = vim.keymap.set
       vim.g.coc_global_extensions = {
@@ -3403,6 +3433,7 @@ require("lazy").setup({
         "coc-rust-analyzer",
         "coc-vimlsp",
         "coc-go",
+        "@yaegassy/coc-laravel",
         -- "coc-lua",
         "coc-sumneko-lua",
         "coc-sql",

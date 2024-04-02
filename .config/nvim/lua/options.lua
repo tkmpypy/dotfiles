@@ -9,6 +9,7 @@ opt.splitkeep = "screen"
 opt.clipboard = { "unnamed", "unnamedplus" }
 opt.encoding = "utf-8"
 opt.fileencodings = "utf-8"
+opt.re = 0
 
 opt.complete:remove({ "i", "t" })
 opt.completeopt = { "menu", "menuone", "noselect" }

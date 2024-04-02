@@ -50,3 +50,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     bo.sw = 4
   end,
 })
+
+if vim.g.lsp_client_type == "coc" then
+  vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "php", "blade" },
+    callback = function(_)
+      vim.b.coc_root_patterns = { "git", ".env", "composer.json", "artisan" }
+    end,
+  })
+end

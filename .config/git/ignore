@@ -19,4 +19,4 @@ pyrightconfig.json
 .envrc
 .rtx.*
 .mise.*
-
+.phpactor.*
