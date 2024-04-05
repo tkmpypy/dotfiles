@@ -19,4 +19,5 @@ require("options")
 require("plugins_lazy")
 
 require("autocmds")
+require("commands")
 require("keymaps")

@@ -3128,9 +3128,6 @@ require("lazy").setup({
       { "windwp/nvim-autopairs" },
       {
         "zbirenbaum/copilot-cmp",
-        dependencies = {
-          "zbirenbaum/copilot.lua",
-        },
         config = function()
           require("copilot_cmp").setup()
         end,
@@ -3209,7 +3206,7 @@ require("lazy").setup({
         sources = cmp.config.sources({
           {
             name = "copilot",
-            priority = 10,
+            priority = 13,
           },
           {
             name = "nvim_lsp",
