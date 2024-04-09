@@ -3,7 +3,7 @@ local M = {}
 ---@alias CspellDictType "dotfiles"|"user"|
 
 local data_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "cspell")
-local dotfiles_dict_path = vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "dotfiles.txt")
+local dotfiles_dict_path = vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "global.txt")
 local local_dict_path = vim.fs.joinpath(data_dir, "user.txt")
 local cspell_dic = {
   dotfiles = {

@@ -1673,13 +1673,17 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
     },
     config = function()
+      local enable_cmp = false
+      if vim.g.lsp_client_type == "neovim" then
+        enable_cmp = true
+      end
       require("obsidian").setup({
         dir = "~/Dropbox/notes",
         daily_notes = {
           folder = "journal",
         },
         completion = {
-          nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+          nvim_cmp = enable_cmp, -- if using nvim-cmp, otherwise set to false
         },
         -- Optional, key mappings.
         mappings = {
@@ -2560,6 +2564,9 @@ require("lazy").setup({
   -- Linter
   {
     "mfussenegger/nvim-lint",
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     config = function()
       local lint = require("lint")
       lint.linters_by_ft = {
@@ -2622,6 +2629,9 @@ require("lazy").setup({
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     keys = {
       {
         -- Customize or remove this keymap to your liking
@@ -3430,7 +3440,9 @@ require("lazy").setup({
         "coc-rust-analyzer",
         "coc-vimlsp",
         "coc-go",
+        "@yaegassy/coc-intelephense",
         "@yaegassy/coc-laravel",
+        "coc-blade",
         -- "coc-lua",
         "coc-sumneko-lua",
         "coc-sql",
