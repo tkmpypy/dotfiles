@@ -259,35 +259,6 @@ require("lazy").setup({
     end,
   },
   {
-    "b3nj5m1n/kommentary",
-    event = "VeryLazy",
-    dependencies = {
-      { "nvim-treesitter/nvim-treesitter" },
-      {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        config = function()
-          require("ts_context_commentstring").setup({
-            enable_autocmd = false,
-          })
-        end,
-      },
-    },
-    config = function()
-      local config = require("kommentary.config")
-      config.use_extended_mappings()
-      config.configure_language("default", {
-        ignore_whitespace = true,
-        use_consistent_indentation = true,
-        prefer_single_line_comments = true,
-        single_line_comment_string = "auto",
-        multi_line_comment_strings = "auto",
-        hook_function = function()
-          require("ts_context_commentstring").update_commentstring()
-        end,
-      })
-    end,
-  },
-  {
     "danymat/neogen",
     lazy = true,
     dependencies = {
@@ -343,7 +314,7 @@ require("lazy").setup({
   -- runner
   {
     "michaelb/sniprun",
-    build = "sh ./install.sh",
+    build = "sh install.sh",
     cmd = { "SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive" },
     config = function()
       require("sniprun").setup({
@@ -1634,18 +1605,6 @@ require("lazy").setup({
         },
       })
     end,
-  },
-  {
-    "LintaoAmons/scratch.nvim",
-    cmd = {
-      "Scratch",
-      "ScratchInitConfig",
-      "ScratchOpen",
-      "ScratchOpenFzf",
-      "ScratchCheckConfig",
-      "ScratchEditConfig",
-      "ScratchPad",
-    },
   },
   {
     "epwalsh/obsidian.nvim",
@@ -3139,7 +3098,10 @@ require("lazy").setup({
       {
         "zbirenbaum/copilot-cmp",
         config = function()
-          require("copilot_cmp").setup()
+          require("copilot_cmp").setup({
+            event = { "InsertEnter", "LspAttach" },
+            fix_pairs = true,
+          })
         end,
       },
     },
@@ -3216,43 +3178,42 @@ require("lazy").setup({
         sources = cmp.config.sources({
           {
             name = "copilot",
-            priority = 13,
+            priority = 5,
           },
-          {
-            name = "nvim_lsp",
-            priority = 11,
-            max_item_count = 50,
-          },
-          { name = "nvim_lsp_signature_help" },
           {
             -- name = "vsnip",
             name = "luasnip",
             priority = 10,
-            max_item_count = 50,
-          },
-          {
-            name = "path",
-            max_item_count = 20,
           },
           {
             name = "nvim_lua",
             priority = 12,
-            max_item_count = 50,
           },
+          {
+            name = "nvim_lsp",
+            priority = 20,
+          },
+        }, {
           {
             name = "buffer",
             priority = 2,
-            keyword_length = 2,
-            max_item_count = 50,
+            keyword_length = 1,
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
               end,
             },
           },
+          {
+            name = "path",
+            max_item_count = 20,
+          },
         }),
         formatting = {
           format = lspkind.cmp_format({
+            symbol_map = {
+              Copilot = "",
+            },
             mode = "symbol_text",
             menu = {
               buffer = "[BUF]",
@@ -3262,11 +3223,6 @@ require("lazy").setup({
               luasnip = "[SNIP]",
               nvim_lua = "[LUA]",
               Copilot = "[COPILOT]",
-            },
-          }, {
-            mode = "symbol",
-            menu = {
-              Copilot = "",
             },
           }),
         },
