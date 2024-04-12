@@ -310,7 +310,10 @@ require("lazy").setup({
     enabled = false,
     ft = "plantuml",
   },
-
+  {
+    "LintaoAmons/scratch.nvim",
+    event = "VeryLazy",
+  },
   -- runner
   {
     "michaelb/sniprun",
@@ -1609,7 +1612,6 @@ require("lazy").setup({
   {
     "epwalsh/obsidian.nvim",
     lazy = true,
-    commit = "7c9cd6e907bce4ea4cfc5b10a511c7a65538883f",
     cmd = {
       "ObsidianOpen",
       "ObsidianNew",
@@ -1637,7 +1639,8 @@ require("lazy").setup({
         enable_cmp = true
       end
       require("obsidian").setup({
-        dir = "~/Dropbox/notes",
+        -- dir = "~/Dropbox/notes",
+        dir = "~/Google Drive/マイドライブ/notes",
         daily_notes = {
           folder = "journal",
         },
@@ -2587,7 +2590,7 @@ require("lazy").setup({
   {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
+    cmd = { "ConformInfo", "FormatEnable", "FormatDisable" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -2620,7 +2623,8 @@ require("lazy").setup({
           terraform = { "terraform_fmt" },
           sh = { "shfmt" },
           rust = { "rustfmt" },
-          php = { "pint" },
+          -- php = { "pint" },
+          php = { "php-cs-fixer" },
           sql = { "sql_formatter" },
           javascript = { { "prettierd", "prettier" } },
           javascriptreact = { { "prettierd", "prettier" } },
@@ -2638,6 +2642,9 @@ require("lazy").setup({
         },
       })
 
+      -- disable format on save(default)
+      vim.b.disable_autoformat = true
+      vim.g.disable_autoformat = true
       vim.api.nvim_create_user_command("FormatDisable", function(args)
         if args.bang then
           -- FormatDisable! will disable formatting just for this buffer
@@ -2724,8 +2731,8 @@ require("lazy").setup({
           "lua-language-server",
           "vim-language-server",
           "gopls",
-          "phpactor",
-          -- "intelephense",
+          -- "phpactor",
+          "intelephense",
           "rust-analyzer",
           "css-lsp",
           "dockerfile-language-server",
@@ -2755,7 +2762,8 @@ require("lazy").setup({
           "gci",
           "shfmt",
           "stylua",
-          "pint",
+          -- "pint",
+          "php-cs-fixer",
         },
 
         -- if set to true this will check each tool for updates. If updates
