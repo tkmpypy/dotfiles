@@ -46,7 +46,7 @@ render_timer = false
 TERM = "xterm-256color"
 
 [font]
-size = 13.0
+size = 14.0
 
 [font.glyph_offset]
 x = 0
@@ -54,7 +54,7 @@ y = 0
 
 [font.normal]
 # family = "MonaspiceNe Nerd Font Propo"
-family = "FiraCode Nerd Font"
+family = "PlemolJP Console NF"
 style = "Regular"
 
 [font.offset]

@@ -20,3 +20,6 @@ pyrightconfig.json
 .rtx.*
 .mise.*
 .phpactor.*
+
+.rgignore
+

@@ -43,6 +43,11 @@ require("lazy").setup({
         highlight = {
           enable = true,
           disable = function(lang, buf)
+            local disabled_lang = { "org" }
+            if vim.tbl_contains(disabled_lang, lang) then
+              return true
+            end
+
             local max_filesize = 200 * 1024 -- 200 KB
             local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
             if ok and stats and stats.size > max_filesize then
@@ -50,7 +55,7 @@ require("lazy").setup({
             end
             return false
           end,
-          additional_vim_regex_highlighting = true,
+          additional_vim_regex_highlighting = { "org" },
         },
         yati = {
           enable = true,
@@ -130,6 +135,7 @@ require("lazy").setup({
           "gitcommit",
           "gitignore",
           "ini",
+          "org",
         },
         endwise = {
           enable = true,
@@ -1052,6 +1058,7 @@ require("lazy").setup({
   {
     "stevearc/dressing.nvim",
     lazy = true,
+    enabled = false,
     opts = {
       input = {
         insert_only = true,
@@ -1097,7 +1104,7 @@ require("lazy").setup({
         messages = {
           -- NOTE: If you enable messages, then the cmdline is enabled automatically.
           -- This is a current Neovim limitation.
-          enabled = true, -- enables the Noice messages UI
+          enabled = false, -- enables the Noice messages UI
           view = "mini", -- default view for messages
         },
         popupmenu = {
@@ -1604,6 +1611,77 @@ require("lazy").setup({
               max_size = 0.8,
               append = false,
             },
+          },
+        },
+      })
+    end,
+  },
+  {
+    "nvim-orgmode/orgmode",
+    event = "VeryLazy",
+    ft = { "org" },
+    config = function()
+      -- Setup orgmode
+      local base_dir = "~/Google Drive/マイドライブ"
+      require("orgmode").setup({
+        mappings = {
+          org_return_uses_meta_return = false,
+        },
+        org_startup_folded = "showeverything",
+        org_agenda_files = base_dir .. "/org/*",
+        org_default_notes_file = base_dir .. "/org/note.org",
+        org_default_journal_file = base_dir .. "/org/journal.org",
+        org_todo_keywords = { "TODO", "DOING", "WAITING", "|", "DONE", "DELEGATED" },
+        win_split_mode = "horizontal",
+        win_border = "single",
+        org_archive_location = base_dir .. "/org/archive/%s::",
+        org_capture_templates = {
+          t = {
+            description = "Todo",
+            template = "* TODO %?\n %u",
+            target = base_dir .. "/org/todo.org",
+          },
+          j = {
+            description = "Journal",
+            template = "\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?",
+            target = base_dir .. "/org/journal.org",
+          },
+          b = {
+            description = "BIZ Note",
+            template = "** %?",
+            target = base_dir .. "/org/note_biz.org",
+          },
+          d = {
+            description = "DEV Note",
+            template = "** %?",
+            target = base_dir .. "/org/note_dev.org",
+          },
+        },
+      })
+
+      local cmd_tmpl = ":e " .. base_dir .. "/org/%s.org<CR>"
+      vim.keymap.set("n", "<Leader>oot", cmd_tmpl:format("todo"))
+      vim.keymap.set("n", "<Leader>oon", cmd_tmpl:format("note"))
+      vim.keymap.set("n", "<Leader>oob", cmd_tmpl:format("note_biz"))
+      vim.keymap.set("n", "<Leader>ood", cmd_tmpl:format("note_dev"))
+      vim.keymap.set("n", "<Leader>ooj", cmd_tmpl:format("journal"))
+    end,
+  },
+  {
+    "akinsho/org-bullets.nvim",
+    config = function()
+      require("org-bullets").setup({
+        concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
+        symbols = {
+          -- list symbol
+          list = "•",
+          -- headlines can be a list
+          headlines = { "◉ ", "○ ", "✸ ", "✿ " },
+          -- or a function that receives the defaults and returns a list
+          checkboxes = {
+            half = { "", "OrgTSCheckboxHalfChecked" },
+            done = { "✓", "OrgDone" },
+            todo = { "˟", "OrgTODO" },
           },
         },
       })
@@ -2590,7 +2668,7 @@ require("lazy").setup({
   {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
-    cmd = { "ConformInfo", "FormatEnable", "FormatDisable" },
+    cmd = { "ConformInfo", "Format", "FormatEnable", "FormatDisable" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -2641,6 +2719,18 @@ require("lazy").setup({
           markdown = { { "prettierd", "prettier" } },
         },
       })
+
+      vim.api.nvim_create_user_command("Format", function(args)
+        local range = nil
+        if args.count ~= -1 then
+          local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+          range = {
+            start = { args.line1, 0 },
+            ["end"] = { args.line2, end_line:len() },
+          }
+        end
+        require("conform").format({ async = true, lsp_fallback = true, range = range })
+      end, { range = true })
 
       -- disable format on save(default)
       vim.b.disable_autoformat = true
@@ -3185,8 +3275,8 @@ require("lazy").setup({
         -- You should specify your *installed* sources.
         sources = cmp.config.sources({
           {
-            name = "copilot",
-            priority = 5,
+            name = "nvim_lsp",
+            priority = 20,
           },
           {
             -- name = "vsnip",
@@ -3197,11 +3287,6 @@ require("lazy").setup({
             name = "nvim_lua",
             priority = 12,
           },
-          {
-            name = "nvim_lsp",
-            priority = 20,
-          },
-        }, {
           {
             name = "buffer",
             priority = 2,
@@ -3215,6 +3300,14 @@ require("lazy").setup({
           {
             name = "path",
             max_item_count = 20,
+          },
+          {
+            name = "orgmode",
+            max_item_count = 20,
+          },
+          {
+            name = "copilot",
+            priority = 5,
           },
         }),
         formatting = {
@@ -3230,6 +3323,7 @@ require("lazy").setup({
               vsnip = "[SNIP]",
               luasnip = "[SNIP]",
               nvim_lua = "[LUA]",
+              orgmode = "[ORG]",
               Copilot = "[COPILOT]",
             },
           }),

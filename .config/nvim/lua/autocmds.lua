@@ -51,6 +51,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+-- filetypeがorgの時にconcealを有効にする
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "org", "orgagenda", "orgcalendar" },
+  callback = function(_)
+    vim.cmd([[
+      setlocal conceallevel=2
+      setlocal concealcursor=nc
+    ]])
+  end,
+})
+
 if vim.g.lsp_client_type == "coc" then
   vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = { "php", "blade" },
