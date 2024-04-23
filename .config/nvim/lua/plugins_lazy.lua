@@ -1058,7 +1058,7 @@ require("lazy").setup({
   {
     "stevearc/dressing.nvim",
     lazy = true,
-    enabled = false,
+    -- enabled = false,
     opts = {
       input = {
         insert_only = true,
@@ -1078,6 +1078,9 @@ require("lazy").setup({
         require("lazy").load({ plugins = { "dressing.nvim" } })
         return vim.ui.input(...)
       end
+    end,
+    config = function()
+      require("dressing").setup({})
     end,
   },
   {
@@ -2603,9 +2606,91 @@ require("lazy").setup({
 
   -- Linter
   {
-    "mfussenegger/nvim-lint",
+    "nvimtools/none-ls.nvim",
+    event = { "VeryLazy" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
+    end,
+    dependencies = {
+      "nvimtools/none-ls-extras.nvim",
+      "neovim/nvim-lspconfig",
+      "nvim-lua/plenary.nvim",
+      "davidmh/cspell.nvim",
+    },
+    config = function()
+      local null_ls = require("null-ls")
+      local cspell = require("cspell")
+
+      local cspell_config = {
+        config_file_preferred_name = "cspell.json",
+        find_json = function(_)
+          return vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "cspell.json")
+        end,
+      }
+
+      null_ls.setup({
+        sources = {
+          cspell.code_actions.with({ config = cspell_config }),
+          require('none-ls.code_actions.eslint_d'),
+          cspell.diagnostics.with({
+            config = cspell_config,
+            disabled_filetypes = { "NvimTree" },
+            diagnostics_postprocess = function(diagnostic)
+              -- レベルをWARNに変更（デフォルトはERROR）
+              diagnostic.severity = vim.diagnostic.severity["WARN"]
+            end,
+            condition = function()
+              -- cspellが実行できるときのみ有効
+              return vim.fn.executable("cspell") > 0
+            end,
+            timeout = 50000,
+          }),
+          null_ls.builtins.diagnostics.phpstan,
+          null_ls.builtins.diagnostics.golangci_lint.with({
+            timeout = 50000,
+          }),
+          require('none-ls.diagnostics.eslint_d'),
+          null_ls.builtins.formatting.prettierd.with({
+            timeout = 50000,
+          }),
+          null_ls.builtins.formatting.gofmt,
+          null_ls.builtins.formatting.phpcsfixer,
+          null_ls.builtins.formatting.gofumpt,
+          null_ls.builtins.formatting.goimports,
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.terraform_fmt,
+          null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.formatting.sql_formatter,
+        },
+        update_in_insert = false,
+        diagnostics_format = "[#{s} #{c}] #{m}",
+        debounce = 250,
+        default_timeout = 5000,
+        debug = false,
+        log = {
+          enable = true,
+          level = "warn",
+          use_console = "async",
+        },
+      })
+
+      vim.api.nvim_create_user_command("Format", function(args)
+        local range = nil
+        if args.count ~= -1 then
+          local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+          range = {
+            start = { args.line1, 0 },
+            ["end"] = { args.line2, end_line:len() },
+          }
+        end
+        require("scripts/util").lsp.formatting({ async = true, range = range })
+      end, { range = true })
+    end,
+  },
+  {
+    "mfussenegger/nvim-lint",
+    enabled = function()
+      return false
     end,
     config = function()
       local lint = require("lint")
@@ -2620,6 +2705,7 @@ require("lazy").setup({
         typescriptreact = { "eslint_d" },
         vue = { "eslint_d" },
         json = { "jsonlint" },
+        php = { "phpstan" },
       }
 
       local cspell = lint.linters.cspell
@@ -2643,7 +2729,7 @@ require("lazy").setup({
         "terminal",
         "quickfix",
       }
-      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPre" }, {
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         group = vim.api.nvim_create_augroup("lint", { clear = true }),
         callback = function()
           local buf = vim.api.nvim_get_current_buf()
@@ -2670,7 +2756,7 @@ require("lazy").setup({
     event = { "BufWritePre" },
     cmd = { "ConformInfo", "Format", "FormatEnable", "FormatDisable" },
     enabled = function()
-      return vim.g.lsp_client_type == "neovim"
+      return false
     end,
     keys = {
       {
@@ -3469,6 +3555,7 @@ require("lazy").setup({
   },
   {
     "akinsho/flutter-tools.nvim",
+    enabled = false,
     dependencies = { "neovim/nvim-lspconfig" },
     ft = { "dart" },
   },
@@ -4020,9 +4107,9 @@ require("lazy").setup({
             "Hover Doc",
           },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-          -- ["<leader>"] = {
-          --   F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
-          -- },
+          ["<leader>"] = {
+            F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
+          },
           ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
           ["<leader>d"] = {
             name = "+Diagnostics",
@@ -4255,6 +4342,9 @@ require("lazy").setup({
   {
     dir = vim.fs.joinpath(vim.fn.stdpath("config"), "local_plugin", "cspell_manager"),
     cmd = { "CspellAddWordLocal", "CspellAddWordManaged" },
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
     config = function()
       require("cspell_manager").setup()
     end,

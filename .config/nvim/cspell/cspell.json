@@ -10,12 +10,14 @@
     {
       "name": "dotfiles",
       "path": "~/.config/nvim/cspell/global.txt",
-      "description": "dotfiles dictionary"
+      "description": "dotfiles dictionary",
+      "addWords": true
     },
     {
       "name": "user",
       "path": "~/.local/share/nvim/cspell/user.txt",
-      "description": "User local dictionary"
+      "description": "User local dictionary",
+      "addWords": true
     },
     {
       "name": "vim",

@@ -72,15 +72,11 @@ end
 
 local custom_flags = { debounce_text_changes = 300 }
 
+
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
   if client.server_capabilities.documentHighlightProvider then
-    -- vim.cmd([[
-    --   hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-    --   hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-    --   hi! LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-    -- ]])
     vim.api.nvim_create_augroup("lsp_document_highlight", {
       clear = false,
     })
