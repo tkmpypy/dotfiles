@@ -11,6 +11,8 @@ pyrightconfig.json
 .python-version
 .luarc.json
 
+.php-cs-fixer.cache
+
 .ruby-version
 .vim
 .tool-versions

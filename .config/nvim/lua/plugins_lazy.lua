@@ -1183,6 +1183,33 @@ require("lazy").setup({
 
   -- explorer
   {
+    "stevearc/oil.nvim",
+    opts = {
+      columns = {
+        "icon",
+        -- "permissions",
+        -- "size",
+        -- "mtime",
+      },
+      delete_to_trash = true,
+      view_options = {
+        show_hidden = true,
+      },
+      float = {
+        -- Padding around the floating window
+        padding = 10,
+        max_width = 0,
+        max_height = 0,
+        border = "rounded",
+        win_options = {
+          winblend = 2,
+        },
+      },
+    },
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     cmd = { "Neotree" },
@@ -1635,7 +1662,7 @@ require("lazy").setup({
         org_default_notes_file = base_dir .. "/org/note.org",
         org_default_journal_file = base_dir .. "/org/journal.org",
         org_todo_keywords = { "TODO", "DOING", "WAITING", "|", "DONE", "DELEGATED" },
-        win_split_mode = "horizontal",
+        win_split_mode = "auto",
         win_border = "single",
         org_archive_location = base_dir .. "/org/archive/%s::",
         org_capture_templates = {
@@ -2608,6 +2635,24 @@ require("lazy").setup({
   {
     "nvimtools/none-ls.nvim",
     event = { "VeryLazy" },
+    -- keys = {
+    --   {
+    --     "<leader>F",
+    --     function()
+    --       require("scripts/util").lsp.formatting({ async = true })
+    --     end,
+    --     mode = "n",
+    --     desc = "Format buffer",
+    --   },
+    --   {
+    --     "<leader>F",
+    --     function()
+    --       require("scripts/util").lsp.formatting({ async = true })
+    --     end,
+    --     mode = "v",
+    --     desc = "Format range",
+    --   },
+    -- },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -2629,9 +2674,10 @@ require("lazy").setup({
       }
 
       null_ls.setup({
+        temp_dir = vim.fn.stdpath("cache"),
         sources = {
           cspell.code_actions.with({ config = cspell_config }),
-          require('none-ls.code_actions.eslint_d'),
+          require("none-ls.code_actions.eslint_d"),
           cspell.diagnostics.with({
             config = cspell_config,
             disabled_filetypes = { "NvimTree" },
@@ -2649,18 +2695,18 @@ require("lazy").setup({
           null_ls.builtins.diagnostics.golangci_lint.with({
             timeout = 50000,
           }),
-          require('none-ls.diagnostics.eslint_d'),
-          null_ls.builtins.formatting.prettierd.with({
-            timeout = 50000,
-          }),
-          null_ls.builtins.formatting.gofmt,
-          null_ls.builtins.formatting.phpcsfixer,
-          null_ls.builtins.formatting.gofumpt,
-          null_ls.builtins.formatting.goimports,
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.terraform_fmt,
-          null_ls.builtins.formatting.shfmt,
-          null_ls.builtins.formatting.sql_formatter,
+          require("none-ls.diagnostics.eslint_d"),
+          -- null_ls.builtins.formatting.prettierd.with({
+          --   timeout = 50000,
+          -- }),
+          -- null_ls.builtins.formatting.gofmt,
+          -- null_ls.builtins.formatting.phpcsfixer,
+          -- null_ls.builtins.formatting.gofumpt,
+          -- null_ls.builtins.formatting.goimports,
+          -- null_ls.builtins.formatting.stylua,
+          -- null_ls.builtins.formatting.terraform_fmt,
+          -- null_ls.builtins.formatting.shfmt,
+          -- null_ls.builtins.formatting.sql_formatter,
         },
         update_in_insert = false,
         diagnostics_format = "[#{s} #{c}] #{m}",
@@ -2673,18 +2719,17 @@ require("lazy").setup({
           use_console = "async",
         },
       })
-
-      vim.api.nvim_create_user_command("Format", function(args)
-        local range = nil
-        if args.count ~= -1 then
-          local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-          range = {
-            start = { args.line1, 0 },
-            ["end"] = { args.line2, end_line:len() },
-          }
-        end
-        require("scripts/util").lsp.formatting({ async = true, range = range })
-      end, { range = true })
+      -- vim.api.nvim_create_user_command("Format", function(args)
+      --   local range = nil
+      --   if args.count ~= -1 then
+      --     local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+      --     range = {
+      --       start = { args.line1, 0 },
+      --       ["end"] = { args.line2, end_line:len() },
+      --     }
+      --   end
+      --   require("scripts/util").lsp.formatting({ async = true, range = range })
+      -- end, { range = true })
     end,
   },
   {
@@ -2756,7 +2801,7 @@ require("lazy").setup({
     event = { "BufWritePre" },
     cmd = { "ConformInfo", "Format", "FormatEnable", "FormatDisable" },
     enabled = function()
-      return false
+      return vim.g.lsp_client_type == "neovim"
     end,
     keys = {
       {
@@ -4107,9 +4152,9 @@ require("lazy").setup({
             "Hover Doc",
           },
           ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-          ["<leader>"] = {
-            F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
-          },
+          -- ["<leader>"] = {
+          --   F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
+          -- },
           ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
           ["<leader>d"] = {
             name = "+Diagnostics",

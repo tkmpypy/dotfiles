@@ -298,3 +298,6 @@ deactive
 dotfiles
 noselect
 dont
+Sched
+augroups
+rgignore

@@ -8,7 +8,7 @@
   ],
   "dictionaryDefinitions": [
     {
-      "name": "dotfiles",
+      "name": "global",
       "path": "~/.config/nvim/cspell/global.txt",
       "description": "dotfiles dictionary",
       "addWords": true
