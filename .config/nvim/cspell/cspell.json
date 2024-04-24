@@ -1,7 +1,7 @@
 {
   "allowCompoundWords": true,
   "dictionaries": [
-    "dotfiles",
+    "global",
     "lua",
     "user",
     "vim"
@@ -10,7 +10,7 @@
     {
       "name": "global",
       "path": "~/.config/nvim/cspell/global.txt",
-      "description": "dotfiles dictionary",
+      "description": "Global dictionary",
       "addWords": true
     },
     {
