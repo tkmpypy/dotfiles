@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local vim = vim
 local lazypath = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
 if not vim.uv.fs_stat(lazypath) then
@@ -24,7 +25,6 @@ require("lazy").setup({
       require("nvim-treesitter.install").update({ with_sync = true })()
     end,
     dependencies = {
-      "yioneko/nvim-yati",
       "RRethy/nvim-treesitter-endwise",
       "windwp/nvim-ts-autotag",
     },
@@ -57,32 +57,8 @@ require("lazy").setup({
           end,
           additional_vim_regex_highlighting = { "org" },
         },
-        yati = {
-          enable = true,
-          default_lazy = true,
-          suppress_conflict_warning = true,
-        },
         indent = {
-          enable = false,
-          disable = {
-            "html",
-            "javascript",
-            "typescript",
-            "css",
-            "json",
-            "json5",
-            "c",
-            "cpp",
-            "comment",
-            "graphql",
-            "jsdoc",
-            "lua",
-            "python",
-            "rust",
-            "toml",
-            "tsx",
-            "vue",
-          },
+          enable = true,
         },
         -- Install parsers synchronously (only applied to `ensure_installed`)
         sync_install = false,
@@ -1057,30 +1033,29 @@ require("lazy").setup({
   },
   {
     "stevearc/dressing.nvim",
-    lazy = true,
     -- enabled = false,
-    opts = {
-      input = {
-        insert_only = true,
-        relative = "win",
-        prefer_width = 60,
-        min_width = { 60, 0.6 },
-      },
-    },
-    init = function()
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.select = function(...)
-        require("lazy").load({ plugins = { "dressing.nvim" } })
-        return vim.ui.select(...)
-      end
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.input = function(...)
-        require("lazy").load({ plugins = { "dressing.nvim" } })
-        return vim.ui.input(...)
-      end
-    end,
+    -- init = function()
+    --   ---@diagnostic disable-next-line: duplicate-set-field
+    --   vim.ui.select = function(...)
+    --     require("lazy").load({ plugins = { "dressing.nvim" } })
+    --     return vim.ui.select(...)
+    --   end
+    --   ---@diagnostic disable-next-line: duplicate-set-field
+    --   vim.ui.input = function(...)
+    --     require("lazy").load({ plugins = { "dressing.nvim" } })
+    --     return vim.ui.input(...)
+    --   end
+    -- end,
     config = function()
-      require("dressing").setup({})
+      require("dressing").setup({
+        input = {
+          enabled = false,
+          insert_only = true,
+          relative = "win",
+          prefer_width = 60,
+          min_width = { 60, 0.6 },
+        },
+      })
     end,
   },
   {
@@ -1090,6 +1065,7 @@ require("lazy").setup({
       "rcarriga/nvim-notify",
     },
     event = "VeryLazy",
+    enabled = false,
     config = function()
       require("noice").setup({
         presets = {
@@ -1113,7 +1089,7 @@ require("lazy").setup({
         popupmenu = {
           enabled = true, -- enables the Noice popupmenu UI
           ---@type 'nui'|'cmp'
-          backend = "nui", -- backend to use to show regular cmdline completions
+          backend = "cmp", -- backend to use to show regular cmdline completions
         },
         history = {
           -- options for the message history that you get with `:Noice`
@@ -1658,10 +1634,11 @@ require("lazy").setup({
           org_return_uses_meta_return = false,
         },
         org_startup_folded = "showeverything",
+        org_id_link_to_org_use_id = true,
         org_agenda_files = base_dir .. "/org/*",
         org_default_notes_file = base_dir .. "/org/note.org",
         org_default_journal_file = base_dir .. "/org/journal.org",
-        org_todo_keywords = { "TODO", "DOING", "WAITING", "|", "DONE", "DELEGATED" },
+        org_todo_keywords = { "TODO", "DOING", "WAITING", "REVIEWING", "|", "DONE", "DELEGATED" },
         win_split_mode = "auto",
         win_border = "single",
         org_archive_location = base_dir .. "/org/archive/%s::",
@@ -1690,11 +1667,11 @@ require("lazy").setup({
       })
 
       local cmd_tmpl = ":e " .. base_dir .. "/org/%s.org<CR>"
-      vim.keymap.set("n", "<Leader>oot", cmd_tmpl:format("todo"))
-      vim.keymap.set("n", "<Leader>oon", cmd_tmpl:format("note"))
-      vim.keymap.set("n", "<Leader>oob", cmd_tmpl:format("note_biz"))
-      vim.keymap.set("n", "<Leader>ood", cmd_tmpl:format("note_dev"))
-      vim.keymap.set("n", "<Leader>ooj", cmd_tmpl:format("journal"))
+      vim.keymap.set("n", "<Leader>Ot", cmd_tmpl:format("todo"))
+      vim.keymap.set("n", "<Leader>On", cmd_tmpl:format("note"))
+      vim.keymap.set("n", "<Leader>Ob", cmd_tmpl:format("note_biz"))
+      vim.keymap.set("n", "<Leader>Od", cmd_tmpl:format("note_dev"))
+      vim.keymap.set("n", "<Leader>Oj", cmd_tmpl:format("journal"))
     end,
   },
   {
@@ -1974,9 +1951,57 @@ require("lazy").setup({
       vim.g.rooter_patterns = { ".git", "composer.json", "package.json" }
     end,
   },
-  "machakann/vim-sandwich",
+  { "machakann/vim-sandwich" },
   {
-    "simeji/winresizer",
+    "mrjones2014/smart-splits.nvim",
+    keys = {
+      {
+        "<C-e>",
+        function()
+          require("smart-splits").start_resize_mode()
+        end,
+        mode = "n",
+        desc = "Resize start",
+      },
+    },
+    config = function()
+      require("smart-splits").setup({
+        -- Ignored buffer types (only while resizing)
+        ignored_buftypes = {
+          "nofile",
+          "quickfix",
+          "prompt",
+        },
+        -- Ignored filetypes (only while resizing)
+        ignored_filetypes = { "NvimTree", "neo-tree" },
+        -- the default number of lines/columns to resize by at a time
+        default_amount = 3,
+        at_edge = "wrap",
+        move_cursor_same_row = false,
+        cursor_follows_swapped_bufs = false,
+        resize_mode = {
+          -- key to exit persistent resize mode
+          quit_key = "<ESC>",
+          -- keys to use for moving in resize mode
+          -- in order of left, down, up' right
+          resize_keys = { "h", "j", "k", "l" },
+          -- set to true to silence the notifications
+          -- when entering/exiting persistent resize mode
+          silent = true,
+          -- must be functions, they will be executed when
+          -- entering or exiting the resize mode
+          hooks = {
+            on_enter = nil,
+            on_leave = nil,
+          },
+        },
+        ignored_events = {
+          "BufEnter",
+          "WinEnter",
+        },
+        disable_multiplexer_nav_when_zoomed = true,
+      })
+    end,
   },
   {
     "windwp/nvim-autopairs",
@@ -3978,6 +4003,16 @@ require("lazy").setup({
             name = "+Linker",
             c = { "<cmd>GitLinker current<cr>", "Current git link" },
             d = { "<cmd>GitLinker default<cr>", "Default branch git link" },
+          },
+        },
+        ["<leader>b"] = {
+          name = "+Buffer",
+          s = {
+            name = "+Swap",
+            h = { '<cmd>lua require("smart-splits").swap_buf_left()<CR>', "Swapping buffers to left" },
+            j = { '<cmd>lua require("smart-splits").swap_buf_down()<CR>', "Swapping buffers to down" },
+            k = { '<cmd>lua require("smart-splits").swap_buf_up()<CR>', "Swapping buffers to up" },
+            l = { '<cmd>lua require("smart-splits").swap_buf_right()<CR>', "Swapping buffers to right" },
           },
         },
         ["<leader>c"] = {
