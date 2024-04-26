@@ -647,11 +647,6 @@ local setup_servers = function()
       config.settings = solargraph_config.settings
       lspconfig.solargraph.setup(config)
     end,
-    ["ruby_ls"] = function()
-      local config = make_default_config()
-      config.cmd = { "bundle", "exec", "ruby-lsp" }
-      lspconfig.ruby_ls.setup(config)
-    end,
     ["html"] = function()
       local config = make_default_config()
       config = vim.tbl_deep_extend("force", config, html_config)
