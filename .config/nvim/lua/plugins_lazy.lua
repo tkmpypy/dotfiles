@@ -1645,7 +1645,12 @@ require("lazy").setup({
         org_capture_templates = {
           t = {
             description = "Todo",
-            template = "* TODO %?\n %u",
+            -- * TODO
+            --   - [ ] Implements
+            --   - [ ] User Review
+            --   - [ ] Code Review
+            --   - [ ] Release
+            template = "* TODO %?\n \t- [ ] Implements\n\t- [ ] User Review\n\t- [ ] Code Review\n\t- [ ] Release",
             target = base_dir .. "/org/todo.org",
           },
           j = {
