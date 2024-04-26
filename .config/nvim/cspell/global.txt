@@ -301,3 +301,5 @@ dont
 Sched
 augroups
 rgignore
+isset
+endisset
