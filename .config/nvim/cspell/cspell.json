@@ -9,19 +9,19 @@
   "dictionaryDefinitions": [
     {
       "name": "global",
-      "path": "~/.config/nvim/cspell/global.txt",
+      "path": "./global.txt",
       "description": "Global dictionary",
       "addWords": true
     },
     {
       "name": "user",
-      "path": "~/.local/share/nvim/cspell/user.txt",
+      "path": "../../../../../../../.local/share/nvim/cspell/user.txt",
       "description": "User local dictionary",
       "addWords": true
     },
     {
       "name": "vim",
-      "path": "~/.local/share/nvim/cspell/vim.txt.gz",
+      "path": "../../../../../../../.local/share/nvim/cspell/vim.txt.gz",
       "description": "Vim Script Language dictionary"
     }
   ],

@@ -2697,9 +2697,9 @@ require("lazy").setup({
       local cspell = require("cspell")
 
       local cspell_config = {
-        config_file_preferred_name = "cspell.json",
         find_json = function(_)
-          return vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "cspell.json")
+          local path = vim.fs.joinpath("~/ghq/github.com/tkmpypy/dotfiles/.config/nvim", "cspell", "cspell.json")
+          return vim.fn.expand(path)
         end,
       }
 
@@ -3946,6 +3946,13 @@ require("lazy").setup({
           name = "+Window",
           w = { "<cmd>Chowcho<cr>", "Selector" },
           r = { "<cmd>WinResizerStartResize<cr>", "Resize" },
+          s = {
+            name = "+Swap",
+            h = { '<cmd>lua require("smart-splits").swap_buf_left()<CR>', "Swapping buffers to left" },
+            j = { '<cmd>lua require("smart-splits").swap_buf_down()<CR>', "Swapping buffers to down" },
+            k = { '<cmd>lua require("smart-splits").swap_buf_up()<CR>', "Swapping buffers to up" },
+            l = { '<cmd>lua require("smart-splits").swap_buf_right()<CR>', "Swapping buffers to right" },
+          },
         },
         ["<leader>s"] = {
           name = "+Search",
@@ -4008,16 +4015,6 @@ require("lazy").setup({
             name = "+Linker",
             c = { "<cmd>GitLinker current<cr>", "Current git link" },
             d = { "<cmd>GitLinker default<cr>", "Default branch git link" },
-          },
-        },
-        ["<leader>b"] = {
-          name = "+Buffer",
-          s = {
-            name = "+Swap",
-            h = { '<cmd>lua require("smart-splits").swap_buf_left()<CR>', "Swapping buffers to left" },
-            j = { '<cmd>lua require("smart-splits").swap_buf_down()<CR>', "Swapping buffers to down" },
-            k = { '<cmd>lua require("smart-splits").swap_buf_up()<CR>', "Swapping buffers to up" },
-            l = { '<cmd>lua require("smart-splits").swap_buf_right()<CR>', "Swapping buffers to right" },
           },
         },
         ["<leader>c"] = {
