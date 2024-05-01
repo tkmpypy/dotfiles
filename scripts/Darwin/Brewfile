@@ -1,6 +1,7 @@
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 tap "wez/wezterm"
+tap hanasuke/moralerspace
 brew "bison"
 brew "re2c"
 brew "libiconv"
@@ -44,3 +45,4 @@ cask "font-intone-mono-nerd-font"
 cask "font-fira-code-nerd-font"
 cask "font-firgenerd"
 cask "font-monaspace-nerd-font"
+cask "font-moralerspace_nf"

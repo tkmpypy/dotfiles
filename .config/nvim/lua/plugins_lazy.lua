@@ -1033,23 +1033,10 @@ require("lazy").setup({
   },
   {
     "stevearc/dressing.nvim",
-    -- enabled = false,
-    -- init = function()
-    --   ---@diagnostic disable-next-line: duplicate-set-field
-    --   vim.ui.select = function(...)
-    --     require("lazy").load({ plugins = { "dressing.nvim" } })
-    --     return vim.ui.select(...)
-    --   end
-    --   ---@diagnostic disable-next-line: duplicate-set-field
-    --   vim.ui.input = function(...)
-    --     require("lazy").load({ plugins = { "dressing.nvim" } })
-    --     return vim.ui.input(...)
-    --   end
-    -- end,
     config = function()
       require("dressing").setup({
         input = {
-          enabled = false,
+          enabled = true,
           insert_only = true,
           relative = "win",
           prefer_width = 60,
@@ -1065,7 +1052,6 @@ require("lazy").setup({
       "rcarriga/nvim-notify",
     },
     event = "VeryLazy",
-    enabled = false,
     config = function()
       require("noice").setup({
         presets = {
@@ -1634,7 +1620,7 @@ require("lazy").setup({
           org_return_uses_meta_return = false,
         },
         org_startup_folded = "showeverything",
-        org_id_link_to_org_use_id = true,
+        org_id_link_to_org_use_id = false,
         org_agenda_files = base_dir .. "/org/*",
         org_default_notes_file = base_dir .. "/org/note.org",
         org_default_journal_file = base_dir .. "/org/journal.org",
@@ -1972,13 +1958,12 @@ require("lazy").setup({
     config = function()
       require("smart-splits").setup({
         -- Ignored buffer types (only while resizing)
-        ignored_buftypes = {
-          "nofile",
-          "quickfix",
-          "prompt",
-        },
+        -- ignored_buftypes = {
+        --   "quickfix",
+        --   "prompt",
+        -- },
         -- Ignored filetypes (only while resizing)
-        ignored_filetypes = { "NvimTree", "neo-tree" },
+        -- ignored_filetypes = { "NvimTree" },
         -- the default number of lines/columns to resize by at a time
         default_amount = 3,
         at_edge = "wrap",
@@ -1992,7 +1977,7 @@ require("lazy").setup({
           resize_keys = { "h", "j", "k", "l" },
           -- set to true to silence the notifications
           -- when entering/exiting persistent resize mode
-          silent = true,
+          silent = false,
           -- must be functions, they will be executed when
           -- entering or exiting the resize mode
           hooks = {
@@ -2000,10 +1985,10 @@ require("lazy").setup({
             on_leave = nil,
           },
         },
-        ignored_events = {
-          "BufEnter",
-          "WinEnter",
-        },
+        -- ignored_events = {
+        --   "BufEnter",
+        --   "WinEnter",
+        -- },
         disable_multiplexer_nav_when_zoomed = true,
       })
     end,
@@ -3523,7 +3508,10 @@ require("lazy").setup({
         }, {
           { name = "cmdline" },
         }),
+        matching = { disallow_symbol_nonprefix_matching = false },
       })
+      -- https://github.com/hrsh7th/nvim-cmp/issues/1511#issuecomment-1743055767
+      vim.keymap.set('c', '<tab>', '<C-z>', { silent = false }) -- to fix cmp
     end,
   },
   {
@@ -3945,7 +3933,7 @@ require("lazy").setup({
         ["<leader>w"] = {
           name = "+Window",
           w = { "<cmd>Chowcho<cr>", "Selector" },
-          r = { "<cmd>WinResizerStartResize<cr>", "Resize" },
+          r = { '<cmd>lua require("smart-splits").start_resize_mode()<CR>', "Resize" },
           s = {
             name = "+Swap",
             h = { '<cmd>lua require("smart-splits").swap_buf_left()<CR>', "Swapping buffers to left" },

@@ -303,3 +303,4 @@ augroups
 rgignore
 isset
 endisset
+jquery

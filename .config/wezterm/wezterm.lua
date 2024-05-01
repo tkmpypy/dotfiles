@@ -27,13 +27,10 @@ return {
     Black
     ExtraBlack
   --]]
-  font = wezterm.font_with_fallback({
-    { family = "PlemolJP Console NF", weight = "Medium" },
-    -- { family = "MonaspiceNe Nerd Font Propo", weight = "Medium" },
-  }),
-  -- font = wezterm.font("UDEV Gothic NF", { weight = "Regular" }),
+   -- font = wezterm.font({ family = "Moralerspace Argon NF", weight = "Regular" }),
+   font = wezterm.font({ family = "PlemolJP Console NF", weight = "Medium" }),
+  -- }),
   -- font = wezterm.font("FiraCode Nerd Font", { weight = "Medium" }),
-  -- font = wezterm.font("MonaspiceNe Nerd Font Propo", { weight = "Medium" }),
 
   -- front_end = "WebGpu",
   font_size = 14.0,
