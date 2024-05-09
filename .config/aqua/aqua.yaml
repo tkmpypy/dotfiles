@@ -33,6 +33,6 @@ packages:
   - name: kubernetes/kubectl@v1.30.0
   - name: goreleaser/goreleaser@v1.25.1
   - name: kubernetes-sigs/kustomize@kustomize/v5.4.1
-  - name: yannh/kubeconform@v0.6.4
+  - name: yannh/kubeconform@v0.6.5
   - name: haskell/ghcup-hs@v0.1.20.0
   - name: bitwarden/clients@cli-v2024.1.0
