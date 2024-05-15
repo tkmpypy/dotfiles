@@ -27,13 +27,13 @@ return {
     Black
     ExtraBlack
   --]]
-   -- font = wezterm.font({ family = "Moralerspace Argon NF", weight = "Regular" }),
-   font = wezterm.font({ family = "PlemolJP Console NF", weight = "Medium" }),
-  -- }),
-  -- font = wezterm.font("FiraCode Nerd Font", { weight = "Medium" }),
+  -- font = wezterm.font({ family = "Moralerspace Argon NF", weight = "Regular" }),
+  -- font = wezterm.font({ family = "PlemolJP35 Console NF", weight = "Medium" }),
+  font = wezterm.font({ family = "UDEV Gothic 35NFLG", weight = "Regular" }),
+  -- font = wezterm.font("Firge35Nerd Console", { weight = "Regular" }),
 
-  -- front_end = "WebGpu",
-  font_size = 14.0,
+  front_end = "WebGpu",
+  font_size = 12.0,
   adjust_window_size_when_changing_font_size = false,
   use_ime = true,
   macos_forward_to_ime_modifier_mask = "CTRL|SHIFT",

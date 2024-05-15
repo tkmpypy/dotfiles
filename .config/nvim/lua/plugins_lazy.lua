@@ -2305,6 +2305,11 @@ require("lazy").setup({
           file_previewer = require("telescope.previewers").cat.new,
           grep_previewer = require("telescope.previewers").vimgrep.new,
           qflist_previewer = require("telescope.previewers").qflist.new,
+          path_display = {
+            filename_first = { -- ファイル名を先頭に表示し、パスはグレーで目立たない表示になる
+              reverse_directories = true, -- パスが深いところから順の表示になる
+            },
+          },
         },
         pickers = {
           buffers = {
@@ -3280,6 +3285,44 @@ require("lazy").setup({
     end,
   },
   {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+    },
+    config = function()
+      local select = require("CopilotChat.select")
+      require("CopilotChat").setup({
+        debug = true, -- Enable debugging
+        -- See Configuration section for rest
+        context = "buffers",
+        prompts = {
+          Explain = {
+            prompt = "/COPILOT_EXPLAIN カーソル上のコードの説明を段落をつけて書いてください。",
+          },
+          Tests = {
+            prompt = "/COPILOT_TESTS カーソル上のコードの詳細な単体テスト関数を書いてください。",
+          },
+          Fix = {
+            prompt = "/COPILOT_FIX このコードには問題があります。バグを修正したコードに書き換えてください。",
+          },
+          Optimize = {
+            prompt = "/COPILOT_REFACTOR 選択したコードを最適化し、パフォーマンスと可読性を向上させてください。",
+          },
+          Docs = {
+            prompt = "/COPILOT_REFACTOR 選択したコードのドキュメントを書いてください。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
+          },
+          FixDiagnostic = {
+            prompt = "ファイル内の次のような診断上の問題を解決してください：",
+            selection = select.diagnostics,
+          },
+        },
+      })
+    end,
+    -- See Commands section for default commands if you want to lazy load on them
+  },
+  {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
     enabled = function()
@@ -3510,8 +3553,10 @@ require("lazy").setup({
         }),
         matching = { disallow_symbol_nonprefix_matching = false },
       })
+
+      -- Workaround: `vim.ui.input` で組み込みの保管機能を使うため
       -- https://github.com/hrsh7th/nvim-cmp/issues/1511#issuecomment-1743055767
-      vim.keymap.set('c', '<tab>', '<C-z>', { silent = false }) -- to fix cmp
+      vim.keymap.set("c", "<tab>", "<C-z>", { silent = false }) -- to fix cmp
     end,
   },
   {
