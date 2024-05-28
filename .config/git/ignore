@@ -6,6 +6,7 @@
 .idea
 .chglog
 cliff.toml
+.nvim.lua
 
 pyrightconfig.json
 .python-version

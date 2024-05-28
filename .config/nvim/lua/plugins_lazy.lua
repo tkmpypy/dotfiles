@@ -298,6 +298,37 @@ require("lazy").setup({
   },
   -- runner
   {
+    "stevearc/overseer.nvim",
+    cmd = {
+      "OverseerOpen",
+      "OverseerClose",
+      "OverseerToggle",
+      "OverseerSaveBundle",
+      "OverseerLoadBundle",
+      "OverseerDeleteBundle",
+      "OverseerRunCmd",
+      "OverseerRun",
+      "OverseerInfo",
+      "OverseerBuild",
+      "OverseerQuickAction",
+      "OverseerTaskAction",
+      "OverseerClearCache",
+      "OverseerRestartLast",
+    },
+    config = function()
+      require("overseer").setup()
+      vim.api.nvim_create_user_command("OverseerRestartLast", function()
+        local overseer = require("overseer")
+        local tasks = overseer.list_tasks({ recent_first = true })
+        if vim.tbl_isempty(tasks) then
+          vim.notify("No tasks found", vim.log.levels.WARN)
+        else
+          overseer.run_action(tasks[1], "restart")
+        end
+      end, {})
+    end,
+  },
+  {
     "michaelb/sniprun",
     build = "sh install.sh",
     cmd = { "SnipRun", "SnipInfo", "SnipReset", "SnipReplMemoryClean", "SnipClose", "SnipLive" },
@@ -764,7 +795,7 @@ require("lazy").setup({
       require("ibl").setup({
         enabled = true,
         scope = {
-          enabled = false,
+          enabled = true,
           -- highlight = highlight,
         },
         indent = {
@@ -889,6 +920,7 @@ require("lazy").setup({
             },
           },
           lualine_x = {
+            {"grapple"},
             {
               "branch",
               icon = "",
@@ -1624,7 +1656,7 @@ require("lazy").setup({
         org_agenda_files = base_dir .. "/org/*",
         org_default_notes_file = base_dir .. "/org/note.org",
         org_default_journal_file = base_dir .. "/org/journal.org",
-        org_todo_keywords = { "TODO", "DOING", "WAITING", "REVIEWING", "|", "DONE", "DELEGATED" },
+        org_todo_keywords = { "TODO", "DOING", "WAITING", "REVIEWING", "WAITING_FOR_RELEASE", "|", "DONE", "DELEGATED" },
         win_split_mode = "auto",
         win_border = "single",
         org_archive_location = base_dir .. "/org/archive/%s::",
@@ -1687,6 +1719,7 @@ require("lazy").setup({
   },
   {
     "epwalsh/obsidian.nvim",
+    enabled = false,
     lazy = true,
     cmd = {
       "ObsidianOpen",
@@ -2302,9 +2335,6 @@ require("lazy").setup({
           preview = {
             treesitter = false,
           },
-          file_previewer = require("telescope.previewers").cat.new,
-          grep_previewer = require("telescope.previewers").vimgrep.new,
-          qflist_previewer = require("telescope.previewers").qflist.new,
           path_display = {
             filename_first = { -- ファイル名を先頭に表示し、パスはグレーで目立たない表示になる
               reverse_directories = true, -- パスが深いところから順の表示になる
@@ -2340,6 +2370,30 @@ require("lazy").setup({
       if vim.g.lsp_client_type == "coc" then
         telescope.load_extension("coc")
       end
+
+      local ok, _ = pcall(require, "grapple")
+      if ok then
+        require("telescope").load_extension("grapple")
+      end
+    end,
+  },
+  {
+    "cbochs/grapple.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = "Grapple",
+    keys = {
+        { "<leader>m", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },
+        { "<leader>M", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple open tags window" },
+        { "<leader>n", "<cmd>Grapple cycle_tags next<cr>", desc = "Grapple cycle next tag" },
+        { "<leader>p", "<cmd>Grapple cycle_tags prev<cr>", desc = "Grapple cycle previous tag" },
+    },
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons", lazy = true },
+    },
+    config = function()
+      require("grapple").setup({
+        scope = "git_branch",
+      })
     end,
   },
 
@@ -4034,8 +4088,6 @@ require("lazy").setup({
             c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
           },
           r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
-          t = { "<cmd>AerialToggle<CR>", "ToC" },
-          T = { "<cmd>AerialToggle!<CR>", "ToC" },
         },
         ["<leader>g"] = {
           name = "+Git",
@@ -4188,17 +4240,10 @@ require("lazy").setup({
         wk.register({
           ["g"] = {
             name = "+LSP",
-            -- r = { "<cmd>Lspsaga lsp_finder<CR>", "References" },
-            -- d = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
             r = { "<cmd>Telescope lsp_references<CR>", "References" },
             i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
             d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
             D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
-            -- c = {
-            --   name = "+Callhierarchy",
-            --   i = { "<cmd>Lspsaga incoming_calls<CR>", "Incoming" },
-            --   o = { "<cmd>Lspsaga outgoing_calls<CR>", "Outgoing" },
-            -- },
             f = {
               name = "+Go To Definition",
               f = { "<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", "Go to edit" },
