@@ -264,7 +264,7 @@ M.nvim_create_augroups = function(definitions)
     api.nvim_command("augroup " .. group_name)
     api.nvim_command("autocmd!")
     for _, def in ipairs(definition) do
-      local command = table.concat(vim.tbl_flatten({ "autocmd", def }), " ")
+      local command = table.concat(vim.iter({ "autocmd", def }):flatten():totable(), " ")
       api.nvim_command(command)
     end
     api.nvim_command("augroup END")

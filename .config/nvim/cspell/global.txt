@@ -304,3 +304,4 @@ rgignore
 isset
 endisset
 jquery
+webp

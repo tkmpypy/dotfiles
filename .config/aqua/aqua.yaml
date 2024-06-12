@@ -36,3 +36,4 @@ packages:
   - name: yannh/kubeconform@v0.6.6
   - name: haskell/ghcup-hs@v0.1.20.0
   - name: bitwarden/clients@cli-v2024.1.0
+  - name: aws/aws-cli@2.16.4

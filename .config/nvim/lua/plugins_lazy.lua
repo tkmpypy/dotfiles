@@ -295,6 +295,18 @@ require("lazy").setup({
   {
     "LintaoAmons/scratch.nvim",
     event = "VeryLazy",
+    opts = {
+      filetypes = { "php", "py", "lua", "js", "sh" }, -- you can simply put filetype here
+      filetype_details = { -- or, you can have more control here
+        php = {
+          content = { "<?php", "" },
+          cursor = {
+            location = { 2, 1 },
+            insert_mode = true,
+          },
+        },
+      },
+    },
   },
   -- runner
   {
@@ -355,6 +367,16 @@ require("lazy").setup({
             --# the hint is available for every interpreter
             --# but may not be always respected
           },
+          Generic = {
+            error_truncate = "long", -- strongly recommended to figure out what's going on
+            PHP = { -- any key name is ok
+              supported_filetypes = { "php" }, -- mandatory
+              extension = ".php", -- recommended, but not mandatory. Sniprun use this to create temporary files
+              boilerplate_pre = "<?php",
+              interpreter = "php", -- interpreter or compiler (+ options if any)
+              compiler = "", -- one of those MUST be non-empty
+            },
+          },
         },
 
         --# you can combo different display modes as desired and with the 'Ok' or 'Err' suffix
@@ -408,6 +430,11 @@ require("lazy").setup({
         --# possible values are 'none', 'single', 'double', or 'shadow'
       })
     end,
+  },
+  {
+    "numToStr/Comment.nvim",
+    opts = true,
+    lazy = false,
   },
   {
     "nvim-neotest/neotest",
@@ -920,7 +947,7 @@ require("lazy").setup({
             },
           },
           lualine_x = {
-            {"grapple"},
+            { "grapple" },
             {
               "branch",
               icon = "",
@@ -1976,56 +2003,7 @@ require("lazy").setup({
     end,
   },
   { "machakann/vim-sandwich" },
-  {
-    "mrjones2014/smart-splits.nvim",
-    keys = {
-      {
-        "<C-e>",
-        function()
-          require("smart-splits").start_resize_mode()
-        end,
-        mode = "n",
-        desc = "Resize start",
-      },
-    },
-    config = function()
-      require("smart-splits").setup({
-        -- Ignored buffer types (only while resizing)
-        -- ignored_buftypes = {
-        --   "quickfix",
-        --   "prompt",
-        -- },
-        -- Ignored filetypes (only while resizing)
-        -- ignored_filetypes = { "NvimTree" },
-        -- the default number of lines/columns to resize by at a time
-        default_amount = 3,
-        at_edge = "wrap",
-        move_cursor_same_row = false,
-        cursor_follows_swapped_bufs = false,
-        resize_mode = {
-          -- key to exit persistent resize mode
-          quit_key = "<ESC>",
-          -- keys to use for moving in resize mode
-          -- in order of left, down, up' right
-          resize_keys = { "h", "j", "k", "l" },
-          -- set to true to silence the notifications
-          -- when entering/exiting persistent resize mode
-          silent = false,
-          -- must be functions, they will be executed when
-          -- entering or exiting the resize mode
-          hooks = {
-            on_enter = nil,
-            on_leave = nil,
-          },
-        },
-        -- ignored_events = {
-        --   "BufEnter",
-        --   "WinEnter",
-        -- },
-        disable_multiplexer_nav_when_zoomed = true,
-      })
-    end,
-  },
+  { "simeji/winresizer" },
   {
     "windwp/nvim-autopairs",
     event = { "InsertEnter", "CmdlineEnter" },
@@ -2382,10 +2360,10 @@ require("lazy").setup({
     event = { "BufReadPost", "BufNewFile" },
     cmd = "Grapple",
     keys = {
-        { "<leader>m", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },
-        { "<leader>M", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple open tags window" },
-        { "<leader>n", "<cmd>Grapple cycle_tags next<cr>", desc = "Grapple cycle next tag" },
-        { "<leader>p", "<cmd>Grapple cycle_tags prev<cr>", desc = "Grapple cycle previous tag" },
+      { "<leader>m", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },
+      { "<leader>M", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple open tags window" },
+      { "<leader>n", "<cmd>Grapple cycle_tags next<cr>", desc = "Grapple cycle next tag" },
+      { "<leader>p", "<cmd>Grapple cycle_tags prev<cr>", desc = "Grapple cycle previous tag" },
     },
     dependencies = {
       { "nvim-tree/nvim-web-devicons", lazy = true },
@@ -3277,9 +3255,22 @@ require("lazy").setup({
     },
   },
   {
-    "folke/neodev.nvim",
-    ft = "lua",
-    dependencies = { "neovim/nvim-lspconfig" },
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- Library items can be absolute paths
+        -- "~/projects/my-awesome-lib",
+        -- Or relative, which means they will be resolved as a plugin
+        -- "LazyVim",
+        -- When relative, you can also provide a path to the library in the plugin dir
+        "luvit-meta/library", -- see below
+      },
+    },
+  },
+  {
+    "Bilal2453/luvit-meta",
+    lazy = true,
   },
   {
     "someone-stole-my-name/yaml-companion.nvim",
@@ -3666,53 +3657,7 @@ require("lazy").setup({
     end,
     cmd = { "Trouble", "TroubleToggle", "TroubleClose", "TroubleRefresh" },
     config = function()
-      require("trouble").setup({
-        position = "bottom", -- position of the list can be: bottom, top, left, right
-        height = 10, -- height of the trouble list when position is top or bottom
-        width = 50, -- width of the list when position is left or right
-        icons = true, -- use devicons for filenames
-        mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
-        fold_open = "", -- icon used for open folds
-        fold_closed = "", -- icon used for closed folds
-        group = true, -- group results by file
-        padding = true, -- add an extra new line on top of the list
-        action_keys = { -- key mappings for actions in the trouble list
-          -- map to {} to remove a mapping, for example:
-          -- close = {},
-          close = "q", -- close the list
-          cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
-          refresh = "r", -- manually refresh
-          jump = { "<cr>", "<tab>" }, -- jump to the diagnostic or open / close folds
-          open_split = { "<c-x>" }, -- open buffer in new split
-          open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
-          open_tab = { "<c-t>" }, -- open buffer in new tab
-          jump_close = { "o" }, -- jump to the diagnostic and close the list
-          toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
-          toggle_preview = "P", -- toggle auto_preview
-          hover = "K", -- opens a small popup with the full multiline message
-          preview = "p", -- preview the diagnostic location
-          close_folds = { "zM", "zm" }, -- close all folds
-          open_folds = { "zR", "zr" }, -- open all folds
-          toggle_fold = { "zA", "za" }, -- toggle fold of current file
-          previous = "k", -- previous item
-          next = "j", -- next item
-        },
-        indent_lines = true, -- add an indent guide below the fold icons
-        auto_open = false, -- automatically open the list when you have diagnostics
-        auto_close = false, -- automatically close the list when you have no diagnostics
-        auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
-        auto_fold = false, -- automatically fold a file trouble list at creation
-        auto_jump = { "lsp_definitions" }, -- for the given modes, automatically jump if there is only a single result
-        signs = {
-          -- icons / text used for a diagnostic
-          error = "",
-          warning = "",
-          hint = "󰌶",
-          information = "",
-          other = "",
-        },
-        use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
-      })
+      require("trouble").setup()
     end,
   },
   {
