@@ -133,26 +133,31 @@ require("lazy").setup({
         config = function()
           local builtin = require("statuscol.builtin")
           require("statuscol").setup({
-            -- foldfunc = "builtin",
-            -- setopt = true,
+            bt_ignore = { "terminal", "nofile" },
+            -- configuration goes here, for example:
             relculright = true,
             segments = {
+              {
+                sign = {
+                  namespace = { "gitsigns" },
+                  maxwidth = 1,
+                  colwidth = 1,
+                  wrap = true,
+                },
+              },
+              {
+                sign = { namespace = { "diagnostic/signs" }, maxwidth = 1, auto = true },
+                click = "v:lua.ScSa",
+              },
               { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-              { text = { "%s" }, click = "v:lua.ScSa" },
               { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
             },
           })
         end,
       },
     },
-    event = { "BufRead" },
+    event = { "VeryLazy" },
     config = function()
-      vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-      vim.o.foldcolumn = "1" -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-      vim.o.foldlevelstart = 99
-      vim.o.foldenable = true
-
       local ftMap = {
         vim = "indent",
         python = { "indent" },
