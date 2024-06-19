@@ -149,7 +149,7 @@ require("lazy").setup({
                 sign = { namespace = { "diagnostic/signs" }, maxwidth = 1, auto = true },
                 click = "v:lua.ScSa",
               },
-              { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+              { text = { builtin.foldfunc, " " }, click = "v:lua.ScFa" },
               { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
             },
           })
@@ -3625,8 +3625,8 @@ require("lazy").setup({
     event = { "LspAttach" },
     dependencies = { "neovim/nvim-lspconfig" },
     enabled = function()
-      return false
-      -- return vim.g.lsp_client_type == "neovim"
+      -- return false
+      return vim.g.lsp_client_type == "neovim"
     end,
     config = function()
       require("lsp-lens").setup({
