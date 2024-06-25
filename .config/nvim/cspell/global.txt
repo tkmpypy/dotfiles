@@ -305,3 +305,5 @@ isset
 endisset
 jquery
 webp
+thead
+tbody

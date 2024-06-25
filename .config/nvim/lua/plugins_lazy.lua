@@ -134,6 +134,7 @@ require("lazy").setup({
           local builtin = require("statuscol.builtin")
           require("statuscol").setup({
             bt_ignore = { "terminal", "nofile" },
+            ft_ignore = { "alpha" },
             -- configuration goes here, for example:
             relculright = true,
             segments = {
@@ -1688,7 +1689,7 @@ require("lazy").setup({
         org_agenda_files = base_dir .. "/org/*",
         org_default_notes_file = base_dir .. "/org/note.org",
         org_default_journal_file = base_dir .. "/org/journal.org",
-        org_todo_keywords = { "TODO", "DOING", "WAITING", "REVIEWING", "WAITING_FOR_RELEASE", "|", "DONE", "DELEGATED" },
+        org_todo_keywords = { "TODO", "DOING", "WAITING", "|", "DONE", "DELEGATED" },
         win_split_mode = "auto",
         win_border = "single",
         org_archive_location = base_dir .. "/org/archive/%s::",
