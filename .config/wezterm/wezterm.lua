@@ -11,6 +11,7 @@ local default_window_background_opacity = function()
 end
 
 return {
+  default_prog = { '/opt/homebrew/bin/fish', '-l' },
   -- term = "xterm-256color",
   term = "wezterm",
   --[[

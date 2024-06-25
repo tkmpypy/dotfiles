@@ -36,7 +36,7 @@ function link() {
   done
 
   exec_cmd "mkdir -p $XDG_CONFIG_HOME"
-  CONFIG_FILES=(git nvim wezterm k9s/skin.yml mise helix aqua sheldon zsh)
+  CONFIG_FILES=(git nvim wezterm k9s/skin.yml mise helix aqua sheldon zsh fish)
   for file in ${CONFIG_FILES[@]}; do
     link_file $DOTFILES_DIR/.config $file $XDG_CONFIG_HOME
   done

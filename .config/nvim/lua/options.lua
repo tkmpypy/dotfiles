@@ -1,7 +1,7 @@
 local opt = vim.opt
 
 opt.termguicolors = true
-opt.shell = "zsh"
+opt.shell = "fish"
 opt.mouse = "n"
 opt.laststatus = 3
 opt.background = "dark"
