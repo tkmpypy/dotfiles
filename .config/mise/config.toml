@@ -9,4 +9,5 @@ ruby = "3.2.2"
 java = "19"
 gradle = "8.0"
 php = "8.3.4"
+usage = "latest"
 

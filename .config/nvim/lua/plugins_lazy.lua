@@ -3477,6 +3477,7 @@ require("lazy").setup({
         sorting = {
           priority_weight = 2,
           comparators = {
+            require("copilot_cmp.comparators").prioritize,
             compare.score,
             compare.recently_used,
             compare.locality,
