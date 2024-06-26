@@ -2391,41 +2391,32 @@ require("lazy").setup({
         numhl = true,
         linehl = false,
         current_line_blame = true,
-        current_line_blame_formatter_opts = {
-          relative_time = true,
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+          delay = 1000,
+          ignore_whitespace = false,
+          virt_text_priority = 100,
         },
         current_line_blame_formatter = "    <author> • <summary>  󱋡 <author_time:%R> at <author_time:%Y/%m/%d %H:%M>",
         signs = {
-          add = { hl = "GitSignsAdd", text = "┃", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-          change = {
-            hl = "GitSignsChange",
+          add = {
             text = "┃",
-            numhl = "GitSignsChangeNr",
-            linehl = "GitSignsChangeLn",
+          },
+          change = {
+            text = "┃",
           },
           delete = {
-            hl = "GitSignsDelete",
             text = "┃",
-            numhl = "GitSignsDeleteNr",
-            linehl = "GitSignsDeleteLn",
           },
           topdelete = {
-            hl = "GitSignsDelete",
             text = "┃",
-            numhl = "GitSignsDeleteNr",
-            linehl = "GitSignsDeleteLn",
           },
           changedelete = {
-            hl = "GitSignsChange",
             text = "┃",
-            numhl = "GitSignsChangeNr",
-            linehl = "GitSignsChangeLn",
           },
           untracked = {
-            hl = "GitSignsAdd",
             text = "│",
-            numhl = "GitSignsAddNr",
-            linehl = "GitSignsAddLn",
           },
         },
       })
