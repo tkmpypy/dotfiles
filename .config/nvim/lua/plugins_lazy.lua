@@ -134,7 +134,7 @@ require("lazy").setup({
           local builtin = require("statuscol.builtin")
           require("statuscol").setup({
             bt_ignore = { "terminal", "nofile" },
-            ft_ignore = { "alpha" },
+            ft_ignore = { "alpha", "NeogitStatus", "NeogitCommitMessage" },
             -- configuration goes here, for example:
             relculright = true,
             segments = {
@@ -2659,6 +2659,7 @@ require("lazy").setup({
           kind = "split",
         },
         disable_signs = false,
+        disable_line_numbers = true,
         disable_context_highlighting = false,
         disable_commit_confirmation = true,
         auto_refresh = true,
