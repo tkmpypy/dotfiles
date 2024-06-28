@@ -307,3 +307,4 @@ jquery
 webp
 thead
 tbody
+Yasumi

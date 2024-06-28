@@ -394,9 +394,9 @@ require("lazy").setup({
           -- "VirtualText",             --# display results as virtual text
           -- "TempFloatingWindow",      --# display results in a floating window
           -- "LongTempFloatingWindow",  --# same as above, but only long results. To use with VirtualText[Ok/Err]
-          -- "Terminal",                --# display results in a vertical split
+          "Terminal",                --# display results in a vertical split
           -- "TerminalWithCode",        --# display results and code history in a vertical split
-          "NvimNotify", --# display with the nvim-notify plugin
+          -- "NvimNotify", --# display with the nvim-notify plugin
           -- "Api"                      --# return output to a programming interface
         },
 
@@ -871,7 +871,12 @@ require("lazy").setup({
           section_separators = { left = "", right = "" },
           component_separators = "",
           -- section_separators = "",
-          disabled_filetypes = {},
+          disabled_filetypes = {
+            statusline = {
+              "TelescopePrompt",
+            },
+            winbar = {},
+          },
           always_divide_middle = true,
           globalstatus = true,
         },
@@ -1732,6 +1737,7 @@ require("lazy").setup({
   },
   {
     "akinsho/org-bullets.nvim",
+    ft = { "org" },
     config = function()
       require("org-bullets").setup({
         concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
@@ -3333,6 +3339,19 @@ require("lazy").setup({
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+    },
+    cmd = {
+      "Copilot",
+      "CopilotChat",
+      "CopilotChatReview",
+      "CopilotChatCommit",
+      "CopilotChatCommitStaged",
+      "CopilotChatExplain",
+      "CopilotChatTests",
+      "CopilotChatFix",
+      "CopilotChatOptimize",
+      "CopilotChatDocs",
+      "CopilotChatFixDiagnostic",
     },
     config = function()
       local select = require("CopilotChat.select")

@@ -1,9 +1,14 @@
-function fish_right_prompt
-    set -l cmd_status $status
-    if test $cmd_status -ne 0
-        echo -n (set_color red)"✘ $cmd_status"
-    end
+function fish_right_prompt_loading_indicator -a last_prompt
+    echo -n "$last_prompt" | sed -r 's/\x1B\[[0-9;]*[JKmsu]//g' | read -zl uncolored_last_prompt
+    echo -n (set_color brblack)"$uncolored_last_prompt"(set_color normal)
+end
 
+function fish_right_prompt
+    # set -l cmd_status $status
+    # if test $cmd_status -ne 0
+    #     echo -n (set_color red)"✘ $cmd_status"
+    # end
+    
     if not command -sq git
         set_color normal
         return
