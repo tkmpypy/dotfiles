@@ -19,7 +19,7 @@ packages:
   - name: dandavison/delta@0.17.0
   - name: sharkdp/bat@v0.24.0
   - name: charmbracelet/glow@v1.5.1
-  - name: jesseduffield/lazygit@v0.42.0
+  - name: jesseduffield/lazygit@v0.43.1
   - name: denisidoro/navi@v2.23.0
   - name: ClementTsang/bottom@0.9.6
   - name: derailed/k9s@v0.32.5
