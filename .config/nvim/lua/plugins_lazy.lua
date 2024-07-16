@@ -394,7 +394,7 @@ require("lazy").setup({
           -- "VirtualText",             --# display results as virtual text
           -- "TempFloatingWindow",      --# display results in a floating window
           -- "LongTempFloatingWindow",  --# same as above, but only long results. To use with VirtualText[Ok/Err]
-          "Terminal",                --# display results in a vertical split
+          "Terminal", --# display results in a vertical split
           -- "TerminalWithCode",        --# display results and code history in a vertical split
           -- "NvimNotify", --# display with the nvim-notify plugin
           -- "Api"                      --# return output to a programming interface
@@ -2368,6 +2368,39 @@ require("lazy").setup({
     end,
   },
   {
+    "nvim-orgmode/telescope-orgmode.nvim",
+    dependencies = {
+      "nvim-orgmode/orgmode",
+      "nvim-telescope/telescope.nvim",
+    },
+    keys = {
+      {
+        "<leader>osr",
+        function()
+          require("telescope").extensions.orgmode.refile_heading({ max_depth = 5 })
+        end,
+        desc = "Search refile heading",
+      },
+      {
+        "<leader>osf",
+        function()
+          require("telescope").extensions.orgmode.search_headings({ max_depth = 5 })
+        end,
+        desc = "Search heading",
+      },
+      {
+        "<leader>osl",
+        function()
+          require("telescope").extensions.orgmode.insert_link()
+        end,
+        desc = "Search insert link",
+      },
+    },
+    config = function()
+      require("telescope").load_extension("orgmode")
+    end,
+  },
+  {
     "cbochs/grapple.nvim",
     event = { "BufReadPost", "BufNewFile" },
     cmd = "Grapple",
@@ -3359,6 +3392,7 @@ require("lazy").setup({
         debug = true, -- Enable debugging
         -- See Configuration section for rest
         context = "buffers",
+        model = "gpt-4",
         prompts = {
           Explain = {
             prompt = "/COPILOT_EXPLAIN カーソル上のコードの説明を段落をつけて書いてください。",
@@ -3911,314 +3945,168 @@ require("lazy").setup({
             g = true, -- bindings for prefixed with g
           },
         },
-        -- add operators that will trigger motion and text object completion
-        -- to enable all native operators, set the preset / operators plugin above
-        operators = { gc = "Comments" },
-        key_labels = {
-          -- override the label used to display some keys. It doesn't effect WK in any other way.
-          -- For example:
-          ["<space>"] = "SPC",
-          ["<cr>"] = "RET",
-          ["<tab>"] = "TAB",
-        },
         icons = {
           breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
           separator = "➜", -- symbol used between a key and it's label
           group = "+", -- symbol prepended to a group
         },
-        popup_mappings = {
-          scroll_down = "<c-d>", -- binding to scroll down inside the popup
-          scroll_up = "<c-u>", -- binding to scroll up inside the popup
-        },
-        window = {
-          border = "rounded", -- none, single, double, shadow
-          position = "bottom", -- bottom, top
-          margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-          padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-          winblend = 10,
-        },
         layout = {
-          height = { min = 4, max = 25 }, -- min and max height of the columns
+          height = { min = 8, max = 25 }, -- min and max height of the columns
           width = { min = 20, max = 50 }, -- min and max width of the columns
           spacing = 3, -- spacing between columns
           align = "left", -- align columns left, center or right
         },
-        ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-        hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
         show_help = true, -- show help message on the command line when the popup is visible
         triggers = "auto", -- automatically setup triggers
         -- triggers = {"<leader>"} -- or specify a list manually
-        triggers_blacklist = {
-          -- list of mode / prefixes that should never be hooked by WhichKey
-          -- this is mostly relevant for key maps that start with a native binding
-          -- most people should not need to change this
-          i = { "j", "k" },
-          v = { "j", "k" },
-        },
       })
 
       -- mode: v
-      wk.register({
-        ["<C-j>"] = { ":m '>+1<CR>gv=gv", "range down" },
-        ["<C-k>"] = { ":m '<-2<CR>gv=gv", "range up" },
-        ["<leader>x"] = {
-          name = "+Translate",
-          e = {
-            ":Translate EN<CR>",
-            "to English",
-          },
-          j = {
-            ":Translate JA<CR>",
-            "to Japanese",
-          },
-          E = {
-            ":Translate EN -output=replace<CR>",
-            "replace to English",
-          },
-          J = {
-            ":Translate JA -output=replace<CR>",
-            "replace to Japanese",
-          },
-        },
-      }, { mode = "v" })
+      wk.add({
+        mode = "v",
+        { "<C-j>", ":m '>+1<CR>gv=gv", desc = "range down" },
+        { "<C-k>", ":m '<-2<CR>gv=gv", desc = "range up" },
+        { "<leader>x", group = "+Translate" },
+        { "<leader>xe", ":Translate EN<CR>", desc = "to English" },
+        { "<leader>xj", ":Translate JA<CR>", desc = "to Japanese" },
+        { "<leader>xE", ":Translate EN -output=replace<CR>", desc = "replace to English" },
+        { "<leader>xJ", ":Translate JA -output=replace<CR>", desc = "replace to Japanese" },
+      })
 
       -- mode: n
-      wk.register({
-        ["R"] = { "<Plug>(operator-replace)", "Replace" },
-        ["<leader>u"] = {
-          name = "+Utility",
-          c = {
-            name = "+Color",
-            p = { "<cmd>CccPick<CR>", "Picker" },
-          },
+      wk.add({
+        mode = "n",
+        { "R", "<Plug>(operator-replace)", desc = "Replace" },
+        { "<leader>uc", group = "+Color" },
+        { "<leader>ucp", "<cmd>CccPick<CR>", desc = "Pick color" },
+        { "<leader>w", group = "+Window" },
+        { "<leader>ww", "<cmd>Chowcho<cr>", desc = "Selector" },
+        { "<leader>wr", "<cmd>WinResizerStartResize", desc = "Resize" },
+        { "<leader>s", group = "+Search" },
+        {
+          "<leader>sb",
+          '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+          desc = "Buffer",
         },
-        ["<leader>w"] = {
-          name = "+Window",
-          w = { "<cmd>Chowcho<cr>", "Selector" },
-          r = { '<cmd>lua require("smart-splits").start_resize_mode()<CR>', "Resize" },
-          s = {
-            name = "+Swap",
-            h = { '<cmd>lua require("smart-splits").swap_buf_left()<CR>', "Swapping buffers to left" },
-            j = { '<cmd>lua require("smart-splits").swap_buf_down()<CR>', "Swapping buffers to down" },
-            k = { '<cmd>lua require("smart-splits").swap_buf_up()<CR>', "Swapping buffers to up" },
-            l = { '<cmd>lua require("smart-splits").swap_buf_right()<CR>', "Swapping buffers to right" },
-          },
+        { "<leader>sm", '<cmd>lua require("telescope.builtin").keymaps{ }<CR>', desc = "Keymaps" },
+        { "<leader>sr", "<cmd>lua require('telescope.builtin').resume{}<CR>", desc = "Resume" },
+        { "<leader>sc", group = "+Commands" },
+        { "<leader>scr", "<cmd>lua require('telescope.builtin').command_history{}<CR>", desc = "History" },
+        { "<leader>scc", "<cmd>lua require('telescope.builtin').commands{}<CR>", desc = "Commands" },
+        { "<leader>sf", group = "+Files" },
+        {
+          "<leader>sff",
+          '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+          desc = "Find files",
         },
-        ["<leader>s"] = {
-          name = "+Search",
-          j = {
-            "<cmd>AnyJump<CR>",
-            "AnyJump",
-          },
-          b = {
-            '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
-            "Buffer",
-          },
-          m = {
-            '<cmd>lua require("telescope.builtin").keymaps{ }<CR>',
-            "Keymaps",
-          },
-          c = {
-            name = "+Commands",
-            r = { "<cmd>lua require('telescope.builtin').command_history{}<CR>", "History" },
-            c = { "<cmd>lua require('telescope.builtin').commands{}<CR>", "Commands" },
-          },
-          f = {
-            name = "+Files",
-            f = {
-              '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
-              "Find Files",
-            },
-            g = { "<cmd>lua require('telescope.builtin').git_files{}<CR>", "Git Files" },
-            j = { "<cmd>lua require('telescope.builtin').jumplist{}<CR>", "Jump List" },
-            l = { "<cmd>lua require('telescope.builtin').loclist{}<CR>", "Location list" },
-            r = { "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", "Old Files" },
-            q = { "<cmd>lua require('telescope.builtin').quickfix{}<CR>", "Quickfix" },
-          },
-          v = {
-            name = "+Git",
-            c = { "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", "Buffer Commit" },
-            C = { "<cmd>lua require('telescope.builtin').git_commits{}<CR>", "Commit" },
-            s = { "<cmd>lua require('telescope.builtin').git_status{}<CR>", "Status" },
-            b = { "<cmd>lua require('telescope.builtin').git_branches{}<CR>", "Branch" },
-          },
-          g = {
-            name = "+Grep",
-            g = {
-              '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
-              "Live Grep",
-            },
-            c = { "<cmd>lua require('telescope.builtin').grep_string{}<CR>", "Grep String" },
-          },
-          r = { "<cmd>lua require('telescope.builtin').resume{}<CR>", "Resume" },
+        { "<leader>sfg", "<cmd>lua require('telescope.builtin').git_files{}<CR>", desc = "Git files" },
+        { "<leader>sfj", "<cmd>lua require('telescope.builtin').jumplist{}<CR>", desc = "Jump list" },
+        { "<leader>sfl", "<cmd>lua require('telescope.builtin').loclist{}<CR>", desc = "Location list" },
+        { "<leader>sfr", "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", desc = "Old files" },
+        { "<leader>sfq", "<cmd>lua require('telescope.builtin').quickfix{}<CR>", desc = "Quickfix" },
+        { "<leader>sv", group = "+Git" },
+        { "<leader>svc", "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", desc = "Buffer commits" },
+        { "<leader>svC", "<cmd>lua require('telescope.builtin').git_commits{}<CR>", desc = "Commits" },
+        { "<leader>svs", "<cmd>lua require('telescope.builtin').git_status{}<CR>", desc = "Status" },
+        { "<leader>svb", "<cmd>lua require('telescope.builtin').git_branches{}<CR>", desc = "Branch" },
+        { "<leader>sv", group = "+Grep" },
+        {
+          "<leader>sgg",
+          '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
+          desc = "Live grep",
         },
-        ["<leader>g"] = {
-          name = "+Git",
-          s = { "<cmd>lua require('neogit').open({ kind = 'auto' })<cr>", "Status" },
-          d = {
-            name = "+Diff",
-            d = { "<cmd>Gitsigns diffthis<cr>", "Diff" },
-          },
-          l = {
-            name = "+Linker",
-            c = { "<cmd>GitLinker current<cr>", "Current git link" },
-            d = { "<cmd>GitLinker default<cr>", "Default branch git link" },
-          },
+        { "<leader>sgc", "<cmd>lua require('telescope.builtin').grep_string{}<CR>", desc = "Grep string" },
+
+        { "<leader>g", group = "+Git" },
+        { "<leader>gs", "<cmd>lua require('neogit').open({ kind = 'auto' })<cr>", desc = "Status" },
+        { "<leader>gd", group = "+Diff" },
+        { "<leader>gs", group = "+Stage", mode = "x" },
+        { "<leader>gss", ":Gitsigns stage_hunk<cr>", desc = "Select stage", mode = "x" },
+        { "<leader>gsu", ":Gitsigns unstage_hunk<cr>", desc = "Select unstage", mode = "x" },
+        { "<leader>gdd", "<cmd>Gitsigns diffthis<cr>", desc = "Diff" },
+        { "<leader>gl", group = "+Linker" },
+        { "<leader>glc", "<cmd>GitLinker current<cr>", desc = "Current git link", mode = { "n", "x" } },
+        { "<leader>gld", "<cmd>GitLinker default<cr>", desc = "Default branch git link", mode = { "n", "x" } },
+        { "<leader>c", group = "+Comment" },
+        { "<leader>cg", group = "+Generate" },
+        {
+          "<leader>cgf",
+          '<cmd>lua require("neogen").generate { type = "func" }<CR>',
+          desc = "Generate doc comment for function",
         },
-        ["<leader>c"] = {
-          name = "+Comment",
-          g = {
-            name = "+Generate",
-            f = { '<cmd>lua require("neogen").generate { type = "func" }<CR>', "Generate doc comment for function" },
-            F = { '<cmd>lua require("neogen").generate { type = "file" }<CR>', "Generate doc comment for file" },
-            t = { '<cmd>lua require("neogen").generate { type = "type" }<CR>', "Generate doc comment for type" },
-            c = { '<cmd>lua require("neogen").generate { type = "class" }<CR>', "Generate doc comment for class" },
-          },
+        {
+          "<leader>cgF",
+          '<cmd>lua require("neogen").generate { type = "file" }<CR>',
+          desc = "Generate doc comment for file",
         },
-        ["m"] = {
-          name = "+Move",
-          n = {
-            name = "+Next",
-            s = {
-              name = "+Start",
-              m = { "<cmd>TSTextobjectGotoNextStart @function.outer<cr>", "Method" },
-              b = { "<cmd>TSTextobjectGotoNextStart @block.outer<cr>", "Block" },
-            },
-            e = {
-              name = "+End",
-              m = { "<cmd>TSTextobjectGotoNextEnd @function.outer<cr>", "Method" },
-              b = { "<cmd>TSTextobjectGotoNextEnd @block.outer<cr>", "Block" },
-            },
-          },
-          p = {
-            name = "+Previous",
-            s = {
-              name = "+Start",
-              m = { "<cmd>TSTextobjectGotoPreviousStart @function.outer<cr>", "Method" },
-              b = { "<cmd>TSTextobjectGotoPreviousStart @block.outer<cr>", "Block" },
-            },
-            e = {
-              name = "+End",
-              m = { "<cmd>TSTextobjectGotoPreviousEnd @function.outer<cr>", "Method" },
-              b = { "<cmd>TSTextobjectGotoPreviousEnd @block.outer<cr>", "Block" },
-            },
-          },
+        {
+          "<leader>cgt",
+          '<cmd>lua require("neogen").generate { type = "type" }<CR>',
+          desc = "Generate doc comment for type",
         },
-        ["v"] = {
-          name = "+Select",
-          i = {
-            name = "+Inner",
-            m = { "<cmd>TSTextobjectSelect @function.inner<cr>", "Select Method" },
-            b = { "<cmd>TSTextobjectSelect @block.inner<cr>", "Select Block" },
-            p = { "<cmd>TSTextobjectSelect @parameter.inner<cr>", "Select Parameter" },
-          },
-          o = {
-            name = "+Outer",
-            m = { "<cmd>TSTextobjectSelect @function.outer<cr>", "Select Method" },
-            b = { "<cmd>TSTextobjectSelect @block.outer<cr>", "Select Block" },
-            p = { "<cmd>TSTextobjectSelect @parameter.outer<cr>", "Select Parameter" },
-          },
+        {
+          "<leader>cgc",
+          '<cmd>lua require("neogen").generate { type = "class" }<CR>',
+          desc = "Generate doc comment for class",
         },
       })
       if vim.g.test_runner_type == "neotest" then
-        wk.register({
-          ["<leader>t"] = {
-            name = "+Test",
-            r = {
-              name = "+Run",
-              n = { '<cmd>lua require("neotest").run.run()<CR>', "Nearest" },
-              f = { '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Current File" },
-              r = { '<cmd>lua require("neotest").run.run_last()<CR>', "Last" },
-              s = { '<cmd>lua require("neotest").run.stop()<CR>', "Stop" },
-              a = { '<cmd>lua require("neotest").run.attach()<CR>', "Attach" },
-            },
-            o = {
-              name = "+Display",
-              s = { '<cmd>lua require("neotest").summary.toggle()<CR>', "Toggle Summary" },
-              o = { '<cmd>lua require("neotest").output.open({ enter = true })<CR>', "Open output" },
-              p = { '<cmd>lua require("neotest").output_panel.toggle()<CR>', "Toggle output Panel" },
-            },
-          },
+        wk.add({
+          mode = "n",
+          { "<leader>t", group = "+Test" },
+          { "<leader>tr", group = "+Run" },
+          { "<leader>to", group = "+Display" },
+          { "<leader>trn", '<cmd>lua require("neotest").run.run()<CR>', desc = "Nearest" },
+          { "<leader>trf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', desc = "Current file" },
+          { "<leader>trr", '<cmd>lua require("neotest").run.run_last()<CR>', desc = "Last" },
+          { "<leader>trs", '<cmd>lua require("neotest").run.stop()<CR>', desc = "Stop" },
+          { "<leader>tra", '<cmd>lua require("neotest").run.attach()<CR>', desc = "Attach" },
+          { "<leader>tos", '<cmd>lua require("neotest").summary.toggle()<CR>', desc = "Toggle summary" },
+          { "<leader>too", '<cmd>lua require("neotest").output.open({ enter = true })<CR>', desc = "Open output" },
+          { "<leader>too", '<cmd>lua require("neotest").output_panel.toggle()<CR>', desc = "Toggle output panel" },
         })
       elseif vim.g.test_runner_type == "vim-test" then
-        wk.register({
-          ["<leader>t"] = {
-            name = "+Test",
-            r = {
-              name = "+Run",
-              n = { "<cmd>TestNearest<cr>", "Nearest" },
-              f = { "<cmd>TestFile<cr>", "Current File" },
-              s = { "<cmd>TestSuite<cr>", "Suit" },
-              r = { "<cmd>TestLast<cr>", "Last" },
-            },
-          },
+        wk.add({
+          mode = "n",
+          { "<leader>t", group = "+Test" },
+          { "<leader>tr", group = "+Run" },
+          { "<leader>trn", "<cmd>TestNearest<cr>", desc = "Nearest" },
+          { "<leader>trf", "<cmd>TestFile<cr>", desc = "Current file" },
+          { "<leader>trr", "<cmd>TestLast<cr>", desc = "Last" },
+          { "<leader>trs", "<cmd>TestSuite<cr>", desc = "Suit" },
         })
       end
 
-      -- mode: x
-      wk.register({
-        ["<leader>g"] = {
-          name = "+Git",
-          s = {
-            name = "+Stage",
-            s = { ":Gitsigns stage_hunk<cr>", "Select Stage" },
-            u = { ":Gitsigns unstage_hunk<cr>", "Select Unstage" },
-          },
-          l = {
-            name = "+Linker",
-            c = { ":GitLinker current<cr>", "Current git link" },
-            d = { ":GitLinker default<cr>", "Default branch git link" },
-          },
-        },
-      }, { mode = "x" })
-
-      local explorer = {}
+      local explorer = {
+        { "<leader>f", group = "+Explorer" },
+      }
       if vim.g.file_explorer_type == "nvim-tree" then
-        explorer["<leader>f"] = {
-          name = "+Explorer",
-          t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
-          f = {
-            '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
-            "Focus File",
-          },
-        }
+        table.insert(explorer, { "<leader>ft", "<cmd>NvimTreeToggle<cr>", desc = "Toggle" })
+        table.insert(explorer, { "<leader>ff", '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>', desc = "Focus file" })
       elseif vim.g.file_explorer_type == "neo-tree" then
-        explorer["<leader>f"] = {
-          name = "+Explorer",
-          t = { "<cmd>Neotree toggle<cr>", "Toggle" },
-          f = {
-            "<cmd>Neotree reveal<cr>",
-            "Focus File",
-          },
-        }
+        table.insert(explorer, { "<leader>ft", "<cmd>Neotree toggle<cr>", desc = "Toggle" })
+        table.insert(explorer, { "<leader>ff", "<cmd>Neotree reveal<cr>", desc = "Focus file" })
       end
 
-      explorer["<leader>f"]["p"] = {
-        '<cmd>lua require("dropbar.api").pick()<CR>',
-        "Pick breadcrumbs",
-      }
-      wk.register(explorer)
+      table.insert(explorer, {"<leader>fp", '<cmd>lua require("dropbar.api").pick()<CR>', desc = "Pick breadcrumbs"})
+      wk.add(explorer)
 
       if vim.g.lsp_client_type == "neovim" then
-        wk.register({
-          ["g"] = {
-            name = "+LSP",
-            r = { "<cmd>Telescope lsp_references<CR>", "References" },
-            i = { "<cmd>Telescope lsp_implementations<CR>", "Implementations" },
-            d = { "<cmd>Telescope lsp_definitions<CR>", "Definition" },
-            D = { "<cmd>Telescope lsp_type_definitions<CR>", "Type Definition" },
-            f = {
-              name = "+Go To Definition",
-              f = { "<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", "Go to edit" },
-              s = { "<cmd>lua require('gtd').exec({ command = 'split' })<CR>", "Go to split" },
-              v = { "<cmd>lua require('gtd').exec({ command = 'vsplit' })<CR>", "Go to vsplit" },
-            },
-            h = {
-              name = "+Inlay Hint",
-              t = { "<cmd>lua vim.lsp.inlay_hint(0)<CR>", "Toggle" },
-            },
-          },
-          ["K"] = {
+        wk.add({
+          mode = "n",
+          { "g", group = "+LSP" },
+          { "gr", "<cmd>Telescope lsp_references<CR>", desc = "References" },
+          { "gi", "<cmd>Telescope lsp_implementations<CR>", desc = "Implementations" },
+          { "gd", "<cmd>Telescope lsp_definitions<CR>", desc = "Definitions" },
+          { "gD", "<cmd>Telescope lsp_type_definitions<CR>", desc = "Type definitions" },
+          { "gf", group = "+Go To Definition" },
+          { "gff", "<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", desc = "Go to edit" },
+          { "gfs", "<cmd>lua require('gtd').exec({ command = 'split' })<CR>", desc = "Go to split" },
+          { "gfv", "<cmd>lua require('gtd').exec({ command = 'vsplit' })<CR>", desc = "Go to vsplit" },
+          { "gh", group = "+Inlay Hint" },
+          { "ght", "<cmd>lua vim.lsp.inlay_hint(0)<CR>", desc = "Toggle" },
+          {
+            "K",
             function()
               local buf = vim.api.nvim_get_current_buf()
               local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
@@ -4227,44 +4115,35 @@ require("lazy").setup({
               end
               return vim.lsp.buf.hover()
             end,
-            "Hover Doc",
+            desc = "Hover Doc",
           },
-          ["H"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-          -- ["<leader>"] = {
-          --   F = { "<cmd>lua vim.lsp.buf.format({ timeout_ms=5000 })<CR>", "Format" },
-          -- },
-          ["<leader>ac"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-          ["<leader>d"] = {
-            name = "+Diagnostics",
-            c = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Float" },
-            o = { "<cmd>lua vim.diagnostic.setloclist()<CR>", "Set Loclist" },
-            n = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Jump Next" },
-            p = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Jump Previous" },
-            d = {
-              name = "+Diagnostics",
-              d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics(Trouble)" },
-              D = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics(Trouble)" },
-            },
-            t = { "<cmd>ToggleDiag<CR>", "Toggle diagnostic" },
-          },
-          ["<leader>rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
-        }, { mode = "n" })
-        wk.register({
-          ["<leader>ac"] = {
-            "<cmd>lua vim.lsp.buf.code_action()<CR>",
-            "Code Action",
-          },
-        }, { mode = "v" })
+          { "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", desc = "Signature Help" },
+          { "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", desc = "Code Action", mode = { "n", "v" } },
+          { "<leader>d", group = "+Diagnostics" },
+          { "<leader>dc", "<cmd>lua vim.diagnostic.open_float()<CR>", desc = "Open float" },
+          { "<leader>do", "<cmd>lua vim.diagnostic.setloclist()<CR>", desc = "Set loclist" },
+          { "<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", desc = "Jump next" },
+          { "<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", desc = "Jump previous" },
+          { "<leader>dp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", desc = "Jump previous" },
+          { "<leader>dd", group = "+List" },
+          { "<leader>ddd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics(Trouble)" },
+          { "<leader>ddD", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics(Trouble)" },
+          { "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename" },
+        })
       elseif vim.g.lsp_client_type == "coc" then
-        wk.register({
+        wk.add({
+          { "<leader>d", group = "+Diagnostics" },
+          { "<leader>dd", group = "+List" },
+          { "<leader>ddd", "<cmd>Telescope coc diagnostics<CR>", desc = "Diagnostics" },
+          { "<leader>ddD", "<cmd>Telescope coc workspace_diagnostics<CR>", desc = "Workspace Diagnostics" },
           ["<lesder>sd"] = { "<cmd>Telescope coc diagnostics<CR>", "Diagnostics" },
           ["<lesder>sD"] = { "<cmd>Telescope coc workspace_diagnostics<CR>", "Workspace Diagnostics" },
-          ["<lesder>ca"] = { "<cmd>Telescope coc code_actions<CR>", "Code Actions" },
+          { "<leader>ac", "<cmd>Telescope coc code_actions<CR>", desc = "Code Action", mode = { "n", "v" } },
           ["g"] = {
             name = "+LSP",
-            r = { "<cmd>Telescope coc references<CR>", "References" },
-            i = { "<cmd>Telescope coc implementations<CR>", "Implementations" },
-            y = { "<cmd>Telescope coc type_definitions<CR>", "Type Definitions" },
+            { "gr", "<cmd>Telescope coc references<CR>", desc = "References" },
+            { "gi", "<cmd>Telescope coc implementations<CR>", desc = "Implementations" },
+            { "gy", "<cmd>Telescope coc type_definitions<CR>", desc = "Type Definitions" },
           },
         })
       end
@@ -4272,10 +4151,6 @@ require("lazy").setup({
   },
 
   -- ColorScheme
-  {
-    "olimorris/onedarkpro.nvim",
-    lazy = true,
-  },
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -4325,24 +4200,6 @@ require("lazy").setup({
     },
   },
   {
-    "rebelot/kanagawa.nvim",
-    lazy = true,
-    config = function()
-      require("kanagawa").setup({
-        undercurl = true, -- enable undercurls
-        commentStyle = { italic = true },
-        keywordStyle = { italic = true },
-        statementStyle = { bold = true },
-        variablebuiltinStyle = { italic = true },
-        specialReturn = true, -- special highlight for the return keyword
-        specialException = true, -- special highlight for exception handling keywords
-        transparent = true, -- do not set background color
-        dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-        globalStatus = true, -- adjust window separators highlight for laststatus=3
-      })
-    end,
-  },
-  {
     "rmehri01/onenord.nvim",
     lazy = true,
     config = function()
@@ -4378,86 +4235,15 @@ require("lazy").setup({
     end,
   },
   {
-    "sainnhe/everforest",
-    lazy = true,
+    "sainnhe/gruvbox-material",
+    lazy = false,
+    priority = 1000,
     config = function()
-      -- Set contrast.
-      --   This configuration option should be placed before `colorscheme everforest`.
-      --   Available values: 'hard', 'medium'(default), 'soft'
-      vim.g.everforest_background = "soft"
-      vim.g.everforest_enable_italic = true
-      vim.g.everforest_disable_italic_comment = false
-      vim.g.everforest_transparent_background = true
-      vim.g.everforest_ui_contrast = "low" -- high or low
-      vim.g.everforest_diagnostic_text_highlight = true
-      vim.g.everforest_diagnostic_line_highlight = true
-    end,
-  },
-  {
-    "folke/tokyonight.nvim",
-    lazy = true,
-    config = function()
-      require("tokyonight").setup({
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        style = "storm", -- The theme comes in three styles, `storm`, a darker variant `night` and `day`
-        transparent = true, -- Enable this to disable setting the background color
-        terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
-        styles = {
-          -- Style to be applied to different syntax groups
-          -- Value is any valid attr-list value `:help attr-list`
-          comments = "italic",
-          keywords = "italic",
-          functions = "NONE",
-          variables = "NONE",
-          -- Background styles. Can be "dark", "transparent" or "normal"
-          sidebars = "dark", -- style for sidebars, see below
-          floats = "dark", -- style for floating windows
-        },
-        sidebars = { "qf", "help", "NvimTree" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-        day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-        hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-        dim_inactive = false, -- dims inactive windows
-        lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
-      })
-    end,
-  },
-  {
-    "eddyekofo94/gruvbox-flat.nvim",
-    lazy = true,
-    config = function()
-      vim.g.gruvbox_flat_style = "dark"
-      vim.g.gruvbox_italic_functions = true
-      vim.g.gruvbox_italic_comments = true
-      vim.g.gruvbox_italic_keywords = true
-      vim.g.gruvbox_italic_variables = false
-      vim.g.gruvbox_transparent = true
-      vim.g.gruvbox_dark_sidebar = true
-      vim.g.gruvbox_dark_float = true
-      vim.g.gruvbox_sidebars = { "qf", "vista_kind", "terminal", "packer" }
-      vim.g.gruvbox_hide_inactive_statusline = true
-    end,
-  },
-  {
-    "EdenEast/nightfox.nvim",
-    lazy = true,
-    config = function()
-      local nightfox = require("nightfox")
-      nightfox.setup({
-        options = {
-          transparent = true,
-          styles = {
-            comments = "italic", -- change style of comments to be italic
-            keywords = "bold", -- change style of keywords to be bold
-          },
-          inverse = {
-            match_paren = true, -- inverse the highlighting of match_parens
-            visual = false,
-            search = false,
-          },
-        },
-      })
-      -- nightfox.load()
+      -- Optionally configure and load the colorscheme
+      -- directly inside the plugin declaration.
+      vim.g.gruvbox_material_enable_italic = true
+      vim.g.gruvbox_material_background = "soft"
+      vim.gruvbox_material_better_performance = 1
     end,
   },
 
@@ -4499,17 +4285,10 @@ require("lazy").setup({
     priority = 10000,
     config = function()
       require("random_colorscheme").setup({
-        "everforest",
         "edge",
-        "kanagawa",
         "onenord",
-        "tokyonight",
-        "gruvbox-flat",
-        "nightfox",
-        "duskfox",
-        "nordfox",
+        "gruvbox-material",
         "catppuccin",
-        "onedark",
       })
     end,
   },
