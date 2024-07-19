@@ -3919,10 +3919,6 @@ require("lazy").setup({
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
     config = function()
       local wk = require("which-key")
       wk.setup({
@@ -3957,7 +3953,7 @@ require("lazy").setup({
           align = "left", -- align columns left, center or right
         },
         show_help = true, -- show help message on the command line when the popup is visible
-        triggers = "auto", -- automatically setup triggers
+        -- triggers = "auto", -- automatically setup triggers
         -- triggers = {"<leader>"} -- or specify a list manually
       })
 
@@ -4082,13 +4078,20 @@ require("lazy").setup({
       }
       if vim.g.file_explorer_type == "nvim-tree" then
         table.insert(explorer, { "<leader>ft", "<cmd>NvimTreeToggle<cr>", desc = "Toggle" })
-        table.insert(explorer, { "<leader>ff", '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>', desc = "Focus file" })
+        table.insert(
+          explorer,
+          {
+            "<leader>ff",
+            '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
+            desc = "Focus file",
+          }
+        )
       elseif vim.g.file_explorer_type == "neo-tree" then
         table.insert(explorer, { "<leader>ft", "<cmd>Neotree toggle<cr>", desc = "Toggle" })
         table.insert(explorer, { "<leader>ff", "<cmd>Neotree reveal<cr>", desc = "Focus file" })
       end
 
-      table.insert(explorer, {"<leader>fp", '<cmd>lua require("dropbar.api").pick()<CR>', desc = "Pick breadcrumbs"})
+      table.insert(explorer, { "<leader>fp", '<cmd>lua require("dropbar.api").pick()<CR>', desc = "Pick breadcrumbs" })
       wk.add(explorer)
 
       if vim.g.lsp_client_type == "neovim" then
