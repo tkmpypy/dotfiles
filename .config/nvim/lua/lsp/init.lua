@@ -271,6 +271,22 @@ local pyright_config = {
   end,
 }
 
+local intelephense_config = {
+  settings = {
+    intelephense = {
+      diagnostics = {
+        undefinedTypes = false,
+        undefinedFunctions = false,
+        undefinedConstants = false,
+        undefinedClassConstants = false,
+        undefinedMethods = false,
+        undefinedProperties = false,
+        undefinedVariables = false,
+      }
+    }
+  }
+}
+
 local eslint_config = {
   settings = {
     foramt = {
@@ -641,6 +657,11 @@ local setup_servers = function()
       local config = make_default_config()
       config.root_dir = pyright_config.root_dir
       lspconfig.pyright.setup(config)
+    end,
+    ["intelephense"] = function()
+      local config = make_default_config()
+      config = vim.tbl_deep_extend("force", config, intelephense_config)
+      lspconfig.intelephense.setup(config)
     end,
     ["solargraph"] = function()
       local config = make_default_config()

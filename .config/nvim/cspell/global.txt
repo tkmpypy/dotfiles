@@ -308,3 +308,4 @@ webp
 thead
 tbody
 Yasumi
+intelephense

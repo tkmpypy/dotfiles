@@ -3116,17 +3116,6 @@ require("lazy").setup({
     end,
   },
   {
-    "WhoIsSethDaniel/toggle-lsp-diagnostics.nvim",
-    cmd = { "ToggleDiag" },
-    dependencies = "neovim/nvim-lspconfig",
-    enabled = function()
-      return vim.g.lsp_client_type == "neovim"
-    end,
-    config = function()
-      require("toggle_lsp_diagnostics").init()
-    end,
-  },
-  {
     "Bekaboo/dropbar.nvim",
     event = "VeryLazy",
     enabled = function()
@@ -4078,14 +4067,11 @@ require("lazy").setup({
       }
       if vim.g.file_explorer_type == "nvim-tree" then
         table.insert(explorer, { "<leader>ft", "<cmd>NvimTreeToggle<cr>", desc = "Toggle" })
-        table.insert(
-          explorer,
-          {
-            "<leader>ff",
-            '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
-            desc = "Focus file",
-          }
-        )
+        table.insert(explorer, {
+          "<leader>ff",
+          '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
+          desc = "Focus file",
+        })
       elseif vim.g.file_explorer_type == "neo-tree" then
         table.insert(explorer, { "<leader>ft", "<cmd>Neotree toggle<cr>", desc = "Toggle" })
         table.insert(explorer, { "<leader>ff", "<cmd>Neotree reveal<cr>", desc = "Focus file" })
@@ -4123,6 +4109,22 @@ require("lazy").setup({
           { "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", desc = "Signature Help" },
           { "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", desc = "Code Action", mode = { "n", "v" } },
           { "<leader>d", group = "+Diagnostics" },
+          {
+            "<leader>dt",
+            (function()
+              local is_show = true
+              return function()
+                if is_show then
+                  is_show = false
+                  vim.diagnostic.hide()
+                else
+                  is_show = true
+                  vim.diagnostic.show()
+                end
+              end
+            end)(),
+            desc = "Toggle diagnostics",
+          },
           { "<leader>dc", "<cmd>lua vim.diagnostic.open_float()<CR>", desc = "Open float" },
           { "<leader>do", "<cmd>lua vim.diagnostic.setloclist()<CR>", desc = "Set loclist" },
           { "<leader>dn", "<cmd>lua vim.diagnostic.goto_next()<CR>", desc = "Jump next" },

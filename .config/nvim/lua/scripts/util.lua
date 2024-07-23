@@ -248,6 +248,21 @@ M.lsp.current_lsp = function()
   return ""
 end
 
+M.lsp.toggle_diagnostics = function()
+  local is_show = true
+  print("is_show:")
+  print(is_show)
+  return function()
+    if is_show then
+      is_show = false
+      vim.diagnostic.hide()
+    else
+      is_show = true
+      vim.diagnostic.show()
+    end
+  end
+end
+
 -- M.lsp.formatting = function(opts)
 --   return vim.lsp.buf.format({
 --     filter = function(client)
