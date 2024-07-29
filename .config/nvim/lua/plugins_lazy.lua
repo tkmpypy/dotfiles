@@ -1139,7 +1139,7 @@ require("lazy").setup({
         messages = {
           -- NOTE: If you enable messages, then the cmdline is enabled automatically.
           -- This is a current Neovim limitation.
-          enabled = false, -- enables the Noice messages UI
+          enabled = true, -- enables the Noice messages UI
           view = "mini", -- default view for messages
         },
         popupmenu = {
@@ -2369,6 +2369,7 @@ require("lazy").setup({
   },
   {
     "nvim-orgmode/telescope-orgmode.nvim",
+    -- event = "VeryLazy",
     dependencies = {
       "nvim-orgmode/orgmode",
       "nvim-telescope/telescope.nvim",

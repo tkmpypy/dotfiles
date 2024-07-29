@@ -29,8 +29,8 @@ return {
     ExtraBlack
   --]]
   -- font = wezterm.font({ family = "Moralerspace Argon NF", weight = "Regular" }),
-  -- font = wezterm.font({ family = "PlemolJP35 Console NF", weight = "Medium" }),
-  font = wezterm.font({ family = "UDEV Gothic 35NFLG", weight = "Regular" }),
+  font = wezterm.font({ family = "PlemolJP35 Console NF", weight = "Medium" }),
+  -- font = wezterm.font({ family = "UDEV Gothic 35NFLG", weight = "Regular" }),
   -- font = wezterm.font("Firge35Nerd Console", { weight = "Regular" }),
 
   front_end = "WebGpu",

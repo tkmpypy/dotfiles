@@ -19,7 +19,10 @@ export GHCUP_USE_XDG_DIRS="true"
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-
+set local_config $HOME/.config.local.fish
+if test -f $local_config
+    source $local_config
+end
 
 set --erase fish_greeting
 
