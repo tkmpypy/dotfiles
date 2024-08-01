@@ -84,6 +84,7 @@ require("lazy").setup({
           "yaml",
           "toml",
           "json",
+          "jsonnet",
           "typescript",
           "javascript",
           "jsdoc",
