@@ -1687,6 +1687,39 @@ require("lazy").setup({
       -- Setup orgmode
       local base_dir = "~/Google Drive/マイドライブ"
       require("orgmode").setup({
+        ui = {
+          menu = {
+            handler = function(data)
+              -- your handler here, for example:
+              local options = {}
+              local options_by_label = {}
+
+              for _, item in ipairs(data.items) do
+                -- Only MenuOption has `key`
+                -- Also we don't need `Quit` option because we can close the menu with ESC
+                if item.key and item.label:lower() ~= "quit" then
+                  table.insert(options, item.label)
+                  options_by_label[item.label] = item
+                end
+              end
+
+              local handler = function(choice)
+                if not choice then
+                  return
+                end
+
+                local option = options_by_label[choice]
+                if option.action then
+                  option.action()
+                end
+              end
+
+              vim.ui.select(options, {
+                prompt = data.prompt,
+              }, handler)
+            end,
+          },
+        },
         mappings = {
           org_return_uses_meta_return = false,
         },
@@ -2923,8 +2956,8 @@ require("lazy").setup({
           terraform = { "terraform_fmt" },
           sh = { "shfmt" },
           rust = { "rustfmt" },
-          -- php = { "pint" },
-          php = { "php-cs-fixer" },
+          php = { "pint" },
+          -- php = { "php-cs-fixer" },
           sql = { "sql_formatter" },
           javascript = { "prettierd", "prettier", stop_after_first = true },
           javascriptreact = { "prettierd", "prettier", stop_after_first = true },
@@ -2955,8 +2988,8 @@ require("lazy").setup({
       end, { range = true })
 
       -- disable format on save(default)
-      vim.b.disable_autoformat = true
-      vim.g.disable_autoformat = true
+      vim.b.disable_autoformat = false
+      vim.g.disable_autoformat = false
       vim.api.nvim_create_user_command("FormatDisable", function(args)
         if args.bang then
           -- FormatDisable! will disable formatting just for this buffer
@@ -3383,7 +3416,6 @@ require("lazy").setup({
         debug = true, -- Enable debugging
         -- See Configuration section for rest
         context = "buffers",
-        model = "gpt-4",
         prompts = {
           Explain = {
             prompt = "/COPILOT_EXPLAIN カーソル上のコードの説明を段落をつけて書いてください。",
@@ -3393,6 +3425,9 @@ require("lazy").setup({
           },
           Fix = {
             prompt = "/COPILOT_FIX このコードには問題があります。バグを修正したコードに書き換えてください。",
+          },
+          Review = {
+            prompt = "/COPILOT_REVIEW 選択したコードを日本語でレビューしてください",
           },
           Optimize = {
             prompt = "/COPILOT_REFACTOR 選択したコードを最適化し、パフォーマンスと可読性を向上させてください。",

@@ -59,6 +59,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       setlocal conceallevel=2
       setlocal concealcursor=nc
     ]])
+
+    vim.keymap.set("i", "<S-j>", '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {
+      silent = true,
+      buffer = true,
+    })
   end,
 })
 
