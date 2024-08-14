@@ -72,7 +72,6 @@ end
 
 local custom_flags = { debounce_text_changes = 300 }
 
-
 local custom_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   -- See https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
@@ -274,6 +273,9 @@ local pyright_config = {
 local intelephense_config = {
   settings = {
     intelephense = {
+      environment = {
+        phpVersion = "8.2",
+      },
       diagnostics = {
         undefinedTypes = false,
         undefinedFunctions = false,
@@ -282,9 +284,9 @@ local intelephense_config = {
         undefinedMethods = false,
         undefinedProperties = false,
         undefinedVariables = false,
-      }
-    }
-  }
+      },
+    },
+  },
 }
 
 local eslint_config = {

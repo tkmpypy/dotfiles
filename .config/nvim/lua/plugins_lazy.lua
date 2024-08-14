@@ -880,6 +880,11 @@ require("lazy").setup({
           },
           always_divide_middle = true,
           globalstatus = true,
+          refresh = {
+            statusline = 0,
+            tabline = 0,
+            winbar = 0,
+          },
         },
         sections = {
           lualine_a = { "mode" },
@@ -1259,17 +1264,19 @@ require("lazy").setup({
         version = "2.*",
         config = function()
           require("window-picker").setup({
+            -- hint = "floating-big-letter",
             filter_rules = {
               include_current_win = false,
               autoselect_one = true,
               -- filter using buffer options
               bo = {
                 -- if the file type is one of following, the window will be ignored
-                filetype = { "neo-tree", "neo-tree-popup", "notify" },
+                filetype = { "neo-tree", "neo-tree-popup", "notify", "noice" },
                 -- if the buffer type is one of following, the window will be ignored
                 buftype = { "terminal", "quickfix" },
               },
             },
+            show_prompt = false,
           })
         end,
       },
