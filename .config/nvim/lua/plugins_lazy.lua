@@ -453,8 +453,11 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
+      "nvim-neotest/nvim-nio",
       "nvim-neotest/neotest-go",
       "nvim-neotest/neotest-python",
+      "olimorris/neotest-phpunit",
+      -- "praem90/neotest-docker-phpunit.nvim",
       "rouge8/neotest-rust",
     },
     config = function()
@@ -517,6 +520,12 @@ require("lazy").setup({
             --   return b
             -- end,
           }),
+          require("neotest-phpunit")({
+            phpunit_cmd = function()
+              return "vendor/bin/phpunit"
+            end,
+            filter_dirs = { "vendor" },
+          }),
         },
         benchmark = {
           enabled = true,
@@ -530,34 +539,12 @@ require("lazy").setup({
           concurrent = 5,
           enabled = true,
         },
-        floating = {
-          border = "single",
-          max_height = 0.6,
-          max_width = 0.6,
-          options = {},
-        },
-        icons = {
-          child_indent = "│",
-          child_prefix = "├",
-          collapsed = "─",
-          expanded = "╮",
-          failed = "",
-          final_child_indent = " ",
-          final_child_prefix = "╰",
-          non_collapsible = "─",
-          passed = "",
-          running = "",
-          running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
-          skipped = "",
-          unknown = "",
-        },
         jump = {
           enabled = true,
         },
-        log_level = 3,
         output = {
           enabled = true,
-          open_on_run = "short",
+          open_on_run = true,
         },
         output_panel = {
           enabled = true,
@@ -1223,6 +1210,33 @@ require("lazy").setup({
   {
     "stevearc/oil.nvim",
     opts = {
+      git = {
+        -- Return true to automatically git add/mv/rm files
+        add = function(path)
+          return true
+        end,
+        mv = function(src_path, dest_path)
+          return true
+        end,
+        rm = function(path)
+          return true
+        end,
+      },
+      keymaps = {
+        ["gd"] = {
+          desc = "Toggle file detail view",
+          callback = function()
+            OIL_DETAIL = not OIL_DETAIL
+            if OIL_DETAIL then
+              require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+            else
+              require("oil").set_columns({ "icon" })
+            end
+          end,
+        },
+        ["gv"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+        ["gs"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
+      },
       columns = {
         "icon",
         -- "permissions",
@@ -4122,6 +4136,8 @@ require("lazy").setup({
       end
 
       table.insert(explorer, { "<leader>fp", '<cmd>lua require("dropbar.api").pick()<CR>', desc = "Pick breadcrumbs" })
+      table.insert(explorer, { "<leader>fo", "<cmd>Oil --float<cr>", desc = "Oil.nvim(float)" })
+      table.insert(explorer, { "<leader>fO", "<cmd>Oil<cr>", desc = "Oil.nvim" })
       wk.add(explorer)
 
       if vim.g.lsp_client_type == "neovim" then

@@ -1,6 +1,7 @@
 [core]
     editor = nvim
     pager = delta
+    ignorecase = false
 
 [user]
 	name = tkmpypy
