@@ -18,7 +18,7 @@ packages:
   - name: sharkdp/fd@v10.2.0
   - name: dandavison/delta@0.18.0
   - name: sharkdp/bat@v0.24.0
-  - name: charmbracelet/glow@v1.5.1
+  - name: charmbracelet/glow@v2.0.0
   - name: jesseduffield/lazygit@v0.43.1
   - name: denisidoro/navi@v2.23.0
   - name: ClementTsang/bottom@0.10.2
