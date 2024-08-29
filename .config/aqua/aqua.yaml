@@ -25,7 +25,7 @@ packages:
   - name: derailed/k9s@v0.32.5
   - name: x-motemen/ghq@v1.6.2
   - name: orhun/git-cliff@v2.5.0
-  - name: lima-vm/lima@v0.23.1
+  - name: lima-vm/lima@v0.23.2
   - name: jqlang/jq@jq-1.7.1
   - name: sharkdp/hyperfine@v1.18.0
   - name: twistedpair/google-cloud-sdk@447.0.0
