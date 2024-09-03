@@ -250,8 +250,6 @@ end
 
 M.lsp.toggle_diagnostics = function()
   local is_show = true
-  print("is_show:")
-  print(is_show)
   return function()
     if is_show then
       is_show = false

@@ -309,3 +309,5 @@ thead
 tbody
 Yasumi
 intelephense
+UNSYNCED
+noindex

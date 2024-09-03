@@ -25,7 +25,7 @@ require("lazy").setup({
       require("nvim-treesitter.install").update({ with_sync = true })()
     end,
     dependencies = {
-      "RRethy/nvim-treesitter-endwise",
+      -- "RRethy/nvim-treesitter-endwise",
       "windwp/nvim-ts-autotag",
     },
     config = function()
@@ -167,12 +167,12 @@ require("lazy").setup({
       }
       require("ufo").setup({
         open_fold_hl_timeout = 150,
-        provider_selector = function(bufnr, filetype, buftype)
-          -- if you prefer treesitter provider rather than lsp,
-          return ftMap[filetype] or { "treesitter", "indent" }
-
-          -- refer to ./doc/example.lua for detail
-        end,
+        -- provider_selector = function(bufnr, filetype, buftype)
+        --   -- if you prefer treesitter provider rather than lsp,
+        --   return ftMap[filetype] or { "treesitter", "indent" }
+        --
+        --   -- refer to ./doc/example.lua for detail
+        -- end,
       })
     end,
     keys = {
@@ -951,7 +951,6 @@ require("lazy").setup({
             },
           },
           lualine_x = {
-            { "grapple" },
             {
               "branch",
               icon = "",
@@ -1969,6 +1968,7 @@ require("lazy").setup({
   {
     "uga-rosa/ccc.nvim",
     event = { "VeryLazy" },
+    enabled = false,
     config = function()
       local ccc = require("ccc")
       ccc.setup({
@@ -2415,11 +2415,6 @@ require("lazy").setup({
       if vim.g.lsp_client_type == "coc" then
         telescope.load_extension("coc")
       end
-
-      local ok, _ = pcall(require, "grapple")
-      if ok then
-        require("telescope").load_extension("grapple")
-      end
     end,
   },
   {
@@ -2454,25 +2449,6 @@ require("lazy").setup({
     },
     config = function()
       require("telescope").load_extension("orgmode")
-    end,
-  },
-  {
-    "cbochs/grapple.nvim",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = "Grapple",
-    keys = {
-      { "<leader>m", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },
-      { "<leader>M", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple open tags window" },
-      { "<leader>n", "<cmd>Grapple cycle_tags next<cr>", desc = "Grapple cycle next tag" },
-      { "<leader>p", "<cmd>Grapple cycle_tags prev<cr>", desc = "Grapple cycle previous tag" },
-    },
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons", lazy = true },
-    },
-    config = function()
-      require("grapple").setup({
-        scope = "git_branch",
-      })
     end,
   },
 
@@ -2836,7 +2812,12 @@ require("lazy").setup({
             end,
             timeout = 50000,
           }),
-          null_ls.builtins.diagnostics.phpstan,
+          null_ls.builtins.diagnostics.phpstan.with({
+            to_temp_file = false,
+            timeout = 50000,
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+            args = { "analyze", "--memory-limit=-1", "--error-format", "json", "--no-progress" },
+          }),
           null_ls.builtins.diagnostics.golangci_lint.with({
             timeout = 50000,
           }),
@@ -3075,7 +3056,6 @@ require("lazy").setup({
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "williamboman/mason.nvim" },
     event = { "VeryLazy" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
@@ -3414,6 +3394,7 @@ require("lazy").setup({
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
+    build = "make tiktoken",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
@@ -3429,14 +3410,28 @@ require("lazy").setup({
       "CopilotChatFix",
       "CopilotChatOptimize",
       "CopilotChatDocs",
+      "CopilotChatDocsJA",
       "CopilotChatFixDiagnostic",
     },
     config = function()
       local select = require("CopilotChat.select")
       require("CopilotChat").setup({
-        debug = true, -- Enable debugging
+        -- debug = true,
         -- See Configuration section for rest
         context = "buffers",
+        window = {
+          layout = "vertical", -- 'vertical', 'horizontal', 'float', 'replace'
+          width = 0.3, -- fractional width of parent, or absolute width in columns when > 1
+          height = 1.0, -- fractional height of parent, or absolute height in rows when > 1
+          -- Options below only apply to floating windows
+          relative = "editor", -- 'editor', 'win', 'cursor', 'mouse'
+          border = "single", -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+          row = nil, -- row position of the window, default is centered
+          col = nil, -- column position of the window, default is centered
+          title = "Copilot Chat", -- title of chat window
+          footer = nil, -- footer of chat window
+          zindex = 1, -- determines if window is on top or below other floating windows
+        },
         prompts = {
           Explain = {
             prompt = "/COPILOT_EXPLAIN カーソル上のコードの説明を段落をつけて書いてください。",
@@ -3455,6 +3450,9 @@ require("lazy").setup({
           },
           Docs = {
             prompt = "/COPILOT_REFACTOR 選択したコードのドキュメントを書いてください。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
+          },
+          DocsJA = {
+            prompt = "/COPILOT_REFACTOR 選択したコードのドキュメントを日本語で書いてください（句読点は不要）。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
           },
           FixDiagnostic = {
             prompt = "ファイル内の次のような診断上の問題を解決してください：",
