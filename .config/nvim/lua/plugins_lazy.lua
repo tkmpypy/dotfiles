@@ -2815,7 +2815,7 @@ require("lazy").setup({
           null_ls.builtins.diagnostics.phpstan.with({
             to_temp_file = false,
             timeout = 50000,
-            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+            method = null_ls.methods.DIAGNOSTICS,
             args = { "analyze", "--memory-limit=-1", "--error-format", "json", "--no-progress" },
           }),
           null_ls.builtins.diagnostics.golangci_lint.with({

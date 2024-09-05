@@ -37,3 +37,4 @@ packages:
   - name: haskell/ghcup-hs@v0.1.20.0
   - name: bitwarden/clients@cli-v2024.1.0
   - name: aws/aws-cli@2.16.4
+  - name: MordechaiHadad/bob@v4.0.1
