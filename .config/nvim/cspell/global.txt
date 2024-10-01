@@ -311,3 +311,4 @@ Yasumi
 intelephense
 UNSYNCED
 noindex
+vite

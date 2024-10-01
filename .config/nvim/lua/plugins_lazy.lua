@@ -2814,14 +2814,14 @@ require("lazy").setup({
           }),
           null_ls.builtins.diagnostics.phpstan.with({
             to_temp_file = false,
-            timeout = 50000,
-            method = null_ls.methods.DIAGNOSTICS,
+            timeout = 100000,
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
             args = { "analyze", "--memory-limit=-1", "--error-format", "json", "--no-progress" },
           }),
           null_ls.builtins.diagnostics.golangci_lint.with({
             timeout = 50000,
           }),
-          require("none-ls.diagnostics.eslint_d"),
+          null_ls.builtins.diagnostics.eslint,
           -- null_ls.builtins.formatting.prettierd.with({
           --   timeout = 50000,
           -- }),
@@ -3089,7 +3089,6 @@ require("lazy").setup({
           "buf-language-server",
           "pyright",
           "marksman",
-          "sqlls",
           "svelte-language-server",
           "tailwindcss-language-server",
           "terraform-ls",
