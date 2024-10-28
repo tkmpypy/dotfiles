@@ -1137,7 +1137,7 @@ require("lazy").setup({
         popupmenu = {
           enabled = true, -- enables the Noice popupmenu UI
           ---@type 'nui'|'cmp'
-          backend = "cmp", -- backend to use to show regular cmdline completions
+          backend = "nui", -- backend to use to show regular cmdline completions
         },
         history = {
           -- options for the message history that you get with `:Noice`
@@ -1165,7 +1165,7 @@ require("lazy").setup({
             silent = true,
           },
           signature = {
-            enabled = true,
+            enabled = false,
             auto_open = {
               enabled = true,
               trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
@@ -2756,26 +2756,8 @@ require("lazy").setup({
   {
     "nvimtools/none-ls.nvim",
     event = { "VeryLazy" },
-    -- keys = {
-    --   {
-    --     "<leader>F",
-    --     function()
-    --       require("scripts/util").lsp.formatting({ async = true })
-    --     end,
-    --     mode = "n",
-    --     desc = "Format buffer",
-    --   },
-    --   {
-    --     "<leader>F",
-    --     function()
-    --       require("scripts/util").lsp.formatting({ async = true })
-    --     end,
-    --     mode = "v",
-    --     desc = "Format range",
-    --   },
-    -- },
     enabled = function()
-      return vim.g.lsp_client_type == "neovim"
+      return false
     end,
     dependencies = {
       "nvimtools/none-ls-extras.nvim",
@@ -2813,26 +2795,15 @@ require("lazy").setup({
             timeout = 50000,
           }),
           null_ls.builtins.diagnostics.phpstan.with({
-            to_temp_file = false,
-            timeout = 100000,
-            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+            -- to_temp_file = false,
+            -- timeout = 100000,
+            method = null_ls.methods.DIAGNOSTICS,
             args = { "analyze", "--memory-limit=-1", "--error-format", "json", "--no-progress" },
           }),
           null_ls.builtins.diagnostics.golangci_lint.with({
             timeout = 50000,
           }),
           null_ls.builtins.diagnostics.eslint,
-          -- null_ls.builtins.formatting.prettierd.with({
-          --   timeout = 50000,
-          -- }),
-          -- null_ls.builtins.formatting.gofmt,
-          -- null_ls.builtins.formatting.phpcsfixer,
-          -- null_ls.builtins.formatting.gofumpt,
-          -- null_ls.builtins.formatting.goimports,
-          -- null_ls.builtins.formatting.stylua,
-          -- null_ls.builtins.formatting.terraform_fmt,
-          -- null_ls.builtins.formatting.shfmt,
-          -- null_ls.builtins.formatting.sql_formatter,
         },
         update_in_insert = false,
         diagnostics_format = "[#{s} #{c}] #{m}",
@@ -2845,34 +2816,31 @@ require("lazy").setup({
           use_console = "async",
         },
       })
-      -- vim.api.nvim_create_user_command("Format", function(args)
-      --   local range = nil
-      --   if args.count ~= -1 then
-      --     local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-      --     range = {
-      --       start = { args.line1, 0 },
-      --       ["end"] = { args.line2, end_line:len() },
-      --     }
-      --   end
-      --   require("scripts/util").lsp.formatting({ async = true, range = range })
-      -- end, { range = true })
     end,
   },
   {
     "mfussenegger/nvim-lint",
     enabled = function()
-      return false
+      return true
     end,
     config = function()
       local lint = require("lint")
+      local phpstan = require("lint").linters.phpstan
+      phpstan.args = {
+        "analyze",
+        "--memory-limit=-1",
+        "--error-format=json",
+        "--no-progress",
+      }
+
       lint.linters_by_ft = {
         -- markdown = { "vale" },
         go = { "golangcilint" },
         python = { "flake8" },
         sh = { "shellcheck" },
-        javascript = { "eslint_d" },
+        javascript = { "biomejs" },
         javascriptreact = { "eslint_d" },
-        typescript = { "eslint_d" },
+        typescript = { "biomejs" },
         typescriptreact = { "eslint_d" },
         vue = { "eslint_d" },
         json = { "jsonlint" },
@@ -2900,7 +2868,7 @@ require("lazy").setup({
         "terminal",
         "quickfix",
       }
-      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+      vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
         group = vim.api.nvim_create_augroup("lint", { clear = true }),
         callback = function()
           local buf = vim.api.nvim_get_current_buf()
@@ -3159,7 +3127,6 @@ require("lazy").setup({
     opts = {
       icons = {
         kinds = {
-          use_devicons = true,
           symbols = {
             Array = "󰅪 ",
             Boolean = " ",
@@ -3463,9 +3430,108 @@ require("lazy").setup({
     -- See Commands section for default commands if you want to lazy load on them
   },
   {
+    "saghen/blink.cmp",
+    enabled = false,
+    lazy = false, -- lazy loading handled internally
+    -- optional: provides snippets for the snippet source
+    dependencies = "rafamadriz/friendly-snippets",
+
+    -- use a release tag to download pre-built binaries
+    -- version = "v0.*",
+    -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+    build = "cargo build --release",
+    -- On musl libc based systems you need to add this flag
+    -- build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
+
+    opts = {
+      highlight = {
+        -- sets the fallback highlight groups to nvim-cmp's highlight groups
+        -- useful for when your theme doesn't support blink.cmp
+        -- will be removed in a future release, assuming themes add support
+        use_nvim_cmp_as_default = true,
+      },
+      -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- adjusts spacing to ensure icons are aligned
+      nerd_font_variant = "mono",
+
+      -- experimental auto-brackets support
+      accept = { auto_brackets = { enabled = true } },
+
+      -- experimental signature help support
+      trigger = {
+        completion = {
+          -- 'prefix' will fuzzy match on the text before the cursor
+          -- 'full' will fuzzy match on the text before *and* after the cursor
+          -- example: 'foo_|_bar' will match 'foo_' for 'prefix' and 'foo__bar' for 'full'
+          keyword_range = "full",
+        },
+        signature_help = {
+          enabled = true,
+          show_on_insert_on_trigger_character = true,
+        },
+      },
+      keymap = {
+        show = "<C-space>",
+        hide = "<C-e>",
+        accept = "<CR>",
+        select_prev = { "<Up>", "<C-p>" },
+        select_next = { "<Down>", "<C-n>" },
+
+        show_documentation = "<C-space>",
+        hide_documentation = "<C-space>",
+        scroll_documentation_up = "<C-b>",
+        scroll_documentation_down = "<C-f>",
+
+        snippet_forward = "<Tab>",
+        snippet_backward = "<S-Tab>",
+      },
+      providers = {
+        {
+          "blink.cmp.sources.buffer",
+          name = "Buffer",
+          fallback_for = { "LSP" },
+        },
+      },
+      windows = {
+        documentation = {
+          border = "single",
+          -- Controls whether the documentation window will automatically show when selecting a completion item
+          auto_show = true,
+          auto_show_delay_ms = 500,
+          update_delay_ms = 50,
+        },
+        signature_help = {
+          border = "single",
+        },
+        autocomplete = {
+          border = "single",
+          -- Controls how the completion items are selected
+          -- 'preselect' will automatically select the first item in the completion list
+          -- 'manual' will not select any item by default
+          -- 'auto_insert' will not select any item by default, and insert the completion items automatically when selecting them
+          selection = "auto_insert",
+          -- Controls how the completion items are rendered on the popup window
+          -- 'simple' will render the item's kind icon the left alongside the label
+          -- 'reversed' will render the label on the left and the kind icon + name on the right
+          -- 'minimal' will render the label on the left and the kind name on the right
+          -- 'function(blink.cmp.CompletionRenderContext): blink.cmp.Component[]' for custom rendering
+          draw = "reversed",
+          -- Controls the cycling behavior when reaching the beginning or end of the completion list.
+          cycle = {
+            -- When `true`, calling `select_next` at the *bottom* of the completion list will select the *first* completion item.
+            from_bottom = true,
+            -- When `true`, calling `select_prev` at the *top* of the completion list will select the *last* completion item.
+            from_top = true,
+          },
+        },
+      },
+    },
+  },
+  {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
     enabled = function()
+      -- return false
       return vim.g.lsp_client_type == "neovim"
     end,
     dependencies = {
@@ -3521,7 +3587,6 @@ require("lazy").setup({
       },
       -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "hrsh7th/cmp-nvim-lua" },
-      { "windwp/nvim-autopairs" },
       {
         "zbirenbaum/copilot-cmp",
         config = function()
@@ -4056,6 +4121,13 @@ require("lazy").setup({
           desc = "Live grep",
         },
         { "<leader>sgc", "<cmd>lua require('telescope.builtin').grep_string{}<CR>", desc = "Grep string" },
+
+        { "<leader>T", group = "+Task" },
+        { "<leader>Tt", "<cmd>OverseerToggle<cr>", desc = "Toggle tasks" },
+        { "<leader>Tr", "<cmd>OverseerRun<cr>", desc = "Run task" },
+        { "<leader>TR", "<cmd>OverseerRestartLast<cr>", desc = "Restart task" },
+        { "<leader>Ti", "<cmd>OverseerInfo<cr>", desc = "Open information" },
+        { "<leader>Tc", "<cmd>OverseerRunCmd<cr>", desc = "Run command" },
 
         { "<leader>g", group = "+Git" },
         { "<leader>gs", "<cmd>lua require('neogit').open({ kind = 'auto' })<cr>", desc = "Status" },
