@@ -277,6 +277,7 @@ local intelephense_config = {
         phpVersion = "8.2",
       },
       diagnostics = {
+        enable = true,
         undefinedTypes = false,
         undefinedFunctions = false,
         undefinedConstants = false,
@@ -695,12 +696,6 @@ local setup_servers = function()
       local yaml_config = require("yaml-companion").setup()
       config = vim.tbl_deep_extend("force", config, yaml_config)
       lspconfig.yamlls.setup(config)
-    end,
-    ["tsserver"] = function()
-      local config = make_default_config()
-      config.commands = tsserver_config.commands
-      config.settings = tsserver_config.settings
-      lspconfig.tsserver.setup(config)
     end,
     ["vtsls"] = function()
       local config = make_default_config()

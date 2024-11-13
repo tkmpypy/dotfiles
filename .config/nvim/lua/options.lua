@@ -14,7 +14,7 @@ opt.exrc = true
 
 opt.complete:remove({ "i", "t" })
 opt.completeopt = { "menu", "menuone", "noselect" }
-opt.ttyfast = true
+-- opt.ttyfast = true
 opt.redrawtime = 300
 opt.updatetime = 300
 opt.wrap = false

@@ -868,9 +868,9 @@ require("lazy").setup({
           always_divide_middle = true,
           globalstatus = true,
           refresh = {
-            statusline = 0,
-            tabline = 0,
-            winbar = 0,
+            statusline = 100,
+            tabline = 100,
+            winbar = 100,
           },
         },
         sections = {
@@ -1158,14 +1158,14 @@ require("lazy").setup({
             -- override the lsp markdown formatter with Noice
             ["vim.lsp.util.stylize_markdown"] = true,
             -- override cmp documentation with Noice (needs the other options to work)
-            ["cmp.entry.get_documentation"] = false,
+            ["cmp.entry.get_documentation"] = true,
           },
           hover = {
             enabled = true,
             silent = true,
           },
           signature = {
-            enabled = false,
+            enabled = true,
             auto_open = {
               enabled = true,
               trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
@@ -2902,7 +2902,7 @@ require("lazy").setup({
         -- Customize or remove this keymap to your liking
         "<leader>F",
         function()
-          require("conform").format({ async = true, lsp_fallback = true })
+          require("conform").format({ async = true, lsp_format = "fallback" })
         end,
         mode = "",
         desc = "Format buffer",
@@ -2912,12 +2912,15 @@ require("lazy").setup({
       local conform = require("conform")
       conform.setup({
         notify_on_error = true,
-        format_on_save = function(bufnr)
+        -- If this is set, Conform will run the formatter asynchronously after save.
+        -- It will pass the table to conform.format().
+        -- This can also be a function that returns the table.
+        format_after_save = function(bufnr)
           -- Disable with a global or buffer-local variable
           if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
             return
           end
-          return { timeout_ms = 1000, lsp_fallback = true }
+          return { timeout_ms = 2000, lsp_format = "fallback", async = true }
         end,
         formatters_by_ft = {
           lua = { "stylua" },
@@ -2927,13 +2930,11 @@ require("lazy").setup({
           sh = { "shfmt" },
           rust = { "rustfmt" },
           php = { "pint" },
-          -- php = { "php-cs-fixer" },
           sql = { "sql_formatter" },
-          javascript = { "prettierd", "prettier", stop_after_first = true },
-          javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-          typescript = { "prettierd", "prettier", stop_after_first = true },
-          typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-          vue = { "prettierd", "prettier", stop_after_first = true },
+          javascript = { "biome" },
+          javascriptreact = { "biome" },
+          typescript = { "biome" },
+          typescriptreact = { "biome" },
           css = { "prettierd", "prettier", stop_after_first = true },
           scss = { "prettierd", "prettier", stop_after_first = true },
           less = { "prettierd", "prettier", stop_after_first = true },
@@ -2954,7 +2955,7 @@ require("lazy").setup({
             ["end"] = { args.line2, end_line:len() },
           }
         end
-        require("conform").format({ async = true, lsp_fallback = true, range = range })
+        require("conform").format({ async = true, lsp_format = "fallback", range = range })
       end, { range = true })
 
       -- disable format on save(default)
@@ -3607,9 +3608,9 @@ require("lazy").setup({
         enabled = function()
           return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
         end,
-        view = {
-          entries = { name = "custom", selection_order = "top_down" },
-        },
+        -- view = {
+        --   entries = { name = "custom", selection_order = "top_down" },
+        -- },
         window = {
           -- • "none": No border (default).
           -- • "single": A single line box.
@@ -3704,6 +3705,7 @@ require("lazy").setup({
             name = "copilot",
             priority = 5,
           },
+          -- { name = "nvim_lsp_signature_help" },
         }),
         formatting = {
           format = lspkind.cmp_format({
@@ -4432,7 +4434,7 @@ require("lazy").setup({
     config = function()
       require("chowcho").setup({
         labels = { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
-        selector_style = "statusline",
+        selector_style = "float",
         ignore_case = true,
         use_exclude_default = true,
         -- exclude = function(buf, win)
