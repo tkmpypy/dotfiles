@@ -868,9 +868,9 @@ require("lazy").setup({
           always_divide_middle = true,
           globalstatus = true,
           refresh = {
-            statusline = 100,
-            tabline = 100,
-            winbar = 100,
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
           },
         },
         sections = {
@@ -1165,7 +1165,7 @@ require("lazy").setup({
             silent = true,
           },
           signature = {
-            enabled = true,
+            enabled = false,
             auto_open = {
               enabled = true,
               trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
@@ -1278,6 +1278,11 @@ require("lazy").setup({
         config = function()
           require("window-picker").setup({
             -- hint = "floating-big-letter",
+            picker_config = {
+              statusline_winbar_picker = {
+                use_winbar = "smart",
+              },
+            },
             filter_rules = {
               include_current_win = false,
               autoselect_one = true,
@@ -1299,7 +1304,7 @@ require("lazy").setup({
       vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
       require("neo-tree").setup({
-        git_status_async = true,
+        git_status_async = false,
         -- These options are for people with VERY large git repos
         git_status_async_options = {
           batch_size = 1000, -- how many lines of git status results to process at a time
@@ -1550,6 +1555,23 @@ require("lazy").setup({
   },
 
   -- Lua Utils
+  {
+    "LunarVim/bigfile.nvim",
+    opts = {
+      filesize = 2, -- size of the file in MiB, the plugin round file sizes to the closest MiB
+      pattern = { "*" }, -- autocmd pattern or function see <### Overriding the detection of big files>
+      features = { -- features to disable
+        "indent_blankline",
+        "illuminate",
+        "lsp",
+        "treesitter",
+        "syntax",
+        "matchparen",
+        "vimopts",
+        "filetype",
+      },
+    },
+  },
   {
     "rafcamlet/nvim-luapad",
     cmd = "Luapad",
@@ -2373,8 +2395,6 @@ require("lazy").setup({
             "--multiline",
           },
           prompt_prefix = "  ",
-          path_display = { "smart" },
-          winblend = 10,
           scroll_strategy = "cycle",
           color_devicon = true,
           preview = {
@@ -2397,9 +2417,15 @@ require("lazy").setup({
               i = { ["<c-d>"] = require("telescope.actions").delete_buffer },
               n = { ["<c-d>"] = require("telescope.actions").delete_buffer },
             },
-            find_files = {
-              path_display = { "smart" },
-            },
+          },
+          find_files = {
+            theme = "ivy",
+          },
+          grep_string = {
+            theme = "ivy",
+          },
+          live_grep = {
+            theme = "ivy",
           },
         },
         extensions = {},
@@ -3432,10 +3458,15 @@ require("lazy").setup({
   },
   {
     "saghen/blink.cmp",
-    enabled = false,
+    enabled = function()
+      return vim.g.complete_engine_type == "blink"
+    end,
     lazy = false, -- lazy loading handled internally
     -- optional: provides snippets for the snippet source
-    dependencies = "rafamadriz/friendly-snippets",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "giuxtaposition/blink-cmp-copilot",
+    },
 
     -- use a release tag to download pre-built binaries
     -- version = "v0.*",
@@ -3445,84 +3476,98 @@ require("lazy").setup({
     -- build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
 
     opts = {
-      highlight = {
-        -- sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- useful for when your theme doesn't support blink.cmp
-        -- will be removed in a future release, assuming themes add support
-        use_nvim_cmp_as_default = true,
-      },
-      -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- adjusts spacing to ensure icons are aligned
-      nerd_font_variant = "mono",
-
-      -- experimental auto-brackets support
-      accept = { auto_brackets = { enabled = true } },
-
-      -- experimental signature help support
-      trigger = {
-        completion = {
-          -- 'prefix' will fuzzy match on the text before the cursor
-          -- 'full' will fuzzy match on the text before *and* after the cursor
-          -- example: 'foo_|_bar' will match 'foo_' for 'prefix' and 'foo__bar' for 'full'
-          keyword_range = "full",
-        },
-        signature_help = {
-          enabled = true,
-          show_on_insert_on_trigger_character = true,
-        },
-      },
       keymap = {
-        show = "<C-space>",
-        hide = "<C-e>",
-        accept = "<CR>",
-        select_prev = { "<Up>", "<C-p>" },
-        select_next = { "<Down>", "<C-n>" },
-
-        show_documentation = "<C-space>",
-        hide_documentation = "<C-space>",
-        scroll_documentation_up = "<C-b>",
-        scroll_documentation_down = "<C-f>",
-
-        snippet_forward = "<Tab>",
-        snippet_backward = "<S-Tab>",
+        preset = "default",
+        ["<CR>"] = { "accept", "fallback" },
+        ["<C-e>"] = { "hide", "fallback" },
+        ["<C-p>"] = { "select_prev", "fallback" },
+        ["<C-n>"] = { "select_next", "fallback" },
+        ["<C-j>"] = { "snippet_forward", "fallback" },
+        ["<C-k>"] = { "snippet_backward", "fallback" },
       },
-      providers = {
-        {
-          "blink.cmp.sources.buffer",
-          name = "Buffer",
-          fallback_for = { "LSP" },
+      completion = {
+        accept = {
+          auto_brackets = {
+            enabled = true,
+          },
         },
-      },
-      windows = {
+        menu = {
+          draw = {
+            treesitter = true,
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+          },
+        },
         documentation = {
-          border = "single",
-          -- Controls whether the documentation window will automatically show when selecting a completion item
           auto_show = true,
-          auto_show_delay_ms = 500,
-          update_delay_ms = 50,
         },
-        signature_help = {
-          border = "single",
+        -- Displays a preview of the selected item on the current line
+        ghost_text = {
+          enabled = true,
         },
-        autocomplete = {
-          border = "single",
-          -- Controls how the completion items are selected
-          -- 'preselect' will automatically select the first item in the completion list
-          -- 'manual' will not select any item by default
-          -- 'auto_insert' will not select any item by default, and insert the completion items automatically when selecting them
-          selection = "auto_insert",
-          -- Controls how the completion items are rendered on the popup window
-          -- 'simple' will render the item's kind icon the left alongside the label
-          -- 'reversed' will render the label on the left and the kind icon + name on the right
-          -- 'minimal' will render the label on the left and the kind name on the right
-          -- 'function(blink.cmp.CompletionRenderContext): blink.cmp.Component[]' for custom rendering
-          draw = "reversed",
-          -- Controls the cycling behavior when reaching the beginning or end of the completion list.
-          cycle = {
-            -- When `true`, calling `select_next` at the *bottom* of the completion list will select the *first* completion item.
-            from_bottom = true,
-            -- When `true`, calling `select_prev` at the *top* of the completion list will select the *last* completion item.
-            from_top = true,
+      },
+      signature = {
+        enabled = true,
+      },
+      sources = {
+        -- list of enabled providers
+        completion = {
+          enabled_providers = { "lsp", "path", "snippets", "buffer", "copilot" },
+        },
+
+        -- Please see https://github.com/Saghen/blink.compat for using `nvim-cmp` sources
+        providers = {
+          lsp = {
+            name = "LSP",
+            module = "blink.cmp.sources.lsp",
+
+            --- *All* of the providers have the following options available
+            --- NOTE: All of these options may be functions to get dynamic behavior
+            --- See the type definitions for more information
+            enabled = true, -- whether or not to enable the provider
+            transform_items = nil, -- function to transform the items before they're returned
+            should_show_items = true, -- whether or not to show the items
+            max_items = nil, -- maximum number of items to return
+            min_keyword_length = 0, -- minimum number of characters to trigger the provider
+            fallback_for = {}, -- if any of these providers return 0 items, it will fallback to this provider
+            score_offset = 0, -- boost/penalize the score of the items
+            override = nil, -- override the source's functions
+          },
+          path = {
+            name = "Path",
+            module = "blink.cmp.sources.path",
+            score_offset = 3,
+            opts = {
+              trailing_slash = false,
+              label_trailing_slash = true,
+              get_cwd = function(context)
+                return vim.fn.expand(("#%d:p:h"):format(context.bufnr))
+              end,
+              show_hidden_files_by_default = true,
+            },
+          },
+          snippets = {
+            name = "Snippets",
+            module = "blink.cmp.sources.snippets",
+            score_offset = -3,
+            opts = {
+              friendly_snippets = true,
+              search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+              global_snippets = { "all" },
+              extended_filetypes = {},
+              ignored_filetypes = {},
+            },
+
+            --- Example usage for disabling the snippet provider after pressing trigger characters (i.e. ".")
+            -- enabled = function(ctx) return ctx ~= nil and ctx.trigger.kind == vim.lsp.protocol.CompletionTriggerKind.TriggerCharacter end,
+          },
+          buffer = {
+            name = "Buffer",
+            module = "blink.cmp.sources.buffer",
+            fallback_for = { "lsp" },
+          },
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
           },
         },
       },
@@ -3532,8 +3577,7 @@ require("lazy").setup({
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
     enabled = function()
-      -- return false
-      return vim.g.lsp_client_type == "neovim"
+      return vim.g.complete_engine_type == "cmp"
     end,
     dependencies = {
       { "windwp/nvim-autopairs" },

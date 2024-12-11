@@ -557,6 +557,11 @@ local make_default_config = function()
 end
 
 local setup_servers = function()
+  vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
+    local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
+    pcall(vim.diagnostic.reset, ns)
+    return true
+  end
   require("mason-lspconfig").setup_handlers({
     -- The first entry (without a key) will be the default handler
     -- and will be called for each installed server that doesn't have

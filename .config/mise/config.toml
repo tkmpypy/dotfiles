@@ -11,3 +11,6 @@ usage = "latest"
 ruby = "3.2.2"
 java = "23.0.1"
 
+[settings]
+experimental = true
+
