@@ -35,6 +35,6 @@ packages:
   - name: kubernetes-sigs/kustomize@kustomize/v5.5.0
   - name: yannh/kubeconform@v0.6.7
   - name: haskell/ghcup-hs@v0.1.20.0
-  - name: bitwarden/clients@cli-v2024.11.1
+  - name: bitwarden/clients@cli-v2024.12.0
   - name: aws/aws-cli@2.16.4
   - name: MordechaiHadad/bob@v4.0.2
