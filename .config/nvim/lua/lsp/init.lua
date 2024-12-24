@@ -290,6 +290,15 @@ local intelephense_config = {
   },
 }
 
+local phpactor_config = {
+  -- cmd = { "phpactor", "language-server" },
+  init_options = {
+    ["language_server_phpstan.enabled"] = false,
+    ["language_server_psalm.enabled"] = false,
+    -- ["php.version"] = "8.2",
+  },
+}
+
 local eslint_config = {
   settings = {
     foramt = {

@@ -2628,6 +2628,7 @@ require("lazy").setup({
   {
     "akinsho/git-conflict.nvim",
     version = "*",
+    enabled = false,
     lazy = false,
     cmd = {
       "GitConflictChooseOurs",
