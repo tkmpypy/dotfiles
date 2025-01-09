@@ -1304,7 +1304,7 @@ require("lazy").setup({
       vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
       require("neo-tree").setup({
-        git_status_async = false,
+        git_status_async = true,
         -- These options are for people with VERY large git repos
         git_status_async_options = {
           batch_size = 1000, -- how many lines of git status results to process at a time
