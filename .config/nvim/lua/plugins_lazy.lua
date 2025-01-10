@@ -1278,11 +1278,6 @@ require("lazy").setup({
         config = function()
           require("window-picker").setup({
             -- hint = "floating-big-letter",
-            picker_config = {
-              statusline_winbar_picker = {
-                use_winbar = "smart",
-              },
-            },
             filter_rules = {
               include_current_win = false,
               autoselect_one = true,
