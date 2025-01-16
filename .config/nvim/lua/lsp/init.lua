@@ -471,8 +471,8 @@ local setup_lsp_ui = function()
       line_highlight = true,
     },
     underline = true,
-    -- virtual_text = { spacing = 2, source = "if_many" },
-    virtual_text = { spacing = 0, severity = { min = vim.diagnostic.severity.HINT } },
+    -- virtual_text = { spacing = 0, severity = { min = vim.diagnostic.severity.HINT } },
+    virtual_text = false,
     severity_sort = true,
     float = {
       source = true,
