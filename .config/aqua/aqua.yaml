@@ -11,7 +11,7 @@ registries:
     ref: v4.297.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: cli/cli@v2.65.0
-  - name: junegunn/fzf@v0.57.0
+  - name: junegunn/fzf@v0.58.0
   - name: junegunn/fzf/fzf-tmux@v0.57.0
   - name: jdx/mise@v2025.1.9
   - name: BurntSushi/ripgrep@14.1.1
