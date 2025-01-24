@@ -435,22 +435,6 @@ require("lazy").setup({
     enabled = false,
     ft = "plantuml",
   },
-  {
-    "LintaoAmons/scratch.nvim",
-    event = "VeryLazy",
-    opts = {
-      filetypes = { "php", "py", "lua", "js", "sh" }, -- you can simply put filetype here
-      filetype_details = { -- or, you can have more control here
-        php = {
-          content = { "<?php", "" },
-          cursor = {
-            location = { 2, 1 },
-            insert_mode = true,
-          },
-        },
-      },
-    },
-  },
   -- runner
   {
     "stevearc/overseer.nvim",
