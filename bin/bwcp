@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-bw list items | jq -c -r '.[] | {name, id}' | fzf | jq -r '.id' | xargs bw get password | pbcopy
