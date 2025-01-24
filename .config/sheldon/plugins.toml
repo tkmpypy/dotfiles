@@ -1,0 +1,69 @@
+shell = "zsh"
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+apply = ["source"]
+
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+[plugins.powerlevel10k]
+github = 'romkatv/powerlevel10k'
+apply = ["source"]
+use = ['{{ name }}.zsh-theme']
+
+[plugins.dotfiles-p10k]
+local = "~/.config/zsh"
+use = ["p10k.zsh"]
+apply = ["source"]
+
+[plugins.compinit]
+inline = 'autoload -Uz compinit && zsh-defer compinit'
+
+[plugins.colors]
+inline = 'autoload -Uz colors && zsh-defer colors'
+
+[plugins.zle]
+inline = 'autoload -Uz edit-command-line && zsh-defer zle -N edit-command-line'
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ["defer"]
+
+[plugins.dotfiles-env]
+local = "~/.config/zsh"
+use = ["env.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-init]
+local = "~/.config/zsh"
+use = ["init.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-alias]
+local = "~/.config/zsh"
+use = ["alias.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-bindkey]
+local = "~/.config/zsh"
+use = ["bindkey.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-opt]
+local = "~/.config/zsh"
+use = ["opt.zsh"]
+apply = ["defer"]
+
+[plugins.dotfiles-zle]
+local = "~/.config/zsh"
+use = ["zle.zsh"]
+apply = ["defer"]

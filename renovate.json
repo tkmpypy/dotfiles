@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "mergeConfidence:all-badges",
+    "config:recommended",
+    ":timezone(Asia/Tokyo)",
+    ":prHourlyLimitNone",
+    "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)"
+  ],
+  "ignoreTests": true,
+  "schedule": [
+    "before 9am"
+  ],
+  "automergeSchedule": [
+    "before 9am"
+  ],
+  "prConcurrentLimit": 0,
+  "branchConcurrentLimit": 0,
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    }
+  ],
+  "enabledManagers": [
+    "regex"
+  ]
+}

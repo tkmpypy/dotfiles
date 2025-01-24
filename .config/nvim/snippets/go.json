@@ -1,0 +1,29 @@
+{
+  "sync wait with timeout": {
+    "prefix": "wgt",
+    "body": [
+      "var wg sync.WaitGroup",
+      "done := make(chan struct{})",
+      "go func() {\n\twg.Wait()\n\tclose(done)\n}()",
+      "select {\ncase <-done:\n  //All done\ncase <-time.After(500 * time.Millisecond):\n  //timeout\n}"
+    ],
+    "description": "timeout when using sync.WaitGroup.wait"
+  },
+  "functional option pattern": {
+    "prefix": "fop",
+    "body": [
+      "type ${1:optname} func(${2:opttype})",
+      "",
+      "func ${3:optmethod}(${4:arg}) ${1} {",
+      "\treturn func(args ${2}){",
+      "\t\t",
+      "\t}",
+      "}"
+    ],
+    "description": "type of option for functional option pattern"
+  },
+  "recover": {
+    "prefix": "rec",
+    "body": ["if ${1:rec} := recover(); ${1} != nil {", "\t${2:statement}", "}"]
+  }
+}

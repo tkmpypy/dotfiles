@@ -1,0 +1,7 @@
+{
+  "enable_nightly_info": true,
+  "enable_release_build": false,
+  "installation_location": "$HOME/.local/nvim/bin",
+  "version_sync_file_location": "$HOME/.config/bob/nvim.version",
+  "rollback_limit": 3
+}
