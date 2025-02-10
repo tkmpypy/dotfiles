@@ -2,7 +2,7 @@ local g_var = vim.g
 
 g_var.use_treesitter = true
 g_var.lsp_client_type = "neovim" --neovim(builtin), coc
-g_var.complete_engine_type = "blink" --cmp or blink
+g_var.complete_engine_type = "cmp" --cmp or blink
 g_var.git_client_type = "neogit" --neogit, ??????
 g_var.file_explorer_type = "neo-tree" -- neo-tree, nvim-tree
 g_var.test_runner_type = "neotest" -- vim-test, neotest

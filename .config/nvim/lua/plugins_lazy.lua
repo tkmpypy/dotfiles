@@ -1841,8 +1841,8 @@ require("lazy").setup({
   },
   {
     "epwalsh/obsidian.nvim",
-    enabled = false,
     lazy = true,
+    ft = "markdown",
     cmd = {
       "ObsidianOpen",
       "ObsidianNew",
@@ -1854,12 +1854,12 @@ require("lazy").setup({
       "ObsidianQuickSwitch",
       "ObsidianLinkNew",
     },
-    event = {
-      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      string.format("BufReadPre %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
-      string.format("BufNewFile %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
-    },
+    -- event = {
+    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+    --   string.format("BufReadPre %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
+    --   string.format("BufNewFile %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
+    -- },
     dependencies = {
       -- Required.
       "nvim-lua/plenary.nvim",
@@ -1870,8 +1870,7 @@ require("lazy").setup({
         enable_cmp = true
       end
       require("obsidian").setup({
-        -- dir = "~/Dropbox/notes",
-        dir = "~/Google Drive/マイドライブ/notes",
+        dir = "~/ghq/github.com/tkmpypy/obsidian",
         daily_notes = {
           folder = "journal",
         },
@@ -3683,6 +3682,10 @@ require("lazy").setup({
         enabled = function()
           return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
         end,
+        performance = {
+          debounce = 1,
+          throttle = 10,
+        },
         -- view = {
         --   entries = { name = "custom", selection_order = "top_down" },
         -- },
