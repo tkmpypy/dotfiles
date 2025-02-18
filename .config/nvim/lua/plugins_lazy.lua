@@ -71,9 +71,381 @@ require("lazy").setup({
         end,
         desc = "Lazygit Log (cwd)",
       },
+      -- Top Pickers & Explorer
+      -- {
+      --   "<leader>e",
+      --   function()
+      --     Snacks.explorer({ hidden = true })
+      --   end,
+      --   desc = "File Explorer",
+      -- },
+      {
+        "<leader><space>",
+        function()
+          Snacks.picker.smart()
+        end,
+        desc = "Smart Find Files",
+      },
+      {
+        "<leader>,",
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = "Buffers",
+      },
+      {
+        "<leader>/",
+        function()
+          Snacks.picker.grep()
+        end,
+        desc = "Grep",
+      },
+      {
+        "<leader>:",
+        function()
+          Snacks.picker.command_history()
+        end,
+        desc = "Command History",
+      },
+      {
+        "<leader>n",
+        function()
+          Snacks.picker.notifications()
+        end,
+        desc = "Notification History",
+      },
+      -- find
+      {
+        "<leader>fb",
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = "Buffers",
+      },
+      {
+        "<leader>fc",
+        function()
+          Snacks.picker.files({ cwd = vim.fn.stdpath("config"), hidden = true })
+        end,
+        desc = "Find Config File",
+      },
+      {
+        "<leader>ff",
+        function()
+          Snacks.picker.files({ hidden = true })
+        end,
+        desc = "Find Files",
+      },
+      {
+        "<leader>fg",
+        function()
+          Snacks.picker.git_files()
+        end,
+        desc = "Find Git Files",
+      },
+      {
+        "<leader>fr",
+        function()
+          Snacks.picker.recent()
+        end,
+        desc = "Recent",
+      },
+      -- git
+      {
+        "<leader>gb",
+        function()
+          Snacks.picker.git_branches()
+        end,
+        desc = "Git Branches",
+      },
+      {
+        "<leader>gl",
+        function()
+          Snacks.picker.git_log()
+        end,
+        desc = "Git Log",
+      },
+      {
+        "<leader>gL",
+        function()
+          Snacks.picker.git_log_line()
+        end,
+        desc = "Git Log Line",
+      },
+      {
+        "<leader>gs",
+        function()
+          Snacks.picker.git_status()
+        end,
+        desc = "Git Status",
+      },
+      {
+        "<leader>gS",
+        function()
+          Snacks.picker.git_stash()
+        end,
+        desc = "Git Stash",
+      },
+      {
+        "<leader>gd",
+        function()
+          Snacks.picker.git_diff()
+        end,
+        desc = "Git Diff (Hunks)",
+      },
+      {
+        "<leader>gf",
+        function()
+          Snacks.picker.git_log_file()
+        end,
+        desc = "Git Log File",
+      },
+      -- Grep
+      {
+        "<leader>sb",
+        function()
+          Snacks.picker.lines()
+        end,
+        desc = "Buffer Lines",
+      },
+      {
+        "<leader>sB",
+        function()
+          Snacks.picker.grep_buffers()
+        end,
+        desc = "Grep Open Buffers",
+      },
+      {
+        "<leader>sg",
+        function()
+          Snacks.picker.grep()
+        end,
+        desc = "Grep",
+      },
+      {
+        "<leader>sw",
+        function()
+          Snacks.picker.grep_word()
+        end,
+        desc = "Visual selection or word",
+        mode = { "n", "x" },
+      },
+      -- search
+      {
+        '<leader>s"',
+        function()
+          Snacks.picker.registers()
+        end,
+        desc = "Registers",
+      },
+      {
+        "<leader>s/",
+        function()
+          Snacks.picker.search_history()
+        end,
+        desc = "Search History",
+      },
+      {
+        "<leader>sa",
+        function()
+          Snacks.picker.autocmds()
+        end,
+        desc = "Autocmds",
+      },
+      {
+        "<leader>sb",
+        function()
+          Snacks.picker.lines()
+        end,
+        desc = "Buffer Lines",
+      },
+      {
+        "<leader>sc",
+        function()
+          Snacks.picker.command_history()
+        end,
+        desc = "Command History",
+      },
+      {
+        "<leader>sC",
+        function()
+          Snacks.picker.commands()
+        end,
+        desc = "Commands",
+      },
+      {
+        "<leader>sd",
+        function()
+          Snacks.picker.diagnostics()
+        end,
+        desc = "Diagnostics",
+      },
+      {
+        "<leader>sD",
+        function()
+          Snacks.picker.diagnostics_buffer()
+        end,
+        desc = "Buffer Diagnostics",
+      },
+      {
+        "<leader>sh",
+        function()
+          Snacks.picker.help()
+        end,
+        desc = "Help Pages",
+      },
+      {
+        "<leader>sH",
+        function()
+          Snacks.picker.highlights()
+        end,
+        desc = "Highlights",
+      },
+      {
+        "<leader>si",
+        function()
+          Snacks.picker.icons()
+        end,
+        desc = "Icons",
+      },
+      {
+        "<leader>sj",
+        function()
+          Snacks.picker.jumps()
+        end,
+        desc = "Jumps",
+      },
+      {
+        "<leader>sk",
+        function()
+          Snacks.picker.keymaps()
+        end,
+        desc = "Keymaps",
+      },
+      {
+        "<leader>sl",
+        function()
+          Snacks.picker.loclist()
+        end,
+        desc = "Location List",
+      },
+      {
+        "<leader>sm",
+        function()
+          Snacks.picker.marks()
+        end,
+        desc = "Marks",
+      },
+      {
+        "<leader>sM",
+        function()
+          Snacks.picker.man()
+        end,
+        desc = "Man Pages",
+      },
+      {
+        "<leader>sp",
+        function()
+          Snacks.picker.lazy()
+        end,
+        desc = "Search for Plugin Spec",
+      },
+      {
+        "<leader>sq",
+        function()
+          Snacks.picker.qflist()
+        end,
+        desc = "Quickfix List",
+      },
+      {
+        "<leader>sR",
+        function()
+          Snacks.picker.resume()
+        end,
+        desc = "Resume",
+      },
+      {
+        "<leader>su",
+        function()
+          Snacks.picker.undo()
+        end,
+        desc = "Undo History",
+      },
+      {
+        "<leader>uC",
+        function()
+          Snacks.picker.colorschemes()
+        end,
+        desc = "Colorschemes",
+      },
+      -- LSP
+      {
+        "gd",
+        function()
+          Snacks.picker.lsp_definitions()
+        end,
+        desc = "Goto Definition",
+      },
+      {
+        "gD",
+        function()
+          Snacks.picker.lsp_declarations()
+        end,
+        desc = "Goto Declaration",
+      },
+      {
+        "gr",
+        function()
+          Snacks.picker.lsp_references()
+        end,
+        nowait = true,
+        desc = "References",
+      },
+      {
+        "gI",
+        function()
+          Snacks.picker.lsp_implementations()
+        end,
+        desc = "Goto Implementation",
+      },
+      {
+        "gy",
+        function()
+          Snacks.picker.lsp_type_definitions()
+        end,
+        desc = "Goto T[y]pe Definition",
+      },
+      {
+        "<leader>ss",
+        function()
+          Snacks.picker.lsp_symbols()
+        end,
+        desc = "LSP Symbols",
+      },
+      {
+        "<leader>sS",
+        function()
+          Snacks.picker.lsp_workspace_symbols()
+        end,
+        desc = "LSP Workspace Symbols",
+      },
     },
     ---@type snacks.Config
     opts = {
+      picker = {
+        -- sources = {
+        --   select = {
+        --     layout = {
+        --       preset = "telescope",
+        --     },
+        --   },
+        -- },
+        formatters = {
+          file = {
+            truncate = 100,
+          },
+        },
+      },
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
@@ -141,13 +513,23 @@ require("lazy").setup({
         },
       },
       indent = {
-        indent = enabled,
-        scope = enabled,
+        indent = { enabled = true },
+        scope = { enabled = true },
       },
       lazygit = {
         configure = true,
       },
-      input = { enabled = true },
+      input = {
+        icon = " ",
+        icon_hl = "SnacksInputIcon",
+        icon_pos = "left",
+        prompt_pos = "title",
+        win = { style = "input" },
+        expand = true,
+      },
+      image = {
+        formats = {},
+      },
     },
   },
   -- treesitter
@@ -787,6 +1169,11 @@ require("lazy").setup({
   {
     "nvim-tree/nvim-web-devicons",
     lazy = true,
+    enabled = false,
+  },
+  {
+    "echasnovski/mini.icons",
+    version = "*",
   },
   {
     "rcarriga/nvim-notify",
@@ -1123,20 +1510,6 @@ require("lazy").setup({
     end,
   },
   {
-    "stevearc/dressing.nvim",
-    config = function()
-      require("dressing").setup({
-        input = {
-          enabled = true,
-          insert_only = true,
-          relative = "win",
-          prefer_width = 60,
-          min_width = { 60, 0.6 },
-        },
-      })
-    end,
-  },
-  {
     "folke/noice.nvim",
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -1298,7 +1671,8 @@ require("lazy").setup({
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      -- "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "echasnovski/mini.icons",
       "MunifTanjim/nui.nvim",
       {
         -- only needed if you want to use the commands with "_with_window_picker" suffix
@@ -1398,13 +1772,30 @@ require("lazy").setup({
             expander_highlight = "NeoTreeExpander",
           },
           icon = {
-            folder_closed = "",
-            folder_open = "",
-            folder_empty = "󰷏",
-            -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
-            -- then these will never be used.
-            default = "*",
-            highlight = "NeoTreeFileIcon",
+            provider = function(icon, node)
+              local text, hl
+              local mini_icons = require("mini.icons")
+              if node.type == "file" then
+                text, hl = mini_icons.get("file", node.name)
+              elseif node.type == "directory" then
+                text, hl = mini_icons.get("directory", node.name)
+                if node:is_expanded() then
+                  text = nil
+                end
+              end
+
+              if text then
+                icon.text = text
+              end
+              if hl then
+                icon.highlight = hl
+              end
+            end,
+          },
+          kind_icon = {
+            provider = function(icon, node)
+              icon.text, icon.highlight = require("mini.icons").get("lsp", node.extra.kind.name)
+            end,
           },
           modified = {
             symbol = " ",
@@ -2351,6 +2742,7 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     lazy = true,
+    enabled = false,
     cmd = { "Telescope" },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -2613,17 +3005,8 @@ require("lazy").setup({
   {
     "akinsho/git-conflict.nvim",
     version = "*",
-    enabled = false,
+    enabled = true,
     lazy = false,
-    cmd = {
-      "GitConflictChooseOurs",
-      "GitConflictChooseTheirs",
-      "GitConflictChooseBoth",
-      "GitConflictChooseNone",
-      "GitConflictNextConflict",
-      "GitConflictPrevConflict",
-      "GitConflictListQf",
-    },
     config = function()
       require("git-conflict").setup({
         default_mappings = false, -- disable buffer local mapping created by this plugin
@@ -2636,68 +3019,6 @@ require("lazy").setup({
         },
       })
     end,
-    keys = {
-      {
-        "co",
-        function()
-          return "<Plug>(git-conflict-ours)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "ct",
-        function()
-          return "<Plug>(git-conflict-theirs)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "cb",
-        function()
-          return "<Plug>(git-conflict-both)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "c0",
-        function()
-          return "<Plug>(git-conflict-none)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "]x",
-        function()
-          return "<Plug>(git-conflict-prev-conflict)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "[x",
-        function()
-          return "<Plug>(git-conflict-next-conflict)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-    },
   },
   {
     "NeogitOrg/neogit",
@@ -3342,11 +3663,11 @@ require("lazy").setup({
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
+      -- "nvim-telescope/telescope.nvim",
       "neovim/nvim-lspconfig",
     },
     config = function()
-      require("telescope").load_extension("yaml_schema")
+      -- require("telescope").load_extension("yaml_schema")
     end,
   },
   {
@@ -3473,6 +3794,7 @@ require("lazy").setup({
     dependencies = {
       "rafamadriz/friendly-snippets",
       "giuxtaposition/blink-cmp-copilot",
+      "echasnovski/mini.icons",
     },
 
     -- use a release tag to download pre-built binaries
@@ -3511,8 +3833,23 @@ require("lazy").setup({
         menu = {
           border = "single",
           draw = {
+            align_to = "kind_icon",
+            columns = { { "kind_icon", "label", "label_description", "kind", gap = 1 }, { "source_name" } },
             treesitter = { "lsp" },
-            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return kind_icon
+                end,
+                -- Optionally, you may also use the highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return hl
+                end,
+              },
+            },
           },
         },
         documentation = {
@@ -3541,6 +3878,7 @@ require("lazy").setup({
             --- NOTE: All of these options may be functions to get dynamic behavior
             --- See the type definitions for more information
             enabled = true, -- whether or not to enable the provider
+            async = true,
             transform_items = nil, -- function to transform the items before they're returned
             should_show_items = true, -- whether or not to show the items
             max_items = nil, -- maximum number of items to return
@@ -3583,15 +3921,9 @@ require("lazy").setup({
             opts = {
               -- default to all visible buffers
               get_bufnrs = function()
-                return vim
-                  .iter(vim.api.nvim_list_wins())
-                  :map(function(win)
-                    return vim.api.nvim_win_get_buf(win)
-                  end)
-                  :filter(function(buf)
-                    return vim.bo[buf].buftype ~= "nofile"
-                  end)
-                  :totable()
+                return vim.tbl_filter(function(bufnr)
+                  return vim.bo[bufnr].buftype == ""
+                end, vim.api.nvim_list_bufs())
               end,
             },
           },
@@ -3750,20 +4082,17 @@ require("lazy").setup({
         sources = cmp.config.sources({
           {
             name = "nvim_lsp",
-            priority = 20,
           },
           {
             -- name = "vsnip",
             name = "luasnip",
-            priority = 10,
           },
           {
             name = "nvim_lua",
-            priority = 12,
           },
           {
             name = "buffer",
-            priority = 2,
+            max_item_count = 10,
             keyword_length = 1,
             option = {
               get_bufnrs = function()
@@ -3773,15 +4102,14 @@ require("lazy").setup({
           },
           {
             name = "path",
-            max_item_count = 20,
+            max_item_count = 10,
           },
           {
             name = "orgmode",
-            max_item_count = 20,
+            max_item_count = 10,
           },
           {
             name = "copilot",
-            priority = 5,
           },
           -- { name = "nvim_lsp_signature_help" },
         }),
@@ -4134,39 +4462,39 @@ require("lazy").setup({
         { "<leader>ww", "<cmd>Chowcho<cr>", desc = "Selector" },
         { "<leader>wr", "<cmd>WinResizerStartResize", desc = "Resize" },
         { "<leader>s", group = "+Search" },
-        {
-          "<leader>sb",
-          '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
-          desc = "Buffer",
-        },
-        { "<leader>sm", '<cmd>lua require("telescope.builtin").keymaps{ }<CR>', desc = "Keymaps" },
-        { "<leader>sr", "<cmd>lua require('telescope.builtin').resume{}<CR>", desc = "Resume" },
-        { "<leader>sc", group = "+Commands" },
-        { "<leader>scr", "<cmd>lua require('telescope.builtin').command_history{}<CR>", desc = "History" },
-        { "<leader>scc", "<cmd>lua require('telescope.builtin').commands{}<CR>", desc = "Commands" },
-        { "<leader>sf", group = "+Files" },
-        {
-          "<leader>sff",
-          '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
-          desc = "Find files",
-        },
-        { "<leader>sfg", "<cmd>lua require('telescope.builtin').git_files{}<CR>", desc = "Git files" },
-        { "<leader>sfj", "<cmd>lua require('telescope.builtin').jumplist{}<CR>", desc = "Jump list" },
-        { "<leader>sfl", "<cmd>lua require('telescope.builtin').loclist{}<CR>", desc = "Location list" },
-        { "<leader>sfr", "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", desc = "Old files" },
-        { "<leader>sfq", "<cmd>lua require('telescope.builtin').quickfix{}<CR>", desc = "Quickfix" },
-        { "<leader>sv", group = "+Git" },
-        { "<leader>svc", "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", desc = "Buffer commits" },
-        { "<leader>svC", "<cmd>lua require('telescope.builtin').git_commits{}<CR>", desc = "Commits" },
-        { "<leader>svs", "<cmd>lua require('telescope.builtin').git_status{}<CR>", desc = "Status" },
-        { "<leader>svb", "<cmd>lua require('telescope.builtin').git_branches{}<CR>", desc = "Branch" },
-        { "<leader>sv", group = "+Grep" },
-        {
-          "<leader>sgg",
-          '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
-          desc = "Live grep",
-        },
-        { "<leader>sgc", "<cmd>lua require('telescope.builtin').grep_string{}<CR>", desc = "Grep string" },
+        -- {
+        --   "<leader>sb",
+        --   '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
+        --   desc = "Buffer",
+        -- },
+        -- { "<leader>sm", '<cmd>lua require("telescope.builtin").keymaps{ }<CR>', desc = "Keymaps" },
+        -- { "<leader>sr", "<cmd>lua require('telescope.builtin').resume{}<CR>", desc = "Resume" },
+        -- { "<leader>sc", group = "+Commands" },
+        -- { "<leader>scr", "<cmd>lua require('telescope.builtin').command_history{}<CR>", desc = "History" },
+        -- { "<leader>scc", "<cmd>lua require('telescope.builtin').commands{}<CR>", desc = "Commands" },
+        -- { "<leader>sf", group = "+Files" },
+        -- {
+        --   "<leader>sff",
+        --   '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+        --   desc = "Find files",
+        -- },
+        -- { "<leader>sfg", "<cmd>lua require('telescope.builtin').git_files{}<CR>", desc = "Git files" },
+        -- { "<leader>sfj", "<cmd>lua require('telescope.builtin').jumplist{}<CR>", desc = "Jump list" },
+        -- { "<leader>sfl", "<cmd>lua require('telescope.builtin').loclist{}<CR>", desc = "Location list" },
+        -- { "<leader>sfr", "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", desc = "Old files" },
+        -- { "<leader>sfq", "<cmd>lua require('telescope.builtin').quickfix{}<CR>", desc = "Quickfix" },
+        -- { "<leader>sv", group = "+Git" },
+        -- { "<leader>svc", "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", desc = "Buffer commits" },
+        -- { "<leader>svC", "<cmd>lua require('telescope.builtin').git_commits{}<CR>", desc = "Commits" },
+        -- { "<leader>svs", "<cmd>lua require('telescope.builtin').git_status{}<CR>", desc = "Status" },
+        -- { "<leader>svb", "<cmd>lua require('telescope.builtin').git_branches{}<CR>", desc = "Branch" },
+        -- { "<leader>sg", group = "+Grep" },
+        -- {
+        --   "<leader>sgg",
+        --   '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
+        --   desc = "Live grep",
+        -- },
+        -- { "<leader>sgc", "<cmd>lua require('telescope.builtin').grep_string{}<CR>", desc = "Grep string" },
 
         { "<leader>T", group = "+Task" },
         { "<leader>Tt", "<cmd>OverseerToggle<cr>", desc = "Toggle tasks" },
@@ -4235,34 +4563,22 @@ require("lazy").setup({
         })
       end
 
-      local explorer = {
-        { "<leader>f", group = "+Explorer" },
-      }
-      if vim.g.file_explorer_type == "nvim-tree" then
-        table.insert(explorer, { "<leader>ft", "<cmd>NvimTreeToggle<cr>", desc = "Toggle" })
-        table.insert(explorer, {
-          "<leader>ff",
-          '<cmd>lua require("nvim-tree.api").tree.find_file{ open=true, update_root = false, focus = true }<cr>',
-          desc = "Focus file",
+      if vim.g.file_explorer_type == "neo-tree" then
+        wk.add({
+          mode = "n",
+          { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "File Explorer" },
+          { "<leader>E", "<cmd>Neotree reveal<cr>", desc = "File Explorer(focus)" },
         })
-      elseif vim.g.file_explorer_type == "neo-tree" then
-        table.insert(explorer, { "<leader>ft", "<cmd>Neotree toggle<cr>", desc = "Toggle" })
-        table.insert(explorer, { "<leader>ff", "<cmd>Neotree reveal<cr>", desc = "Focus file" })
       end
-
-      table.insert(explorer, { "<leader>fp", '<cmd>lua require("dropbar.api").pick()<CR>', desc = "Pick breadcrumbs" })
-      table.insert(explorer, { "<leader>fo", "<cmd>Oil --float<cr>", desc = "Oil.nvim(float)" })
-      table.insert(explorer, { "<leader>fO", "<cmd>Oil<cr>", desc = "Oil.nvim" })
-      wk.add(explorer)
 
       if vim.g.lsp_client_type == "neovim" then
         wk.add({
           mode = "n",
           { "g", group = "+LSP" },
-          { "gr", "<cmd>Telescope lsp_references<CR>", desc = "References" },
-          { "gi", "<cmd>Telescope lsp_implementations<CR>", desc = "Implementations" },
-          { "gd", "<cmd>Telescope lsp_definitions<CR>", desc = "Definitions" },
-          { "gD", "<cmd>Telescope lsp_type_definitions<CR>", desc = "Type definitions" },
+          -- { "gr", "<cmd>Telescope lsp_references<CR>", desc = "References" },
+          -- { "gi", "<cmd>Telescope lsp_implementations<CR>", desc = "Implementations" },
+          -- { "gd", "<cmd>Telescope lsp_definitions<CR>", desc = "Definitions" },
+          -- { "gD", "<cmd>Telescope lsp_type_definitions<CR>", desc = "Type definitions" },
           { "gf", group = "+Go To Definition" },
           { "gff", "<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", desc = "Go to edit" },
           { "gfs", "<cmd>lua require('gtd').exec({ command = 'split' })<CR>", desc = "Go to split" },
@@ -4332,76 +4648,29 @@ require("lazy").setup({
 
   -- ColorScheme
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = true,
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
     opts = {
-      flavour = "frappe", -- latte, frappe, macchiato, mocha
-      -- background = { -- :h background
-      --   light = "latte",
-      --   dark = "mocha",
-      -- },
-      transparent_background = false, -- disables setting the background color.
-      show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-      term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-      dim_inactive = {
-        enabled = false, -- dims the background color of inactive window
-        shade = "dark",
-        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+      style = "moon", -- The theme comes in three styles, `storm`, a darker variant `night` and `day`
+      light_style = "day", -- The theme is used when the background is set to light
+      transparent = true, -- Enable this to disable setting the background color
+      terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+      styles = {
+        -- Style to be applied to different syntax groups
+        -- Value is any valid attr-list value for `:help nvim_set_hl`
+        comments = { italic = true },
+        keywords = { italic = true },
+        -- Background styles. Can be "dark", "transparent" or "normal"
+        sidebars = "dark", -- style for sidebars, see below
+        floats = "dark", -- style for floating windows
       },
-      no_italic = false, -- Force no italic
-      no_bold = false, -- Force no bold
-      no_underline = false, -- Force no underline
-      styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-        comments = { "italic" }, -- Change the style of comments
-        conditionals = { "italic" },
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-      },
-      color_overrides = {},
-      custom_highlights = {},
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = true,
-        telescope = true,
-        notify = true,
-        mini = false,
-        -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-      },
+      day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+      dim_inactive = false, -- dims inactive windows
+      lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
+
+      cache = true, -- When set to true, the theme will be cached for better performance
     },
-  },
-  {
-    "rmehri01/onenord.nvim",
-    lazy = true,
-    config = function()
-      require("onenord").setup({
-        theme = "dark", -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
-        borders = true, -- Split window borders
-        fade_nc = false, -- Fade non-current windows, making them more distinguishable
-        styles = {
-          comments = "italic", -- Style that is applied to comments: see `highlight-args` for options
-          strings = "NONE", -- Style that is applied to strings: see `highlight-args` for options
-          keywords = "bold", -- Style that is applied to keywords: see `highlight-args` for options
-          functions = "italic", -- Style that is applied to functions: see `highlight-args` for options
-          variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
-          diagnostics = "undercurl", -- Style that is applied to diagnostics: see `highlight-args` for options
-        },
-        disable = {
-          background = true, -- Disable setting the background color
-          cursorline = false, -- Disable the cursorline
-          eob_lines = true, -- Hide the end-of-buffer lines
-        },
-      })
-    end,
   },
   {
     "sainnhe/edge",
@@ -4466,9 +4735,8 @@ require("lazy").setup({
     config = function()
       require("random_colorscheme").setup({
         "edge",
-        "onenord",
         "gruvbox-material",
-        "catppuccin",
+        "tokyonight-moon",
       })
     end,
   },
