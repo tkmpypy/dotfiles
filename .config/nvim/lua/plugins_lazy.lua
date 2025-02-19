@@ -812,11 +812,6 @@ require("lazy").setup({
       vim.cmd([[autocmd BufRead,BufNewFile */templates/*.yml,*/templates/*.yaml,*/templates/*.tpl set ft=helm]])
     end,
   },
-  {
-    "aklt/plantuml-syntax",
-    enabled = false,
-    ft = "plantuml",
-  },
   -- runner
   {
     "stevearc/overseer.nvim",
@@ -1174,6 +1169,9 @@ require("lazy").setup({
   {
     "echasnovski/mini.icons",
     version = "*",
+    opts = {
+      style = "glyph", -- or 'glyph'
+    },
   },
   {
     "rcarriga/nvim-notify",
@@ -1292,48 +1290,6 @@ require("lazy").setup({
           search = false, -- Requires hlslens to be loaded, will run require("scrollbar.handlers.search").setup() for you
         },
       })
-    end,
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    event = { "VeryLazy" },
-    enabled = false,
-    config = function()
-      local hooks = require("ibl.hooks")
-
-      -- local highlight = {
-      --   "RainbowRed",
-      --   "RainbowYellow",
-      --   "RainbowBlue",
-      --   "RainbowOrange",
-      --   "RainbowGreen",
-      --   "RainbowViolet",
-      --   "RainbowCyan",
-      -- }
-      -- hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-      --   vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-      --   vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-      --   vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-      --   vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-      --   vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-      --   vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-      --   vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-      -- end)
-      -- hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
-      require("ibl").setup({
-        enabled = true,
-        scope = {
-          enabled = true,
-          -- highlight = highlight,
-        },
-        indent = {
-          tab_char = "▎",
-        },
-      })
-      hooks.register(hooks.type.ACTIVE, function(bufnr)
-        return vim.api.nvim_buf_line_count(bufnr) < 2000
-      end)
     end,
   },
   {
@@ -1981,101 +1937,6 @@ require("lazy").setup({
     event = { "VeryLazy" },
     dependencies = { "kana/vim-operator-user" },
   },
-  {
-    "gbprod/yanky.nvim",
-    cmd = { "YankyClearHistory", "YankyRingHistory" },
-    enabled = false,
-    opts = {
-      ring = {
-        history_length = 10,
-        storage = "shada",
-        sync_with_numbered_registers = true,
-        cancel_event = "update",
-      },
-      picker = {
-        select = {
-          action = nil, -- nil to use default put action
-        },
-        telescope = {
-          use_default_mappings = true, -- if default mappings should be used
-          mappings = nil, -- nil to use default mappings or no mappings (see `use_default_mappings`)
-        },
-      },
-      system_clipboard = {
-        sync_with_ring = true,
-      },
-      highlight = {
-        on_put = true,
-        on_yank = true,
-        timer = 500,
-      },
-      preserve_cursor_position = {
-        enabled = true,
-      },
-    },
-    keys = {
-      {
-        "p",
-        function()
-          return "<Plug>(YankyPutAfter)"
-        end,
-        mode = { "n", "x" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "P",
-        function()
-          return "<Plug>(YankyPutBefore)"
-        end,
-        mode = { "n", "x" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "gp",
-        function()
-          return "<Plug>(YankyGPutAfter)"
-        end,
-        mode = { "n", "x" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "gP",
-        function()
-          return "<Plug>(YankyGPutBefore)"
-        end,
-        mode = { "n", "x" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "<C-n>",
-        function()
-          return "<Plug>(YankyCycleForward)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-      {
-        "<C-p>",
-        function()
-          return "<Plug>(YankyCycleBackward)"
-        end,
-        mode = { "n" },
-        noremap = true,
-        silent = true,
-        expr = true,
-      },
-    },
-  },
 
   -- Utils
   {
@@ -2383,21 +2244,6 @@ require("lazy").setup({
         expr = true,
       },
     },
-  },
-  {
-    "uga-rosa/ccc.nvim",
-    event = { "VeryLazy" },
-    enabled = false,
-    config = function()
-      local ccc = require("ccc")
-      ccc.setup({
-        highlighter = {
-          auto_enable = true,
-          max_byte = 200 * 1024,
-          lsp = true,
-        },
-      })
-    end,
   },
   {
     "thinca/vim-qfreplace",
@@ -4196,12 +4042,6 @@ require("lazy").setup({
     end,
   },
   {
-    "akinsho/flutter-tools.nvim",
-    enabled = false,
-    dependencies = { "neovim/nvim-lspconfig" },
-    ft = { "dart" },
-  },
-  {
     "neoclide/coc.nvim",
     event = "VeryLazy",
     enabled = function()
@@ -4685,6 +4525,7 @@ require("lazy").setup({
   },
   {
     "sainnhe/gruvbox-material",
+    enabled = false,
     lazy = false,
     priority = 1000,
     config = function()
@@ -4735,7 +4576,6 @@ require("lazy").setup({
     config = function()
       require("random_colorscheme").setup({
         "edge",
-        "gruvbox-material",
         "tokyonight-moon",
       })
     end,
