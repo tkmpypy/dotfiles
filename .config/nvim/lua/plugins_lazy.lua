@@ -1799,7 +1799,7 @@ require("lazy").setup({
             ["l"] = "focus_preview",
             -- ["<C-x>"] = "open_split",
             -- ["<C-v>"] = "open_vsplit",
-            ["<C-x>"] = "split_with_window_picker",
+            ["<C-s>"] = "split_with_window_picker",
             ["<C-v>"] = "vsplit_with_window_picker",
             ["t"] = "open_tabnew",
             -- ["<cr>"] = "open_drop",
