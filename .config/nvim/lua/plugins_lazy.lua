@@ -1495,7 +1495,7 @@ require("lazy").setup({
         popupmenu = {
           enabled = true, -- enables the Noice popupmenu UI
           ---@type 'nui'|'cmp'
-          backend = "nui", -- backend to use to show regular cmdline completions
+          backend = "cmp", -- backend to use to show regular cmdline completions
         },
         history = {
           -- options for the message history that you get with `:Noice`
@@ -1984,6 +1984,7 @@ require("lazy").setup({
     "nvim-orgmode/orgmode",
     event = "VeryLazy",
     ft = { "org" },
+    enabled = false,
     config = function()
       -- Setup orgmode
       local base_dir = "~/Google Drive/マイドライブ"
@@ -3015,7 +3016,7 @@ require("lazy").setup({
       lint.linters_by_ft = {
         -- markdown = { "vale" },
         go = { "golangcilint" },
-        python = { "flake8" },
+        python = { "ruff" },
         sh = { "shellcheck" },
         javascript = { "biomejs" },
         javascriptreact = { "eslint_d" },
@@ -3844,8 +3845,8 @@ require("lazy").setup({
         "zbirenbaum/copilot-cmp",
         config = function()
           require("copilot_cmp").setup({
-            event = { "InsertEnter", "LspAttach" },
-            fix_pairs = true,
+            -- event = { "InsertEnter", "LspAttach" },
+            -- fix_pairs = true,
           })
         end,
       },
