@@ -96,7 +96,7 @@ require("lazy").setup({
       {
         "<leader>/",
         function()
-          Snacks.picker.grep()
+          Snacks.picker.grep({ hidden = true })
         end,
         desc = "Grep",
       },
@@ -218,14 +218,14 @@ require("lazy").setup({
       {
         "<leader>sg",
         function()
-          Snacks.picker.grep()
+          Snacks.picker.grep({ hidden = true })
         end,
         desc = "Grep",
       },
       {
         "<leader>sw",
         function()
-          Snacks.picker.grep_word()
+          Snacks.picker.grep_word({ hidden = true })
         end,
         desc = "Visual selection or word",
         mode = { "n", "x" },
@@ -1484,7 +1484,6 @@ require("lazy").setup({
         cmdline = {
           enabled = true,
           view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
-          opts = { buf_options = { filetype = "vim" } }, -- enable syntax highlighting in the cmdline
         },
         messages = {
           -- NOTE: If you enable messages, then the cmdline is enabled automatically.
@@ -1495,7 +1494,7 @@ require("lazy").setup({
         popupmenu = {
           enabled = true, -- enables the Noice popupmenu UI
           ---@type 'nui'|'cmp'
-          backend = "cmp", -- backend to use to show regular cmdline completions
+          backend = "nui", -- backend to use to show regular cmdline completions
         },
         history = {
           -- options for the message history that you get with `:Noice`
@@ -3005,13 +3004,6 @@ require("lazy").setup({
     end,
     config = function()
       local lint = require("lint")
-      local phpstan = require("lint").linters.phpstan
-      phpstan.args = {
-        "analyze",
-        "--memory-limit=-1",
-        "--error-format=json",
-        "--no-progress",
-      }
 
       lint.linters_by_ft = {
         -- markdown = { "vale" },
@@ -3026,6 +3018,9 @@ require("lazy").setup({
         json = { "jsonlint" },
         php = { "phpstan" },
       }
+
+      local phpstan = lint.linters.phpstan
+      table.insert(phpstan.args, "--memory-limit=-1")
 
       local cspell = lint.linters.cspell
       cspell.args = {
@@ -3062,8 +3057,8 @@ require("lazy").setup({
             return
           end
 
-          lint.try_lint()
-          lint.try_lint("cspell")
+          require("lint").try_lint()
+          require("lint").try_lint("cspell")
         end,
       })
     end,
@@ -3587,6 +3582,7 @@ require("lazy").setup({
         -- debug = true,
         -- See Configuration section for rest
         context = "buffers",
+        model = "claude-3.7-sonnet",
         window = {
           layout = "vertical", -- 'vertical', 'horizontal', 'float', 'replace'
           width = 0.3, -- fractional width of parent, or absolute width in columns when > 1
@@ -3669,7 +3665,7 @@ require("lazy").setup({
           prefetch_on_insert = true,
         },
         -- Don't select by default, auto insert on selection
-        list = { selection = { preselect = false, auto_insert = true } },
+        list = { selection = { preselect = true, auto_insert = true } },
         -- or set either per mode via a function
         -- list = { selection = { preselect = function(ctx) return ctx.mode ~= 'cmdline' end
         accept = {
@@ -3710,11 +3706,30 @@ require("lazy").setup({
           enabled = true,
         },
       },
+      cmdline = {
+        enabled = true,
+        keymap = { preset = "cmdline" },
+        completion = {
+          list = {
+            selection = {
+              -- When `true`, will automatically select the first item in the completion list
+              preselect = true,
+              -- When `true`, inserts the completion item automatically when selecting it
+              auto_insert = true,
+            },
+          },
+          -- Whether to automatically show the window when new completion items are available
+          menu = { auto_show = true },
+          -- Displays a preview of the selected item on the current line
+          ghost_text = { enabled = true },
+        },
+      },
       signature = {
         enabled = true,
       },
       sources = {
         default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        min_keyword_length = 0,
         -- Please see https://github.com/Saghen/blink.compat for using `nvim-cmp` sources
         providers = {
           lsp = {
