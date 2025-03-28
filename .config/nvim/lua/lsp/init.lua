@@ -97,7 +97,7 @@ local custom_attach = function(client, bufnr)
     })
   end
 
-  if client.supports_method("textDocument/inlayHint") then
+  if client:supports_method("textDocument/inlayHint") then
     set_inlay_hint_hl()
   end
 end

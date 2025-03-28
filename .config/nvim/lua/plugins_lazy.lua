@@ -36,21 +36,6 @@ require("lazy").setup({
         desc = "Delete buffer and ignore changes",
       },
       {
-        "<leader>gB",
-        function()
-          Snacks.gitbrowse()
-        end,
-        desc = "Git Browse",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>gb",
-        function()
-          Snacks.git.blame_line()
-        end,
-        desc = "Git Blame Line",
-      },
-      {
         "<leader>glf",
         function()
           Snacks.lazygit.log_file()
@@ -199,6 +184,14 @@ require("lazy").setup({
           Snacks.picker.git_log_file()
         end,
         desc = "Git Log File",
+      },
+      {
+        "<leader>gB",
+        function()
+          Snacks.gitbrowse()
+        end,
+        desc = "Git Browse",
+        mode = { "n", "v" },
       },
       -- Grep
       {
@@ -3665,7 +3658,7 @@ require("lazy").setup({
           prefetch_on_insert = true,
         },
         -- Don't select by default, auto insert on selection
-        list = { selection = { preselect = true, auto_insert = true } },
+        -- list = { selection = { preselect = true, auto_insert = true } },
         -- or set either per mode via a function
         -- list = { selection = { preselect = function(ctx) return ctx.mode ~= 'cmdline' end
         accept = {
@@ -3713,7 +3706,7 @@ require("lazy").setup({
           list = {
             selection = {
               -- When `true`, will automatically select the first item in the completion list
-              preselect = true,
+              preselect = false,
               -- When `true`, inserts the completion item automatically when selecting it
               auto_insert = true,
             },
