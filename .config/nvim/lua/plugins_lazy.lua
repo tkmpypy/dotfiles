@@ -2309,19 +2309,6 @@ require("lazy").setup({
   { "machakann/vim-sandwich" },
   { "simeji/winresizer" },
   {
-    "windwp/nvim-autopairs",
-    event = { "InsertEnter", "CmdlineEnter" },
-    enabled = function()
-      return vim.g.lsp_client_type == "neovim"
-    end,
-    config = function()
-      local npairs = require("nvim-autopairs")
-      npairs.setup({
-        map_cr = true,
-      })
-    end,
-  },
-  {
     "iamcco/markdown-preview.nvim",
     ft = { "markdown" },
     build = function()
@@ -3549,7 +3536,6 @@ require("lazy").setup({
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
     build = "make tiktoken",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
@@ -3559,6 +3545,7 @@ require("lazy").setup({
       "Copilot",
       "CopilotChat",
       "CopilotChatReview",
+      "CopilotChatRefactor",
       "CopilotChatCommit",
       "CopilotChatCommitStaged",
       "CopilotChatExplain",
@@ -3574,7 +3561,7 @@ require("lazy").setup({
       require("CopilotChat").setup({
         -- debug = true,
         -- See Configuration section for rest
-        context = "buffers",
+        context = "files",
         model = "claude-3.7-sonnet",
         window = {
           layout = "vertical", -- 'vertical', 'horizontal', 'float', 'replace'
@@ -3591,25 +3578,32 @@ require("lazy").setup({
         },
         prompts = {
           Explain = {
-            prompt = "/COPILOT_EXPLAIN カーソル上のコードの説明を段落をつけて書いてください。",
+            prompt = "カーソル上のコードの説明を段落をつけて書いてください。",
+            system_prompt = "COPILOT_EXPLAIN",
           },
           Tests = {
-            prompt = "/COPILOT_TESTS カーソル上のコードの詳細な単体テスト関数を書いてください。",
+            prompt = "カーソル上のコードの詳細な単体テスト関数を書いてください。",
+            system_prompt = "COPILOT_TESTS",
           },
           Fix = {
-            prompt = "/COPILOT_FIX このコードには問題があります。バグを修正したコードに書き換えてください。",
+            prompt = "このコードには問題があります。バグを修正したコードに書き換えてください。",
+            system_prompt = "COPILOT_FIX",
           },
           Review = {
-            prompt = "/COPILOT_REVIEW 選択したコードを日本語でレビューしてください",
+            prompt = "選択したコードを日本語でレビューしてください",
+            system_prompt = "COPILOT_REVIEW",
           },
-          Optimize = {
-            prompt = "/COPILOT_REFACTOR 選択したコードを最適化し、パフォーマンスと可読性を向上させてください。",
+          Refactor = {
+            prompt = "選択したコードを最適化し、パフォーマンスと可読性を向上させてください。",
+            system_prompt = "COPILOT_REFACTOR",
           },
           Docs = {
-            prompt = "/COPILOT_REFACTOR 選択したコードのドキュメントを書いてください。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
+            prompt = "選択したコードのドキュメントを書いてください。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
+            system_prompt = "COPILOT_DOCS",
           },
           DocsJA = {
-            prompt = "/COPILOT_REFACTOR 選択したコードのドキュメントを日本語で書いてください（句読点は不要）。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
+            prompt = "選択したコードのドキュメントを日本語で書いてください（句読点は不要）。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
+            system_prompt = "COPILOT_DOCS_JA",
           },
           FixDiagnostic = {
             prompt = "ファイル内の次のような診断上の問題を解決してください：",
@@ -3631,16 +3625,41 @@ require("lazy").setup({
       "rafamadriz/friendly-snippets",
       "giuxtaposition/blink-cmp-copilot",
       "echasnovski/mini.icons",
+      {
+        "saghen/blink.pairs",
+        version = "*", -- (recommended) only required with prebuilt binaries
+        -- download prebuilt binaries from github releases
+        dependencies = "saghen/blink.download",
+        opts = {
+          mappings = {
+            enabled = true,
+            -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
+            pairs = {},
+          },
+          highlights = {
+            enabled = true,
+            groups = {
+              "BlinkPairsOrange",
+              "BlinkPairsPurple",
+              "BlinkPairsBlue",
+            },
+          },
+          debug = false,
+        },
+      },
     },
 
     -- use a release tag to download pre-built binaries
-    -- version = "v0.*",
+    version = "v1.*",
     -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-    build = "cargo build --release",
+    -- build = "cargo build --release",
     -- On musl libc based systems you need to add this flag
     -- build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
 
     opts = {
+      fuzzy = {
+        implementation = "prefer_rust",
+      },
       keymap = {
         preset = "default",
         ["<CR>"] = { "accept", "fallback" },
@@ -3797,7 +3816,12 @@ require("lazy").setup({
       return vim.g.complete_engine_type == "cmp"
     end,
     dependencies = {
-      { "windwp/nvim-autopairs" },
+      {
+        "windwp/nvim-autopairs",
+        opts = {
+          map_cr = true,
+        },
+      },
       { "onsails/lspkind.nvim" },
       {
         "L3MON4D3/LuaSnip",
