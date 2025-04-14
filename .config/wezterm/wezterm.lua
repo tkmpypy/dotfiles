@@ -11,7 +11,7 @@ local default_window_background_opacity = function()
 end
 
 return {
-  default_prog = { '/opt/homebrew/bin/fish', '-l' },
+  default_prog = { "/opt/homebrew/bin/fish", "-l" },
   -- term = "xterm-256color",
   term = "wezterm",
   --[[
@@ -34,7 +34,7 @@ return {
   -- font = wezterm.font("Firge35Nerd Console", { weight = "Regular" }),
 
   front_end = "WebGpu",
-  font_size = 13.0,
+  font_size = 11.0,
   adjust_window_size_when_changing_font_size = false,
   use_ime = true,
   macos_forward_to_ime_modifier_mask = "CTRL|SHIFT",

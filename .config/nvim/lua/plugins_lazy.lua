@@ -1476,7 +1476,7 @@ require("lazy").setup({
         },
         cmdline = {
           enabled = true,
-          view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+          view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
         },
         messages = {
           -- NOTE: If you enable messages, then the cmdline is enabled automatically.
@@ -2484,7 +2484,7 @@ require("lazy").setup({
     },
     keys = {
       {
-        "s",
+        "ss",
         mode = { "n", "x", "o" },
         function()
           -- default options: exact mode, multi window, all directions, with a backdrop
@@ -2493,7 +2493,7 @@ require("lazy").setup({
         desc = "Flash",
       },
       {
-        "S",
+        "Ss",
         mode = { "n", "o", "x" },
         function()
           -- show labeled treesitter nodes around the cursor
@@ -3152,7 +3152,7 @@ require("lazy").setup({
             enabled = true,
 
             -- Always show messages on all lines for multiline diagnostics
-            always_show = false,
+            always_show = true,
           },
         },
       })
@@ -3297,7 +3297,6 @@ require("lazy").setup({
   },
   {
     "Bekaboo/dropbar.nvim",
-    event = "VeryLazy",
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -3625,26 +3624,32 @@ require("lazy").setup({
       "rafamadriz/friendly-snippets",
       "giuxtaposition/blink-cmp-copilot",
       "echasnovski/mini.icons",
+      -- {
+      --   "saghen/blink.pairs",
+      --   version = "*", -- (recommended) only required with prebuilt binaries
+      --   -- download prebuilt binaries from github releases
+      --   dependencies = "saghen/blink.download",
+      --   opts = {
+      --     mappings = {
+      --       enabled = true,
+      --       -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
+      --       pairs = {},
+      --     },
+      --     highlights = {
+      --       enabled = true,
+      --       groups = {
+      --         "BlinkPairsOrange",
+      --         "BlinkPairsPurple",
+      --         "BlinkPairsBlue",
+      --       },
+      --     },
+      --     debug = false,
+      --   },
+      -- },
       {
-        "saghen/blink.pairs",
-        version = "*", -- (recommended) only required with prebuilt binaries
-        -- download prebuilt binaries from github releases
-        dependencies = "saghen/blink.download",
+        "windwp/nvim-autopairs",
         opts = {
-          mappings = {
-            enabled = true,
-            -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
-            pairs = {},
-          },
-          highlights = {
-            enabled = true,
-            groups = {
-              "BlinkPairsOrange",
-              "BlinkPairsPurple",
-              "BlinkPairsBlue",
-            },
-          },
-          debug = false,
+          map_cr = true,
         },
       },
     },
@@ -3677,7 +3682,7 @@ require("lazy").setup({
           prefetch_on_insert = true,
         },
         -- Don't select by default, auto insert on selection
-        -- list = { selection = { preselect = true, auto_insert = true } },
+        list = { selection = { preselect = false, auto_insert = true } },
         -- or set either per mode via a function
         -- list = { selection = { preselect = function(ctx) return ctx.mode ~= 'cmdline' end
         accept = {
@@ -3954,7 +3959,7 @@ require("lazy").setup({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
           }),
-          ["<CR>"] = cmp.mapping.confirm({ select = false }),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
 
         -- You should specify your *installed* sources.
