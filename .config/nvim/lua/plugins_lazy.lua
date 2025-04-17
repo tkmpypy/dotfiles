@@ -532,24 +532,12 @@ require("lazy").setup({
     enabled = function()
       return vim.g.use_treesitter
     end,
-    build = function()
-      require("nvim-treesitter.install").update({ with_sync = true })()
-    end,
+    build = ":TSUpdate",
     dependencies = {
-      -- "RRethy/nvim-treesitter-endwise",
+      "RRethy/nvim-treesitter-endwise",
       "windwp/nvim-ts-autotag",
     },
     config = function()
-      -- https://github.com/EmranMR/tree-sitter-blade/discussions/19
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.blade = {
-        install_info = {
-          url = "https://github.com/EmranMR/tree-sitter-blade",
-          files = { "src/parser.c" },
-          branch = "main",
-        },
-        filetype = "blade",
-      }
       require("nvim-treesitter.configs").setup({
         highlight = {
           enable = true,
@@ -590,6 +578,8 @@ require("lazy").setup({
           "lua",
           "luadoc",
           "php",
+          "php_only",
+          "phpdoc",
           "blade",
           "phpdoc",
           "yaml",
@@ -3085,6 +3075,7 @@ require("lazy").setup({
           sh = { "shfmt" },
           rust = { "rustfmt" },
           php = { "pint" },
+          blade = { "blade-formatter" },
           sql = { "sql_formatter" },
           javascript = { "biome" },
           javascriptreact = { "biome" },
@@ -3100,6 +3091,10 @@ require("lazy").setup({
           markdown = { "prettierd", "prettier", stop_after_first = true },
         },
       })
+
+      conform.formatters["blade-formatter"] = {
+        prepend_args = { "-i", "2" },
+      }
 
       vim.api.nvim_create_user_command("Format", function(args)
         local range = nil
@@ -3252,6 +3247,7 @@ require("lazy").setup({
           "gci",
           "shfmt",
           "stylua",
+          "blade-formatter",
           -- "pint",
           "php-cs-fixer",
         },
@@ -3523,6 +3519,73 @@ require("lazy").setup({
     },
   },
   {
+    "olimorris/codecompanion.nvim",
+    lazy = false, -- lazy loading handled internally
+    dependencies = {
+      "j-hui/fidget.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    keys = {
+      {
+        "<leader>zz",
+        "<cmd>CodeCompanion<cr>",
+        { noremap = true, silent = true, desc = "CodeCompanion" },
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>za",
+        "<cmd>CodeCompanionActions<cr>",
+        { noremap = true, silent = true, desc = "CodeCompanion Actions" },
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>zt",
+        "<cmd>CodeCompanionChat Toggle<cr>",
+        { noremap = true, silent = true, desc = "Toggle CodeCompanion Chat" },
+        mode = { "n", "v" },
+      },
+      {
+        "ga",
+        "<cmd>CodeCompanionChat Add<cr>",
+        { noremap = true, silent = true, desc = "Add to CodeCompanion Chat" },
+        mode = "v",
+      },
+    },
+    init = function()
+      require("codecompanion.fidget-spinner"):init()
+    end,
+    config = function()
+      require("codecompanion").setup({
+        opts = {
+          language = "Japanese",
+        },
+        adapters = {
+          copilot = function()
+            return require("codecompanion.adapters").extend("copilot", {
+              schema = {
+                model = {
+                  default = "claude-3.7-sonnet",
+                },
+              },
+            })
+          end,
+        },
+        strategies = {
+          chat = {
+            adapter = "copilot",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+          cmd = {
+            adapter = "copilot",
+          },
+        },
+      })
+    end,
+  },
+  {
     "zbirenbaum/copilot.lua",
     cmd = { "Copilot" },
     event = { "InsertEnter" },
@@ -3535,6 +3598,7 @@ require("lazy").setup({
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
+    enabled = false,
     build = "make tiktoken",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
@@ -3745,7 +3809,7 @@ require("lazy").setup({
         enabled = true,
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        default = { "lsp", "path", "snippets", "buffer", "copilot", "codecompanion" },
         min_keyword_length = 0,
         -- Please see https://github.com/Saghen/blink.compat for using `nvim-cmp` sources
         providers = {
@@ -3878,15 +3942,15 @@ require("lazy").setup({
       },
       -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "hrsh7th/cmp-nvim-lua" },
-      {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-          require("copilot_cmp").setup({
-            -- event = { "InsertEnter", "LspAttach" },
-            -- fix_pairs = true,
-          })
-        end,
-      },
+      -- {
+      --   "zbirenbaum/copilot-cmp",
+      --   config = function()
+      --     require("copilot_cmp").setup({
+      --       -- event = { "InsertEnter", "LspAttach" },
+      --       -- fix_pairs = true,
+      --     })
+      --   end,
+      -- },
     },
     config = function()
       local cmp = require("cmp")
@@ -3926,7 +3990,6 @@ require("lazy").setup({
         sorting = {
           priority_weight = 2,
           comparators = {
-            require("copilot_cmp.comparators").prioritize,
             compare.score,
             compare.recently_used,
             compare.locality,
@@ -3987,13 +4050,6 @@ require("lazy").setup({
           {
             name = "path",
             max_item_count = 10,
-          },
-          {
-            name = "orgmode",
-            max_item_count = 10,
-          },
-          {
-            name = "copilot",
           },
           -- { name = "nvim_lsp_signature_help" },
         }),
