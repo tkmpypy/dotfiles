@@ -3574,6 +3574,34 @@ require("lazy").setup({
         strategies = {
           chat = {
             adapter = "copilot",
+            keymaps = {
+              send = {
+                modes = { n = { "<CR>", "<C-s>" }, i = "<C-s>" },
+              },
+              close = {
+                modes = { n = "q", i = "<M-q>" },
+              },
+              -- Add further custom keymaps here
+            },
+            slash_commands = {
+              ["git_files"] = {
+                description = "List git files",
+                ---@param chat CodeCompanion.Chat
+                callback = function(chat)
+                  local handle = io.popen("git ls-files")
+                  if handle ~= nil then
+                    local result = handle:read("*a")
+                    handle:close()
+                    chat:add_reference({ role = "user", content = result }, "git", "<git_files>")
+                  else
+                    return vim.notify("No git files available", vim.log.levels.INFO, { title = "CodeCompanion" })
+                  end
+                end,
+                opts = {
+                  contains_code = false,
+                },
+              },
+            },
           },
           inline = {
             adapter = "copilot",
