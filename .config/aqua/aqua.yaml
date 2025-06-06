@@ -37,4 +37,4 @@ packages:
   - name: bitwarden/clients@cli-v2025.5.0
   - name: aws/aws-cli@2.16.4
   - name: MordechaiHadad/bob@v4.0.3
-  - name: astral-sh/uv@0.7.11
+  - name: astral-sh/uv@0.7.12
