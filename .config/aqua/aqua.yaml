@@ -25,7 +25,7 @@ packages:
   - name: derailed/k9s@v0.50.6
   - name: x-motemen/ghq@v1.8.0
   - name: orhun/git-cliff@v2.9.1
-  - name: jqlang/jq@jq-1.8.0
+  - name: jqlang/jq@jq-1.8.1
   - name: sharkdp/hyperfine@v1.19.0
   - name: twistedpair/google-cloud-sdk@447.0.0
   - name: rhysd/vim-startuptime@v1.3.2
