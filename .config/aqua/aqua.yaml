@@ -8,34 +8,34 @@
 #   - all
 registries:
   - type: standard
-    ref: v4.356.0 # renovate: depName=aquaproj/aqua-registry
+    ref: v4.384.0 # renovate: depName=aquaproj/aqua-registry
 packages:
-  - name: cli/cli@v2.72.0
-  - name: junegunn/fzf@v0.61.3
-  - name: junegunn/fzf/fzf-tmux@v0.61.3
-  - name: jdx/mise@v2025.4.12
+  - name: cli/cli@v2.74.2
+  - name: junegunn/fzf@v0.64.0
+  - name: junegunn/fzf/fzf-tmux@v0.64.0
+  - name: jdx/mise@v2025.7.1
   - name: BurntSushi/ripgrep@14.1.1
   - name: sharkdp/fd@v10.2.0
   - name: dandavison/delta@0.18.2
   - name: sharkdp/bat@v0.25.0
-  - name: charmbracelet/glow@v2.1.0
-  - name: jesseduffield/lazygit@v0.49.0
+  - name: charmbracelet/glow@v2.1.1
+  - name: jesseduffield/lazygit@v0.53.0
   - name: denisidoro/navi@v2.24.0
   - name: ClementTsang/bottom@0.10.2
-  - name: derailed/k9s@v0.50.4
+  - name: derailed/k9s@v0.50.7
   - name: x-motemen/ghq@v1.8.0
-  - name: orhun/git-cliff@v2.8.0
-  - name: jqlang/jq@jq-1.7.1
+  - name: orhun/git-cliff@v2.9.1
+  - name: jqlang/jq@jq-1.8.1
   - name: sharkdp/hyperfine@v1.19.0
   - name: twistedpair/google-cloud-sdk@447.0.0
   - name: rhysd/vim-startuptime@v1.3.2
-  - name: kubernetes/kubectl@v1.33.0
-  - name: goreleaser/goreleaser@v2.8.2
-  - name: kubernetes-sigs/kustomize@kustomize/v5.6.0
-  - name: yannh/kubeconform@v0.6.7
+  - name: kubernetes/kubectl@v1.33.2
+  - name: goreleaser/goreleaser@v2.10.2
+  - name: kubernetes-sigs/kustomize@kustomize/v5.7.0
+  - name: yannh/kubeconform@v0.7.0
   - name: haskell/ghcup-hs@v0.1.20.0
-  - name: bitwarden/clients@cli-v2025.3.0
+  - name: bitwarden/clients@cli-v2025.6.1
   - name: aws/aws-cli@2.16.4
-  - name: MordechaiHadad/bob@v4.0.3
-  - name: astral-sh/uv@0.7.2
+  - name: MordechaiHadad/bob@v4.1.1
+  - name: astral-sh/uv@0.7.19
   - name: nektos/act@v0.2.76
