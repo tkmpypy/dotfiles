@@ -3715,6 +3715,7 @@ require("lazy").setup({
     dependencies = {
       "rafamadriz/friendly-snippets",
       "giuxtaposition/blink-cmp-copilot",
+      "moyiz/blink-emoji.nvim",
       "echasnovski/mini.icons",
       -- {
       --   "saghen/blink.pairs",
@@ -3837,7 +3838,7 @@ require("lazy").setup({
         enabled = true,
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "copilot", "codecompanion" },
+        default = { "lsp", "path", "snippets", "buffer", "copilot", "codecompanion", "emoji" },
         min_keyword_length = 0,
         -- Please see https://github.com/Saghen/blink.compat for using `nvim-cmp` sources
         providers = {
@@ -3901,6 +3902,20 @@ require("lazy").setup({
           copilot = {
             name = "copilot",
             module = "blink-cmp-copilot",
+          },
+          emoji = {
+            module = "blink-emoji",
+            name = "Emoji",
+            score_offset = 15, -- Tune by preference
+            opts = { insert = true }, -- Insert emoji (default) or complete its name
+            should_show_items = function()
+              return vim.tbl_contains(
+                -- Enable emoji completion only for git commits and markdown.
+                -- By default, enabled for all file-types.
+                { "gitcommit", "markdown", "" },
+                vim.o.filetype
+              )
+            end,
           },
         },
       },

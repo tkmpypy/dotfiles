@@ -38,3 +38,4 @@ packages:
   - name: aws/aws-cli@2.16.4
   - name: MordechaiHadad/bob@v4.0.3
   - name: astral-sh/uv@0.7.2
+  - name: nektos/act@v0.2.76
