@@ -554,7 +554,6 @@ require("lazy").setup({
             end
             return false
           end,
-          additional_vim_regex_highlighting = { "org" },
         },
         indent = {
           enable = true,
@@ -613,7 +612,6 @@ require("lazy").setup({
           "gitcommit",
           "gitignore",
           "ini",
-          "org",
         },
         endwise = {
           enable = true,
@@ -2101,7 +2099,7 @@ require("lazy").setup({
     },
     config = function()
       local enable_cmp = false
-      if vim.g.lsp_client_type == "neovim" then
+      if vim.g.lsp_client_type == "neovim" and vim.g.complete_engine_type == "cmp" then
         enable_cmp = true
       end
       require("obsidian").setup({
@@ -3165,11 +3163,12 @@ require("lazy").setup({
     },
   },
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     cmd = { "Mason", "MasonLog", "MasonInstall", "MasonUninstall", "MasonUninstallAll" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
+    version = "^1.0.0",
     config = function()
       require("mason").setup({
         ui = {
@@ -3184,12 +3183,14 @@ require("lazy").setup({
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
-    -- dependencies = {"williamboman/mason.nvim"},
+    "mason-org/mason-lspconfig.nvim",
+    -- dependencies = {"mason-org/mason.nvim"},
     event = { "VeryLazy" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
+    -- See: https://github.com/mason-org/mason.nvim/issues/1929
+    version = "^1.0.0", -- NOTE: `attempt to call field 'setup_handlers' (a nil value)`
     config = function()
       require("mason-lspconfig").setup()
     end,
@@ -3238,6 +3239,7 @@ require("lazy").setup({
           "golangci-lint",
           "shellcheck",
           "eslint_d",
+          "phpstan",
           -- Formatte
           "prettierd",
           "sql-formatter",
@@ -3283,7 +3285,7 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     event = { "VeryLazy" },
-    dependencies = { "williamboman/mason-lspconfig.nvim" },
+    dependencies = { "mason-org/mason-lspconfig.nvim" },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,

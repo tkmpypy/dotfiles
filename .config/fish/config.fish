@@ -30,7 +30,7 @@ set --erase fish_greeting
 if status is-interactive
 end
 
-
+eval (direnv hook fish)
 mise activate fish | source
 
 abbr -a ll 'ls -la'
