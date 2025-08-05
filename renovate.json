@@ -26,6 +26,6 @@
     }
   ],
   "enabledManagers": [
-    "regex"
+    "custom.regex"
   ]
 }
