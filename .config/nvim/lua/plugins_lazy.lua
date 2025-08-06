@@ -751,6 +751,7 @@ require("lazy").setup({
     lazy = true,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
+      "L3MON4D3/LuaSnip",
     },
     config = function()
       require("neogen").setup({
@@ -1166,6 +1167,7 @@ require("lazy").setup({
   {
     "nvim-zh/colorful-winsep.nvim",
     event = "WinNew",
+    enabled = false,
     config = function()
       require("colorful-winsep").setup({
         enable = true,
@@ -1183,6 +1185,7 @@ require("lazy").setup({
           "NeogitStatus",
           "NeogitCommitMessage",
         },
+        smooth = true,
         create_event = function() end,
         close_event = function() end,
       })
@@ -2998,6 +3001,9 @@ require("lazy").setup({
         "--no-summary",
         "--config",
         vim.fs.joinpath(vim.fn.stdpath("config"), "cspell", "cspell.json"),
+        function()
+          return "stdin://" .. vim.api.nvim_buf_get_name(0)
+        end,
       }
 
       local ignore_ft = {
@@ -3521,37 +3527,55 @@ require("lazy").setup({
     },
   },
   {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
+    keys = {
+      { "<leader>z", nil, desc = "AI/Claude Code" },
+      { "<leader>zc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>zf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>zr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>zC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>zb", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+      { "<leader>zs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+      {
+        "<leader>zs",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft = { "NvimTree", "neo-tree", "oil" },
+      },
+      -- Diff management
+      { "<leader>za", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>zd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+    },
+  },
+  {
     "olimorris/codecompanion.nvim",
-    lazy = false, -- lazy loading handled internally
+    -- lazy = false, -- lazy loading handled internally
     dependencies = {
       "j-hui/fidget.nvim",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
     keys = {
+      { "<leader>Z", nil, desc = "+Code Companion" },
       {
-        "<leader>zz",
+        "<leader>Zz",
         "<cmd>CodeCompanion<cr>",
-        { noremap = true, silent = true, desc = "CodeCompanion" },
+        desc = "CodeCompanion",
         mode = { "n", "v" },
       },
       {
-        "<leader>za",
+        "<leader>Za",
         "<cmd>CodeCompanionActions<cr>",
-        { noremap = true, silent = true, desc = "CodeCompanion Actions" },
+        desc = "CodeCompanion Actions",
         mode = { "n", "v" },
       },
       {
-        "<leader>zt",
+        "<leader>Zt",
         "<cmd>CodeCompanionChat Toggle<cr>",
-        { noremap = true, silent = true, desc = "Toggle CodeCompanion Chat" },
+        desc = "Toggle CodeCompanion Chat",
         mode = { "n", "v" },
-      },
-      {
-        "ga",
-        "<cmd>CodeCompanionChat Add<cr>",
-        { noremap = true, silent = true, desc = "Add to CodeCompanion Chat" },
-        mode = "v",
       },
     },
     init = function()
@@ -3840,7 +3864,7 @@ require("lazy").setup({
         enabled = true,
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "copilot", "codecompanion", "emoji" },
+        default = { "lsp", "path", "snippets", "buffer", "copilot", "emoji" },
         min_keyword_length = 0,
         -- Please see https://github.com/Saghen/blink.compat for using `nvim-cmp` sources
         providers = {

@@ -1,7 +1,8 @@
 {
   "enable_nightly_info": true,
   "enable_release_build": false,
-  "installation_location": "$HOME/.local/nvim/bin",
-  "version_sync_file_location": "$HOME/.config/bob/nvim.version",
-  "rollback_limit": 3
+  "installation_location": "/Users/takuma-kimura/.local/nvim/bin",
+  "version_sync_file_location": "/Users/takuma-kimura/.config/bob/nvim.version",
+  "rollback_limit": 3,
+  "add_neovim_binary_to_path": true
 }

@@ -16,6 +16,7 @@ if exists_neodev then
     --   library.plugins = true
     --   -- library.runtime = true
     --   -- library.types = true
+    --   secrity
     -- end,
     lspconfig = true,
     pathStrict = true,
@@ -471,8 +472,9 @@ local setup_lsp_ui = function()
       line_highlight = true,
     },
     underline = true,
-    virtual_text = false,
+    virtual_text = true,
     virtual_lines = false,
+    signs = true,
     severity_sort = true,
     float = {
       source = true,
