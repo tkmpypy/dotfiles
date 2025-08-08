@@ -3079,7 +3079,7 @@ require("lazy").setup({
           sh = { "shfmt" },
           rust = { "rustfmt" },
           php = { "pint" },
-          blade = { "blade-formatter" },
+          -- blade = { "blade-formatter" },
           sql = { "sql_formatter" },
           javascript = { "biome" },
           javascriptreact = { "biome" },

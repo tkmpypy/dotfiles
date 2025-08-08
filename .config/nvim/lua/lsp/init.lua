@@ -101,6 +101,9 @@ local custom_attach = function(client, bufnr)
   if client:supports_method("textDocument/inlayHint") then
     set_inlay_hint_hl()
   end
+
+  -- LSPのフォーマットを無効化する
+  client.server_capabilities.documentFormattingProvider = false
 end
 
 -- Configure lua language server for neovim development
