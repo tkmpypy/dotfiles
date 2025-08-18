@@ -3529,11 +3529,11 @@ require("lazy").setup({
   {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
-    config = true,
     keys = {
       { "<leader>z", nil, desc = "AI/Claude Code" },
       { "<leader>zc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<leader>zf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>zt", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<M-,>", "<cmd>ClaudeCodeFocus<cr>", desc = "Claude Code (Alt+,)", mode = { "n", "x" } },
       { "<leader>zr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
       { "<leader>zC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
       { "<leader>zb", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
@@ -3547,6 +3547,35 @@ require("lazy").setup({
       -- Diff management
       { "<leader>za", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
       { "<leader>zd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+    },
+    opts = {
+      terminal = {
+        ---@module "snacks"
+        ---@type snacks.win.Config|{}
+        snacks_win_opts = {
+          position = "float",
+          width = 0.85,
+          height = 0.85,
+          border = "rounded",
+          keys = {
+            claude_hide_alt = {
+              "<M-,>",
+              function(self)
+                self:hide()
+              end,
+              mode = "t",
+              desc = "Hide (Alt+,)",
+            },
+          },
+        },
+      },
+      -- Diff Integration
+      diff_opts = {
+        auto_close_on_accept = true,
+        vertical_split = true,
+        open_in_current_tab = true,
+        keep_terminal_focus = true, -- If true, moves focus back to terminal after diff opens
+      },
     },
   },
   {
@@ -3743,34 +3772,19 @@ require("lazy").setup({
       "giuxtaposition/blink-cmp-copilot",
       "moyiz/blink-emoji.nvim",
       "echasnovski/mini.icons",
+      {
+        "saghen/blink.pairs",
+        version = "*", -- (recommended) only required with prebuilt binaries
+        -- download prebuilt binaries from github releases
+        dependencies = "saghen/blink.download",
+        config = true,
+      },
       -- {
-      --   "saghen/blink.pairs",
-      --   version = "*", -- (recommended) only required with prebuilt binaries
-      --   -- download prebuilt binaries from github releases
-      --   dependencies = "saghen/blink.download",
+      --   "windwp/nvim-autopairs",
       --   opts = {
-      --     mappings = {
-      --       enabled = true,
-      --       -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
-      --       pairs = {},
-      --     },
-      --     highlights = {
-      --       enabled = true,
-      --       groups = {
-      --         "BlinkPairsOrange",
-      --         "BlinkPairsPurple",
-      --         "BlinkPairsBlue",
-      --       },
-      --     },
-      --     debug = false,
+      --     map_cr = true,
       --   },
       -- },
-      {
-        "windwp/nvim-autopairs",
-        opts = {
-          map_cr = true,
-        },
-      },
     },
 
     -- use a release tag to download pre-built binaries

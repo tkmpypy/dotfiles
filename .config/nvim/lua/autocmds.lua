@@ -51,6 +51,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "make" },
+  callback = function(_)
+    bo.tabstop = 4
+    bo.shiftwidth = 4
+    bo.softtabstop = 4
+    bo.expandtab = false
+  end,
+})
+
 -- filetypeがorgの時にconcealを有効にする
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "org", "orgagenda", "orgcalendar" },
