@@ -564,6 +564,7 @@ require("lazy").setup({
         -- Automatically install missing parsers when entering buffer
         auto_install = false,
         ensure_installed = {
+          "tmux",
           "bash",
           "java",
           "dart",

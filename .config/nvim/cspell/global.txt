@@ -313,3 +313,7 @@ UNSYNCED
 noindex
 vite
 biomejs
+mkcert
+rproxy
+pecl
+ecspresso
