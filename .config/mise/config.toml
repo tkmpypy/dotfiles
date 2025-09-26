@@ -1,7 +1,7 @@
 [tools]
 golang = "1.20.1"
 node = "21.7.1"
-rust = "1.79.0"
+rust = "1.89.0"
 python = "3.10.5"
 terraform = "1.7.1"
 go = "1.22.1"

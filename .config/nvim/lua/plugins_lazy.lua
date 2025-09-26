@@ -1085,6 +1085,7 @@ require("lazy").setup({
   },
   {
     "vim-test/vim-test",
+    lazy = false,
     enabled = function()
       return vim.g.test_runner_type == "vim-test"
     end,
@@ -1101,6 +1102,8 @@ require("lazy").setup({
         let g:test#strategy = "neovim"
         let g:test#neovim#term_position = "belowright"
         let g:test#preserve_screen = 1
+        let g:test#php#runner = 'phpunit'
+        let g:test#php#phpunit#executable = './vendor/bin/phpunit'
         let g:test#javascript#runner = 'jest'
         let g:test#javascript#jest#executable = './node_modules/.bin/jest'
         let g:test#python#runner = 'pytest'
@@ -2905,71 +2908,6 @@ require("lazy").setup({
 
   -- Linter
   {
-    "nvimtools/none-ls.nvim",
-    event = { "VeryLazy" },
-    enabled = function()
-      return false
-    end,
-    dependencies = {
-      "nvimtools/none-ls-extras.nvim",
-      "neovim/nvim-lspconfig",
-      "nvim-lua/plenary.nvim",
-      "davidmh/cspell.nvim",
-    },
-    config = function()
-      local null_ls = require("null-ls")
-      local cspell = require("cspell")
-
-      local cspell_config = {
-        find_json = function(_)
-          local path = vim.fs.joinpath("~/ghq/github.com/tkmpypy/dotfiles/.config/nvim", "cspell", "cspell.json")
-          return vim.fn.expand(path)
-        end,
-      }
-
-      null_ls.setup({
-        temp_dir = vim.fn.stdpath("cache"),
-        sources = {
-          cspell.code_actions.with({ config = cspell_config }),
-          require("none-ls.code_actions.eslint_d"),
-          cspell.diagnostics.with({
-            config = cspell_config,
-            disabled_filetypes = { "NvimTree" },
-            diagnostics_postprocess = function(diagnostic)
-              -- レベルをWARNに変更（デフォルトはERROR）
-              diagnostic.severity = vim.diagnostic.severity["WARN"]
-            end,
-            condition = function()
-              -- cspellが実行できるときのみ有効
-              return vim.fn.executable("cspell") > 0
-            end,
-            timeout = 50000,
-          }),
-          null_ls.builtins.diagnostics.phpstan.with({
-            -- to_temp_file = false,
-            -- timeout = 100000,
-            method = null_ls.methods.DIAGNOSTICS,
-            args = { "analyze", "--memory-limit=-1", "--error-format", "json", "--no-progress" },
-          }),
-          null_ls.builtins.diagnostics.golangci_lint.with({
-            timeout = 50000,
-          }),
-          null_ls.builtins.diagnostics.eslint,
-        },
-        update_in_insert = false,
-        diagnostics_format = "[#{s} #{c}] #{m}",
-        debounce = 250,
-        default_timeout = 5000,
-        debug = false,
-        log = {
-          enable = true,
-          level = "warn",
-          use_console = "async",
-        },
-      })
-    end,
-  },
-  {
     "mfussenegger/nvim-lint",
     enabled = function()
       return true
@@ -3086,7 +3024,7 @@ require("lazy").setup({
           javascriptreact = { "biome" },
           typescript = { "biome" },
           typescriptreact = { "biome" },
-          css = { "prettierd", "prettier", stop_after_first = true },
+          css = { "biome" },
           scss = { "prettierd", "prettier", stop_after_first = true },
           less = { "prettierd", "prettier", stop_after_first = true },
           html = { "prettierd", "prettier", stop_after_first = true },
@@ -3138,6 +3076,15 @@ require("lazy").setup({
 
   -- LSP
   {
+    "neovim/nvim-lspconfig",
+    enabled = function()
+      return vim.g.lsp_client_type == "neovim"
+    end,
+    config = function()
+      require("lsp")
+    end,
+  },
+  {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy",
     priority = 1000, -- needs to be loaded in first
@@ -3175,7 +3122,6 @@ require("lazy").setup({
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
-    version = "^1.0.0",
     config = function()
       require("mason").setup({
         ui = {
@@ -3190,21 +3136,11 @@ require("lazy").setup({
     end,
   },
   {
-    "mason-org/mason-lspconfig.nvim",
-    -- dependencies = {"mason-org/mason.nvim"},
-    event = { "VeryLazy" },
-    enabled = function()
-      return vim.g.lsp_client_type == "neovim"
-    end,
-    -- See: https://github.com/mason-org/mason.nvim/issues/1929
-    version = "^1.0.0", -- NOTE: `attempt to call field 'setup_handlers' (a nil value)`
-    config = function()
-      require("mason-lspconfig").setup()
-    end,
-  },
-  {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     event = { "VeryLazy" },
+    dependencies = {
+      "mason-org/mason.nvim",
+    },
     enabled = function()
       return vim.g.lsp_client_type == "neovim"
     end,
@@ -3271,33 +3207,14 @@ require("lazy").setup({
         -- will happen on startup. You can use :MasonToolsInstall or
         -- :MasonToolsUpdate to install tools and check for updates.
         -- Default: true
-        run_on_start = false,
+        run_on_start = true,
 
         -- set a delay (in ms) before the installation starts. This is only
         -- effective if run_on_start is set to true.
         -- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
         -- Default: 0
         start_delay = 3000, -- 3 second delay
-
-        -- Only attempt to install if 'debounce_hours' number of hours has
-        -- elapsed since the last time Neovim was started. This stores a
-        -- timestamp in a file named stdpath('data')/mason-tool-installer-debounce.
-        -- This is only relevant when you are using 'run_on_start'. It has no
-        -- effect when running manually via ':MasonToolsInstall' etc....
-        -- Default: nil
-        debounce_hours = 5, -- at least 5 hours between attempts to install/update
       })
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    event = { "VeryLazy" },
-    dependencies = { "mason-org/mason-lspconfig.nvim" },
-    enabled = function()
-      return vim.g.lsp_client_type == "neovim"
-    end,
-    config = function()
-      require("lsp")
     end,
   },
   {
@@ -3673,6 +3590,7 @@ require("lazy").setup({
     "zbirenbaum/copilot.lua",
     cmd = { "Copilot" },
     event = { "InsertEnter" },
+    enabled = false,
     config = function()
       require("copilot").setup({
         suggestion = { enabled = false },
@@ -3770,7 +3688,6 @@ require("lazy").setup({
     -- optional: provides snippets for the snippet source
     dependencies = {
       "rafamadriz/friendly-snippets",
-      "giuxtaposition/blink-cmp-copilot",
       "moyiz/blink-emoji.nvim",
       "echasnovski/mini.icons",
       {
@@ -3872,14 +3789,18 @@ require("lazy").setup({
           -- Whether to automatically show the window when new completion items are available
           menu = { auto_show = true },
           -- Displays a preview of the selected item on the current line
-          ghost_text = { enabled = true },
+          ghost_text = { enabled = false },
         },
       },
       signature = {
         enabled = true,
+        window = {
+          border = "single",
+          scrollbar = true,
+        },
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "copilot", "emoji" },
+        default = { "lsp", "path", "snippets", "buffer", "emoji" },
         min_keyword_length = 0,
         -- Please see https://github.com/Saghen/blink.compat for using `nvim-cmp` sources
         providers = {
@@ -3939,10 +3860,6 @@ require("lazy").setup({
                 end, vim.api.nvim_list_bufs())
               end,
             },
-          },
-          copilot = {
-            name = "copilot",
-            module = "blink-cmp-copilot",
           },
           emoji = {
             module = "blink-emoji",
@@ -4026,15 +3943,6 @@ require("lazy").setup({
       },
       -- { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "hrsh7th/cmp-nvim-lua" },
-      -- {
-      --   "zbirenbaum/copilot-cmp",
-      --   config = function()
-      --     require("copilot_cmp").setup({
-      --       -- event = { "InsertEnter", "LspAttach" },
-      --       -- fix_pairs = true,
-      --     })
-      --   end,
-      -- },
     },
     config = function()
       local cmp = require("cmp")
@@ -4151,7 +4059,6 @@ require("lazy").setup({
               luasnip = "[SNIP]",
               nvim_lua = "[LUA]",
               orgmode = "[ORG]",
-              Copilot = "[COPILOT]",
             },
           }),
         },

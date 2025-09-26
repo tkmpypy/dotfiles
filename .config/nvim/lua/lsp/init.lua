@@ -236,30 +236,6 @@ local gopls_config = {
   },
 }
 
--- local golangci_lint_ls_config = {
---   init_options = {
---     command = { "golangci-lint", "run", "--out-format", "json" },
---   },
--- }
-
-local solargraph_config = {
-  settings = {
-    solargraph = {
-      diagnostics = true,
-      useBundler = false,
-    },
-  },
-}
-
-local sqlls_config = {
-  root_dir = function(fname)
-    local root_files = {
-      ".git",
-    }
-    return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
-  end,
-}
-
 local pyright_config = {
   root_dir = function(fname)
     local root_files = {
@@ -302,15 +278,6 @@ local phpactor_config = {
     -- ["php.version"] = "8.2",
   },
 }
-
-local eslint_config = {
-  settings = {
-    foramt = {
-      enable = false,
-    },
-  },
-}
-
 local function tsserver_organize_imports()
   local params = {
     command = "_typescript.organizeImports",
@@ -398,74 +365,6 @@ local html_config = {
   filetypes = {
     "html",
     "blade",
-  },
-}
-
-local tailwindcss_config = {
-  filetypes = {
-    "aspnetcorerazor",
-    "astro",
-    "astro-markdown",
-    "blade",
-    -- "clojure",
-    "django-html",
-    "htmldjango",
-    "edge",
-    "eelixir",
-    "elixir",
-    "ejs",
-    "erb",
-    "eruby",
-    -- "gohtml",
-    -- "gohtmltmpl",
-    "haml",
-    "handlebars",
-    "hbs",
-    "html",
-    "html-eex",
-    "heex",
-    "jade",
-    "leaf",
-    "liquid",
-    -- "markdown",
-    -- "mdx",
-    "mustache",
-    "njk",
-    "nunjucks",
-    -- "php",
-    "razor",
-    "slim",
-    "twig",
-    "css",
-    "less",
-    "postcss",
-    "sass",
-    "scss",
-    "stylus",
-    "sugarss",
-    "javascript",
-    "javascriptreact",
-    "reason",
-    "rescript",
-    "typescript",
-    "typescriptreact",
-    "vue",
-    "svelte",
-  },
-  settings = {
-    tailwindCSS = {
-      classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
-      lint = {
-        cssConflict = "warning",
-        invalidApply = "error",
-        invalidConfigPath = "error",
-        invalidScreen = "error",
-        invalidTailwindDirective = "error",
-        invalidVariant = "error",
-        recommendedVariantOrder = "warning",
-      },
-      validate = true,
-    },
   },
 }
 
@@ -570,165 +469,73 @@ local make_default_config = function()
   }
 end
 
+local server_list = {
+  ["lua_ls"] = {
+    config = lua_config,
+  },
+  ["gopls"] = {
+    config = gopls_config,
+  },
+  ["pyright"] = {
+    config = pyright_config,
+  },
+  ["intelephense"] = {
+    config = intelephense_config,
+  },
+  ["vtsls"] = {
+    config = vtsls_config,
+  },
+  ["html"] = {
+    config = html_config,
+  },
+  ["cssls"] = {
+    config = cssls_config,
+  },
+  ["jsonls"] = {
+    config = jsonls_config,
+  },
+  ["yamlls"] = {
+    config = yamlls_config,
+  },
+  ["copilot"] = {
+    config = nil,
+  },
+}
+
 local setup_servers = function()
   vim.lsp.handlers["workspace/diagnostic/refresh"] = function(_, _, ctx)
     local ns = vim.lsp.diagnostic.get_namespace(ctx.client_id)
     pcall(vim.diagnostic.reset, ns)
     return true
   end
-  require("mason-lspconfig").setup_handlers({
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn't have
-    -- a dedicated handler.
-    function(server_name) -- default handler (optional)
-      lspconfig[server_name].setup(make_default_config())
-    end,
-    -- Next, you can provide targeted overrides for specific servers.
-    ["lua_ls"] = function()
-      local config = make_default_config()
-      config.settings = lua_config.settings
-      lspconfig.lua_ls.setup(config)
-    end,
-    ["gopls"] = function()
-      local config = make_default_config()
-      config.settings = gopls_config.settings
-      config.init_options = gopls_config.init_options
-      lspconfig.gopls.setup(config)
-    end,
-    ["rust_analyzer"] = function()
-      -- local config = make_config()
-      -- config.settings = rust_config.settings
-      -- lspconfig.rust_analyzer.setup(config)
-      local rt = require("rust-tools")
 
-      rt.setup({
-        server = {
-          on_attach = custom_attach,
-          settings = rust_config.settings,
-        },
-        tools = { -- rust-tools options
-          -- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
-          reload_workspace_from_cargo_toml = true,
+  local default_config = make_default_config()
+  if vim.g.complete_engine_type == "blink" then
+    default_config.capabilities = require("blink.cmp").get_lsp_capabilities(default_config.capabilities)
+  elseif vim.g.complete_engine_type == "cmp" then
+    local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+    default_config.capabilities = vim.tbl_deep_extend("force", default_config.capabilities, cmp_capabilities)
+  end
 
-          -- These apply to the default RustSetInlayHints command
-          inlay_hints = {
-            -- automatically set inlay hints (type hints)
-            -- default: true
-            auto = false,
+  vim.lsp.config("*", default_config)
+  for server, value in pairs(server_list) do
+    if value.config ~= nil then
+      vim.lsp.config(server, value.config)
+    end
 
-            -- Only show inlay hints for the current line
-            only_current_line = false,
+    vim.lsp.enable(server)
+  end
 
-            -- whether to show parameter hints with the inlay hints or not
-            -- default: true
-            show_parameter_hints = true,
+  vim.lsp.inline_completion.enable()
+end
 
-            -- prefix for parameter hints
-            -- default: "<-"
-            parameter_hints_prefix = "<- ",
-
-            -- prefix for all the other hints (type, chaining)
-            -- default: "=>"
-            other_hints_prefix = "=> ",
-
-            -- whether to align to the length of the longest line in the file
-            max_len_align = false,
-
-            -- padding from the left if max_len_align is true
-            max_len_align_padding = 1,
-
-            -- whether to align to the extreme right or not
-            right_align = false,
-
-            -- padding from the right if right_align is true
-            right_align_padding = 7,
-
-            -- The color of the hints
-            highlight = "Comment",
-          },
-
-          -- options same as lsp hover / vim.lsp.util.open_floating_preview()
-          hover_actions = {
-
-            -- the border that is used for the hover window
-            -- see vim.api.nvim_open_win()
-            border = {
-              { "╭", "FloatBorder" },
-              { "─", "FloatBorder" },
-              { "╮", "FloatBorder" },
-              { "│", "FloatBorder" },
-              { "╯", "FloatBorder" },
-              { "─", "FloatBorder" },
-              { "╰", "FloatBorder" },
-              { "│", "FloatBorder" },
-            },
-
-            -- whether the hover action window gets automatically focused
-            -- default: false
-            auto_focus = false,
-          },
-        },
-      })
-    end,
-    ["sqlls"] = function()
-      local config = make_default_config()
-      config.root_dir = sqlls_config.root_dir
-      lspconfig.sqlls.setup(config)
-    end,
-    ["pyright"] = function()
-      local config = make_default_config()
-      config.root_dir = pyright_config.root_dir
-      lspconfig.pyright.setup(config)
-    end,
-    ["intelephense"] = function()
-      local config = make_default_config()
-      config = vim.tbl_deep_extend("force", config, intelephense_config)
-      lspconfig.intelephense.setup(config)
-    end,
-    ["solargraph"] = function()
-      local config = make_default_config()
-      config.settings = solargraph_config.settings
-      lspconfig.solargraph.setup(config)
-    end,
-    ["html"] = function()
-      local config = make_default_config()
-      config = vim.tbl_deep_extend("force", config, html_config)
-      lspconfig.html.setup(config)
-    end,
-    ["cssls"] = function()
-      local config = make_default_config()
-      config = vim.tbl_deep_extend("force", config, cssls_config)
-      lspconfig.cssls.setup(config)
-    end,
-    ["jsonls"] = function()
-      local config = make_default_config()
-      config.settings = jsonls_config.settings
-      lspconfig.jsonls.setup(config)
-    end,
-    ["tailwindcss"] = function()
-      local config = make_default_config()
-      config = vim.tbl_deep_extend("force", config, tailwindcss_config)
-      lspconfig.tailwindcss.setup(config)
-    end,
-    ["yamlls"] = function()
-      local config = make_default_config()
-      local yaml_config = require("yaml-companion").setup()
-      config = vim.tbl_deep_extend("force", config, yaml_config)
-      lspconfig.yamlls.setup(config)
-    end,
-    ["vtsls"] = function()
-      local config = make_default_config()
-      config.settings = vtsls_config.settings
-      lspconfig.vtsls.setup(config)
-    end,
-    ["eslint"] = function()
-      local config = make_default_config()
-      config.settings = eslint_config.settings
-      lspconfig.eslint.setup(config)
-    end,
-  })
+local setup_keymap = function()
+  vim.keymap.set("i", "<C-x>", function()
+    vim.lsp.inline_completion.get()
+  end)
 end
 
 setup_lsp_ui()
 setup_servers()
+setup_keymap()
 set_diagnostic_sign()
