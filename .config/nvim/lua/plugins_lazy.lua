@@ -527,99 +527,110 @@ require("lazy").setup({
   },
   -- treesitter
   {
+    "RRethy/nvim-treesitter-endwise",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("nvim-treesitter-endwise").init()
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("nvim-ts-autotag").setup({
+        opts = {
+          -- Defaults
+          enable_close = true, -- Auto close tags
+          enable_rename = true, -- Auto rename pairs of tags
+          enable_close_on_slash = true, -- Auto close on trailing </
+        },
+      })
+    end,
+  },
+  {
+    "monaqa/tree-sitter-unifieddiff",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    build = function(opts)
+      -- nvim-treesitterと同じ場所にパーサーをインストール
+      local output = vim.fs.joinpath(require("nvim-treesitter.config").get_install_dir(), "unifieddiff.so")
+      vim.system({ "tree-sitter", "build", "--output", output }, { cwd = opts.dir }, function() end)
+    end,
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
+    lazy = false,
+    branch = "main",
+    build = ":TSUpdate",
     enabled = function()
       return vim.g.use_treesitter
     end,
-    build = ":TSUpdate",
-    dependencies = {
-      "RRethy/nvim-treesitter-endwise",
-      "windwp/nvim-ts-autotag",
-    },
     config = function()
-      require("nvim-treesitter.configs").setup({
-        highlight = {
-          enable = true,
-          disable = function(lang, buf)
-            local disabled_lang = { "org" }
-            if vim.tbl_contains(disabled_lang, lang) then
-              return true
-            end
-
-            local max_filesize = 200 * 1024 -- 200 KB
-            local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-              return true
-            end
-            return false
-          end,
-        },
-        indent = {
-          enable = true,
-        },
-        -- Install parsers synchronously (only applied to `ensure_installed`)
-        sync_install = false,
-
-        -- Automatically install missing parsers when entering buffer
-        auto_install = false,
-        ensure_installed = {
-          "tmux",
-          "bash",
-          "java",
-          "dart",
-          "go",
-          "gomod",
-          "gosum",
-          "gowork",
-          "rust",
-          "ruby",
-          "python",
-          "lua",
-          "luadoc",
-          "php",
-          "php_only",
-          "phpdoc",
-          "blade",
-          "phpdoc",
-          "yaml",
-          "toml",
-          "json",
-          "jsonnet",
-          "typescript",
-          "javascript",
-          "jsdoc",
-          "tsx",
-          "html",
-          "haskell",
-          "haskell_persistent",
-          "vim",
-          "vimdoc",
-          "markdown",
-          "markdown_inline",
-          "mermaid",
-          "regex",
-          "make",
-          "dockerfile",
-          "graphql",
-          "sql",
-          "terraform",
-          "proto",
-          "diff",
-          "comment",
-          "git_config",
-          "git_rebase",
-          "gitattributes",
-          "gitcommit",
-          "gitignore",
-          "ini",
-        },
-        endwise = {
-          enable = true,
-        },
-        autotag = {
-          enable = true,
-        },
+      require("nvim-treesitter").install({
+        "tmux",
+        "bash",
+        "java",
+        "dart",
+        "go",
+        "gomod",
+        "gosum",
+        "gowork",
+        "rust",
+        "ruby",
+        "python",
+        "lua",
+        "luadoc",
+        "php",
+        "php_only",
+        "phpdoc",
+        "blade",
+        "phpdoc",
+        "yaml",
+        "toml",
+        "json",
+        "jsonnet",
+        "typescript",
+        "javascript",
+        "jsdoc",
+        "tsx",
+        "html",
+        "haskell",
+        "haskell_persistent",
+        "vim",
+        "vimdoc",
+        "markdown",
+        "markdown_inline",
+        "mermaid",
+        "regex",
+        "make",
+        "dockerfile",
+        "graphql",
+        "sql",
+        "terraform",
+        "proto",
+        "diff",
+        "comment",
+        "git_config",
+        "git_rebase",
+        "gitattributes",
+        "gitcommit",
+        "gitignore",
+        "ini",
+      })
+      -- ハイライト
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("vim-treesitter-start", {}),
+        callback = function(ctx)
+          -- 必要に応じて\`ctx.match\`に入っているファイルタイプの値に応じて挙動を制御
+          -- \`pcall\`でエラーを無視することでパーサーやクエリがあるか気にしなくてすむ
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          pcall(vim.treesitter.start)
+        end,
       })
     end,
   },
@@ -3195,6 +3206,7 @@ require("lazy").setup({
           "blade-formatter",
           -- "pint",
           "php-cs-fixer",
+          "snyk-ls",
         },
 
         -- if set to true this will check each tool for updates. If updates
@@ -3310,28 +3322,6 @@ require("lazy").setup({
           pivots = "abcdefghijklmnopqrstuvwxyz",
         },
         truncate = true,
-        sources = function(buf, _)
-          local sources = require("dropbar.sources")
-          local utils = require("dropbar.utils")
-          if vim.bo[buf].buftype == "terminal" then
-            return {
-              sources.terminal,
-            }
-          end
-
-          local s = { sources.lsp }
-          if require("nvim-treesitter.parsers").has_parser() then
-            s[#s + 1] = sources.treesitter
-          end
-          if vim.bo[buf].ft == "markdown" then
-            s[#s + 1] = sources.markdown
-          end
-
-          return {
-            sources.path,
-            utils.source.fallback(s),
-          }
-        end,
       },
       menu = {
         entry = {
