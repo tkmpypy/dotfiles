@@ -1159,11 +1159,6 @@ require("lazy").setup({
 
   -- UI
   {
-    "nvim-tree/nvim-web-devicons",
-    lazy = true,
-    enabled = false,
-  },
-  {
     "echasnovski/mini.icons",
     version = "*",
     opts = {
@@ -1176,33 +1171,6 @@ require("lazy").setup({
     config = function()
       require("notify").setup({
         background_colour = "#000000",
-      })
-    end,
-  },
-  {
-    "nvim-zh/colorful-winsep.nvim",
-    event = "WinNew",
-    enabled = false,
-    config = function()
-      require("colorful-winsep").setup({
-        enable = true,
-        -- Window divider color definition
-        highlight = {
-          fg = "#957CC6",
-        },
-        -- filetype in the list, will not be executed
-        no_exec_files = {
-          "packer",
-          "TelescopePrompt",
-          "mason",
-          "CompetiTest",
-          "NvimTree",
-          "NeogitStatus",
-          "NeogitCommitMessage",
-        },
-        smooth = true,
-        create_event = function() end,
-        close_event = function() end,
       })
     end,
   },
@@ -1976,97 +1944,6 @@ require("lazy").setup({
           },
         },
       })
-    end,
-  },
-  {
-    "nvim-orgmode/orgmode",
-    event = "VeryLazy",
-    ft = { "org" },
-    enabled = false,
-    config = function()
-      -- Setup orgmode
-      local base_dir = "~/Google Drive/マイドライブ"
-      require("orgmode").setup({
-        ui = {
-          menu = {
-            handler = function(data)
-              -- your handler here, for example:
-              local options = {}
-              local options_by_label = {}
-
-              for _, item in ipairs(data.items) do
-                -- Only MenuOption has `key`
-                -- Also we don't need `Quit` option because we can close the menu with ESC
-                if item.key and item.label:lower() ~= "quit" then
-                  table.insert(options, item.label)
-                  options_by_label[item.label] = item
-                end
-              end
-
-              local handler = function(choice)
-                if not choice then
-                  return
-                end
-
-                local option = options_by_label[choice]
-                if option.action then
-                  option.action()
-                end
-              end
-
-              vim.ui.select(options, {
-                prompt = data.prompt,
-              }, handler)
-            end,
-          },
-        },
-        mappings = {
-          org_return_uses_meta_return = false,
-        },
-        org_startup_folded = "showeverything",
-        org_id_link_to_org_use_id = false,
-        org_agenda_files = base_dir .. "/org/*",
-        org_default_notes_file = base_dir .. "/org/note.org",
-        org_default_journal_file = base_dir .. "/org/journal.org",
-        org_todo_keywords = { "TODO", "DOING", "WAITING", "|", "DONE", "DELEGATED" },
-        win_split_mode = "auto",
-        win_border = "single",
-        org_archive_location = base_dir .. "/org/archive/%s::",
-        org_capture_templates = {
-          t = {
-            description = "Todo",
-            -- * TODO
-            --   - [ ] Implements
-            --   - [ ] User Review
-            --   - [ ] Code Review
-            --   - [ ] Release
-            template = "* TODO %?\n \t- [ ] Implements\n\t- [ ] User Review\n\t- [ ] Code Review\n\t- [ ] Release",
-            target = base_dir .. "/org/todo.org",
-          },
-          j = {
-            description = "Journal",
-            template = "\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?",
-            target = base_dir .. "/org/journal.org",
-          },
-          b = {
-            description = "BIZ Note",
-            template = "** %?",
-            target = base_dir .. "/org/note_biz.org",
-          },
-          d = {
-            description = "DEV Note",
-            template = "** %?",
-            target = base_dir .. "/org/note_dev.org",
-          },
-        },
-      })
-
-      local cmd_tmpl = ":e " .. base_dir .. "/org/%s.org<CR>"
-      vim.keymap.set("n", "<Leader>Ot", cmd_tmpl:format("todo"))
-      vim.keymap.set("n", "<Leader>On", cmd_tmpl:format("note"))
-      vim.keymap.set("n", "<Leader>Ob", cmd_tmpl:format("note_biz"))
-      vim.keymap.set("n", "<Leader>Od", cmd_tmpl:format("note_dev"))
-      vim.keymap.set("n", "<Leader>Oj", cmd_tmpl:format("journal"))
     end,
   },
   {
@@ -3416,258 +3293,45 @@ require("lazy").setup({
     event = { "VeryLazy" },
     dependencies = { "neovim/nvim-lspconfig" },
   },
+  -- AI Integrations
   {
-    "zeioth/garbage-day.nvim",
-    enabled = false,
-    dependencies = { "neovim/nvim-lspconfig" },
-    event = { "LspAttach" },
-    opts = {
-      grace_period = 60 * 15,
-      excluded_lsp_clients = {
-        "jdtls",
-        "marksman",
-        "vtsls",
-        "hls",
-        "rust_analyzer",
-      },
-      stop_invisible = false,
-      notifications = true,
-    },
-  },
-  {
-    "coder/claudecode.nvim",
-    dependencies = { "folke/snacks.nvim" },
+    "folke/sidekick.nvim",
     keys = {
-      { "<leader>z", nil, desc = "AI/Claude Code" },
-      { "<leader>zc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<leader>zt", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-      { "<M-,>", "<cmd>ClaudeCodeFocus<cr>", desc = "Claude Code (Alt+,)", mode = { "n", "x" } },
-      { "<leader>zr", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-      { "<leader>zC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-      { "<leader>zb", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
-      { "<leader>zs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
       {
-        "<leader>zs",
-        "<cmd>ClaudeCodeTreeAdd<cr>",
-        desc = "Add file",
-        ft = { "NvimTree", "neo-tree", "oil" },
-      },
-      -- Diff management
-      { "<leader>za", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-      { "<leader>zd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
-    },
-    opts = {
-      terminal = {
-        ---@module "snacks"
-        ---@type snacks.win.Config|{}
-        snacks_win_opts = {
-          position = "float",
-          width = 0.85,
-          height = 0.85,
-          border = "rounded",
-          keys = {
-            claude_hide_alt = {
-              "<M-,>",
-              function(self)
-                self:hide()
-              end,
-              mode = "t",
-              desc = "Hide (Alt+,)",
-            },
-          },
-        },
-      },
-      -- Diff Integration
-      diff_opts = {
-        auto_close_on_accept = true,
-        vertical_split = true,
-        open_in_current_tab = true,
-        keep_terminal_focus = true, -- If true, moves focus back to terminal after diff opens
-      },
-    },
-  },
-  {
-    "olimorris/codecompanion.nvim",
-    -- lazy = false, -- lazy loading handled internally
-    dependencies = {
-      "j-hui/fidget.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    keys = {
-      { "<leader>Z", nil, desc = "+Code Companion" },
-      {
-        "<leader>Zz",
-        "<cmd>CodeCompanion<cr>",
-        desc = "CodeCompanion",
+        "<c-.>",
+        function()
+          require("sidekick.cli").focus()
+        end,
+        desc = "Sidekick Switch Focus",
         mode = { "n", "v" },
       },
       {
-        "<leader>Za",
-        "<cmd>CodeCompanionActions<cr>",
-        desc = "CodeCompanion Actions",
+        "<leader>aa",
+        function()
+          require("sidekick.cli").toggle({ focus = true })
+        end,
+        desc = "Sidekick Toggle CLI",
         mode = { "n", "v" },
       },
       {
-        "<leader>Zt",
-        "<cmd>CodeCompanionChat Toggle<cr>",
-        desc = "Toggle CodeCompanion Chat",
+        "<leader>ac",
+        function()
+          require("sidekick.cli").toggle({ name = "claude", focus = true })
+        end,
+        desc = "Sidekick Claude Toggle",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>ap",
+        function()
+          require("sidekick.cli").select_prompt()
+          -- require("sidekick.cli").prompt()
+          --
+        end,
+        desc = "Sidekick Ask Prompt",
         mode = { "n", "v" },
       },
     },
-    init = function()
-      require("codecompanion.fidget-spinner"):init()
-    end,
-    config = function()
-      require("codecompanion").setup({
-        opts = {
-          language = "Japanese",
-        },
-        adapters = {
-          copilot = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                model = {
-                  default = "claude-3.7-sonnet",
-                },
-              },
-            })
-          end,
-        },
-        strategies = {
-          chat = {
-            adapter = "copilot",
-            keymaps = {
-              send = {
-                modes = { n = { "<CR>", "<C-s>" }, i = "<C-s>" },
-              },
-              close = {
-                modes = { n = "q", i = "<M-q>" },
-              },
-              -- Add further custom keymaps here
-            },
-            slash_commands = {
-              ["git_files"] = {
-                description = "List git files",
-                ---@param chat CodeCompanion.Chat
-                callback = function(chat)
-                  local handle = io.popen("git ls-files")
-                  if handle ~= nil then
-                    local result = handle:read("*a")
-                    handle:close()
-                    chat:add_reference({ role = "user", content = result }, "git", "<git_files>")
-                  else
-                    return vim.notify("No git files available", vim.log.levels.INFO, { title = "CodeCompanion" })
-                  end
-                end,
-                opts = {
-                  contains_code = false,
-                },
-              },
-            },
-          },
-          inline = {
-            adapter = "copilot",
-          },
-          cmd = {
-            adapter = "copilot",
-          },
-        },
-      })
-    end,
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = { "Copilot" },
-    event = { "InsertEnter" },
-    enabled = false,
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
-    end,
-  },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    enabled = false,
-    build = "make tiktoken",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-    },
-    cmd = {
-      "Copilot",
-      "CopilotChat",
-      "CopilotChatReview",
-      "CopilotChatRefactor",
-      "CopilotChatCommit",
-      "CopilotChatCommitStaged",
-      "CopilotChatExplain",
-      "CopilotChatTests",
-      "CopilotChatFix",
-      "CopilotChatOptimize",
-      "CopilotChatDocs",
-      "CopilotChatDocsJA",
-      "CopilotChatFixDiagnostic",
-    },
-    config = function()
-      local select = require("CopilotChat.select")
-      require("CopilotChat").setup({
-        -- debug = true,
-        -- See Configuration section for rest
-        context = "files",
-        model = "claude-3.7-sonnet",
-        window = {
-          layout = "vertical", -- 'vertical', 'horizontal', 'float', 'replace'
-          width = 0.3, -- fractional width of parent, or absolute width in columns when > 1
-          height = 1.0, -- fractional height of parent, or absolute height in rows when > 1
-          -- Options below only apply to floating windows
-          relative = "editor", -- 'editor', 'win', 'cursor', 'mouse'
-          border = "single", -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
-          row = nil, -- row position of the window, default is centered
-          col = nil, -- column position of the window, default is centered
-          title = "Copilot Chat", -- title of chat window
-          footer = nil, -- footer of chat window
-          zindex = 1, -- determines if window is on top or below other floating windows
-        },
-        prompts = {
-          Explain = {
-            prompt = "カーソル上のコードの説明を段落をつけて書いてください。",
-            system_prompt = "COPILOT_EXPLAIN",
-          },
-          Tests = {
-            prompt = "カーソル上のコードの詳細な単体テスト関数を書いてください。",
-            system_prompt = "COPILOT_TESTS",
-          },
-          Fix = {
-            prompt = "このコードには問題があります。バグを修正したコードに書き換えてください。",
-            system_prompt = "COPILOT_FIX",
-          },
-          Review = {
-            prompt = "選択したコードを日本語でレビューしてください",
-            system_prompt = "COPILOT_REVIEW",
-          },
-          Refactor = {
-            prompt = "選択したコードを最適化し、パフォーマンスと可読性を向上させてください。",
-            system_prompt = "COPILOT_REFACTOR",
-          },
-          Docs = {
-            prompt = "選択したコードのドキュメントを書いてください。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
-            system_prompt = "COPILOT_DOCS",
-          },
-          DocsJA = {
-            prompt = "選択したコードのドキュメントを日本語で書いてください（句読点は不要）。ドキュメントをコメントとして追加した元のコードを含むコードブロックで回答してください。使用するプログラミング言語に最も適したドキュメントスタイルを使用してください（例：JavaScriptのJSDoc、Pythonのdocstringsなど）",
-            system_prompt = "COPILOT_DOCS_JA",
-          },
-          FixDiagnostic = {
-            prompt = "ファイル内の次のような診断上の問題を解決してください：",
-            selection = select.diagnostics,
-          },
-        },
-      })
-    end,
-    -- See Commands section for default commands if you want to lazy load on them
   },
   {
     "saghen/blink.cmp",
@@ -3714,6 +3378,16 @@ require("lazy").setup({
         ["<C-n>"] = { "select_next", "fallback" },
         ["<C-j>"] = { "snippet_forward", "fallback" },
         ["<C-k>"] = { "snippet_backward", "fallback" },
+        ["<Tab>"] = {
+          "snippet_forward",
+          function() -- sidekick next edit suggestion
+            return require("sidekick").nes_jump_or_apply()
+          end,
+          function() -- if you are using Neovim's native inline completions
+            return vim.lsp.inline_completion.get()
+          end,
+          "fallback",
+        },
       },
       completion = {
         keyword = {
@@ -4117,204 +3791,6 @@ require("lazy").setup({
     end,
   },
   {
-    "neoclide/coc.nvim",
-    event = "VeryLazy",
-    enabled = function()
-      return vim.g.lsp_client_type == "coc"
-    end,
-    build = "npm ci",
-    config = function()
-      local keyset = vim.keymap.set
-      vim.g.coc_global_extensions = {
-        "coc-word",
-        "coc-pairs",
-        "coc-lists",
-        "coc-diagnostic",
-        "coc-json",
-        "coc-yaml",
-        "coc-marketplace",
-        "coc-html",
-        "coc-css",
-        "coc-tsserver",
-        -- "coc-eslint",
-        -- "coc-prettier",
-        "coc-pyright",
-        "coc-rust-analyzer",
-        "coc-vimlsp",
-        "coc-go",
-        "@yaegassy/coc-intelephense",
-        "@yaegassy/coc-laravel",
-        "coc-blade",
-        -- "coc-lua",
-        "coc-sumneko-lua",
-        "coc-sql",
-        "coc-sh",
-        "coc-emoji",
-        "coc-gitignore",
-        "coc-docker",
-        "coc-spell-checker",
-        "coc-snippets",
-        "https://github.com/cstrap/python-snippets",
-      }
-      -- Use <C-j> for jump to next placeholder, it's default of coc.nvim
-      vim.g.coc_snippet_next = "<c-j>"
-
-      -- Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-      vim.g.coc_snippet_prev = "<c-k>"
-
-      -- Autocomplete
-      function _G.check_back_space()
-        local col = vim.fn.col(".") - 1
-        return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
-      end
-
-      -- Use Tab for trigger completion with characters ahead and navigate
-      -- NOTE: There's always a completion item selected by default, you may want to enable
-      -- no select by setting `"suggest.noselect": true` in your configuration file
-      -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
-      -- other plugins before putting this into your config
-      local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-      keyset(
-        "i",
-        "<TAB>",
-        'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()',
-        opts
-      )
-      keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-
-      -- Make <CR> to accept selected completion item or notify coc.nvim to format
-      -- <C-g>u breaks current undo, please make your own choice
-      keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
-      -- Use <c-j> to trigger snippets
-      keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
-      -- Use <c-space> to trigger completion
-      keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
-
-      -- Use `[g` and `]g` to navigate diagnostics
-      -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-      keyset("n", "<leander>fp", "<Plug>(coc-diagnostic-prev)", { silent = true })
-      keyset("n", "<leader>dn", "<Plug>(coc-diagnostic-next)", { silent = true })
-
-      -- GoTo code navigation
-      keyset("n", "gd", "<Plug>(coc-definition)", { silent = true })
-      keyset("n", "gy", "<Plug>(coc-type-definition)", { silent = true })
-      keyset("n", "gi", "<Plug>(coc-implementation)", { silent = true })
-      keyset("n", "gr", "<Plug>(coc-references)", { silent = true })
-
-      -- Use K to show documentation in preview window
-      function _G.show_docs()
-        local cw = vim.fn.expand("<cword>")
-        if vim.fn.index({ "vim", "help" }, vim.bo.filetype) >= 0 then
-          vim.api.nvim_command("h " .. cw)
-        elseif vim.api.nvim_eval("coc#rpc#ready()") then
-          vim.fn.CocActionAsync("doHover")
-        else
-          vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
-        end
-      end
-
-      keyset("n", "K", "<CMD>lua _G.show_docs()<CR>", { silent = true })
-
-      -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
-      vim.api.nvim_create_augroup("CocGroup", {})
-      vim.api.nvim_create_autocmd("CursorHold", {
-        group = "CocGroup",
-        command = "silent call CocActionAsync('highlight')",
-        desc = "Highlight symbol under cursor on CursorHold",
-      })
-
-      -- Symbol renaming
-      keyset("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true })
-
-      -- Formatting selected code
-      keyset("x", "<leader>f", "<Plug>(coc-format-selected)", { silent = true })
-      keyset("n", "<leader>f", "<Plug>(coc-format-selected)", { silent = true })
-
-      -- Setup formatexpr specified filetype(s)
-      vim.api.nvim_create_autocmd("FileType", {
-        group = "CocGroup",
-        pattern = "typescript,json",
-        command = "setl formatexpr=CocAction('formatSelected')",
-        desc = "Setup formatexpr specified filetype(s).",
-      })
-
-      -- Update signature help on jump placeholder
-      vim.api.nvim_create_autocmd("User", {
-        group = "CocGroup",
-        pattern = "CocJumpPlaceholder",
-        command = "call CocActionAsync('showSignatureHelp')",
-        desc = "Update signature help on jump placeholder",
-      })
-
-      opts = { silent = true, nowait = true }
-      -- Apply codeAction to the selected region
-      -- Example: `<leader>aap` for current paragraph
-      keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-      keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-
-      -- Remap keys for apply code actions at the cursor position.
-      keyset("n", "<leader>ac", "<Plug>(coc-codeaction-cursor)", opts)
-      -- Remap keys for apply code actions affect whole buffer.
-      keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", opts)
-      -- Remap keys for applying codeActions to the current buffer
-      -- keyset("n", "<leader>ac", "<Plug>(coc-codeaction)", opts)
-      -- Apply the most preferred quickfix action on the current line.
-      keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", opts)
-
-      -- Remap keys for apply refactor code actions.
-      keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
-      keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-      keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-
-      -- Run the Code Lens actions on the current line
-      keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
-
-      -- Map function and class text objects
-      -- NOTE: Requires 'textDocument.documentSymbol' support from the language server
-      keyset("x", "if", "<Plug>(coc-funcobj-i)", opts)
-      keyset("o", "if", "<Plug>(coc-funcobj-i)", opts)
-      keyset("x", "af", "<Plug>(coc-funcobj-a)", opts)
-      keyset("o", "af", "<Plug>(coc-funcobj-a)", opts)
-      keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
-      keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
-      keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
-      keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
-
-      -- Remap <C-f> and <C-b> to scroll float windows/popups
-      ---@diagnostic disable-next-line: redefined-local
-      local opts = { silent = true, nowait = true, expr = true }
-      keyset("n", "<C-d>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-      keyset("n", "<C-u>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-      keyset("i", "<C-d>", 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
-      keyset("i", "<C-u>", 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
-      keyset("v", "<C-d>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-      keyset("v", "<C-u>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-
-      -- Use CTRL-S for selections ranges
-      -- Requires 'textDocument/selectionRange' support of language server
-      keyset("n", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
-      keyset("x", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
-
-      -- Add `:Format` command to format current buffer
-      vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
-
-      -- " Add `:Fold` command to fold current buffer
-      vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", { nargs = "?" })
-
-      -- Add `:OR` command for organize imports of the current buffer
-      vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
-
-      keyset("n", "<leader>F", ":Format<CR>", { silent = true })
-      keyset("n", "<leader>O", ":OR<CR>", { silent = true })
-
-      -- Add (Neo)Vim's native statusline support
-      -- NOTE: Please see `:h coc-status` for integrations with external plugins that
-      -- provide custom statusline: lightline.vim, vim-airline
-      vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
-    end,
-  },
-  {
     "folke/which-key.nvim",
     event = "VeryLazy",
     config = function()
@@ -4428,7 +3904,7 @@ require("lazy").setup({
         { "<leader>gL", group = "+Linker" },
         { "<leader>gLc", ":GitLinker current<cr>", desc = "Current git link", mode = { "n", "x" } },
         { "<leader>gLd", ":GitLinker default<cr>", desc = "Default branch git link", mode = { "n", "x" } },
-        { "<leader>c", group = "+Comment" },
+        { "<leader>c", group = "+Code" },
         { "<leader>cg", group = "+Generate" },
         {
           "<leader>cgf",
@@ -4513,7 +3989,7 @@ require("lazy").setup({
             desc = "Hover Doc",
           },
           { "H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", desc = "Signature Help" },
-          { "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", desc = "Code Action", mode = { "n", "v" } },
+          { "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", desc = "Code Action", mode = { "n", "v" } },
           { "<leader>d", group = "+Diagnostics" },
           {
             "<leader>dt",
@@ -4540,22 +4016,6 @@ require("lazy").setup({
           { "<leader>ddd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics(Trouble)" },
           { "<leader>ddD", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics(Trouble)" },
           { "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename" },
-        })
-      elseif vim.g.lsp_client_type == "coc" then
-        wk.add({
-          { "<leader>d", group = "+Diagnostics" },
-          { "<leader>dd", group = "+List" },
-          { "<leader>ddd", "<cmd>Telescope coc diagnostics<CR>", desc = "Diagnostics" },
-          { "<leader>ddD", "<cmd>Telescope coc workspace_diagnostics<CR>", desc = "Workspace Diagnostics" },
-          ["<lesder>sd"] = { "<cmd>Telescope coc diagnostics<CR>", "Diagnostics" },
-          ["<lesder>sD"] = { "<cmd>Telescope coc workspace_diagnostics<CR>", "Workspace Diagnostics" },
-          { "<leader>ac", "<cmd>Telescope coc code_actions<CR>", desc = "Code Action", mode = { "n", "v" } },
-          ["g"] = {
-            name = "+LSP",
-            { "gr", "<cmd>Telescope coc references<CR>", desc = "References" },
-            { "gi", "<cmd>Telescope coc implementations<CR>", desc = "Implementations" },
-            { "gy", "<cmd>Telescope coc type_definitions<CR>", desc = "Type Definitions" },
-          },
         })
       end
     end,
@@ -4596,19 +4056,6 @@ require("lazy").setup({
       vim.g.edge_disable_italic_comment = false
       vim.g.edge_current_word = "bold"
       vim.g.edge_transparent_background = true
-    end,
-  },
-  {
-    "sainnhe/gruvbox-material",
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    config = function()
-      -- Optionally configure and load the colorscheme
-      -- directly inside the plugin declaration.
-      vim.g.gruvbox_material_enable_italic = true
-      vim.g.gruvbox_material_background = "soft"
-      vim.gruvbox_material_better_performance = 1
     end,
   },
 

@@ -42,6 +42,7 @@ abbr -a aqia 'aqua i -l -a'
 abbr -a vim 'nvim'
 abbr -a k9s 'LC_CTYPE="en_US.UTF-8" k9s'
 abbr -a ssh 'TERM=xterm-256color ssh'
+abbr -a lnav 'TERM=xterm-256color lnav'
 
 function update_completion
   set -l cmd ( type --force-path $argv[1] ); or return
