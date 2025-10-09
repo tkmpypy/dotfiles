@@ -42,5 +42,5 @@ packages:
   - name: kayac/ecspresso@v2.6.1
   - name: FiloSottile/mkcert@v1.4.4
   - name: tree-sitter/tree-sitter@v0.25.10
-  - name: snyk/cli@v1.1299.1
+  - name: snyk/cli@v1.1300.0
   - name: tstack/lnav@v0.13.2
