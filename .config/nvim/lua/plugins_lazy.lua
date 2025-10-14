@@ -1947,89 +1947,6 @@ require("lazy").setup({
     end,
   },
   {
-    "akinsho/org-bullets.nvim",
-    ft = { "org" },
-    config = function()
-      require("org-bullets").setup({
-        concealcursor = false, -- If false then when the cursor is on a line underlying characters are visible
-        symbols = {
-          -- list symbol
-          list = "•",
-          -- headlines can be a list
-          headlines = { "◉ ", "○ ", "✸ ", "✿ " },
-          -- or a function that receives the defaults and returns a list
-          checkboxes = {
-            half = { "", "OrgTSCheckboxHalfChecked" },
-            done = { "✓", "OrgDone" },
-            todo = { "˟", "OrgTODO" },
-          },
-        },
-      })
-    end,
-  },
-  {
-    "epwalsh/obsidian.nvim",
-    lazy = true,
-    ft = "markdown",
-    cmd = {
-      "ObsidianOpen",
-      "ObsidianNew",
-      "ObsidianToday",
-      "ObsidianYesterday",
-      "ObsidianLink",
-      "ObsidianFollowLink",
-      "ObsidianSearch",
-      "ObsidianQuickSwitch",
-      "ObsidianLinkNew",
-    },
-    -- event = {
-    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-    --   string.format("BufReadPre %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
-    --   string.format("BufNewFile %s/%s", vim.fn.expand("~"), "Dropbox/notes/**.md"),
-    -- },
-    dependencies = {
-      -- Required.
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      local enable_cmp = false
-      if vim.g.lsp_client_type == "neovim" and vim.g.complete_engine_type == "cmp" then
-        enable_cmp = true
-      end
-      require("obsidian").setup({
-        dir = "~/ghq/github.com/tkmpypy/obsidian",
-        daily_notes = {
-          folder = "journal",
-        },
-        completion = {
-          nvim_cmp = enable_cmp, -- if using nvim-cmp, otherwise set to false
-        },
-        -- Optional, key mappings.
-        mappings = {
-          -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-          -- ["ol"] = require("obsidian.mapping").gf_passthrough(),
-        },
-
-        note_id_func = function(title)
-          -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-          local suffix = ""
-          if title ~= nil then
-            -- If title is given, transform it into valid file name.
-            suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-ぁ-んァ-ヶー一-龯]", ""):lower()
-          else
-            -- If title is nil, just add 4 random uppercase letters to the suffix.
-            for _ = 1, 4 do
-              suffix = suffix .. string.char(math.random(65, 90))
-            end
-          end
-          return tostring(os.date("%Y-%m-%d")) .. "-" .. suffix
-        end,
-        use_advanced_uri = false,
-      })
-    end,
-  },
-  {
     "monaqa/dial.nvim",
     config = function()
       local augend = require("dial.augend")
@@ -2192,7 +2109,25 @@ require("lazy").setup({
   { "machakann/vim-sandwich" },
   { "simeji/winresizer" },
   {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    config = function()
+      require("markview").setup({
+        preview = {
+          icon_provider = "mini", -- "mini" or "devicons"
+        },
+      })
+    end,
+
+    -- For blink.cmp's completion
+    -- source
+    -- dependencies = {
+    --     "saghen/blink.cmp"
+    -- },
+  },
+  {
     "iamcco/markdown-preview.nvim",
+    enabled = false,
     ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
