@@ -17,7 +17,7 @@ packages:
   - name: BurntSushi/ripgrep@15.0.0
   - name: sharkdp/fd@v10.3.0
   - name: dandavison/delta@0.18.2
-  - name: sharkdp/bat@v0.25.0
+  - name: sharkdp/bat@v0.26.0
   - name: charmbracelet/glow@v2.1.1
   - name: jesseduffield/lazygit@v0.55.1
   - name: denisidoro/navi@v2.24.0
