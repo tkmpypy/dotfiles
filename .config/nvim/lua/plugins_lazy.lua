@@ -813,16 +813,8 @@ require("lazy").setup({
       "OverseerOpen",
       "OverseerClose",
       "OverseerToggle",
-      "OverseerSaveBundle",
-      "OverseerLoadBundle",
-      "OverseerDeleteBundle",
-      "OverseerRunCmd",
       "OverseerRun",
-      "OverseerInfo",
-      "OverseerBuild",
-      "OverseerQuickAction",
       "OverseerTaskAction",
-      "OverseerClearCache",
       "OverseerRestartLast",
     },
     config = function()
@@ -2464,40 +2456,6 @@ require("lazy").setup({
       end
     end,
   },
-  {
-    "nvim-orgmode/telescope-orgmode.nvim",
-    -- event = "VeryLazy",
-    dependencies = {
-      "nvim-orgmode/orgmode",
-      "nvim-telescope/telescope.nvim",
-    },
-    keys = {
-      {
-        "<leader>osr",
-        function()
-          require("telescope").extensions.orgmode.refile_heading({ max_depth = 5 })
-        end,
-        desc = "Search refile heading",
-      },
-      {
-        "<leader>osf",
-        function()
-          require("telescope").extensions.orgmode.search_headings({ max_depth = 5 })
-        end,
-        desc = "Search heading",
-      },
-      {
-        "<leader>osl",
-        function()
-          require("telescope").extensions.orgmode.insert_link()
-        end,
-        desc = "Search insert link",
-      },
-    },
-    config = function()
-      require("telescope").load_extension("orgmode")
-    end,
-  },
 
   -- Git
   {
@@ -3826,8 +3784,6 @@ require("lazy").setup({
         { "<leader>Tt", "<cmd>OverseerToggle<cr>", desc = "Toggle tasks" },
         { "<leader>Tr", "<cmd>OverseerRun<cr>", desc = "Run task" },
         { "<leader>TR", "<cmd>OverseerRestartLast<cr>", desc = "Restart task" },
-        { "<leader>Ti", "<cmd>OverseerInfo<cr>", desc = "Open information" },
-        { "<leader>Tc", "<cmd>OverseerRunCmd<cr>", desc = "Run command" },
 
         { "<leader>g", group = "+Git" },
         { "<leader>gs", "<cmd>lua require('neogit').open({ kind = 'auto' })<cr>", desc = "Status" },
