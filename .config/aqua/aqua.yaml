@@ -37,7 +37,7 @@ packages:
   - name: bitwarden/clients@cli-v2025.11.0
   - name: aws/aws-cli@2.16.4
   - name: MordechaiHadad/bob@v4.1.5
-  - name: astral-sh/uv@0.9.15
+  - name: astral-sh/uv@0.9.16
   - name: nektos/act@v0.2.83
   - name: kayac/ecspresso@v2.6.5
   - name: FiloSottile/mkcert@v1.4.4
