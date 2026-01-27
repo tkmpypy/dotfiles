@@ -44,3 +44,4 @@ packages:
   - name: tree-sitter/tree-sitter@v0.26.3
   - name: snyk/cli@v1.1302.1
   - name: tstack/lnav@v0.13.2
+  - name: anthropics/claude-code@v2.1.20

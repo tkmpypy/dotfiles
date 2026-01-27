@@ -3217,12 +3217,10 @@ require("lazy").setup({
       {
         "<leader>ap",
         function()
-          require("sidekick.cli").select_prompt()
-          -- require("sidekick.cli").prompt()
-          --
+          require("sidekick.cli").prompt()
         end,
-        desc = "Sidekick Ask Prompt",
-        mode = { "n", "v" },
+        mode = { "n", "x" },
+        desc = "Sidekick Select Prompt",
       },
     },
   },
@@ -3483,6 +3481,7 @@ require("lazy").setup({
       { "hrsh7th/cmp-buffer" },
       { "hrsh7th/cmp-path" },
       { "hrsh7th/cmp-cmdline" },
+      { "hrsh7th/cmp-emoji" },
       {
         "petertriho/cmp-git",
         dependencies = "nvim-lua/plenary.nvim",
@@ -3565,7 +3564,17 @@ require("lazy").setup({
         mapping = cmp.mapping.preset.insert({
           ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
           ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-          ["<Tab>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "s", "c" }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            local sidekick_enabled, lib = pcall(require, "sidekick")
+            print(sidekick_enabled)
+            if sidekick_enabled and require("sidekick").nes_jump_or_apply() then
+              return
+            end
+            if vim.lsp.inline_completion.get() then
+              return
+            end
+            fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+          end, { "i" }),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping({
             i = cmp.mapping.abort(),
@@ -3601,6 +3610,7 @@ require("lazy").setup({
             max_item_count = 10,
           },
           -- { name = "nvim_lsp_signature_help" },
+          { name = "emoji" },
         }),
         formatting = {
           format = lspkind.cmp_format({
