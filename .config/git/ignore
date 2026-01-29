@@ -32,3 +32,9 @@ pyrightconfig.json
 .pint.cache
 
 *mise.*
+
+.claude_workflow/
+
+**/.claude/settings.local.json
+
+.worktree/

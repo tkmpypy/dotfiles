@@ -1,0 +1,11 @@
+font-family = "JetBrains Mono"
+font-family = "Hiragino Kaku Gothic"
+font-size = 12
+font-thicken
+font-feature = -dlig
+
+# 外部アプリからクリップボード内容を読み取ることを許可
+clipboard-read = allow
+
+# ターミナルからクリップボードへ書き込むことを許可
+clipboard-write = allow
