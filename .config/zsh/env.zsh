@@ -12,7 +12,7 @@ then
     export XDG_DATA_HOME="$HOME/.local/share/"
 fi
 # export TERM="xterm-256color-italic"
-export TERM='wezterm'
+# export TERM='wezterm'
 export EDITOR='nvim'
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.local/bin"

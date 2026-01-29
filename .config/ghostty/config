@@ -1,7 +1,8 @@
-font-family = "JetBrains Mono"
-font-family = "Hiragino Kaku Gothic"
+font-family = "PlemolJP Console NF"
+# font-family = "Hiragino Kaku Gothic"
 font-size = 12
 font-thicken
+font-thicken-strength = 50
 font-feature = -dlig
 
 # 外部アプリからクリップボード内容を読み取ることを許可
