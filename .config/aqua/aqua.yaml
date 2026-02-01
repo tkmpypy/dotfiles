@@ -41,7 +41,7 @@ packages:
   - name: nektos/act@v0.2.84
   - name: kayac/ecspresso@v2.7.0
   - name: FiloSottile/mkcert@v1.4.4
-  - name: tree-sitter/tree-sitter@v0.26.3
+  - name: tree-sitter/tree-sitter@v0.26.5
   - name: snyk/cli@v1.1302.1
   - name: tstack/lnav@v0.13.2
   - name: anthropics/claude-code@v2.1.20
