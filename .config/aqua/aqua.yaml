@@ -39,7 +39,7 @@ packages:
   - name: MordechaiHadad/bob@v4.1.6
   - name: astral-sh/uv@0.9.30
   - name: nektos/act@v0.2.84
-  - name: kayac/ecspresso@v2.7.0
+  - name: kayac/ecspresso@v2.7.1
   - name: FiloSottile/mkcert@v1.4.4
   - name: tree-sitter/tree-sitter@v0.26.5
   - name: snyk/cli@v1.1302.1
