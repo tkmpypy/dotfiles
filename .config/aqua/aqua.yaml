@@ -31,7 +31,7 @@ packages:
   - name: rhysd/vim-startuptime@v1.3.2
   - name: kubernetes/kubectl@v1.35.0
   - name: goreleaser/goreleaser@v2.13.3
-  - name: kubernetes-sigs/kustomize@kustomize/v5.8.0
+  - name: kubernetes-sigs/kustomize@kustomize/v5.8.1
   - name: yannh/kubeconform@v0.7.0
   - name: haskell/ghcup-hs@v0.1.20.0
   - name: bitwarden/clients@cli-v2025.12.1
