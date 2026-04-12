@@ -43,5 +43,5 @@ packages:
   - name: FiloSottile/mkcert@v1.4.4
   - name: tree-sitter/tree-sitter@v0.26.8
   - name: snyk/cli@v1.1304.0
-  - name: tstack/lnav@v0.13.2
+  - name: tstack/lnav@v0.14.0
   - name: anthropics/claude-code@v2.1.20
