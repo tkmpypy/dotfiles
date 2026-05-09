@@ -45,4 +45,4 @@ packages:
   - name: snyk/cli@v1.1304.2
   - name: tstack/lnav@v0.14.0
   - name: anthropics/claude-code@v2.1.20
-  - name: openai/codex@rust-v0.129.0
+  - name: openai/codex@rust-v0.130.0
