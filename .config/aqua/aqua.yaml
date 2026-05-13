@@ -42,7 +42,7 @@ packages:
   - name: kayac/ecspresso@v2.8.3
   - name: FiloSottile/mkcert@v1.4.4
   - name: tree-sitter/tree-sitter@v0.26.8
-  - name: snyk/cli@v1.1304.2
+  - name: snyk/cli@v1.1304.3
   - name: tstack/lnav@v0.14.0
   - name: anthropics/claude-code@v2.1.20
   - name: openai/codex@rust-v0.130.0
