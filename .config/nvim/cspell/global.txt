@@ -319,3 +319,4 @@ pecl
 ecspresso
 fuga
 glog
+furigana

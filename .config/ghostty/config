@@ -1,9 +1,15 @@
-font-family = "PlemolJP Console NF"
-# font-family = "Hiragino Kaku Gothic"
+initial-command = "fish"
+
+theme = dark:Onenord,light:Onenord light
+
+font-family = JetBrains Mono
+font-family = "UDEV Gothic NF"
 font-size = 12
 font-thicken
-font-thicken-strength = 50
+font-thicken-strength = 5
 font-feature = -dlig
+
+minimum-contrast = 1.0
 
 # 外部アプリからクリップボード内容を読み取ることを許可
 clipboard-read = allow

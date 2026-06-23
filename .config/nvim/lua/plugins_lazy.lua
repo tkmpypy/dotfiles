@@ -463,6 +463,8 @@ require("lazy").setup({
           },
           function()
             local in_git = Snacks.git.get_root() ~= nil
+            local remote_output = in_git and vim.fn.system("git remote -v 2>/dev/null") or ""
+            local has_github = remote_output:find("github%.com") ~= nil
             local cmds = {
               {
                 title = "Open Issues",
@@ -473,6 +475,7 @@ require("lazy").setup({
                 end,
                 icon = " ",
                 height = 7,
+                enabled = has_github,
               },
               {
                 icon = " ",
@@ -483,6 +486,7 @@ require("lazy").setup({
                   vim.fn.jobstart("gh pr list --web", { detach = true })
                 end,
                 height = 7,
+                enabled = has_github,
               },
               {
                 icon = " ",
@@ -732,6 +736,7 @@ require("lazy").setup({
   {
     "HiPhish/rainbow-delimiters.nvim",
     event = "BufReadPre",
+    enabled = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -2055,6 +2060,26 @@ require("lazy").setup({
     "akinsho/toggleterm.nvim",
     event = { "VeryLazy" },
     config = function()
+      local Terminal = require("toggleterm.terminal").Terminal
+      local claude = Terminal:new({
+        cmd = "claude",
+        dir = "git_dir",
+        direction = "float",
+        -- function to run on opening the terminal
+        on_open = function(term)
+          vim.cmd("startinsert!")
+          vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+        end,
+        -- function to run on closing the terminal
+        on_close = function(term)
+          vim.cmd("startinsert!")
+        end,
+      })
+
+      function _claude_toggle()
+        claude:toggle()
+      end
+
       require("toggleterm").setup({
         size = function(term)
           if term.direction == "horizontal" then
@@ -2072,6 +2097,8 @@ require("lazy").setup({
         persist_size = false,
         persist_mode = false,
       })
+
+      vim.api.nvim_set_keymap("n", "<leader>ac", "<cmd>lua _claude_toggle()<CR>", { noremap = true, silent = true })
     end,
   },
   {
@@ -3002,7 +3029,8 @@ require("lazy").setup({
   {
     "Bekaboo/dropbar.nvim",
     enabled = function()
-      return vim.g.lsp_client_type == "neovim"
+      return false
+      -- return vim.g.lsp_client_type == "neovim"
     end,
     opts = {
       icons = {
@@ -3188,41 +3216,22 @@ require("lazy").setup({
   },
   -- AI Integrations
   {
-    "folke/sidekick.nvim",
-    keys = {
-      {
-        "<c-.>",
-        function()
-          require("sidekick.cli").focus()
-        end,
-        desc = "Sidekick Switch Focus",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>aa",
-        function()
-          require("sidekick.cli").toggle({ focus = true })
-        end,
-        desc = "Sidekick Toggle CLI",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>ac",
-        function()
-          require("sidekick.cli").toggle({ name = "claude", focus = true })
-        end,
-        desc = "Sidekick Claude Toggle",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>ap",
-        function()
-          require("sidekick.cli").prompt()
-        end,
-        mode = { "n", "x" },
-        desc = "Sidekick Select Prompt",
-      },
-    },
+    "tkmpypy/abumi.nvim",
+    dev = true,
+    config = function()
+      require("abumi").setup({
+        agents = {
+          claude = {
+            backend = "claude_print",
+            cmd = "claude",
+          },
+          codex = {
+            backend = "codex_exec",
+            cmd = "codex",
+          },
+        },
+      })
+    end,
   },
   {
     "saghen/blink.cmp",
