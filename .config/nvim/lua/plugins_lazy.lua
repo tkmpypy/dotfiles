@@ -2060,26 +2060,6 @@ require("lazy").setup({
     "akinsho/toggleterm.nvim",
     event = { "VeryLazy" },
     config = function()
-      local Terminal = require("toggleterm.terminal").Terminal
-      local claude = Terminal:new({
-        cmd = "claude",
-        dir = "git_dir",
-        direction = "float",
-        -- function to run on opening the terminal
-        on_open = function(term)
-          vim.cmd("startinsert!")
-          vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
-        end,
-        -- function to run on closing the terminal
-        on_close = function(term)
-          vim.cmd("startinsert!")
-        end,
-      })
-
-      function _claude_toggle()
-        claude:toggle()
-      end
-
       require("toggleterm").setup({
         size = function(term)
           if term.direction == "horizontal" then
@@ -2543,93 +2523,167 @@ require("lazy").setup({
     end,
   },
   {
-    "sindrets/diffview.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
-    keys = {
-      {
-        "<leader>gdd",
-        "<cmd>DiffviewOpen<cr>",
-        mode = "n",
-        desc = "Diffview Open",
+    "esmuellert/codediff.nvim",
+    cmd = "CodeDiff",
+    opts = {
+      -- Highlight configuration
+      highlights = {
+        -- Line-level: accepts highlight group names or hex colors (e.g., "#2ea043")
+        line_insert = "DiffAdd", -- Line-level insertions
+        line_delete = "DiffDelete", -- Line-level deletions
+
+        -- Character-level: accepts highlight group names or hex colors
+        -- If specified, these override char_brightness calculation
+        char_insert = nil, -- Character-level insertions (nil = auto-derive)
+        char_delete = nil, -- Character-level deletions (nil = auto-derive)
+
+        -- Brightness multiplier (only used when char_insert/char_delete are nil)
+        -- nil = auto-detect based on background (1.4 for dark, 0.92 for light)
+        char_brightness = nil, -- Auto-adjust based on your colorscheme
+
+        -- Conflict sign highlights (for merge conflict views)
+        -- Accepts highlight group names or hex colors (e.g., "#f0883e")
+        -- nil = use default fallback chain
+        conflict_sign = nil, -- Unresolved: DiagnosticSignWarn -> #f0883e
+        conflict_sign_resolved = nil, -- Resolved: Comment -> #6e7681
+        conflict_sign_accepted = nil, -- Accepted: GitSignsAdd -> DiagnosticSignOk -> #3fb950
+        conflict_sign_rejected = nil, -- Rejected: GitSignsDelete -> DiagnosticSignError -> #f85149
       },
-      {
-        "<leader>gdr",
-        "<cmd>DiffviewFileHistory %<cr>",
-        mode = "n",
-        desc = "Diffview current history",
+
+      -- Diff view behavior
+      diff = {
+        layout = "side-by-side", -- Diff layout: "side-by-side" (two panes) or "inline" (single pane with virtual lines)
+        disable_inlay_hints = true, -- Disable inlay hints in diff windows for cleaner view
+        max_computation_time_ms = 5000, -- Maximum time for diff computation (VSCode default)
+        ignore_trim_whitespace = false, -- Ignore leading/trailing whitespace changes (like diffopt+=iwhite)
+        hide_merge_artifacts = false, -- Hide merge tool temp files (*.orig, *.BACKUP.*, *.BASE.*, *.LOCAL.*, *.REMOTE.*)
+        original_position = "left", -- Position of original (old) content: "left" or "right"
+        conflict_ours_position = "right", -- Position of ours (:2) in conflict view: "left" or "right"
+        conflict_result_position = "bottom", -- "bottom" (default): result below diff panes or "center": result between diff panes (three columns)
+        conflict_result_height = 30, -- Height of result pane in bottom layout (% of total height)
+        conflict_result_width_ratio = { 1, 1, 1 }, -- Width ratio for center layout panes {left, center, right} (e.g., {1, 2, 1} for wider result)
+        cycle_next_hunk = true, -- Wrap around when navigating hunks (]c/[c): false to stop at first/last
+        cycle_next_file = true, -- Wrap around when navigating files (]f/[f): false to stop at first/last
+        cycle_hunks_across_files = false, -- ]c/[c at file boundary hops to first/last hunk of next/prev file (explorer/history)
+        jump_to_first_change = true, -- Auto-scroll to first change when opening a diff: false to stay at same line
+        highlight_priority = 100, -- Priority for line-level diff highlights (increase to override LSP highlights)
+        compute_moves = false, -- Detect moved code blocks (opt-in, matches VSCode experimental.showMoves)
+        compact_context_lines = 3, -- Number of context lines around hunks in compact mode
+        compact_sync_folds = true, -- Sync fold open/close across panes (mirrors Vim diff mode behavior)
+      },
+
+      -- Explorer panel configuration
+      explorer = {
+        position = "left", -- "left" or "bottom"
+        hidden = false, -- Initial visibility state
+        width = 40, -- Width when position is "left" (columns)
+        height = 15, -- Height when position is "bottom" (lines)
+        auto_refresh = true, -- Auto-refresh file list on focus / git index changes (set false to avoid lag in huge repos; R still refreshes manually)
+        indent_markers = true, -- Show indent markers in tree view (│, ├, └)
+        initial_focus = "explorer", -- Initial focus: "explorer", "original", or "modified"
+        icons = {
+          folder_closed = "", -- Nerd Font folder icon (customize as needed)
+          folder_open = "", -- Nerd Font folder-open icon
+        },
+        view_mode = "list", -- "list" or "tree"
+        flatten_dirs = true, -- Flatten single-child directory chains in tree view
+        file_filter = {
+          ignore = { ".git/**", ".jj/**" }, -- Glob patterns to hide (e.g., {"*.lock", "dist/*"})
+        },
+        focus_on_select = false, -- Jump to modified pane after selecting a file (default: stay in explorer)
+        auto_open_on_cursor = false, -- Rebind j/k/Down/Up in the explorer to also open the file under the cursor
+        status_right_margin = 1, -- Trailing cells between status symbol (M/A/D) and right edge; increase if Nerd Font icons clip it
+        visible_groups = { -- Which groups to show (can be toggled at runtime)
+          staged = true,
+          unstaged = true,
+          conflicts = true,
+        },
+      },
+
+      -- History panel configuration (for :CodeDiff history)
+      history = {
+        position = "bottom", -- "left" or "bottom" (default: bottom)
+        width = 40, -- Width when position is "left" (columns)
+        height = 15, -- Height when position is "bottom" (lines)
+        initial_focus = "history", -- Initial focus: "history", "original", or "modified"
+        view_mode = "list", -- "list" or "tree" for files under commits
+      },
+
+      -- Keymaps in diff view
+      keymaps = {
+        view = {
+          quit = "q", -- Close diff tab
+          toggle_explorer = "<leader>b", -- Toggle explorer visibility (explorer mode only)
+          focus_explorer = "<leader>e", -- Focus explorer panel (explorer mode only)
+          next_hunk = "]c", -- Jump to next change
+          prev_hunk = "[c", -- Jump to previous change
+          next_file = "]f", -- Next file in explorer/history mode
+          prev_file = "[f", -- Previous file in explorer/history mode
+          diff_get = "do", -- Get change from other buffer (like vimdiff)
+          diff_put = "dp", -- Put change to other buffer (like vimdiff)
+          open_in_prev_tab = "gf", -- Open current buffer in previous tab (or create one before)
+          close_on_open_in_prev_tab = false, -- Close codediff tab after gf opens file in previous tab
+          toggle_stage = "-", -- Stage/unstage current file (works in explorer and diff buffers)
+          stage_hunk = "<leader>hs", -- Stage hunk under cursor to git index
+          unstage_hunk = "<leader>hu", -- Unstage hunk under cursor from git index
+          discard_hunk = "<leader>hr", -- Discard hunk under cursor (working tree only)
+          hunk_textobject = "ih", -- Textobject for hunk (vih to select, yih to yank, etc.)
+          show_help = "g?", -- Show floating window with available keymaps
+          align_move = "gm", -- Temporarily align moved code blocks across panes
+          toggle_layout = "t", -- Toggle between side-by-side and inline layout
+          toggle_compact = "gc", -- Toggle compact mode (fold unchanged regions)
+        },
+        explorer = {
+          select = "<CR>", -- Open diff for selected file
+          hover = "K", -- Show file diff preview
+          refresh = "R", -- Refresh git status
+          toggle_view_mode = "i", -- Toggle between 'list' and 'tree' views
+          stage_all = "S", -- Stage all files
+          unstage_all = "U", -- Unstage all files
+          restore = "X", -- Discard changes (restore file)
+          toggle_changes = "gu", -- Toggle Changes (unstaged) group visibility
+          toggle_staged = "gs", -- Toggle Staged Changes group visibility
+          -- Fold keymaps (Vim-style)
+          fold_open = "zo", -- Open fold (expand current node)
+          fold_open_recursive = "zO", -- Open fold recursively (expand all descendants)
+          fold_close = "zc", -- Close fold (collapse current node)
+          fold_close_recursive = "zC", -- Close fold recursively (collapse all descendants)
+          fold_toggle = "za", -- Toggle fold (expand/collapse current node)
+          fold_toggle_recursive = "zA", -- Toggle fold recursively
+          fold_open_all = "zR", -- Open all folds in tree
+          fold_close_all = "zM", -- Close all folds in tree
+        },
+        history = {
+          select = "<CR>", -- Select commit/file or toggle expand
+          toggle_view_mode = "i", -- Toggle between 'list' and 'tree' views
+          refresh = "R", -- Refresh history (re-fetch commits)
+          -- Fold keymaps (Vim-style, apply to directory nodes only)
+          fold_open = "zo", -- Open fold (expand current node)
+          fold_open_recursive = "zO", -- Open fold recursively (expand all descendants)
+          fold_close = "zc", -- Close fold (collapse current node)
+          fold_close_recursive = "zC", -- Close fold recursively (collapse all descendants)
+          fold_toggle = "za", -- Toggle fold (expand/collapse current node)
+          fold_toggle_recursive = "zA", -- Toggle fold recursively
+          fold_open_all = "zR", -- Open all folds in tree
+          fold_close_all = "zM", -- Close all folds in tree
+        },
+        conflict = {
+          accept_incoming = "<leader>ct", -- Accept incoming (theirs/left) change
+          accept_current = "<leader>co", -- Accept current (ours/right) change
+          accept_both = "<leader>cb", -- Accept both changes (incoming first)
+          discard = "<leader>cx", -- Discard both, keep base
+          -- Accept all (whole file) - uppercase versions
+          accept_all_incoming = "<leader>cT", -- Accept ALL incoming changes
+          accept_all_current = "<leader>cO", -- Accept ALL current changes
+          accept_all_both = "<leader>cB", -- Accept ALL both changes
+          discard_all = "<leader>cX", -- Discard ALL, reset to base
+          next_conflict = "]x", -- Jump to next conflict
+          prev_conflict = "[x", -- Jump to previous conflict
+          diffget_incoming = "2do", -- Get hunk from incoming (left/theirs) buffer
+          diffget_current = "3do", -- Get hunk from current (right/ours) buffer
+        },
       },
     },
-    config = function()
-      local actions = require("diffview.actions")
-      require("diffview").setup({
-        diff_binaries = false, -- Show diffs for binaries
-        enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
-        use_icons = true, -- Requires nvim-web-devicons
-        icons = { -- Only applies when use_icons is true.
-          folder_closed = "",
-          folder_open = "",
-        },
-        signs = {
-          fold_closed = "",
-          fold_open = "",
-        },
-        file_panel = {
-          listing_style = "tree", -- One of 'list' or 'tree'
-          tree_options = { -- Only applies when listing_style is 'tree'
-            flatten_dirs = true, -- Flatten dirs that only contain one single dir
-            folder_statuses = "only_folded", -- One of 'never', 'only_folded' or 'always'.
-          },
-          win_config = { -- See ':h diffview-config-win_config'
-            position = "left",
-            width = 35,
-          },
-        },
-        file_history_panel = {
-          log_options = {
-            git = {
-              single_file = {
-                max_count = 512,
-                follow = true,
-              },
-              multi_file = {
-                max_count = 128,
-                -- follow = false   -- `follow` only applies to single-file history
-              },
-            },
-          },
-          win_config = { -- See ':h diffview-config-win_config'
-            position = "bottom",
-            height = 16,
-          },
-        },
-        commit_log_panel = {
-          win_config = {}, -- See ':h diffview-config-win_config'
-        },
-        default_args = { -- Default args prepended to the arg-list for the listed commands
-          DiffviewOpen = {},
-          DiffviewFileHistory = {},
-        },
-        hooks = {}, -- See ':h diffview-config-hooks'
-        keymaps = {
-          disable_defaults = false, -- Disable the default key bindings
-          -- The `view` bindings are active in the diff buffers, only when the current
-          -- tabpage is a Diffview.
-          view = {
-            ["q"] = actions.close,
-          },
-          file_panel = {
-            ["q"] = actions.close,
-          },
-          file_history_panel = {
-            ["q"] = actions.close,
-          },
-          option_panel = {
-            ["q"] = actions.close,
-          },
-        },
-      })
-    end,
   },
   {
     "akinsho/git-conflict.nvim",
@@ -2655,7 +2709,7 @@ require("lazy").setup({
     enabled = function()
       return vim.g.git_client_type == "neogit"
     end,
-    dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "esmuellert/codediff.nvim" },
     config = function()
       local neogit = require("neogit")
       neogit.setup({
@@ -2705,7 +2759,7 @@ require("lazy").setup({
           hunk = { "", "" },
         },
         integrations = {
-          diffview = true,
+          codediff = true,
         },
       })
     end,
@@ -3215,6 +3269,13 @@ require("lazy").setup({
     dependencies = { "neovim/nvim-lspconfig" },
   },
   -- AI Integrations
+  {
+    "lambdalisue/nvim-aibo",
+    -- Optional: setup can be omitted for default configuration
+    config = function()
+      require("aibo").setup()
+    end,
+  },
   {
     "tkmpypy/abumi.nvim",
     dev = true,
@@ -3807,10 +3868,13 @@ require("lazy").setup({
         { "<leader>g", group = "+Git" },
         { "<leader>gs", "<cmd>lua require('neogit').open({ kind = 'auto' })<cr>", desc = "Status" },
         { "<leader>gd", group = "+Diff" },
+        { "<leader>gdh", group = "+History" },
         { "<leader>gs", group = "+Stage", mode = "x" },
         { "<leader>gss", ":Gitsigns stage_hunk<cr>", desc = "Select stage", mode = "x" },
         { "<leader>gsu", ":Gitsigns unstage_hunk<cr>", desc = "Select unstage", mode = "x" },
-        { "<leader>gdd", "<cmd>Gitsigns diffthis<cr>", desc = "Diff" },
+        { "<leader>gdd", "<cmd>CodeDiff <cr>", desc = "Diff" },
+        { "<leader>gdhc", "<cmd>CodeDiff history HEAD~20 %<cr>", desc = "Current File History 20" },
+        { "<leader>gdha", "<cmd>CodeDiff history<cr>", desc = "All File History 50" },
         { "<leader>gL", group = "+Linker" },
         { "<leader>gLc", ":GitLinker current<cr>", desc = "Current git link", mode = { "n", "x" } },
         { "<leader>gLd", ":GitLinker default<cr>", desc = "Default branch git link", mode = { "n", "x" } },
