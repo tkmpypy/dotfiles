@@ -45,5 +45,5 @@ packages:
   - name: snyk/cli@v1.1305.2
   - name: tstack/lnav@v0.14.0
   - name: anthropics/claude-code@v2.1.20
-  - name: evilmartians/lefthook@v2.1.9
+  - name: evilmartians/lefthook@v2.1.10
   - name: openai/codex@rust-v0.142.5
