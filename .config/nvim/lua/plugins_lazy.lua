@@ -541,7 +541,6 @@ require("lazy").setup({
     end,
     config = function()
       require("nvim-treesitter").install({
-        "tmux",
         "bash",
         "java",
         "dart",
