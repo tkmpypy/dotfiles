@@ -1,4 +1,3 @@
----@diagnostic disable: missing-fields, undefined-global
 local vim = vim
 local lazypath = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
 if not vim.uv.fs_stat(lazypath) then
@@ -2072,23 +2071,6 @@ require("lazy").setup({
   { "machakann/vim-sandwich" },
   { "simeji/winresizer" },
   {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    config = function()
-      require("markview").setup({
-        preview = {
-          icon_provider = "mini", -- "mini" or "devicons"
-        },
-      })
-    end,
-
-    -- For blink.cmp's completion
-    -- source
-    -- dependencies = {
-    --     "saghen/blink.cmp"
-    -- },
-  },
-  {
     "iamcco/markdown-preview.nvim",
     enabled = false,
     ft = { "markdown" },
@@ -2744,6 +2726,7 @@ require("lazy").setup({
       lint.linters_by_ft = {
         -- markdown = { "vale" },
         go = { "golangcilint" },
+        lua = { "selene" },
         python = { "ruff" },
         sh = { "shellcheck" },
         javascript = { "biomejs" },
@@ -3018,6 +3001,7 @@ require("lazy").setup({
           "gci",
           "shfmt",
           "stylua",
+          "selene",
           "blade-formatter",
           -- "pint",
           "php-cs-fixer",
@@ -4092,6 +4076,20 @@ require("lazy").setup({
           },
         },
       })
+    end,
+  },
+  {
+    "tkmpypy/utsushi.nvim",
+    dev = true, -- ~/ghq/github.com/tkmpypy/utsushi.nvim をローカル開発プラグインとして読み込む
+    ft = { "markdown" },
+    cmd = { "UtsushiOpen", "UtsushiClose", "UtsushiToggle", "UtsushiRefresh" },
+    keys = {
+      { "<leader>mp", "<cmd>UtsushiToggle<cr>", desc = "Utsushi: toggle preview" },
+      { "<leader>mr", "<cmd>UtsushiRefresh<cr>", desc = "Utsushi: refresh preview" },
+    },
+    config = function()
+      -- 設定項目の詳細は utsushi.nvim の docs/spec.md を参照
+      require("utsushi").setup({})
     end,
   },
 }, {
