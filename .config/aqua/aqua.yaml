@@ -21,7 +21,7 @@ packages:
   - name: charmbracelet/glow@v3.0.0
   - name: jesseduffield/lazygit@v0.64.1
   - name: denisidoro/navi@v2.24.0
-  - name: ClementTsang/bottom@0.14.8
+  - name: ClementTsang/bottom@0.14.9
   - name: derailed/k9s@v0.51.0
   - name: x-motemen/ghq@v1.10.1
   - name: orhun/git-cliff@v2.13.1
