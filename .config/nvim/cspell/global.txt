@@ -320,3 +320,5 @@ ecspresso
 fuga
 glog
 furigana
+ghostty
+herdr

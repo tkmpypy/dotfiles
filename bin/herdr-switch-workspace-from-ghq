@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ ${HERDR_ENV:-} != 1 ]]; then
+  printf 'Run this picker inside Herdr.\n' >&2
+  exit 1
+fi
+
+# fzf runs this helper through Bash even when the user's login shell is fish.
+if [[ ${1:-} == --preview ]]; then
+  for readme in "$2"/[Rr][Ee][Aa][Dd][Mm][Ee]*; do
+    [[ -f $readme ]] || continue
+    if command -v bat >/dev/null 2>&1; then
+      bat --color=always --style=plain --paging=never -- "$readme"
+    else
+      cat -- "$readme"
+    fi
+    exit 0
+  done
+  printf 'No README found.\n'
+  exit 0
+fi
+
+# The picker expects exactly one unchanged candidate on stdout.
+unset FZF_DEFAULT_OPTS FZF_DEFAULT_OPTS_FILE
+
+canonical_checkout() {
+  local root
+  root=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null) || return 1
+  (cd -- "$root" && pwd -P)
+}
+
+repos=$(ghq list -p)
+[[ -n $repos ]] || exit 0
+export HERDR_GHQ_PICKER
+HERDR_GHQ_PICKER=$(cd -- "$(dirname -- "$0")" && pwd -P)/$(basename -- "$0")
+# Expand the exported helper path in the preview shell, not in this shell.
+# shellcheck disable=SC2016
+if selected=$(printf '%s\n' "$repos" |
+  fzf --no-multi --cycle --reverse \
+    --prompt='Project> ' --with-shell='bash -c' \
+    --preview='bash "$HERDR_GHQ_PICKER" --preview {}' \
+    --bind='ctrl-d:preview-page-down,ctrl-u:preview-page-up'); then
+  [[ -n $selected ]] || exit 1
+else
+  status=$?
+  case $status in 1|130) exit 0 ;; *) exit "$status" ;; esac
+fi
+
+# ghq emits one path per line; keep paths literal throughout selection and preview.
+found=false
+while IFS= read -r repo; do
+  if [[ $repo == "$selected" ]]; then found=true; break; fi
+done <<< "$repos"
+[[ $found == true ]] || exit 1
+checkout=$(canonical_checkout "$selected")
+repo_hash=$(printf '%s' "$checkout" | shasum -a 256)
+repo_hash=${repo_hash%% *}
+
+# A failed or malformed snapshot must never turn into a request to create.
+response=$(herdr api snapshot)
+snapshot=$(jq -ce '.result.snapshot |
+  select((.workspaces | type) == "array" and (.panes | type) == "array") |
+  if all(.workspaces[]; (.workspace_id | type == "string" and length > 0))
+     and all(.panes[]; (.workspace_id | type == "string" and length > 0))
+  then . else error("Invalid workspace snapshot") end' <<< "$response")
+
+matches=()
+while IFS= read -r workspace; do
+  workspace_id=$(jq -r '.workspace_id' <<< "$workspace")
+  assigned=$(jq -r '.tokens.ghq_repo_hash // empty' <<< "$workspace")
+  match=false
+  if [[ -n $assigned ]]; then
+    # A remembered checkout wins over incidental directories visited in panes.
+    if [[ $assigned == "$repo_hash" ]]; then match=true; fi
+  else
+    native_path=$(jq -r '.worktree.checkout_path // empty' <<< "$workspace")
+    if [[ -n $native_path ]] && root=$(canonical_checkout "$native_path") && [[ $root == "$checkout" ]]; then
+      match=true
+    fi
+    if [[ $match == false ]]; then
+      while IFS= read -r -d '' pane_cwd; do
+        if root=$(canonical_checkout "$pane_cwd") && [[ $root == "$checkout" ]]; then
+          match=true
+          break
+        fi
+      done < <(jq -rj --arg id "$workspace_id" '
+        .panes[] | select(.workspace_id == $id) |
+        (.foreground_cwd // .cwd // empty) | ., "\u0000"
+      ' <<< "$snapshot")
+    fi
+  fi
+  if [[ $match == true ]]; then matches+=("$workspace"); fi
+done < <(jq -c '.workspaces[]' <<< "$snapshot")
+
+if [[ ${#matches[@]} -eq 0 ]]; then
+  response=$(herdr workspace create --cwd "$checkout" --label "${checkout##*/}" --focus)
+  workspace_id=$(jq -er '.result.workspace.workspace_id | select(type == "string" and length > 0)' <<< "$response")
+else
+  if [[ ${#matches[@]} -eq 1 ]]; then
+    workspace_id=$(jq -r '.workspace_id' <<< "${matches[0]}")
+  else
+    candidates=$(printf '%s\n' "${matches[@]}" | jq -r '
+      [.workspace_id, ((.number // "") | tostring), (.label // "(untitled)")] | @tsv')
+    if selected=$(printf '%s\n' "$candidates" |
+      fzf --no-multi --cycle --reverse \
+        --delimiter=$'\t' --with-nth=2.. --prompt='Workspace> '); then
+      [[ -n $selected ]] || exit 1
+    else
+      status=$?
+      case $status in 1|130) exit 0 ;; *) exit "$status" ;; esac
+    fi
+    workspace_id=${selected%%$'\t'*}
+    printf '%s\n' "${matches[@]}" | jq -es --arg id "$workspace_id" \
+      'any(.[]; .workspace_id == $id)' >/dev/null
+  fi
+  herdr workspace focus "$workspace_id"
+fi
+
+# Herdr token values have an 80-character limit; store the path's fingerprint.
+herdr workspace report-metadata "$workspace_id" --source dotfiles:ghq \
+  --token "ghq_repo_hash=$repo_hash"

@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ ${HERDR_ENV:-} != 1 ]]; then
+  printf 'Run this picker inside Herdr.\n' >&2
+  exit 1
+fi
+
+if [[ ${1:-} == --preview ]]; then
+  if ! response=$(herdr workspace get "${2:?Workspace ID required}" 2>/dev/null); then
+    printf 'Workspace unavailable.\n'
+    exit 0
+  fi
+  workspace=$(jq -ce '.result.workspace | select(type == "object")' <<< "$response")
+  active_tab=$(jq -r '.active_tab_id' <<< "$workspace")
+  if ! response=$(herdr pane list --workspace "$2" 2>/dev/null); then
+    printf 'Workspace panes unavailable.\n'
+    exit 0
+  fi
+  pane=$(jq -ce --arg workspace "$2" --arg tab "$active_tab" '
+    [.result.panes[] | select(.workspace_id == $workspace)] as $panes |
+    [$panes[] | select(.tab_id == $tab)] |
+    if length == 0 then $panes else . end |
+    (map(select(.focused == true))[0] // .[0] // {})
+  ' <<< "$response")
+  pane_id=$(jq -r '.pane_id // empty' <<< "$pane")
+  if [[ -z $pane_id ]]; then
+    printf 'No pane available.\n'
+    exit 0
+  fi
+  jq -r '.label' <<< "$workspace"
+  jq -r '.foreground_cwd // .cwd // "(unknown directory)"' <<< "$pane"
+  printf '\n'
+  herdr pane read "$pane_id" --source recent-unwrapped --lines 200 --format text 2>/dev/null ||
+    printf 'Pane output unavailable.\n'
+  exit 0
+fi
+
+# The picker expects exactly one unchanged candidate on stdout.
+unset FZF_DEFAULT_OPTS FZF_DEFAULT_OPTS_FILE
+
+response=$(herdr workspace list)
+workspaces=$(jq -ce '.result.workspaces | select(type == "array") |
+  if all(.[]; (.workspace_id | type == "string" and length > 0)) then .
+  else error("Invalid workspace list") end' <<< "$response")
+candidates=$(jq -r --arg caller "${HERDR_WORKSPACE_ID:-}" '
+  .[] | select(.workspace_id != $caller) |
+  [.workspace_id, ((.number // "") | tostring), (.label // "(untitled)")] | @tsv
+' <<< "$workspaces")
+[[ -n $candidates ]] || exit 0
+
+export HERDR_WORKSPACE_PICKER
+HERDR_WORKSPACE_PICKER=$(cd -- "$(dirname -- "$0")" && pwd -P)/$(basename -- "$0")
+# Expand the helper path in Bash; fzf safely quotes the selected opaque ID.
+# shellcheck disable=SC2016
+if selected=$(printf '%s\n' "$candidates" |
+  fzf --no-multi --cycle --reverse \
+    --delimiter=$'\t' --with-nth=2.. --prompt='Workspace> ' \
+    --with-shell='bash -c' \
+    --preview='bash "$HERDR_WORKSPACE_PICKER" --preview {1}' \
+    --preview-window='right:60%:wrap:follow' \
+    --bind='ctrl-d:preview-page-down,ctrl-u:preview-page-up'); then
+  [[ -n $selected ]] || exit 1
+else
+  status=$?
+  case $status in 1|130) exit 0 ;; *) exit "$status" ;; esac
+fi
+
+workspace_id=${selected%%$'\t'*}
+# Accept only an ID from the fetched list, even with inherited fzf options.
+jq -e --arg id "$workspace_id" --arg caller "${HERDR_WORKSPACE_ID:-}" \
+  'any(.[]; .workspace_id == $id and .workspace_id != $caller)' \
+  <<< "$workspaces" >/dev/null
+herdr workspace focus "$workspace_id"
