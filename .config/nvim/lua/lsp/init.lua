@@ -143,13 +143,13 @@ local lua_config = {
 local cssls_config = {
   settings = {
     css = {
-      validate = true,
+      validate = false,
     },
     scss = {
-      validate = true,
+      validate = false,
     },
     less = {
-      validate = true,
+      validate = false,
     },
   },
   single_file_support = true,
@@ -255,6 +255,23 @@ local intelephense_config = {
     intelephense = {
       environment = {
         phpVersion = "8.2",
+      },
+      files = {
+        exclude = {
+          "**/.git/**",
+          "**/.svn/**",
+          "**/.hg/**",
+          "**/CVS/**",
+          "**/.DS_Store/**",
+          "**/node_modules/**",
+          "**/bower_components/**",
+          "**/vendor/**/{Tests,tests}/**",
+          "**/.history/**",
+          "**/vendor/**/vendor/**",
+          "**/storage/**",
+          "**/cache/**",
+          "./.worktree/**",
+        },
       },
       diagnostics = {
         enable = true,

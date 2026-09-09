@@ -2733,6 +2733,7 @@ require("lazy").setup({
         javascriptreact = { "eslint_d" },
         typescript = { "biomejs" },
         typescriptreact = { "eslint_d" },
+        css = { "biomejs" },
         vue = { "eslint_d" },
         json = { "jsonlint" },
         php = { "phpstan" },
