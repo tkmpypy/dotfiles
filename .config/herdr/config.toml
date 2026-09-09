@@ -81,19 +81,19 @@ shell_mode = "auto"
 # Prefix-mode actions
 # help = "prefix+?"
 # settings = "prefix+s"
-# detach = "prefix+q"
+detach = "prefix+d"
 # reload_config = "prefix+shift+r"
 # open_notification_target = "prefix+o"
 # workspace_picker = "prefix+w"
-# goto = "prefix+g"
+goto = "prefix+alt+g"
 # new_workspace = "prefix+shift+n"
 # new_worktree = "prefix+shift+g"
 # open_worktree = ""    # optional, unset by default
 # remove_worktree = ""  # optional, unset by default; opens confirmation
 # rename_workspace = "prefix+shift+w"
 # close_workspace = "prefix+shift+d"
-# previous_workspace = "" # optional, unset by default
-# next_workspace = ""     # optional, unset by default
+previous_workspace = "prefix+." # optional, unset by default
+next_workspace = "prefix+,"     # optional, unset by default
 # previous_agent = ""     # optional, unset by default
 # next_agent = ""         # optional, unset by default
 # focus_agent = ""        # optional indexed binding, e.g. "prefix+alt+1..9"
@@ -106,7 +106,7 @@ shell_mode = "auto"
 # move_tab_next = ""       # optional, e.g. "alt+shift+right" moves the tab toward the back
 # switch_tab = "prefix+1..9"
 # switch_workspace = ""   # optional indexed binding, e.g. "prefix+shift+1..9"
-# close_tab = "prefix+shift+x"
+close_tab = "prefix+q"
 # rename_pane = "prefix+shift+p"
 # edit_scrollback = "prefix+e"
 # focus_pane_left = "prefix+h"
@@ -148,6 +148,20 @@ shell_mode = "auto"
 # command = "lazygit"
 # width = "80%"
 # height = "80%"
+
+[[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "~/bin/herdr-switch-workspace"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "~/bin/herdr-switch-workspace-from-ghq"
+width = "80%"
+height = "80%"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
@@ -303,10 +317,10 @@ status_indicators = "symbols"
 # terminal = ask the outer terminal to show a desktop notification
 # system = ask the OS notification service directly
 delivery = "herdr"
-# delay_seconds = 1
+delay_seconds = 1
 
 [ui.toast.herdr]
-# position = "bottom-right"
+position = "bottom-right"
 
 [ui.toast.clipboard]
 # enabled = true
