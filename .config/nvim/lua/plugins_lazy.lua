@@ -17,6 +17,7 @@ require("lazy").setup({
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    enabled = false,
     keys = {
       {
         "<leader>q",
@@ -758,6 +759,37 @@ require("lazy").setup({
     end,
   },
 
+  -- Buffers
+  {
+    "ojroques/nvim-bufdel",
+    keys = {
+      {
+        "<leader>q",
+        function()
+          require("bufdel").delete_buffer_expr(nil, false)
+        end,
+        mode = "n",
+        desc = "Delete buffer",
+      },
+      {
+        "<leader>Q",
+        function()
+          require("bufdel").delete_buffer_expr(nil, true)
+        end,
+        mode = "n",
+        desc = "Delete buffer and ignore changes",
+      },
+    },
+    cmd = {
+      "BufDel",
+      "BufDelAll",
+      "BufDelOthers",
+    },
+    opts = {
+      next = "cycle",
+      quit = false, -- quit Neovim when last buffer is closed
+    },
+  },
   -- Language
   {
     "hashivim/vim-terraform",
@@ -2331,7 +2363,7 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     lazy = true,
-    enabled = false,
+    enabled = true,
     cmd = { "Telescope" },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -2347,6 +2379,7 @@ require("lazy").setup({
           mappings = {
             i = {
               ["<C-h>"] = "which_key",
+              ["<C-s>"] = "file_split",
             },
           },
           vimgrep_arguments = {
@@ -2385,13 +2418,13 @@ require("lazy").setup({
             },
           },
           find_files = {
-            theme = "ivy",
+            -- theme = "ivy",
           },
           grep_string = {
-            theme = "ivy",
+            -- theme = "ivy",
           },
           live_grep = {
-            theme = "ivy",
+            -- theme = "ivy",
           },
         },
         extensions = {},
@@ -2453,20 +2486,53 @@ require("lazy").setup({
   },
   {
     "pwntester/octo.nvim",
+    cmd = "Octo",
+    opts = {
+      -- or "fzf-lua" or "snacks" or "default"
+      picker = "telescope",
+      -- bare Octo command opens picker of commands
+      enable_builtin = true,
+      gh_env = {
+        AQUA_ROOT_DIR = vim.env["AQUA_ROOT_DIR"],
+        AQUA_GLOBAL_CONFIG = vim.env["AQUA_GLOBAL_CONFIG"],
+      },
+    },
+    keys = {
+      {
+        "<leader>oi",
+        "<CMD>Octo issue list<CR>",
+        desc = "List GitHub Issues",
+      },
+      {
+        "<leader>op",
+        "<CMD>Octo pr list<CR>",
+        desc = "List GitHub PullRequests",
+      },
+      {
+        "<leader>od",
+        "<CMD>Octo discussion list<CR>",
+        desc = "List GitHub Discussions",
+      },
+      {
+        "<leader>on",
+        "<CMD>Octo notification list<CR>",
+        desc = "List GitHub Notifications",
+      },
+      {
+        "<leader>os",
+        function()
+          require("octo.utils").create_base_search_command({ include_current_repo = true })
+        end,
+        desc = "Search GitHub",
+      },
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
-      "nvim-tree/nvim-web-devicons",
+      -- OR "ibhagwan/fzf-lua",
+      -- "folke/snacks.nvim",
+      "nvim-tree/nvim-web-devicons", -- optional if file_panel.icons is a function
     },
-    cmd = { "Octo" },
-    config = function()
-      require("octo").setup({
-        gh_env = {
-          AQUA_ROOT_DIR = vim.env["AQUA_ROOT_DIR"],
-          AQUA_GLOBAL_CONFIG = vim.env["AQUA_GLOBAL_CONFIG"],
-        },
-      })
-    end,
   },
   {
     "esmuellert/codediff.nvim",
@@ -2784,6 +2850,64 @@ require("lazy").setup({
           require("lint").try_lint("cspell")
         end,
       })
+    end,
+  },
+  {
+    "goolord/alpha-nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      local alpha = require("alpha")
+      local theme = require("alpha.themes.theta")
+      local dashboard = require("alpha.themes.dashboard")
+
+      local header = {
+        type = "text",
+        val = {
+          [[                                                     ]],
+          [[                                                     ]],
+          [[                                                     ]],
+          [[                                                     ]],
+          [[                                                     ]],
+          [[                                                     ]],
+          [[                                                     ]],
+          [[                                                     ]],
+          [[                                                     ]],
+          [[  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+          [[  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+          [[  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+          [[  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+          [[  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+          [[  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+          [[                                                     ]],
+        },
+        opts = {
+          position = "center",
+          hl = "Type",
+        },
+      }
+
+      local buttons = {
+        type = "group",
+        val = {
+          { type = "text", val = "Quick links", opts = { hl = "SpecialComment", position = "center" } },
+          { type = "padding", val = 1 },
+          dashboard.button("e", "󰈔  New file", "<cmd>ene<CR>"),
+          dashboard.button("SPC s f f", "󰱼  Find file"),
+          dashboard.button("SPC s g g", "󱩾  Live grep"),
+          dashboard.button("U", "  Update plugins", "<cmd>Lazy sync<CR>"),
+          dashboard.button("q", "󰗼  Quit", "<cmd>qa<CR>"),
+        },
+        position = "center",
+      }
+
+      theme.header.val = header.val
+      theme.header.opts = header.opts
+      theme.buttons.val = buttons.val
+      alpha.setup(theme.config)
+
+      vim.cmd([[
+        autocmd FileType alpha setlocal nofoldenable
+      ]])
     end,
   },
 
@@ -3197,11 +3321,11 @@ require("lazy").setup({
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      -- "nvim-telescope/telescope.nvim",
+      "nvim-telescope/telescope.nvim",
       "neovim/nvim-lspconfig",
     },
     config = function()
-      -- require("telescope").load_extension("yaml_schema")
+      require("telescope").load_extension("yaml_schema")
     end,
   },
   {
@@ -3775,39 +3899,39 @@ require("lazy").setup({
         { "<leader>ww", "<cmd>Chowcho<cr>", desc = "Selector" },
         { "<leader>wr", "<cmd>WinResizerStartResize", desc = "Resize" },
         { "<leader>s", group = "+Search" },
-        -- {
-        --   "<leader>sb",
-        --   '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true, generic_sorters = require("telescope.sorters").fuzzy_with_index_bias }<CR>',
-        --   desc = "Buffer",
-        -- },
-        -- { "<leader>sm", '<cmd>lua require("telescope.builtin").keymaps{ }<CR>', desc = "Keymaps" },
-        -- { "<leader>sr", "<cmd>lua require('telescope.builtin').resume{}<CR>", desc = "Resume" },
-        -- { "<leader>sc", group = "+Commands" },
-        -- { "<leader>scr", "<cmd>lua require('telescope.builtin').command_history{}<CR>", desc = "History" },
-        -- { "<leader>scc", "<cmd>lua require('telescope.builtin').commands{}<CR>", desc = "Commands" },
-        -- { "<leader>sf", group = "+Files" },
-        -- {
-        --   "<leader>sff",
-        --   '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
-        --   desc = "Find files",
-        -- },
-        -- { "<leader>sfg", "<cmd>lua require('telescope.builtin').git_files{}<CR>", desc = "Git files" },
-        -- { "<leader>sfj", "<cmd>lua require('telescope.builtin').jumplist{}<CR>", desc = "Jump list" },
-        -- { "<leader>sfl", "<cmd>lua require('telescope.builtin').loclist{}<CR>", desc = "Location list" },
-        -- { "<leader>sfr", "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", desc = "Old files" },
-        -- { "<leader>sfq", "<cmd>lua require('telescope.builtin').quickfix{}<CR>", desc = "Quickfix" },
-        -- { "<leader>sv", group = "+Git" },
-        -- { "<leader>svc", "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", desc = "Buffer commits" },
-        -- { "<leader>svC", "<cmd>lua require('telescope.builtin').git_commits{}<CR>", desc = "Commits" },
-        -- { "<leader>svs", "<cmd>lua require('telescope.builtin').git_status{}<CR>", desc = "Status" },
-        -- { "<leader>svb", "<cmd>lua require('telescope.builtin').git_branches{}<CR>", desc = "Branch" },
-        -- { "<leader>sg", group = "+Grep" },
-        -- {
-        --   "<leader>sgg",
-        --   '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
-        --   desc = "Live grep",
-        -- },
-        -- { "<leader>sgc", "<cmd>lua require('telescope.builtin').grep_string{}<CR>", desc = "Grep string" },
+        {
+          "<leader>s,",
+          '<cmd>lua require("telescope.builtin").buffers{ show_all_buffers = true }<CR>',
+          desc = "Buffer",
+        },
+        { "<leader>sm", '<cmd>lua require("telescope.builtin").keymaps{ }<CR>', desc = "Keymaps" },
+        { "<leader>sr", "<cmd>lua require('telescope.builtin').resume{}<CR>", desc = "Resume" },
+        { "<leader>sc", group = "+Commands" },
+        { "<leader>scr", "<cmd>lua require('telescope.builtin').command_history{}<CR>", desc = "History" },
+        { "<leader>scc", "<cmd>lua require('telescope.builtin').commands{}<CR>", desc = "Commands" },
+        { "<leader>sf", group = "+Files" },
+        {
+          "<leader>sff",
+          '<cmd>lua require("telescope.builtin").find_files{ find_command = {"rg", "-i", "--hidden", "--files", "-g", "!.git"} }<CR>',
+          desc = "Find files",
+        },
+        { "<leader>sfg", "<cmd>lua require('telescope.builtin').git_files{}<CR>", desc = "Git files" },
+        { "<leader>sfj", "<cmd>lua require('telescope.builtin').jumplist{}<CR>", desc = "Jump list" },
+        { "<leader>sfl", "<cmd>lua require('telescope.builtin').loclist{}<CR>", desc = "Location list" },
+        { "<leader>sfr", "<cmd>lua require('telescope.builtin').oldfiles{cwd_only = true}<CR>", desc = "Old files" },
+        { "<leader>sfq", "<cmd>lua require('telescope.builtin').quickfix{}<CR>", desc = "Quickfix" },
+        { "<leader>sv", group = "+Git" },
+        { "<leader>svc", "<cmd>lua require('telescope.builtin').git_bcommits{}<CR>", desc = "Buffer commits" },
+        { "<leader>svC", "<cmd>lua require('telescope.builtin').git_commits{}<CR>", desc = "Commits" },
+        { "<leader>svs", "<cmd>lua require('telescope.builtin').git_status{}<CR>", desc = "Status" },
+        { "<leader>svb", "<cmd>lua require('telescope.builtin').git_branches{}<CR>", desc = "Branch" },
+        { "<leader>sg", group = "+Grep" },
+        {
+          "<leader>sgg",
+          '<cmd>lua require("telescope.builtin").live_grep{ glob_pattern = "!.git" }<CR>',
+          desc = "Live grep",
+        },
+        { "<leader>sgc", "<cmd>lua require('telescope.builtin').grep_string{}<CR>", desc = "Grep string" },
 
         { "<leader>T", group = "+Task" },
         { "<leader>Tt", "<cmd>OverseerToggle<cr>", desc = "Toggle tasks" },
@@ -3889,10 +4013,10 @@ require("lazy").setup({
         wk.add({
           mode = "n",
           { "g", group = "+LSP" },
-          -- { "gr", "<cmd>Telescope lsp_references<CR>", desc = "References" },
-          -- { "gi", "<cmd>Telescope lsp_implementations<CR>", desc = "Implementations" },
-          -- { "gd", "<cmd>Telescope lsp_definitions<CR>", desc = "Definitions" },
-          -- { "gD", "<cmd>Telescope lsp_type_definitions<CR>", desc = "Type definitions" },
+          { "gr", "<cmd>Telescope lsp_references<CR>", desc = "References" },
+          { "gi", "<cmd>Telescope lsp_implementations<CR>", desc = "Implementations" },
+          { "gd", "<cmd>Telescope lsp_definitions<CR>", desc = "Definitions" },
+          { "gD", "<cmd>Telescope lsp_type_definitions<CR>", desc = "Type definitions" },
           { "gf", group = "+Go To Definition" },
           { "gff", "<cmd>lua require('gtd').exec({ command = 'edit' })<CR>", desc = "Go to edit" },
           { "gfs", "<cmd>lua require('gtd').exec({ command = 'split' })<CR>", desc = "Go to split" },
