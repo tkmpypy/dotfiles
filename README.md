@@ -26,6 +26,28 @@ $ cd ~/ghq/github.com/tkmpypy/dotfiles
 $ ./scripts/install.sh
 ```
 
+## Herdr plugins
+
+必要な Herdr プラグインは以下です。Full 版は端末上の選択テキストへの注釈に加えて、Markdown とエージェント応答のレビューを提供します。
+
+| プラグイン | 導入コマンド |
+| --- | --- |
+| [plannotator/herdr-annotate](https://github.com/plannotator/herdr-annotate) (Full) | `herdr plugin install plannotator/herdr-annotate` |
+
+キーバインドの prefix は標準の `Ctrl+b` です。
+
+| キー | 動作 |
+| --- | --- |
+| `prefix+a` | 選択した端末テキストに注釈を付ける |
+| `prefix+shift+a` | 注釈をコンテキストとしてコピー |
+| `prefix+ctrl+a` | 注釈をコピーしてアーカイブ |
+| `prefix+ctrl+v` | 注釈をエージェントのプロンプトへ貼り付けてアーカイブ |
+| `prefix+ctrl+s` | 注釈をエージェントへ送信してアーカイブ |
+| `prefix+m` | 注釈を管理 |
+| `prefix+o` | 現在のフォルダの文書をレビュー |
+| `prefix+shift+o` | エージェントの直近の応答をレビュー |
+| `prefix+ctrl+o` | エージェントの最新応答を直接レビュー |
+
 ## Herdr workspace pickers
 
 Herdr 内で、次のキーから fzf の popup を開けます。prefix は標準の `Ctrl+b` です。
