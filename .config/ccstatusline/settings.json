@@ -1,0 +1,124 @@
+{
+  "version": 4,
+  "lines": [
+    [
+      {
+        "id": "model",
+        "type": "model",
+        "color": "hex:ECEFF4",
+        "rawValue": true,
+        "backgroundColor": "hex:5E81AC",
+        "bold": true
+      },
+      {
+        "id": "thinking-effort",
+        "type": "thinking-effort",
+        "backgroundColor": "hex:434C5E",
+        "rawValue": true,
+        "color": "hex:EBCB8B",
+        "bold": true
+      },
+      {
+        "id": "context-length",
+        "type": "context-length",
+        "color": "hex:2E3440",
+        "merge": true,
+        "backgroundColor": "hex:88C0D0"
+      },
+      {
+        "id": "context-percentage-usable",
+        "type": "context-percentage-usable",
+        "backgroundColor": "hex:88C0D0",
+        "rawValue": true,
+        "color": "hex:2E3440"
+      },
+      {
+        "id": "skills",
+        "type": "skills",
+        "backgroundColor": "hex:4C566A",
+        "color": "hex:D8DEE9"
+      }
+    ],
+    [
+      {
+        "id": "session-usage",
+        "type": "session-usage",
+        "backgroundColor": "hex:A3BE8C",
+        "color": "hex:2E3440",
+        "merge": true
+      },
+      {
+        "id": "session-reset-at",
+        "type": "reset-timer",
+        "backgroundColor": "hex:A3BE8C",
+        "rawValue": true,
+        "merge": true,
+        "metadata": {
+          "compact": "true",
+          "absolute": "true",
+          "timezone": "Asia/Tokyo"
+        },
+        "color": "hex:2E3440"
+      },
+      {
+        "id": "session-reset-in",
+        "type": "reset-timer",
+        "backgroundColor": "hex:A3BE8C",
+        "rawValue": true,
+        "color": "hex:2E3440"
+      },
+      {
+        "id": "weekly-usage",
+        "type": "weekly-usage",
+        "backgroundColor": "hex:EBCB8B",
+        "color": "hex:2E3440",
+        "merge": true
+      },
+      {
+        "id": "weekly-reset-at",
+        "type": "weekly-reset-timer",
+        "backgroundColor": "hex:EBCB8B",
+        "rawValue": true,
+        "metadata": {
+          "compact": "true",
+          "absolute": "true",
+          "timezone": "Asia/Tokyo"
+        },
+        "color": "hex:2E3440"
+      },
+      {
+        "id": "extra-usage-remaining",
+        "type": "extra-usage-remaining",
+        "backgroundColor": "hex:B48EAD",
+        "rawValue": true,
+        "color": "hex:2E3440"
+      }
+    ]
+  ],
+  "flexMode": "full",
+  "compactThreshold": 60,
+  "colorLevel": 3,
+  "defaultPadding": " ",
+  "inheritSeparatorColors": false,
+  "globalBold": false,
+  "gitCacheTtlSeconds": 5,
+  "minimalistMode": false,
+  "powerline": {
+    "enabled": true,
+    "separators": [
+      ""
+    ],
+    "separatorInvertBackground": [
+      false
+    ],
+    "startCaps": [
+      ""
+    ],
+    "endCaps": [
+      ""
+    ],
+    "theme": "custom",
+    "autoAlign": false,
+    "continueThemeAcrossLines": false
+  }
+}
