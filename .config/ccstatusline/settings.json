@@ -30,7 +30,10 @@
         "type": "context-percentage-usable",
         "backgroundColor": "hex:88C0D0",
         "rawValue": true,
-        "color": "hex:2E3440"
+        "color": "hex:2E3440",
+        "metadata": {
+          "display": "slider-only"
+        }
       },
       {
         "id": "skills",
@@ -45,7 +48,10 @@
         "type": "session-usage",
         "backgroundColor": "hex:A3BE8C",
         "color": "hex:2E3440",
-        "merge": true
+        "merge": true,
+        "metadata": {
+          "display": "slider-only"
+        }
       },
       {
         "id": "session-reset-at",
@@ -72,7 +78,10 @@
         "type": "weekly-usage",
         "backgroundColor": "hex:EBCB8B",
         "color": "hex:2E3440",
-        "merge": true
+        "merge": true,
+        "metadata": {
+          "display": "slider-only"
+        }
       },
       {
         "id": "weekly-reset-at",
