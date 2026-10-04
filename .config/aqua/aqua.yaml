@@ -16,7 +16,7 @@ packages:
   - name: jdx/mise@v2026.10.2
   - name: BurntSushi/ripgrep@15.2.0
   - name: sharkdp/fd@v10.5.0
-  - name: dandavison/delta@0.19.2
+  - name: dandavison/delta@0.20.1
   - name: sharkdp/bat@v0.26.1
   - name: charmbracelet/glow@v3.0.0
   - name: jesseduffield/lazygit@v0.65.1
