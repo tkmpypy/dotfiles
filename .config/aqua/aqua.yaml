@@ -42,7 +42,7 @@ packages:
   - name: kayac/ecspresso@v2.8.7
   - name: FiloSottile/mkcert@v1.4.4
   - name: tree-sitter/tree-sitter@v0.27.1
-  - name: snyk/cli@v1.1307.4
+  - name: snyk/cli@v1.1308.1
   - name: tstack/lnav@v0.14.1
   - name: anthropics/claude-code@v2.1.20
   - name: evilmartians/lefthook@v2.2.2
