@@ -23,7 +23,7 @@ packages:
   - name: denisidoro/navi@v2.24.0
   - name: ClementTsang/bottom@0.14.9
   - name: derailed/k9s@v0.51.0
-  - name: x-motemen/ghq@v1.10.1
+  - name: x-motemen/ghq@v1.11.2
   - name: orhun/git-cliff@v2.14.2
   - name: jqlang/jq@jq-1.8.2
   - name: sharkdp/hyperfine@v1.21.0
