@@ -4,7 +4,7 @@
     "config:recommended",
     ":timezone(Asia/Tokyo)",
     ":prHourlyLimitNone",
-    "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)"
+    "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)#2.13.0"
   ],
   "ignoreTests": true,
   "schedule": [
@@ -16,6 +16,8 @@
   "prConcurrentLimit": 0,
   "branchConcurrentLimit": 0,
   "dependencyDashboard": true,
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
   "packageRules": [
     {
       "matchUpdateTypes": [
