@@ -44,6 +44,12 @@ function link() {
   link_file $DOTFILES_DIR bin $HOME
 }
 
+function setup_git_hooks() {
+  export AQUA_GLOBAL_CONFIG="$XDG_CONFIG_HOME/aqua/aqua.yaml"
+  exec_cmd "aqua install -a"
+  exec_cmd "(cd $DOTFILES_DIR && $(aqua which lefthook) install)"
+}
+
 function term() {
   unset DOTFILES_DIR
   unset OS
@@ -54,6 +60,7 @@ function term() {
 function main() {
   run_os_scripts
   link
+  setup_git_hooks
   term
 }
 

@@ -61,6 +61,11 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/gitleaks/gitleaks/v8.30.1/gitleaks_8.30.1_darwin_arm64.tar.gz",
+      "checksum": "B40AB0AE55C505963E365F271A8D3846EFBC170AA17F2607F13DF610A9AEB6A5",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/goreleaser/goreleaser/v2.18.3/goreleaser_Darwin_all.tar.gz",
       "checksum": "156F425536D40CE282B79C637CA00EB943792DE6AD1E2482A4B21CC4B5421F4F",
       "algorithm": "sha256"
