@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function upd_mise_plugins() {
-  mise plugin update
+  mise plugins update
 }
 
 function upd_tools() {

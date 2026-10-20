@@ -3,11 +3,47 @@
   "lines": [
     [
       {
+        "id": "current-working-dir",
+        "type": "current-working-dir",
+        "rawValue": true,
+        "character": " ",
+        "backgroundColor": "hex:4C566A",
+        "color": "hex:ECEFF4",
+        "metadata": {
+          "fishStyle": "true"
+        }
+      },
+      {
+        "id": "git-branch",
+        "type": "git-branch",
+        "character": "",
+        "backgroundColor": "hex:81A1C1",
+        "color": "hex:2E3440"
+      },
+      {
+        "id": "model-icon",
+        "type": "custom-text",
+        "customText": "󰚩  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:5E81AC",
+        "color": "hex:ECEFF4",
+        "bold": true
+      },
+      {
         "id": "model",
         "type": "model",
         "color": "hex:ECEFF4",
         "rawValue": true,
         "backgroundColor": "hex:5E81AC",
+        "bold": true
+      },
+      {
+        "id": "thinking-effort-icon",
+        "type": "custom-text",
+        "customText": "󰧑  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:434C5E",
+        "color": "hex:EBCB8B",
         "bold": true
       },
       {
@@ -19,11 +55,20 @@
         "bold": true
       },
       {
+        "id": "context-icon",
+        "type": "custom-text",
+        "customText": "󰍛 ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:88C0D0",
+        "color": "hex:2E3440"
+      },
+      {
         "id": "context-length",
         "type": "context-length",
         "color": "hex:2E3440",
         "merge": true,
-        "backgroundColor": "hex:88C0D0"
+        "backgroundColor": "hex:88C0D0",
+        "rawValue": true
       },
       {
         "id": "context-percentage-usable",
@@ -36,13 +81,30 @@
         }
       },
       {
+        "id": "skills-icon",
+        "type": "custom-text",
+        "customText": " ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:4C566A",
+        "color": "hex:D8DEE9"
+      },
+      {
         "id": "skills",
         "type": "skills",
         "backgroundColor": "hex:4C566A",
-        "color": "hex:D8DEE9"
+        "color": "hex:D8DEE9",
+        "rawValue": true
       }
     ],
     [
+      {
+        "id": "session-usage-icon",
+        "type": "custom-text",
+        "customText": "  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:A3BE8C",
+        "color": "hex:2E3440"
+      },
       {
         "id": "session-usage",
         "type": "session-usage",
@@ -51,7 +113,16 @@
         "merge": true,
         "metadata": {
           "display": "slider-only"
-        }
+        },
+        "rawValue": true
+      },
+      {
+        "id": "session-reset-at-icon",
+        "type": "custom-text",
+        "customText": "󰦛  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:A3BE8C",
+        "color": "hex:2E3440"
       },
       {
         "id": "session-reset-at",
@@ -67,10 +138,26 @@
         "color": "hex:2E3440"
       },
       {
+        "id": "session-reset-in-icon",
+        "type": "custom-text",
+        "customText": "󰔟  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:A3BE8C",
+        "color": "hex:2E3440"
+      },
+      {
         "id": "session-reset-in",
         "type": "reset-timer",
         "backgroundColor": "hex:A3BE8C",
         "rawValue": true,
+        "color": "hex:2E3440"
+      },
+      {
+        "id": "weekly-usage-icon",
+        "type": "custom-text",
+        "customText": "  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:EBCB8B",
         "color": "hex:2E3440"
       },
       {
@@ -81,7 +168,16 @@
         "merge": true,
         "metadata": {
           "display": "slider-only"
-        }
+        },
+        "rawValue": true
+      },
+      {
+        "id": "weekly-reset-at-icon",
+        "type": "custom-text",
+        "customText": "󰦛  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:EBCB8B",
+        "color": "hex:2E3440"
       },
       {
         "id": "weekly-reset-at",
@@ -93,6 +189,14 @@
           "absolute": "true",
           "timezone": "Asia/Tokyo"
         },
+        "color": "hex:2E3440"
+      },
+      {
+        "id": "extra-usage-icon",
+        "type": "custom-text",
+        "customText": "  ",
+        "merge": "no-padding",
+        "backgroundColor": "hex:B48EAD",
         "color": "hex:2E3440"
       },
       {
