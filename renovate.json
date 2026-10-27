@@ -4,7 +4,7 @@
     "config:recommended",
     ":timezone(Asia/Tokyo)",
     ":prHourlyLimitNone",
-    "github>aquaproj/aqua-renovate-config:file(.config/aqua/aqua.yaml)#2.13.0"
+    "github>aquaproj/aqua-renovate-config:file#2.13.0(.config/aqua/aqua.yaml)"
   ],
   "ignoreTests": true,
   "schedule": [
