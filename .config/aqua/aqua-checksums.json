@@ -51,6 +51,11 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/cli/cli/v2.103.3/gh_2.103.3_macOS_arm64.zip",
+      "checksum": "D700207EAE9AE98FE2B89535C2C087C07823D4628C56364695A5A07EF311C062",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/dandavison/delta/0.20.1/delta-0.20.1-aarch64-apple-darwin.tar.gz",
       "checksum": "BC1839CEA69288D4673A24FAFFBB825D408CA907E0F7D33B1678C9E6CDD5E58E",
       "algorithm": "sha256"
@@ -83,6 +88,16 @@
     {
       "id": "github_release/github.com/jdx/mise/v2026.10.14/mise-v2026.10.14-macos-arm64.tar.gz",
       "checksum": "6912D1743102B87A84E7FF2753C04E2B6AD7F01A705BEA33F19E291D39F8AAF5685A6D8DE256F634F0D8B040BC5D7E7453CAB8A7DFF22DB9A17D79A1B30A031D",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "github_release/github.com/jdx/mise/v2026.10.15/mise-v2026.10.15-macos-arm64.tar.gz",
+      "checksum": "DE485BF669EFD1C64C2371BC2DB701FF7DC6F36AD6F869C4618BB21A2BAF0C52BBB144F26BD70F3231918EE31AE46E39CD0A38C19F60E88958A8FEEAC8408B0E",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "github_release/github.com/jdx/mise/v2026.10.20/mise-v2026.10.20-macos-arm64.tar.gz",
+      "checksum": "8A5811130615C6EAF1D1747FF2621DA3636FE243EAEA0C59A9B57D12543BBA42230C95CC98863D488918D9EC8DB566C6FAE6B128CDA5C0848E5CD924F640E192",
       "algorithm": "sha512"
     },
     {
@@ -199,6 +214,11 @@
       "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.575.0/registry.yaml",
       "checksum": "340BC6F1FA7124077830D090576F9DC538212FDD7869F8DE973E81B0124EFFA1",
       "algorithm": "sha256"
+    },
+    {
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.578.0/registry.yaml",
+      "checksum": "D233B92C7A41A742DD34D7F7B0834563350D33CF300A3C8E79A04EE6BDFBE8630EC2C4F3D2855B809B2EE3FDD7525D739C8EDE6B08C01BE6E2213898D4B2BB15",
+      "algorithm": "sha512"
     }
   ]
 }
