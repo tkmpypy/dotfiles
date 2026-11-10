@@ -26,6 +26,11 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/MordechaiHadad/bob/v4.3.0/bob-macos-arm.zip",
+      "checksum": "7AA4E005D0DFABB18D6B186DFC163D92ADB8803A8499B40880717EE0EF8EE167",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/astral-sh/uv/0.13.1/uv-aarch64-apple-darwin.tar.gz",
       "checksum": "CFE454573412FF7380D15FC7DAE5997AB53FFCE72FCE0A78E91DDBC84001ACD2",
       "algorithm": "sha256"
@@ -98,6 +103,26 @@
     {
       "id": "github_release/github.com/jdx/mise/v2026.10.20/mise-v2026.10.20-macos-arm64.tar.gz",
       "checksum": "8A5811130615C6EAF1D1747FF2621DA3636FE243EAEA0C59A9B57D12543BBA42230C95CC98863D488918D9EC8DB566C6FAE6B128CDA5C0848E5CD924F640E192",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "github_release/github.com/jdx/mise/v2026.10.21/mise-v2026.10.21-macos-arm64.tar.gz",
+      "checksum": "CD1577F914863A1646CA01C695B20C6AEA88FFC83CB60750D95961A9F9389B85A95594D843911C538BA007AE2324A05640AE31514BF16E597111543B66393919",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "github_release/github.com/jdx/mise/v2026.10.22/mise-v2026.10.22-macos-arm64.tar.gz",
+      "checksum": "F2B015C0F3AC6431C504311FC92FE78787C088318745A39E34BD357299BFCAEA8E8BAD3B40C84958EBA67C09067750B64933513585D60A2827C4A877DCB11CF5",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "github_release/github.com/jdx/mise/v2026.10.23/mise-v2026.10.23-macos-arm64.tar.gz",
+      "checksum": "0E68DA72A9B241DD1042578C173E90F194B570382C9928C9EA2D3749A2E1558CABC81490C30D01909076103EF8D012F75B08A63F6D3C45A3FB81DC67B63913A6",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "github_release/github.com/jdx/mise/v2026.10.25/mise-v2026.10.25-macos-arm64.tar.gz",
+      "checksum": "52DF122D094EB7A191AB59243EF6C3FDAD84B7EAAE30C6DBE9E5FDF5126CFBCCEC6FDC26146ECFAD711F5DB5D2BDD71379E80D756A00EB2B2AEE5C5D47294E98",
       "algorithm": "sha512"
     },
     {
@@ -218,6 +243,21 @@
     {
       "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.578.0/registry.yaml",
       "checksum": "D233B92C7A41A742DD34D7F7B0834563350D33CF300A3C8E79A04EE6BDFBE8630EC2C4F3D2855B809B2EE3FDD7525D739C8EDE6B08C01BE6E2213898D4B2BB15",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.579.0/registry.yaml",
+      "checksum": "65F9E557DA96D35358579B7D4E165889D4FBE9194F597E77AAE3FA59CCCB4BD31C9E5D32546561B87F906D9BCE5FE44EF01CAD00A03F8456D82BEC1DFE4F7C97",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.580.0/registry.yaml",
+      "checksum": "CFC894D64935E5FB2706AB863FC89A324A906337C9D4637CCB83FAB5B02BE0090EED6793BFBC2E936B6A13AC02007DEF16A84A05C265F82378C3B19B17C86DDB",
+      "algorithm": "sha512"
+    },
+    {
+      "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.581.1/registry.yaml",
+      "checksum": "4E93900B95DFA557FB596905B205090F22224A2DDF71DF984FCAF4D2ECA775ECDA75A3E0CA3B7E100475B698907746A3FBF79565ED171AD4222A4C7752C23750",
       "algorithm": "sha512"
     }
   ]
