@@ -352,6 +352,7 @@ status_indicators = "symbols"
 # Optional canonical agent IDs replace the default rows for matching agents.
 [ui.sidebar.agents.rows_by_agent]
 claude = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"]]
+codex = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"]]
 
 # Expanded space rows. Built-ins are state_icon, state_text, workspace, branch, and git_status.
 # Custom values reported through workspace metadata use a $name token, for example $jj_status.
